@@ -183,8 +183,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
       if(nrow(X) == 0) stop("All selections have been analyzed (redo = F)") 
     }    
     
-    if(!ls & img) message("Detecting signals in sound files and producing spectrogram...") else 
-      message("Detecting signals in sound files...")
+    if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
+      message("Detecting signals in sound files:")
   
     ad<-pblapply(1:nrow(X),function(i)
   {
@@ -291,7 +291,7 @@ dev.off()
       if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
     }  
     
-   message("Detecting signals in sound files...")
+   message("Detecting signals in sound files:")
     
     ad<-pblapply(1:length(files),function(i)
     {
@@ -378,7 +378,7 @@ results<-rbind(results,data.frame(sound.files =  files[v], selec = 1,start=ad[[v
   
   #long spectrograms
 if(any(ls,is.null(X)) & img) {
-  message("Producing long spectrogram...")
+  message("Producing long spectrogram:")
   
   collev = seq(-40, 0, 1)  
   manualoc = data.frame(results,sel.comment=NA)

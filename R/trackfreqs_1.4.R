@@ -258,7 +258,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rev.g
     return(NULL)
     
   }))
-message("all done!")
+message("All done!")
 }
   
   

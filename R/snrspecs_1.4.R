@@ -45,7 +45,7 @@
 #'   spectrogram. Default is 1.
 #' @param res Numeric argument of length one, controls resolution of tiff image.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
-#'   presentation quality. RStudio's default for tiff files is 72.
+#'   presentation quality.
 #' @param cexlab Numeric vector of length one, specifies relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 

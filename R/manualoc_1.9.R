@@ -59,16 +59,18 @@
 #'   plots a red circle with the selection number in the middle point of the 
 #'   selection in the spectrogram. It also plots vertical dotted lines at the 
 #'   start and end of the selection. The circle and lines "disappear" when the 
-#'   selection is deleted ("Del-sel" button). The function produces and .csv
-#'   file (manualoc_output.csv) with information about the .wav file name,
+#'   selection is deleted ("Del-sel" button). 
+#'   
+#'   The function produces and .csv file (manualoc_output.csv) with information about the .wav file name,
 #'   selection number, start and end time, selection comment (selcomm), and
 #'   sound file comment (reccomm). The file is saved in the working directory and
 #'   is updated every time the user moves into the next sound file (Next rec
 #'   "button") or stop the process (Stop "button"). When resuming the process
 #'   (after "stop" and re-running the function in the same working directory),
 #'   the function will keep the previous selections and will only pick up .wav
-#'   files that are not present in the .csv file (not previously analyzed). When
-#'   users go to the next sound file (Next rec "button") without making any
+#'   files that are not present in the .csv file (not previously analyzed). 
+#'   
+#'   When users go to the next sound file (Next rec "button") without making any
 #'   selection the file is still included in the .csv file, with NA's in the
 #'   "end", "time" and "selec" field. Windows length (wl) control the temporal
 #'   and frequency precision of the spectrogram. A high "wl" value increases the

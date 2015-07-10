@@ -45,13 +45,13 @@
 #' 
 #' # specifying the correct margin is important
 #' # use snrspecs to troubleshoot margins for sound files
-#' sig2noise(X[grepl(c("Arre"), X[,1]), ], mar = 0.2)
+#' sig2noise(X[grep("Arre", X$sound.files), ], mar = 0.2)
 #' 
 #' # this smaller margin doesn't overlap neighboring calls
-#' sig2noise(X[grepl(c("Arre"), X[,1]), ], mar = 0.01)
+#' sig2noise(X[grep("Arre", X$sound.files), ], mar = 0.1)
 #' 
 #' # also works
-#' sig2noise(X[c(1:12), ], mar = 0.01)
+#' sig2noise(X[X$sound.files == "Arre.aura.wav", ], mar = 0.01)
 
 # require(xts)
 # require(seewave)
