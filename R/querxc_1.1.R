@@ -111,5 +111,5 @@ message(paste( nrow(results), " recordings found!", sep=""))
       return (NULL)
     })
   }  
-  return(results)
+  return(droplevels(results))
 }
