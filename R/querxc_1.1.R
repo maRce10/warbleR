@@ -40,7 +40,10 @@ querxc <- function(qword, download=FALSE) {
   if(a == "Could not connect to the database")  stop("xeno-canto.org website is apparently down")
   
   #search recs in xeno-canto (results are returned in pages with 500 recordings each)
-  message("Obtaining recording list:")
+  message("Obtaining recording list...")
+  if(sapply(strsplit(qword, " "), length) == 2)
+  query <- fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
+                            strsplit(qword, " ")[[1]][1],"%20",strsplit(qword, " ")[[1]][2], sep="")) else
   query <- fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
                             qword, sep=""))
   
@@ -52,6 +55,9 @@ querxc <- function(qword, download=FALSE) {
   recs <- query$recordings
   if(n.pages > 1)
   for(i in c(2:n.pages)){
+    if(sapply(strsplit(qword, " "), length) == 2)
+      query <- fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
+                                strsplit(qword, " ")[[1]][1],"%20",strsplit(qword, " ")[[1]][2], "&page=", i, sep="")) else                                  
     query <- fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
                               qword, "&page=", i, sep=""))
     recs <- c(recs, query$recordings)
@@ -110,6 +116,7 @@ message(paste( nrow(results), " recordings found!", sep=""))
                       extra = getOption("download.file.extra"))
       return (NULL)
     })
+  message("all done!")
   }  
   return(droplevels(results))
 }
