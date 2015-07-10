@@ -96,7 +96,7 @@ querxc <- function(qword, download=FALSE) {
   #adjust ouput in case search has 2 words instead of 1
   if(sapply(strsplit(qword, " "), length) == 2) 
     results <- results[results$Specific_epithet == strsplit(qword, " ")[[1]][2], ] else
-      results <- results[results$Genus == qword, ]
+      if(length(which(results$Genus == qword))>0) results <- results[results$Genus == qword, ]
 
 #remove duplicates
 results <- results[!duplicated(results$Recording_ID), ]
