@@ -116,7 +116,7 @@ message(paste( nrow(results), " recordings found!", sep=""))
                       extra = getOption("download.file.extra"))
       return (NULL)
     })
-  message("all done!")
+  message("All done!")
   }  
   return(droplevels(results))
 }
