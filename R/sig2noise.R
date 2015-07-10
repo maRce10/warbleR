@@ -140,7 +140,7 @@ sig2noise <- function(X, mar){
       
     # Add SNR data to manualoc output
     z <- data.frame(X[d,], SNR)
-  message("All done!")    
+  message("all done!")    
   return(z)
     
 }

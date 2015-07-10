@@ -47,7 +47,7 @@
 #' @importFrom rjson fromJSON
 #' @importFrom pbapply pbapply pbsapply pblapply
 #' @importFrom RCurl getURL
-#' @importFrom maps map
+#' @importFrom maps map worldMapEnv
 #' @importFrom tuneR readWave readMP3 writeWave play
 #' @importFrom seewave ffilter inputw env spectro cutw pastew noisew spec 
 #'   specprop fpeaks fund dfreq

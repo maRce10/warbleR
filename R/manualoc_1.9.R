@@ -96,11 +96,12 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
   if(length(files) == 0) stop("no .wav files in working directory")
   
   if(!file.exists(file.path(getwd(), "manualoc_output.csv")))
-  {results <- data.frame(matrix(nrow = 0, ncol = 7))
+  {results <- data.frame(matrix(nrow = 0, ncol = 6))
    colnames(results) <- c("sound.files", "selec", "start", "end", "sel.comment", "rec.comment")
    write.csv(results, "manualoc_output.csv", row.names = F)} else
    {if(nrow(read.csv("manualoc_output.csv")) == 0)
-   {file.remove(file.path(getwd(), "manualoc_output.csv"))} else
+   {results <- data.frame(matrix(nrow = 0, ncol = 6))
+    colnames(results) <- c("sound.files", "selec", "start", "end", "sel.comment", "rec.comment")} else
    {results <- read.csv("manualoc_output.csv")  
     files <- setdiff(files, results$sound.files)}} 
   

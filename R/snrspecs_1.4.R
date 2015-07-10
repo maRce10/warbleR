@@ -253,6 +253,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rev.gra
     return (NULL)
     
   })) 
-message("All done!")  
+message("all done!")  
 }
 

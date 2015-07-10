@@ -470,6 +470,6 @@ if(any(ls,is.null(X)) & img) {
 }  
  
 rownames(results)<-1:nrow(results)
-message("All done!")
+message("all done!")
 return(results)
 }
