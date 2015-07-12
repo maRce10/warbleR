@@ -5,7 +5,7 @@
 #'   signals.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-#'   NULL, palette = rev.gray.colors.2)
+#'   NULL, palette = reverse.gray.colors.2)
 #' @param wl a number specifying the spectrogram window length, default is 512.
 #' @param flim a numeric vector of length two for the frequency limit in kHz of 
 #'   the spectrogram, as in the function spectro() in the seewave package. 
@@ -32,7 +32,7 @@
 #'   closed before resuming analysis. Default is NULL.
 #' @param palette a color palette function to be used to assign colors in the 
 #'   plot, as in the function spectro from the seewave package. Default is 
-#'   rev.gray.colors.2. See Details.
+#'   reverse.gray.colors.2. See Details.
 #' @return .csv file saved in the working directory with start and end of 
 #'   selections.
 #' @export
@@ -76,8 +76,8 @@
 #'   and frequency precision of the spectrogram. A high "wl" value increases the
 #'   frequency resolution but reduces the temporal one, and vice versa. Any
 #'   color palette that comes with the seewave package can be used: temp.colors,
-#'   rev.gray.colors.1, rev.gray.colors.2, rev.heat.colors, rev.terrain.colors,
-#'   rev.topo.colors, rev.cm.colors, heat.colors, terrain.colors, topo.colors,
+#'   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
+#'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
 #'   cm.colors. The function could be slow when working on files of length >
 #'   5min.
 #' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/
@@ -88,7 +88,7 @@
 # require(tuneR)
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
-                     selcomm = FALSE, osci = FALSE, player = NULL, palette = rev.gray.colors.2)
+                     selcomm = FALSE, osci = FALSE, player = NULL, palette = reverse.gray.colors.2)
 {
   
   options(show.error.messages = T) 

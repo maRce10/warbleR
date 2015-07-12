@@ -24,7 +24,7 @@
 #' 
 #' \code{trackfreqs} creates spectrograms to visualize frequency measurements.
 #' @usage trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
-#'   rev.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar = 
+#'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
 #'   FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE,
 #'   fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 10, col =
@@ -37,7 +37,7 @@
 #' @param wn Character vector of length one specifying window name. Default is 
 #'   "hanning", as in \code{\link[seewave]{spectro}}.
 #' @param pal Color palette function for spectrogram. Default is 
-#'   rev.gray.colors.2.
+#'   reverse.gray.colors.2.
 #' @param ovlp Numeric vector of length one specifying % overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
 #' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2)+0.1. 
@@ -129,7 +129,7 @@
 # require(seewave)
 # require(tuneR)
 
-trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rev.gray.colors.2, ovlp = 70, 
+trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2)+0.1, outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, trel = FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
                        fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 10, col = c("dodgerblue", "chartreuse3"),

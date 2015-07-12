@@ -17,7 +17,7 @@
 #' \code{lspec} produces spectrograms of whole sound files split into multiple 
 #'   rows.
 #' @usage lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE, 
-#'   pal = rev.gray.colors.2, manualoc = NULL, cex = 1)  
+#'   pal = reverse.gray.colors.2, manualoc = NULL, cex = 1)  
 #' @param flim A numeric vector of length two indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
 #'   \code{\link[seewave]{spectro}}. Default is c(0,22).
@@ -30,7 +30,7 @@
 #'   resolution of the spectrogram. Default is seq(-40, 0, 1).
 #' @param gr Logical argument to add grid to spectrogram. Default is FALSE.
 #' @param pal Color palette function for spectrogram. Default is 
-#'   rev.gray.colors.2.
+#'   reverse.gray.colors.2.
 #' @param manualoc data frame with results from manualoc function. If given, two
 #'   red dotted lines are plotted at the start and end of a selection and the 
 #'   selections are labeled with the selection number (and selection comment, if
@@ -53,12 +53,12 @@
 #' data(manualoc.df)
 #' writeWave(Arre.aura,"Arre.aura.wav") #save sound files
 #' writeWave(Phae.cuvi,"Phae.cuvi.wav")
-#' lspec(sxrow = 2, rows = 8, pal = rev.heat.colors)
-#' lspec(sxrow = 2, rows = 8, manualoc = manualoc.df, pal = rev.heat.colors) #including selections
+#' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
+#' lspec(sxrow = 2, rows = 8, manualoc = manualoc.df, pal = reverse.heat.colors) #including selections
 #' }
 
 lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1),  
-                  gr = FALSE, pal = rev.gray.colors.2, manualoc = NULL, cex = 1) {
+                  gr = FALSE, pal = reverse.gray.colors.2, manualoc = NULL, cex = 1) {
   
   #read files
   files <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)  

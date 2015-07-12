@@ -252,7 +252,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
         width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
       spectro(song,f=f,wl = wl,collevels=seq(-45,0,1),grid=F,main = as.character(X$sound.files[i]),osc = osci,
-              scale=F,palette=rev.gray.colors.2,flim = fl)
+              scale=F,palette=reverse.gray.colors.2,flim = fl)
       
       if(nrow(time.song)>0)
       {sapply(1:nrow(time.song), function(j) abline(v=c(time.song$start[j]-X$start[i], time.song$end[j]-X$start[i]),col="red",lwd=2, lty= "dashed"))
@@ -383,7 +383,7 @@ if(any(ls,is.null(X)) & img) {
   collev = seq(-40, 0, 1)  
   manualoc = data.frame(results,sel.comment=NA)
   gr = FALSE
-  pal = rev.gray.colors.2
+  pal = reverse.gray.colors.2
   cex = 1
   
     #read files
