@@ -1,5 +1,5 @@
-
 #' warbleR: A package to streamline bioacoustic analysis
+#' 
 #' warbleR is a package designed to streamline analysis of acoustic signals in R. This 
 #' package allows users to collect open-access acoustic data or input their 
 #' own data into a workflow that facilitates spectrographic visualization 
