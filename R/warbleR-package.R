@@ -55,7 +55,7 @@
 #' @importFrom rjson fromJSON
 #' @importFrom pbapply pbapply pbsapply pblapply
 #' @importFrom RCurl getURL
-#' @importFrom maps map worldMapEnv
+#' @importFrom maps map 
 #' @importFrom tuneR readWave readMP3 writeWave play
 #' @importFrom seewave ffilter inputw env spectro cutw pastew noisew spec 
 #'   specprop fpeaks fund dfreq
@@ -69,4 +69,4 @@
 #' @details License: GPL (>= 2)  
 NULL
 #> NULL 
-#' 
+#'
