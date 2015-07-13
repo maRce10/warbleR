@@ -1,8 +1,7 @@
 #' Interactive view of spectrograms 
 #' 
-#' \code{manualoc} produces an
-#'  interactive spectrographic view to measure start and end times of acoustic
-#'   signals.
+#' \code{manualoc} produce an interactive spectrographic view to measure start 
+#' and end times of acoustic signals.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
 #'   NULL, palette = reverse.gray.colors.2)

@@ -1,25 +1,3 @@
-# M. Araya Salas & G.S. Vidaurre 26-Apr-15
-
-# Modified by G.S. Vidaurre 3-May-15
-#           i. removed older, commented code
-#           ii. removed older, commented code
-#           iii. added roxygen comments for documentation and namespace
-#           iv. changed flim and bp defaults to c(0, 22)
-#           v. added bp error message from specan (bp can be up to 1/2 of sampling rate)
-
-# Modified by G.S. Vidaurre 6-May-15
-#           i. added picsize and res arguments
-
-# Modified by G.S. Vidaurre 29-May-15 
-#           i. added inner.mar and outer.mar arguments, calling mar and oma 
-#           ii. added cexlab argument
-
-# Modified by G.S. Vidaurre 3-Jun-15 
-#           i. updated cexlab, added cex argument 
-
-# Modified by G.S. Vidaurre 4-Jun-15 
-#           i. added wn, ovlp, trel arguments, organized arguments and examples
-
 #' Spectrograms with frequency measurements
 #' 
 #' \code{trackfreqs} creates spectrograms to visualize frequency measurements.
@@ -124,10 +102,7 @@
 #' bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
 #' lpos = "bottomright")
 #' }
-
-# require(pbapply)
-# require(seewave)
-# require(tuneR)
+#' @author Grace Smith Vidaurre and Marcelo Araya-Salas (http://marceloarayasalas.weebly.com)
 
 trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2)+0.1, outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
@@ -181,9 +156,9 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   }
   
   message("Creating spectrograms overlaid with acoustic measurements:")
-  invisible(pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
+  invisible(pbapply::pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
     
-    r <- readWave(file.path(getwd(), sound.files[i]))
+    r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
     
     #in case bp its higher than can be due to sampling rate
     b<- bp 
@@ -222,7 +197,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     par(oma = outer.mar)
     
     # Generate spectrogram using seewave
-    spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
+    seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
             cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = flim, tlab = "Time (s)", 
             flab = "Frequency (kHz)", alab = "", trel = trel)
@@ -234,14 +209,14 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     }
     
     # Plot fundamental frequencies at each time point
-    ffreq <- fund(r, f = f, ovlp = 70, threshold = threshold,, fmax = fmax * 1000, from=start[i],
+    ffreq <- seewave::fund(r, f = f, ovlp = 70, threshold = threshold,, fmax = fmax * 1000, from=start[i],
                   to = end[i], plot = FALSE) 
     if(trel)
     points(c(ffreq[,1])+start[i], c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1]) else 
         points(c(ffreq[,1])+mar, c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1])  
     
     # Plot dominant frequency at each time point     
-    dfreq <- dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
+    dfreq <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
                    threshold = threshold, tlim = c(start[i], end[i]))
     if(trel)
       points(c(dfreq[,1])+start[i], c(dfreq[,2]), col = col[2], cex = cex[1], pch = pch[1]) else
@@ -260,7 +235,3 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   }))
 message("all done!")
 }
-  
-  
-  
-  

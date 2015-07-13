@@ -1,6 +1,6 @@
 #' Spectrograms with noise margins
 #' 
-#' \code{snrspecs} creates spectrograms to visualize margins over which noise
+#' \code{snrspecs} create spectrograms to visualize margins over which noise
 #' will be measured by sig2noise().
 #' @usage snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar =

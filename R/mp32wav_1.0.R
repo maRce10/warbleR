@@ -1,6 +1,6 @@
 #' Convert .mp3 files to .wav
 #' 
-#' \code{mp32wav} converts several .mp3 files in working directory to .wav format
+#' \code{mp32wav} convert several .mp3 files in working directory to .wav format
 #' @usage mp32wav()  
 #' @return .wav files saved in the working directory with same name as original mp3 files.
 #' @export

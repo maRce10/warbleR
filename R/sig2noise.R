@@ -1,6 +1,6 @@
 #' Measure signal to noise ratio
 #' 
-#' \code{sig2noise} measures signal to noise ratio across multiple files.
+#' \code{sig2noise} measure signal to noise ratio across multiple files.
 #' @usage sig2noise(X, mar)
 #' @param X data frame output from manualoc().
 #' @param mar numeric vector of length one. Specifies the margins to subtract 

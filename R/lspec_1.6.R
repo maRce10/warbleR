@@ -1,6 +1,6 @@
 #' Create long spectrograms of whole sound files
 #' 
-#' \code{lspec} produces spectrograms of whole sound files split into multiple 
+#' \code{lspec} produce spectrograms of whole sound files split into multiple 
 #'   rows.
 #' @usage lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE, 
 #'   pal = reverse.gray.colors.2, manualoc = NULL, cex = 1)  

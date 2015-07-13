@@ -1,6 +1,6 @@
 #' Spectrograms of selected calls
 #' 
-#' \code{specreator} creates spectrograms of manualoc() (or similar) selections.
+#' \code{specreator} create spectrograms of manualoc() (or similar) selections.
 #' @usage specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE, 

@@ -1,6 +1,6 @@
 #' Measure acoustic parameters
 #'
-#' \code{specan} measures acoustic parameters on acoustic signals for which the start and end times are provided.
+#' \code{specan} measure acoustic parameters on acoustic signals for which the start and end times are provided.
 #' @usage specan(X, bp = c(0,22), wl = 512, threshold = 10)
 #' @param X data frame with the following columns: 1) "start": start time of 
 #'   selections, 2) "end": end time of selections, 3) "rec": name of the .wav 

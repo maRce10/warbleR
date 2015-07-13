@@ -1,6 +1,6 @@
 #' Access Xeno Canto recordings and metadata
 #' 
-#' \code{querxc} downloads recordings and metadata from Xeno Canto.
+#' \code{querxc} download recordings and metadata from Xeno Canto.
 #' @usage querxc(qword, download = FALSE)  
 #' @param qword Character vector of length one or two (genus or genus and
 #'   species). Used to query Xeno Canto database.
