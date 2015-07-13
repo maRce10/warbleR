@@ -34,7 +34,7 @@
 querxc <- function(qword, download=FALSE) {
   
   #check internet connection
-  a <- try(getURL("www.xeno-canto.org"), silent=T)
+  a <- try(RCurl::getURL("www.xeno-canto.org"), silent=T)
   if(substr(a[1],0,5) == "Error") stop("No connection to xeno-canto.org (check your internet connection!)")
 
   if(a == "Could not connect to the database")  stop("xeno-canto.org website is apparently down")
@@ -42,9 +42,9 @@ querxc <- function(qword, download=FALSE) {
   #search recs in xeno-canto (results are returned in pages with 500 recordings each)
   message("Obtaining recording list...")
   if(sapply(strsplit(qword, " "), length) == 2)
-  query <- fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
+  query <- rjson::fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
                             strsplit(qword, " ")[[1]][1],"%20",strsplit(qword, " ")[[1]][2], sep="")) else
-  query <- fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
+  query <- rjson::fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
                             qword, sep=""))
   
   n.recs <- query$numRecordings
@@ -56,9 +56,9 @@ querxc <- function(qword, download=FALSE) {
   if(n.pages > 1)
   for(i in c(2:n.pages)){
     if(sapply(strsplit(qword, " "), length) == 2)
-      query <- fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
+      query <- rjson::fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
                                 strsplit(qword, " ")[[1]][1],"%20",strsplit(qword, " ")[[1]][2], "&page=", i, sep="")) else                                  
-    query <- fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
+    query <- rjson::fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
                               qword, "&page=", i, sep=""))
     recs <- c(recs, query$recordings)
   }
