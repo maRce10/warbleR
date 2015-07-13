@@ -77,7 +77,7 @@ dealineating spectrogram limits. Default is 0.05.}
 Spectrograms per manualoc() selections marked at start and end times.
 }
 \description{
-\code{specreator} creates spectrograms of manualoc() (or similar) selections.
+\code{specreator} create spectrograms of manualoc() (or similar) selections.
 }
 \details{
 This function creates basic spectrograms for visualization of

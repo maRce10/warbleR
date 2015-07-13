@@ -78,7 +78,7 @@ Spectrograms per individual call marked with margins and arrows where
   noise will be measured.
 }
 \description{
-\code{snrspecs} creates spectrograms to visualize margins over which noise
+\code{snrspecs} create spectrograms to visualize margins over which noise
 will be measured by sig2noise().
 }
 \details{

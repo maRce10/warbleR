@@ -135,6 +135,9 @@ bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09,
 lpos = "bottomright")
 }
 }
+\author{
+Grace Smith Vidaurre and Marcelo Araya-Salas (http://marceloarayasalas.weebly.com)
+}
 \seealso{
 \code{\link{specreator}} for creating spectrograms after
   \code{manualoc}, \code{\link{snrspecs}} for creating spectrograms to

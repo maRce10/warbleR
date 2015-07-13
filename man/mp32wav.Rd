@@ -10,7 +10,7 @@ mp32wav()
 .wav files saved in the working directory with same name as original mp3 files.
 }
 \description{
-\code{mp32wav} converts several .mp3 files in working directory to .wav format
+\code{mp32wav} convert several .mp3 files in working directory to .wav format
 }
 \details{
 Currently only working in windows OS. Function to read mp3 from tuneR package crashes in other operating systems.

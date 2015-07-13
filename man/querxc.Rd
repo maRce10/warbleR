@@ -18,7 +18,7 @@ directory as .mp3 files. Default is FALSE.}
 Data frame with recording information, or .mp3 files.
 }
 \description{
-\code{querxc} downloads recordings and metadata from Xeno Canto.
+\code{querxc} download recordings and metadata from Xeno Canto.
 }
 \examples{
 \dontrun{

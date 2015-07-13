@@ -52,9 +52,8 @@ reverse.gray.colors.2. See Details.}
   selections.
 }
 \description{
-\code{manualoc} produces an
- interactive spectrographic view to measure start and end times of acoustic
-  signals.
+\code{manualoc} produce an interactive spectrographic view to measure start
+and end times of acoustic signals.
 }
 \details{
 Users can zoom-in a specific sound file segment by clicking at the

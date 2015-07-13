@@ -48,7 +48,7 @@ Data frame with the following acoustic parameters:
 }
 }
 \description{
-\code{specan} measures acoustic parameters on acoustic signals for which the start and end times are provided.
+\code{specan} measure acoustic parameters on acoustic signals for which the start and end times are provided.
 }
 \details{
 The output of the manualoc function can be used directly without any

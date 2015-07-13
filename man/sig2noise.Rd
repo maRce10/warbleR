@@ -18,7 +18,7 @@ manualoc data frame with a new variable for signal to noise
   calculations.
 }
 \description{
-\code{sig2noise} measures signal to noise ratio across multiple files.
+\code{sig2noise} measure signal to noise ratio across multiple files.
 }
 \details{
 A general margin to apply before and after the acoustic signal must

@@ -40,7 +40,7 @@ Spectrograms per individual call marked with dominant and fundamental
   frequencies.
 }
 \description{
-\code{lspec} produces spectrograms of whole sound files split into multiple
+\code{lspec} produce spectrograms of whole sound files split into multiple
   rows.
 }
 \details{
