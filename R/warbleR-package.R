@@ -56,9 +56,11 @@
 #' @importFrom pbapply pbapply pbsapply pblapply
 #' @importFrom RCurl getURL
 #' @importFrom maps map 
-#' @importFrom tuneR readWave readMP3 writeWave play
-#' @importFrom seewave ffilter inputw env spectro cutw pastew noisew spec 
-#'   specprop fpeaks fund dfreq
+#' @import tuneR
+#' @import seewave
+# @importFrom tuneR readWave readMP3 writeWave play
+# @importFrom seewave ffilter inputw env spectro cutw pastew noisew spec 
+# specprop fpeaks fund dfreq
 #'   
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
 #'   

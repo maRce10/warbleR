@@ -7,7 +7,7 @@ Author: Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong
 Maintainer: Marcelo Araya-Salas <marceloa27@gmail.com>
 Description: Offers three overarching categories of functions to download recordings and metadata from Xeno Canto, manage mp3 files, and facilitate interactive acoustic analysis in R. 
 License: GPL (>= 2)
-Imports: rjson, pbapply
-Depends: R (>= 2.10), seewave, tuneR, maps, RCurl
+Imports: rjson, pbapply, maps, RCurl
+Depends: R (>= 2.10), seewave, tuneR
 LazyData: TRUE
 NeedsCompilation: no
