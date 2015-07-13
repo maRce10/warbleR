@@ -1,15 +1,3 @@
-#Modified: Hua Mar 6, 2015. 
-#i. Add progress bar in searching process using pbapply 
-# XXX Created XXX XX, 2015 
-
-# Modified: Hua, Mar 2, 2015. 
-# i. Put the required packages out of the function, R will automatically warn 
-# user to install the package. 
-# ii. Wrote apply instead of for loop. Slightly better performance.
-
-# Modified by G.S. Vidaurre 3-May-15
-#           i. added roxygen comments for documentation and namespace
-
 #' Access Xeno Canto recordings and metadata
 #' 
 #' \code{querxc} downloads recordings and metadata from Xeno Canto.
@@ -27,9 +15,7 @@
 #' X <- querxc("Phaethornis anthophilus", download = FALSE)
 #' querxc("Phaethornis anthophilus", download = TRUE)
 #' }
-# require(rjson)
-# require(pbapply)
-# require(RCurl)
+#' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Hua Zhong
 
 querxc <- function(qword, download=FALSE) {
   
@@ -105,7 +91,7 @@ message(paste( nrow(results), " recordings found!", sep=""))
 
   #download recordings
   if(download) {
-    pbsapply(matrix(c(1:length(results$Genus)), ncol=1), function(x){
+    pbapply::pbsapply(matrix(c(1:length(results$Genus)), ncol=1), function(x){
       gen <- results$Genus[x]
       se <- results$Specific_epithet[x]
       rid <- results$Recording_ID[x]

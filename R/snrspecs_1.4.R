@@ -1,21 +1,3 @@
-# M. Araya Salas & G.S. Vidaurre 26-Apr-15
-
-# Modified by G.S. Vidaurre 3-May-15
-#           i. changed flim default to c(0, 22)
-
-# Modified by G.S. Vidaurre 6-May-15
-#           i. added picsize and res arguments
-
-# Modified by G.S. Vidaurre 29-May-15 
-#           i. added inner.mar and outer.mar arguments, calling mar and oma
-#           ii. added cexlab argument
-
-# Modified by G.S. Vidaurre 3-Jun-15 
-#           i. updated cexlab argument
-
-# Modified by G.S. Vidaurre 4-Jun-15 
-#           i. added wn, ovlp, trel arguments, organized arguments and examples
-
 #' Spectrograms with noise margins
 #' 
 #' \code{snrspecs} creates spectrograms to visualize margins over which noise
@@ -104,10 +86,7 @@
 #' outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, mar = 0.2, 
 #' snrmar = 0.01)
 #' }
-
-# require(pbapply)
-# require(seewave)
-# require(tuneR)
+#' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Grace Smith Vidaurre
 
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70,
                      inner.mar = c(5,4,4,2)+0.1, outer.mar = c(0,0,0,0), picsize = 1, res = 100,
@@ -160,9 +139,9 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
   }
   
   message("Creating spectrograms with signal and noise margins to be used in sig2noise():")
-  invisible(pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
+  invisible(pbapply::pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
     
-    r <- readWave(file.path(getwd(), sound.files[i])) 
+    r <- tuneR::readWave(file.path(getwd(), sound.files[i])) 
     f <- r@samp.rate
     
     # Correct start and end time if is smaller than 0 or higer than length of rec
@@ -203,7 +182,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
     par(oma = outer.mar)
 
     # Generate spectrogram using seewave
-    spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
+    seewave::spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, 
             collab = "black", cexlab = cexlab, cex.axis = 0.5*picsize, tlab = "Time (s)", 
             flab = "Frequency (kHz)", tlim = t, flim = flim, alab = "", trel = trel)

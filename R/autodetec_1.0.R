@@ -75,11 +75,7 @@
 #' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,12), osci = TRUE, 
 #' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1)
 #' }
-
-# require(seewave)
-# require(tuneR)
-# require(pbapply)
-
+#' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/
 
 autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=1, bp=NULL, osci = FALSE, wl = 512,
                     xl = 1, picsize = 1, res = 100, flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL,
@@ -186,9 +182,9 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
       message("Detecting signals in sound files:")
   
-    ad<-pblapply(1:nrow(X),function(i)
+    ad<-pbapply::pblapply(1:nrow(X),function(i)
   {
-    song<-readWave(as.character(X$sound.files[i]),from=X$start[i],to=X$end[i],units="seconds")
+    song<-tuneR::readWave(as.character(X$sound.files[i]),from=X$start[i],to=X$end[i],units="seconds")
     
     f <- song@samp.rate
     fl<- flim #in case flim its higher than can be due to samplin rate
@@ -196,17 +192,17 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     
     #filter frequnecies below 1000 Hz
     if(!is.null(bp))
-    f.song<-ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = T,wl= wl, output="Wave") else
+    f.song<-seewave::ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = T,wl= wl, output="Wave") else
     f.song<-song
     
     #detect songs based on amplitude (modified from seewave::timer function)
-    input <- inputw(wave = f.song, f = f)
+    input <- seewave::inputw(wave = f.song, f = f)
     wave <- input$w
     f <- input$f
     rm(input)
     n <- length(wave)
     thres <- threshold/100
-    wave1 <- env(wave = wave, f = f, msmooth = msmooth,  
+    wave1 <- seewave::env(wave = wave, f = f, msmooth = msmooth,  
                  envt = envt, norm = TRUE, plot = FALSE)
     
     n1 <- length(wave1)
@@ -251,7 +247,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
           "-", X$selec[i], "-autodetec.tiff", sep = ""), 
         width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
-      spectro(song,f=f,wl = wl,collevels=seq(-45,0,1),grid=F,main = as.character(X$sound.files[i]),osc = osci,
+      seewave::spectro(song,f=f,wl = wl,collevels=seq(-45,0,1),grid=F,main = as.character(X$sound.files[i]),osc = osci,
               scale=F,palette=reverse.gray.colors.2,flim = fl)
       
       if(nrow(time.song)>0)
@@ -293,26 +289,26 @@ dev.off()
     
    message("Detecting signals in sound files:")
     
-    ad<-pblapply(1:length(files),function(i)
+    ad<-pbapply::pblapply(1:length(files),function(i)
     {
-      song<-readWave(as.character(files[i]))
+      song<-tuneR::readWave(as.character(files[i]))
       f <- song@samp.rate
       fl<- flim #in case flim its higher than can be due to samplin rate
       if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
       
       #filter frequnecies below 1000 Hz
       if(!is.null(bp))
-        {f.song<-ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = T,wl=wl, output="Wave")} else
+        {f.song<-seewave::ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = T,wl=wl, output="Wave")} else
           f.song<-song
 
       #detect songs based on amplitude (modified from seewave::timer function)
-      input <- inputw(wave = f.song, f = f)
+      input <- seewave::inputw(wave = f.song, f = f)
       wave <- input$w
       f <- input$f
       rm(input)
       n <- length(wave)
       thres <- threshold/100
-      wave1 <- env(wave = wave, f = f, msmooth = msmooth,  
+      wave1 <- seewave::env(wave = wave, f = f, msmooth = msmooth,  
                    envt = envt, norm = TRUE, plot = FALSE)
       
       n1 <- length(wave1)
@@ -398,19 +394,17 @@ if(any(ls,is.null(X)) & img) {
     if(!is.null(manualoc)) manloc <- manualoc  else manloc <- NULL
     
     #apply over each sound file
-    pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = manualoc) {
+  pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = manualoc) {
       
       #loop to print spectros (modified from lspec function)
-      rec <- readWave(z) #read wave file 
+      rec <- tuneR::readWave(z) #read wave file 
       f <- rec@samp.rate #set sampling rate
       frli<- fl #in case flim its higher than can be due to samplin rate
       if(frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
       dur <- length(rec@left)/rec@samp.rate #set duration    
       
       if(!length(grep("[^[:digit:]]", as.character(dur/sl))))  #if duration is multiple of sl
-        rec <- cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
-      #       rec<-pastew(noisew(f = f,  d = 0.01,  type = "unif",   
-      #       listen = FALSE,  output = "Wave"), rec, f = f,  output = "Wave")
+        rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
       dur <- length(rec@left)/rec@samp.rate #set duration    
       
       if(!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset manualoc data
@@ -425,7 +419,7 @@ if(any(ls,is.null(X)) & img) {
         while(x <= li-1){
           x <- x + 1
           if(all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){  #for rows with complete spectro
-            spectro(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
+            seewave::spectro(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
                     ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = T)
             if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                             last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
@@ -437,8 +431,8 @@ if(any(ls,is.null(X)) & img) {
                                    se = ml$selec, s = ml$start, e = ml$end,sc = ml$sel.comment, 
                                    labels = l)} } else {
                                      if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){ #for rows with incomplete spectro (final row)
-                                       spectro(pastew(noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
-                                                             listen = FALSE,  output = "Wave"), cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
+                                       seewave::spectro(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
+                                                             listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
                                                                                                      to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = 512, flim = frli, 
                                                tlim = c(0, sl), ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = F)
                                        

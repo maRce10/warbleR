@@ -1,11 +1,3 @@
-#XXX Created XXX XX, 2015 
-# Modified: Hua, Mar 2, 2015. 
-# i. Put the required packages out of the function, R will automatically 
-# warn user to install the package.
-
-# Modified by G.S. Vidaurre 3-May-15
-#           iii. added roxygen comments for documentation and namespace
-
 #' Check .wav files
 #' 
 #' \code{checkwavs} checks whether .wav files can be read by subsequent functions.
@@ -24,13 +16,12 @@
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' checkwavs()
 
-# require(tuneR)
 
 checkwavs <- function() { 
     files <- list.files(path = getwd(), pattern = "wav$", ignore.case = T) #list .wav files in working director    
     if(length(files) == 0) stop("no .wav files in working directory") 
     a <- unlist(lapply(files, function(x) {
-      if(is.numeric(try(readWave(as.character(x), header = T)$sample.rate,silent = T)))
+      if(is.numeric(try(tuneR::readWave(as.character(x), header = T)$sample.rate,silent = T)))
       return(1) else return (0)})) 
   if(length(files[a == 0])>0){
     message("These file(s) cannot be read:")

@@ -1,17 +1,3 @@
-#Modified: Hua Mar 6, 2015.
-#           i. Add progress bar in searching process using pblapply
-#Modified: Hua, Mar 2, 2015. 
-#           i. Put the required packages out of the function, R will automatically warn user to install the package.
-#           ii. Replace warning() to massage() to show "All done!"
-
-
-# Modified by G.S. Vidaurre 3-May-15
-#           i. added roxygen comments for documentation and namespace
-
-# Modified by G.S. Vidaurre 3-Jun-15
-#           i. changed palette and grid arguments to pal and gr
-
-
 #' Create long spectrograms of whole sound files
 #' 
 #' \code{lspec} produces spectrograms of whole sound files split into multiple 
@@ -76,18 +62,17 @@ lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1
     if(any(is.na(c(manualoc$end, manualoc$start)))) stop("NAs found in start and/or end columns")  
   
   #apply over each sound file
-  #   message("Start the job:")
-  pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = manualoc) {
+  pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = manualoc) {
     
     #loop to print psectros  
-    rec <- readWave(z) #read wave file 
+    rec <- tuneR::readWave(z) #read wave file 
     f <- rec@samp.rate #set sampling rate
     frli<- fl #in case flim its higher than can be due to samplin rate
     if(frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
     dur <- length(rec@left)/rec@samp.rate #set duration    
     
     if(!length(grep("[^[:digit:]]", as.character(dur/sl))))  #if duration is multiple of sl
-      rec <- cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
+      rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
     dur <- length(rec@left)/rec@samp.rate #set duration    
     
     if(!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset manualoc data
@@ -102,7 +87,7 @@ lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1
       while(x <= li-1){
         x <- x + 1
         if(all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){  #for rows with complete spectro
-          spectro(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
+          seewave::spectro(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
                   ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = T)
           if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
@@ -114,8 +99,8 @@ lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1
                                  se = ml$selec, s = ml$start, e = ml$end,sc = ml$sel.comment, 
                                  labels = l)} } else {
                                    if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){ #for rows with incomplete spectro (final row)
-                                     spectro(pastew(noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
-                                                           listen = FALSE,  output = "Wave"), cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
+                                     seewave::spectro(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
+                                                           listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
                                                                                                    to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = 512, flim = frli, 
                                              tlim = c(0, sl), ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = F)
                                      

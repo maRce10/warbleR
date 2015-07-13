@@ -1,18 +1,3 @@
-# Created by Marcelo Araya Salas 20-Feb-15 with input from Grace Smith Vidaurre
-
-# Modified: Hua, Mar 2, 2015. 
-#           i. Put the required packages out of the function, R will automatically warn user to install the package.
-
-# Modified: G.S. Vidaurre 24-Apr-15. 
-#           i. Added option to create a separate tiff file per species 
-#           i. Removed older code that was commented out 
-
-# Modified by G.S. Vidaurre 3-May-15
-#           i. added roxygen comments for documentation and namespace
-
-# Modified by G.S. Vidaurre 1-Jun-15
-#           i. fixed bug when tiff = FALSE
-
 #' Maps of Xeno Canto recordings by species
 #' 
 #' \code{xcmaps} creates maps to visualize the geographic spread of Xeno Canto
@@ -32,8 +17,7 @@
 #' xcmaps(X)
 #' xcmaps(X, tiff = FALSE)
 #' }
-
-# require(maps)
+#' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
 
 xcmaps <- function(X, tiff = TRUE) {
   
@@ -58,7 +42,7 @@ xcmaps <- function(X, tiff = TRUE) {
      
      if(tiff == TRUE){
        tiff(filename = paste("Map of ", i, " recordings", ".tiff", sep = ""))
-       map("world", xlim = c(min(lon) - buf, max(lon) + buf), 
+       maps::map("world", xlim = c(min(lon) - buf, max(lon) + buf), 
            ylim = c(min(lat) - buf, max(lat) + buf), fill = TRUE, col = "skyblue", myborder = 0)
        
        title(paste(y$Genus[1], y$Specific_epithet[1], "n=", nrow(y)))

@@ -1,24 +1,3 @@
-# M. Araya Salas & G.S. Vidaurre 26-Apr-15
-
-
-# Modified by G.S. Vidaurre 3-May-15
-#           i. added roxygen comments for documentation and namespace
-#           ii. changed flim default to c(0, 22)
-
-
-# Modified by G.S. Vidaurre 6-May-15
-#           i. added picsize and res arguments
-
-# Modified by G.S. Vidaurre 29-May-15 
-#           i. added inner.mar and outer.mar arguments, calling mar and oma 
-#           ii. added cexlab argument
-
-# Modified by G.S. Vidaurre 3-Jun-15 
-#           i. updated cexlab argument
-
-# Modified by G.S. Vidaurre 4-Jun-15 
-#           i. organized arguments and examples 
-
 #' Spectrograms of selected calls
 #' 
 #' \code{specreator} creates spectrograms of manualoc() (or similar) selections.
@@ -99,10 +78,7 @@
 #' specreator(X[grepl(c("Arre"), X[,1]), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1), 
 #'           outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, mar = 0.05)
 #' }
-
-# require(pbapply)
-# require(seewave)
-# require(tuneR)
+#' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
 
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2)+0.1, outer.mar = c(0,0,0,0), picsize = 1, res = 100, 
@@ -160,10 +136,10 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
     ####
     #Hua modified, Apr 17, 2015
-    invisible(pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
+    invisible(pbapply::pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
       
       # Read sound files, initialize frequency and time limits for spectrogram
-      r <- readWave(file.path(getwd(), sound.files[i]))
+      r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
       f <- r@samp.rate
       t <- c(start[i] - mar, end[i] + mar)
       if(t[1]<0) t[1]<-0
@@ -197,7 +173,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       par(oma = outer.mar)
       
       # Generate spectrogram using seewave 
-      spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts, wn = "hanning", 
+      seewave::spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts, wn = "hanning", 
               widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
               cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = flim, tlab = "Time (s)", 
               flab = "Frequency (kHz)", alab = "", trel = trel)

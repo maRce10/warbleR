@@ -1,9 +1,3 @@
-###specan function: measures acoustic parameters in songs
-##created by Marcelo Araya-Salas oct-2014
-#Modified: Hua, Mar 2, 2015. 
-#           i. Put the required packages out of the function, R will automatically warn user to install the package.
-#           ii. Add progress bar in searching process using pbapply
-
 #' Measure acoustic parameters
 #'
 #' \code{specan} measures acoustic parameters on acoustic signals for which the start and end times are provided.
@@ -59,13 +53,7 @@
 #' # using a diferent threshold
 #' a <- specan(X = manualoc.df, bp = c(0, 22), threshold = 20)
 #' # View(a)
-
-
-#' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com/), Grace Smith Vidaurre and Hua Zhong
-
-# require(seewave)
-# require(tuneR)
-# require(pbapply)
+#' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com), Grace Smith Vidaurre and Hua Zhong
 
 specan <- function(X, bp = c(0,22), wl = 512, threshold = 10){
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
@@ -116,16 +104,16 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 10){
 ####
 #Hua modified into pbapply, Apr 17, 2015
 message("Measuring acoustic parameters:")
-x <- as.data.frame(pbapply(matrix(c(1:length(start)), ncol=1), 1, function(i) { 
-  r <- readWave(file.path(getwd(), sound.files[i]), from = start[i], to = end[i], units = "seconds") 
+x <- as.data.frame(pbapply::pbapply(matrix(c(1:length(start)), ncol=1), 1, function(i) { 
+  r <- tuneR::readWave(file.path(getwd(), sound.files[i]), from = start[i], to = end[i], units = "seconds") 
  
   b<- bp #in case bp its higher than can be due to sampling rate
   if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
   
   
   #frequency spectrum analysis
-  songspec <- spec(r, f = r@samp.rate, plot = FALSE)
-  analysis <- specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
+  songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE)
+  analysis <- seewave::specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
   
   #save parameters
   meanf <- analysis$mean/1000
@@ -142,14 +130,14 @@ x <- as.data.frame(pbapply(matrix(c(1:length(start)), ncol=1), 1, function(i) {
   centroid <- analysis$cent/1000
   
   #Frequency with amplitude peaks
-  peakf <- fpeaks(songspec, f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1]
+  peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1]
   
   #Fundamental frequency
-  ffreq <- mean(fund(r, f = r@samp.rate, ovlp = 50, threshold = threshold, 
+  ffreq <- mean(seewave::fund(r, f = r@samp.rate, ovlp = 50, threshold = threshold, 
                      fmax = b[2] * 1000, plot = F)[, 2], na.rm = T)
   
   #Dominant frecuency parameters
-  y <- dfreq(r, f = r@samp.rate, wl = wl, ovlp = 0, plot = F, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
+  y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = 0, plot = F, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
   meandomf <- mean(y, na.rm = TRUE)
   mindom <- min(y, na.rm = TRUE)
   maxdom <- max(y, na.rm = TRUE)
