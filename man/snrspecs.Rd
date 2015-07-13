@@ -113,6 +113,9 @@ outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, mar = 0.2,
 snrmar = 0.01)
 }
 }
+\author{
+Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Grace Smith Vidaurre
+}
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize
   frequency measurements by \code{specan}, \code{\link{specreator}} for

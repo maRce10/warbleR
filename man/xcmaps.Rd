@@ -28,4 +28,7 @@ xcmaps(X)
 xcmaps(X, tiff = FALSE)
 }
 }
+\author{
+Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
+}
 

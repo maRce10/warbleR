@@ -46,4 +46,7 @@ sig2noise(X[grep("Arre", X$sound.files), ], mar = 0.1)
 # also works
 sig2noise(X[X$sound.files == "Arre.aura.wav", ], mar = 0.01)
 }
+\author{
+Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Grace Smith Vidaurre
+}
 

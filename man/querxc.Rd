@@ -26,4 +26,7 @@ X <- querxc("Phaethornis anthophilus", download = FALSE)
 querxc("Phaethornis anthophilus", download = TRUE)
 }
 }
+\author{
+Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Hua Zhong
+}
 

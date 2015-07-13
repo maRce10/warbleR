@@ -105,6 +105,9 @@ specreator(X[grepl(c("Arre"), X[,1]), ], flim = c(3, 14), inner.mar = c(4,4.5,2,
           outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, mar = 0.05)
 }
 }
+\author{
+Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
+}
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize
   frequency measurements by \code{specan}, \code{\link{snrspecs}} for

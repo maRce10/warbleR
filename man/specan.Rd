@@ -69,6 +69,6 @@ a <- specan(X = manualoc.df, bp = c(0, 22), threshold = 20)
 # View(a)
 }
 \author{
-Marcelo Araya-Salas (http://marceloarayasalas.weebly.com/), Grace Smith Vidaurre and Hua Zhong
+Marcelo Araya-Salas (http://marceloarayasalas.weebly.com), Grace Smith Vidaurre and Hua Zhong
 }
 
