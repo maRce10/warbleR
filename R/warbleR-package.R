@@ -1,8 +1,9 @@
+
 #' warbleR: A package to streamline bioacoustic analysis
-#'warbleR is a package designed to streamline analysis of acoustic signals in R. This 
-#'package allows users to collect open-access acoustic data or input their 
-#'own data into a workflow that facilitates spectrographic visualization 
-#'and obtaining acoustic parameters in a batch process. The functions facilitate downloading avian calls from Xeno-Canto,
+#' warbleR is a package designed to streamline analysis of acoustic signals in R. This 
+#' package allows users to collect open-access acoustic data or input their 
+#' own data into a workflow that facilitates spectrographic visualization 
+#' and obtaining acoustic parameters in a batch process. The functions facilitate downloading avian calls from Xeno-Canto,
 #' creating maps of Xeno-Canto recordings, converting .mp3 files to .wav files, checking .wav 
 #' files, automatically detecting calls by amplitude, manually selecting calls within recordings, 
 #' printing spectrograms of recordings, printing spectrograms of individual calls, measuring signal 
