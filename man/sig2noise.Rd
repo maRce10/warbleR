@@ -31,20 +31,15 @@ A general margin to apply before and after the acoustic signal must
   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
 }
 \examples{
-data(Arre.aura)
-data(manualoc.df)
+data(list = c("Arre.aura","manualoc.df"))
 writeWave(Arre.aura, "Arre.aura.wav") #save sound files
-X <- manualoc.df
 
 # specifying the correct margin is important
 # use snrspecs to troubleshoot margins for sound files
-sig2noise(X[grep("Arre", X$sound.files), ], mar = 0.2)
+sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.2)
 
 # this smaller margin doesn't overlap neighboring calls
-sig2noise(X[grep("Arre", X$sound.files), ], mar = 0.1)
-
-# also works
-sig2noise(X[X$sound.files == "Arre.aura.wav", ], mar = 0.01)
+sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.1)
 }
 \author{
 Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Grace Smith Vidaurre

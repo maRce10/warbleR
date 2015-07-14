@@ -2,7 +2,7 @@
 % Please edit documentation in R/specreator_2.4.R
 \name{specreator}
 \alias{specreator}
-\title{Spectrograms of selected calls}
+\title{Spectrograms of selected signals}
 \usage{
 specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar =
@@ -92,16 +92,15 @@ data(list = c("Arre.aura", "Phae.cuvi"))
 data(manualoc.df)
 writeWave(Arre.aura, "Arre.aura.wav") #save sound files
 writeWave(Phae.cuvi, "Phae.cuvi.wav")
-X <- manualoc.df
 
 # make Arre.aura and Phae.cuvi spectrograms
 
-specreator(X, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1),
+specreator(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1),
           picsize = 2, res = 300, cexlab = 2, mar = 0.05)
 
 # make only Arre.aura spectrograms
 
-specreator(X[grepl(c("Arre"), X[,1]), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1),
+specreator(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1),
           outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, mar = 0.05)
 }
 }

@@ -1,4 +1,4 @@
-#' Automatically detect vocalizations in sound files.
+#' Automatically detect vocalizations in sound files
 #' 
 #' Detects the start and end of vocalizations in sound files automatically based
 #' on differences in amplitude.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/specan_1.2.R
 \name{specan}
 \alias{specan}
-\title{Measure acoustic parameters}
+\title{Measure acoustic parameters in batches of sound files}
 \usage{
 specan(X, bp = c(0,22), wl = 512, threshold = 10)
 }

@@ -1,4 +1,4 @@
-#' Measure acoustic parameters
+#' Measure acoustic parameters in batches of sound files
 #'
 #' \code{specan} measure acoustic parameters on acoustic signals for which the start and end times are provided.
 #' @usage specan(X, bp = c(0,22), wl = 512, threshold = 10)

@@ -70,19 +70,18 @@
 #' data(list = c("Arre.aura", "Phae.cuvi"))
 #' data(manualoc.df)
 #' writeWave(Arre.aura, "Arre.aura.wav") #save sound.files
-#' writeWave(Phae.cuvi, "Phae.cuvi.wav")
-#' X <- manualoc.df 
+#' writeWave(Phae.cuvi, "Phae.cuvi.wav") 
 #' 
 #' # make Arre.aura and Phae.cuvi spectrograms
 #' # snrmar needs to be smaller before moving on to sig2noise()
 #' 
-#' snrspecs(X, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
+#' snrspecs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #' picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1)
 #' 
 #' # make only Arre.aura spectrograms
 #' # snrmar now doesn't overlap neighboring calls
 #' 
-#' snrspecs(X[grepl(c("Arre"), X[,1]), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1), 
+#' snrspecs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1), 
 #' outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, mar = 0.2, 
 #' snrmar = 0.01)
 #' }

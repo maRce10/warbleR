@@ -2,7 +2,7 @@
 % Please edit documentation in R/autodetec_1.0.R
 \name{autodetec}
 \alias{autodetec}
-\title{Automatically detect vocalizations in sound files.}
+\title{Automatically detect vocalizations in sound files}
 \usage{
 autodetec(X= NULL, threshold=15, envt="abs", msmooth=c(300,90),
   power=1, bp=NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,

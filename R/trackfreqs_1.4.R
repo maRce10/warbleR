@@ -1,6 +1,6 @@
 #' Spectrograms with frequency measurements
 #' 
-#' \code{trackfreqs} creates spectrograms to visualize frequency measurements.
+#' \code{trackfreqs} creates spectrograms to visualize dominant and fundametal frequency measurements.
 #' @usage trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
@@ -87,17 +87,16 @@
 #' data(manualoc.df)
 #' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
 #' writeWave(Phae.cuvi, "Phae.cuvi.wav")
-#' X <- manualoc.df
 #' 
 #' # make Arre.aura and Phae.cuvi spectrograms  
 #' 
-#' trackfreqs(X, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
+#' trackfreqs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #' picsize = 2, res = 300, cexlab = 2, fmax = 14, bp = c(0, 14), cex = c(1.5, 2), 
 #' col = c("blue", "red"),  mar = 0.09, lpos = "bottomright")
 #'                  
 #' # make only Arre.aura spectrograms
 #' 
-#' trackfreqs(X[grepl(c("Arre"), X[,1]), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1), 
+#' trackfreqs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1), 
 #' outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, fmax = 14, 
 #' bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
 #' lpos = "bottomright")
