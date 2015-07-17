@@ -112,7 +112,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
       if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
 
     #if msmooth is not vector or length!=2 stop
-    if(is.null(msmooth)) stop("'msmooth' must be a numeric vector of length 1") else {
+    if(is.null(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else {
       if(!is.vector(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else{
       if(!length(msmooth) == 2) stop("'msmooth' must be a numeric vector of length 2")}}   
     

@@ -2,8 +2,8 @@
 #' 
 #' \code{lspec} produce spectrograms of whole sound files split into multiple 
 #'   rows.
-#' @usage lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE, 
-#'   pal = reverse.gray.colors.2, manualoc = NULL, cex = 1)  
+#' @usage lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE, wl = 512,
+#'   pal = reverse.gray.colors.2, X = NULL, cex = 1)  
 #' @param flim A numeric vector of length two indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
 #'   \code{\link[seewave]{spectro}}. Default is c(0,22).
@@ -11,16 +11,18 @@
 #'   per row. Default is 10.
 #' @param rows A numeric vector of length one. Specifies number of rows per 
 #'   image file. Default is 10.
+#' @param wl A number specifying the window length of the spectrogram, default 
+#'   is 512.
 #' @param collev A numeric vector of three. Specifies levels to partition the 
 #'   amplitude range of the spectrogram (in dB). The more levels, the higher the
 #'   resolution of the spectrogram. Default is seq(-40, 0, 1).
 #' @param gr Logical argument to add grid to spectrogram. Default is FALSE.
 #' @param pal Color palette function for spectrogram. Default is 
 #'   reverse.gray.colors.2.
-#' @param manualoc data frame with results from manualoc function. If given, two
-#'   red dotted lines are plotted at the start and end of a selection and the 
-#'   selections are labeled with the selection number (and selection comment, if
-#'   available). Default is NULL.
+#' @param X data frame with results from manualoc function (or any data frame with columns
+#' as in a manualoc output data frame). If given, two red dotted lines are plotted at the 
+#' start and end of a selection and the selections are labeled with the selection number 
+#' (and selection comment, if available). Default is NULL.
 #' @param cex A numeric vector of length one giving the amount by which text 
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @return Spectrograms per individual call marked with dominant and fundamental
@@ -30,8 +32,8 @@
 #' @details The function creates spectrograms for complete sound files, printing
 #'   the name of the sound files and the "page" number (p1-p2...) at the upper 
 #'   right corner of the image files. If results from the manualoc function are 
-#'   supplied, the function delimits and labels the selections. This function 
-#'   aims to facilitate visual classification of vocalization units and the 
+#'   supplied (or a equivalent data frame), the function delimits and labels the selections. 
+#'   This function aims to facilitate visual classification of vocalization units and the 
 #'   analysis of animal vocal sequences.
 #' @examples
 #' \dontrun{
@@ -40,31 +42,83 @@
 #' writeWave(Arre.aura,"Arre.aura.wav") #save sound files
 #' writeWave(Phae.cuvi,"Phae.cuvi.wav")
 #' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
-#' lspec(sxrow = 2, rows = 8, manualoc = manualoc.df, pal = reverse.heat.colors) #including selections
+#' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
 #' }
 
-lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1),  
-                  gr = FALSE, pal = reverse.gray.colors.2, manualoc = NULL, cex = 1) {
+lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), wl = 512,  
+                  gr = FALSE, pal = reverse.gray.colors.2, X = NULL, cex = 1, it = "jpeg") {
   
   #read files
   files <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)  
   
   options(show.error.messages = T)
   
-  #stop if seewave and tuneR not installed
+  #stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory")
   
-  #read manualoc files
-  if(!is.null(manualoc)) {manloc <- manualoc
-  files<-files[files %in% manualoc$sound.files]
+  #read X files
+  if(!is.null(X)) {manloc <- X
+  files<-files[files %in% X$sound.files]
   }  else manloc <- NULL
   
+  #stop if files are not in working directory
+  if(length(files) == 0) stop(".wav files in X are not in working directory")
+  
   #if there are NAs in start or end stop
-  if(!is.null(manualoc))
-    if(any(is.na(c(manualoc$end, manualoc$start)))) stop("NAs found in start and/or end columns")  
+  if(!is.null(X))
+    if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
+  
+  #Check class of X
+  if(!class(X) == "data.frame") stop("X is not a data frame")
+  
+  #check if all columns are found
+  if(any(!(c("sound.files", "selec", "start", "end", "sel.comment") %in% colnames(X)))) 
+    stop(paste(paste(c("sound.files", "selec", "start", "end", "sel.comment")[!(c("sound.files", "selec", 
+                                                                   "start", "end", "sel.comment") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+
+  #if end or start are not numeric stop
+  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  
+  #if any start higher than end stop
+  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(end - start<0)), "case(s)"))  
+  
+  #if flim is not vector or length!=2 stop
+  if(is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
+    if(!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
+      if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
+  
+  #if wl is not vector or length!=1 stop
+  if(is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
+    if(!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
+      if(!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}  
+  
+  #if sxrow is not vector or length!=1 stop
+  if(is.null(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else {
+    if(!is.vector(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else{
+      if(!length(sxrow) == 1) stop("'sxrow' must be a numeric vector of length 1")}}  
+  
+  #if rows is not vector or length!=1 stop
+  if(is.null(rows)) stop("'rows' must be a numeric vector of length 1") else {
+    if(!is.vector(rows)) stop("'rows' must be a numeric vector of length 1") else{
+      if(!length(rows) == 1) stop("'rows' must be a numeric vector of length 1")}}  
+  
+  #if picsize is not vector or length!=1 stop
+  if(is.null(cex)) stop("'picsize' must be a numeric vector of length 1") else {
+    if(!is.vector(cex)) stop("'picsize' must be a numeric vector of length 1") else{
+      if(!length(cex) == 1) stop("'picsize' must be a numeric vector of length 1")}}  
+  
+  #if envt is not vector or length!=1 stop
+  if(any(envt %in% c("abs", "hil"))){if(!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
+  } else stop("'envt' must be either 'abs' or 'hil'" )
+  
+  if(any(!sapply(list(osci,ls, redo),is.logical))) 
+    stop(paste(paste(c("osci","ls","redo")[!sapply(list(osci,ls, redo),is.logical)],collapse = " "),"not logical"))
+  
+  
+  ##########
   
   #apply over each sound file
-  pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = manualoc) {
+  pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
     
     #loop to print psectros  
     rec <- tuneR::readWave(z) #read wave file 
@@ -77,10 +131,12 @@ lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1
       rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
     dur <- length(rec@left)/rec@samp.rate #set duration    
     
-    if(!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset manualoc data
+    if(!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset X data
     #loop over pages 
     for (j in 1:ceiling(dur/(li*sl))){
-      tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".tiff", sep = ""),  
+      if(it == "tiff") tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".tiff", sep = ""),  
+           res = 160, units = "in", width = 8.5, height = 11) else
+      jpeg(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".jpeg", sep = ""),  
            res = 160, units = "in", width = 8.5, height = 11)
       par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
       
@@ -89,7 +145,7 @@ lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1
       while(x <= li-1){
         x <- x + 1
         if(all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){  #for rows with complete spectro
-          seewave::spectro(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
+          seewave::spectro(rec, f = f, wl = wl, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
                   ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = T)
           if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
@@ -103,10 +159,10 @@ lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1
                                    if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){ #for rows with incomplete spectro (final row)
                                      seewave::spectro(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
                                                            listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
-                                                                                                   to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = 512, flim = frli, 
+                                                                                                   to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = wl, flim = frli, 
                                              tlim = c(0, sl), ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = F)
                                      
-                                     #add manualoc lines and labels
+                                     #add X lines and labels
                                      
                                      if(!is.null(malo)) { if(any(!is.na(ml$sel.comment))) l <- paste(ml$selec,"-'",ml$sel.comment,
                                                                                                      "'",sep="") else {l <- ml$selec}

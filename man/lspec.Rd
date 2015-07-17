@@ -4,8 +4,8 @@
 \alias{lspec}
 \title{Create long spectrograms of whole sound files}
 \usage{
-lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE,
-  pal = reverse.gray.colors.2, manualoc = NULL, cex = 1)
+lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE, wl = 512,
+  pal = reverse.gray.colors.2, X = NULL, cex = 1)
 }
 \arguments{
 \item{flim}{A numeric vector of length two indicating the highest and lowest
@@ -22,15 +22,18 @@ image file. Default is 10.}
 amplitude range of the spectrogram (in dB). The more levels, the higher the
 resolution of the spectrogram. Default is seq(-40, 0, 1).}
 
+\item{wl}{A number specifying the window length of the spectrogram, default
+is 512.}
+
 \item{gr}{Logical argument to add grid to spectrogram. Default is FALSE.}
 
 \item{pal}{Color palette function for spectrogram. Default is
 reverse.gray.colors.2.}
 
-\item{manualoc}{data frame with results from manualoc function. If given, two
-red dotted lines are plotted at the start and end of a selection and the
-selections are labeled with the selection number (and selection comment, if
-available). Default is NULL.}
+\item{X}{data frame with results from manualoc function (or any data frame with columns
+as in a manualoc output data frame). If given, two red dotted lines are plotted at the
+start and end of a selection and the selections are labeled with the selection number
+(and selection comment, if available). Default is NULL.}
 
 \item{cex}{A numeric vector of length one giving the amount by which text
 (including sound file and page number) should be magnified. Default is 1.}
@@ -47,8 +50,8 @@ Spectrograms per individual call marked with dominant and fundamental
 The function creates spectrograms for complete sound files, printing
   the name of the sound files and the "page" number (p1-p2...) at the upper
   right corner of the image files. If results from the manualoc function are
-  supplied, the function delimits and labels the selections. This function
-  aims to facilitate visual classification of vocalization units and the
+  supplied (or a equivalent data frame), the function delimits and labels the selections.
+  This function aims to facilitate visual classification of vocalization units and the
   analysis of animal vocal sequences.
 }
 \examples{
@@ -58,7 +61,7 @@ data(manualoc.df)
 writeWave(Arre.aura,"Arre.aura.wav") #save sound files
 writeWave(Phae.cuvi,"Phae.cuvi.wav")
 lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
-lspec(sxrow = 2, rows = 8, manualoc = manualoc.df, pal = reverse.heat.colors) #including selections
+lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
 }
 }
 
