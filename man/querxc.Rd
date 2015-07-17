@@ -8,7 +8,7 @@ querxc(qword, download = FALSE)
 }
 \arguments{
 \item{qword}{Character vector of length one indicating the genus or genus and
-species (for example "Phaethornis" or "Phaethornis longirostris") to query Xeno Canto database.}
+species (for example "Phaethornis" or "Phaethornis striigularis") to query Xeno Canto database.}
 
 \item{download}{Logical argument, downloads recording file names and
 associated metadata if FALSE. If TRUE, recordings are downloaded to working

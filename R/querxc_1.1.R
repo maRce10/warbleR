@@ -3,7 +3,7 @@
 #' \code{querxc} download recordings and metadata from Xeno Canto.
 #' @usage querxc(qword, download = FALSE)  
 #' @param qword Character vector of length one indicating the genus or genus and
-#'   species (for example "Phaethornis" or "Phaethornis longirostris") to query Xeno Canto database.
+#'   species (for example "Phaethornis" or "Phaethornis striigularis") to query Xeno Canto database.
 #' @param download Logical argument, downloads recording file names and
 #'   associated metadata if FALSE. If TRUE, recordings are downloaded to working
 #'   directory as .mp3 files. Default is FALSE.
