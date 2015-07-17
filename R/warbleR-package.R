@@ -53,10 +53,12 @@
 #'   \code{\link{specan}}: Measures acoustic parameters on selected acoustic 
 #'   signals
 #'   
-#' @importFrom rjson fromJSON
-#' @importFrom pbapply pbapply pbsapply pblapply
-#' @importFrom RCurl getURL
+# @importFrom rjson fromJSON
+# @importFrom pbapply pbapply pbsapply pblapply
+# @importFrom RCurl getURL
 #' @import maps
+#' @import rjson
+#' @import RCurl
 #' @import tuneR
 #' @import seewave
 # @importFrom tuneR readWave readMP3 writeWave play
