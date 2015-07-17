@@ -55,7 +55,9 @@ lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1
   if(length(files) == 0) stop("no .wav files in working directory")
   
   #read manualoc files
-  if(!is.null(manualoc)) manloc <- manualoc  else manloc <- NULL
+  if(!is.null(manualoc)) {manloc <- manualoc
+  files<-files[files %in% manualoc$sound.files]
+  }  else manloc <- NULL
   
   #if there are NAs in start or end stop
   if(!is.null(manualoc))
