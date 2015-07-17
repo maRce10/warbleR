@@ -59,6 +59,7 @@
 #' @import maps
 #' @import rjson
 #' @import RCurl
+#' @import pbapply
 #' @import tuneR
 #' @import seewave
 # @importFrom tuneR readWave readMP3 writeWave play

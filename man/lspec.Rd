@@ -8,6 +8,11 @@ lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE
   pal = reverse.gray.colors.2, X = NULL, cex = 1)
 }
 \arguments{
+\item{X}{data frame with results from manualoc function (or any data frame with columns
+as in a manualoc output data frame). If given, two red dotted lines are plotted at the
+start and end of a selection and the selections are labeled with the selection number
+(and selection comment, if available). Default is NULL.}
+
 \item{flim}{A numeric vector of length two indicating the highest and lowest
 frequency limits (kHz) of the spectrogram, as in
 \code{\link[seewave]{spectro}}. Default is c(0,22).}
@@ -30,13 +35,11 @@ is 512.}
 \item{pal}{Color palette function for spectrogram. Default is
 reverse.gray.colors.2.}
 
-\item{X}{data frame with results from manualoc function (or any data frame with columns
-as in a manualoc output data frame). If given, two red dotted lines are plotted at the
-start and end of a selection and the selections are labeled with the selection number
-(and selection comment, if available). Default is NULL.}
-
 \item{cex}{A numeric vector of length one giving the amount by which text
 (including sound file and page number) should be magnified. Default is 1.}
+
+\item{it}{A character vector of length one giving the image type to be used. Currently only
+"tiff" and "jpeg" are admitted. Default is 1.}
 }
 \value{
 Spectrograms per individual call marked with dominant and fundamental

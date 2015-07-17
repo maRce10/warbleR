@@ -39,12 +39,12 @@ TRUE.}
 is 512.}
 
 \item{xl}{Numeric vector of length one, a constant by which to scale
-spectrogram width if specwidth = TRUE. Default is 1.}
+spectrogram width. Default is 1.}
 
 \item{picsize}{Numeric argument of length one, controls relative size of
 spectrogram. Default is 1.}
 
-\item{res}{Numeric argument of length one, controls resolution of tiff image.
+\item{res}{Numeric argument of length one, controls resolution of image.
 Default is 100 (faster) although 300 - 400 is recommended for publication/
 presentation quality.}
 
@@ -72,9 +72,12 @@ threshold.}
 
 \item{redo}{Logical argument. If TRUE all selection will be analyzed again
 when code is rerun. If FALSE only the selections that do not have a image
-(tiff) file in the working directory will be analyzed. Default is FALSE.}
+file in the working directory will be analyzed. Default is FALSE.}
 
 \item{img}{Logical argument. If FALSE image files are not produce. Default TRUE.}
+
+\item{it}{A character vector of length one giving the image type to be used. Currently only
+"tiff" and "jpeg" are admitted. Default is 1.}
 }
 \value{
 Spectrograms showing the start and end of the detected signals. It
@@ -88,7 +91,11 @@ on differences in amplitude.
 \details{
 This function determines the start and end of signals (hopefuly
   vocalizations) in the segments of the sound files listed in the input data
-  frame. The ouptut of manualoc can be used as the input data frame.
+  frame. Alternatively, if no data frame is provided, the function creates long
+  spectrograms for all sound files in the working directory.The ouptut of manualoc
+  can be used as the input data frame. The input data frame should have the following
+  columns: c("sound.files","selec","start","end","sel.comment"). This function uses
+  internally a modified version of the \code{\link[seewave]{timer}} function to detect signals.
 }
 \examples{
 \dontrun{

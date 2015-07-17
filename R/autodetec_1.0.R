@@ -21,11 +21,11 @@
 #'   amplitude envelope. Default is "abs".
 #' @param picsize Numeric argument of length one, controls relative size of 
 #'   spectrogram. Default is 1.
-#' @param res Numeric argument of length one, controls resolution of tiff image.
+#' @param res Numeric argument of length one, controls resolution of image.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 #'   presentation quality.
 #' @param xl Numeric vector of length one, a constant by which to scale 
-#'   spectrogram width if specwidth = TRUE. Default is 1.
+#'   spectrogram width. Default is 1.
 #' @param power A numeric vector of length 1 indicating a power factor applied 
 #'   to the amplitude envelope. Increasing power will reduce low amplitude 
 #'   modulations and increase high amplide modulations, in order to reduce 
@@ -51,7 +51,9 @@
 #'   threshold.
 #' @param redo Logical argument. If TRUE all selection will be analyzed again 
 #'   when code is rerun. If FALSE only the selections that do not have a image 
-#'   (tiff) file in the working directory will be analyzed. Default is FALSE.
+#'   file in the working directory will be analyzed. Default is FALSE.
+#' @param it A character vector of length one giving the image type to be used. Currently only
+#' "tiff" and "jpeg" are admitted. Default is 1.
 #' @param img Logical argument. If FALSE image files are not produce. Default TRUE.
 #' @return Spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 
@@ -60,7 +62,12 @@
 #' @name autodetec
 #' @details This function determines the start and end of signals (hopefuly 
 #'   vocalizations) in the segments of the sound files listed in the input data 
-#'   frame. The ouptut of manualoc can be used as the input data frame.
+#'   frame. Alternatively, if no data frame is provided, the function creates long 
+#'   spectrograms for all sound files in the working directory.The ouptut of manualoc 
+#'   can be used as the input data frame. The input data frame should have the following 
+#'   columns: c("sound.files","selec","start","end","sel.comment"). This function uses 
+#'   internally a modified version of the \code{\link[seewave]{timer}} function to detect signals. 
+#'   
 #' @examples
 #' \dontrun{
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
@@ -77,7 +84,7 @@
 
 autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=1, bp=NULL, osci = FALSE, wl = 512,
                     xl = 1, picsize = 1, res = 100, flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL,
-                    maxdur = NULL, redo = FALSE, img = T){
+                    maxdur = NULL, redo = FALSE, img = T, it = "jpeg"){
   
   if(!is.null(X)){
     
@@ -151,6 +158,9 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
       if(!is.vector(threshold)) stop("'threshold' must be a numeric vector of length 1") else{
       if(!length(threshold) == 1) stop("'threshold' must be a numeric vector of length 1")}}  
     
+    #if it argument is not "jpeg" or "tiff" 
+    if(!any(it == "jpeg", it == "tiff")) stop("Image type (it) not allowed")  
+    
     #if envt is not vector or length!=1 stop
     if(any(envt %in% c("abs", "hil"))){if(!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
     } else stop("'envt' must be either 'abs' or 'hil'" )
@@ -172,7 +182,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     
     #redo the ones that have no images in folder
     if(redo == F) {
-      tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
+      if(it == "tiff") tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE) else
+        tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)
       X <- X[!(paste(substring(X$sound.files, 1, nchar(as.character(X$sound.files))-4), X$selec, sep = "-") %in% substring(tfs, 1, nchar(tfs)-15)),]
       if(nrow(X) == 0) stop("All selections have been analyzed (redo = F)") 
     }    
@@ -241,9 +252,12 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     time.song$selec <- paste(X$selec[i], 1:nrow(time.song), sep = "-")
     
     if(!ls & img) {
-    tiff(filename = paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+    if(it == "tiff") tiff(filename = paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
           "-", X$selec[i], "-autodetec.tiff", sep = ""), 
-        width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
+        width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
+          jpeg(filename = paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+                                "-", X$selec[i], "-autodetec.jpeg", sep = ""), 
+               width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
       seewave::spectro(song,f=f,wl = wl,collevels=seq(-45,0,1),grid=F,main = as.character(X$sound.files[i]),osc = osci,
               scale=F,palette=reverse.gray.colors.2,flim = fl)
@@ -280,7 +294,8 @@ dev.off()
     
     #redo the ones that have no images in folder
     if(redo == F) {
-      tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
+      if(it == "tiff") tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE) else
+        tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)      
       files <- files[!(substring(files, 1, nchar(as.character(files))-4) %in% substring(tfs, 1, nchar(tfs)-21))]
       if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
     }  
@@ -408,8 +423,11 @@ if(any(ls,is.null(X)) & img) {
       if(!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset manualoc data
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
-        tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, "-autodetec.ls.tiff", sep = ""),  
-             res = 160, units = "in", width = 8.5, height = 11)
+        if(it == "tiff") tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, "-autodetec.ls.tiff", sep = ""),  
+             res = 160, units = "in", width = 8.5, height = 11) else
+          jpeg(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, "-autodetec.ls.jpeg", sep = ""),  
+               res = 160, units = "in", width = 8.5, height = 11)
+
         par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
         
         #creates spectrogram rows
