@@ -106,13 +106,7 @@ lspec <- function(flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1
   if(is.null(cex)) stop("'picsize' must be a numeric vector of length 1") else {
     if(!is.vector(cex)) stop("'picsize' must be a numeric vector of length 1") else{
       if(!length(cex) == 1) stop("'picsize' must be a numeric vector of length 1")}}  
-  
-  if(any(!sapply(list(osci,ls, redo),is.logical))) 
-    stop(paste(paste(c("osci","ls","redo")[!sapply(list(osci,ls, redo),is.logical)],collapse = " "),"not logical"))
-  
-  
-  ##########
-  
+    
   #apply over each sound file
   pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
     
