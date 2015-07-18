@@ -259,7 +259,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
       if(set) fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
                 "-", X$selec[i], "autodetec", sep = "") else
                   fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                             "-", X$selec[i], "autodetec","th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                             "-", X$selec[i], "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                              "-mxdu", maxdur, "-pw", power, sep = "")
   
       if(it == "tiff") tiff(filename = paste(fna, , ".tiff", sep = "-"), 
@@ -432,7 +432,7 @@ if(any(ls,is.null(X)) & img) {
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
         if(set) fna<-paste(substring(z, first = 1, last = nchar(z)-4),
-                           "-", X$selec[i], "autodetec","th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                           "-", X$selec[i], "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                            "-mxdu", maxdur, "-pw", power, sep = "") else
         fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", X$selec[i], "autodetec.ls", sep = "")
           
