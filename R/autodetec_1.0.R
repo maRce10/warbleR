@@ -188,6 +188,10 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     if(redo == F) {
       if(it == "tiff") tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE) else
         tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)
+      
+      if(set) X <- X[!(paste(substring(X$sound.files, first = 1, last = nchar(as.character(X$sound.files))-4),
+              "-", X$selec, "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+              "-mxdu", maxdur, "-pw", power, sep = "") %in% substring(tfs, 1, nchar(tfs)-15)),] else
       X <- X[!(paste(substring(X$sound.files, 1, nchar(as.character(X$sound.files))-4), X$selec, sep = "-") %in% substring(tfs, 1, nchar(tfs)-15)),]
       if(nrow(X) == 0) stop("All selections have been analyzed (redo = F)") 
     }    
@@ -262,9 +266,9 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
                              "-", X$selec[i], "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                              "-mxdu", maxdur, "-pw", power, sep = "")
   
-      if(it == "tiff") tiff(filename = paste(fna, , ".tiff", sep = "-"), 
+      if(it == "tiff") tiff(filename = paste(fna, ".tiff", sep = "-"), 
         width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-          jpeg(filename = paste(fna, "-", X$selec[i], "-autodetec.jpeg", sep = ""), 
+          jpeg(filename = paste(fna, "-", X$selec[i], "-.jpeg", sep = ""), 
                width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
       seewave::spectro(song,f=f,wl = wl,collevels=seq(-45,0,1),grid=F,main = as.character(X$sound.files[i]),osc = osci,
@@ -438,7 +442,7 @@ if(any(ls,is.null(X)) & img) {
           
         if(it == "tiff") tiff(filename = paste(fna, "-p", j, ".tiff", sep = ""),  
              res = 160, units = "in", width = 8.5, height = 11) else
-          jpeg(filename = paste(fna, "-p", j, "-autodetec.jpeg", sep = ""),  
+          jpeg(filename = paste(fna, "-p", j, ".jpeg", sep = ""),  
                res = 160, units = "in", width = 8.5, height = 11)
 
         par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
