@@ -432,11 +432,11 @@ if(any(ls,is.null(X)) & img) {
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
         if(set) fna<-paste(substring(z, first = 1, last = nchar(z)-4),
-                           "-", X$selec[i], "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                           "-", ml$selec[j], "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                            "-mxdu", maxdur, "-pw", power, sep = "") else
-        fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", X$selec[i], "autodetec.ls", sep = "")
+        fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", ml$selec[j], "autodetec.ls", sep = "")
           
-        if(it == "tiff") tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".tiff", sep = ""),  
+        if(it == "tiff") tiff(filename = paste(fna, "-p", j, ".tiff", sep = ""),  
              res = 160, units = "in", width = 8.5, height = 11) else
           jpeg(filename = paste(fna, "-p", j, "-autodetec.jpeg", sep = ""),  
                res = 160, units = "in", width = 8.5, height = 11)
