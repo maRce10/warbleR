@@ -7,7 +7,7 @@
 autodetec(X= NULL, threshold=15, envt="abs", msmooth=c(300,90),
   power=1, bp=NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur =
-  NULL, redo = FALSE)
+  NULL, redo = FALSE, img = T, it = "jpeg", set = F)
 }
 \arguments{
 \item{X}{Data frame output from manualoc().}

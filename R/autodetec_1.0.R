@@ -5,7 +5,7 @@
 #' @usage autodetec(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), 
 #'   power=1, bp=NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
 #'   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
-#'   NULL, redo = FALSE)
+#'   NULL, redo = FALSE, img = T, it = "jpeg", set = F)
 #' @param X Data frame output from manualoc().
 #' @param threshold A number specifying the amplitude threshold for detecting 
 #'   signals (in percentage).
@@ -259,7 +259,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
       if(set) fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
                 "-", X$selec[i], "autodetec", sep = "") else
                   fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                             "-", X$selec[i], "autodetec","-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                             "-", X$selec[i], "autodetec","th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                              "-mxdu", maxdur, "-pw", power, sep = "")
   
       if(it == "tiff") tiff(filename = paste(fna, , ".tiff", sep = "-"), 
@@ -432,7 +432,7 @@ if(any(ls,is.null(X)) & img) {
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
         if(set) fna<-paste(substring(z, first = 1, last = nchar(z)-4),
-                           "-", X$selec[i], "autodetec","-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                           "-", X$selec[i], "autodetec","th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                            "-mxdu", maxdur, "-pw", power, sep = "") else
         fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", X$selec[i], "autodetec.ls", sep = "")
           
