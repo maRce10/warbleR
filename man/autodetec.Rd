@@ -80,7 +80,7 @@ file in the working directory will be analyzed. Default is FALSE.}
 "tiff" and "jpeg" are admitted. Default is 1.}
 
 \item{set}{A logical argument indicating wheter the settings of the autodetection
-process should be included in the image file name. If TRUE Bandpass (bp), power (pw), msmooth (msmo),
+process should be included in the image file name. If TRUE threshold (th), bandpass (bp), power (pw), msmooth (msmo),
 maxdur (mxdu), and mindur (midu) are included.
 "tiff" and "jpeg" are admitted. Default is 1.}
 }

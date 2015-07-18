@@ -56,7 +56,7 @@
 #' "tiff" and "jpeg" are admitted. Default is 1.
 #' @param img Logical argument. If FALSE image files are not produce. Default TRUE.
 #' @param set A logical argument indicating wheter the settings of the autodetection 
-#' process should be included in the image file name. If TRUE Bandpass (bp), power (pw), msmooth (msmo), 
+#' process should be included in the image file name. If TRUE threshold (th), bandpass (bp), power (pw), msmooth (msmo), 
 #' maxdur (mxdu), and mindur (midu) are included. 
 #' "tiff" and "jpeg" are admitted. Default is 1.
 #' @return Spectrograms showing the start and end of the detected signals. It 
