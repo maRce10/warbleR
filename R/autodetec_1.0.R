@@ -55,6 +55,10 @@
 #' @param it A character vector of length one giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is 1.
 #' @param img Logical argument. If FALSE image files are not produce. Default TRUE.
+#' @param set A logical argument indicating wheter the settings of the autodetection 
+#' process should be included in the image file name. If TRUE Bandpass (bp), power (pw), msmooth (msmo), 
+#' maxdur (mxdu), and mindur (midu) are included. 
+#' "tiff" and "jpeg" are admitted. Default is 1.
 #' @return Spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 
 #'   sound file and selection number.
@@ -84,7 +88,7 @@
 
 autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=1, bp=NULL, osci = FALSE, wl = 512,
                     xl = 1, picsize = 1, res = 100, flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL,
-                    maxdur = NULL, redo = FALSE, img = T, it = "jpeg"){
+                    maxdur = NULL, redo = FALSE, img = T, it = "jpeg", set = F){
   
   if(!is.null(X)){
     
@@ -252,11 +256,15 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     time.song$selec <- paste(X$selec[i], 1:nrow(time.song), sep = "-")
     
     if(!ls & img) {
-    if(it == "tiff") tiff(filename = paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-          "-", X$selec[i], "-autodetec.tiff", sep = ""), 
+      if(set) fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+                "-", X$selec[i], "autodetec", sep = "") else
+                  fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+                             "-", X$selec[i], "autodetec","-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                             "-mxdu", maxdur, "-pw", power, sep = "")
+  
+      if(it == "tiff") tiff(filename = paste(fna, , ".tiff", sep = "-"), 
         width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-          jpeg(filename = paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                                "-", X$selec[i], "-autodetec.jpeg", sep = ""), 
+          jpeg(filename = paste(fna, "-", X$selec[i], "-autodetec.jpeg", sep = ""), 
                width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
       seewave::spectro(song,f=f,wl = wl,collevels=seq(-45,0,1),grid=F,main = as.character(X$sound.files[i]),osc = osci,
@@ -423,9 +431,14 @@ if(any(ls,is.null(X)) & img) {
       if(!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset manualoc data
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
-        if(it == "tiff") tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, "-autodetec.ls.tiff", sep = ""),  
+        if(set) fna<-paste(substring(z, first = 1, last = nchar(z)-4),
+                           "-", X$selec[i], "autodetec","-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                           "-mxdu", maxdur, "-pw", power, sep = "") else
+        fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", X$selec[i], "autodetec.ls", sep = "")
+          
+        if(it == "tiff") tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".tiff", sep = ""),  
              res = 160, units = "in", width = 8.5, height = 11) else
-          jpeg(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, "-autodetec.ls.jpeg", sep = ""),  
+          jpeg(filename = paste(fna, "-p", j, "-autodetec.jpeg", sep = ""),  
                res = 160, units = "in", width = 8.5, height = 11)
 
         par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)

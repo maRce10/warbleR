@@ -78,6 +78,11 @@ file in the working directory will be analyzed. Default is FALSE.}
 
 \item{it}{A character vector of length one giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is 1.}
+
+\item{set}{A logical argument indicating wheter the settings of the autodetection
+process should be included in the image file name. If TRUE Bandpass (bp), power (pw), msmooth (msmo),
+maxdur (mxdu), and mindur (midu) are included.
+"tiff" and "jpeg" are admitted. Default is 1.}
 }
 \value{
 Spectrograms showing the start and end of the detected signals. It
