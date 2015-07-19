@@ -260,15 +260,16 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     time.song$selec <- paste(X$selec[i], 1:nrow(time.song), sep = "-")
     
     if(!ls & img) {
-      if(set) fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                "-", X$selec[i], "autodetec", sep = "") else
-                  fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                             "-", X$selec[i], "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
-                             "-mxdu", maxdur, "-pw", power, sep = "")
+      if(set) 
+        fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+                   "-", X$selec[i], "-autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                   "-mxdu", maxdur, "-pw", power, sep = "") else
+        fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+                "-", X$selec[i], "-autodetec", sep = "")                  
   
       if(it == "tiff") tiff(filename = paste(fna, ".tiff", sep = "-"), 
         width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-          jpeg(filename = paste(fna, "-", X$selec[i], "-.jpeg", sep = ""), 
+          jpeg(filename = paste(fna, "-", X$selec[i], ".jpeg", sep = ""), 
                width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
       seewave::spectro(song,f=f,wl = wl,collevels=seq(-45,0,1),grid=F,main = as.character(X$sound.files[i]),osc = osci,
@@ -436,9 +437,9 @@ if(any(ls,is.null(X)) & img) {
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
         if(set) fna<-paste(substring(z, first = 1, last = nchar(z)-4),
-                           "-", ml$selec[j], "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                           "-", ml$selec[j], "-autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                            "-mxdu", maxdur, "-pw", power, sep = "") else
-        fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", ml$selec[j], "autodetec.ls", sep = "")
+        fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", ml$selec[j], "-autodetec.ls", sep = "")
           
         if(it == "tiff") tiff(filename = paste(fna, "-p", j, ".tiff", sep = ""),  
              res = 160, units = "in", width = 8.5, height = 11) else
