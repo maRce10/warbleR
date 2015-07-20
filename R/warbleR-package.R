@@ -53,20 +53,13 @@
 #'   \code{\link{specan}}: Measures acoustic parameters on selected acoustic 
 #'   signals
 #'   
-# @importFrom rjson fromJSON
-# @importFrom pbapply pbapply pbsapply pblapply
-# @importFrom RCurl getURL
-# @importFrom maps map
-# @import maps
-# @import rjson
-# @import RCurl
-# @import pbapply
-# @import tuneR
-# @import seewave
-# @import fftw
-# @importFrom tuneR readWave readMP3 writeWave play
-# @importFrom seewave ffilter inputw env spectro cutw pastew noisew spec 
-# specprop fpeaks fund dfreq
+#' @import maps
+#' @import rjson
+#' @import RCurl
+#' @import pbapply
+#' @import tuneR
+#' @import seewave
+#' @import fftw
 #'   
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
 #'   
