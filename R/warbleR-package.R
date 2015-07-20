@@ -57,13 +57,13 @@
 # @importFrom pbapply pbapply pbsapply pblapply
 # @importFrom RCurl getURL
 # @importFrom maps map
-#' @import maps
-#' @import rjson
-#' @import RCurl
-#' @import pbapply
-#' @import tuneR
-#' @import seewave
-#' @import fftw
+# @import maps
+# @import rjson
+# @import RCurl
+# @import pbapply
+# @import tuneR
+# @import seewave
+# @import fftw
 # @importFrom tuneR readWave readMP3 writeWave play
 # @importFrom seewave ffilter inputw env spectro cutw pastew noisew spec 
 # specprop fpeaks fund dfreq
