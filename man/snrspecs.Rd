@@ -8,7 +8,7 @@ snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
   FALSE, propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
-  0.2, snrmar = 0.1)
+  0.2, snrmar = 0.1, it = "jpeg")
 }
 \arguments{
 \item{X}{Data frame output from manualoc().}
@@ -38,7 +38,7 @@ form c(bottom, left, top, right). See \code{\link[graphics]{par}}.}
 \item{picsize}{Numeric argument of length one, controls relative size of
 spectrogram. Default is 1.}
 
-\item{res}{Numeric argument of length one, controls resolution of tiff image.
+\item{res}{Numeric argument of length one, controls resolution of image image.
 Default is 100 (faster) although 300 - 400 is recommended for publication/
 presentation quality.}
 
@@ -72,6 +72,9 @@ delineating spectrogram limits. Default is 0.2.}
 \item{snrmar}{Numeric vector of length one. Specifies the margins to subtract
 from/add to start and end points of manualoc() selection, respectively,
 where noise will be measured. Default is 0.1.}
+
+\item{it}{A character vector of length one giving the image type to be used. Currently only
+"tiff" and "jpeg" are admitted. Default is "jpeg".}
 }
 \value{
 Spectrograms per individual call marked with margins and arrows where
@@ -102,7 +105,7 @@ writeWave(Phae.cuvi, "Phae.cuvi.wav")
 # snrmar needs to be smaller before moving on to sig2noise()
 
 snrspecs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1),
-picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1)
+picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg")
 
 # make only Arre.aura spectrograms
 # snrmar now doesn't overlap neighboring calls

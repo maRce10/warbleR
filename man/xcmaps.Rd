@@ -4,16 +4,19 @@
 \alias{xcmaps}
 \title{Maps of Xeno Canto recordings by species}
 \usage{
-xcmaps(X, tiff = TRUE)
+xcmaps(X, img = TRUE, it = "jpeg")
 }
 \arguments{
 \item{X}{Data frame output from querxc().}
 
-\item{tiff}{A logical argument specifying whether a tiff file of each species
+\item{img}{A logical argument specifying whether an image file of each species
 map should be returned, default is TRUE.}
+
+\item{it}{A character vector of length one giving the image type to be used. Currently only
+"tiff" and "jpeg" are admitted. Default is "jpeg".}
 }
 \value{
-A map of Xeno Canto recordings per species (tiff file), or a faceted
+A map of Xeno Canto recordings per species (image file), or a faceted
   R plot of species map(s).
 }
 \description{
@@ -25,7 +28,7 @@ A map of Xeno Canto recordings per species (tiff file), or a faceted
 X <- querxc("Phaethornis anthophilus", download = FALSE)
 View(X)
 xcmaps(X)
-xcmaps(X, tiff = FALSE)
+xcmaps(X, img = FALSE, it = "jpeg")
 }
 }
 \author{

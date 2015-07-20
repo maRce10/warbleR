@@ -8,7 +8,7 @@ specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE,
   propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-  mar = 0.05)
+  mar = 0.05, it = "jpeg")
 }
 \arguments{
 \item{X}{Data frame output from manualoc().}
@@ -39,9 +39,9 @@ form c(bottom, left, top, right). See \code{\link[graphics]{par}}.}
 \item{picsize}{Numeric argument of length one, controls relative size of
 spectrogram. Default is 1. Not active when propwidth is TRUE.}
 
-\item{res}{Numeric argument of length one, controls resolution of tiff image.
+\item{res}{Numeric argument of length one, controls resolution of image image.
 Default is 100 (faster) although 300 - 400 is recommended for publication/
-presentation quality. RStudio's default for tiff files is 72.}
+presentation quality.}
 
 \item{cexlab}{Numeric vector of length one, specifies relative size of axis
 labels. See \code{\link[seewave]{spectro}}.}
@@ -72,6 +72,9 @@ manualoc() selection. Default is TRUE.}
 \item{mar}{Numeric vector of length one. Specifies the margins to subtract
 from/add to start and end points of manualoc() selection, respectively,
 dealineating spectrogram limits. Default is 0.05.}
+
+\item{it}{A character vector of length one giving the image type to be used. Currently only
+"tiff" and "jpeg" are admitted. Default is "jpeg".}
 }
 \value{
 Spectrograms per manualoc() selections marked at start and end times.

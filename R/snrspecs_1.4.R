@@ -6,7 +6,7 @@
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
 #'   FALSE, propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
-#'   0.2, snrmar = 0.1)
+#'   0.2, snrmar = 0.1, it = "jpeg")
 #' @param X Data frame output from manualoc().
 #' @param wl A number specifying the spectrogram window length, default is 512.
 #' @param flim A numeric vector of length two for the frequency limit in kHz of 
@@ -25,13 +25,15 @@
 #'   form c(bottom, left, top, right). See \code{\link[graphics]{par}}.
 #' @param picsize Numeric argument of length one, controls relative size of 
 #'   spectrogram. Default is 1.
-#' @param res Numeric argument of length one, controls resolution of tiff image.
+#' @param res Numeric argument of length one, controls resolution of image image.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 #'   presentation quality.
 #' @param cexlab Numeric vector of length one, specifies relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
 #'   Default is TRUE.
+#' @param it A character vector of length one giving the image type to be used. Currently only
+#' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param trel Logical argument to add a time axis scale relative to the wave. 
 #'   Default is FALSE.
 #' @param propwidth Logical argument to scale the width of spectrogram 
@@ -76,7 +78,7 @@
 #' # snrmar needs to be smaller before moving on to sig2noise()
 #' 
 #' snrspecs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
-#' picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1)
+#' picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg")
 #' 
 #' # make only Arre.aura spectrograms
 #' # snrmar now doesn't overlap neighboring calls
@@ -90,7 +92,7 @@
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70,
                      inner.mar = c(5,4,4,2)+0.1, outer.mar = c(0,0,0,0), picsize = 1, res = 100,
                      cexlab = 1, title = TRUE, trel = FALSE, propwidth = FALSE, xl = 1, osci = FALSE, 
-                     gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1){
+                     gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg"){
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                          "start", "end") %in% colnames(X))){
@@ -112,14 +114,13 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
   #if any start higher than end stop
   if(any(end - start<0)) stop(paste("The start is higher than the end in", length(which(end - start<0)), "case(s)"))  
   
+  #if it argument is not "jpeg" or "tiff" 
+  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  
   #if any selections longer than 20 secs stop
   if(any(end - start>20)) stop(paste(length(which(end - start>20)), "selection(s) longer than 20 sec"))  
   options( show.error.messages = TRUE)
-  
-  #if bp is not vector or length!=2 stop
-  #if(!is.vector(bp)) stop("'pb' must be a numeric vector of length 2") else{
-    #if(!length(bp) == 2) stop("'pb' must be a numeric vector of length 2")}
-  
+    
   #return warning if not all sound files were found
   fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
   if(length(unique(sound.files[(sound.files %in% fs)])) != length(unique(sound.files))) 
@@ -156,15 +157,16 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
 
 # Spectrogram width can be proportional to signal duration
     if(propwidth == TRUE){
-          
-      tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
-           width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
+      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
+           width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
+             jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".jpeg", sep = ""), 
+                  width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     } else {
-      
-      
-      tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
-           width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
+      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
+           width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
+             jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".jpeg", sep = ""), 
+                  width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
     }
     
     # Change relative heights of rows for spectrogram when osci = TRUE

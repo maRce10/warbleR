@@ -26,7 +26,7 @@
 #' @param cex A numeric vector of length one giving the amount by which text 
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @param it A character vector of length one giving the image type to be used. Currently only
-#' "tiff" and "jpeg" are admitted. Default is 1.
+#' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @return Spectrograms per individual call marked with dominant and fundamental
 #'   frequencies.
 #' @export
@@ -110,7 +110,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
       if(!length(cex) == 1) stop("'picsize' must be a numeric vector of length 1")}}  
   
   #if it argument is not "jpeg" or "tiff" 
-  if(!any(it == "jpeg", it == "tiff")) stop("Image type (it) not allowed")  
+  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
   #apply over each sound file
   pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {

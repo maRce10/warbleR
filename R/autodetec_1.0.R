@@ -53,10 +53,10 @@
 #'   when code is rerun. If FALSE only the selections that do not have a image 
 #'   file in the working directory will be analyzed. Default is FALSE.
 #' @param it A character vector of length one giving the image type to be used. Currently only
-#' "tiff" and "jpeg" are admitted. Default is 1.
+#' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param img Logical argument. If FALSE image files are not produce. Default TRUE.
 #' @param set A logical argument indicating wheter the settings of the autodetection 
-#' process should be included in the image file name. If TRUE threshold (th), bandpass (bp), power (pw), msmooth (msmo), 
+#' process should be included in the image file name. If TRUE threshold (th), envelope (envt), bandpass (bp), power (pw), msmooth (msmo), 
 #' maxdur (mxdu), and mindur (midu) are included. 
 #' "tiff" and "jpeg" are admitted. Default is 1.
 #' @return Spectrograms showing the start and end of the detected signals. It 
@@ -70,7 +70,8 @@
 #'   spectrograms for all sound files in the working directory.The ouptut of manualoc 
 #'   can be used as the input data frame. The input data frame should have the following 
 #'   columns: c("sound.files","selec","start","end","sel.comment"). This function uses 
-#'   internally a modified version of the \code{\link[seewave]{timer}} function to detect signals. 
+#'   internally a modified version of the \code{\link[seewave]{timer}} function from seewave 
+#'   package to detect signals. 
 #'   
 #' @examples
 #' \dontrun{
@@ -82,8 +83,16 @@
 #' 
 #' ad <- autodetec(threshold=5, env="hil", msmooth=c(900,90), power=1, 
 #' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,12), osci = TRUE, 
-#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1)
+#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = T)
+#' 
+#' #run it with different settings
+#' ad <- autodetec(threshold=10, env="abs", msmooth=c(900,90), power=1, 
+#' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,12), osci = TRUE, 
+#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = T)
+#' 
+#' #check working directory
 #' }
+#' 
 #' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/
 
 autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=1, bp=NULL, osci = FALSE, wl = 512,
@@ -163,7 +172,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
       if(!length(threshold) == 1) stop("'threshold' must be a numeric vector of length 1")}}  
     
     #if it argument is not "jpeg" or "tiff" 
-    if(!any(it == "jpeg", it == "tiff")) stop("Image type (it) not allowed")  
+    if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
     
     #if envt is not vector or length!=1 stop
     if(any(envt %in% c("abs", "hil"))){if(!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
@@ -262,7 +271,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     if(!ls & img) {
       if(set) 
         fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                   "-", X$selec[i], "-autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                   "-", X$selec[i], "-autodetec","-th" ,threshold , "-env.", envt,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                    "-mxdu", maxdur, "-pw", power, sep = "") else
         fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
                 "-", X$selec[i], "-autodetec", sep = "")                  
@@ -437,7 +446,7 @@ if(any(ls,is.null(X)) & img) {
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
         if(set) fna<-paste(substring(z, first = 1, last = nchar(z)-4),
-                           "-", ml$selec[j], "-autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                           "-", ml$selec[j], "-autodetec.ls","-th" ,threshold , "-env.", envt, "-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                            "-mxdu", maxdur, "-pw", power, sep = "") else
         fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", ml$selec[j], "-autodetec.ls", sep = "")
           

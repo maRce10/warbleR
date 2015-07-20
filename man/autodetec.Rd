@@ -77,10 +77,10 @@ file in the working directory will be analyzed. Default is FALSE.}
 \item{img}{Logical argument. If FALSE image files are not produce. Default TRUE.}
 
 \item{it}{A character vector of length one giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is 1.}
+"tiff" and "jpeg" are admitted. Default is "jpeg".}
 
 \item{set}{A logical argument indicating wheter the settings of the autodetection
-process should be included in the image file name. If TRUE threshold (th), bandpass (bp), power (pw), msmooth (msmo),
+process should be included in the image file name. If TRUE threshold (th), envelope (envt), bandpass (bp), power (pw), msmooth (msmo),
 maxdur (mxdu), and mindur (midu) are included.
 "tiff" and "jpeg" are admitted. Default is 1.}
 }
@@ -100,7 +100,8 @@ This function determines the start and end of signals (hopefuly
   spectrograms for all sound files in the working directory.The ouptut of manualoc
   can be used as the input data frame. The input data frame should have the following
   columns: c("sound.files","selec","start","end","sel.comment"). This function uses
-  internally a modified version of the \code{\link[seewave]{timer}} function to detect signals.
+  internally a modified version of the \code{\link[seewave]{timer}} function from seewave
+  package to detect signals.
 }
 \examples{
 \dontrun{
@@ -112,7 +113,14 @@ writeWave(Phae.long4,"Phae.long4.wav")
 
 ad <- autodetec(threshold=5, env="hil", msmooth=c(900,90), power=1,
 bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,12), osci = TRUE,
-wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1)
+wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = T)
+
+#run it with different settings
+ad <- autodetec(threshold=10, env="abs", msmooth=c(900,90), power=1,
+bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,12), osci = TRUE,
+wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = T)
+
+#check working directory
 }
 }
 \author{

@@ -28,7 +28,7 @@
 #'   spectrogram. Default is 1.
 #' @param res Numeric argument of length one, controls resolution of tiff image.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
-#'   presentation quality. RStudio's default for tiff files is 72.
+#'   presentation quality.
 #' @param cexlab Numeric vector of length one, specifies relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
@@ -66,6 +66,8 @@
 #'   xy.coords can be used. If the latter, the first value will be the x 
 #'   coordinate and the second value the y coordinate for the legend's position.
 #'   Default is "topright".
+#' @param it A character vector of length one giving the image type to be used. Currently only
+#' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @return Spectrograms per individual call marked with dominant and fundamental
 #'   frequencies.
 #' @family spectrogram creators
@@ -136,7 +138,10 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   #if bp is not vector or length!=2 stop
   if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}
-   
+ 
+  #if it argument is not "jpeg" or "tiff" 
+  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  
   #return warning if not all sound files were found
   recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = T)
   if(length(unique(sound.files[(sound.files %in% recs.wd)])) != length(unique(sound.files))) 
@@ -169,16 +174,16 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
     # Spectrogram width can be proportional to signal duration
     if(propwidth == TRUE){
-        
-      tiff(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
-           width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
-      
+      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
+           width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
+             jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".jpeg", sep = ""), 
+                  width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     } else {
-      
-      
-      tiff(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
-           width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
+      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
+           width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
+             jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".jpeg", sep = ""), 
+                  width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     }
     

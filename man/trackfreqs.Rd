@@ -42,7 +42,7 @@ spectrogram. Default is 1.}
 
 \item{res}{Numeric argument of length one, controls resolution of tiff image.
 Default is 100 (faster) although 300 - 400 is recommended for publication/
-presentation quality. RStudio's default for tiff files is 72.}
+presentation quality.}
 
 \item{cexlab}{Numeric vector of length one, specifies relative size of axis
 labels. See \code{\link[seewave]{spectro}}.}
@@ -96,6 +96,9 @@ specifiying position of legend. If the former, any keyword accepted by
 xy.coords can be used. If the latter, the first value will be the x
 coordinate and the second value the y coordinate for the legend's position.
 Default is "topright".}
+
+\item{it}{A character vector of length one giving the image type to be used. Currently only
+"tiff" and "jpeg" are admitted. Default is "jpeg".}
 }
 \value{
 Spectrograms per individual call marked with dominant and fundamental

@@ -39,7 +39,7 @@ reverse.gray.colors.2.}
 (including sound file and page number) should be magnified. Default is 1.}
 
 \item{it}{A character vector of length one giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is 1.}
+"tiff" and "jpeg" are admitted. Default is "jpeg".}
 }
 \value{
 Spectrograms per individual call marked with dominant and fundamental

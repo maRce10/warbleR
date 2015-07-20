@@ -30,7 +30,7 @@
 #'   windows player will be chosen as the default. The external program must be 
 #'   closed before resuming analysis. Default is NULL.
 #' @param palette a color palette function to be used to assign colors in the 
-#'   plot, as in the function spectro from the seewave package. Default is 
+#'   plot, as in \code{\link[seewave]{spectro}} (seewave package). Default is 
 #'   reverse.gray.colors.2. See Details.
 #' @return .csv file saved in the working directory with start and end of 
 #'   selections.
