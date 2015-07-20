@@ -20,7 +20,7 @@
 #' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
 
 #load maps package
-require(maps)
+# require(maps)
 
 xcmaps <- function(X, tiff = TRUE) {
   
