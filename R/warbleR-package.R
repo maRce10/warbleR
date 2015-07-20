@@ -63,6 +63,7 @@
 #' @import pbapply
 #' @import tuneR
 #' @import seewave
+#' @import fftw
 # @importFrom tuneR readWave readMP3 writeWave play
 # @importFrom seewave ffilter inputw env spectro cutw pastew noisew spec 
 # specprop fpeaks fund dfreq
