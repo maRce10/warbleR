@@ -66,6 +66,9 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   #stop if files are not in working directory
   if(length(files) == 0) stop(".wav files in X are not in working directory")
   
+  #if sel.comment column not found create it
+  if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment="")
+  
   #if there are NAs in start or end stop
   if(!is.null(X))
     if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
@@ -111,9 +114,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
-  
-  #if sel.comment column not found create it
-  if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment="")
   
   #apply over each sound file
   pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
