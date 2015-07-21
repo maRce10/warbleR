@@ -53,7 +53,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   #read files
   files <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)  
   
-  options(show.error.messages = T)
+  #if sel.comment column not found create it
+  if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment="")
   
   #stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory")
@@ -66,8 +67,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   #stop if files are not in working directory
   if(length(files) == 0) stop(".wav files in X are not in working directory")
   
-  #if sel.comment column not found create it
-  if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment="")
   
   #if there are NAs in start or end stop
   if(!is.null(X))
