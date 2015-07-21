@@ -4,7 +4,7 @@
 #' and end times of acoustic signals.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-#'   NULL, palette = reverse.gray.colors.2)
+#'   NULL, pal = reverse.gray.colors.2)
 #' @param wl a number specifying the spectrogram window length, default is 512.
 #' @param flim a numeric vector of length two for the frequency limit in kHz of 
 #'   the spectrogram, as in the function spectro() in the seewave package. 
@@ -29,7 +29,7 @@
 #'   invocation from the command line. If under Windows and no player is given, 
 #'   windows player will be chosen as the default. The external program must be 
 #'   closed before resuming analysis. Default is NULL.
-#' @param palette a color palette function to be used to assign colors in the 
+#' @param pal a color palette function to be used to assign colors in the 
 #'   plot, as in \code{\link[seewave]{spectro}} (seewave package). Default is 
 #'   reverse.gray.colors.2. See Details.
 #' @return .csv file saved in the working directory with start and end of 
@@ -77,12 +77,12 @@
 #'   color palette that comes with the seewave package can be used: temp.colors,
 #'   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
 #'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
-#'   cm.colors. The function could be slow when working on files of length >
-#'   5min.
+#'   cm.colors. The function could be slow when working on files of length > 5min.
+#'   
 #' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
-                     selcomm = FALSE, osci = FALSE, player = NULL, palette = reverse.gray.colors.2)
+                     selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2)
 {
   
   options(show.error.messages = T) 
@@ -138,7 +138,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       if(mean(par("mfrow")) != 1) par(mfrow = c(1, 1))
       
       #create spectrogram
-      seewave::spectro(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  palette, 
+      seewave::spectro(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, pal =  pal, 
               main = main, tlim = tlim, axisX = T, grid = F, collab = "black", alab = "", fftw = T, 
               flim = fl, scale = FALSE, axisY = T, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
       

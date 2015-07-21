@@ -5,7 +5,7 @@
 \title{Spectrograms of selected signals}
 \usage{
 specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
-  = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar =
+  = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE,
   propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
   mar = 0.05, it = "jpeg")
@@ -27,10 +27,9 @@ reverse.gray.colors.2.}
 \item{ovlp}{Numeric vector of length one specifying % overlap between two
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
-\item{inner.mar}{Numeric vector with 4 elements, default is c(5,4,4,2)+0.1.
+\item{inner.mar}{Numeric vector with 4 elements, default is c(5,4,4,2).
 Specifies number of lines in inner plot margins where axis labels fall,
-with form c(bottom, left, top, right). See
-\code{\link[graphics]{par}}.}
+with form c(bottom, left, top, right). See \code{\link[graphics]{par}}.}
 
 \item{outer.mar}{Numeric vector with 4 elements, default is c(0,0,0,0).
 Specifies number of lines in outer plot margins beyond axis labels, with

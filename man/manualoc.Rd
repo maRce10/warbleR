@@ -6,7 +6,7 @@
 \usage{
 manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-  NULL, palette = reverse.gray.colors.2)
+  NULL, pal = reverse.gray.colors.2)
 }
 \arguments{
 \item{wl}{a number specifying the spectrogram window length, default is 512.}
@@ -43,7 +43,7 @@ invocation from the command line. If under Windows and no player is given,
 windows player will be chosen as the default. The external program must be
 closed before resuming analysis. Default is NULL.}
 
-\item{palette}{a color palette function to be used to assign colors in the
+\item{pal}{a color palette function to be used to assign colors in the
 plot, as in \code{\link[seewave]{spectro}} (seewave package). Default is
 reverse.gray.colors.2. See Details.}
 }
@@ -88,8 +88,7 @@ Users can zoom-in a specific sound file segment by clicking at the
   color palette that comes with the seewave package can be used: temp.colors,
   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
-  cm.colors. The function could be slow when working on files of length >
-  5min.
+  cm.colors. The function could be slow when working on files of length > 5min.
 }
 \examples{
 \dontrun{

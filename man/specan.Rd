@@ -18,27 +18,30 @@ frequency bandpass filter (in kHz). Default is c(0, 22).}
 \item{wl}{windows length controls the length of the individual spectra that
 together produce the spectrogram. Default is 512.}
 
-\item{threshold}{\% amplitude threshold for fundamental frequency and dominant frequency detection}
+\item{threshold}{\% amplitude threshold for fundamental frequency and dominant frequency detection.
+Default is 15.}
 }
 \value{
 Data frame with the following acoustic parameters:
 \itemize{
    \item \code{duration}: length of signal
-   \item \code{meanf}: mean frequency (in kHz)
+   \item \code{meanfreq}: mean frequency (in kHz)
    \item \code{sd}: standard deviation of frequency
    \item \code{median}: median frequency (in kHz)
    \item \code{Q25}: first quantile (in kHz)
    \item \code{Q75}: third quantile (in kHz)
    \item \code{IQR}: interquantile range (in kHz)
-   \item \code{skew}: skewness (see note in specprop() description from seewave package)
-   \item \code{kurt}:  kurtosis (see note in specprop() description from seewave package)
+   \item \code{skew}: skewness (see note in code{\link[seewave]{specprop}} description from seewave package)
+   \item \code{kurt}:  kurtosis (see note in code{\link[seewave]{specprop}} description from seewave package)
    \item \code{sp.ent}: spectral entropy
    \item \code{sfm}: spectral flatness
    \item \code{mode}: mode frequency
    \item \code{centroid}: centroid
    \item \code{peakf}: peak frequency (frequency with highest energy)
-   \item \code{ffreq}: average of fundamental frequency measured across acoustic signal
-   \item \code{meandomf}: average of dominant frequency measured across acoustic signal
+   \item \code{meanfun}: average of fundamental frequency measured across acoustic signal
+   \item \code{minfun}: minimum fundamental frequency measured across acoustic signal
+   \item \code{maxfun}: maximum fundamental frequency measured across acoustic signal
+   \item \code{meandom}: average of dominant frequency measured across acoustic signal
    \item \code{mindom}: minimum of dominant frequency measured across acoustic signal
    \item \code{maxdom}: maximum of dominant frequency measured across acoustic signal
    \item \code{dfrange}: range of dominant frequency measured across acoustic signal
@@ -48,13 +51,15 @@ Data frame with the following acoustic parameters:
 }
 }
 \description{
-\code{specan} measure acoustic parameters on acoustic signals for which the start and end times are provided.
+\code{specan} measure 22 acoustic parameters on acoustic signals for which the start and end times
+are provided.
 }
 \details{
 The output of the manualoc function can be used directly without any
   additional modification. The function measures 20 acoustic parameters on
-  each selection in the data frame. Most of this parameters are produced by
-  the specprop() function of the seewave package.
+  each selection in the data frame. Most parameters are produced internally by
+  the code{\link[seewave]{specprop}}, code{\link[seewave]{fpeaks}}, code{\link[seewave]{fund}},
+  and code{\link[seewave]{dfreq}} functions of the seewave package.
 }
 \examples{
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))

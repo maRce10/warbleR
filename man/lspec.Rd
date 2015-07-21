@@ -4,8 +4,8 @@
 \alias{lspec}
 \title{Create long spectrograms of whole sound files}
 \usage{
-lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE, wl = 512,
-  pal = reverse.gray.colors.2, X = NULL, cex = 1)
+lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), ovlp = 50, gr = FALSE, wl = 512,
+  pal = reverse.gray.colors.2, X = NULL, cex = 1, it = "jpeg")
 }
 \arguments{
 \item{X}{data frame with results from manualoc function (or any data frame with columns
@@ -26,6 +26,10 @@ image file. Default is 10.}
 \item{collev}{A numeric vector of three. Specifies levels to partition the
 amplitude range of the spectrogram (in dB). The more levels, the higher the
 resolution of the spectrogram. Default is seq(-40, 0, 1).}
+
+\item{ovlp}{Numeric vector of length one specifying % overlap between two
+consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. High values of ovlp
+slow down the function but produce more accurate selection limits (when provided, see X).}
 
 \item{wl}{A number specifying the window length of the spectrogram, default
 is 512.}

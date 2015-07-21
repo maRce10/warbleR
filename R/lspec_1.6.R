@@ -2,8 +2,8 @@
 #' 
 #' \code{lspec} produce spectrograms of whole sound files split into multiple 
 #'   rows.
-#' @usage lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), gr = FALSE, wl = 512,
-#'   pal = reverse.gray.colors.2, X = NULL, cex = 1)  
+#' @usage lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), ovlp = 50, gr = FALSE, wl = 512,
+#'   pal = reverse.gray.colors.2, X = NULL, cex = 1, it = "jpeg")  
 #' @param flim A numeric vector of length two indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
 #'   \code{\link[seewave]{spectro}}. Default is c(0,22).
@@ -16,6 +16,9 @@
 #' @param collev A numeric vector of three. Specifies levels to partition the 
 #'   amplitude range of the spectrogram (in dB). The more levels, the higher the
 #'   resolution of the spectrogram. Default is seq(-40, 0, 1).
+#' @param ovlp Numeric vector of length one specifying % overlap between two 
+#'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. High values of ovlp 
+#'   slow down the function but produce more accurate selection limits (when provided, see X). 
 #' @param gr Logical argument to add grid to spectrogram. Default is FALSE.
 #' @param pal Color palette function for spectrogram. Default is 
 #'   reverse.gray.colors.2.
@@ -47,8 +50,8 @@
 #' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
 #' }
 
-lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), wl = 512,  
-                  gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg") {
+lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, 
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg") {
   
   #if sel.comment column not found create it
   if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment="")
@@ -143,13 +146,13 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
         x <- x + 1
         if(all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){  #for rows with complete spectro
           seewave::spectro(rec, f = f, wl = wl, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
-                  ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = T)
+                  ovlp = ovlp, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = T)
           if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
           if(!is.null(malo))  {if(any(!is.na(ml$sel.comment))) {
             l <- paste(ml$selec, "-'", ml$sel.comment, "'", sep="") 
            l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]
-            } else l <- ml$selec
+           l[ml$sel.comment==""] <- ml$selec[ml$sel.comment==""]} else l <- ml$selec
                                mapply(function(s, e, labels, fli = frli){
                                  abline(v = c(s, e), col = "red", lty = 2)
                                  text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = labels, font = 4)},
@@ -158,13 +161,14 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
                                      seewave::spectro(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
                                                            listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
                                                                                                    to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = wl, flim = frli, 
-                                             tlim = c(0, sl), ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = F)
+                                             tlim = c(0, sl), ovlp = ovlp, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = F)
                                      
                                      #add X lines and labels
                                      
                                      if(!is.null(malo)) { if(any(!is.na(ml$sel.comment))) {
                                        l <- paste(ml$selec,"-'",ml$sel.comment,"'",sep="")
-                                       l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]} else l <- ml$selec
+                                       l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]
+                                       l[ml$sel.comment==""] <- ml$selec[ml$sel.comment==""]} else l <- ml$selec
                                                           lise <- ((x)*sl+li*(sl)*(j-1))-sl
                                                           mapply(function(s, e, labels, fli = frli, ls = lise){
                                                             abline(v = c(s, e)-ls, col = "red", lty = 2)

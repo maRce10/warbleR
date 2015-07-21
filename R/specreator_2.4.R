@@ -2,7 +2,7 @@
 #' 
 #' \code{specreator} create spectrograms of manualoc() (or similar) selections.
 #' @usage specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
-#'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar =
+#'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE, 
 #'   propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 #'   mar = 0.05, it = "jpeg")
@@ -16,10 +16,9 @@
 #'   reverse.gray.colors.2.
 #' @param ovlp Numeric vector of length one specifying % overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
-#' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2)+0.1. 
+#' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2). 
 #'   Specifies number of lines in inner plot margins where axis labels fall, 
-#'   with form c(bottom, left, top, right). See 
-#'   \code{\link[graphics]{par}}.
+#'   with form c(bottom, left, top, right). See \code{\link[graphics]{par}}.
 #' @param outer.mar Numeric vector with 4 elements, default is c(0,0,0,0). 
 #'   Specifies number of lines in outer plot margins beyond axis labels, with 
 #'   form c(bottom, left, top, right). See \code{\link[graphics]{par}}.
@@ -82,7 +81,7 @@
 #' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
 
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
-                       inner.mar = c(5,4,4,2)+0.1, outer.mar = c(0,0,0,0), picsize = 1, res = 100, 
+                       inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, 
                        cexlab = 1, title = TRUE, trel = FALSE, propwidth = FALSE, xl=1, osci = FALSE, 
                        gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg"){
                   
@@ -192,7 +191,8 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       # Plot lines to visualize selections (start and end of signal)
       if(line) if(trel)
         abline(v = c(start[i], end[i]), col = "red", lwd = 3, lty = "dashed") else
-          abline(v = c(mar, end[i]- start[i] + mar), col = "red", lwd = 3, lty = "dashed")
+          if(start[i] - mar < 0) abline(v = c(start[i], end[i]), col = "red", lwd = 3, lty = "dashed") else
+            abline(v = c(mar, end[i]- start[i] + mar), col = "red", lwd = 3, lty = "dashed")
 
       invisible() # execute par(old.par) 
         dev.off()
