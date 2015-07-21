@@ -7,7 +7,7 @@
 #'   FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE,
 #'   fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 10, col =
 #'   c("dodgerblue", "chartreuse3"), pch = c(16, 17),  mar = 0.05, lpos =
-#'   "topright")
+#'   "topright", it = "jpeg")
 #' @param X Data frame output from manualoc().
 #' @param wl A number specifying the spectrogram window length, default is 512.
 #' @param flim A numeric vector of length two for the frequency limit in kHz of 
@@ -94,14 +94,14 @@
 #' 
 #' trackfreqs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #' picsize = 2, res = 300, cexlab = 2, fmax = 14, bp = c(0, 14), cex = c(1.5, 2), 
-#' col = c("blue", "red"),  mar = 0.09, lpos = "bottomright")
+#' col = c("blue", "red"),  mar = 0.09, lpos = "bottomright", it = "jpeg")
 #'                  
 #' # make only Arre.aura spectrograms
 #' 
 #' trackfreqs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1), 
 #' outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, fmax = 14, 
 #' bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
-#' lpos = "bottomright")
+#' lpos = "bottomright", it = "tiff")
 #' }
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (http://marceloarayasalas.weebly.com)
 
