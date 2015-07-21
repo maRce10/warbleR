@@ -194,7 +194,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     } else {X<-X[d,]  }
     
     #redo the ones that have no images in folder
-    if(redo == F) {
+    if(!redo) {
       if(it == "tiff") tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE) else
         tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)
       
