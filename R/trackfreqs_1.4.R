@@ -109,7 +109,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
                        inner.mar = c(5,4,4,2)+0.1, outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, trel = FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
                        fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 10, col = c("dodgerblue", "chartreuse3"),
-                       pch = c(16, 17), mar = 0.05, lpos = "topright"){     
+                       pch = c(16, 17), mar = 0.05, lpos = "topright", it = "jpeg"){     
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                          "start", "end") %in% colnames(X))) 
