@@ -113,7 +113,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
   #if sel.comment column not found create it
-  if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment=="")
+  if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment="")
   
   #apply over each sound file
   pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
