@@ -74,9 +74,9 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   if(!class(X) == "data.frame") stop("X is not a data frame")
   
   #check if all columns are found
-  if(any(!(c("sound.files", "selec", "start", "end", "sel.comment") %in% colnames(X)))) 
-    stop(paste(paste(c("sound.files", "selec", "start", "end", "sel.comment")[!(c("sound.files", "selec", 
-                                                                   "start", "end", "sel.comment") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+  if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
+    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+                                                                   "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
 
   #if end or start are not numeric stop
   if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
@@ -112,6 +112,9 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
+  #if sel.comment column not found create it
+  if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment=="")
+  
   #apply over each sound file
   pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
     
@@ -144,7 +147,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
                   ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = T)
           if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
-          if(!is.null(malo))  {if(any(!is.na(ml$sel.comment))) l <- paste(ml$selec,"-'",ml$sel.comment,
+          if(!is.null(malo))  {if(any(is.character(ml$sel.comment))) l <- paste(ml$selec,"-'",ml$sel.comment,
                                                                           "'",sep="") else {l <- ml$selec}
                                mapply(function(se, s, e, sc, labels, fli = frli){
                                  abline(v = c(s, e), col = "red", lty = 2)
