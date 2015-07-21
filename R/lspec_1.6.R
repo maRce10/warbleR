@@ -148,10 +148,10 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
           if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
           if(!is.null(malo))  {if(any(is.character(ml$sel.comment))) l <- paste(ml$selec,"-'",ml$sel.comment,
-                                                                          "'",sep="") else {l <- ml$selec}
+                                                                          "'",sep="") else l <- ml$selec
                                mapply(function(se, s, e, sc, labels, fli = frli){
                                  abline(v = c(s, e), col = "red", lty = 2)
-                                 text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = labels , font = 4)},
+                                 text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = l , font = 4)},
                                  se = ml$selec, s = ml$start, e = ml$end,sc = ml$sel.comment, 
                                  labels = l)} } else {
                                    if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){ #for rows with incomplete spectro (final row)
