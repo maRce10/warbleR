@@ -50,11 +50,11 @@
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), wl = 512,  
                   gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg") {
   
-  #read files
-  files <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)  
-  
   #if sel.comment column not found create it
   if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment="")
+  
+  #read files
+  files <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory")
@@ -146,13 +146,14 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
                   ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = T)
           if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
-          if(!is.null(malo))  {if(any(is.character(ml$sel.comment))) l <- paste(ml$selec,"-'",ml$sel.comment,
-                                                                          "'",sep="") else l <- ml$selec
-                               mapply(function(se, s, e, sc, labels, fli = frli){
+          if(!is.null(malo))  {if(any(!is.na(ml$sel.comment))) {
+            l <- paste(ml$selec, "-'", ml$sel.comment, "'", sep="") 
+           l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]
+            } else l <- ml$selec
+                               mapply(function(s, e, labels, fli = frli){
                                  abline(v = c(s, e), col = "red", lty = 2)
-                                 text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = l , font = 4)},
-                                 se = ml$selec, s = ml$start, e = ml$end,sc = ml$sel.comment, 
-                                 labels = l)} } else {
+                                 text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = labels, font = 4)},
+                                 s = ml$start, e = ml$end,labels = l)} } else {
                                    if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){ #for rows with incomplete spectro (final row)
                                      seewave::spectro(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
                                                            listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
@@ -161,14 +162,15 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
                                      
                                      #add X lines and labels
                                      
-                                     if(!is.null(malo)) { if(any(!is.na(ml$sel.comment))) l <- paste(ml$selec,"-'",ml$sel.comment,
-                                                                                                     "'",sep="") else {l <- ml$selec}
+                                     if(!is.null(malo)) { if(any(!is.na(ml$sel.comment))) {
+                                       l <- paste(ml$selec,"-'",ml$sel.comment,"'",sep="")
+                                       l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]} else l <- ml$selec
                                                           lise <- ((x)*sl+li*(sl)*(j-1))-sl
-                                                          mapply(function(se, s, e, sc, labels, fli = frli, ls = lise){
+                                                          mapply(function(s, e, labels, fli = frli, ls = lise){
                                                             abline(v = c(s, e)-ls, col = "red", lty = 2)
                                                             text(((s + e)/2)-ls, fli[2] - 2*((fli[2] - fli[1])/12), 
                                                                  labels = labels, font = 4)}, 
-                                                            se = ml$selec, s = ml$start, e = ml$end, sc = ml$sel.comment, labels = l)}
+                                                             s = ml$start, e = ml$end, labels = l)}
                                      
                                      #add axis to last spectro row
                                      axis(1, at = c(0:sl), labels = c((((x)*sl+li*(sl)*(j-1))-sl):((x)*sl+li*(sl)*(j-1))) , tick = TRUE)
