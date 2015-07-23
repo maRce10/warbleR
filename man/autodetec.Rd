@@ -7,7 +7,7 @@
 autodetec(X= NULL, threshold=15, envt="abs", msmooth=c(300,90),
   power=1, bp=NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur =
-  NULL, redo = FALSE, img = T, it = "jpeg", set = F)
+  NULL, redo = FALSE, img = T, it = "jpeg", set = F, flist = NULL)
 }
 \arguments{
 \item{X}{Data frame output from manualoc().}
@@ -81,8 +81,10 @@ file in the working directory will be analyzed. Default is FALSE.}
 
 \item{set}{A logical argument indicating wheter the settings of the autodetection
 process should be included in the image file name. If TRUE threshold (th), envelope (envt), bandpass (bp), power (pw), msmooth (msmo),
-maxdur (mxdu), and mindur (midu) are included.
-"tiff" and "jpeg" are admitted. Default is 1.}
+maxdur (mxdu), and mindur (midu) are included.}
+
+\item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
+if X is provided.}
 }
 \value{
 Spectrograms showing the start and end of the detected signals. It

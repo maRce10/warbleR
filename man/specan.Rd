@@ -4,7 +4,7 @@
 \alias{specan}
 \title{Measure acoustic parameters in batches of sound files}
 \usage{
-specan(X, bp = c(0,22), wl = 512, threshold = 10)
+specan(X, bp = c(0,22), wl = 512, threshold = 15)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "start": start time of
@@ -62,6 +62,7 @@ The output of the manualoc function can be used directly without any
   and code{\link[seewave]{dfreq}} functions of the seewave package.
 }
 \examples{
+\dontrun{
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
@@ -72,6 +73,7 @@ a <- specan(X = manualoc.df, bp = c(0, 22))
 # using a diferent threshold
 a <- specan(X = manualoc.df, bp = c(0, 22), threshold = 20)
 # View(a)
+}
 }
 \author{
 Marcelo Araya-Salas (http://marceloarayasalas.weebly.com), Grace Smith Vidaurre and Hua Zhong

@@ -131,9 +131,9 @@ col = c("blue", "red"),  mar = 0.09, lpos = "bottomright", it = "jpeg")
 
 # make only Arre.aura spectrograms
 
-trackfreqs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1),
-outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, fmax = 14,
-bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09,
+trackfreqs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14),
+inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2,
+fmax = 14, bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09,
 lpos = "bottomright", it = "tiff")
 }
 }

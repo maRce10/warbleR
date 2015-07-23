@@ -31,7 +31,8 @@ A general margin to apply before and after the acoustic signal must
   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
 }
 \examples{
-data(list = c("Arre.aura","manualoc.df"))
+\dontrun{
+ data(list = c("Arre.aura","manualoc.df"))
 writeWave(Arre.aura, "Arre.aura.wav") #save sound files
 
 # specifying the correct margin is important
@@ -40,6 +41,7 @@ sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.2)
 
 # this smaller margin doesn't overlap neighboring calls
 sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.1)
+}
 }
 \author{
 Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Grace Smith Vidaurre

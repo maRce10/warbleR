@@ -5,7 +5,7 @@
 #' @usage autodetec(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), 
 #'   power=1, bp=NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
 #'   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
-#'   NULL, redo = FALSE, img = T, it = "jpeg", set = F)
+#'   NULL, redo = FALSE, img = T, it = "jpeg", set = F, flist = NULL)
 #' @param X Data frame output from manualoc().
 #' @param threshold A number specifying the amplitude threshold for detecting 
 #'   signals (in percentage).
@@ -58,7 +58,8 @@
 #' @param set A logical argument indicating wheter the settings of the autodetection 
 #' process should be included in the image file name. If TRUE threshold (th), envelope (envt), bandpass (bp), power (pw), msmooth (msmo), 
 #' maxdur (mxdu), and mindur (midu) are included. 
-#' "tiff" and "jpeg" are admitted. Default is 1.
+#' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
+#' if X is provided.
 #' @return Spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 
 #'   sound file and selection number.
@@ -97,7 +98,7 @@
 
 autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=1, bp=NULL, osci = FALSE, wl = 512,
                     xl = 1, picsize = 1, res = 100, flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL,
-                    maxdur = NULL, redo = FALSE, img = T, it = "jpeg", set = F){
+                    maxdur = NULL, redo = FALSE, img = T, it = "jpeg", set = F, flist = NULL){
   
   if(!is.null(X)){
     
@@ -119,7 +120,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
     
     #if any start higher than end stop
-    if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(end - start<0)), "case(s)"))  
+    if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
     
     #if bp is not vector or length!=2 stop
     if(!is.null(bp))
@@ -189,9 +190,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% fs) 
-    if(length(d) == 0)
-    {stop("The .wav files are not in the working directory")
-    } else {X<-X[d,]  }
+    if(length(d) == 0) stop("The .wav files are not in the working directory") else X<-X[d,]  
     
     #redo the ones that have no images in folder
     if(!redo) {
@@ -285,15 +284,15 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
               scale=F,palette=reverse.gray.colors.2,flim = fl)
       
       if(nrow(time.song)>0)
-      {sapply(1:nrow(time.song), function(j) abline(v=c(time.song$start[j]-X$start[i], time.song$end[j]-X$start[i]),col="red",lwd=2, lty= "dashed"))
+      {sapply(1:nrow(time.song), function(j)  abline(v=c(time.song$start[j]-X$start[i], time.song$end[j]-X$start[i]),col="red",lwd=2, lty= "dashed"))
     
-      sapply(1:nrow(time.song), function(j) text(time.song$start[j]+time.song$duration[j]/2-X$start[i],
+      sapply(1:nrow(time.song), function(j)  text(time.song$start[j]+time.song$duration[j]/2-X$start[i],
                                                  rep(c(((fl[2]-fl[1])*0.85)+fl[1],((fl[2]-fl[1])*0.9)+fl[1],((fl[2]-fl[1])*0.95)+fl[1]),
                                                      nrow(time.song))[j],paste(X$selec[i], j, sep = "-"),cex=1))} 
     
     
 
-dev.off()
+ dev.off()
     }
   if(nrow(time.song)==0)
   time.song<-data.frame(duration=NA,selec=NA,start=NA, end=NA)
@@ -311,9 +310,14 @@ dev.off()
 
   } else 
     {
+    
+    #stop if no files .wav are found
     files <- list.files(pattern = "wav$", ignore.case = T) #list .wav files in working director
     if(length(files) == 0) stop("no .wav files in working directory")
     
+    #subet based on file list provided (flist)
+    if(!is.null(flist)) files <- files[files %in% flist]
+        
     #redo the ones that have no images in folder
     if(redo == F) {
       if(it == "tiff") tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE) else
@@ -419,8 +423,12 @@ if(any(ls,is.null(X)) & img) {
   
     #read files
     files <- list.files(path = getwd(), pattern = ".wav$", ignore.case = T)  
-    if(length(files) == 0) stop("no .wav files in working directory")  
+    
+  if(length(files) == 0) stop("no .wav files in working directory")  
   
+    #subet based on file list provided (flist)
+    if(!is.null(flist)) files <- files[files %in% flist]
+    
     #remove the ones not in X
     if(!is.null(X)) {files <- files[files %in% X$sound.files]
     if(length(files) == 0) stop("sound files listed in data frame are not in working directory") } 
@@ -452,7 +460,7 @@ if(any(ls,is.null(X)) & img) {
           
         if(it == "tiff") tiff(filename = paste(fna, "-p", j, ".tiff", sep = ""),  
              res = 160, units = "in", width = 8.5, height = 11) else
-          jpeg(filename = paste(fna, "-p", j, ".jpeg", sep = ""),  
+               jpeg(filename = paste(fna, "-p", j, ".jpeg", sep = ""),  
                res = 160, units = "in", width = 8.5, height = 11)
 
         par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
@@ -464,13 +472,13 @@ if(any(ls,is.null(X)) & img) {
           if(all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){  #for rows with complete spectro
             seewave::spectro(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
                     ovlp = 10, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = T)
-            if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
+            if(x == 1)  text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                             last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
             if(!is.null(malo))  {if(any(!is.na(ml$sel.comment))) l <- paste(ml$selec,"-'",ml$sel.comment,
                                                                             "'",sep="") else {l <- ml$selec}
                                  mapply(function(se, s, e, sc, labels, fli = frli){
                                    abline(v = c(s, e), col = "red", lty = 2)
-                                   text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = labels , font = 4)},
+                                    text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = labels , font = 4)},
                                    se = ml$selec, s = ml$start, e = ml$end,sc = ml$sel.comment, 
                                    labels = l)} } else {
                                      if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){ #for rows with incomplete spectro (final row)
@@ -485,8 +493,8 @@ if(any(ls,is.null(X)) & img) {
                                                                                                        "'",sep="") else {l <- ml$selec}
                                                             lise <- ((x)*sl+li*(sl)*(j-1))-sl
                                                             mapply(function(se, s, e, sc, labels, fli = frli, ls = lise){
-                                                              abline(v = c(s, e)-ls, col = "red", lty = 2)
-                                                              text(((s + e)/2)-ls, fli[2] - 2*((fli[2] - fli[1])/12), 
+                                                               abline(v = c(s, e)-ls, col = "red", lty = 2)
+                                                               text(((s + e)/2)-ls, fli[2] - 2*((fli[2] - fli[1])/12), 
                                                                    labels = labels, font = 4)}, 
                                                               se = ml$selec, s = ml$start, e = ml$end, sc = ml$sel.comment, labels = l)}
                                        
@@ -494,10 +502,10 @@ if(any(ls,is.null(X)) & img) {
                                        axis(1, at = c(0:sl), labels = c((((x)*sl+li*(sl)*(j-1))-sl):((x)*sl+li*(sl)*(j-1))) , tick = TRUE)
                                        
                                        #add text indicating end of sound files
-                                       text(dur-(((x)*sl+li*(sl)*(j-1))-sl), frli[2]-(frli[2]-frli[1])/2, "END OF SOUND FILE", pos = 4, font = 2, cex = 1.1)
+                                        text(dur-(((x)*sl+li*(sl)*(j-1))-sl), frli[2]-(frli[2]-frli[1])/2, "END OF SOUND FILE", pos = 4, font = 2, cex = 1.1)
                                        
                                        #add line indicating end of sound file
-                                       abline(v = dur-(((x)*sl+li*(sl)*(j-1))-sl), lwd = 2.5)} else {plot(1, 1, col = "white", col.axis =  "white", col.lab  =  "white", 
+                                        abline(v = dur-(((x)*sl+li*(sl)*(j-1))-sl), lwd = 2.5)} else {plot(1, 1, col = "white", col.axis =  "white", col.lab  =  "white", 
                                                                                                           xaxt = "n", yaxt = "n")
                                        }}
         }

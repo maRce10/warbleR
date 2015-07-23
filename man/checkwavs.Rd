@@ -19,10 +19,12 @@ This function has no associated arguments, although the user must
   set the working directory where they wish to check .wav files beforehand.
 }
 \examples{
+\dontrun{
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 checkwavs()
+}
 }
 

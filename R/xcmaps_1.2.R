@@ -47,7 +47,7 @@ xcmaps <- function(X, img = TRUE, it = "jpeg") {
      
      if(img){
        if(it == "tiff") tiff(filename = paste("Map of ", i, " recordings", ".tiff", sep = "")) else
-       jpeg(filename = paste("Map of ", i, " recordings", ".jpeg", sep = ""))
+         jpeg(filename = paste("Map of ", i, " recordings", ".jpeg", sep = ""))
        maps::map("world", xlim = c(min(lon) - buf, max(lon) + buf), 
                  ylim = c(min(lat) - buf, max(lat) + buf), fill = TRUE, col = "skyblue", myborder = 0)
        title(paste(y$Genus[1], y$Specific_epithet[1], "n=", nrow(y)))

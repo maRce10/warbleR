@@ -60,6 +60,12 @@
 #' @import tuneR
 #' @import seewave
 #' @import fftw
+#' @import graphics
+#' @import grDevices
+#' @import utils
+#' @import stats
+
+
 #'   
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
 #'   

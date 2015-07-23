@@ -75,8 +75,9 @@
 #'           
 #' # make only Arre.aura spectrograms
 #' 
-#' specreator(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1), 
-#'           outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, mar = 0.05)
+#' specreator(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), 
+#' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
+#' mar = 0.05)
 #' }
 #' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
 
@@ -151,16 +152,16 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       
       # Spectrogram width can be proportional to signal duration
       if(propwidth){
-        if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", ".tiff", sep = ""), 
+        if(it == "tiff")  tiff(filename = paste(sound.files[i],"-", selec[i], "-", ".tiff", sep = ""), 
              width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", ".jpeg", sep = ""), 
+               jpeg(filename = paste(sound.files[i],"-", selec[i], "-", ".jpeg", sep = ""), 
                     width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, 
                     units = "cm", res = res) 
                                        
       } else {
-        if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", ".tiff", sep = ""), 
+        if(it == "tiff")  tiff(filename = paste(sound.files[i],"-", selec[i], "-", ".tiff", sep = ""), 
              width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-        jpeg(filename = paste(sound.files[i],"-", selec[i], "-", ".jpeg", sep = ""), 
+               jpeg(filename = paste(sound.files[i],"-", selec[i], "-", ".jpeg", sep = ""), 
              width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       }
       

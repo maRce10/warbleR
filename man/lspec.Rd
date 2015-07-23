@@ -4,8 +4,9 @@
 \alias{lspec}
 \title{Create long spectrograms of whole sound files}
 \usage{
-lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), ovlp = 50, gr = FALSE, wl = 512,
-  pal = reverse.gray.colors.2, X = NULL, cex = 1, it = "jpeg")
+lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),
+ovlp = 50, wl = 512, gr = FALSE, pal = reverse.gray.colors.2,
+cex = 1, it = "jpeg", flist = NULL)
 }
 \arguments{
 \item{X}{data frame with results from manualoc function (or any data frame with columns
@@ -18,7 +19,7 @@ frequency limits (kHz) of the spectrogram, as in
 \code{\link[seewave]{spectro}}. Default is c(0,22).}
 
 \item{sxrow}{A numeric vector of length one. Specifies seconds of spectrogram
-per row. Default is 10.}
+per row. Default is 5.}
 
 \item{rows}{A numeric vector of length one. Specifies number of rows per
 image file. Default is 10.}
@@ -44,6 +45,9 @@ reverse.gray.colors.2.}
 
 \item{it}{A character vector of length one giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
+
+\item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
+if X is provided.}
 }
 \value{
 Spectrograms per individual call marked with dominant and fundamental

@@ -2,13 +2,14 @@
 #' 
 #' \code{lspec} produce spectrograms of whole sound files split into multiple 
 #'   rows.
-#' @usage lspec(flim = c(0,22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1), ovlp = 50, gr = FALSE, wl = 512,
-#'   pal = reverse.gray.colors.2, X = NULL, cex = 1, it = "jpeg")  
+#' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1), 
+#' ovlp = 50, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
+#' cex = 1, it = "jpeg", flist = NULL)  
 #' @param flim A numeric vector of length two indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
 #'   \code{\link[seewave]{spectro}}. Default is c(0,22).
 #' @param sxrow A numeric vector of length one. Specifies seconds of spectrogram
-#'   per row. Default is 10.
+#'   per row. Default is 5.
 #' @param rows A numeric vector of length one. Specifies number of rows per 
 #'   image file. Default is 10.
 #' @param wl A number specifying the window length of the spectrogram, default 
@@ -30,6 +31,8 @@
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @param it A character vector of length one giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
+#' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
+#' if X is provided.
 #' @return Spectrograms per individual call marked with dominant and fundamental
 #'   frequencies.
 #' @export
@@ -50,14 +53,15 @@
 #' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
 #' }
 
-lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg") {
+lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, 
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL) {
   
   #if sel.comment column not found create it
-  if(is.null(X$sel.comment)) X<-data.frame(X,sel.comment="")
+  if(is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
   
   #read files
   files <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)  
+  
   
   #stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory")
@@ -67,16 +71,19 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   files<-files[files %in% X$sound.files]
   }  else manloc <- NULL
   
+  #subet based on file list provided (flist)
+  if(!is.null(X)) {
+  if(!is.null(flist)) files <- files[files %in% flist]
+  
   #stop if files are not in working directory
   if(length(files) == 0) stop(".wav files in X are not in working directory")
   
   
   #if there are NAs in start or end stop
-  if(!is.null(X))
-    if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
+  if(!is.null(X) & any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
   
   #Check class of X
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+  if(!class(X) == "data.frame" & !is.null(X)) stop("X is not a data frame")
   
   #check if all columns are found
   if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
@@ -87,9 +94,10 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
   if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(end - start<0)), "case(s)"))  
-  
-  #if flim is not vector or length!=2 stop
+  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  }
+ 
+#if flim is not vector or length!=2 stop
   if(is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
     if(!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
       if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
@@ -136,7 +144,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 10, rows = 10, collev = seq
     for (j in 1:ceiling(dur/(li*sl))){
       if(it == "tiff") tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".tiff", sep = ""),  
            res = 160, units = "in", width = 8.5, height = 11) else
-      jpeg(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".jpeg", sep = ""),  
+             jpeg(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".jpeg", sep = ""),  
            res = 160, units = "in", width = 8.5, height = 11)
       par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
       

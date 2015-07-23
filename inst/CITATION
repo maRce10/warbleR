@@ -1,5 +1,10 @@
-citHeader("To cite 'warbleR' in a publication please use:")
+citHeader("Please cite 'warbleR' as follows:")
 
-citEntry(
-Araya-Salas, M., G. Smith and  H. Zhong. 2015. warbleR: an R package to streamline bioacoustic analysis. url: https://github.com/maRce10/warbleR. DOI:http://dx.doi.org/10.5281/zenodo.19933
+citEntry(entry = "MISC",
+        title = "warbleR: an R package to streamline bioacoustic analysis",
+        author = personList(as.person("M. Araya-Salas"),as.person("G. Smith"), as.person("H. Zhong")),
+        year = "2015",
+	url = "https://cran.r-project.org/web/packages/warbleR/index.html",
+ doi = "DOI:http://dx.doi.org/10.5281/zenodo.19933",
+        textVersion = "Araya-Salas, M., G. Smith and  H. Zhong. 2015. warbleR: an R package to streamline bioacoustic analysis. url: https://cran.r-project.org/web/packages/warbleR/index.html. DOI:http://dx.doi.org/10.5281/zenodo.19933"
 )

@@ -83,9 +83,9 @@
 #' # make only Arre.aura spectrograms
 #' # snrmar now doesn't overlap neighboring calls
 #' 
-#' snrspecs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), inner.mar = c(4,4.5,2,1), 
-#' outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, mar = 0.2, 
-#' snrmar = 0.01)
+#' snrspecs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), 
+#' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
+#' mar = 0.2, snrmar = 0.01)
 #' }
 #' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Grace Smith Vidaurre
 
@@ -157,13 +157,13 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
 
 # Spectrogram width can be proportional to signal duration
     if(propwidth == TRUE){
-      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
+      if(it == "tiff")  tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
            width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".jpeg", sep = ""), 
                   width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     } else {
-      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
+      if(it == "tiff")  tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
            width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".jpeg", sep = ""), 
                   width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)

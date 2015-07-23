@@ -2,7 +2,7 @@
 #'
 #' \code{specan} measure 22 acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
-#' @usage specan(X, bp = c(0,22), wl = 512, threshold = 10)
+#' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15)
 #' @param X data frame with the following columns: 1) "start": start time of 
 #'   selections, 2) "end": end time of selections, 3) "rec": name of the .wav 
 #'   files, and 4) "sel": number of the selections. The output from manualoc() 
@@ -49,6 +49,7 @@
 #'   and code{\link[seewave]{dfreq}} functions of the seewave package. 
 
 #' @examples
+#' \dontrun{
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
@@ -59,6 +60,7 @@
 #' # using a diferent threshold
 #' a <- specan(X = manualoc.df, bp = c(0, 22), threshold = 20)
 #' # View(a)
+#' }
 #' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com), Grace Smith Vidaurre and Hua Zhong
 
 specan <- function(X, bp = c(0,22), wl = 512, threshold = 15){
