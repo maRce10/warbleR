@@ -112,7 +112,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
     ovlp <- 0 # for spectro display
     prev <- NULL #for going to previous view
     recs <- vector() #store results
-    rec <- tuneR::readWave(file.path(getwd(), files[wavs]))
+    rec <- readWave(file.path(getwd(), files[wavs]))
     if(title) main <- files[wavs] else main <- NULL
     f <- rec@samp.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
@@ -138,7 +138,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       if(mean(par("mfrow")) != 1) par(mfrow = c(1, 1))
       
       #create spectrogram
-      seewave::spectro(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, pal =  pal, 
+      spectro(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  pal, 
               main = main, tlim = tlim, axisX = T, grid = F, collab = "black", alab = "", fftw = T, 
               flim = fl, scale = FALSE, axisY = T, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
       

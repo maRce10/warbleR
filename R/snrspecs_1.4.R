@@ -141,7 +141,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
   message("Creating spectrograms with signal and noise margins to be used in sig2noise():")
   invisible(pbapply::pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
     
-    r <- tuneR::readWave(file.path(getwd(), sound.files[i])) 
+    r <- readWave(file.path(getwd(), sound.files[i])) 
     f <- r@samp.rate
     
     # Correct start and end time if is smaller than 0 or higer than length of rec
@@ -183,7 +183,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
     par(oma = outer.mar)
 
     # Generate spectrogram using seewave
-    seewave::spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
+    spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, 
             collab = "black", cexlab = cexlab, cex.axis = 0.5*picsize, tlab = "Time (s)", 
             flab = "Frequency (kHz)", tlim = t, flim = flim, alab = "", trel = trel)

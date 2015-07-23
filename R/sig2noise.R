@@ -19,6 +19,7 @@
 #'   background noise is equal to or overpowering the acoustic signal.
 #'   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
 #' @examples
+#' \dontrun{
 #'  data(list = c("Arre.aura","manualoc.df"))
 #' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
 #' 
@@ -28,6 +29,7 @@
 #' 
 #' # this smaller margin doesn't overlap neighboring calls
 #' sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.1)
+#' }
 #' 
 #' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Grace Smith Vidaurre
 
@@ -78,30 +80,30 @@ sig2noise <- function(X, mar){
   SNR <- pbapply::pbsapply(c(1:length(sound.files)), function(y){
       
       # Read sound file
-      r <- tuneR::readWave(file.path(getwd(), sound.files[y]))
+      r <- readWave(file.path(getwd(), sound.files[y]))
 
       # Set the frequency or sampling rate of the signal 
       f <- r@samp.rate 
       
       # Identify the signal
-      signal <- seewave::cutw(r, from = start[y], to = end[y], f = f)
+      signal <- cutw(r, from = start[y], to = end[y], f = f)
     
       # Identify areas before and after signal over which to measure noise 
       stn <- start[y] - mar
       enn <- end[y] + mar
       if (stn < 0) stn <- 0
       if (enn > length(r@left)/r@samp.rate) enn <- length(r@left)/r@samp.rate
-      noise1 <- seewave::cutw(r, from =  stn, 
+      noise1 <- cutw(r, from =  stn, 
                      to = start[y], f = f)
       
-      noise2 <- seewave::cutw(r, from = end[y], to = enn, f = f)
+      noise2 <- cutw(r, from = end[y], to = enn, f = f)
       
       # Calculate mean noise amplitude 
-      noisamp <- mean(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
-                        seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
+      noisamp <- mean(c(env(noise1, f = f, envt = "abs", plot = FALSE), 
+                        env(noise2, f = f, envt = "abs", plot = FALSE)))
       
       # Calculate mean signal amplitude 
-      sigamp <- mean(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
+      sigamp <- mean(env(signal, f = f, envt = "abs", plot = FALSE))
       
       # Calculate signal to noise ratio
       snr <- sigamp / noisamp

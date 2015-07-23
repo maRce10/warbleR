@@ -143,7 +143,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     invisible(pbapply::pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
       
       # Read sound files, initialize frequency and time limits for spectrogram
-      r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
+      r <- readWave(file.path(getwd(), sound.files[i]))
       f <- r@samp.rate
       t <- c(start[i] - mar, end[i] + mar)
       if(t[1]<0) t[1]<-0
@@ -179,7 +179,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       par(oma = outer.mar)
       
       # Generate spectrogram using seewave 
-      seewave::spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts, wn = "hanning", 
+      spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts, wn = "hanning", 
               widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
               cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = flim, tlab = "Time (s)", 
               flab = "Frequency (kHz)", alab = "", trel = trel)

@@ -113,15 +113,15 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15){
 #Hua modified into pbapply, Apr 17, 2015
 message("Measuring acoustic parameters:")
 x <- as.data.frame(pbapply::pbapply(matrix(c(1:length(start)), ncol=1), 1, function(i) { 
-  r <- tuneR::readWave(file.path(getwd(), sound.files[i]), from = start[i], to = end[i], units = "seconds") 
+  r <- readWave(file.path(getwd(), sound.files[i]), from = start[i], to = end[i], units = "seconds") 
  
   b<- bp #in case bp its higher than can be due to sampling rate
   if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
   
   
   #frequency spectrum analysis
-  songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE)
-  analysis <- seewave::specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
+  songspec <- spec(r, f = r@samp.rate, plot = FALSE)
+  analysis <- specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
   
   #save parameters
   meanfreq <- analysis$mean/1000
@@ -138,17 +138,17 @@ x <- as.data.frame(pbapply::pbapply(matrix(c(1:length(start)), ncol=1), 1, funct
   centroid <- analysis$cent/1000
   
   #Frequency with amplitude peaks
-  peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1]
+  peakf <- fpeaks(songspec, f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1]
   
   #Fundamental frequency parameters
-  ff <- seewave::fund(r, f = r@samp.rate, ovlp = 50, threshold = threshold, 
+  ff <- fund(r, f = r@samp.rate, ovlp = 50, threshold = threshold, 
                      fmax = b[2] * 1000, plot = F)[, 2]
   meanfun<-mean(ff, na.rm = T)
   minfun<-min(ff, na.rm = T)
   maxfun<-max(ff, na.rm = T)
   
   #Dominant frecuency parameters
-  y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = 0, plot = F, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
+  y <- dfreq(r, f = r@samp.rate, wl = wl, ovlp = 0, plot = F, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
   meandom <- mean(y, na.rm = TRUE)
   mindom <- min(y, na.rm = TRUE)
   maxdom <- max(y, na.rm = TRUE)
