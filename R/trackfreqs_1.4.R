@@ -162,7 +162,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   message("Creating spectrograms overlaid with acoustic measurements:")
   invisible(pbapply::pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
     
-    r <- readWave(file.path(getwd(), sound.files[i]))
+    r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
     
     #in case bp its higher than can be due to sampling rate
     b<- bp 
@@ -201,7 +201,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     par(oma = outer.mar)
     
     # Generate spectrogram using seewave
-    spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
+    seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
             cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = flim, tlab = "Time (s)", 
             flab = "Frequency (kHz)", alab = "", trel = trel)
@@ -213,14 +213,14 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     }
     
     # Plot fundamental frequencies at each time point
-    ffreq <- fund(r, f = f, ovlp = 70, threshold = threshold,, fmax = fmax * 1000, from=start[i],
+    ffreq <- seewave::fund(r, f = f, ovlp = 70, threshold = threshold,, fmax = fmax * 1000, from=start[i],
                   to = end[i], plot = FALSE) 
     if(trel)
     points(c(ffreq[,1])+start[i], c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1]) else 
         points(c(ffreq[,1])+mar, c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1])  
     
     # Plot dominant frequency at each time point     
-    dfreq <- dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
+    dfreq <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
                    threshold = threshold, tlim = c(start[i], end[i]))
     if(trel)
       points(c(dfreq[,1])+start[i], c(dfreq[,2]), col = col[2], cex = cex[1], pch = pch[1]) else

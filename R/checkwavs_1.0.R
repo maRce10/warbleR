@@ -23,7 +23,7 @@ checkwavs <- function() {
     files <- list.files(path = getwd(), pattern = "wav$", ignore.case = T) #list .wav files in working director    
     if(length(files) == 0) stop("no .wav files in working directory") 
     a <- unlist(lapply(files, function(x) {
-      if(is.numeric(try(readWave(as.character(x), header = T)$sample.rate,silent = T)))
+      if(is.numeric(try(tuneR::readWave(as.character(x), header = T)$sample.rate,silent = T)))
       return(1) else return (0)})) 
   if(length(files[a == 0])>0){
     message("These file(s) cannot be read:")
