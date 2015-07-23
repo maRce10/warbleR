@@ -2,7 +2,7 @@ Package: warbleR
 Type: Package
 Title: Streamline Bioacoustic Analysis
 Version: 1.0.0
-Date: 2015-06-20
+Date: 2015-07-22
 Author: Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong
 Maintainer: Marcelo Araya-Salas <marceloa27@gmail.com>
 Description: Offers three overarching categories of functions to download recordings and metadata from Xeno Canto, manage sound files, and facilitate acoustic analysis in R. 
