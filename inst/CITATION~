@@ -1,0 +1,12 @@
+citHeader("To cite 'seewave' in a publication please use:")
+
+citEntry(entry = "ARTICLE",
+        title = "Seewave: a free modular tool for sound analysis and synthesis",
+        author = personList(as.person("J. Sueur"),as.person("T. Aubin"), as.person("C. Simonis")),
+      	year = "2008",
+        journal = "Bioacoustics",
+        volume = "18",
+        pages = "213-226",
+	url = "http://isyeb.mnhn.fr/IMG/pdf/sueuretal_bioacoustics_2008.pdf",
+        textVersion = "Sueur J., Aubin T., Simonis C. (2008). Seewave: a free modular tool for sound analysis and synthesis. Bioacoustics, 18: 213-226"
+)

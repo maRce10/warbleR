@@ -1,0 +1,5 @@
+citHeader("To cite 'warbleR' in a publication please use:")
+
+citEntry(
+Araya-Salas, M., G. Smith and  H. Zhong. 2015. warbleR: an R package to streamline bioacoustic analysis. url: https://github.com/maRce10/warbleR. DOI:http://dx.doi.org/10.5281/zenodo.19933
+)
