@@ -159,8 +159,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
           if(!is.null(malo))  {if(any(!is.na(ml$sel.comment))) {
             l <- paste(ml$selec, "-'", ml$sel.comment, "'", sep="") 
-           l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]
-           l[ml$sel.comment==""] <- ml$selec[ml$sel.comment==""]} else l <- ml$selec
+           l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]} else l <- ml$selec
                                mapply(function(s, e, labels, fli = frli){
                                  abline(v = c(s, e), col = "red", lty = 2)
                                  text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = labels, font = 4)},
@@ -175,8 +174,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
                                      
                                      if(!is.null(malo)) { if(any(!is.na(ml$sel.comment))) {
                                        l <- paste(ml$selec,"-'",ml$sel.comment,"'",sep="")
-                                       l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]
-                                       l[ml$sel.comment==""] <- ml$selec[ml$sel.comment==""]} else l <- ml$selec
+                                       l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]} else l <- ml$selec
                                                           lise <- ((x)*sl+li*(sl)*(j-1))-sl
                                                           mapply(function(s, e, labels, fli = frli, ls = lise){
                                                             abline(v = c(s, e)-ls, col = "red", lty = 2)
