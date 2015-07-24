@@ -111,7 +111,7 @@ the dominant and fundamental frequencies.
 }
 \details{
 This function provides visualization of frequency measurements
-  made by \code\link{specan}. Arguments that are accepted by xy.coords and can be
+  made by \code{\link{specan}}. Arguments that are accepted by xy.coords and can be
   used for lpos are: "bottomright", "bottom", "bottomleft", "left",
   "topleft", "top", "topright", "right" and "center". Setting inner.mar to
   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3.
@@ -151,7 +151,7 @@ Grace Smith Vidaurre and Marcelo Araya-Salas (\url{http://marceloarayasalas.weeb
 \seealso{
 \code{\link{specreator}} for creating spectrograms from selections,
  \code{\link{snrspecs}} for creating spectrograms to
-  optimize noise margins used in \code\link{sig2noise}
+  optimize noise margins used in \code{\link{sig2noise}}
 
 Other spectrogram.creators: \code{\link{snrspecs}};
   \code{\link{specreator}}
