@@ -1,7 +1,4 @@
-#' Acoustic recording #3 of \emph{Phaethornis longirostris}.
-#' 
-#' Contained within "recordings" data set, with \emph{Arremon aurantiirostris},
-#' \emph{Phaeocroa cuvierii} and other \emph{Phaethornis longirostris} recordings.
+#' Acoustic recording #3 of \emph{Phaethornis longirostris} (Long-billed Hermit).
 #' 
 #' @format One .wav file: \describe{
 #'   
@@ -9,7 +6,7 @@
 #'   
 #'   }
 #'  
-#' @usage data(Phae.long3)   
-#'     
-#' @source \url{http://www.xeno-canto.org}
+#' @usage data(Phae.long3)
+#' 
+#' @source \url{http://www.xeno-canto.org/contributor/EMCWQLLKEW}       
 "Phae.long3" 

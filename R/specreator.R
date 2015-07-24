@@ -1,20 +1,23 @@
 #' Spectrograms of selected signals
 #' 
-#' \code{specreator} create spectrograms of manualoc() (or similar) selections.
+#' \code{specreator} create spectrograms of signals when given start and end time.
 #' @usage specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE, 
 #'   propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 #'   mar = 0.05, it = "jpeg")
-#' @param X Data frame output from manualoc().
-#' @param wl A number specifying the spectrogram window length, default is 512.
-#' @param flim A numeric vector of length two for the frequency limit in kHz of 
+#' @param  X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
+#' for sound file name (sound.files), selection number (selec), start and end time of signal
+#' (start and end), and selection comment (sel.comment).
+#' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
+#'   is 512.
+#' @param flim A numeric vector of length 2 for the frequency limit (in kHz) of 
 #'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
-#' @param wn Character vector of length one specifying window name. Default is 
+#' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning", as in \code{\link[seewave]{spectro}}.
-#' @param pal Color palette function for spectrogram. Default is 
-#'   reverse.gray.colors.2.
-#' @param ovlp Numeric vector of length one specifying % overlap between two 
+#' @param pal A color palette function to be used to assign colors in the 
+#'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. 
+#' @param ovlp Numeric vector of length 1 specifying % overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
 #' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2). 
 #'   Specifies number of lines in inner plot margins where axis labels fall, 
@@ -22,47 +25,49 @@
 #' @param outer.mar Numeric vector with 4 elements, default is c(0,0,0,0). 
 #'   Specifies number of lines in outer plot margins beyond axis labels, with 
 #'   form c(bottom, left, top, right). See \code{\link[graphics]{par}}.
-#' @param picsize Numeric argument of length one, controls relative size of 
-#'   spectrogram. Default is 1. Not active when propwidth is TRUE.
-#' @param res Numeric argument of length one, controls resolution of image image.
+#' @param picsize Numeric argument of length 1, controls relative size of 
+#'   spectrogram. Default is 1. Ignored when propwidth is TRUE.
+#' @param res Numeric argument of length 1, controls image resolution.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 #'   presentation quality.
-#' @param cexlab Numeric vector of length one, specifies relative size of axis 
+#' @param cexlab Numeric vector of length 1 specifying the relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
 #'   Default is TRUE.
 #' @param trel Logical argument to add a time axis scale relative to the wave. 
 #'   Default is FALSE.
 #' @param propwidth Logical argument to scale the width of spectrogram 
-#'   proportionally to duration of the selected call. Default is FALSE.
-#' @param xl Numeric vector of length one, a constant by which to scale 
+#'   proportionally to duration of the selection. Default is FALSE.
+#' @param xl Numeric vector of length 1. A constant by which to scale 
 #'   spectrogram width if propwidth = TRUE. Default is 1.
 #' @param osci Logical argument to add an oscillogram underneath spectrogram, as
 #'   in \code{\link[seewave]{spectro}}. Default is FALSE.
 #' @param gr Logical argument to add grid to spectrogram. Default is FALSE.
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   FALSE.
-#' @param line Logical argument to add red lines at start and end times of 
-#'   manualoc() selection. Default is TRUE.
-#' @param mar Numeric vector of length one. Specifies the margins to subtract 
+#' @param line Logical argument to add red lines at start and end times of selection. Default is TRUE.
+#' @param mar Numeric vector of length 1. Specifies the margins to subtract 
 #'   from/add to start and end points of manualoc() selection, respectively, 
 #'   dealineating spectrogram limits. Default is 0.05.
-#' @param it A character vector of length one giving the image type to be used. Currently only
+#' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @return Spectrograms per manualoc() selections marked at start and end times.
+#' @return Spectrograms of the signals listed in the input data frame.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
-#'   frequency measurements by \code{specan}, \code{\link{snrspecs}} for 
-#'   creating spectrograms to optimize noise margins used in \code{sig2noise}
+#'   frequency measurements by\code{\link{specan}}, \code{\link{snrspecs}} for 
+#'   creating spectrograms to optimize noise margins used in\code{\link{sig2noise}}
 #' @export
 #' @name specreator
-#' @details This function creates basic spectrograms for visualization of 
-#'   manualoc() selections. Setting inner.mar to c(4,4.5,2,1) and outer.mar to 
-#'   c(4,2,2,1) works well when picsize = 2 or 3. Title font size, inner.mar and
-#'   outer.mar (from mar and oma) don't work well when osci or sc = TRUE, this 
-#'   may take some optimization by the user.
+#' @details This function creates basic spectrograms for visualization of vocalizations. 
+#' Setting inner.mar to c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
+#' Title font size, inner.mar and outer.mar (from mar and oma) don't work well when osci or sc = TRUE,
+#'this may take some optimization by the user.
 #' @examples
 #' \dontrun{ 
+#' # First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+#' 
 #' data(list = c("Arre.aura", "Phae.cuvi"))
 #' data(manualoc.df)
 #' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
@@ -72,14 +77,13 @@
 #' 
 #' specreator(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #'           picsize = 2, res = 300, cexlab = 2, mar = 0.05)
-#'           
-#' # make only Arre.aura spectrograms
+
+#' #check this folder!!
+#' getwd()
 #' 
-#' specreator(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), 
-#' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
-#' mar = 0.05)
+#' unlink(getwd(),recursive = T)
 #' }
-#' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, 

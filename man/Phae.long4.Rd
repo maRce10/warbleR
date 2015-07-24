@@ -3,21 +3,20 @@
 \docType{data}
 \name{Phae.long4}
 \alias{Phae.long4}
-\title{Acoustic recording #4 of \emph{Phaethornis longirostris}.}
+\title{Acoustic recording #4 of \emph{Phaethornis longirostris} (Long-billed Hermit).}
 \format{One .wav file: \describe{
 
   \item{Phae.long4}{\emph{Phaethornis longirostris} #4 recording}
 
   }}
 \source{
-\url{http://www.xeno-canto.org}
+\url{http://www.xeno-canto.org/contributor/EMCWQLLKEW}
 }
 \usage{
 data(Phae.long4)
 }
 \description{
-Contained within "recordings" data set, with \emph{Arremon aurantiirostris},
-\emph{Phaeocroa cuvierii} and other \emph{Phaethornis longirostris} recordings.
+Acoustic recording #4 of \emph{Phaethornis longirostris} (Long-billed Hermit).
 }
 \keyword{datasets}
 

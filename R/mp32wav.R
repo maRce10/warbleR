@@ -7,11 +7,24 @@
 #' @name mp32wav
 #' @examples
 #' \dontrun{
-#' # Need to have at least 1 mp3 file in working directory
-#' mp32wav() 
+#' # First create empty folder
+#' dir.create(file.path(getwd(),"temporal"))
+#' setwd(file.path(getwd(),"temporal"))
+#' 
+#' #Then download mp3 files from xeno-canto
+#' querxc(qword = "Phaethornis aethopygus", download = T)
+#' 
+#' # Convert to wa
+#' mp32wav()
+#' 
+#' #check this folder!!
+#' getwd()
+#' 
+#' unlink(getwd(),recursive = T)
 #' }
-#' @details Currently only working in windows OS. Function to read mp3 from tuneR package crashes in other operating systems. 
-#' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com/) and Grace Smith Vidaurre
+#' @details convert .mp3 files in working directory to .wav format. Function to read mp3 from tuneR package sometimes crashes. 
+#' Apparently it Will be fixed in the next version of tuneR. 
+#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
 mp32wav <- function() {
   options( show.error.messages = F)  

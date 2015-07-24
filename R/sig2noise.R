@@ -2,12 +2,13 @@
 #' 
 #' \code{sig2noise} measure signal to noise ratio across multiple files.
 #' @usage sig2noise(X, mar)
-#' @param X data frame output from manualoc().
-#' @param mar numeric vector of length one. Specifies the margins to subtract 
-#'   from/add to start and end points of manualoc() selection, respectively, 
-#'   over which to measure noise.
-#' @return manualoc data frame with a new variable for signal to noise
-#'   calculations.
+#' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
+#' for sound file name (sound.files), selection number (selec), and start and end time of signal
+#' (start and end). 
+#' @param mar numeric vector of length 1. Specifies the margins adjancent to
+#'   the start and end points of selection over which to measure noise.
+#' @return Data frame similar to \code{\link{autodetec}} output, but also including a new variable 
+#' with the signal to noise values.
 #' @export
 #' @name sig2noise
 #' @details A general margin to apply before and after the acoustic signal must 
@@ -17,10 +18,14 @@
 #'   margins overlap with another acoustic signal close by, the signal to noise 
 #'   ratio (SNR) will be inaccurate. Any SNRs less than or equal to one suggest 
 #'   background noise is equal to or overpowering the acoustic signal.
-#'   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
+#'   \code{\link{snrspecs}} function can be used to troubleshoot different noise margins.
 #' @examples
 #' \dontrun{
-#'  data(list = c("Arre.aura","manualoc.df"))
+#' # First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+#' 
+#' data(list = c("Arre.aura","manualoc.df"))
 #' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
 #' 
 #' # specifying the correct margin is important
@@ -29,9 +34,11 @@
 #' 
 #' # this smaller margin doesn't overlap neighboring calls
 #' sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.1)
+#' 
+#' unlink(getwd(),recursive = T)
 #' }
 #' 
-#' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
 sig2noise <- function(X, mar){
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 

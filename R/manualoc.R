@@ -1,49 +1,57 @@
 #' Interactive view of spectrograms 
 #' 
-#' \code{manualoc} produce an interactive spectrographic view to measure start 
-#' and end times of acoustic signals.
+#' \code{manualoc} produce an interactive spectrographic view in which the start 
+#' and end times of acoustic signals can be measured.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
 #'   NULL, pal = reverse.gray.colors.2)
-#' @param wl a number specifying the spectrogram window length, default is 512.
-#' @param flim a numeric vector of length two for the frequency limit in kHz of 
-#'   the spectrogram, as in the function spectro() in the seewave package. 
+#' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
+#' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
+#'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
 #'   Default is c(0,12).
-#' @param seltime time interval in seconds at which the spectrograms are produce
-#'   with higher "resolution" (ovlp = 70) and oscilograms (if "osci=TRUE"). 
-#'   Default is 1 s.
-#' @param tdisp length in seconds of the total sound file to be displayed.
-#'   Default is NULL which displays the full sound file.
-#' @param reccomm if TRUE pops up a comment window at the end of each sound file.
+#' @param seltime A numeric vector of length 1 indicating the time interval in seconds at which 
+#' the spectrograms are produce with higher "resolution" (ovlp = 70) and oscilograms (if "osci = TRUE"). 
+#'  Default is 1 s.
+#' @param tdisp A numeric vector of length 1 specifying the length in seconds of the total sound file to 
+#' be displayed. Default is NULL which displays the full sound file.
+#' @param reccomm Logical argument. If TRUE pops up a comment window at the end of each sound file.
 #'   The comment needs to be quoted. Default is FALSE.
-#' @param wn window function (by default "hanning"). See function ftwindow() in 
-#'   seewave package.
-#' @param title if TRUE the name of the sound file will be printed as the main 
+#' @param wn A character vector of length 1 specifying the window function (by default "hanning"). See function 
+#' \code{\link[seewave]{ftwindow}} for more options
+#' @param title Logical argument. If TRUE the name of the sound file will be printed as the main 
 #'   title of the spectrogram window. Default is TRUE.
-#' @param selcomm if TRUE pops up a comment window after each selection. The 
-#'   comment is printed as a label on the selected unit. The comment needs to be
-#'   quoted. Default is FALSE.
-#' @param osci if TRUE adds a oscillogram whenever the spectrograms are produce 
+#' @param selcomm Logical argument. If TRUE pops up a comment window after each selection. The 
+#'   comment is printed as a label on the selected unit. The comment must be quoted. Default is FALSE.
+#' @param osci Logical argument. If TRUE adds a oscillogram whenever the spectrograms are produce 
 #'   with higher "resolution" (see seltime). Default is FALSE.
-#' @param player path to or name of a program capable of playing a wave file by 
+#' @param player Path to or name of a program capable of playing a wave file by 
 #'   invocation from the command line. If under Windows and no player is given, 
-#'   windows player will be chosen as the default. The external program must be 
-#'   closed before resuming analysis. Default is NULL.
-#' @param pal a color palette function to be used to assign colors in the 
-#'   plot, as in \code{\link[seewave]{spectro}} (seewave package). Default is 
-#'   reverse.gray.colors.2. See Details.
-#' @return .csv file saved in the working directory with start and end of 
+#'   windows player will be chosen as the default. "vlc" works in linux if vlc player is installed. 
+#'   The external program must be closed before resuming analysis. Default is NULL.
+#' @param pal A color palette function to be used to assign colors in the 
+#'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.
+#' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
 #' @name manualoc
 #' @examples
 #' \dontrun{
+#' #First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+#' 
+#' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
+#' 
 #' manualoc()
+#' # need to use the buttoms to manipulate function
+#' # check working directory for .csv file after stopping function
+#' 
+#' unlink(getwd(),recursive = T)
 #' }
 #' @details Users can zoom-in a specific sound file segment by clicking at the 
 #'   start and end (left side and right side) of the segment. To select the
@@ -58,28 +66,28 @@
 #'   plots a red circle with the selection number in the middle point of the 
 #'   selection in the spectrogram. It also plots vertical dotted lines at the 
 #'   start and end of the selection. The circle and lines "disappear" when the 
-#'   selection is deleted ("Del-sel" button). 
+#'   selection is deleted ("Del-sel" button). Only the last selection can be deleted. 
 #'   
-#'   The function produces and .csv file (manualoc_output.csv) with information about the .wav file name,
+#'   The function produces a .csv file (manualoc_output.csv) with information about the .wav file name,
 #'   selection number, start and end time, selection comment (selcomm), and
 #'   sound file comment (reccomm). The file is saved in the working directory and
 #'   is updated every time the user moves into the next sound file (Next rec
 #'   "button") or stop the process (Stop "button"). When resuming the process
 #'   (after "stop" and re-running the function in the same working directory),
 #'   the function will keep the previous selections and will only pick up .wav
-#'   files that are not present in the .csv file (not previously analyzed). 
-#'   
-#'   When users go to the next sound file (Next rec "button") without making any
+#'   files that are not present in the .csv file (not previously analyzed). When users 
+#'   go to the next sound file (Next rec "button") without making any
 #'   selection the file is still included in the .csv file, with NA's in the
-#'   "end", "time" and "selec" field. Windows length (wl) control the temporal
-#'   and frequency precision of the spectrogram. A high "wl" value increases the
-#'   frequency resolution but reduces the temporal one, and vice versa. Any
+#'   "end", "time" and "selec" field. 
+#'   
+#'   Windows length (wl) control the temporal and frequency precision of the spectrogram. 
+#'   A high "wl" value increases the frequency resolution but reduces the temporal one, and vice versa. Any
 #'   color palette that comes with the seewave package can be used: temp.colors,
 #'   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
 #'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
-#'   cm.colors. The function could be slow when working on files of length > 5min.
+#'   cm.colors. The function is slow when working on files of length > 5min.
 #'   
-#' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/
+#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
                      selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2)

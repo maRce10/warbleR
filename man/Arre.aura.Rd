@@ -3,21 +3,20 @@
 \docType{data}
 \name{Arre.aura}
 \alias{Arre.aura}
-\title{Acoustic recording of \emph{Arremon aurantiirostris}.}
+\title{Acoustic recording of \emph{Arremon aurantiirostris} (Orange-billed Sparrow).}
 \format{One .wav file: \describe{
 
 \item{Arre.aura}{\emph{Arremon aurantiirostris} recording}
 
  }}
 \source{
-\url{http://www.xeno-canto.org}
+\url{http://www.xeno-canto.org/contributor/EMCWQLLKEW}
 }
 \usage{
 data(Arre.aura)
 }
 \description{
-Contained within "recordings" data set, with \emph{Phaeocroa cuvierii}
-and \emph{Phaethornis longirostris} recordings.
+Acoustic recording of \emph{Arremon aurantiirostris} (Orange-billed Sparrow).
 }
 \keyword{datasets}
 

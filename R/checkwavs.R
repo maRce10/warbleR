@@ -11,12 +11,21 @@
 #' @name checkwavs
 #' @examples
 #' \dontrun{
+#' # First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+#' 
+#' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
+#' 
 #' checkwavs()
+#' 
+#' unlink(getwd(),recursive = T)
 #' }
+#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
 
 checkwavs <- function() { 

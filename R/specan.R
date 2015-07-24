@@ -1,16 +1,15 @@
 #' Measure acoustic parameters in batches of sound files
 #'
-#' \code{specan} measure 22 acoustic parameters on acoustic signals for which the start and end times 
+#' \code{specan} measures 22 acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
 #' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15)
 #' @param X data frame with the following columns: 1) "start": start time of 
 #'   selections, 2) "end": end time of selections, 3) "rec": name of the .wav 
-#'   files, and 4) "sel": number of the selections. The output from manualoc() 
-#'   could be use directly.
-#' @param bp numeric vector of length two giving the lower and upper limits of a
-#'   frequency bandpass filter (in kHz). Default is c(0, 22).
-#' @param wl windows length controls the length of the individual spectra that 
-#'   together produce the spectrogram. Default is 512.
+#'  files, and 4) "sel": number of the selections. The ouptut of \code{\link{manualoc}} can 
+#'  be used as the input data frame.
+#' @param bp numeric vector of length 2 giving the lower and upper limits of the 
+#' frequency bandpass filter (in kHz). Default is c(0, 22).
+#' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param threshold \% amplitude threshold for fundamental frequency and dominant frequency detection. 
 #' Default is 15.
 #' @return Data frame with the following acoustic parameters: 
@@ -22,8 +21,8 @@
 #'    \item \code{Q25}: first quantile (in kHz) 
 #'    \item \code{Q75}: third quantile (in kHz) 
 #'    \item \code{IQR}: interquantile range (in kHz) 
-#'    \item \code{skew}: skewness (see note in code{\link[seewave]{specprop}} description from seewave package) 
-#'    \item \code{kurt}:  kurtosis (see note in code{\link[seewave]{specprop}} description from seewave package)
+#'    \item \code{skew}: skewness (see note in \code{\link[seewave]{specprop}} description from seewave package) 
+#'    \item \code{kurt}:  kurtosis (see note in \code{\link[seewave]{specprop}} description from seewave package)
 #'    \item \code{sp.ent}: spectral entropy 
 #'    \item \code{sfm}: spectral flatness 
 #'    \item \code{mode}: mode frequency
@@ -43,25 +42,33 @@
 #' @export
 #' @name specan
 #' @details The output of the manualoc function can be used directly without any
-#'   additional modification. The function measures 20 acoustic parameters on 
+#'   additional modification. The function measures 22 acoustic parameters on 
 #'   each selection in the data frame. Most parameters are produced internally by 
-#'   the code{\link[seewave]{specprop}}, code{\link[seewave]{fpeaks}}, code{\link[seewave]{fund}},
-#'   and code{\link[seewave]{dfreq}} functions of the seewave package. 
+#'   the \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
+#'   and \code{\link[seewave]{dfreq}} functions of the seewave package. 
 
 #' @examples
 #' \dontrun{
+#' #First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+#' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' data(manualoc.df)
+#' 
 #' a <- specan(X = manualoc.df, bp = c(0, 22))
+#' 
 #' # using a diferent threshold
 #' a <- specan(X = manualoc.df, bp = c(0, 22), threshold = 20)
 #' # View(a)
+#' 
+#' unlink(getwd(),recursive = T)
 #' }
-#' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com), Grace Smith Vidaurre and Hua Zhong
+#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}), Grace Smith Vidaurre and Hua Zhong
 
 specan <- function(X, bp = c(0,22), wl = 512, threshold = 15){
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 

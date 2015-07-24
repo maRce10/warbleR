@@ -1,21 +1,34 @@
 #' Access Xeno Canto recordings and metadata
 #' 
-#' \code{querxc} download recordings and metadata from Xeno Canto.
+#' \code{querxc} download recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
 #' @usage querxc(qword, download = FALSE)  
 #' @param qword Character vector of length one indicating the genus or genus and
-#'   species (for example "Phaethornis" or "Phaethornis longirostris") to query Xeno Canto database.
-#' @param download Logical argument, downloads recording file names and
-#'   associated metadata if FALSE. If TRUE, recordings are downloaded to working
+#'   species (for example \emph{Phaethornis} or \emph{Phaethornis longirostris}) to query Xeno Canto database
+#'   (\url{http://www.xeno-canto.org/}).
+#' @param download Logical argument. Downloads recording file names and
+#'   associated metadata if FALSE. If TRUE, recordings are also downloaded to working
 #'   directory as .mp3 files. Default is FALSE.
-#' @return Data frame with recording information, or .mp3 files.
+#' @return Data frame with recording information and .mp3 files (if download = T).
 #' @export
 #' @name querxc
 #' @examples
 #' \dontrun{
-#' X <- querxc("Phaethornis anthophilus", download = FALSE)
+#' # First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+
+#' df1 <- querxc("Phaethornis anthophilus", download = FALSE)
+#' View(df1)
+#' 
+#' #downloading files
 #' querxc("Phaethornis anthophilus", download = TRUE)
+
+#' #check this folder!!
+#' getwd()
+#' 
+#' unlink(getwd(),recursive = T)
 #' }
-#' @author Marcelo Araya-Salas http://marceloarayasalas.weebly.com/ and Hua Zhong
+#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 
 querxc <- function(qword, download=FALSE) {
   

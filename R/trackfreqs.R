@@ -2,34 +2,37 @@
 #' 
 #' \code{trackfreqs} creates spectrograms to visualize dominant and fundametal frequency measurements.
 #' @usage trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
-#'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2) + 0.1, outer.mar = 
+#'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
 #'   FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE,
 #'   fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 10, col =
 #'   c("dodgerblue", "chartreuse3"), pch = c(16, 17),  mar = 0.05, lpos =
 #'   "topright", it = "jpeg")
-#' @param X Data frame output from manualoc().
-#' @param wl A number specifying the spectrogram window length, default is 512.
-#' @param flim A numeric vector of length two for the frequency limit in kHz of 
-#'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
-#' @param wn Character vector of length one specifying window name. Default is 
+#' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
+#' for sound file name (sound.files), selection number (selec), and start and end time of signal
+#' (start and end).
+#' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
+#'   is 512.
+#' @param flim A numeric vector of length 2 for the frequency limit of 
+#'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
+#' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning", as in \code{\link[seewave]{spectro}}.
-#' @param pal Color palette function for spectrogram. Default is 
-#'   reverse.gray.colors.2.
-#' @param ovlp Numeric vector of length one specifying % overlap between two 
+#' @param pal A color palette function to be used to assign colors in the 
+#'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2.
+#' @param ovlp Numeric vector of length 1 specifying % overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
-#' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2)+0.1. 
+#' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2). 
 #'   Specifies number of lines in inner plot margins where axis labels fall, 
 #'   with form c(bottom, left, top, right). See \code{\link[graphics]{par}}.
 #' @param outer.mar Numeric vector with 4 elements, default is c(0,0,0,0). 
 #'   Specifies number of lines in outer plot margins beyond axis labels, with 
 #'   form c(bottom, left, top, right). See \code{\link[graphics]{par}}.
-#' @param picsize Numeric argument of length one, controls relative size of 
+#' @param picsize Numeric argument of length 1. Controls relative size of 
 #'   spectrogram. Default is 1.
-#' @param res Numeric argument of length one, controls resolution of tiff image.
+#' @param res Numeric argument of length 1. Controls resolution of image.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 #'   presentation quality.
-#' @param cexlab Numeric vector of length one, specifies relative size of axis 
+#' @param cexlab Numeric vector of length 1 specifying the relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
 #'   Default is TRUE.
@@ -37,47 +40,46 @@
 #'   Default is FALSE.
 #' @param propwidth Logical argument to scale the width of spectrogram 
 #'   proportionally to duration of the selected call. Default is FALSE.
-#' @param xl Numeric vector of length one, a constant by which to scale 
+#' @param xl Numeric vector of length 1. A constant by which to scale 
 #'   spectrogram width if propwidth = TRUE. Default is 1.
 #' @param osci Logical argument to add an oscillogram underneath spectrogram, as
 #'   in \code{\link[seewave]{spectro}}. Default is FALSE.
 #' @param gr Logical argument to add grid to spectrogram. Default is FALSE.
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   FALSE.
-#' @param fmax Numeric vector of length one, specifying the maximum for 
+#' @param fmax Numeric vector of length 1, specifying the maximum for 
 #'   frequency measurements. Default is 12 Hz.
-#' @param bp A numeric vector of length two for the lower and upper limits of a 
+#' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz). Default is c(0, 22).
-#' @param cex Numeric vector of length one, specifies relative size of points 
+#' @param cex Numeric vector of length 1, specifies relative size of points 
 #'   plotted for frequency measurements and legend font/points, respectively. 
 #'   See \code{\link[seewave]{spectro}}.
 #' @param threshold \% amplitude threshold for fundamental frequency and 
 #'   dominant frequency detection
-#' @param col Vector of length two specifying colors of points plotted to mark 
+#' @param col Vector of length 2 specifying colors of points plotted to mark 
 #'   fundamental and dominant frequency measurements. Default is c("dodgerblue",
 #'   "chartreuse3").
-#' @param pch Numeric vector of length two specifying plotting characters for 
+#' @param pch Numeric vector of length 2 specifying plotting characters for 
 #'   the frequency measurements. Default is c(16, 17).
-#' @param mar Numeric vector of length one. Specifies the margins to subtract 
-#'   from/add to start and end points of manualoc() selection, respectively, 
-#'   dealineating spectrogram limits. Default is 0.05.
-#' @param lpos Character vector of length one or numeric vector of length two, 
+#' @param mar Numeric vector of length 1. Specifies the margins adjacent to the selections
+#'  to set spectrogram limits. Default is 0.05.
+#' @param lpos Character vector of length 1 or numeric vector of length 2, 
 #'   specifiying position of legend. If the former, any keyword accepted by 
 #'   xy.coords can be used. If the latter, the first value will be the x 
 #'   coordinate and the second value the y coordinate for the legend's position.
 #'   Default is "topright".
-#' @param it A character vector of length one giving the image type to be used. Currently only
+#' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @return Spectrograms per individual call marked with dominant and fundamental
-#'   frequencies.
+#' @return Spectrograms of the signals listed in the input data frame showing the location of 
+#' the dominant and fundamental frequencies.
 #' @family spectrogram creators
-#' @seealso \code{\link{specreator}} for creating spectrograms after 
-#'   \code{manualoc}, \code{\link{snrspecs}} for creating spectrograms to 
-#'   optimize noise margins used in \code{sig2noise}
+#' @seealso \code{\link{specreator}} for creating spectrograms from selections,
+#'  \code{\link{snrspecs}} for creating spectrograms to 
+#'   optimize noise margins used in \code\link{sig2noise}
 #' @export
 #' @name trackfreqs
-#' @details This function provides visualization of two frequency measurements 
-#'   made by \code{specan}. Arguments that are accepted by xy.coords and can be 
+#' @details This function provides visualization of frequency measurements 
+#'   made by \code\link{specan}. Arguments that are accepted by xy.coords and can be 
 #'   used for lpos are: "bottomright", "bottom", "bottomleft", "left", 
 #'   "topleft", "top", "topright", "right" and "center". Setting inner.mar to 
 #'   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
@@ -85,6 +87,10 @@
 #'   when osci or sc = TRUE, this may take some optimization by the user.
 #' @examples
 #' \dontrun{
+#' #First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+#' 
 #' data(list = c("Arre.aura", "Phae.cuvi"))
 #' data(manualoc.df)
 #' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
@@ -102,11 +108,14 @@
 #' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
 #' fmax = 14, bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
 #' lpos = "bottomright", it = "tiff")
+#' 
+#' unlink(getwd(),recursive = T)
 #' }
-#' @author Grace Smith Vidaurre and Marcelo Araya-Salas (http://marceloarayasalas.weebly.com)
+#' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+
 
 trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
-                       inner.mar = c(5,4,4,2)+0.1, outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
+                       inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, trel = FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
                        fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 10, col = c("dodgerblue", "chartreuse3"),
                        pch = c(16, 17), mar = 0.05, lpos = "topright", it = "jpeg"){     

@@ -6,7 +6,7 @@
 #' @param X Data frame output from querxc().
 #' @param img A logical argument specifying whether an image file of each species
 #'   map should be returned, default is TRUE.
-#' @param it A character vector of length one giving the image type to be used. Currently only
+#' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @return A map of Xeno Canto recordings per species (image file), or a faceted
 #'   R plot of species map(s).
@@ -19,7 +19,7 @@
 #' xcmaps(X)
 #' xcmaps(X, img = FALSE, it = "jpeg")
 #' }
-#' @author Marcelo Araya-Salas (http://marceloarayasalas.weebly.com) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
 xcmaps <- function(X, img = TRUE, it = "jpeg") {
   

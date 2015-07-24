@@ -3,21 +3,17 @@
 \docType{data}
 \name{Phae.cuvi}
 \alias{Phae.cuvi}
-\title{Acoustic recording of \emph{Phaeocroa cuvierii}.}
+\title{Acoustic recording of \emph{Phaeochroa cuvierii} (Scaly-breasted Hummingbird).}
 \format{One .wav file: \describe{
 
-\item{Phae.cuvi}{\emph{Phaeocroa cuvierii} recording}
+\item{Phae.cuvi}{\emph{Phaeochroa cuvierii} recording}
 
  }}
-\source{
-\url{http://www.xeno-canto.org}
-}
 \usage{
 data(Phae.cuvi)
 }
 \description{
-Contained within "recordings" data set, with \emph{Arremon
-aurantiirostris}, and \emph{Phaethornis longirostris} recordings.
+Acoustic recording of \emph{Phaeochroa cuvierii} (Scaly-breasted Hummingbird).
 }
 \keyword{datasets}
 
