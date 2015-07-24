@@ -75,22 +75,26 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   
   #stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory")
+  if (!is.null(flist)) 
+  
+  #subet based on file list provided (flist)
+  files <- files[files %in% flist]
+  if (length(files) == 0) 
+  stop("selected .wav files are not in working directory")
   
   #read X files
   if(!is.null(X)) {manloc <- X
   files<-files[files %in% X$sound.files]
   }  else manloc <- NULL
   
-  #subet based on file list provided (flist)
   if(!is.null(X)) {
-  if(!is.null(flist)) files <- files[files %in% flist]
   
   #stop if files are not in working directory
   if(length(files) == 0) stop(".wav files in X are not in working directory")
   
   
   #if there are NAs in start or end stop
-  if(!is.null(X) & any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
+  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
   
   #Check class of X
   if(!class(X) == "data.frame" & !is.null(X)) stop("X is not a data frame")
