@@ -1,6 +1,6 @@
-#' Measure signal to noise ratio
+#' Measure signal-to-noise ratio
 #' 
-#' \code{sig2noise} measure signal to noise ratio across multiple files.
+#' \code{sig2noise} measures signal-to-noise ratio across multiple files.
 #' @usage sig2noise(X, mar)
 #' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
@@ -8,14 +8,17 @@
 #' @param mar numeric vector of length 1. Specifies the margins adjancent to
 #'   the start and end points of selection over which to measure noise.
 #' @return Data frame similar to \code{\link{autodetec}} output, but also including a new variable 
-#' with the signal to noise values.
+#' with the signal-to-noise values.
 #' @export
 #' @name sig2noise
-#' @details A general margin to apply before and after the acoustic signal must 
-#'   be specified. Setting margins for individual calls that have been 
+#' @details  Signal-to-noise ratio (SNR) is a measure the level of a desired signal compare to 
+#'   the one of background noise. The function divides the mean amplitude of the signal by 
+#'   the mean amplitude of the background noise adjancent to the signal. 
+#'   A general margin to apply before and after the acoustic signal must 
+#'   be specified. Setting margins for individual signals that have been 
 #'   previously clipped from larger files may take some optimization, as will 
 #'   margins for calls within a larger file that are irregularly separated. When
-#'   margins overlap with another acoustic signal close by, the signal to noise 
+#'   margins overlap with another acoustic signal close by, the signal-to-noise 
 #'   ratio (SNR) will be inaccurate. Any SNRs less than or equal to one suggest 
 #'   background noise is equal to or overpowering the acoustic signal.
 #'   \code{\link{snrspecs}} function can be used to troubleshoot different noise margins.
@@ -32,13 +35,14 @@
 #' # use snrspecs to troubleshoot margins for sound files
 #' sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.2)
 #' 
-#' # this smaller margin doesn't overlap neighboring calls
+#' # this smaller margin doesn't overlap neighboring signals
 #' sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.1)
 #' 
-#' unlink(getwd(),recursive = T)
+#' unlink(getwd(),recursive = TRUE)
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
+#' @source \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 
 sig2noise <- function(X, mar){
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
@@ -112,7 +116,7 @@ sig2noise <- function(X, mar){
       # Calculate mean signal amplitude 
       sigamp <- mean(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
       
-      # Calculate signal to noise ratio
+      # Calculate signal-to-noise ratio
       snr <- sigamp / noisamp
     
     return(snr)

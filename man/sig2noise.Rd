@@ -2,7 +2,10 @@
 % Please edit documentation in R/sig2noise.R
 \name{sig2noise}
 \alias{sig2noise}
-\title{Measure signal to noise ratio}
+\title{Measure signal-to-noise ratio}
+\source{
+\url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
+}
 \usage{
 sig2noise(X, mar)
 }
@@ -16,17 +19,20 @@ the start and end points of selection over which to measure noise.}
 }
 \value{
 Data frame similar to \code{\link{autodetec}} output, but also including a new variable
-with the signal to noise values.
+with the signal-to-noise values.
 }
 \description{
-\code{sig2noise} measure signal to noise ratio across multiple files.
+\code{sig2noise} measures signal-to-noise ratio across multiple files.
 }
 \details{
-A general margin to apply before and after the acoustic signal must
-  be specified. Setting margins for individual calls that have been
+Signal-to-noise ratio (SNR) is a measure the level of a desired signal compare to
+  the one of background noise. The function divides the mean amplitude of the signal by
+  the mean amplitude of the background noise adjancent to the signal.
+  A general margin to apply before and after the acoustic signal must
+  be specified. Setting margins for individual signals that have been
   previously clipped from larger files may take some optimization, as will
   margins for calls within a larger file that are irregularly separated. When
-  margins overlap with another acoustic signal close by, the signal to noise
+  margins overlap with another acoustic signal close by, the signal-to-noise
   ratio (SNR) will be inaccurate. Any SNRs less than or equal to one suggest
   background noise is equal to or overpowering the acoustic signal.
   \code{\link{snrspecs}} function can be used to troubleshoot different noise margins.
@@ -44,10 +50,10 @@ writeWave(Arre.aura, "Arre.aura.wav") #save sound files
 # use snrspecs to troubleshoot margins for sound files
 sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.2)
 
-# this smaller margin doesn't overlap neighboring calls
+# this smaller margin doesn't overlap neighboring signals
 sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.1)
 
-unlink(getwd(),recursive = T)
+unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

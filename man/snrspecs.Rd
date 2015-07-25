@@ -2,7 +2,10 @@
 % Please edit documentation in R/snrspecs.R
 \name{snrspecs}
 \alias{snrspecs}
-\title{Spectrograms with noise margins}
+\title{Spectrograms with background noise margins}
+\source{
+\url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
+}
 \usage{
 snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
@@ -22,7 +25,7 @@ is 512.}
 the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is
-"hanning", as in \code{\link[seewave]{spectro}}.}
+"hanning". See function \code{\link[seewave]{ftwindow}} for more options.}
 
 \item{pal}{A color palette function to be used to assign colors in the
 plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.}
@@ -41,7 +44,7 @@ form c(bottom, left, top, right). See \code{\link[graphics]{par}}.}
 \item{picsize}{Numeric argument of length 1, controls relative size of
 spectrogram. Default is 1.}
 
-\item{res}{Numeric argument of length 1 that controls resolution of image image.
+\item{res}{Numeric argument of length 1 that controls image resolution.
 Default is 100 (faster) although 300 - 400 is recommended for publication/
 presentation quality.}
 
@@ -49,24 +52,24 @@ presentation quality.}
 labels. See \code{\link[seewave]{spectro}}.}
 
 \item{title}{Logical argument to add a title to individual spectrograms.
-Default is TRUE.}
+Default is \code{TRUE}.}
 
 \item{trel}{Logical argument to add a time axis scale relative to the wave.
-Default is FALSE.}
+Default is \code{FALSE}.}
 
 \item{propwidth}{Logical argument to scale the width of spectrogram
-proportionally to duration of the selected call. Default is FALSE.}
+proportionally to duration of the selected call. Default is \code{FALSE}.}
 
 \item{xl}{Numeric vector of length 1, a constant by which to scale
-spectrogram width if propwidth = TRUE. Default is 1.}
+spectrogram width if propwidth = \code{TRUE}. Default is 1.}
 
 \item{osci}{Logical argument to add an oscillogram underneath spectrogram, as
-in \code{\link[seewave]{spectro}}. Default is FALSE.}
+in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 
-\item{gr}{Logical argument to add grid to spectrogram. Default is FALSE.}
+\item{gr}{Logical argument to add grid to spectrogram. Default is \code{FALSE}.}
 
 \item{sc}{Logical argument to add amplitude scale to spectrogram, default is
-FALSE.}
+\code{FALSE}.}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the
 start and end points of the selections to define spectrogram limits. Default is 0.2.}
@@ -78,11 +81,11 @@ points of the selections where noise will be measured. Default is 0.1.}
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 }
 \value{
-Spectrograms per selection marked with margins where noise will be measured.
+Spectrograms per selection marked with margins where background noise will be measured.
 }
 \description{
-\code{snrspecs} create spectrograms to visualize margins over which noise
-will be measured by sig2noise().
+\code{snrspecs} creates spectrograms to visualize margins over which background noise
+would be measured by \code{\link{sig2noise}}.
 }
 \details{
 This function can be used to test different margins to facilitate
@@ -92,7 +95,7 @@ This function can be used to test different margins to facilitate
   larger file that are irregularly separated. Setting inner.mar to
   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3.
   Title font size, inner.mar and outer.mar (from mar and oma) don't work well
-  when osci or sc = TRUE, this may take some optimization by the user.
+  when osci or sc = \code{TRUE}, this may take some optimization by the user.
 }
 \examples{
 \dontrun{
@@ -112,7 +115,7 @@ snrspecs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4
 picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg")
 
 # make only Arre.aura spectrograms
-# snrmar now doesn't overlap neighboring calls
+# snrmar now doesn't overlap neighboring signals
 
 snrspecs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14),
 inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2,
@@ -121,7 +124,7 @@ mar = 0.2, snrmar = 0.01)
 #check this folder!!
 getwd()
 
-unlink(getwd(),recursive = T)
+unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

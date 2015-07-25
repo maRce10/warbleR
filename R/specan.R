@@ -3,15 +3,14 @@
 #' \code{specan} measures 22 acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
 #' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15)
-#' @param X data frame with the following columns: 1) "start": start time of 
-#'   selections, 2) "end": end time of selections, 3) "rec": name of the .wav 
-#'  files, and 4) "sel": number of the selections. The ouptut of \code{\link{manualoc}} can 
-#'  be used as the input data frame.
+#' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
+#' files 2) "start": start time of selections, 3) "end": end time of selections, , and 4) "sel": number of the 
+#' selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.
 #' @param bp numeric vector of length 2 giving the lower and upper limits of the 
 #' frequency bandpass filter (in kHz). Default is c(0, 22).
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
-#' @param threshold \% amplitude threshold for fundamental frequency and dominant frequency detection. 
-#' Default is 15.
+#' @param threshold amplitude threshold (\%) for fundamental frequency and 
+#'   dominant frequency detection. Default is 15.
 #' @return Data frame with the following acoustic parameters: 
 #' \itemize{
 #'    \item \code{duration}: length of signal
@@ -21,12 +20,12 @@
 #'    \item \code{Q25}: first quantile (in kHz) 
 #'    \item \code{Q75}: third quantile (in kHz) 
 #'    \item \code{IQR}: interquantile range (in kHz) 
-#'    \item \code{skew}: skewness (see note in \code{\link[seewave]{specprop}} description from seewave package) 
-#'    \item \code{kurt}:  kurtosis (see note in \code{\link[seewave]{specprop}} description from seewave package)
+#'    \item \code{skew}: skewness (see note in \code{\link[seewave]{specprop}} description) 
+#'    \item \code{kurt}:  kurtosis (see note in \code{\link[seewave]{specprop}} description)
 #'    \item \code{sp.ent}: spectral entropy 
 #'    \item \code{sfm}: spectral flatness 
 #'    \item \code{mode}: mode frequency
-#'    \item \code{centroid}: centroid
+#'    \item \code{centroid}: frequency centroid (see \code{\link[seewave]{specprop}})
 #'    \item \code{peakf}: peak frequency (frequency with highest energy) 
 #'    \item \code{meanfun}: average of fundamental frequency measured across acoustic signal 
 #'    \item \code{minfun}: minimum fundamental frequency measured across acoustic signal 
@@ -35,17 +34,17 @@
 #'    \item \code{mindom}: minimum of dominant frequency measured across acoustic signal
 #'    \item \code{maxdom}: maximum of dominant frequency measured across acoustic signal 
 #'    \item \code{dfrange}: range of dominant frequency measured across acoustic signal 
-#'    \item \code{modindx}: modulation index. Is calculated as the accumulated absolute 
+#'    \item \code{modindx}: modulation index. Calculated as the accumulated absolute 
 #'      difference between adjacent measurements of fundamental frequencies divided
 #'      by the frequency range
 #' }
 #' @export
 #' @name specan
-#' @details The output of the manualoc function can be used directly without any
-#'   additional modification. The function measures 22 acoustic parameters on 
+#' @details The output of the ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used 
+#'  directly without any additional modification. The function measures 22 acoustic parameters on 
 #'   each selection in the data frame. Most parameters are produced internally by 
 #'   the \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
-#'   and \code{\link[seewave]{dfreq}} functions of the seewave package. 
+#'   and \code{\link[seewave]{dfreq}} functions from the seewave package. 
 
 #' @examples
 #' \dontrun{
@@ -66,7 +65,7 @@
 #' a <- specan(X = manualoc.df, bp = c(0, 22), threshold = 20)
 #' # View(a)
 #' 
-#' unlink(getwd(),recursive = T)
+#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}), Grace Smith Vidaurre and Hua Zhong
 

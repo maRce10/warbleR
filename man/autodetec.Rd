@@ -94,7 +94,7 @@ Image files with spectrograms showing the start and end of the detected signals.
   sound file and selection number.
 }
 \description{
-Automatically detect the start and end of vocalizations in sound files  based
+Automatically detects the start and end of vocalizations in sound files  based
 on amplitude, duration, and frequency range attributes.
 }
 \details{

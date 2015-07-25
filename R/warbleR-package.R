@@ -1,28 +1,27 @@
 #' warbleR: A package to streamline bioacoustic analysis
 #' 
 #' warbleR is a package designed to streamline analysis of (bio)acoustic signals in R. This 
-#' package allows users to collect open-access acoustic data or input their 
+#' package allows users to collect open-access avian vocalizations data or input their 
 #' own data into a workflow that facilitates spectrographic visualization 
 #' and obtaining acoustic parameters in a batch process. The functions facilitate searching and downloading 
-#' avian vocalizations from Xeno-Canto \url{http://www.xeno-canto.org/},creating maps of Xeno-Canto recordings, converting .mp3 files to .wav 
-#' files, checking .wav files, automatically detecting acoustic signals by amplitude, selecting them manually, 
-#' printing spectrograms of whole recordings, printing spectrograms of individual signals, measuring signal 
-#' to noise ratio and performing acoustic measurements. 
+#' avian vocalizations from Xeno-Canto \url{http://www.xeno-canto.org/},creating maps of Xeno-Canto recordings, 
+#' converting .mp3 files to .wav files, checking .wav files, automatically detecting acoustic signals, selecting 
+#' them manually, printing spectrograms of whole recordings or individual signals, measuring signal 
+#' to noise ratio and performing acoustic measurements.
 #'      
 #' The warbleR package offers three overarching categories of
 #'   functions:
 #'   
 #'   \itemize{
 #'   
-#'   \item Obtaining avian vocalizations from online repository \item Sound file management \item Streamlined 
+#'   \item Obtaining avian vocalization data \item Sound file management \item Streamlined 
 #'   (bio)acoustic analysis in R }
 #'   
-#' @section Accessing Xeno Canto:
+#' @section Obtaining avian vocalization data:
 #'   
-#'  \code{\link{querxc}}: Download recordings and metadata from Xeno Canto
+#'  \code{\link{querxc}}: Download recordings and metadata from Xeno-Canto
 #'   
-#'   \code{\link{xcmaps}}: Create maps to visualize the geographic spread of Xeno 
-#'   Canto recordings
+#'   \code{\link{xcmaps}}: Create maps to visualize the geographic spread of Xeno-Canto recordings
 #'   
 #' @section Managing sound files:
 #'   
@@ -45,12 +44,12 @@
 #'   \code{\link{snrspecs}}: Create spectrograms to visualize margins over which 
 #'   noise will be measured by sig2noise
 #'   
-#'   \code{\link{sig2noise}}: Measure signal to noise ratio across multiple files
+#'   \code{\link{sig2noise}}: Measure signal-to-noise ratio across multiple files
 #'   
 #'   \code{\link{trackfreqs}}: Create spectrograms to visualize frequency 
 #'   measurements
 #'   
-#'   \code{\link{specan}}: Measures acoustic parameters on selected acoustic 
+#'   \code{\link{specan}}: Measure acoustic parameters on selected acoustic 
 #'   signals
 #'   
 #' @import maps

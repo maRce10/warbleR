@@ -1,6 +1,6 @@
 #' Create long spectrograms of whole sound files
 #' 
-#' \code{lspec} produce image files with spectrograms of whole sound files split into multiple 
+#' \code{lspec} produces image files with spectrograms of whole sound files split into multiple 
 #'   rows.
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1), 
 #' ovlp = 50, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
@@ -20,27 +20,26 @@
 #' @param ovlp Numeric vector of length 1 specifying the percentage of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. High values of ovlp 
 #'   slow down the function but produce more accurate selection limits (when X is provided). 
-#' @param gr Logical argument to add grid to spectrogram. Default is FALSE.
+#' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
 #' \code{\link[seewave]{spectro}} for more palettes.
 #' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
 #' start and end of a selection and the selections are labeled with the selection number 
-#' (and selection comment, if available). Default is NULL.
+#' (and selection comment, if available). Default is \code{NULL}.
 #' @param cex A numeric vector of length 1 giving the amount by which text 
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
-#' @return Spectrograms per individual call marked with dominant and fundamental
-#'   frequencies.
+#' @return image files with spectrograms of whole sound files in the working directory.
 #' @export
 #' @name lspec
 #' @details The function creates spectrograms for complete sound files, printing
 #'   the name of the sound files and the "page" number (p1-p2...) at the upper 
-#'   right corner of the image files. If results from the manualoc function are 
+#'   right corner of the image files. If results from \code{\link{manualoc}} are 
 #'   supplied (or a equivalent data frame), the function delimits and labels the selections. 
 #'   This function aims to facilitate visual classification of vocalization units and the 
 #'   analysis of animal vocal sequences.
@@ -59,7 +58,7 @@
 #' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
 #' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
 #'
-#' unlink(getwd(),recursive = T)
+#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 

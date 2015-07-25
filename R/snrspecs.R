@@ -1,7 +1,7 @@
-#' Spectrograms with noise margins
+#' Spectrograms with background noise margins
 #' 
-#' \code{snrspecs} create spectrograms to visualize margins over which noise
-#' will be measured by sig2noise().
+#' \code{snrspecs} creates spectrograms to visualize margins over which background noise
+#' would be measured by \code{\link{sig2noise}}.
 #' @usage snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
@@ -14,8 +14,8 @@
 #'   is 512.
 #' @param flim A numeric vector of length 2 for the frequency limit in kHz of 
 #'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
-#' @param wn Character vector of length 1 specifying window name. Default is 
-#'   "hanning", as in \code{\link[seewave]{spectro}}.
+##' @param wn Character vector of length 1 specifying window name. Default is 
+#'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param pal A color palette function to be used to assign colors in the 
 #'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.
 #' @param ovlp Numeric vector of length 1 specifying the percentage of overlap between two 
@@ -28,31 +28,31 @@
 #'   form c(bottom, left, top, right). See \code{\link[graphics]{par}}.
 #' @param picsize Numeric argument of length 1, controls relative size of 
 #'   spectrogram. Default is 1.
-#' @param res Numeric argument of length 1 that controls resolution of image image.
+#' @param res Numeric argument of length 1 that controls image resolution.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 #'   presentation quality.
 #' @param cexlab Numeric vector of length 1 specifying relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
-#'   Default is TRUE.
+#'   Default is \code{TRUE}.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param trel Logical argument to add a time axis scale relative to the wave. 
-#'   Default is FALSE.
+#'   Default is \code{FALSE}.
 #' @param propwidth Logical argument to scale the width of spectrogram 
-#'   proportionally to duration of the selected call. Default is FALSE.
+#'   proportionally to duration of the selected call. Default is \code{FALSE}.
 #' @param xl Numeric vector of length 1, a constant by which to scale 
-#'   spectrogram width if propwidth = TRUE. Default is 1.
+#'   spectrogram width if propwidth = \code{TRUE}. Default is 1.
 #' @param osci Logical argument to add an oscillogram underneath spectrogram, as
-#'   in \code{\link[seewave]{spectro}}. Default is FALSE.
-#' @param gr Logical argument to add grid to spectrogram. Default is FALSE.
+#'   in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.
+#' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
-#'   FALSE.
+#'   \code{FALSE}.
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the 
 #' start and end points of the selections to define spectrogram limits. Default is 0.2.
 #' @param snrmar Numeric vector of length 1. Specifies the margins adjacent to the start and end 
 #' points of the selections where noise will be measured. Default is 0.1.
-#' @return Spectrograms per selection marked with margins where noise will be measured.
+#' @return Spectrograms per selection marked with margins where background noise will be measured.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
 #'   frequency measurements by \code{\link{specan}}, \code{\link{specreator}} for 
@@ -66,7 +66,7 @@
 #'   larger file that are irregularly separated. Setting inner.mar to 
 #'   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
 #'   Title font size, inner.mar and outer.mar (from mar and oma) don't work well
-#'   when osci or sc = TRUE, this may take some optimization by the user.
+#'   when osci or sc = \code{TRUE}, this may take some optimization by the user.
 #' @examples
 #' \dontrun{
 #' # First create empty folder
@@ -85,7 +85,7 @@
 #' picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg")
 #' 
 #' # make only Arre.aura spectrograms
-#' # snrmar now doesn't overlap neighboring calls
+#' # snrmar now doesn't overlap neighboring signals
 #' 
 #' snrspecs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), 
 #' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
@@ -94,9 +94,10 @@
 #' #check this folder!!
 #' getwd()
 #' 
-#' unlink(getwd(),recursive = T)
+#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
+#' @source \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70,
                      inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100,

@@ -1,14 +1,14 @@
-#' Access Xeno Canto recordings and metadata
+#' Access Xeno-Canto recordings and metadata
 #' 
-#' \code{querxc} download recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
+#' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
 #' @usage querxc(qword, download = FALSE)  
 #' @param qword Character vector of length one indicating the genus or genus and
-#'   species (for example \emph{Phaethornis} or \emph{Phaethornis longirostris}) to query Xeno Canto database
+#'   species (for example \emph{Phaethornis} or \emph{Phaethornis longirostris}) to query Xeno-Canto database
 #'   (\url{http://www.xeno-canto.org/}).
 #' @param download Logical argument. Downloads recording file names and
-#'   associated metadata if FALSE. If TRUE, recordings are also downloaded to working
-#'   directory as .mp3 files. Default is FALSE.
-#' @return Data frame with recording information and .mp3 files (if download = T).
+#'   associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
+#'   directory as .mp3 files. Default is \code{FALSE}.
+#' @return Data frame with recording information and .mp3 files (if download = \code{TRUE}).
 #' @export
 #' @name querxc
 #' @examples
@@ -26,7 +26,7 @@
 #' #check this folder!!
 #' getwd()
 #' 
-#' unlink(getwd(),recursive = T)
+#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 

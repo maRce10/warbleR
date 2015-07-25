@@ -2,7 +2,7 @@
 % Please edit documentation in R/xcmaps.R
 \name{xcmaps}
 \alias{xcmaps}
-\title{Maps of Xeno Canto recordings by species}
+\title{Maps of Xeno-Canto recordings by species}
 \usage{
 xcmaps(X, img = TRUE, it = "jpeg")
 }
@@ -10,17 +10,17 @@ xcmaps(X, img = TRUE, it = "jpeg")
 \item{X}{Data frame output from querxc().}
 
 \item{img}{A logical argument specifying whether an image file of each species
-map should be returned, default is TRUE.}
+map should be returned, default is \code{TRUE}.}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 }
 \value{
-A map of Xeno Canto recordings per species (image file), or a faceted
+A map of Xeno-Canto recordings per species (image file), or a faceted
   R plot of species map(s).
 }
 \description{
-\code{xcmaps} creates maps to visualize the geographic spread of Xeno Canto
+\code{xcmaps} creates maps to visualize the geographic spread of Xeno-Canto
   recordings.
 }
 \examples{

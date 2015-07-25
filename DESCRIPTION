@@ -5,7 +5,7 @@ Version: 1.0.2
 Date: 2015-07-23
 Author: Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong
 Maintainer: Marcelo Araya-Salas <marceloa27@gmail.com>
-Description: Offers three overarching categories of functions to obtain bird vocalization recordings from the web, manage sound files, and facilitate acoustic analysis in R. 
+Description: Offers three overarching categories of functions to obtain bird vocalization recordings from the web, manage sound files, and facilitate (bio)acoustic analysis in R. 
 License: GPL (>= 2)
 Imports: rjson, pbapply, RCurl, fftw, utils, stats, grDevices, graphics
 Depends: R (>= 2.10), maps, seewave (>= 2.0.1), tuneR

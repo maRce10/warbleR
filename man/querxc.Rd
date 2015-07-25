@@ -2,24 +2,24 @@
 % Please edit documentation in R/querxc.R
 \name{querxc}
 \alias{querxc}
-\title{Access Xeno Canto recordings and metadata}
+\title{Access Xeno-Canto recordings and metadata}
 \usage{
 querxc(qword, download = FALSE)
 }
 \arguments{
 \item{qword}{Character vector of length one indicating the genus or genus and
-species (for example \emph{Phaethornis} or \emph{Phaethornis longirostris}) to query Xeno Canto database
+species (for example \emph{Phaethornis} or \emph{Phaethornis longirostris}) to query Xeno-Canto database
 (\url{http://www.xeno-canto.org/}).}
 
 \item{download}{Logical argument. Downloads recording file names and
-associated metadata if FALSE. If TRUE, recordings are also downloaded to working
-directory as .mp3 files. Default is FALSE.}
+associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
+directory as .mp3 files. Default is \code{FALSE}.}
 }
 \value{
-Data frame with recording information and .mp3 files (if download = T).
+Data frame with recording information and .mp3 files (if download = \code{TRUE}).
 }
 \description{
-\code{querxc} download recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
+\code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
 }
 \examples{
 \dontrun{
@@ -34,7 +34,7 @@ querxc("Phaethornis anthophilus", download = TRUE)
 #check this folder!!
 getwd()
 
-unlink(getwd(),recursive = T)
+unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

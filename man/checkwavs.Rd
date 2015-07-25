@@ -15,7 +15,7 @@ If all .wav files are ok, returns message "All files are ok!".
 \code{checkwavs} checks whether .wav files can be read by subsequent functions.
 }
 \details{
-This function has no associated arguments, although the user must
+This function has no associated arguments, although users must
   set the working directory where they wish to check .wav files beforehand.
 }
 \examples{
@@ -32,7 +32,7 @@ writeWave(Phae.long3,"Phae.long3.wav")
 
 checkwavs()
 
-unlink(getwd(),recursive = T)
+unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

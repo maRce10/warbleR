@@ -16,31 +16,31 @@ the spectrogram, as in the function \code{\link[seewave]{spectro}}.
 Default is c(0,12).}
 
 \item{seltime}{A numeric vector of length 1 indicating the time interval in seconds at which
-the spectrograms are produce with higher "resolution" (ovlp = 70) and oscilograms (if "osci = TRUE").
+the spectrograms are produce with higher "resolution" (ovlp = 70) and oscilograms (if osci = \code{TRUE}).
  Default is 1 s.}
 
 \item{tdisp}{A numeric vector of length 1 specifying the length in seconds of the total sound file to
-be displayed. Default is NULL which displays the full sound file.}
+be displayed. Default is \code{NULL} which displays the full sound file.}
 
-\item{reccomm}{Logical argument. If TRUE pops up a comment window at the end of each sound file.
-The comment needs to be quoted. Default is FALSE.}
+\item{reccomm}{Logical argument. If \code{TRUE} pops up a comment window at the end of each sound file.
+The comment needs to be quoted. Default is  \code{FALSE}.}
 
 \item{wn}{A character vector of length 1 specifying the window function (by default "hanning"). See function
-\code{\link[seewave]{ftwindow}} for more options}
+\code{\link[seewave]{ftwindow}} for more options.}
 
-\item{title}{Logical argument. If TRUE the name of the sound file will be printed as the main
-title of the spectrogram window. Default is TRUE.}
+\item{title}{Logical argument. If \code{TRUE} the name of the sound file will be printed as the main
+title of the spectrogram window. Default is \code{TRUE}}
 
-\item{selcomm}{Logical argument. If TRUE pops up a comment window after each selection. The
-comment is printed as a label on the selected unit. The comment must be quoted. Default is FALSE.}
+\item{selcomm}{Logical argument. If \code{TRUE} pops up a comment window after each selection. The
+comment is printed as a label on the selected unit. The comment must be quoted. Default is \code{FALSE}}
 
-\item{osci}{Logical argument. If TRUE adds a oscillogram whenever the spectrograms are produce
-with higher "resolution" (see seltime). Default is FALSE.}
+\item{osci}{Logical argument. If \code{TRUE} adds a oscillogram whenever the spectrograms are produce
+with higher "resolution" (see seltime). Default is \code{FALSE}.}
 
 \item{player}{Path to or name of a program capable of playing a wave file by
 invocation from the command line. If under Windows and no player is given,
 windows player will be chosen as the default. "vlc" works in linux if vlc player is installed.
-The external program must be closed before resuming analysis. Default is NULL.}
+The external program must be closed before resuming analysis. Default is \code{NULL}.}
 
 \item{pal}{A color palette function to be used to assign colors in the
 plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.}
@@ -50,7 +50,7 @@ plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. Se
   selections.
 }
 \description{
-\code{manualoc} produce an interactive spectrographic view in which the start
+\code{manualoc} produces an interactive spectrographic view in which the start
 and end times of acoustic signals can be measured.
 }
 \details{
@@ -105,7 +105,7 @@ manualoc()
 # need to use the buttoms to manipulate function
 # check working directory for .csv file after stopping function
 
-unlink(getwd(),recursive = T)
+unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

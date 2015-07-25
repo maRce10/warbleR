@@ -11,9 +11,9 @@ specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   mar = 0.05, it = "jpeg")
 }
 \arguments{
-\item{X}{Data frame with results from \code{\link{manualoc}} function or any data frame with columns
-for sound file name (sound.files), selection number (selec), start and end time of signal
-(start and end), and selection comment (sel.comment).}
+\item{X}{Data frame with results containing columns for sound file name (sound.files),
+selection number (selec), start and end time of signal (start and end), and selection comment (sel.comment).
+The ouptut of \code{\link{manualoc}} can be used as the input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512.}
@@ -22,7 +22,7 @@ is 512.}
 the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is
-"hanning", as in \code{\link[seewave]{spectro}}.}
+"hanning". See function \code{\link[seewave]{ftwindow}} for more options.}
 
 \item{pal}{A color palette function to be used to assign colors in the
 plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2.}
@@ -38,10 +38,10 @@ with form c(bottom, left, top, right). See \code{\link[graphics]{par}}.}
 Specifies number of lines in outer plot margins beyond axis labels, with
 form c(bottom, left, top, right). See \code{\link[graphics]{par}}.}
 
-\item{picsize}{Numeric argument of length 1, controls relative size of
-spectrogram. Default is 1. Ignored when propwidth is TRUE.}
+\item{picsize}{Numeric argument of length 1. Controls relative size of
+spectrogram. Default is 1. Ignored when propwidth is \code{TRUE}.}
 
-\item{res}{Numeric argument of length 1, controls image resolution.
+\item{res}{Numeric argument of length 1. Controls image resolution.
 Default is 100 (faster) although 300 - 400 is recommended for publication/
 presentation quality.}
 
@@ -49,42 +49,41 @@ presentation quality.}
 labels. See \code{\link[seewave]{spectro}}.}
 
 \item{title}{Logical argument to add a title to individual spectrograms.
-Default is TRUE.}
+Default is \code{TRUE}.}
 
 \item{trel}{Logical argument to add a time axis scale relative to the wave.
-Default is FALSE.}
+Default is \code{FALSE}.}
 
 \item{propwidth}{Logical argument to scale the width of spectrogram
-proportionally to duration of the selection. Default is FALSE.}
+proportionally to duration of the selection. Default is \code{FALSE}.}
 
 \item{xl}{Numeric vector of length 1. A constant by which to scale
-spectrogram width if propwidth = TRUE. Default is 1.}
+spectrogram width if propwidth = \code{TRUE}. Default is 1.}
 
 \item{osci}{Logical argument to add an oscillogram underneath spectrogram, as
-in \code{\link[seewave]{spectro}}. Default is FALSE.}
+in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 
-\item{gr}{Logical argument to add grid to spectrogram. Default is FALSE.}
+\item{gr}{Logical argument to add grid to spectrogram. Default is \code{FALSE}.}
 
 \item{sc}{Logical argument to add amplitude scale to spectrogram, default is
-FALSE.}
+\code{FALSE}.}
 
-\item{line}{Logical argument to add red lines at start and end times of selection. Default is TRUE.}
+\item{line}{Logical argument to add red lines at start and end times of selection. Default is \code{TRUE}.}
 
-\item{mar}{Numeric vector of length 1. Specifies the margins to subtract
-from/add to start and end points of manualoc() selection, respectively,
+\item{mar}{Numeric vector of length 1. Specifies the margins adjancent to the start and end points of selections,
 dealineating spectrogram limits. Default is 0.05.}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 }
 \value{
-Spectrograms of the signals listed in the input data frame.
+Image file with the spectrograms of the signals listed in the input data frame.
 }
 \description{
-\code{specreator} create spectrograms of signals when given start and end time.
+\code{specreator} creates spectrograms of signals when given start and end time.
 }
 \details{
-This function creates basic spectrograms for visualization of vocalizations.
+This function creates spectrograms for visualization of vocalizations.
 Setting inner.mar to c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3.
 Title font size, inner.mar and outer.mar (from mar and oma) don't work well when osci or sc = TRUE,
 this may take some optimization by the user.
@@ -107,7 +106,7 @@ specreator(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c
 #check this folder!!
 getwd()
 
-unlink(getwd(),recursive = T)
+unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

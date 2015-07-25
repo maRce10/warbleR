@@ -5,21 +5,21 @@
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
 #'   FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE,
-#'   fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 10, col =
+#'   fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 15, col =
 #'   c("dodgerblue", "chartreuse3"), pch = c(16, 17),  mar = 0.05, lpos =
 #'   "topright", it = "jpeg")
-#' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
-#' for sound file name (sound.files), selection number (selec), and start and end time of signal
-#' (start and end).
+#' @param  X Data frame with results containing columns for sound file name (sound.files), 
+#' selection number (selec), and start and end time of signal (start and end).
+#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param flim A numeric vector of length 2 for the frequency limit of 
 #'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
 #' @param wn Character vector of length 1 specifying window name. Default is 
-#'   "hanning", as in \code{\link[seewave]{spectro}}.
+#'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param pal A color palette function to be used to assign colors in the 
 #'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2.
-#' @param ovlp Numeric vector of length 1 specifying % overlap between two 
+#' @param ovlp Numeric vector of length 1 specifying percentage of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
 #' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2). 
 #'   Specifies number of lines in inner plot margins where axis labels fall, 
@@ -29,24 +29,24 @@
 #'   form c(bottom, left, top, right). See \code{\link[graphics]{par}}.
 #' @param picsize Numeric argument of length 1. Controls relative size of 
 #'   spectrogram. Default is 1.
-#' @param res Numeric argument of length 1. Controls resolution of image.
+#' @param res Numeric argument of length 1. Controls image resolution.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 #'   presentation quality.
 #' @param cexlab Numeric vector of length 1 specifying the relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
-#'   Default is TRUE.
+#'   Default is \code{TRUE}.
 #' @param trel Logical argument to add a time axis scale relative to the wave. 
-#'   Default is FALSE.
+#'   Default is \code{FALSE}.
 #' @param propwidth Logical argument to scale the width of spectrogram 
-#'   proportionally to duration of the selected call. Default is FALSE.
+#'   proportionally to duration of the selected call. Default is \code{FALSE}.
 #' @param xl Numeric vector of length 1. A constant by which to scale 
-#'   spectrogram width if propwidth = TRUE. Default is 1.
+#'   spectrogram width. Default is 1.
 #' @param osci Logical argument to add an oscillogram underneath spectrogram, as
-#'   in \code{\link[seewave]{spectro}}. Default is FALSE.
-#' @param gr Logical argument to add grid to spectrogram. Default is FALSE.
+#'   in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.
+#' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
-#'   FALSE.
+#'   \code{FALSE}.
 #' @param fmax Numeric vector of length 1, specifying the maximum for 
 #'   frequency measurements. Default is 12 Hz.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
@@ -54,8 +54,8 @@
 #' @param cex Numeric vector of length 1, specifies relative size of points 
 #'   plotted for frequency measurements and legend font/points, respectively. 
 #'   See \code{\link[seewave]{spectro}}.
-#' @param threshold \% amplitude threshold for fundamental frequency and 
-#'   dominant frequency detection
+#' @param threshold amplitude threshold (\%) for fundamental frequency and 
+#'   dominant frequency detection. Default is 15.
 #' @param col Vector of length 2 specifying colors of points plotted to mark 
 #'   fundamental and dominant frequency measurements. Default is c("dodgerblue",
 #'   "chartreuse3").
@@ -109,7 +109,7 @@
 #' fmax = 14, bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
 #' lpos = "bottomright", it = "tiff")
 #' 
-#' unlink(getwd(),recursive = T)
+#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
@@ -117,7 +117,7 @@
 trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, trel = FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
-                       fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 10, col = c("dodgerblue", "chartreuse3"),
+                       fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 15, col = c("dodgerblue", "chartreuse3"),
                        pch = c(16, 17), mar = 0.05, lpos = "topright", it = "jpeg"){     
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 

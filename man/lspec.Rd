@@ -13,7 +13,7 @@ cex = 1, it = "jpeg", flist = NULL)
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end). If given, two red dotted lines are plotted at the
 start and end of a selection and the selections are labeled with the selection number
-(and selection comment, if available). Default is NULL.}
+(and selection comment, if available). Default is \code{NULL}.}
 
 \item{flim}{A numeric vector of length 2 indicating the highest and lowest
 frequency limits (kHz) of the spectrogram, as in
@@ -36,7 +36,7 @@ slow down the function but produce more accurate selection limits (when X is pro
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512.}
 
-\item{gr}{Logical argument to add grid to spectrogram. Default is FALSE.}
+\item{gr}{Logical argument to add grid to spectrogram. Default is \code{FALSE}.}
 
 \item{pal}{Color palette function for spectrogram. Default is reverse.gray.colors.2. See
 \code{\link[seewave]{spectro}} for more palettes.}
@@ -51,17 +51,16 @@ is 512.}
 if X is provided.}
 }
 \value{
-Spectrograms per individual call marked with dominant and fundamental
-  frequencies.
+image files with spectrograms of whole sound files in the working directory.
 }
 \description{
-\code{lspec} produce image files with spectrograms of whole sound files split into multiple
+\code{lspec} produces image files with spectrograms of whole sound files split into multiple
   rows.
 }
 \details{
 The function creates spectrograms for complete sound files, printing
   the name of the sound files and the "page" number (p1-p2...) at the upper
-  right corner of the image files. If results from the manualoc function are
+  right corner of the image files. If results from \code{\link{manualoc}} are
   supplied (or a equivalent data frame), the function delimits and labels the selections.
   This function aims to facilitate visual classification of vocalization units and the
   analysis of animal vocal sequences.
@@ -81,7 +80,7 @@ writeWave(Phae.cuvi,"Phae.cuvi.wav")
 lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
 lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
 
-unlink(getwd(),recursive = T)
+unlink(getwd(),recursive = TRUE)
 }
 }
 \author{
