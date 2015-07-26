@@ -23,6 +23,7 @@
 #' 
 #' checkwavs()
 #' 
+#' #remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
