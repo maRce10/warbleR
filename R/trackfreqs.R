@@ -1,6 +1,7 @@
 #' Spectrograms with frequency measurements
 #' 
-#' \code{trackfreqs} creates spectrograms to visualize dominant and fundametal frequency measurements.
+#' \code{trackfreqs} creates spectrograms to visualize dominant and fundametal frequency measurements
+#' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
@@ -65,7 +66,7 @@
 #'  to set spectrogram limits. Default is 0.05.
 #' @param lpos Character vector of length 1 or numeric vector of length 2, 
 #'   specifiying position of legend. If the former, any keyword accepted by 
-#'   xy.coords can be used. If the latter, the first value will be the x 
+#'   xy.coords can be used (see below). If the latter, the first value will be the x 
 #'   coordinate and the second value the y coordinate for the legend's position.
 #'   Default is "topright".
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
@@ -110,6 +111,7 @@
 #' fmax = 14, bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
 #' lpos = "bottomright", it = "tiff")
 #' 
+#' # remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
