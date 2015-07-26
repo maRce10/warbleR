@@ -2,26 +2,26 @@
 #' 
 #' \code{sig2noise} measures signal-to-noise ratio across multiple files.
 #' @usage sig2noise(X, mar)
-#' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
+#' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
-#' @param mar numeric vector of length 1. Specifies the margins adjancent to
+#' @param mar numeric vector of length 1. Specifies the margins adjacent to
 #'   the start and end points of selection over which to measure noise.
-#' @return Data frame similar to \code{\link{autodetec}} output, but also including a new variable 
+#' @return Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 
 #' with the signal-to-noise values.
 #' @export
 #' @name sig2noise
-#' @details  Signal-to-noise ratio (SNR) is a measure the level of a desired signal compare to 
-#'   the one of background noise. The function divides the mean amplitude of the signal by 
-#'   the mean amplitude of the background noise adjancent to the signal. 
+#' @details  Signal-to-noise ratio (SNR) is a measure of the level of a desired signal compared to 
+#'  background noise. The function divides the mean amplitude of the signal by 
+#'   the mean amplitude of the background noise adjacent to the signal. 
 #'   A general margin to apply before and after the acoustic signal must 
 #'   be specified. Setting margins for individual signals that have been 
-#'   previously clipped from larger files may take some optimization, as will 
-#'   margins for calls within a larger file that are irregularly separated. When
-#'   margins overlap with another acoustic signal close by, the signal-to-noise 
-#'   ratio (SNR) will be inaccurate. Any SNRs less than or equal to one suggest 
+#'   previously clipped from larger files may take some optimization, as 
+#'   for calls within a larger file that are irregularly separated. When
+#'   margins overlap with another acoustic signal nearby, the signal-to-noise 
+#'   ratio (SNR) will be inaccurate. Any SNR less than or equal to one suggests 
 #'   background noise is equal to or overpowering the acoustic signal.
-#'   \code{\link{snrspecs}} function can be used to troubleshoot different noise margins.
+#'   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
 #' @examples
 #' \dontrun{
 #' # First create empty folder
@@ -38,6 +38,7 @@
 #' # this smaller margin doesn't overlap neighboring signals
 #' sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.1)
 #' 
+#' # remove example directory 
 #' unlink(getwd(),recursive = TRUE)
 #' }
 #' 
