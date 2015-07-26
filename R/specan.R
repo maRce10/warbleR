@@ -4,7 +4,7 @@
 #' are provided. 
 #' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
-#' files 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+#' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame.
 #' @param bp numeric vector of length 2 giving the lower and upper limits of the 
