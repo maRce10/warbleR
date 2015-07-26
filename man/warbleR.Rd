@@ -47,6 +47,9 @@ License: GPL (>= 2)
 \section{Streamlining acoustic analysis in R}{
 
 
+  \code{\link{autodetec}}: Automatically detect start and
+  end of acoustic signals
+
   \code{\link{manualoc}}: Interactive spectrographic view to measure start and
   end of acoustic signals
 
