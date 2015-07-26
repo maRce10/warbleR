@@ -4,7 +4,12 @@
 #'   rows.
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1), 
 #' ovlp = 50, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
-#' cex = 1, it = "jpeg", flist = NULL)  
+#' cex = 1, it = "jpeg", flist = NULL) 
+#' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
+#' for sound file name (sound.files), selection number (selec), and start and end time of signal
+#' (start and end). If given, two red dotted lines are plotted at the 
+#' start and end of a selection and the selections are labeled with the selection number 
+#' (and selection comment, if available). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
 #'   \code{\link[seewave]{spectro}}. Default is c(0,22).
@@ -12,29 +17,25 @@
 #'   per row. Default is 5.
 #' @param rows A numeric vector of length 1. Specifies number of rows per 
 #'   image file. Default is 10.
-#' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
-#'   is 512.
 #' @param collev A numeric vector of length 3. Specifies levels to partition the 
 #'   amplitude range of the spectrogram (in dB). The more levels the higher the
 #'   resolution of the spectrogram. Default is seq(-40, 0, 1).
 #' @param ovlp Numeric vector of length 1 specifying the percentage of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. High values of ovlp 
 #'   slow down the function but produce more accurate selection limits (when X is provided). 
+#' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
+#'   is 512.
 #' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
 #' \code{\link[seewave]{spectro}} for more palettes.
-#' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
-#' for sound file name (sound.files), selection number (selec), and start and end time of signal
-#' (start and end). If given, two red dotted lines are plotted at the 
-#' start and end of a selection and the selections are labeled with the selection number 
-#' (and selection comment, if available). Default is \code{NULL}.
 #' @param cex A numeric vector of length 1 giving the amount by which text 
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
-#' @return image files with spectrograms of whole sound files in the working directory.
+#' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
+#' can be returned, depending on the length of each sound file. 
 #' @export
 #' @name lspec
 #' @details The function creates spectrograms for complete sound files, printing
@@ -49,15 +50,16 @@
 #' dir.create(file.path(getwd(),"temp"))
 #' setwd(file.path(getwd(),"temp"))
 #' 
-#' # save wav file examples
+#' # save sound file examples
 #' data(list = c("Arre.aura", "Phae.cuvi"))
 #' data(manualoc.df)
-#' writeWave(Arre.aura,"Arre.aura.wav") #save sound files
+#' writeWave(Arre.aura,"Arre.aura.wav") 
 #' writeWave(Phae.cuvi,"Phae.cuvi.wav")
 #'
 #' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
 #' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
 #'
+#' #remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
