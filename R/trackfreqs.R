@@ -91,6 +91,7 @@
 #' dir.create(file.path(getwd(),"temp"))
 #' setwd(file.path(getwd(),"temp"))
 #' 
+#' #load data
 #' data(list = c("Arre.aura", "Phae.cuvi"))
 #' data(manualoc.df)
 #' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
