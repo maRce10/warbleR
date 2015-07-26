@@ -3,8 +3,8 @@
 #' warbleR is a package designed to streamline analysis of (bio)acoustic signals in R. This 
 #' package allows users to collect open-access avian vocalizations data or input their 
 #' own data into a workflow that facilitates spectrographic visualization 
-#' and obtaining acoustic parameters in a batch process. The functions facilitate searching and downloading 
-#' avian vocalizations from Xeno-Canto \url{http://www.xeno-canto.org/},creating maps of Xeno-Canto recordings, 
+#' and measurement of acoustic parameters in a batch process. The functions facilitate searching and downloading 
+#' avian vocalizations from Xeno-Canto \url{http://www.xeno-canto.org/}, creating maps of Xeno-Canto recordings, 
 #' converting .mp3 files to .wav files, checking .wav files, automatically detecting acoustic signals, selecting 
 #' them manually, printing spectrograms of whole recordings or individual signals, measuring signal 
 #' to noise ratio and performing acoustic measurements.
@@ -35,7 +35,9 @@
 #'   
 #'   \code{\link{manualoc}}: Interactive spectrographic view to measure start and 
 #'   end of acoustic signals
-#'   
+#' 
+#'   \code{\link{autodetec}}: Automatic detection of acoustic signals based on ampltiude 
+#'
 #'   \code{\link{lspec}}: Produce spectrograms of whole recordings split into 
 #'   multiple rows
 #'   
