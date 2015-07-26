@@ -1,6 +1,6 @@
 #' Automatically detect vocalizations in sound files
 #' 
-#' Automatically detects the start and end of vocalizations in sound files  based
+#' \code{autodetec} automatically detects the start and end of vocalizations in sound files  based
 #' on amplitude, duration, and frequency range attributes.
 #' @usage autodetec(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), 
 #'   power=1, bp=NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
