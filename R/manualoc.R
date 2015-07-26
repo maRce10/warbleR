@@ -10,23 +10,23 @@
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
 #'   Default is c(0,12).
 #' @param seltime A numeric vector of length 1 indicating the time interval in seconds at which 
-#' the spectrograms are produce with higher "resolution" (ovlp = 70) and oscilograms (if osci = \code{TRUE}). 
-#'  Default is 1 s.
+#' the spectrograms are produced with higher resolution (ovlp = 70) and oscilograms (if osci = \code{TRUE}). 
+#'  Default is 1 second.
 #' @param tdisp A numeric vector of length 1 specifying the length in seconds of the total sound file to 
 #' be displayed. Default is \code{NULL} which displays the full sound file.
 #' @param reccomm Logical argument. If \code{TRUE} pops up a comment window at the end of each sound file.
-#'   The comment needs to be quoted. Default is  \code{FALSE}.
+#'   The comment needs to be quoted. Default is \code{FALSE}.
 #' @param wn A character vector of length 1 specifying the window function (by default "hanning"). See function 
 #' \code{\link[seewave]{ftwindow}} for more options.
 #' @param title Logical argument. If \code{TRUE} the name of the sound file will be printed as the main 
 #'   title of the spectrogram window. Default is \code{TRUE}
 #' @param selcomm Logical argument. If \code{TRUE} pops up a comment window after each selection. The 
 #'   comment is printed as a label on the selected unit. The comment must be quoted. Default is \code{FALSE}
-#' @param osci Logical argument. If \code{TRUE} adds a oscillogram whenever the spectrograms are produce 
-#'   with higher "resolution" (see seltime). Default is \code{FALSE}.
+#' @param osci Logical argument. If \code{TRUE} adds a oscillogram whenever the spectrograms are produced 
+#'   with higher resolution (see seltime). Default is \code{FALSE}.
 #' @param player Path to or name of a program capable of playing a wave file by 
 #'   invocation from the command line. If under Windows and no player is given, 
-#'   windows player will be chosen as the default. "vlc" works in linux if vlc player is installed. 
+#'   windows player will be chosen as the default. "vlc" works in Linux if vlc player is installed. 
 #'   The external program must be closed before resuming analysis. Default is \code{NULL}.
 #' @param pal A color palette function to be used to assign colors in the 
 #'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.
@@ -51,6 +51,7 @@
 #' # need to use the buttoms to manipulate function
 #' # check working directory for .csv file after stopping function
 #' 
+#' #remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
 #' @details Users can zoom-in a specific sound file segment by clicking at the 
@@ -62,7 +63,7 @@
 #'   the previous view ("Previous view"), stop the analysis ("Stop"), go to the
 #'   next sound file ("Next rec"), play the current view using external software 
 #'   ("Play", see "player" argument), or delete the last manual selection in the
-#'   current sound file ("Del-sel"). When a unit has been selected the function 
+#'   current sound file ("Del-sel"). When a unit has been selected, the function 
 #'   plots a red circle with the selection number in the middle point of the 
 #'   selection in the spectrogram. It also plots vertical dotted lines at the 
 #'   start and end of the selection. The circle and lines "disappear" when the 
@@ -80,8 +81,8 @@
 #'   selection the file is still included in the .csv file, with NA's in the
 #'   "end", "time" and "selec" field. 
 #'   
-#'   Windows length (wl) control the temporal and frequency precision of the spectrogram. 
-#'   A high "wl" value increases the frequency resolution but reduces the temporal one, and vice versa. Any
+#'   Windows length (wl) controls the temporal and frequency precision of the spectrogram. 
+#'   A high "wl" value increases the frequency resolution but reduces the temporal resolution, and vice versa. Any
 #'   color palette that comes with the seewave package can be used: temp.colors,
 #'   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
 #'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
