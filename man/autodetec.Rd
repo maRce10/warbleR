@@ -7,7 +7,7 @@
 autodetec(X= NULL, threshold=15, envt="abs", msmooth=c(300,90),
   power=1, bp=NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur =
-  NULL, redo = FALSE, img = T, it = "jpeg", set = F, flist = NULL)
+  NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function or any data frame with columns
@@ -15,7 +15,7 @@ for sound file name (sound.files), selection number (selec), and start and end t
 (start and end).}
 
 \item{threshold}{A numeric vector of length 1 specifying the amplitude threshold for detecting
-signals (in percentage).}
+signals (in \%).}
 
 \item{envt}{Character vector of length 1 specifying the type of envelope to
 be used: "abs" for absolute amplitude envelope or "hil" for Hilbert
@@ -34,8 +34,8 @@ background noise. Default is 1 (no change).}
 frequency bandpass filter (in kHz). Default is c(0, 22).}
 
 \item{osci}{Logical argument to add an oscillogram underneath spectrogram, as
-in \code{\link[seewave]{spectro}}. Default is FALSE. Not applied if ls is
-TRUE.}
+in \code{\link[seewave]{spectro}}. Default is \code{FALSE}. Not applied if ls is
+\code{TRUE}.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512.}
@@ -53,16 +53,16 @@ presentation quality.}
 \item{flim}{A numeric vector of length 2 for the frequency limit in kHz of
 the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
 
-\item{ls}{Logical argument. If TRUE long spectrograms (as in lspec function)
-are produce.}
+\item{ls}{Logical argument. If \code{TRUE}, long spectrograms as in \code{\link{lspec}}
+are produced.}
 
-\item{sxrow}{A numeric vector of length 1 . Specifies seconds of spectrogram
-per row when creating long spectrograms. Default is 10. Applied when is
-TRUE and/or when X is not provided.}
+\item{sxrow}{A numeric vector of length 1. Specifies seconds of spectrogram
+per row when creating long spectrograms. Default is 10. Applied when ls =
+\code{TRUE} and/or when X is not provided.}
 
-\item{rows}{A numeric vector of length 1 . Specifies number of rows per
-image file when creating long spectrograms. Default is 10. Applied when is
-TRUE and/or when X is not provided.}
+\item{rows}{A numeric vector of length 1. Specifies number of rows per
+image file when creating long spectrograms. Default is 10. Applied when ls =
+\code{TRUE} and/or when X is not provided.}
 
 \item{mindur}{Numeric vector of length 1 giving the shortest duration (in
 seconds) of the signals to be detected. It removes signals below that
@@ -72,18 +72,18 @@ threshold.}
 seconds) of the signals to be detected. It removes signals above that
 threshold.}
 
-\item{redo}{Logical argument. If TRUE all selection will be analyzed again
-when code is rerun. If FALSE only the selections that do not have a image
-file in the working directory will be analyzed. Default is FALSE.}
+\item{redo}{Logical argument. If \code{TRUE} all selections will be analyzed again
+when code is rerun. If \code{FALSE} only the selections that do not have a image
+file in the working directory will be analyzed. Default is \code{FALSE}.}
 
-\item{img}{Logical argument. If FALSE image files are not produce. Default TRUE.}
+\item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
 \item{it}{A character vector of length 1  giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
 \item{set}{A logical argument indicating wheter the settings of the autodetection
-process should be included in the image file name. If TRUE threshold (th), envelope (envt), bandpass (bp),
- power (pw), msmooth (msmo), maxdur (mxdu), and mindur (midu) are included.}
+process should be included in the image file name. If \code{TRUE}, threshold (th), envelope (envt), bandpass (bp),
+power (pw), msmooth (msmo), maxdur (mxdu), and mindur (midu) are included.}
 
 \item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.}
@@ -94,16 +94,15 @@ Image files with spectrograms showing the start and end of the detected signals.
   sound file and selection number.
 }
 \description{
-Automatically detects the start and end of vocalizations in sound files  based
+\code{autodetec} automatically detects the start and end of vocalizations in sound files  based
 on amplitude, duration, and frequency range attributes.
 }
 \details{
-This function determines the start and end of signals (hopefuly
-  vocalizations) in the segments of the sound files listed in the input data
-  frame. Alternatively, if no data frame is provided, the function detecs signals across
-  the entire sound files (and creates long spectrograms for all sound files in the working directory).
- The input data frame should have the following columns: c("sound.files","selec","start","end",
- "sel.comment"). The ouptut of \code{\link{manualoc}} can be used as the input data frame. This function uses
+This function determines the start and end of signals in the segments of the sound files listed
+  in the input data frame. Alternatively, if no data frame is provided, the function detects signals across
+  each entire sound file and creates long spectrograms for all sound files in the working directory.
+  The input data frame should have the following columns: c("sound.files","selec","start","end").
+  The ouptut of \code{\link{manualoc}} can be used as the input data frame. This function uses
   a modified version of the \code{\link[seewave]{timer}} function from seewave
   package to detect signals.
 }
@@ -121,17 +120,18 @@ writeWave(Phae.long4,"Phae.long4.wav")
 
 ad <- autodetec(threshold=5, env="hil", msmooth=c(900,90), power=1,
 bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
-wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = T)
+wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
 
 #run it with different settings
 ad <- autodetec(threshold=10, env="abs", msmooth=c(900,90), power=1,
 bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
-wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = T)
+wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
 
 #check this folder!!
 getwd()
 
-unlink(getwd(),recursive = T)
+#remove example directory
+unlink(getwd(),recursive = TRUE)
 }
 }
 \author{
