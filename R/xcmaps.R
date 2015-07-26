@@ -3,13 +3,13 @@
 #' \code{xcmaps} creates maps to visualize the geographic spread of Xeno-Canto
 #'   recordings.
 #' @usage xcmaps(X, img = TRUE, it = "jpeg")   
-#' @param X Data frame output from0 \code{\link{querxc}}.
+#' @param X Data frame output from \code{\link{querxc}}.
 #' @param img A logical argument specifying whether an image file of each species
 #'   map should be returned, default is \code{TRUE}.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @return A map of Xeno-Canto recordings per species (image file), or a faceted
-#'   R plot of species map(s).
+#'   plot of species map(s) in RStudio.
 #' @export
 #' @name xcmaps
 #' @examples
