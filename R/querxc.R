@@ -2,8 +2,8 @@
 #' 
 #' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
 #' @usage querxc(qword, download = FALSE)  
-#' @param qword Character vector of length one indicating the genus or genus and
-#'   species (for example \emph{Phaethornis} or \emph{Phaethornis longirostris}) to query Xeno-Canto database
+#' @param qword Character vector of length one indicating the genus, or genus and
+#'   species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 #'   (\url{http://www.xeno-canto.org/}).
 #' @param download Logical argument. Downloads recording file names and
 #'   associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
@@ -26,6 +26,7 @@
 #' #check this folder!!
 #' getwd()
 #' 
+#' # remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
