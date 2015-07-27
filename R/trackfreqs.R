@@ -20,7 +20,7 @@
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param pal A color palette function to be used to assign colors in the 
 #'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2.
-#' @param ovlp Numeric vector of length 1 specifying percentage of overlap between two 
+#' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
 #' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2). 
 #'   Specifies number of lines in inner plot margins where axis labels fall, 

@@ -7,7 +7,7 @@
 xcmaps(X, img = TRUE, it = "jpeg")
 }
 \arguments{
-\item{X}{Data frame output from querxc().}
+\item{X}{Data frame output from \code{\link{querxc}}.}
 
 \item{img}{A logical argument specifying whether an image file of each species
 map should be returned, default is \code{TRUE}.}

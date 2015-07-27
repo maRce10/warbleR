@@ -20,7 +20,7 @@
 #' @param collev A numeric vector of length 3. Specifies levels to partition the 
 #'   amplitude range of the spectrogram (in dB). The more levels the higher the
 #'   resolution of the spectrogram. Default is seq(-40, 0, 1).
-#' @param ovlp Numeric vector of length 1 specifying the percentage of overlap between two 
+#' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. High values of ovlp 
 #'   slow down the function but produce more accurate selection limits (when X is provided). 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 

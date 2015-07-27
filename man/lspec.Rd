@@ -29,7 +29,7 @@ image file. Default is 10.}
 amplitude range of the spectrogram (in dB). The more levels the higher the
 resolution of the spectrogram. Default is seq(-40, 0, 1).}
 
-\item{ovlp}{Numeric vector of length 1 specifying the percentage of overlap between two
+\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. High values of ovlp
 slow down the function but produce more accurate selection limits (when X is provided).}
 

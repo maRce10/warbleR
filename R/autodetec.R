@@ -1,64 +1,64 @@
 #' Automatically detect vocalizations in sound files
 #' 
-#' Automatically detects the start and end of vocalizations in sound files  based
+#' \code{autodetec} automatically detects the start and end of vocalizations in sound files  based
 #' on amplitude, duration, and frequency range attributes.
 #' @usage autodetec(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), 
 #'   power=1, bp=NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
 #'   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
-#'   NULL, redo = FALSE, img = T, it = "jpeg", set = F, flist = NULL)
+#'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL)
 #' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting 
-#'   signals (in percentage).
-#' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
-#'   is 512.
-#' @param msmooth A numeric vector of length 2 to smooth the amplitude envelope 
-#'   with a mean sliding window. The first component is the window length and 
-#'   the second is the overlap between successive windows (in \%).
-#' @param flim A numeric vector of length 2 for the frequency limit in kHz of 
-#'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
+#'   signals (in \%).
 #' @param envt Character vector of length 1 specifying the type of envelope to
 #'   be used: "abs" for absolute amplitude envelope or "hil" for Hilbert 
 #'   amplitude envelope. Default is "abs".
+#' @param msmooth A numeric vector of length 2 to smooth the amplitude envelope 
+#'   with a mean sliding window. The first component is the window length and 
+#'   the second is the overlap between successive windows (in \%).
+#' @param power A numeric vector of length 1 indicating a power factor applied 
+#'   to the amplitude envelope. Increasing power will reduce low amplitude 
+#'   modulations and increase high amplide modulations, in order to reduce 
+#'   background noise. Default is 1 (no change).
+#' @param bp Numeric vector of length 2 giving the lower and upper limits of a
+#'   frequency bandpass filter (in kHz). Default is c(0, 22).
+#' @param osci Logical argument to add an oscillogram underneath spectrogram, as
+#'   in \code{\link[seewave]{spectro}}. Default is \code{FALSE}. Not applied if ls is 
+#'   \code{TRUE}.
+#' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
+#'   is 512.
+#' @param xl Numeric vector of length 1, a constant by which to scale 
+#'   spectrogram width. Default is 1.
 #' @param picsize Numeric argument of length 1. Controls the relative size of 
 #'   the spectrogram. Default is 1.
 #' @param res Numeric argument of length 1 controling resolution of images.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 #'   presentation quality.
-#' @param xl Numeric vector of length 1, a constant by which to scale 
-#'   spectrogram width. Default is 1.
-#' @param power A numeric vector of length 1 indicating a power factor applied 
-#'   to the amplitude envelope. Increasing power will reduce low amplitude 
-#'   modulations and increase high amplide modulations, in order to reduce 
-#'   background noise. Default is 1 (no change).
-#' @param osci Logical argument to add an oscillogram underneath spectrogram, as
-#'   in \code{\link[seewave]{spectro}}. Default is FALSE. Not applied if ls is 
-#'   TRUE.
-#' @param sxrow A numeric vector of length 1 . Specifies seconds of spectrogram
-#'   per row when creating long spectrograms. Default is 10. Applied when is 
-#'   TRUE and/or when X is not provided.
-#' @param rows A numeric vector of length 1 . Specifies number of rows per 
-#'   image file when creating long spectrograms. Default is 10. Applied when is 
-#'   TRUE and/or when X is not provided.
-#' @param bp Numeric vector of length 2 giving the lower and upper limits of a
-#'   frequency bandpass filter (in kHz). Default is c(0, 22).
-#' @param ls Logical argument. If TRUE long spectrograms (as in lspec function) 
-#'   are produce.
+#' @param flim A numeric vector of length 2 for the frequency limit in kHz of 
+#'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
+#' @param ls Logical argument. If \code{TRUE}, long spectrograms as in \code{\link{lspec}} 
+#'   are produced.
+#' @param sxrow A numeric vector of length 1. Specifies seconds of spectrogram
+#'   per row when creating long spectrograms. Default is 10. Applied when ls =
+#'   \code{TRUE} and/or when X is not provided.
+#' @param rows A numeric vector of length 1. Specifies number of rows per 
+#'   image file when creating long spectrograms. Default is 10. Applied when ls =  
+#'   \code{TRUE} and/or when X is not provided.
 #' @param mindur Numeric vector of length 1 giving the shortest duration (in 
 #'   seconds) of the signals to be detected. It removes signals below that 
 #'   threshold.
 #' @param maxdur Numeric vector of length 1 giving the longest duration (in 
 #'   seconds) of the signals to be detected. It removes signals above that 
 #'   threshold.
-#' @param redo Logical argument. If TRUE all selection will be analyzed again 
-#'   when code is rerun. If FALSE only the selections that do not have a image 
-#'   file in the working directory will be analyzed. Default is FALSE.
+#' @param redo Logical argument. If \code{TRUE} all selections will be analyzed again 
+#'   when code is rerun. If \code{FALSE} only the selections that do not have a image 
+#'   file in the working directory will be analyzed. Default is \code{FALSE}.
+#' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param it A character vector of length 1  giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @param img Logical argument. If FALSE image files are not produce. Default TRUE.
 #' @param set A logical argument indicating wheter the settings of the autodetection 
-#' process should be included in the image file name. If TRUE threshold (th), envelope (envt), bandpass (bp),
+#'  process should be included in the image file name. If \code{TRUE}, threshold (th), envelope (envt), bandpass (bp),
 #'  power (pw), msmooth (msmo), maxdur (mxdu), and mindur (midu) are included. 
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
@@ -67,12 +67,11 @@
 #'   sound file and selection number.
 #' @export
 #' @name autodetec
-#' @details This function determines the start and end of signals (hopefuly 
-#'   vocalizations) in the segments of the sound files listed in the input data 
-#'   frame. Alternatively, if no data frame is provided, the function detecs signals across
-#'   the entire sound files (and creates long spectrograms for all sound files in the working directory).
-#'  The input data frame should have the following columns: c("sound.files","selec","start","end",
-#'  "sel.comment"). The ouptut of \code{\link{manualoc}} can be used as the input data frame. This function uses 
+#' @details This function determines the start and end of signals in the segments of the sound files listed 
+#'   in the input data frame. Alternatively, if no data frame is provided, the function detects signals across
+#'   each entire sound file and creates long spectrograms for all sound files in the working directory.
+#'   The input data frame should have the following columns: c("sound.files","selec","start","end"). 
+#'   The ouptut of \code{\link{manualoc}} can be used as the input data frame. This function uses 
 #'   a modified version of the \code{\link[seewave]{timer}} function from seewave 
 #'   package to detect signals. 
 #'   
@@ -90,24 +89,25 @@
 #' 
 #' ad <- autodetec(threshold=5, env="hil", msmooth=c(900,90), power=1, 
 #' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
-#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = T)
+#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
 #' 
 #' #run it with different settings
 #' ad <- autodetec(threshold=10, env="abs", msmooth=c(900,90), power=1, 
 #' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
-#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = T)
+#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
 #' 
 #' #check this folder!!
 #' getwd()
 #' 
-#' unlink(getwd(),recursive = T)
+#' #remove example directory
+#' unlink(getwd(),recursive = TRUE)
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
 autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=1, bp=NULL, osci = FALSE, wl = 512,
                     xl = 1, picsize = 1, res = 100, flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL,
-                    maxdur = NULL, redo = FALSE, img = T, it = "jpeg", set = F, flist = NULL){
+                    maxdur = NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL){
   
   if(!is.null(X)){
     
