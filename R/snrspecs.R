@@ -1,13 +1,13 @@
 #' Spectrograms with background noise margins
 #' 
 #' \code{snrspecs} creates spectrograms to visualize margins over which background noise
-#' would be measured by \code{\link{sig2noise}}.
+#' will be measured by \code{\link{sig2noise}}.
 #' @usage snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
 #'   FALSE, propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
 #'   0.2, snrmar = 0.1, it = "jpeg")
-#' @param  X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
+#' @param  X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -35,8 +35,6 @@
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
 #'   Default is \code{TRUE}.
-#' @param it A character vector of length 1 giving the image type to be used. Currently only
-#' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param trel Logical argument to add a time axis scale relative to the wave. 
 #'   Default is \code{FALSE}.
 #' @param propwidth Logical argument to scale the width of spectrogram 
@@ -52,6 +50,8 @@
 #' start and end points of the selections to define spectrogram limits. Default is 0.2.
 #' @param snrmar Numeric vector of length 1. Specifies the margins adjacent to the start and end 
 #' points of the selections where noise will be measured. Default is 0.1.
+#' @param it A character vector of length 1 giving the image type to be used. Currently only
+#' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @return Spectrograms per selection marked with margins where background noise will be measured.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
@@ -62,10 +62,10 @@
 #' @details This function can be used to test different margins to facilitate 
 #'   accurate SNR measurements when using \code{\link{sig2noise}} down the line.
 #'   Setting margins for individual calls that have been previously clipped from
-#'   larger files may take some optimization, as will margins for calls within a
+#'   larger files may take some optimization, as for calls within a
 #'   larger file that are irregularly separated. Setting inner.mar to 
 #'   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
-#'   Title font size, inner.mar and outer.mar (from mar and oma) don't work well
+#'   Title font size, inner.mar and outer.mar (from \code{mar} and \code{oma} in \code{par}) don't work well
 #'   when osci or sc = \code{TRUE}, this may take some optimization by the user.
 #' @examples
 #' \dontrun{
@@ -94,6 +94,7 @@
 #' #check this folder!!
 #' getwd()
 #' 
+#' #remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre

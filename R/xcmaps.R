@@ -9,7 +9,7 @@
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @return A map of Xeno-Canto recordings per species (image file), or a faceted
-#'   R plot of species map(s).
+#'   plot of species map(s) in RStudio.
 #' @export
 #' @name xcmaps
 #' @examples

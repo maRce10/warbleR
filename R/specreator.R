@@ -1,14 +1,14 @@
 #' Spectrograms of selected signals
 #' 
-#' \code{specreator} creates spectrograms of signals when given start and end time.
+#' \code{specreator} creates spectrograms of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE, 
-#'   propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
+#'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 #'   mar = 0.05, it = "jpeg")
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
-#' selection number (selec), start and end time of signal (start and end), and selection comment (sel.comment).
-#' The ouptut of \code{\link{manualoc}} can be used as the input data frame. 
+#' selection number (selec), and start and end time of signals (start and end).
+#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param flim A numeric vector of length 2 for the frequency limit (in kHz) of 
@@ -17,7 +17,7 @@
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param pal A color palette function to be used to assign colors in the 
 #'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. 
-#' @param ovlp Numeric vector of length 1 specifying % overlap between two 
+#' @param ovlp Numeric vector of length 1 specifying the percent overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
 #' @param inner.mar Numeric vector with 4 elements, default is c(5,4,4,2). 
 #'   Specifies number of lines in inner plot margins where axis labels fall, 
@@ -46,11 +46,11 @@
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   \code{FALSE}.
 #' @param line Logical argument to add red lines at start and end times of selection. Default is \code{TRUE}.
-#' @param mar Numeric vector of length 1. Specifies the margins adjancent to the start and end points of selections, 
+#' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections, 
 #' dealineating spectrogram limits. Default is 0.05.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @return Image file with the spectrograms of the signals listed in the input data frame.
+#' @return Image files containing spectrograms of the signals listed in the input data frame.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
 #'   frequency measurements by\code{\link{specan}}, \code{\link{snrspecs}} for 
@@ -60,7 +60,7 @@
 #' @details This function creates spectrograms for visualization of vocalizations. 
 #' Setting inner.mar to c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
 #' Title font size, inner.mar and outer.mar (from mar and oma) don't work well when osci or sc = TRUE,
-#'this may take some optimization by the user.
+#' this may take some optimization by the user.
 #' @examples
 #' \dontrun{ 
 #' # First create empty folder
@@ -80,6 +80,7 @@
 #' #check this folder!!
 #' getwd()
 #' 
+#' #remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
