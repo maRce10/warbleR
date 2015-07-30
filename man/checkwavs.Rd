@@ -32,6 +32,7 @@ writeWave(Phae.long3,"Phae.long3.wav")
 
 checkwavs()
 
+#remove example directory
 unlink(getwd(),recursive = TRUE)
 }
 }

@@ -51,8 +51,7 @@
 #' setwd(file.path(getwd(),"temp"))
 #' 
 #' # save sound file examples
-#' data(list = c("Arre.aura", "Phae.cuvi"))
-#' data(manualoc.df)
+#' data(list = c("Arre.aura", "Phae.cuvi","manualoc.df"))
 #' writeWave(Arre.aura,"Arre.aura.wav") 
 #' writeWave(Phae.cuvi,"Phae.cuvi.wav")
 #'

@@ -7,8 +7,8 @@
 querxc(qword, download = FALSE)
 }
 \arguments{
-\item{qword}{Character vector of length one indicating the genus or genus and
-species (for example \emph{Phaethornis} or \emph{Phaethornis longirostris}) to query Xeno-Canto database
+\item{qword}{Character vector of length one indicating the genus, or genus and
+species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}.
 (\url{http://www.xeno-canto.org/}).}
 
 \item{download}{Logical argument. Downloads recording file names and
@@ -34,6 +34,7 @@ querxc("Phaethornis anthophilus", download = TRUE)
 #check this folder!!
 getwd()
 
+# remove example directory
 unlink(getwd(),recursive = TRUE)
 }
 }

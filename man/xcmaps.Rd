@@ -17,7 +17,7 @@ map should be returned, default is \code{TRUE}.}
 }
 \value{
 A map of Xeno-Canto recordings per species (image file), or a faceted
-  R plot of species map(s).
+  plot of species map(s) in RStudio.
 }
 \description{
 \code{xcmaps} creates maps to visualize the geographic spread of Xeno-Canto
