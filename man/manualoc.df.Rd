@@ -19,7 +19,7 @@ Marcelo Araya Salas, warbleR
 data(manualoc.df)
 }
 \description{
-A data frame containing information for calls selected using manualoc().
+A data frame containing information for calls selected using \code{\link{manualoc}}.
 }
 \keyword{datasets}
 
