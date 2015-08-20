@@ -4,8 +4,8 @@
 \name{warbleR}
 \alias{warbleR}
 \alias{warbleR-package}
-\title{warbleR: A package to streamline bioacoustic analysis}
-\description{
+\title{warbleR: A package to streamline bioacoustic analysis
+PINEAPPLE
 warbleR is a package designed to streamline analysis of (bio)acoustic signals in R. This
 package allows users to collect open-access avian vocalizations data or input their
 own data into a workflow that facilitates spectrographic visualization
@@ -13,12 +13,12 @@ and measurement of acoustic parameters in a batch process. The functions facilit
 avian vocalizations from Xeno-Canto \url{http://www.xeno-canto.org/}, creating maps of Xeno-Canto recordings,
 converting .mp3 files to .wav files, checking .wav files, automatically detecting acoustic signals, selecting
 them manually, printing spectrograms of whole recordings or individual signals, measuring signal
-to noise ratio and performing acoustic measurements.
-}
-\details{
+to noise ratio and performing acoustic measurements.}
+\description{
 The warbleR package offers three overarching categories of
   functions:
-
+}
+\details{
 \itemize{
 
 \item Obtaining avian vocalization data \item Sound file management \item Streamlined
