@@ -235,8 +235,8 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     dfreq <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
                    threshold = threshold, tlim = c(start[i], end[i]))
     if(trel)
-      points(c(dfreq[,1])+start[i], c(dfreq[,2]), col = col[2], cex = cex[1], pch = pch[1]) else
-        points(c(dfreq[,1])+mar, c(dfreq[,2]), col = col[2], cex = cex[1], pch = pch[1])
+      points(c(dfreq[,1])+start[i], c(dfreq[,2]), col = col[2], cex = cex[1], pch = pch[2]) else
+        points(c(dfreq[,1])+mar, c(dfreq[,2]), col = col[2], cex = cex[1], pch = pch[2])
     
     abline(v = c(mar, end[i] - start[i] + mar), col= "red", lty = "dashed")
     
