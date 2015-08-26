@@ -6,9 +6,8 @@
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
 #'   FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE,
-#'   fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 15, col =
-#'   c("dodgerblue", "chartreuse3"), pch = c(16, 17),  mar = 0.05, lpos =
-#'   "topright", it = "jpeg")
+#'  bp = c(0, 22), cex = c(0.8, 1), threshold = 15, col = c("dodgerblue", "chartreuse3"),
+#'  pch = c(16, 17),  mar = 0.05, lpos = "topright", it = "jpeg")
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -48,8 +47,6 @@
 #' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   \code{FALSE}.
-#' @param fmax Numeric vector of length 1, specifying the maximum for 
-#'   frequency measurements. Default is 12 Hz.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz). Default is c(0, 22).
 #' @param cex Numeric vector of length 1, specifies relative size of points 
@@ -101,14 +98,14 @@
 #' # make Arre.aura and Phae.cuvi spectrograms  
 #' 
 #' trackfreqs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
-#' picsize = 2, res = 300, cexlab = 2, fmax = 14, bp = c(0, 14), cex = c(1.5, 2), 
+#' picsize = 2, res = 300, cexlab = 2, bp = c(0, 14), cex = c(1.5, 2), 
 #' col = c("blue", "red"),  mar = 0.09, lpos = "bottomright", it = "jpeg")
 #'                  
 #' # make only Arre.aura spectrograms
 #' 
 #' trackfreqs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14),
 #' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
-#' fmax = 14, bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
+#' bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
 #' lpos = "bottomright", it = "tiff")
 #' 
 #' # remove example directory
@@ -120,7 +117,7 @@
 trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, trel = FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
-                       fmax = 12, bp = c(0, 22), cex = c(0.8, 1), threshold = 15, col = c("dodgerblue", "chartreuse3"),
+                       bp = c(0, 22), cex = c(0.8, 1), threshold = 15, col = c("dodgerblue", "chartreuse3"),
                        pch = c(16, 17), mar = 0.05, lpos = "topright", it = "jpeg"){     
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
@@ -225,7 +222,8 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     }
     
     # Plot fundamental frequencies at each time point
-    ffreq <- seewave::fund(r, f = f, ovlp = 70, threshold = threshold,, fmax = fmax * 1000, from=start[i],
+    ffreq <- seewave::fund(seewave::ffilter(r, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = T,
+              wl= wl, output="Wave"), f = f, ovlp = 70, threshold = threshold, from=start[i],
                   to = end[i], plot = FALSE) 
     if(trel)
     points(c(ffreq[,1])+start[i], c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1]) else 

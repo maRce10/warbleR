@@ -75,12 +75,9 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   
   #stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory")
-  if (!is.null(flist)) 
-  
   #subet based on file list provided (flist)
-  files <- files[files %in% flist]
-  if (length(files) == 0) 
-  stop("selected .wav files are not in working directory")
+  if (!is.null(flist)) files <- files[files %in% flist]
+  if (length(files) == 0)  stop("selected .wav files are not in working directory")
   
   #read X files
   if(!is.null(X)) {manloc <- X

@@ -207,7 +207,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
         tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)
       
       if(set) X <- X[!(paste(substring(X$sound.files, first = 1, last = nchar(as.character(X$sound.files))-4),
-              "-", X$selec, "autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+              "-", X$selec, "-autodetec","-th" ,threshold ,"-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
               "-mxdu", maxdur, "-pw", power, sep = "") %in% substring(tfs, 1, nchar(tfs)-15)),] else
       X <- X[!(paste(substring(X$sound.files, 1, nchar(as.character(X$sound.files))-4), X$selec, sep = "-") %in% substring(tfs, 1, nchar(tfs)-15)),]
       if(nrow(X) == 0) stop("All selections have been analyzed (redo = F)") 
@@ -327,12 +327,15 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     #subet based on file list provided (flist)
     if(!is.null(flist)) files <- files[files %in% flist]
         
-    #redo the ones that have no images in folder
-    if(redo == F) {
-      if(it == "tiff") tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE) else
-        tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)      
-      files <- files[!(substring(files, 1, nchar(as.character(files))-4) %in% substring(tfs, 1, nchar(tfs)-21))]
-      if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
+    #do the ones that have no images in folder
+    if(!redo) {
+      if(it == "tiff") {tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
+                        tfs <- grep("autodetec", tfs, value = TRUE)} else
+{        tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)      
+      tfs <- grep("autodetec", tfs, value = TRUE)}
+if(length(tfs)>0) for(k in gsub(".wav","", ignore.case = T, files))
+        if(length(grep(k,tfs,value = T))>0) files <- grep(k, files, value = TRUE, invert = T)
+        if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
     }  
     
    message("Detecting signals in sound files:")
@@ -432,8 +435,19 @@ if(any(ls,is.null(X)) & img) {
   
     #read files
     files <- list.files(path = getwd(), pattern = ".wav$", ignore.case = T)  
-    
   if(length(files) == 0) stop("no .wav files in working directory")  
+  
+  #do the ones that have no images in folder
+    if(!redo) {
+      if(it == "tiff") {tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
+          tfs <- grep("autodetec", tfs, value = TRUE) } else{
+        tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)
+        tfs <- grep("autodetec", tfs, value = TRUE)}      
+      if(length(tfs)>0)for(k in gsub(".wav","", ignore.case = T, files))
+        if(length(grep(k,tfs,value = T))>0) files <- grep(k, files, value = TRUE, invert = T)
+          }    
+      if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
+  
   
     #subet based on file list provided (flist)
     if(!is.null(flist)) files <- files[files %in% flist]
@@ -463,9 +477,9 @@ if(any(ls,is.null(X)) & img) {
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
         if(set) fna<-paste(substring(z, first = 1, last = nchar(z)-4),
-                           "-", ml$selec[j], "-autodetec.ls","-th" ,threshold , "-env.", envt, "-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
+                            "-autodetec.ls","-th" ,threshold , "-env.", envt, "-bp", bp[1],".",bp[2], "-msmo", msmooth[1],".",msmooth[2], "-midu", mindur,
                            "-mxdu", maxdur, "-pw", power, sep = "") else
-        fna<-paste(substring(z, first = 1, last = nchar(z)-4),"-", ml$selec[j], "-autodetec.ls", sep = "")
+        fna<-paste(substring(z, first = 1, last = nchar(z)-4), "-autodetec.ls", sep = "")
           
         if(it == "tiff") tiff(filename = paste(fna, "-p", j, ".tiff", sep = ""),  
              res = 160, units = "in", width = 8.5, height = 11) else

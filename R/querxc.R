@@ -1,14 +1,19 @@
 #' Access Xeno-Canto recordings and metadata
 #' 
 #' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
-#' @usage querxc(qword, download = FALSE)  
+#' @usage querxc(qword, download = FALSE, X = NULL)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'   species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 #'   (\url{http://www.xeno-canto.org/}).
 #' @param download Logical argument. Downloads recording file names and
 #'   associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
 #'   directory as .mp3 files. Default is \code{FALSE}.
-#' @return Data frame with recording information and .mp3 files (if download = \code{TRUE}).
+#' @param X data frame with the same columns as the output of the function, or at least the following
+#' columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in the data frame 
+#' will be download (\code{download} argument isautomatically set to \code{TRUE}). This can be used to select
+#' the recordings to be downloaded based on their attributes.  
+#' @return A data frame with recording information is returned if X is not provided. Sound files in .mp3 format 
+#' (if download = \code{TRUE} or if X is provided).
 #' @export
 #' @name querxc
 #' @examples
@@ -31,8 +36,10 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 
-querxc <- function(qword, download=FALSE) {
+querxc <- function(qword, download=FALSE, X = NULL) {
   
+  if(is.null(X))
+  {
   #check internet connection
   a <- try(RCurl::getURL("www.xeno-canto.org"), silent=T)
   if(substr(a[1],0,5) == "Error") stop("No connection to xeno-canto.org (check your internet connection!)")
@@ -98,10 +105,21 @@ querxc <- function(qword, download=FALSE) {
     results <- results[results$Specific_epithet == strsplit(qword, " ")[[1]][2], ] else
       if(length(which(results$Genus == qword))>0) results <- results[results$Genus == qword, ]
 
-#remove duplicates
+  #remove duplicates
 results <- results[!duplicated(results$Recording_ID), ]
 
 message(paste( nrow(results), " recordings found!", sep=""))  
+
+} else { 
+  #stop if X is not a data frame
+  if(class(X) != "data.frame") stop("X is not a data frame")
+  if(any(!c("Genus", "Specific_epithet", "Recording_ID") %in% colnames(X))) 
+    stop(paste(paste(c("Genus", "Specific_epithet", "Recording_ID")[!c("Genus",
+      "Specific_epithet", "Recording_ID") %in% colnames(X)], collapse=", "), "column(s) not found in data frame"))
+  download <- TRUE
+results <- X  }
+
+
 
   #download recordings
   if(download) {
@@ -118,5 +136,5 @@ message(paste( nrow(results), " recordings found!", sep=""))
     })
   message("all done!")
   }  
-  return(droplevels(results))
+ if(is.null(X)) return(droplevels(results))
 }
