@@ -4,7 +4,7 @@ vignette: "%\\VignetteIndexEntry{warbleR workflow} \n%\\VignetteEngine{knitr::rm
   \\usepackage[utf8]{inputenc}\n"
 ---
 
-![warbleR logo](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Logo Warble-azul small margin.jpg)
+![warbleR logo](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Logo_Warble-azul_small_margin.jpg)
 
 <center> <h1><b>Streamlined acoustic analysis</h1></b> </center>
 <center> <i>Grace Smith Vidaurre and Marcelo Araya-Salas</i> </center>
@@ -17,7 +17,7 @@ This vignette assumes 1) basic understanding of R, such as loading packages afte
 
 To start, we will work through how to use warbleR to download recordings from Xeno-Canto. If you have your own recordings (and don't want to learn about how to obtain sound files from Xeno-Canto), you can skip the first section and go to the _Filter recordings by visual inspection_ section.
 
-![warbleR workflow diagram, make it 700 pxl width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/warbleR workflow english small.jpg)
+![warbleR workflow diagram, make it 700 pxl width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/warbleR_workflow_english_small.jpg)
 
 ### **Prepare for data collection** 
 
@@ -42,7 +42,7 @@ getwd()
 # do not show this code
 library(warbleR)
 library(knitr)
-setwd("/home/m/Downloads/warbleR_example")
+# setwd("/home/m/Downloads/warbleR_example")
 ```
 
 ### Obtain metadata and recordings from Xeno-Canto
@@ -341,7 +341,7 @@ autodetec(X=X, bp=c(1,10), threshold=0,  mindur=0.05, maxdur=0.5, envt="abs", fl
 
 The image files should look like this (this is the one for the recording ID _154161_):
 
-![autodetec image example, make it 700 pxls width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phaethornis-longirostris-154161-1-autodetec.ls-th10-env.abs-bp1.10-msmo300.90-midu0.05-mxdu0.5-pw1-p1.jpg)
+![autodetec image example, make it 700 pxls width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/154161-autodetec.th10.jpg)
 
 Notice that the images have the value of the arguments embedded in their file names. This is useful to try different argument values and compare effect in signal detection.
 
@@ -355,7 +355,7 @@ autodetec(flist = sub, bp=c(2,9), threshold=20,  mindur=0.09, maxdur=0.22, envt=
 
 This seems to provide a good detection for most recordings (again, this is the one for _154161_):
 
-![autodetec image example, make it 700 pxls width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phaethornis-longirostris-154161-1-autodetec.ls-th15-env.abs-bp3.9-msmo900.90-midu0.09-mxdu0.22-pw1-p1.jpg)
+![autodetec image example, make it 700 pxls width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/154161-autodetec.th15.jpg)
 
 Let's say that we're satisfied with the detection so we can proceed run the analysis on all the recordings. For this we will remove the argument `flist`. We should also save the output at this point.
 
@@ -651,14 +651,14 @@ str(params)
 ```{r, eval=T, echo=FALSE}
 
 #do not show this 
-params <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/acoustic parameters.csv")
+params <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/acoustic_parameters.csv")
 
 str(params)
 
 ```
 
 
-Now lets remove parameters derived from fundamental frequency (based on trackfreqs results)
+Now let's remove parameters derived from fundamental frequency (based on `trackfreqs`  results)
 ```{r, eval=T}
 
 params<-params[,grep("fun|peakf",colnames(params),invert = TRUE)]
@@ -694,7 +694,7 @@ text(x, y, labs)
 
 It seems like the songs are grouped by sound file (e.i. individual signature). Now lets look at the song type level. First we need to classified the songs by song type. We can check the spectrograms we previously created to do this.
 
-![song types, make it 700 pxl width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/song types spectros.jpg)
+![song types, make it 700 pxl width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/song_types_spectros.jpg)
 
 Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 are also from a different song type. Finally, the songs from each of other 2 sound files has a unique structure so each one represent a different song type. We can add  this information to the plot by using symbols to represent song types.
 
