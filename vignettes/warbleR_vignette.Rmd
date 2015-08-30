@@ -5,28 +5,22 @@ vignette: "%\\VignetteIndexEntry{warbleR workflow} \n%\\VignetteEngine{knitr::rm
 ---
 
 <br>
-![warbleR logo](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Logo_Warble-azul_small_margin.jpg)
+
+![warbleR logo](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Logo_Warble-azul_small_margin.png)
 
 <center> <h1><b>Streamlining acoustic analysis</h1></b> </center>
-<center> <i>Grace Smith Vidaurre and Marcelo Araya-Salas</i> </center>
+<center> <i><font size="4"><a href="http://biology-web.nmsu.edu/~twright/people.html">Grace Smith Vidaurre</a> and <a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas</a></font></i> </center>
 <center> `r Sys.Date()` </center>
 <br>
 
 
-Here we present a case study of how `warbleR` functions can be used for bioacoustics, as well as some tips on managing bioacoustic data in R. For more details about function arguments, input or output, please read the documentation for the function in question (e.g. `?querxc`). 
+Here we present a case study of how [warbleR](https://cran.r-project.org/package=warbleR) functions can be used for bioacoustics, as well as some tips on managing bioacoustic data in R. For more details about function arguments, input or output, please read the documentation for the function in question (e.g. `?querxc`). 
 
 <br>
-This vignette can be run without an advanced understanding of R, as long as you know how to run code and distinguish code from comments. However, knowing more about the following will greatly aid your understanding:
+This vignette can be run without an advanced understanding of R, as long as you know how to run code in you R console. However, knowing more about data and file manipulation would be very helpful in order to modify the code to fit your own needs.
 
-  1. **manipulating objects**
-  2. **changing function arguments or using defaults**
-  3. **writing to and reading from working directories**
-  4. **apply functions**
-  5. **regular expression** 
- 
 <br>
-To start, we will use `warbleR` to download recordings from Xeno-Canto. If you have your own recordings and don't want to obtain sound files from Xeno-Canto, you can skip the first section and go to _Filter recordings by visual inspection_.
-
+To start, we will use [warbleR](https://cran.r-project.org/package=warbleR) to download recordings from [Xeno-Canto](http://www.xeno-canto.org/). If you have your own recordings and don't want to obtain sound files from [Xeno-Canto](http://www.xeno-canto.org/), you can skip the first section and go to <a href="#Filter recordings by visual inspection">Filter recordings by visual inspection</a>. 
 <br>
 
 ```{r, eval=T, echo=FALSE,message=FALSE,dpi=700}
@@ -41,7 +35,7 @@ img <- readPNG("/home/m/Documents/WarbleR package/current version/warbleR/vignet
 
 -----
 
-First, we need to install `warbleR`. 
+First, we need to install [warbleR](https://cran.r-project.org/package=warbleR)
 
 ```{r, eval=FALSE}
 
@@ -53,7 +47,7 @@ library(warbleR)
 
 <br>
 
-### Set up a working directory
+And set up a working directory
 
 ```{r, eval=FALSE}
 
@@ -76,16 +70,16 @@ library(knitr)
 
 <br>
 
-### Obtain metadata and recordings from Xeno-Canto
+### Obtain metadata and recordings from [Xeno-Canto](http://www.xeno-canto.org/)
 
-Next, we can query the Xeno-Canto database for a species or genus of interest. The function `querxc` has two types of output:
+Next, we can query the [Xeno-Canto](http://www.xeno-canto.org/) database for a species or genus of interest. The function `querxc` has two types of output:
 
   1. **Metadata of recordings:** geographic coordinates, recording quality, recorder, type of signal, etc.
   
-  2. **Sound files:** Sound files (`mp3` format) are returned if the argument `download` is set to `TRUE` (default is `FALSE`).  
+  2. **Sound files:** Sound files (_mp3_ format) are returned if the argument `download` is set to `TRUE` (default is `FALSE`).  
 
 <br>
-**You can query Xeno-Canto by genus:**
+**You can query [Xeno-Canto](http://www.xeno-canto.org/) by genus:**
 
 ```{r, eval=TRUE}
 
@@ -139,13 +133,13 @@ xcmaps(X = Phae.lon, img = FALSE)
 ```
 
 
-### Filter Xeno-Canto recordings by signal type
+### Filter [Xeno-Canto](http://www.xeno-canto.org/) recordings by signal type
 
-In most cases, you will need to filter the type of signal you want to analyze. You can filter the recordings prior to the Xeno-Canto download by subsetting the metadata. Then, you can input the filtered metadata back into `querxc` to download only the selected recordings. There are many ways to filter data in R, and the example below can be modified to fit your own data. 
+In most cases, you will need to filter the type of signal you want to analyze. You can filter the recordings prior to the [Xeno-Canto](http://www.xeno-canto.org/) download by subsetting the metadata. Then, you can input the filtered metadata back into `querxc` to download only the selected recordings. There are many ways to filter data in R, and the example below can be modified to fit your own data. 
 
 Some of the metadata is not quite consistent across recordings, such as signal type or recording quality. These are characteristics of the recordings that you will need to explore visually with downstream functions before proceeding with data collection and analysis. However, if you are dealing with many recordings, we advise removing the lowest quality recordings (D quality level) or selecting specific vocalization types.
 
-For example, we are interested in investigating the microgeographic variation of long-billed hermit (_Phaethornis longirostris_) songs. We should proceed by looking for a site with the highest number of songs. Our goal is to search for visible differences in song structure within a site, and then determine whether visual distinctiveness is representative of underlying differences in acoustic parameters. 
+For example, we are interested in assessing the microgeographic variation of long-billed hermit (_Phaethornis longirostris_) songs. Variation at small geographic scales has been already described in this species <a href='#References'>(Araya-Salas & Wright 2013)</a>. We should proceed by looking for a site with the highest number of songs. Our goal is to search for visible differences in song structure within a site, and then determine whether underlying differences in acoustic parameters are representative of spectrographic distinctiveness. 
 
 <br>
 ```{r, eval=TRUE}
@@ -242,13 +236,13 @@ write.csv(Phae.lon.LS, "Phae_lon.LS.csv", row.names = FALSE)
 
 <br>
 
-### Convert Xeno-Canto `mp3` recordings to `wav` format
+### Convert [Xeno-Canto](http://www.xeno-canto.org/) _mp3_ recordings to _wav_ format
 
-Xeno-Canto maintains recordings in `mp3` format, as this compressed format yields smaller files. However, we require `wav` format for all downstream analyses. Compression from `wav` to `mp3` and back involves information losses, but recordings that have undergone this transformation have been successfully used in research (Medina-Garcia et al. 2015, see references).
+[Xeno-Canto](http://www.xeno-canto.org/) maintains recordings in _mp3_ format, as this compressed format yields smaller files. However, we require _wav_ format for all downstream analyses. Compression from _wav_ to _mp3_ and back involves information losses, but recordings that have undergone this transformation have been successfully used in research <a href='#References'> (Medina-Garcia et al. 2015)</a>.
 
-To convert `mp3` to `wav`, we can use the warbleR function `mp32wav`, which relies on a underlying function from [`tuneR`](https://cran.r-project.org/package=tuneR). However, this function does not always work and it remains unclear as to why. This bug should be fixed in future versions of tuneR. If RStudio aborts when running `mp32wav`, use an `mp3` to `wav` converter online, or download the open source software `Audacity` (available for Mac, Linux and Windows users). We have made the selected `wav` files available for download (see next section).
+To convert _mp3_ to _wav_, we can use the warbleR function `mp32wav`, which relies on a underlying function from [`tuneR`](https://cran.r-project.org/package=tuneR). However, this function does not always work and it remains unclear as to why. This bug should be fixed in future versions of tuneR. If RStudio aborts when running `mp32wav`, use an _mp3_ to _wav_ converter online, or download the open source software `Audacity` (available for Mac, Linux and Windows users). We have made the selected _wav_ files available for download (see next section).
 
-After `mp3` files have been converted, we need to check that the `wav` files are not corrupted and can be read into RStudio (some `wav` files cannot be read, despite being in `wav` format).
+After _mp3_ files have been converted, we need to check that the _wav_ files are not corrupted and can be read into RStudio (some _wav_ files cannot be read, despite being in _wav_ format).
 
 ```{r, eval=FALSE}
 # Neither of these functions requires arguments
@@ -270,7 +264,7 @@ lapply(wavs, function(x) writeWave(downsample(readWave(x), samp.rate = 22050),
 ```
 
 <br>
-### If you were unable to convert `mp3` to `wav` format, you can download the `wav` files with this code:
+### If you were unable to convert _mp3_ to _wav_ format, you can download the _wav_ files with this code:
 
 ```{r, eval=FALSE}
 
@@ -286,9 +280,9 @@ for(i in 1:length(recs))
 ```
 <br>
 
-### Filter recordings by visual inspection
+<font size="5"><a name="Filter recordings by visual inspection">Filter recordings by visual inspection</a></font> 
 
-*Note: In case you have your own recordings in `wav` format and have skipped previous sections, you must specify the location of your sound files prior to running downstream functions.* 
+*Note: In case you have your own recordings in _wav_ format and have skipped previous sections, you must specify the location of your sound files prior to running downstream functions.* 
 
 ###
 
@@ -297,7 +291,7 @@ The function `lspec` is a useful tool for:
   * **vocal repertoire analyses**
   * **filtering by visual inspection** 
 
-This is the first time we can visualize the recordings since the Xeno-Canto download, and we can make the most of it. 
+This is the first time we can visualize the recordings since the [Xeno-Canto](http://www.xeno-canto.org/) download, and we can make the most of it. 
 
 If your research focuses on assessing variation at social or geographic scales, `lspec` can provide you with important information about how to steer your analysis. If there is an obvious variation in vocalization structure across groups (e.g. treatments or geographic regions), you can focus your analysis on a visual classification of vocalizations. You can use `lspec` to your advantage here, printing spectrograms on paper and classifying signal types by hand. 
 
@@ -795,12 +789,15 @@ text(x, y, unique(songtype), cex = 1.5)
 
 ```
 
-Songs of the same song type are more similar (they cluster together). This PCA confirms that the visually distinctive song types are representative of underlying acoustic difference. Likewise, it also confirms that we can detect biologically relevant differences from sound files that have undergone `mp3` compression and conversion back to `wav` format. 
+Songs of the same song type are more similar (they cluster together). This PCA confirms that the visually distinctive song types are representative of underlying acoustic difference. Likewise, it also confirms that we can detect biologically relevant differences from sound files that have undergone _mp3_ compression and conversion back to _wav_ format. 
 
 
 <br>
 
-## References
+<font size="5"><a name="References">References</a></font> 
 
-Medina‐García, Angela, M. Araya‐Salas, and T. Wright. 2015. Does vocal learning accelerate acoustic diversification? Evolution of contact calls in Neotropical parrots. Journal of Evolutionary Biology. doi: 10.1111/jeb.12694 [PDF](http://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/medina-garcia_araya-salas_&_wright_2015.pdf)
+Araya-Salas, M. and T. Wright. 2013. Open-ended song learning in a hummingbird. _Biology Letters_. 9 (5). doi: 10.1098/rsbl.2013.0625 [PDF](http://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/araya-salas__wright_2013.pdf)
 
+Medina‐García, Angela, M. Araya‐Salas, and T. Wright. 2015. Does vocal learning accelerate acoustic diversification? Evolution of contact calls in Neotropical parrots. _Journal of Evolutionary Biology_. doi: 10.1111/jeb.12694 [PDF](http://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/medina-garcia_araya-salas_&_wright_2015.pdf)
+
+<br>
