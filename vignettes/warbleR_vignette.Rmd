@@ -437,11 +437,10 @@ table(Phae.ad$sound.files)
 
 ```{r, eval=TRUE, echo=FALSE}
 
-#GSV silenced
-#Phae.snr <- Phae.ad <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phae.ad.csv")
+Phae.snr <- Phae.ad <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phae.ad.csv")
 
 # GSV added
-Phae.snr <- Phae.ad <- read.csv("~/warbleR/vignettes/Phae.ad.csv")
+# Phae.snr <- Phae.ad <- read.csv("~/warbleR/vignettes/Phae.ad.csv")
 
 str(Phae.ad[, -6])
 
@@ -712,9 +711,9 @@ str(params)
 
 ```{r, eval=TRUE, echo=FALSE}
 # GSV silenced
-# params <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/acoustic_parameters.csv")
+params <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/acoustic_parameters.csv")
 
-params <- read.csv("~/warbleR/vignettes/acoustic_parameters.csv")
+# params <- read.csv("~/warbleR/vignettes/acoustic_parameters.csv")
 
 str(params)
 
