@@ -28,7 +28,14 @@ _**Regular expression and apply functions make frequent appearances. If you're u
 To start, we will use `warbleR` to download recordings from Xeno-Canto. If you have your own recordings and don't want to obtain sound files from Xeno-Canto, you can skip the first section and go to _Filter recordings by visual inspection_.
 
 <br>
-![warbleR workflow diagram, make it 700 pxl width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/warbleR_workflow_english_small.jpg)
+
+```{r, eval=T, echo=FALSE,message=FALSE,dpi=700}
+#add workflow diagram
+library(png)
+library(grid)
+img <- readPNG("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/workflow.png")
+ grid.raster(img)
+```
 
 ## **Prepare for data collection**
 
@@ -64,7 +71,6 @@ getwd()
 # this sets my working directory
 library(warbleR)
 library(knitr)
-# setwd("/home/m/Downloads/warbleR_example")
 
 ```
 
@@ -187,12 +193,13 @@ str(Phae.lon.sc)
 
 ```
 
+
 <br>
 ```{r, eval=TRUE}
 
-# Let's focus on the recordings from La Selva Biological Station
-Phae.lon.LS <- Phae.lon.song[grep("la selva biological", Phae.lon.song$Locality,
-                              ignore.case = TRUE), ]
+# Lets focus on the recordings from La Selva Biological Station
+Phae.lon.LS <- Phae.lon.song[grep("La Selva Biological Station, Sarapiqui, Heredia", Phae.lon.song$Locality,
+                              ignore.case = FALSE),]
 
 # And only those of the highest quality
 Phae.lon.LS <- Phae.lon.LS[Phae.lon.LS$Quality == "A", ]
@@ -207,11 +214,11 @@ xcmaps(Phae.lon.LS, img = FALSE)
 ```{r, eval=FALSE, echo=FALSE}
 
 # This copies the selected sound files to a dropbox folder so they can be shared
+# do not show this code
+fn <- with(Phae.lon.LS,paste(paste(Genus, Specific_epithet, Recording_ID, sep = "-"), ".wav", sep = " "))
+file.copy(from = file.path("/home/m/Documents/Biblioteca de cantos/Trochilidae/XC/wavs",fn), to = file.path("/home/m/Dropbox/Projects/warbleR package/vignette files", fn), overwrite = TRUE)
 
-fn <- with(Phae.lon.LS,paste(paste(Genus, Specific_epithet, Recording_ID, sep="-"), ".wav", sep=""))
-file.copy(from = file.path("/home/m/Documents/Biblioteca de cantos/Trochilidae/XC/wavs",fn),to=fn,overwrite = TRUE)
-
-wlist <- lapply(fn, function(x) downsample(readWave(x), samp.rate = 22050))
+wlist <- lapply(fn,function(x) downsample(readWave(file.path("/home/m/Dropbox/Projects/warbleR package/vignette files", x)), samp.rate = 22050))
 
 names(wlist) <- fn
 
@@ -220,6 +227,7 @@ saveRDS(wlist, file = "/home/m/Dropbox/Sharing/warbleR/recs.RDS")
 ```
 
 <br>
+
 Once you're sure you want the recordings, use `querxc` to download the files. It is also a good idea to save the metadata as .csv files at this point. This data will likely be useful at a later point, especially if you're aiming for a publication.  
 
 ```{r, eval=FALSE}
