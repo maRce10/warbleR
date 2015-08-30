@@ -4,18 +4,30 @@ vignette: "%\\VignetteIndexEntry{warbleR workflow} \n%\\VignetteEngine{knitr::rm
   \\usepackage[utf8]{inputenc}\n"
 ---
 
+<br>
 ![warbleR logo](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Logo_Warble-azul_small_margin.jpg)
 
-<center> <h1><b>Streamlined acoustic analysis</h1></b> </center>
+<center> <h1><b>Streamlining acoustic analysis</h1></b> </center>
 <center> <i>Grace Smith Vidaurre and Marcelo Araya-Salas</i> </center>
 <center> `r Sys.Date()` </center>
+<br>
 
+
+Here we present a case study of how `warbleR` functions can be used for bioacoustics, as well as some tips on managing bioacoustic data in R. For more details about function arguments, input or output, please read the documentation for the function in question (e.g. `?querxc`). 
+
+<br>
+This vignette assumes a basic understanding of R, such as:
+
+  1. **manipulating objects**
+  2. **changing function arguments or using defaults**
+  3. **writing to and reading from working directories**
   
-Here, we present a case study of how the warbleR functions can be used in a workflow (_see diagram below_), with some tips on data management in R. For more details on the function arguments, input or output please read the documentation for the function in question (e.g.: `help(querxc)`, `?querxc`). 
+_**Regular expression and apply functions make frequent appearances. If you're unfamiliar, read up on some basic regex and the apply family.**_
+ 
+<br>
+To start, we will use `warbleR` to download recordings from Xeno-Canto. If you have your own recordings and don't want to obtain sound files from Xeno-Canto, you can skip the first section and go to _Filter recordings by visual inspection_.
 
-This vignette assumes 1) basic understanding of R, such as loading packages after installment and manipulating objects, 2) the package warbleR has been installed, and 3) the use of R within the RStudio environment.
-
-To start, we will work through how to use warbleR to download recordings from Xeno-Canto. If you have your own recordings (and don't want to learn about how to obtain sound files from Xeno-Canto), you can skip the first section and go to the _Filter recordings by visual inspection_ section.
+<br>
 
 ```{r, eval=T, echo=FALSE,message=FALSE,dpi=700}
 #add workflow diagram
@@ -25,15 +37,25 @@ img <- readPNG("/home/m/Documents/WarbleR package/current version/warbleR/vignet
  grid.raster(img)
 ```
 
+## **Prepare for data collection**
 
-### **Prepare for data collection** 
+-----
+
+First, we need to install `warbleR`. 
+
+```{r, eval=FALSE}
+
+# If this doesn't work, try building warbleR from source package
+install.packages("warbleR")
+library(warbleR)
+
+```
+
+<br>
 
 ### Set up a working directory
 
-First, it's always important to have a working directory for your project. Then, you need to tell R you want to work there. For this example, create a working directory on your desktop. You'll need to change the username to your own before running the code below. 
-
 ```{r, eval=FALSE}
-library(warbleR)
 
 # Create a new directory
 dir.create(file.path(getwd(),"warbleR_example"))
@@ -44,84 +66,90 @@ getwd()
 
 ```
 
-```{r, eval=T, echo=FALSE,message=FALSE}
-#this sets my working directory
-# do not show this code
+```{r, eval=TRUE, echo=FALSE, message=FALSE}
+
+# this sets my working directory
 library(warbleR)
 library(knitr)
-# setwd("/home/m/Dropbox/Projects/warbleR package/vignette files")
+
 ```
+
+<br>
 
 ### Obtain metadata and recordings from Xeno-Canto
 
 Next, we can query the Xeno-Canto database for a species or genus of interest. The function `querxc` has two types of output:
 
-  1. **Metadata of recordings accessed by the query word:** geographic coordinates, recording quality, recorder, type of signal, etc.
+  1. **Metadata of recordings:** geographic coordinates, recording quality, recorder, type of signal, etc.
   
-  2. **Sound files:** Sound files (in _.mp3_ format) are returned if the argument `download` is set to be `TRUE` (by default is `FALSE`).
- 
+  2. **Sound files:** Sound files (`mp3` format) are returned if the argument `download` is set to `TRUE` (default is `FALSE`).  
 
+<br>
 **You can query Xeno-Canto by genus:**
 
-```{r, eval=T}
+```{r, eval=TRUE}
 
 # Query Xeno-Canto for all recordings of the hummingbird genus Phaethornis
 Phae <- querxc(qword = "Phaethornis", download = FALSE) 
 
 # Find out what kind of metadata we have
 names(Phae) 
+
 ```
 
-```{r, eval=F}
+```{r, eval=FALSE}
+
 View(Phae)
+
 ```
 
-Or you can query by species
+<br>
+**Or you can query by species:**
 
 ```{r, eval=FALSE}
 
 # Query Xeno-Canto for all recordings of the species Phaethornis longirostris
 Phae.lon <- querxc(qword = "Phaethornis longirostris", download = FALSE) 
 View(Phae.lon)
+
 ```
 
-```{r, eval=T, echo=FALSE,message=FALSE}
+```{r, eval=TRUE, echo=FALSE, message=FALSE}
 
-# do not show this code
 Phae.lon <- querxc(qword = "Phaethornis longirostris", download = FALSE) 
 
 ```
 
-If you're interested in the geographic spread of the recording locations, you can use the function `xcmaps` to visualize locations. `xcmaps` will create an map image file per species in your current directory, or in the plot window of RStudio if `img = TRUE`. If `img = FALSE` maps will be displayed in the graphic device. 
+<br>
+If you're interested in the geographic spread of the recording locations, you can use the function `xcmaps` to visualize locations. `xcmaps` will create an image file of a map per species in your current directory if `img = TRUE`. If `img = FALSE`, maps will be displayed in the RStudio graphic device. 
 
 ```{r, eval=FALSE}
 
-# Image type (it) default is jpeg but tiff files are often better resolution
-# if you can't open tiff files the "it" argument should be set to "jpeg", or simply use the detault
+# Image type default is jpeg, but tiff files are often better resolution
+# See the documentation for more options if you can't open tiff files
 xcmaps(X = Phae, img = TRUE, it = "tiff") 
 xcmaps(X = Phae.lon, img = FALSE) 
 
 ```
 
-```{r, eval=T, echo=FALSE,message=FALSE}
+```{r, eval=TRUE, echo=FALSE, message=FALSE}
 
-# do not show this code
 xcmaps(X = Phae.lon, img = FALSE) 
 
 ```
 
 
-## Filter Xeno-Canto recordings for downstream analysis 
+### Filter Xeno-Canto recordings by signal type
 
-### Filter recordings by signal type
+In most cases, you will need to filter the type of signal you want to analyze. You can filter the recordings prior to the Xeno-Canto download by subsetting the metadata. Then, you can input the filtered metadata back into `querxc` to download only the selected recordings. There are many ways to filter data in R, and the example below can be modified to fit your own data. 
 
-In most cases, you will need to filter the type of signal you want to analyze. You can filter the recordings prior to downloading them from Xeno-Canto by subsetting the metadata. Then you can input the filtered metadata back into `querxc` to download only the selected recordings.There are many ways to filter data in R. Shown below is one example that can be modified to fit your own data. 
+Some of the metadata is not quite consistent across recordings, such as signal type or recording quality. These are characteristics of the recordings that you will need to explore visually with downstream functions before proceeding with data collection and analysis. However, if you are dealing with many recordings, we advise removing the lowest quality recordings (D quality level) or selecting specific vocalization types.
 
-Some of the metadata is not quite consistent across recordings, such as type of signal or recording quality. These are characteristics of the recordings that you will need to explore visually with downstream functions before proceeding with data collection and analysis. However, if you are dealing with large number of recordings, removing lowest quality recordings (D quality level) or selecting specific vocalization types such as song or calls is adviced.
+For example, we are interested in investigating the microgeographic variation of long-billed hermit (_Phaethornis longirostris_) songs. We should proceed by looking for a site with the highest number of songs. Our goal is to search for visible differences in song structure within a site, and then determine whether visual distinctiveness is representative of underlying differences in acoustic parameters. 
 
-Let say that, for this example, we are interested in investigating the microgeographic variation of long-billed hermit (_Phaethornis longirostris_) songs. So lets look for a site with the highest number of songs. 
+<br>
+```{r, eval=TRUE}
 
-```{r, eval=T}
 # Find out number of available recordings
 nrow(Phae.lon) 
 
@@ -130,9 +158,11 @@ levels(Phae.lon$Vocalization_type)
 
 # How many recordings per signal type?
 table(Phae.lon$Vocalization_type)
+
 ```
 
-```{r, eval=T}
+<br>
+```{r, eval=TRUE}
 
 # There are many levels to the Vocalization_type variable. 
 # Some are biologically relevant signals, but most just 
@@ -140,54 +170,65 @@ table(Phae.lon$Vocalization_type)
 
 # Luckily, it's very easy to filter the signals we want 
 Phae.lon.song <- droplevels(Phae.lon[grep("song", Phae.lon$Vocalization_type, 
-                                ignore.case = TRUE),])
+                                ignore.case = TRUE), ])
 
-#check resulting data frame
+# Check resulting data frame
 str(Phae.lon.song) 
 
 ```
 
-```{r, eval=F}
+<br>
+```{r, eval=FALSE}
+
 # Now, how many recordings per locatity?
 table(Phae.lon.song$Locality)
+
 ```
 
-```{r, eval=F}
-#in case you want more than one signal type you could do something like this
-Phae.lon[grep("song|call", Phae.lon$Vocalization_type,ignore.case = TRUE),]
+```{r, eval=FALSE}
+
+# In case you want more than one signal type:
+Phae.lon.sc <- Phae.lon[grep("song|call", Phae.lon$Vocalization_type,ignore.case = TRUE), ]
+str(Phae.lon.sc)
+
 ```
 
-```{r, eval=T}
+
+<br>
+```{r, eval=TRUE}
+
 # Lets focus on the recordings from La Selva Biological Station
 Phae.lon.LS <- Phae.lon.song[grep("La Selva Biological Station, Sarapiqui, Heredia", Phae.lon.song$Locality,
                               ignore.case = FALSE),]
 
-#  and only the high quality one
-Phae.lon.LS <- Phae.lon.LS[Phae.lon.LS$Quality == "A",]
+# And only those of the highest quality
+Phae.lon.LS <- Phae.lon.LS[Phae.lon.LS$Quality == "A", ]
 
-# We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica)
-#by setting img=FALSE we can display the map in the graphic device
-xcmaps(Phae.lon.LS,img = FALSE)
+# We can check if the location coordinates make sense 
+# (all recordings should be from a single place in Costa Rica)
+# Display a map of these recordings in the graphic device
+xcmaps(Phae.lon.LS, img = FALSE)
 
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
 
-#this copies the selected sound files to a dropbox folder so they can be shared
+# This copies the selected sound files to a dropbox folder so they can be shared
 # do not show this code
-fn<-with(Phae.lon.LS,paste(paste(Genus, Specific_epithet, Recording_ID, sep="-"), ".wav",sep=""))
-file.copy(from = file.path("/home/m/Documents/Biblioteca de cantos/Trochilidae/XC/wavs",fn),to=file.path("/home/m/Dropbox/Projects/warbleR package/vignette files",fn),overwrite = T)
+fn <- with(Phae.lon.LS,paste(paste(Genus, Specific_epithet, Recording_ID, sep = "-"), ".wav", sep = " "))
+file.copy(from = file.path("/home/m/Documents/Biblioteca de cantos/Trochilidae/XC/wavs",fn), to = file.path("/home/m/Dropbox/Projects/warbleR package/vignette files", fn), overwrite = TRUE)
 
-wlist <- lapply(fn,function(x) downsample(readWave(file.path("/home/m/Dropbox/Projects/warbleR package/vignette files",x)),samp.rate = 22050))
+wlist <- lapply(fn,function(x) downsample(readWave(file.path("/home/m/Dropbox/Projects/warbleR package/vignette files", x)), samp.rate = 22050))
 
-names(wlist)<-fn
+names(wlist) <- fn
 
-saveRDS(wlist,file = "/home/m/Dropbox/Sharing/warbleR/recs.RDS")
+saveRDS(wlist, file = "/home/m/Dropbox/Sharing/warbleR/recs.RDS")
 
 ```
 
-Once you're sure you want the recordings, proceed by using `querxc` to download the files. It is also a good idea to save the metadata as .csv files at this point. This data could be useful later during the analyses and will be definitively needed if you aim for a sceintific publication.  
+<br>
 
+Once you're sure you want the recordings, use `querxc` to download the files. It is also a good idea to save the metadata as .csv files at this point. This data will likely be useful at a later point, especially if you're aiming for a publication.  
 
 ```{r, eval=FALSE}
 
@@ -199,50 +240,55 @@ write.csv(Phae.lon.LS, "Phae_lon.LS.csv", row.names = FALSE)
 
 ```
 
+<br>
 
-### Convert Xeno-Canto mp3 recordings to wav format
+### Convert Xeno-Canto `mp3` recordings to `wav` format
 
-Xeno-Canto maintains recordings in _.mp3_, as these are compressed and smaller in size. However, we require _.wav_ format for all downstream analyses. Compression from _.wav_ to _.mp3_ and back involves information losses, but recordings that have undergone this transformation have been successfully used in research (_e.g. Medina-Garcia et al. 2015, see references_).
+Xeno-Canto maintains recordings in `mp3` format, as this compressed format yields smaller files. However, we require `wav` format for all downstream analyses. Compression from `wav` to `mp3` and back involves information losses, but recordings that have undergone this transformation have been successfully used in research (Medina-Garcia et al. 2015, see references).
 
-To convert _.mp3_ to _.wav_, we can use the warbleR function `mp32wav`, which relies on a underlying function from [`tuneR`](https://cran.r-project.org/package=tuneR). However, this function does not always work and it remains unclear as to why. This bug should be fixed in future versions of tuneR. If RStudio aborts when running `mp32wav`, use an mp3 to wav converter online, or download the open source software `Audacity` (available for Mac, Linux and Windows users). We have made the selected _.wav_ files the available for downloading (see next section).
+To convert `mp3` to `wav`, we can use the warbleR function `mp32wav`, which relies on a underlying function from [`tuneR`](https://cran.r-project.org/package=tuneR). However, this function does not always work and it remains unclear as to why. This bug should be fixed in future versions of tuneR. If RStudio aborts when running `mp32wav`, use an `mp3` to `wav` converter online, or download the open source software `Audacity` (available for Mac, Linux and Windows users). We have made the selected `wav` files available for download (see next section).
 
-After _.mp3_ files have been converted, we need to check that the _.wav_ files are not corrupted and can be read into RStudio (some _.wav_ files cannot be read, despite being in _.wav_ format).
+After `mp3` files have been converted, we need to check that the `wav` files are not corrupted and can be read into RStudio (some `wav` files cannot be read, despite being in `wav` format).
 
 ```{r, eval=FALSE}
 # Neither of these functions requires arguments
-# But always check you're in the right directory before executing them
+# Always check you're in the right directory beforehand
 # getwd()
 mp32wav() 
 
-#you could use checkwavs to check if files can be read
+# You can use checkwavs to see if wav files can be read
 checkwavs() 
 
-# we will downsample the wav files so the following analyses go a bit faster
 # Let's create a list of all the recordings in the directory
-wavs<-list.files(pattern="wav$")
-lapply(wavs,function(x) writeWave(downsample(readWave(x),samp.rate = 22050),
+wavs <- list.files(pattern="wav$")
+
+# We will use this list to downsample the wav files so the following analyses go a bit faster
+lapply(wavs, function(x) writeWave(downsample(readWave(x), samp.rate = 22050),
                                   filename = x))
 
+
 ```
 
-
-### If you were unable to convert mp3s to .wav format you can download the .wav files with this code:
+<br>
+### If you were unable to convert `mp3` to `wav` format, you can download the `wav` files with this code:
 
 ```{r, eval=FALSE}
-download.file(url = "https://www.dropbox.com/s/wrh5xuidmvn8rno/wavs.RDS?dl=0",
-              destfile = "wavs.RDS",method = "wget")
 
-recs<-readRDS(file = "wavs.RDS")
+# If using Mac, replace "wget" with "curl"
+download.file(url = "https://www.dropbox.com/s/wrh5xuidmvn8rno/wavs.RDS?dl=0",
+              destfile = "wavs.RDS", method = "wget")
+
+recs <- readRDS(file = "wavs.RDS")
 
 for(i in 1:length(recs))
-  writeWave(recs[[i]],filename = names(recs)[i])
+  writeWave(recs[[i]], filename = names(recs)[i])
+
 ```
-
-
+<br>
 
 ### Filter recordings by visual inspection
 
-*Note: In case you have your own recordings in _.wav_ format and have skipped previous sections, you must specify the location of your sound files prior to running downstream functions.* 
+*Note: In case you have your own recordings in `wav` format and have skipped previous sections, you must specify the location of your sound files prior to running downstream functions.* 
 
 ###
 
@@ -251,29 +297,28 @@ The function `lspec` is a useful tool for:
   * **vocal repertoire analyses**
   * **filtering by visual inspection** 
 
-This is the first time we can visualize the recordings since downloading from Xeno-Canto, and we can make the most of it. 
+This is the first time we can visualize the recordings since the Xeno-Canto download, and we can make the most of it. 
 
-If your research attempts to assess variation at some social or gepgraphic scales, `lspec` can provide you with important information about how to steer your analysis. If there is an obvious variation in the structure of vocalizations from different groups (e.g. treatments or geographic regions), you could focus your analysis on a visual classification of vocalizations. You can use `lspec` to your advantage here, printing spectrograms on paper and classifying signal types by hand. 
+If your research focuses on assessing variation at social or geographic scales, `lspec` can provide you with important information about how to steer your analysis. If there is an obvious variation in vocalization structure across groups (e.g. treatments or geographic regions), you can focus your analysis on a visual classification of vocalizations. You can use `lspec` to your advantage here, printing spectrograms on paper and classifying signal types by hand. 
 
-Whether or not you decide to proceed with visual classification, `lspec` allows you to visually inspect the quality of the recording (e.g. amount of background noise) or the type, number, and completeness of the vocalizations of interest. You can discard the image files and recordings you no longer want to analyze, as this will become very useful for downstream functions. 
+Whether or not you decide to proceed with visual classification, `lspec` allows you to visually inspect the quality of the recording (e.g. amount of background noise) or the type, number, and completeness of the vocalizations of interest. You can discard the image files and recordings that you no longer want to analyze, as this will become very useful for downstream functions. 
 
 ```{r, eval=FALSE}
 
-# Let's first create a subset for playing with arguments based on the list of wav files we created above
+# Let's first create a subset for playing with arguments 
+# This subset is based on the list of wav files we created above
 sub <- wavs[c(1,3)]
 
-# flim default, but with ovlp = 10 to speed up process a bit and tiff image files (it = "tiff"), tiff files 
-# have better quality and are faster to produce
-# if you can't open tiff files the "it" argument should be set to "jpeg", or simply use the detault
-lspec(flist = sub ,ovlp = 10, it = "tiff")
+# ovlp = 10 speeds up process a bit 
+# tiff image files are better quality and are faster to produce
+lspec(flist = sub, ovlp = 10, it = "tiff")
 
-# We can zoom in on the frequency axis by changing flim and change the number of seconds per 
-#row and number of rows
-lspec(flist = sub, flim = c(1.5, 11), sxrow = 6, rows = 15 ,ovlp = 10, it = "tiff")
+# We can zoom in on the frequency axis by changing flim, 
+# the number of seconds per row, and number of rows
+lspec(flist = sub, flim = c(1.5, 11), sxrow = 6, rows = 15, ovlp = 10, it = "tiff")
 
 # Once satisfied with the argument settings we can run all files
-lspec(flim = c(1.5, 11),ovlp = 10,  sxrow = 6, rows = 15, it = "tiff")
-
+lspec(flim = c(1.5, 11), ovlp = 10, sxrow = 6, rows = 15, it = "tiff")
 
 ```
 
@@ -281,129 +326,143 @@ The image files should look like this:
 
 ![lspec example, make it 700 pxls width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phaethornis-longirostris-154072-p1.jpg)
 
-Notice that the images have the sound file name and page number at the top right corner.
+Note that the sound file name and page number are placed in the top right corner.
 
-Now we should inspect the spectrograms. Throwing away image files that are poor qualtiy at first glance,(e.g. with lots of background noise) will help us in later steps. The spectro for the file with the recording ID _154143_ does not look that good so we will delete these image files. Then we can select only the sound files that have an image file in the folder. This looks a little silly for just one recording, but it could be really useful when working with much larger amounts.
+Now we should inspect the spectrograms. Throwing away image files that are poor quality at first glance (e.g. lots of background noise), will help us in later steps. For instance, the spectrogram for the recording with ID _154143_ does not look good, so we will delete those image files. Then, we can select only the sound files that have an image file in the folder. This looks strange for just one recording, but it is really useful when working with many recordings.
 
 ```{r, eval=FALSE}
 
-# List the image file in the directory
-# Change the pattern to "jpeg" is you used a different image format
-imgs<-list.files(pattern = ".tiff") 
+# List the image files in the directory
+# Change the pattern to "jpeg" if you used that image type
+imgs <- list.files(pattern = ".tiff") 
 
-# If the maps we created previously are still there, you can remove them from the list easily
-imgs <- imgs[grep("Map", imgs,invert = TRUE)]
+# If the maps we created previously are still there, you can remove them from this list easily
+imgs <- imgs[grep("Map", imgs, invert = TRUE)]
 
-# Extract the Recording IDs of the files for which image files were kept 
-kept <- unique(sapply(imgs, function(x){strsplit(x, split = "-", fixed = TRUE)[[1]][3]}, USE.NAMES = FALSE))
+# Extract the recording IDs of the files for which image files remain 
+kept <- unique(sapply(imgs, function(x){
+  strsplit(x, split = "-", fixed = TRUE)[[1]][3]
+  }, USE.NAMES = FALSE))
 
-# Now we can get rid of sound files with no image file in the working directory 
-snds<-list.files(pattern = ".wav", ignore.case = T) 
-file.remove(snds[grep(paste(kept,collapse = "|"), snds, invert = TRUE)])
+# Now we can get rid of sound files that do not have image files 
+snds <- list.files(pattern = ".wav", ignore.case = TRUE) 
+file.remove(snds[grep(paste(kept, collapse = "|"), snds, invert = TRUE)])
 
 ```
 
-## Data Collection
+## **Data Collection**
+
+-----
 
 ### Automatically detect signals with `autodetec`
 
-We can move on to data collection with the filtered recordings using the functions `autodetec` and `manualoc`. Both these functions work best (faster) on shorter recordings, but there are ways to deal with larger recordings (an hour long or more).
+We can move on to data collection with the filtered recordings, using the functions `autodetec` and `manualoc`. Both these functions work faster with shorter recordings, but there are ways to deal with larger recordings (an hour long or more).
 
 Here are some points that will help us tailor `autodetec` for our use:
 
   1. **`autodetec` has 2 types of output:** 
     + data frame with recording name, selection, start and end times. These are temporal coordinates that will be passed on to downstream functions when you want to measure acoustic parameters. Save this output as an object, or it will not be saved in the environment, but rather sent to the console. 
-    + the second output is a spectrogram per recording, with red dotted lines marking the start and end of each detected signal, saved in your working directory. In cases in which recordings are long, as in our example, it's preferable to create long spectrograms `ls = TRUE`. For shorter recordings (>10 s) short spectrograms my work better (`ls = FALSE`).
+    + a spectrogram per recording, with red dotted lines marking the start and end of each detected signal, saved in your working directory. In the case of long recordings, as in our example, it's preferable to create long spectrograms (`ls = TRUE`). For shorter recordings, spectrograms of the individual selections may work better (`ls = FALSE`).
 
   2. **Some important detection parameters to fiddle with:** 
     + `threshold` controls detection by relative amplitude (%) 
     + `bp` serves as a frequency bandpass filter 
     + `msmooth` controls combination of window length and overlap to smooth signals that have many peaks and would otherwise be detected as multiple signals
-    + `mindur` & `maxdur` determines the minimum and maximum duration, respectively, of the signals to be detected
+    + `mindur` & `maxdur` determine the minimum and maximum duration of the signals to be detected
 
-To set these parameters we need to have some idea of the frequency range and duration of the signals we want to detect. Sectrograms produced above can help us to figure this out. It seems that _Phaenthornis longirostris_ songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s. 
+To set these parameters, we need to have some idea of the frequency range and duration of the signals we want to detect. Sectrograms produced above can help us to figure this out. _Phaenthornis longirostris_ songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s. 
 
-If you need to detect all or most of the signals within the recording play around with different argument values to increase detection accuracy. It may be necessary to do several rounds of optimization with different subsets of your recordings. If just a few signals are needed per recordings a low-accuracy detection could still enough selections.
+If you need to detect all or most of the signals within the recording, play around with different argument values to increase detection accuracy. It may be necessary to do several rounds of optimization with different subsets of your recordings. If just a few signals are needed per recording, a low-accuracy detection could yield enough selections. For instance, if the species you study produces stereotyped signals, like _Phaethornis longirostris_.
 
-Finally, although `autodetec` performs automatic signal detection, it doesn't remove all manual labor from your data collection. Take the time to visually inspect the selections. 
+Finally, although `autodetec` performs automatic signal detection, it doesn't remove all manual labor from your data collection. Take the time to visually inspect your selections. 
 
 
 ```{r, eval=FALSE}
 
 # Select a subset of the recordings
-wavs <- list.files(pattern = ".wav",ignore.case = TRUE)
+wavs <- list.files(pattern = ".wav", ignore.case = TRUE)
 
-# first set a seed so we all have the same results
+# Set a seed so we all have the same results
 set.seed(1)
-sub <- wavs[sample(1:length(wavs),3)]
+sub <- wavs[sample(1:length(wavs), 3)]
 
-# Run autodetec() on subset of recordings, inspect visually until satisfied
-autodetec(X=X, bp=c(1,10), threshold=0,  mindur=0.05, maxdur=0.5, envt="abs", flist= NULL,
-          msmooth=c(300,90), ls = T, res = 100, flim= c(1,12), wl = 300, set =TRUE,
-          sxrow = 6, rows = 15,  redo =FALSE, it = "tiff")
+# Run autodetec() on subset of recordings
+# Note that no selections are made with these argument settings
+autodetec(flist = sub, bp = c(1, 10), threshold = 0, mindur = 0.05, maxdur = 0.5, envt="abs",
+          msmooth = c(300, 90), ls = TRUE, res = 100, 
+          flim = c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
+          redo = FALSE, it = "tiff")
 
 #FIX autodetec TO REDO THE ONES WITH set=T
 
 ```
 
-The image files should look like this (this is the one for the recording ID _154161_):
+The image files should look like this (shown below is recording ID 154161):
 
 ![autodetec image example, make it 700 pxls width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/154161-autodetec.th10.jpg)
 
-Notice that the images have the value of the arguments embedded in their file names. This is useful to try different argument values and compare effect in signal detection.
+Notice that the images have the argument settings embedded in their file names. This is useful to compare signal detection across combinations of different argument values.
 
-We won't save the autodetec ouput in an object until we're satisfied with the detection. To improve our detection we should play around with the arguments values. In this case we have a good idea of the detection parameters that work best:
+We won't save the `autodetec` ouput in an object until we're satisfied with the detection. To improve our detection we should play around with the arguments values. Below are some detection parameters that work well for these _Phaethornis longirotris _
+recordings:
 
 ```{r, eval=FALSE}
-autodetec(flist = sub, bp=c(2,9), threshold=20,  mindur=0.09, maxdur=0.22, envt="abs", 
-          msmooth=c(900,90), ls = TRUE, res = 100, flim= c(1,12), wl = 300, set =TRUE,
-          sxrow = 6, rows = 15,  redo =FALSE, it = "tiff")
+
+autodetec(flist = sub, bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22, 
+          envt = "abs", msmooth = c(900,90), ls = TRUE, res = 100, flim = c(1, 12), 
+          wl = 300, set =TRUE, sxrow = 6, rows = 15,  redo = TRUE, it = "tiff")
+
 ```
 
-This seems to provide a good detection for most recordings (again, this is the one for _154161_):
+This seems to provide a good detection for most recordings (recording ID 154161):
 
 ![autodetec image example, make it 700 pxls width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/154161-autodetec.th15.jpg)
 
-Let's say that we're satisfied with the detection so we can proceed run the analysis on all the recordings. For this we will remove the argument `flist`. We should also save the output at this point.
-
+Once we're satisfied with the detection, we can run the `autodetec` on all the recordings, removing the argument `flist`. We also need to save the temporal output at this point.
 
 ```{r, eval=FALSE}
 
-Phae.ad <- autodetec(bp=c(2,9), threshold=20, mindur=0.09, maxdur=0.22, envt="abs", 
-          msmooth=c(900,90), ls = TRUE, res = 100, flim= c(1,12), wl = 300, set =TRUE,
-          sxrow = 6, rows = 15,  redo =TRUE, it = "tiff")
+Phae.ad <- autodetec(bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22, 
+                     envt = "abs", msmooth = c(900, 90), ls = TRUE, res = 100, 
+                     flim= c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
+                     redo = TRUE, it = "tiff")
 
 str(Phae.ad)
 
-#look at the number of selections per sound file 
+# Look at the number of selections per sound file 
 table(Phae.ad$sound.files)
 
 ```
 
 
-```{r, eval=T, echo=FALSE}
-# Do not show this
+```{r, eval=TRUE, echo=FALSE}
 
-Phae.snr <- Phae.ad <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phae.ad.csv")
+#GSV silenced
+#Phae.snr <- Phae.ad <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phae.ad.csv")
 
-str(Phae.ad[,-6])
+# GSV added
+Phae.snr <- Phae.ad <- read.csv("~/warbleR/vignettes/Phae.ad.csv")
 
-#look at the number of selections per sound file 
+str(Phae.ad[, -6])
+
+# Look at the number of selections per sound file 
 table(Phae.ad$sound.files)
 
 ```
 
+<br>
 
+### Select signals based on signal-to-noise ratio (SNR)
 
-### Selecting signals based on signal-to-noise ratio (SNR)
+<br>
 
 #### Use `snrspecs` to prepare signal to noise measurements
 
-Filtering your selected signals by signal to noise ratio (SNR) is often a good idea, but not required. Signals that have a ratio close to 1 (or lower) have a very poor quality. A SNR equals to 1 implies that the signal and background noise have the same  amplitude. 
+Filtering your selected signals by signal to noise ratio (SNR) is often a good idea, but not required. Signals that have a ratio close to 1 (or lower) have very poor quality. A SNR of 1 means the signal and background noise have the same amplitude. 
 
-A SNR filter can be applied at any point in your worklow, after using `autodetec` or `manualoc`. However, if you you just need a sample of the signals in each recording, it would make sense to use the SNR functions to perform another quality filter prior to making acoustic measurements. Like the other functions downstream of `autodetec` or `manualoc`, the signal to noise functions require the start and end time of the signals. 
+A SNR filter can be applied at any point in your worklow, after using `autodetec` or `manualoc`. However, if you just need a sample of the signals in each recording, it would make sense to use the SNR functions to perform another quality filter prior to making acoustic measurements. Like the other functions downstream of `autodetec` or `manualoc`, the signal to noise functions require the start and end time of the signals. 
 
-`snrspecs` is another function in the family of spectrogram creators. It has very similar arguments to `specreator`, which we won't play around with again, but it also has additional arguments for picking a margin over which to measure noise. These margins are very important for calculating SNR, especially when you're measuring signals with short silence in between. You want to be sure to pick a noise margin that doesn't overlap neighboring signals. 
+`snrspecs` is another function in the family of spectrogram creators. It has very similar arguments to `specreator`, but it also has additional arguments for picking a margin over which to measure noise. These margins are very important for calculating SNR, especially when you're measuring signals with short silence in between. You want to be sure to pick a noise margin that doesn't overlap neighboring signals. 
 
 ```{r, eval=FALSE}
 
@@ -411,58 +470,55 @@ A SNR filter can be applied at any point in your worklow, after using `autodetec
 # Re-initialize X as needed, for either autodetec or manualoc output
 
 # Let's try it on 10% of the selections so it goes a faster
-# first set a seed so we all have the same results
+# Set a seed first, so we all have the same results
 set.seed(5)
 
-X <- Phae.ad[sample(1:nrow(Phae.ad),(nrow(Phae.ad)*0.1)),]
+X <- Phae.ad[sample(1:nrow(Phae.ad),(nrow(Phae.ad)*0.1)), ]
 
-snrspecs(X=X, flim = c(2, 11), snrmar = 0.5,mar = 0.7 ,it = "tiff")
+snrspecs(X = X, flim = c(2, 11), snrmar = 0.5, mar = 0.7, it = "tiff")
 
 ```
 
-The image files should look like this
+The image files should look like this:
 
 ![snrpecs](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phaethornis-longirostris-154072.wav-8-snr.jpeg)
 
 
-This margin is far too large! Overlapping the whole signal. Lets try with shorter margins
+This margin is far too large! It's overlapping the whole signal. Let's try with smaller margins.
 
 ```{r, eval=FALSE}
 
 # This smaller margin is better
-snrspecs(X=X, flim = c(2, 11), snrmar = 0.2,mar = 0.7 ,it = "tiff")
+snrspecs(X = X, flim = c(2, 11), snrmar = 0.2, mar = 0.7, it = "tiff")
+
 ```
 
 ![snrpecs](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phaethornis-longirostris-154072.wav-8-snr2.jpeg)
 
-
-
-It seems that it works. Now we can run the function over all the selections so we can inspect all spectrograms to be sure that the margin(s) you've picked are fine 
+These smaller margins seem to work well. Now we can run the function over all the selections and inspect all spectrograms to be sure that the margin(s) still hold. 
 
 ```{r, eval=FALSE}
 
-snrspecs(X=Phae.ad, flim = c(2, 11), snrmar = 0.2,mar = 0.7 ,it = "tiff")
-
+snrspecs(X = Phae.ad, flim = c(2, 11), snrmar = 0.2, mar = 0.7, it = "tiff")
 
 ```
 
+<br>
 
+#### Calculate signal to noise ratio for recordings
 
+Once you've picked a margin for all recordings, you can move forward with the SNR calculation. This calculation can allow you to remove poor quality recordings with a SNR close to 1. Since you've already performed several visual filters in the workflow, this step often isn't necessary, but it can provide you with quantitative information about recording quality.  
 
-### Calculate signal to noise ratio for recordings
-
-Once you have picked a margin for all recordings, you can move forward with the SNR calculation. This calculation can allow you to later remove recordings that have a SNR close to 1, as low SNR is indicative of poor quality. Since you've already performed several visual filters in the workflow, this step often isn't necessary, but it can provide you with quantitative information about recording quality.  
-
-We will measure SNR on every other selection just to speed up the process
+We will measure SNR on every other selection to speed up the process
 ```{r, eval=FALSE}
 
-Phae.snr<-sig2noise(X = Phae.ad[seq(1,nrow(Phae.ad),2),], mar = 0.04)
+Phae.snr <- sig2noise(X = Phae.ad[seq(1, nrow(Phae.ad), 2), ], mar = 0.04)
 
 ```
 
-As we just need a few songs to characterize each sound file/individual we could select only the highest SNR selections for each sound file. In this example we will choose the 5 selection with the highest SNR.  
+As we just need a few songs to characterize each sound file and individual, we can select selections with the highest SNR per sound file. In this example, we will choose 5 selections with the highest SNRs.  
 
-```{r, eval=T}
+```{r, eval=TRUE}
 
 Phae.hisnr <- Phae.snr[ave(-Phae.snr$SNR, Phae.snr$sound.files, FUN = rank) <= 5, ]
 
@@ -471,25 +527,23 @@ table(Phae.hisnr$sound.files)
 
 ```
 
-
 At this point would be a good idea to save the selections as a file
 
 ```{r, eval=FALSE}
 
-#lets save the results
-write.csv(Phae.hisnr, "Phae lon autodetec selections.csv")
+write.csv(Phae.hisnr, "Phae_lon_autodetec_selecs.csv", row.names = FALSE)
 
 ```
 
-
+<br>
 
 ### Manually select signals with `manualoc`
 
-In some cases manual selection may be preferable, especially if you have shorter recordings or if the automatic detection is not accurate. 
+In some cases manual selection may be preferable, especially if you have shorter recordings or if the automatic detection is not as accurate as you'd like. 
 
-`manualoc` is a function that provides a graphical interface in which you can selec the start and end of the signals. It can often run slowly, depending on the size of the sound files. `manualoc` can be very useful when you can get away with selecting only a few signals, perhaps if your species has stereotyped signals, or if you're interested in a specific element of a complex signal across recordings. 
+`manualoc` is a function that provides a graphical interface in which you can select the start and end of the signals. It can often run slowly, depending on the size of the sound files. However, `manualoc` can be very useful when you can get away with selecting only a few signals, perhaps if your species has stereotyped signals, or if you're interested in a specific element of a complex signal across recordings. 
 
-We recommend to read the documentation for `manualoc` prior to running this example. Once you've done so, here are some points to keep in mind:
+We recommend reading the documentation for `manualoc` prior to running this example. Once you've done so, here are some points to keep in mind:
   
   1. **The sole output for this function is a .csv file**:
     + contains the time coordinates, selection information and any comments made 
@@ -508,7 +562,7 @@ We recommend to read the documentation for `manualoc` prior to running this exam
   
   4. **Selections can also be deleted in the `manualoc_output.csv`** 
     + stop `manualoc`, open the .csv 
-    + delete the rows corresponding to the unwanted selection(s) prior to starting `manualoc` again. 
+    + delete the rows corresponding to the unwanted selection(s) prior to starting `manualoc` again 
 
   6. **Run `manualoc` within the expected frequency range for your species** 
     + use argument `flim` to facilitate signal selection
@@ -520,7 +574,7 @@ We recommend to read the documentation for `manualoc` prior to running this exam
     improves (depends on the `seltime` argument)
     + if `seltime = 2`, the oscillogram will show up for selections <= 2 seconds 
 
-Some other purposes for `manualoc`:
+Some other uses for `manualoc`:
 
   1. **`manualoc` can be used in combination with `autodetec` if you have large recordings:**
     + each file will take a long time to load
@@ -536,12 +590,12 @@ Some other purposes for `manualoc`:
   + mark individual selections with song or element types using `selcomm`
   + use `specreator` to create spectrograms with `selcomm` text and check visual classifications
 
-Note that you can stop the function at any point by clicking twice on the `stop` button
+Note that you can stop the function at any point by clicking twice on the `stop` button.
 
 ```{r, eval=FALSE}
 
 # Run manualoc() with frequency range set for Phaethornis longirostris
-# recording comments enabled, so you can mark recording quality
+# Recording comments are enabled to mark recording quality
 # Selection comments enabled to include visual classifications
 manualoc(flim = c(1, 11), reccomm = TRUE, selcomm = TRUE, osci = TRUE)
 
@@ -549,16 +603,13 @@ manualoc(flim = c(1, 11), reccomm = TRUE, selcomm = TRUE, osci = TRUE)
 # This data frame object can be used as input for the functions that follow
 manualoc_out <- read.csv("manualoc_output.csv", header = TRUE)
 
-# Note that we don't need to maneuever the data as in autodetec(),
-# since we make the desired selections as the function runs. The resulting
-# .csv file is equivalent to the output of autodetec() after filtering the 
-# automatically detected selections
-
 ```
 
 The graphic device should display something like this
 
 ![manualoc view](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/manualoc.jpg)
+
+<br>
 
 ### Visualize `autodetec` or `manualoc` selections with `specreator`
 
@@ -575,10 +626,10 @@ Like the other members of the spectrogram-creating family, `specreator` contains
 # or manualoc subset as desired
 
 set.seed(50)
-X <- Phae.hisnr[sample(1:nrow(Phae.hisnr),5), ]
+X <- Phae.hisnr[sample(1:nrow(Phae.hisnr), 5), ]
 
 # Plot selection lines from manualoc() or autodetec()
-specreator(X, osci = FALSE, line = TRUE, wl = 300, flim = c(1,11), it = "tiff")
+specreator(X, osci = FALSE, line = TRUE, wl = 300, flim = c(1, 11), it = "tiff")
 
 # Change frequency limits of y-axis
 specreator(X, flim = c(1, 11), osci = TRUE, line = TRUE, wl = 300, it = "tiff")
@@ -588,23 +639,26 @@ specreator(X, flim = c(1, 11), osci = TRUE, line = TRUE, propwidth = TRUE, wl = 
 
 # Change spectrogram size 
 # Changing inner.mar and outer.mar arguments improves picsize results
-specreator(X, flim = c(1, 11), osci = TRUE, line = TRUE, picsize = 1.5, wl = 300, ovlp = 90,inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), it = "tiff")
+specreator(X, flim = c(1, 11), osci = TRUE, line = TRUE, picsize = 1.5, wl = 300, 
+           ovlp = 90, inner.mar = c(4, 4.5, 2, 1), outer.mar = c(4, 2, 2, 1), it = "tiff")
 
 # Run function for all recordings, with final argument settings
-specreator(Phae.hisnr, flim = c(1, 11), osci = TRUE, line = TRUE, trel = TRUE, wl = 300,
+specreator(Phae.hisnr, flim = c(1, 11), osci = TRUE, line = TRUE, wl = 300,
            ovlp = 90, it = "tiff", res = 300)
 
 ```
 
 ![specreator example](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phaethornis-longirostris-154072.wav-104-.jpeg)
 
-## Measure acoustic parameters
+## **Measure acoustic parameters**
+
+-----
 
 ### Visualize frequency measurements with `trackfreqs`
 
 Prior to calculating acoustic measurements, it's good practice to visualize the accuracy of some important measurements, namely frequency measurements. The function `trackfreqs` is the last in the family of spectrogram-creators. It allows you to create spectrograms with dominant frequency and fundamental frequency measurements plotted on top of each selected signal. 
 
-In general, the fundamental frequency measurements are not as reliable as the dominant frequency measurements. When aocustic measurements are performed in `specan`, the fundamental frequency reported is the mean of individual fundamental frequency measurements, which is more accurate. Use `trackfreqs` on all the recordings for which you want to measure acoustic parameters. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.
+In general, the fundamental frequency measurements are not as reliable as the dominant frequency measurements. When aocustic measurements are performed in `specan`, the fundamental frequency reported is the mean of all the individual fundamental frequency measurements, and is usually more accurate. Use `trackfreqs` on all the recordings for which you want to measure acoustic parameters. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.
 
 Like it's sister functions, `trackfreqs` has many graphical arguments. It has additional graphical arguments to change colors of the plotting symbols, and size and position of legend labels. These arguments will largely depend on the nature of your selections. 
 
@@ -628,8 +682,9 @@ trackfreqs(Phae.hisnr, flim = c(1, 11), bp = c(2, 12), col = c("purple", "orange
 
 ![trackfreqs image](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/Phaethornis-longirostris-154161.wav-139-trackfreqs.jpeg)
 
-As fundamental frequency does not seem to be adequately tracked, we will remove acoustic parameters derived from it
+As fundamental frequency does not seem to be adequately tracked, we will remove it from the acoustic parameters measured in the next step.
 
+<br>
 
 ### Batch-process acoustic measurements with `specan`
 
@@ -637,7 +692,7 @@ We're close to finshing the warbleR workflow. We can now perform acoustic measur
 
 If you require more customized acoustic measurements, you can add your own customizations of `seewave` functions to the `specan` code. We suggest that you create your own copy of `specan`, rather than modifying the package version. Changing the `specan` code will require getting used to trouble-shooting and debugging in R, unless you're already comfortable writing your own functions. 
 
-```{r, eval=F}
+```{r, eval=FALSE}
 
 # specan() uses the time coordinates in the autodetec or manualoc output
 # It will measure acoustic parameters within the start and end times per selection
@@ -646,7 +701,7 @@ If you require more customized acoustic measurements, you can add your own custo
 # noise before performing measurements
 # The amplitude threshold will change the amplitude at which noises are
 # detected for measurements 
-params <- specan(Phae.hisnr, bp = c(1,11), threshold = 15)
+params <- specan(Phae.hisnr, bp = c(1, 11), threshold = 15)
 
 View(params)
 
@@ -655,10 +710,11 @@ str(params)
 # As always, it's a good idea to write .csv files to your working directory
 ```
 
-```{r, eval=T, echo=FALSE}
+```{r, eval=TRUE, echo=FALSE}
+# GSV silenced
+# params <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/acoustic_parameters.csv")
 
-#do not show this 
-params <- read.csv("/home/m/Documents/WarbleR package/current version/warbleR/vignettes/acoustic_parameters.csv")
+params <- read.csv("~/warbleR/vignettes/acoustic_parameters.csv")
 
 str(params)
 
@@ -666,73 +722,86 @@ str(params)
 
 
 Now let's remove parameters derived from fundamental frequency (based on `trackfreqs`  results)
-```{r, eval=T}
+```{r, eval=TRUE}
 
-params<-params[,grep("fun|peakf",colnames(params),invert = TRUE)]
+params <- params[, grep("fun|peakf", colnames(params), invert = TRUE)]
 
 ```
 
+<br>
 
-## Analysis of geographic variation using `specan` measurements
+## **Analysis of geographic variation using `specan` measurements**
+
+-----
 
 Now we can evaluate whether the observed variation in song structure is actually reflected by the acoustic parameters we just measured. For this we will conduct a Principal Component Analysis on scaled (z-transformed) acoustic parameters and look at the grouping of songs (data points) in the scatter plot.
 
-```{r, eval=T}
-# First run the PCA
-pca<-prcomp(x = params[,sapply(params, is.numeric)], scale. = TRUE)
+```{r, eval=TRUE}
+
+# Run the PCA with only numeric variables of params
+pca <- prcomp(x = params[, sapply(params, is.numeric)], scale. = TRUE)
 
 # Check loadings
 summary(pca)
 
 # Extract PCA scores
-pcascor<-as.data.frame(pca[[5]])
+pcascor <- as.data.frame(pca[[5]])
 
 # Plot the 2 first PCs
-plot(pcascor[,1],pcascor[,2],col=as.numeric(params$sound.files), pch=20, cex=3, xlab = "PC1", ylab = "PC2")
+plot(pcascor[, 1], pcascor[, 2], col = as.numeric(params$sound.files), pch = 20, 
+     cex = 3, xlab = "PC1", ylab = "PC2")
 
 # Add recordings/individuals labels 
-x<-tapply(pcascor[,1], params$sound.files, mean)
-y<-tapply(pcascor[,2], params$sound.files, mean)
+x <- tapply(pcascor[, 1], params$sound.files, mean)
+y <- tapply(pcascor[, 2], params$sound.files, mean)
 
-labs <- gsub(".wav","",unique(sapply(as.character(params$sound.files), function(x){strsplit(x, split = "-", fixed = TRUE)[[1]][3]}, USE.NAMES = FALSE)))
+labs <- gsub(".wav", "", unique(sapply(as.character(params$sound.files), function(x){
+  strsplit(x, split = "-", fixed = TRUE)[[1]][3]
+  }, USE.NAMES = FALSE)))
 
 text(x, y, labs)
+
 ```
 
-It seems like the songs are grouped by sound file (e.i. individual signature). Now lets look at the song type level. First we need to classified the songs by song type. We can check the spectrograms we previously created to do this.
+It seems like the songs are grouped by sound file, or individual signature. Let's look at the song type level. First, we need to classify the songs by song type. We can check the spectrograms we previously created to do this.
 
 ![song types, make it 700 pxl width](/home/m/Documents/WarbleR package/current version/warbleR/vignettes/song_types_spectros.jpg)
 
-Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 are also from a different song type. Finally, the songs from each of other 2 sound files has a unique structure so each one represent a different song type. We can add  this information to the plot by using symbols to represent song types.
+Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 represent a different song type. Finally, the songs from each of the other 2 sound files has a unique structure, so each one represents a different song type. We can add this information to the plot by using symbols to represent song types.
 
-```{r, eval=T}
+```{r, eval=TRUE}
+
 # Create a song type variable
-# First extract recording ID
-songtype<-gsub(".wav","",sapply(as.character(params$sound.files), function(x){strsplit(x, split = "-", 
-fixed = TRUE)[[1]][3]}, USE.NAMES = FALSE))
+
+# First, extract recording ID
+songtype <- gsub(".wav", "", sapply(as.character(params$sound.files), function(x){
+  strsplit(x, split = "-", fixed = TRUE)[[1]][3]
+  }, USE.NAMES = FALSE))
 
 # Now change IDs for letters representing song types
-songtype<-gsub("154070|154072", "A", songtype)
-songtype<-gsub("154129|154161", "B", songtype)
-songtype<-gsub("154123", "C", songtype)
-songtype<-gsub("154138", "D", songtype)
+songtype <- gsub("154070|154072", "A", songtype)
+songtype <- gsub("154129|154161", "B", songtype)
+songtype <- gsub("154123", "C", songtype)
+songtype <- gsub("154138", "D", songtype)
 
 # Add song type as a variable representing symbol type
-plot(pcascor[,1],pcascor[,2],col=as.numeric(params$sound.files), pch= as.numeric(as.factor(songtype)), 
-     cex=3, xlab = "PC1", ylab = "PC2")
+plot(pcascor[, 1], pcascor[, 2], col = as.numeric(params$sound.files), pch = as.numeric(as.factor(songtype)), 
+     cex = 3, xlab = "PC1", ylab = "PC2")
 
 # Add song type labels 
-x<-tapply(pcascor[,1], songtype, mean)
-y<-tapply(pcascor[,2], songtype, mean)
+x <- tapply(pcascor[, 1], songtype, mean)
+y <- tapply(pcascor[, 2], songtype, mean)
 
-text(x, y, unique(songtype),cex=1.5)
+text(x, y, unique(songtype), cex = 1.5)
 
 ```
 
-It seems that songs from the same song types are more similar (they are closer together). This also shows that biologically meaningful data can be obtained from sound files that were originally compressed in .mp3 format!
+Songs of the same song type are more similar (they cluster together). This PCA confirms that the visually distinctive song types are representative of underlying acoustic difference. Likewise, it also confirms that we can detect biologically relevant differences from sound files that have undergone `mp3` compression and conversion back to `wav` format. 
 
 
-##References
+<br>
+
+## References
 
 Medina‐García, Angela, M. Araya‐Salas, and T. Wright. 2015. Does vocal learning accelerate acoustic diversification? Evolution of contact calls in Neotropical parrots. Journal of Evolutionary Biology. doi: 10.1111/jeb.12694 [PDF](http://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/medina-garcia_araya-salas_&_wright_2015.pdf)
 
