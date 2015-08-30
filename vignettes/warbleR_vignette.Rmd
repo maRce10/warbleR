@@ -16,13 +16,13 @@ vignette: "%\\VignetteIndexEntry{warbleR workflow} \n%\\VignetteEngine{knitr::rm
 Here we present a case study of how `warbleR` functions can be used for bioacoustics, as well as some tips on managing bioacoustic data in R. For more details about function arguments, input or output, please read the documentation for the function in question (e.g. `?querxc`). 
 
 <br>
-This vignette assumes a basic understanding of R, such as:
+This vignette can be run without an advanced understanding of R, as long as you know how to run code and distinguish code from comments. However, knowing more about the following will greatly aid your understanding:
 
   1. **manipulating objects**
   2. **changing function arguments or using defaults**
   3. **writing to and reading from working directories**
-  
-_**Regular expression and apply functions make frequent appearances. If you're unfamiliar, read up on some basic regex and the apply family.**_
+  4. **apply functions**
+  5. **regular expression** 
  
 <br>
 To start, we will use `warbleR` to download recordings from Xeno-Canto. If you have your own recordings and don't want to obtain sound files from Xeno-Canto, you can skip the first section and go to _Filter recordings by visual inspection_.
