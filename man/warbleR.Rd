@@ -5,7 +5,7 @@
 \alias{warbleR}
 \alias{warbleR-package}
 \title{warbleR: A package to streamline bioacoustic analysis
-
+PINEAPPLE
 warbleR is a package designed to streamline analysis of (bio)acoustic signals in R. This
 package allows users to collect open-access avian vocalizations data or input their
 own data into a workflow that facilitates spectrographic visualization
