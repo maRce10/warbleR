@@ -62,7 +62,6 @@
 #' @import RCurl
 #' @import pbapply
 #' @import tuneR
-#' @import monitoR
 #' @import seewave
 #' @import fftw
 #' @import graphics

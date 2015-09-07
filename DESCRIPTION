@@ -8,7 +8,7 @@ Maintainer: Marcelo Araya-Salas <marceloa27@gmail.com>
 Description: Offers three overarching categories of functions to obtain bird vocalization recordings from the web, manage sound files, and facilitate (bio)acoustic analysis in R. 
 License: GPL (>= 2)
 Imports: rjson, pbapply, RCurl, fftw, utils, stats, grDevices, graphics
-Depends: R (>= 3.2.1), maps, monitoR, seewave (>= 2.0.1), tuneR
+Depends: R (>= 3.2.1), maps, seewave (>= 2.0.1), tuneR
 LazyData: TRUE
 NeedsCompilation: no
 Suggests: knitr
