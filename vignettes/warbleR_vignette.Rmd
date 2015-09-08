@@ -1,7 +1,9 @@
 ---
 output: html_document
-vignette: "%\\VignetteIndexEntry{warbleR workflow} \n%\\VignetteEngine{knitr::rmarkdown}
-  \\usepackage[utf8]{inputenc}\n"
+vignette: >
+  %\VignetteIndexEntry{warbleR workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8](inputenc)
 ---
 
 <br>
@@ -21,7 +23,7 @@ Please note that most tools in [`warbleR`](https://cran.r-project.org/package=wa
 This vignette can be run without an advanced understanding of R, as long as you know how to run code in you R console. However, knowing more about data and file manipulation would be very helpful in order to modify the code to fit your own needs.
 
 <br>
-To start, we will use [`warbleR`](https://cran.r-project.org/package=warbleR) to download recordings from [Xeno-Canto](http://www.xeno-canto.org/). If you have your own recordings and don't want to obtain sound files from [Xeno-Canto](http://www.xeno-canto.org/), you can skip the first section and go to <a href="#Filter recordings by visual inspection">Filter recordings by visual inspection</a>. 
+To start, we will use [`warbleR`](https://cran.r-project.org/package=warbleR) to download recordings from [Xeno-Canto](http://www.xeno-canto.org/). 
 <br>
 
 ```{r, eval=T, echo=FALSE,message=FALSE,dpi=700}
@@ -263,29 +265,31 @@ wavs <- list.files(pattern="wav$")
 # We will use this list to downsample the wav files so the following analyses go a bit faster
 lapply(wavs, function(x) writeWave(downsample(readWave(x), samp.rate = 22050),
                                   filename = x))
-
-
 ```
 
-<br>
+```{r, eval=FALSE, echo=FALSE}
 
 ### If you were unable to convert _mp3_ to _wav_ format:
   + download the file in [this link](https://www.dropbox.com/s/htpbxbdw8s4i23k/recs.RDS?dl=0) and put it in your working directory
   + then run the following code:
 
-```{r, eval=FALSE}
 
 recs <- readRDS(file = "recs.RDS")
 
 for(i in 1:length(recs))
   writeWave(recs[[i]], filename = names(recs)[i])
 
+*Note: In case you have your own recordings in _wav_ format and have skipped previous sections, you must specify the location of your sound files prior to running downstream functions.* 
+
 ```
+
+```
+
+
 <br>
 
-<font size="5"><a name="Filter recordings by visual inspection">Filter recordings by visual inspection</a></font> 
+### Filter recordings by visual inspection 
 
-*Note: In case you have your own recordings in _wav_ format and have skipped previous sections, you must specify the location of your sound files prior to running downstream functions.* 
 
 ###
 
@@ -355,6 +359,7 @@ file.remove(snds[grep(paste(kept, collapse = "|"), snds, invert = TRUE)])
 ```
 
 ## **Data Collection**
+
 -----
 
 We can move on to data collection with the filtered recordings, using the functions `autodetec` and `manualoc`
