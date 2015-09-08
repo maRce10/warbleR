@@ -108,12 +108,73 @@
 autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=1, bp=NULL, osci = FALSE, wl = 512,
                     xl = 1, picsize = 1, res = 100, flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL,
                     maxdur = NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL){
+
+  #if bp is not vector or length!=2 stop
+  if(!is.null(bp))
+  {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}    
+  
+  #if flim is not vector or length!=2 stop
+  if(is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
+    if(!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
+      if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
+  
+  #if msmooth is not vector or length!=2 stop
+  if(is.null(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else {
+    if(!is.vector(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else{
+      if(!length(msmooth) == 2) stop("'msmooth' must be a numeric vector of length 2")}}   
+  
+  #if wl is not vector or length!=1 stop
+  if(is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
+    if(!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
+      if(!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}  
+  
+  #if sxrow is not vector or length!=1 stop
+  if(is.null(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else {
+    if(!is.vector(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else{
+      if(!length(sxrow) == 1) stop("'sxrow' must be a numeric vector of length 1")}}  
+  
+  #if rows is not vector or length!=1 stop
+  if(is.null(rows)) stop("'rows' must be a numeric vector of length 1") else {
+    if(!is.vector(rows)) stop("'rows' must be a numeric vector of length 1") else{
+      if(!length(rows) == 1) stop("'rows' must be a numeric vector of length 1")}}  
+  
+  #if picsize is not vector or length!=1 stop
+  if(is.null(picsize)) stop("'picsize' must be a numeric vector of length 1") else {
+    if(!is.vector(picsize)) stop("'picsize' must be a numeric vector of length 1") else{
+      if(!length(picsize) == 1) stop("'picsize' must be a numeric vector of length 1")}}  
+  
+  #if xl is not vector or length!=1 stop
+  if(is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
+    if(!is.vector(xl)) stop("'xl' must be a numeric vector of length 1") else{
+      if(!length(xl) == 1) stop("'xl' must be a numeric vector of length 1")}}  
+  
+  #if res is not vector or length!=1 stop
+  if(is.null(res)) stop("'res' must be a numeric vector of length 1") else {
+    if(!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
+      if(!length(res) == 1) stop("'res' must be a numeric vector of length 1")}}  
+  
+  #if threshold is not vector or length!=1 stop
+  if(is.null(threshold))  stop("'threshold' must be a numeric vector of length 1") else {
+    if(!is.vector(threshold)) stop("'threshold' must be a numeric vector of length 1") else{
+      if(!length(threshold) == 1) stop("'threshold' must be a numeric vector of length 1")}}  
+  
+  #if it argument is not "jpeg" or "tiff" 
+  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  
+  #if envt is not vector or length!=1 stop
+  if(any(envt %in% c("abs", "hil"))){if(!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
+  } else stop("'envt' must be either 'abs' or 'hil'" )
+  
+  if(any(!sapply(list(osci,ls, redo),is.logical))) 
+    stop(paste(paste(c("osci","ls","redo")[!sapply(list(osci,ls, redo),is.logical)],collapse = " "),"not logical"))
+  
+  #stop if power is 0
+  if (power == 0) 
+    stop("'power' cannot equal to 0")
   
   if(!is.null(X)){
     
-    #stop if power is 0
-    if (power == 0) 
-      stop("'power' cannot equal to 0")
     
     #check if all columns are found
     if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
@@ -130,66 +191,6 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     
     #if any start higher than end stop
     if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
-    
-    #if bp is not vector or length!=2 stop
-    if(!is.null(bp))
-      {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-      if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}    
-    
-    #if flim is not vector or length!=2 stop
-    if(is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
-      if(!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
-      if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
-
-    #if msmooth is not vector or length!=2 stop
-    if(is.null(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else {
-      if(!is.vector(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else{
-      if(!length(msmooth) == 2) stop("'msmooth' must be a numeric vector of length 2")}}   
-    
-    #if wl is not vector or length!=1 stop
-    if(is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
-      if(!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
-      if(!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}  
-    
-    #if sxrow is not vector or length!=1 stop
-    if(is.null(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else {
-      if(!is.vector(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else{
-      if(!length(sxrow) == 1) stop("'sxrow' must be a numeric vector of length 1")}}  
-    
-    #if rows is not vector or length!=1 stop
-    if(is.null(rows)) stop("'rows' must be a numeric vector of length 1") else {
-      if(!is.vector(rows)) stop("'rows' must be a numeric vector of length 1") else{
-      if(!length(rows) == 1) stop("'rows' must be a numeric vector of length 1")}}  
-    
-    #if picsize is not vector or length!=1 stop
-    if(is.null(picsize)) stop("'picsize' must be a numeric vector of length 1") else {
-      if(!is.vector(picsize)) stop("'picsize' must be a numeric vector of length 1") else{
-      if(!length(picsize) == 1) stop("'picsize' must be a numeric vector of length 1")}}  
-    
-    #if xl is not vector or length!=1 stop
-    if(is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
-      if(!is.vector(xl)) stop("'xl' must be a numeric vector of length 1") else{
-      if(!length(xl) == 1) stop("'xl' must be a numeric vector of length 1")}}  
-
-    #if res is not vector or length!=1 stop
-    if(is.null(res)) stop("'res' must be a numeric vector of length 1") else {
-      if(!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
-      if(!length(res) == 1) stop("'res' must be a numeric vector of length 1")}}  
-   
-    #if threshold is not vector or length!=1 stop
-    if(is.null(threshold))  stop("'threshold' must be a numeric vector of length 1") else {
-      if(!is.vector(threshold)) stop("'threshold' must be a numeric vector of length 1") else{
-      if(!length(threshold) == 1) stop("'threshold' must be a numeric vector of length 1")}}  
-    
-    #if it argument is not "jpeg" or "tiff" 
-    if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
-    
-    #if envt is not vector or length!=1 stop
-    if(any(envt %in% c("abs", "hil"))){if(!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
-    } else stop("'envt' must be either 'abs' or 'hil'" )
-    
-    if(any(!sapply(list(osci,ls, redo),is.logical))) 
-      stop(paste(paste(c("osci","ls","redo")[!sapply(list(osci,ls, redo),is.logical)],collapse = " "),"not logical"))
     
     #return warning if not all sound files were found
     fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
@@ -330,12 +331,27 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", msmooth=c(300,90), power=
     #do the ones that have no images in folder
     if(!redo) {
       if(it == "tiff") {tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
-                        tfs <- grep("autodetec", tfs, value = TRUE)} else
-{        tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)      
-      tfs <- grep("autodetec", tfs, value = TRUE)}
-if(length(tfs)>0) for(k in gsub(".wav","", ignore.case = T, files))
-        if(length(grep(k,tfs,value = T))>0) files <- grep(k, files, value = TRUE, invert = T)
-        if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
+                        tfs <- grep("autodetec", tfs, value = TRUE)
+                        tfs <- gsub(".tiff$", "", tfs)
+                          } else
+    {tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)      
+      tfs <- grep("autodetec", tfs, value = TRUE)
+     tfs <- gsub(".jpeg$", "", tfs)
+    }
+if(length(tfs)>0) {if(set)
+  { files <- files[grep(paste(tfs, collapse = "|"),
+        sapply(gsub(".wav","", ignore.case = T, files), function(k) 
+    {paste(k, "-autodetec.ls","-th" ,threshold , "-env.", envt, "-bp", bp[1],".",bp[2], "-msmo",
+      msmooth[1],".",msmooth[2], "-midu", mindur, "-mxdu", maxdur, "-pw", power, "-p1", sep = "")}, 
+    USE.NAMES = F),invert = TRUE)]} else
+{  
+#   if(length(grep(paste(paste(gsub(".wav","", ignore.case = T, files),"-autodetec.ls-p",sep = ""),
+#                        collapse = "|"),tfs,value = T))>0) 
+files <- grep(paste(sapply(tfs,function(x) strsplit(x,split = "-autodetec.ls-p")[[1]][1]), collapse = "|"),
+     files, value = TRUE, invert = TRUE)}
+
+if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
+    }
     }  
     
    message("Detecting signals in sound files:")
@@ -438,19 +454,52 @@ if(any(ls,is.null(X)) & img) {
   if(length(files) == 0) stop("no .wav files in working directory")  
   
   #do the ones that have no images in folder
-    if(!redo) {
-      if(it == "tiff") {tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
-          tfs <- grep("autodetec", tfs, value = TRUE) } else{
-        tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)
-        tfs <- grep("autodetec", tfs, value = TRUE)}      
-      if(length(tfs)>0)for(k in gsub(".wav","", ignore.case = T, files))
-        if(length(grep(k,tfs,value = T))>0) files <- grep(k, files, value = TRUE, invert = T)
-          }    
-      if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
+#     if(!redo) {
+#       if(it == "tiff") {tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
+#           tfs <- grep("autodetec", tfs, value = TRUE) } else{
+#         tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)
+#         tfs <- grep("autodetec", tfs, value = TRUE)}      
+#       if(length(tfs)>0)for(k in gsub(".wav","", ignore.case = T, files))
+#         if(length(grep(k,tfs,value = T))>0) files <- grep(k, files, value = TRUE, invert = T)
+#           }    
+#       if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
+#   
+#   
+#stop if no files .wav are found
+files <- list.files(pattern = "wav$", ignore.case = T) #list .wav files in working director
+if(length(files) == 0) stop("no .wav files in working directory")
+
+#subet based on file list provided (flist)
+if(!is.null(flist)) files <- files[files %in% flist]
+
+#do the ones that have no images in folder
+if(!redo) {
+  if(it == "tiff") {tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
+                    tfs <- grep("autodetec", tfs, value = TRUE)
+                    tfs <- gsub(".tiff$", "", tfs)
+  } else
+  {tfs <- list.files(path = getwd(), pattern = ".jpeg$", ignore.case = TRUE)      
+   tfs <- grep("autodetec", tfs, value = TRUE)
+   tfs <- gsub(".jpeg$", "", tfs)
+  }
+  if(length(tfs)>0) {if(set)
+  { files <- files[grep(paste(tfs, collapse = "|"),
+                        sapply(gsub(".wav","", ignore.case = T, files), function(k) 
+                        {paste(k, "-autodetec.ls","-th" ,threshold , "-env.", envt, "-bp", bp[1],".",bp[2], "-msmo",
+                               msmooth[1],".",msmooth[2], "-midu", mindur, "-mxdu", maxdur, "-pw", power, "-p1", sep = "")}, 
+                        USE.NAMES = F),invert = TRUE)]} else
+                        {  
+                          #   if(length(grep(paste(paste(gsub(".wav","", ignore.case = T, files),"-autodetec.ls-p",sep = ""),
+                          #                        collapse = "|"),tfs,value = T))>0) 
+                          files <- grep(paste(sapply(tfs,function(x) strsplit(x,split = "-autodetec.ls-p")[[1]][1]), collapse = "|"),
+                                        files, value = TRUE, invert = TRUE)}
   
-  
+  if(length(files) == 0) stop("All files have been analyzed (redo = F)") 
+  }
+} 
+
     #subet based on file list provided (flist)
-    if(!is.null(flist)) files <- files[files %in% flist]
+#     if(!is.null(flist)) files <- files[files %in% flist]
     
     #remove the ones not in X
     if(!is.null(X)) {files <- files[files %in% X$sound.files]

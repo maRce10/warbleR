@@ -28,15 +28,15 @@
 #' dir.create(file.path(getwd(),"temp"))
 #' setwd(file.path(getwd(),"temp"))
 #' 
-#' data(list = c("Arre.aura","manualoc.df"))
-#' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
+#' data(list = c("Phae.long1","manualoc.df"))
+#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 #' 
 #' # specifying the correct margin is important
 #' # use snrspecs to troubleshoot margins for sound files
-#' sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.2)
+#' sig2noise(manualoc.df[grep("Phae.long1", manualoc.df$sound.files), ], mar = 0.2)
 #' 
 #' # this smaller margin doesn't overlap neighboring signals
-#' sig2noise(manualoc.df[grep("Arre", manualoc.df$sound.files), ], mar = 0.1)
+#' sig2noise(manualoc.df[grep("Phae.long1", manualoc.df$sound.files), ], mar = 0.1)
 #' 
 #' # remove example directory 
 #' unlink(getwd(),recursive = TRUE)

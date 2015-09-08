@@ -73,9 +73,9 @@ dir.create(file.path(getwd(),"temp"))
 setwd(file.path(getwd(),"temp"))
 
 # save sound file examples
-data(list = c("Arre.aura", "Phae.cuvi","manualoc.df"))
-writeWave(Arre.aura,"Arre.aura.wav")
-writeWave(Phae.cuvi,"Phae.cuvi.wav")
+data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
+writeWave(Phae.long1,"Phae.long1.wav")
+writeWave(Phae.long2,"Phae.long2.wav")
 
 lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
 lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections

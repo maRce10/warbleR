@@ -6,10 +6,10 @@
 \usage{
 trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
-  FALSE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE,
- bp = c(0, 22), cex = c(0.8, 1), threshold = 15, col = c("dodgerblue", "chartreuse3"),
- pch = c(16, 17),  mar = 0.05, lpos = "topright", it = "jpeg")
+  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE,
+  xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.8, 1),
+  threshold = 15, col = c("dodgerblue", "chartreuse3"), pch = c(16, 17),  mar = 0.05,
+  lpos = "topright", it = "jpeg")
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files),
@@ -51,9 +51,6 @@ labels. See \code{\link[seewave]{spectro}}.}
 
 \item{title}{Logical argument to add a title to individual spectrograms.
 Default is \code{TRUE}.}
-
-\item{trel}{Logical argument to add a time axis scale relative to the wave.
-Default is \code{FALSE}.}
 
 \item{propwidth}{Logical argument to scale the width of spectrogram
 proportionally to duration of the selected call. Default is \code{FALSE}.}
@@ -122,20 +119,20 @@ dir.create(file.path(getwd(),"temp"))
 setwd(file.path(getwd(),"temp"))
 
 #load data
-data(list = c("Arre.aura", "Phae.cuvi"))
+data(list = c("Phae.long1", "Phae.long2"))
 data(manualoc.df)
-writeWave(Arre.aura, "Arre.aura.wav") #save sound files
-writeWave(Phae.cuvi, "Phae.cuvi.wav")
+writeWave(Phae.long2, "Phae.long2.wav") #save sound files
+writeWave(Phae.long1, "Phae.long1.wav")
 
-# make Arre.aura and Phae.cuvi spectrograms
+# make  spectrograms
 
 trackfreqs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1),
 picsize = 2, res = 300, cexlab = 2, bp = c(0, 14), cex = c(1.5, 2),
 col = c("blue", "red"),  mar = 0.09, lpos = "bottomright", it = "jpeg")
 
-# make only Arre.aura spectrograms
+# make only Phae.long1 spectrograms
 
-trackfreqs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14),
+trackfreqs(manualoc.df[manualoc.df$sound.files == "Phae.long1.wav", ], flim = c(3, 14),
 inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2,
 bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09,
 lpos = "bottomright", it = "tiff")

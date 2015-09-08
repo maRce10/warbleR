@@ -103,21 +103,21 @@ This function can be used to test different margins to facilitate
 dir.create(file.path(getwd(),"temp"))
 setwd(file.path(getwd(),"temp"))
 
-data(list = c("Arre.aura", "Phae.cuvi"))
+data(list = c("Phae.long1", "Phae.long2"))
 data(manualoc.df)
-writeWave(Arre.aura, "Arre.aura.wav") #save sound.files
-writeWave(Phae.cuvi, "Phae.cuvi.wav")
+writeWave(Phae.long1, "Phae.long1.wav") #save sound.files
+writeWave(Phae.long2, "Phae.long2.wav")
 
-# make Arre.aura and Phae.cuvi spectrograms
+# make Phae.long1 and Phae.long2 spectrograms
 # snrmar needs to be smaller before moving on to sig2noise()
 
 snrspecs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1),
 picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg")
 
-# make only Arre.aura spectrograms
+# make only Phae.long1 spectrograms
 # snrmar now doesn't overlap neighboring signals
 
-snrspecs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14),
+snrspecs(manualoc.df[grepl(c("Phae.long1"), manualoc.df$sound.files), ], flim = c(3, 14),
 inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2,
 mar = 0.2, snrmar = 0.01)
 

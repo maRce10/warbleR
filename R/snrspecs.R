@@ -73,21 +73,21 @@
 #' dir.create(file.path(getwd(),"temp"))
 #' setwd(file.path(getwd(),"temp"))
 #' 
-#' data(list = c("Arre.aura", "Phae.cuvi"))
+#' data(list = c("Phae.long1", "Phae.long2"))
 #' data(manualoc.df)
-#' writeWave(Arre.aura, "Arre.aura.wav") #save sound.files
-#' writeWave(Phae.cuvi, "Phae.cuvi.wav") 
+#' writeWave(Phae.long1, "Phae.long1.wav") #save sound.files
+#' writeWave(Phae.long2, "Phae.long2.wav") 
 #' 
-#' # make Arre.aura and Phae.cuvi spectrograms
+#' # make Phae.long1 and Phae.long2 spectrograms
 #' # snrmar needs to be smaller before moving on to sig2noise()
 #' 
 #' snrspecs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #' picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg")
 #' 
-#' # make only Arre.aura spectrograms
+#' # make only Phae.long1 spectrograms
 #' # snrmar now doesn't overlap neighboring signals
 #' 
-#' snrspecs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14), 
+#' snrspecs(manualoc.df[grepl(c("Phae.long1"), manualoc.df$sound.files), ], flim = c(3, 14), 
 #' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
 #' mar = 0.2, snrmar = 0.01)
 #' 
@@ -155,6 +155,9 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
     r <- tuneR::readWave(file.path(getwd(), sound.files[i])) 
     f <- r@samp.rate
     
+    fl<- flim #in case flim its higher than can be due to sampling rate
+    if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+    
     # Correct start and end time if is smaller than 0 or higer than length of rec
     st <- start[i] - mar
     en <- end[i] + mar
@@ -197,7 +200,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
     seewave::spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, 
             collab = "black", cexlab = cexlab, cex.axis = 0.5*picsize, tlab = "Time (s)", 
-            flab = "Frequency (kHz)", tlim = t, flim = flim, alab = "", trel = trel)
+            flab = "Frequency (kHz)", tlim = t, flim = fl, alab = "", trel = trel)
     
     if(title){
       
@@ -219,25 +222,25 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
    
     #add arrows/text indicating noise position
     if(trel) 
-    {arrows(x0 =start[i] - snrmar, y0 = flim[1]+flim[2]/6, x1 = start[i], y1 = flim[1]+flim[2]/6, code = 3, 
+    {arrows(x0 =start[i] - snrmar, y0 = fl[1]+fl[2]/6, x1 = start[i], y1 = fl[1]+fl[2]/6, code = 3, 
            col = "red", lty = "solid", lwd = 2, angle = 60)        
   
-    arrows(x0 =end[i] + snrmar, y0 = flim[1]+flim[2]/6, x1 = end[i], y1 = flim[1]+flim[2]/6, code = 3, 
+    arrows(x0 =end[i] + snrmar, y0 = fl[1]+fl[2]/6, x1 = end[i], y1 = fl[1]+fl[2]/6, code = 3, 
            col = "red", lty = "solid", lwd = 2, angle = 60)        
     
-    text(x = start[i] - (snrmar * 0.5), y = flim[1]+flim[2]/4, labels = "Noise", col = "red",pos = 3)
+    text(x = start[i] - (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)
     
-    text(x = end[i] + (snrmar * 0.5), y = flim[1]+flim[2]/4, labels = "Noise", col = "red",pos = 3)} else {
+    text(x = end[i] + (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)} else {
       
-    arrows(x0 =mar - snrmar, y0 = flim[1]+flim[2]/6, x1 = mar, y1 = flim[1]+flim[2]/6, code = 3, 
+    arrows(x0 =mar - snrmar, y0 = fl[1]+fl[2]/6, x1 = mar, y1 = fl[1]+fl[2]/6, code = 3, 
     col = "red", lty = "solid", lwd = 2, angle = 60)        
       
-    arrows(x0 =end[i] - start[i] + mar + snrmar, y0 = flim[1]+flim[2]/6, x1 = end[i] - start[i] + mar, y1 = flim[1]+flim[2]/6, code = 3, 
+    arrows(x0 =end[i] - start[i] + mar + snrmar, y0 = fl[1]+fl[2]/6, x1 = end[i] - start[i] + mar, y1 = fl[1]+fl[2]/6, code = 3, 
     col = "red", lty = "solid", lwd = 2, angle = 60)        
       
-    text(x = mar - (snrmar * 0.5), y = flim[1]+flim[2]/4, labels = "Noise", col = "red",pos = 3)
+    text(x = mar - (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)
       
-    text(x = end[i] - start[i] + mar + (snrmar * 0.5), y = flim[1]+flim[2]/4, labels = "Noise", col = "red",pos = 3)  
+    text(x = end[i] - start[i] + mar + (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)  
     }
 
     dev.off()  

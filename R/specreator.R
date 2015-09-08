@@ -67,11 +67,11 @@
 #' dir.create(file.path(getwd(),"temp"))
 #' setwd(file.path(getwd(),"temp"))
 #' 
-#' data(list = c("Arre.aura", "Phae.cuvi","manualoc.df"))
-#' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
-#' writeWave(Phae.cuvi, "Phae.cuvi.wav")
+#' data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
+#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
+#' writeWave(Phae.long2, "Phae.long2.wav")
 #' 
-#' # make Arre.aura and Phae.cuvi spectrograms
+#' # make spectrograms
 #' 
 #' specreator(manualoc.df, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #'           picsize = 2, res = 300, cexlab = 2, mar = 0.05)
@@ -137,7 +137,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   }
   
   if(propwidth) picsize <- 1
-  
+    
   # Create spectrograms overlaid with start and end times from manualoc()
   message("Creating spectrograms from selections:")
     
@@ -151,6 +151,9 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       t <- c(start[i] - mar, end[i] + mar)
       if(t[1]<0) t[1]<-0
       if(t[2]>length(r@left)/r@samp.rate) t[2]<-length(r@left)/r@samp.rate
+      
+      fl<- flim #in case flim its higher than can be due to sampling rate
+      if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
       
       
       # Spectrogram width can be proportional to signal duration
@@ -184,7 +187,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       # Generate spectrogram using seewave 
       seewave::spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts, wn = "hanning", 
               widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
-              cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = flim, tlab = "Time (s)", 
+              cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = fl, tlab = "Time (s)", 
               flab = "Frequency (kHz)", alab = "", trel = trel)
       
       # Add title to spectrogram

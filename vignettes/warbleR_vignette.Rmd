@@ -16,7 +16,8 @@ vignette: "%\\VignetteIndexEntry{warbleR workflow} \n%\\VignetteEngine{knitr::rm
 
 Here we present a case study of how [`warbleR`](https://cran.r-project.org/package=warbleR) functions can be used for bioacoustics, as well as some tips on managing bioacoustic data in R. For more details about function arguments, input or output, please read the documentation for the function in question (e.g. `?querxc`). 
 
-<br>
+Please note that most tools in [`warbleR`](https://cran.r-project.org/package=warbleR) use functions from the [`seewave package`](https://cran.r-project.org/package=seewave) internally. [`warbleR`](https://cran.r-project.org/package=warbleR) has been designed to make the analyses more accessible to average R-users. However, acoustic analysis in R would not be possible without the tools provided by [`seewave`](https://cran.r-project.org/package=seewave). Hence, both packages should be given credit when using [`warbleR`](https://cran.r-project.org/package=warbleR) and both should be appropriately cited in publications (try `citation("warbleR")` and `citation("seewave")`. 
+
 This vignette can be run without an advanced understanding of R, as long as you know how to run code in you R console. However, knowing more about data and file manipulation would be very helpful in order to modify the code to fit your own needs.
 
 <br>
@@ -393,8 +394,7 @@ set.seed(1)
 sub <- wavs[sample(1:length(wavs), 3)]
 
 # Run autodetec() on subset of recordings
-# Note that no selections are made with these argument settings
-autodetec(flist = sub, bp = c(1, 10), threshold = 0, mindur = 0.05, maxdur = 0.5, envt="abs",
+autodetec(flist = sub, bp = c(1, 10), threshold = 10, mindur = 0.05, maxdur = 0.5, envt="abs",
           msmooth = c(300, 90), ls = TRUE, res = 100, 
           flim = c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
           redo = FALSE, it = "tiff")
@@ -482,7 +482,7 @@ set.seed(5)
 
 X <- Phae.ad[sample(1:nrow(Phae.ad),(nrow(Phae.ad)*0.1)), ]
 
-snrspecs(X = X, flim = c(2, 11), snrmar = 0.5, mar = 0.7, it = "tiff")
+snrspecs(X = X, flim = c(2, 110), snrmar = 0.5, mar = 0.7, it = "tiff")
 
 ```
 

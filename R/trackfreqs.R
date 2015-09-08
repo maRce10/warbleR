@@ -88,20 +88,20 @@
 #' setwd(file.path(getwd(),"temp"))
 #' 
 #' #load data
-#' data(list = c("Arre.aura", "Phae.cuvi"))
+#' data(list = c("Phae.long1", "Phae.long2"))
 #' data(manualoc.df)
-#' writeWave(Arre.aura, "Arre.aura.wav") #save sound files 
-#' writeWave(Phae.cuvi, "Phae.cuvi.wav")
+#' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
+#' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
-#' # make Arre.aura and Phae.cuvi spectrograms  
+#' # make  spectrograms  
 #' 
 #' trackfreqs(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #' picsize = 2, res = 300, cexlab = 2, bp = c(0, 14), cex = c(1.5, 2), 
 #' col = c("blue", "red"),  mar = 0.09, lpos = "bottomright", it = "jpeg")
 #'                  
-#' # make only Arre.aura spectrograms
+#' # make only Phae.long1 spectrograms
 #' 
-#' trackfreqs(manualoc.df[grepl(c("Arre"), manualoc.df$sound.files), ], flim = c(3, 14),
+#' trackfreqs(manualoc.df[manualoc.df$sound.files == "Phae.long1.wav", ], flim = c(3, 14),
 #' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
 #' bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
 #' lpos = "bottomright", it = "tiff")
@@ -179,6 +179,10 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     t <- c(start[i] - mar, end[i] + mar)
     cex <- cex
     
+    fl<- flim #in case flim its higher than can be due to sampling rate
+    if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+    
+    
     # Spectrogram width can be proportional to signal duration
     if(propwidth == TRUE){
       if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
@@ -210,7 +214,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     # Generate spectrogram using seewave
     seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
-            cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = flim, tlab = "Time (s)", 
+            cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = fl, tlab = "Time (s)", 
             flab = "Frequency (kHz)", alab = "")
     
     if(title){
