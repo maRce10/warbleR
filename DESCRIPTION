@@ -11,5 +11,5 @@ Imports: rjson, pbapply, RCurl, fftw, utils, stats, grDevices, graphics
 Depends: R (>= 3.2.1), maps, seewave (>= 2.0.1), tuneR
 LazyData: TRUE
 NeedsCompilation: no
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, png, grid
 VignetteBuilder: knitr
