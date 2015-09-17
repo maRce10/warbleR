@@ -1,14 +1,14 @@
 ---
-output: html_document
+output:  rmarkdown::html_vignette
 vignette: >
- %\VignetteIndexEntry{warbleR workflow} 
- %\VignetteEngine{knitr::rmarkdown}
- \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{warbleR workflow}  
+  %\VignetteEngine{knitr::rmarkdown} 
+  \usepackage[utf8]{inputenc}
 ---
 
 <br>
 
-![warbleR logo](Logo_Warble-azul_small_margin.png)
+<center>![warbleR logo](Logo_Warble-azul_small_margin.png)</center>
 
 <center> <h1><b>Streamlining acoustic analysis</h1></b> </center>
 <center> <i><font size="4"><a href="http://biology-web.nmsu.edu/~twright/people.html">Grace Smith Vidaurre</a> and <a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas</a></font></i> </center>
@@ -22,17 +22,12 @@ Please note that most tools in [`warbleR`](https://cran.r-project.org/package=wa
 
 This vignette can be run without an advanced understanding of R, as long as you know how to run code in you R console. However, knowing more about data and file manipulation would be very helpful in order to modify the code to fit your own needs.
 
+<center> ![warbleR workflow](workflow2.png)</center> 
+
 <br>
 To start, we will use [`warbleR`](https://cran.r-project.org/package=warbleR) to download recordings from [Xeno-Canto](http://www.xeno-canto.org/). 
 <br>
 
-```{r, eval=T, echo=FALSE,message=FALSE,dpi=700}
-#add workflow diagram
-library(png)
-library(grid)
-img <- readPNG("workflow.png")
- grid.raster(img)
-```
 
 ## **Prepare for data collection**
 
@@ -117,7 +112,7 @@ Phae.lon <- querxc(qword = "Phaethornis longirostris", download = FALSE)
 ```
 
 <br>
-If you're interested in the geographic spread of the recording locations, you can use the function `xcmaps` to visualize locations. `xcmaps` will create an image file of a map per species in your current directory if `img = TRUE`. If `img = FALSE`, maps will be displayed in the RStudio graphic device. 
+If you're interested in the geographic spread of the recording locations, you can use the function `xcmaps` to visualize locations. `xcmaps` will create an image file of a map per species in your current directory if `img = TRUE`. If `img = FALSE`, maps will be displayed in the graphic device. 
 
 ```{r, eval=FALSE}
 
@@ -360,8 +355,6 @@ file.remove(snds[grep(paste(kept, collapse = "|"), snds, invert = TRUE)])
 
 ## **Data Collection**
 
------
-
 We can move on to data collection with the filtered recordings, using the functions `autodetec` and `manualoc`
 
 ### Automatically detect signals with `autodetec`
@@ -378,9 +371,9 @@ Here are some points that will help us tailor `autodetec` for our use:
   2. **Some important detection parameters to fiddle with:** 
     + `threshold` controls detection by relative amplitude (%) 
     + `bp` serves as a frequency bandpass filter 
-    + `msmooth` controls combination of window length and overlap to smooth signals that have many peaks and would otherwise be detected as multiple signals
+    + `ssmooth` controls combination of window length and overlap to smooth signals that have many peaks and would otherwise be detected as multiple signals
     + `mindur` & `maxdur` determine the minimum and maximum duration of the signals to be detected
-    + `set` controls if settings of the autodetection process are included in the image file name. If TRUE, threshold (th), envelope (envt), bandpass (bp), power (pw), msmooth (msmo), maxdur (mxdu), and mindur (midu) are included. This could be very helpful for comparing the performance of different detection setttings
+    + `set` controls if settings of the autodetection process are included in the image file name. If TRUE, threshold (th), envelope (envt), bandpass (bp), power (pw), smooth (smo), maxdur (mxdu), and mindur (midu) are included. This could be very helpful for comparing the performance of different detection setttings
 
 To set these parameters, we need to have some idea of the frequency range and duration of the signals we want to detect. Sectrograms produced above can help us to figure this out. _Phaenthornis longirostris_ songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s. 
 
@@ -400,7 +393,7 @@ sub <- wavs[sample(1:length(wavs), 3)]
 
 # Run autodetec() on subset of recordings
 autodetec(flist = sub, bp = c(1, 10), threshold = 10, mindur = 0.05, maxdur = 0.5, envt="abs",
-          msmooth = c(300, 90), ls = TRUE, res = 100, 
+          ssmooth = 300, ls = TRUE, res = 100, 
           flim = c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
           redo = FALSE, it = "tiff")
 
@@ -418,7 +411,7 @@ recordings:
 ```{r, eval=FALSE}
 
 autodetec(flist = sub, bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22, 
-          envt = "abs", msmooth = c(900,90), ls = TRUE, res = 100, flim = c(1, 12), 
+          envt = "abs", ssmooth = 300, ls = TRUE, res = 100, flim = c(1, 12), 
           wl = 300, set =TRUE, sxrow = 6, rows = 15,  redo = TRUE, it = "tiff")
 
 ```
@@ -432,14 +425,14 @@ Once we're satisfied with the detection, we can run the `autodetec` on all the r
 ```{r, eval=FALSE}
 
 Phae.ad <- autodetec(bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22, 
-                     envt = "abs", msmooth = c(900, 90), ls = TRUE, res = 100, 
+                     envt = "abs", ssmooth = 300, ls = TRUE, res = 100, 
                      flim= c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
                      redo = TRUE, it = "tiff")
 
 str(Phae.ad)
 ```
 
-Let's check Look at the number of selections per sound file 
+Let's look at the number of selections per sound file 
 
 ```{r, eval=FALSE}
 
@@ -528,7 +521,7 @@ Phae.snr <- sig2noise(X = Phae.ad[seq(1, nrow(Phae.ad), 2), ], mar = 0.04)
 
 ```
 
-As we just need a few songs to characterize each sound file and individual, we can select selections with the highest SNR per sound file. In this example, we will choose 5 selections with the highest SNRs.  
+As we just need a few songs to characterize each sound file and individual, we can choose selections with the highest SNR per sound file. In this example, we will choose 5 selections with the highest SNRs.  
 
 ```{r, eval=TRUE}
 
@@ -741,7 +734,7 @@ params <- params[, grep("fun|peakf", colnames(params), invert = TRUE)]
 
 Now we can evaluate whether the observed variation in song structure is actually reflected by the acoustic parameters we just measured. For this we will conduct a Principal Component Analysis on scaled (z-transformed) acoustic parameters and look at the grouping of songs (data points) in the scatter plot.
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, dpi=220}
 
 # Run the PCA with only numeric variables of params
 pca <- prcomp(x = params[, sapply(params, is.numeric)], scale. = TRUE)
@@ -754,7 +747,7 @@ pcascor <- as.data.frame(pca[[5]])
 
 # Plot the 2 first PCs
 plot(pcascor[, 1], pcascor[, 2], col = as.numeric(params$sound.files), pch = 20, 
-     cex = 3, xlab = "PC1", ylab = "PC2")
+     cex = 1, xlab = "PC1", ylab = "PC2")
 
 # Add recordings/individuals labels 
 x <- tapply(pcascor[, 1], params$sound.files, mean)
@@ -764,7 +757,7 @@ labs <- gsub(".wav", "", unique(sapply(as.character(params$sound.files), functio
   strsplit(x, split = "-", fixed = TRUE)[[1]][3]
   }, USE.NAMES = FALSE)))
 
-text(x, y, labs)
+text(x, y, labs, cex=0.5)
 
 ```
 
@@ -774,7 +767,7 @@ It seems like the songs are grouped by sound file. As each sound files represent
 
 Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 represent a different song type. Finally, the songs from each of the other 2 sound files have a unique structure, so each one represents a different song type. We can add this information to the plot by using symbols to represent song types.
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, dpi=220}
 
 # Create a song type variable
 
@@ -790,14 +783,15 @@ songtype <- gsub("154123", "C", songtype)
 songtype <- gsub("154138", "D", songtype)
 
 # Add song type as a variable representing symbol type
-plot(pcascor[, 1], pcascor[, 2], col = as.numeric(params$sound.files), pch = as.numeric(as.factor(songtype)), 
-     cex = 3, xlab = "PC1", ylab = "PC2")
+plot(pcascor[, 1], pcascor[, 2], col = as.numeric(params$sound.files), 
+pch = as.numeric(as.factor(songtype)), 
+     cex = 1, xlab = "PC1", ylab = "PC2")
 
 # Add song type labels 
 x <- tapply(pcascor[, 1], songtype, mean)
 y <- tapply(pcascor[, 2], songtype, mean)
 
-text(x, y, unique(songtype), cex = 1.5)
+text(x, y, unique(songtype), cex = 1)
 
 ```
 
