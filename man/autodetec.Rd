@@ -7,7 +7,7 @@
 autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL,
   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur =
-  NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL)
+  NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function or any data frame with columns
@@ -27,7 +27,7 @@ with a sum smooth function. Default is NULL.}
 \item{msmooth}{A numeric vector of length 2 to smooth the amplitude envelope
 with a mean sliding window. The first component is the window length and
 the second is the overlap between successive windows (in \%). Faster than ssmooth but time detection is
-much less accurate. Default is NULL.}
+much less accurate. Will be deprecated in future versions. Default is NULL.}
 
 \item{power}{A numeric vector of length 1 indicating a power factor applied
 to the amplitude envelope. Increasing power will reduce low amplitude
@@ -91,6 +91,12 @@ power (pw), smooth (smo, either mmsooth[1] or ssmooth), maxdur (mxdu), and mindu
 
 \item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.}
+
+\item{smadj}{adjustment for amplitude smoothing. Character vector of length one indicating whether start end
+values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude
+smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals,
+determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the
+increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.}
 }
 \value{
 Image files with spectrograms showing the start and end of the detected signals. It

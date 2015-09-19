@@ -5,7 +5,7 @@
 #' @usage autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL, 
 #'   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
 #'   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
-#'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL)
+#'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL)
 #' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
@@ -19,7 +19,7 @@
 #' @param msmooth A numeric vector of length 2 to smooth the amplitude envelope 
 #'   with a mean sliding window. The first component is the window length and 
 #'   the second is the overlap between successive windows (in \%). Faster than ssmooth but time detection is 
-#'   much less accurate. Default is NULL.
+#'   much less accurate. Will be deprecated in future versions. Default is NULL.
 #' @param power A numeric vector of length 1 indicating a power factor applied 
 #'   to the amplitude envelope. Increasing power will reduce low amplitude 
 #'   modulations and increase high amplide modulations, in order to reduce 
@@ -65,6 +65,11 @@
 #'  power (pw), smooth (smo, either mmsooth[1] or ssmooth), maxdur (mxdu), and mindur (midu) are included. 
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
+#' @param smadj adjustment for amplitude smoothing. Character vector of length one indicating whether start end 
+#' values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude 
+#' smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals, 
+#' determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the 
+#' increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.
 #' @return Image files with spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 
 #'   sound file and selection number.
@@ -112,7 +117,7 @@
 autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 
                     bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 
                     ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
-                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL){
+                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL){
 
   #if bp is not vector or length!=2 stop
   if(!is.null(bp))
@@ -184,6 +189,10 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     stop("'power' cannot equal to 0")
   
   if(!is.null(msmooth)) smo <- msmooth[1] else {if(!is.null(ssmooth)) smo <- ssmooth else smo <- 0}
+  
+  #if smadj argument is not "start" "end" or "both"
+  if(!is.null(smadj)) if(!any(smadj == "start", smadj == "end", smadj == "both")) 
+    stop(paste("smooth adjustment", smadj, "not allowed"))  
   
   if(!is.null(X)){
     
@@ -339,7 +348,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     
     #subet based on file list provided (flist)
     if(!is.null(flist)) files <- files[files %in% flist]
-        
+    if(length(files) == 0) stop(".wav files are not in working directory")    
+
     #do the ones that have no images in folder
     if(!redo) {
       if(it == "tiff") {tfs <- list.files(path = getwd(), pattern = ".tiff$", ignore.case = TRUE)
@@ -599,9 +609,9 @@ if(!redo) {
 }  
  
 rownames(results) <- 1:nrow(results)
-if(!is.null(ssmooth))
-  {results$start <- results$start-((threshold*2.376025e-07)-1.215234e-05)*ssmooth 
-   results$end <- results$end-((threshold*-2.369313e-07)+1.215129e-05)*ssmooth }
+if(!is.null(ssmooth) & !is.null(smadj))
+  {if(smadj == "start" | smadj == "both") results$start <- results$start-((threshold*2.376025e-07)-1.215234e-05)*ssmooth 
+  if(smadj == "end" | smadj == "both")  results$end <- results$end-((threshold*-2.369313e-07)+1.215129e-05)*ssmooth }
 return(results)
 message("all done!")
 }

@@ -1,5 +1,5 @@
 ---
-output:  rmarkdown::html_vignette
+output:  rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{warbleR workflow}  
   %\VignetteEngine{knitr::rmarkdown} 
@@ -411,9 +411,9 @@ recordings:
 ```{r, eval=FALSE}
 
 autodetec(flist = sub, bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22, 
-          envt = "abs", ssmooth = 300, ls = TRUE, res = 100, flim = c(1, 12), 
-          wl = 300, set =TRUE, sxrow = 6, rows = 15,  redo = TRUE, it = "tiff")
-
+                     envt = "abs", ssmooth = 900, ls = TRUE, res = 100, 
+                     flim= c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
+                     redo = TRUE, it = "tiff", img = TRUE, smadj = "end")
 ```
 
 This seems to provide a good detection for most recordings (recording ID 154161):
@@ -425,9 +425,9 @@ Once we're satisfied with the detection, we can run the `autodetec` on all the r
 ```{r, eval=FALSE}
 
 Phae.ad <- autodetec(bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22, 
-                     envt = "abs", ssmooth = 300, ls = TRUE, res = 100, 
+                     envt = "abs", ssmooth = 900, ls = TRUE, res = 100, 
                      flim= c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
-                     redo = TRUE, it = "tiff")
+                     redo = TRUE, it = "tiff", img = TRUE, smadj = "end")
 
 str(Phae.ad)
 ```
@@ -443,12 +443,8 @@ table(Phae.ad$sound.files)
 
 ```{r, eval=TRUE, echo=FALSE}
 
-Phae.snr <- Phae.ad <- read.csv("Phae.ad.csv")
+Phae.snr <- Phae.ad <- read.csv("Phae.snr.csv")
 
-# GSV added
-# Phae.snr <- Phae.ad <- read.csv("~/warbleR/vignettes/Phae.ad.csv")
-
-str(Phae.ad[, -6])
 
 # Look at the number of selections per sound file 
 table(Phae.ad$sound.files)
@@ -649,8 +645,8 @@ specreator(X, flim = c(1, 11), osci = TRUE, line = TRUE, picsize = 1.5, wl = 300
 # Run function for all recordings, with final argument settings
 specreator(Phae.hisnr, flim = c(1, 11), osci = TRUE, line = TRUE, wl = 300,
            ovlp = 90, it = "tiff", res = 300)
-
 ```
+
 
 ![specreator example](Phaethornis-longirostris-154072.wav-104-.jpeg)
 
@@ -709,10 +705,7 @@ str(params)
 ```
 
 ```{r, eval=TRUE, echo=FALSE}
-# GSV silenced
 params <- read.csv("acoustic_parameters.csv")
-
-# params <- read.csv("~/warbleR/vignettes/acoustic_parameters.csv")
 
 str(params)
 
