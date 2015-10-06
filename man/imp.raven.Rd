@@ -2,7 +2,7 @@
 % Please edit documentation in R/imp.raven.R
 \name{imp.raven}
 \alias{imp.raven}
-\title{Importing Raven selections from many text files simultaneously}
+\title{Import Raven selections}
 \usage{
 imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE)
 }

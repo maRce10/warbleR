@@ -39,6 +39,9 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE)
   if(any(!is.vector(iterations),!is.numeric(iterations))) stop("'interations' must be a numeric vector of length 1") else{
     if(!length(iterations) == 1) stop("'interations' must be a numeric vector of length 1")}
   
+  #if there are NAs in start or end stop
+  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  
   interations <- round(iterations)
   
   #interations should be positive

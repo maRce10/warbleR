@@ -2,7 +2,7 @@
 % Please edit documentation in R/coor.test.R
 \name{coor.test}
 \alias{coor.test}
-\title{Monte Carlo randomization test to assess the statistical significance of singing coordination}
+\title{Randomization test for singing coordination}
 \usage{
 coor.test(X, iterations = 1000, less.than.chance = TRUE)
 }
@@ -10,7 +10,7 @@ coor.test(X, iterations = 1000, less.than.chance = TRUE)
 \item{X}{Data frame containing columns for singing event (sing.event),
 individual (indiv), and start and end time of signal (start and end).}
 
-\item{iterations}{number of iterations for shuffling and calculation of the expected number of overlaps.}
+\item{iterations}{number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.}
 
 \item{less.than.chance}{Logical. If \code{TRUE} the test evaluates whether overlaps occur less often than expected by chance.
 If \code{FALSE} the opposite pattern is evaluted (whether overlaps occur more often than expected by chance).
@@ -21,7 +21,7 @@ A data frame with the observed number of overlaps (obs.overlaps), mean number of
 and p value.
 }
 \description{
-\code{coor.test} assess the statistical significance of singing coordination
+\code{coor.test} Monte Carlo randomization test to assess the statistical significance of singing coordination
 }
 \details{
 This function calculates the probability of finding and equal or lower number

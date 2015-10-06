@@ -2,7 +2,7 @@
 % Please edit documentation in R/imp.syrinx.R
 \name{imp.syrinx}
 \alias{imp.syrinx}
-\title{Importing Syrinx selections from many text files simultaneously}
+\title{Import Syrinx selections}
 \usage{
 imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE)
 }
