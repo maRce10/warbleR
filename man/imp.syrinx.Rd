@@ -23,7 +23,7 @@ both spectrogram and waveform views are included in the Syrinx selection files. 
 columns in selection files are returned.
 }
 \description{
-\code{imp.syrinx} Imports data from Syrinx selection from many files simultaneously.
+\code{imp.syrinx} Imports Syrinx selection data from many files simultaneously.
 All files must be have the same columns.
 }
 \examples{
@@ -40,7 +40,7 @@ write.table(selection.files[[3]],file = "harpyeagle.wav.txt",row.names = F,
 write.table(selection.files[[4]],file = "Phae.long4.wav.txt",row.names = F,
 col.names = F, sep= "\\t")
 
-syr.dat<-imp.syrinx(sound.file.col = "End.File", all.data = FALSE)
+syr.dat<-imp.syrinx(all.data = FALSE)
 
 View(syr.dat)
 

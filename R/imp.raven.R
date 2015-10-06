@@ -1,6 +1,6 @@
 #' Importing Raven selections from many text files simultaneously
 #' 
-#' \code{imp.raven} Imports data from Raven selection from many files simultaneously. Files must be in .txt format.
+#' \code{imp.raven} Imports Raven selection data from many files simultaneously. Files must be in .txt format.
 #' @usage imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE)  
 #' @param path A character string indicating the path of the directory in which to look for the text files. 
 #' If not provided (default) the function searches into the current working directory. Default is \code{NULL}).

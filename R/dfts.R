@@ -1,7 +1,6 @@
 #' Extract the dominant frequency values as a time series
 #' 
-#' \code{dfts} extract the dominant frequency values as a time series. The function uses the 
-#' `approx` function to interpolate values between dominant frequency measures.
+#' \code{dfts} extract the dominant frequency values as a time series.
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
@@ -66,19 +65,18 @@
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
-#' @return Spectrograms of the signals listed in the input data frame showing the location of 
-#' the dominant frequencies.
+#' @return A data frame with the dominant frequency values measured across the signals. If img is 
+#' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
+#' input data frame showing the location of the dominant frequencies.
 #' @family spectrogram creators
 #' @seealso \code{\link{specreator}} for creating spectrograms from selections,
 #'  \code{\link{snrspecs}} for creating spectrograms to 
 #'   optimize noise margins used in \code{\link{sig2noise}}
 #' @export
 #' @name dfts
-#' @details This function provides visualization of frequency measurements 
-#'   made by \code{\link{specan}}. Arguments that are accepted by xy.coords and can be 
-#'   used for lpos are: "bottomright", "bottom", "bottomleft", "left", 
-#'   "topleft", "top", "topright", "right" and "center". Setting inner.mar to 
-#'   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
+#' @details This function extracts the dominant frequency values as a time series. 
+#' The function uses the `approx` function to interpolate values between dominant frequency 
+#' measures.
 #' @examples
 #' \dontrun{
 #' #First create empty folder
@@ -86,23 +84,14 @@
 #' setwd(file.path(getwd(),"temp"))
 #' 
 #' #load data
-#' data(list = c("Phae.long1", "Phae.long2"))
-#' data(manualoc.df)
+#' data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
 #' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # make  spectrograms  
 #' 
-#' dfts(manualoc.df, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
-#' picsize = 2, res = 300, cexlab = 2, bp = c(0, 14), cex = 1, 
-#' col = c("blue", "red"),  mar = 0.09, lpos = "bottomright", it = "jpeg")
-#'                  
-#' # make only Phae.long1 spectrograms
-#' 
-#' dfts(manualoc.df[manualoc.df$sound.files == "Phae.long1.wav", ], flim = c(3, 14),
-#' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
-#' bp = c(3, 14), cex = 1.5, col = c("blue", "red"),  mar = 0.09, 
-#' lpos = "bottomright", it = "tiff")
+#' dfts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
+
 #' 
 #' # remove example directory
 #' unlink(getwd(),recursive = TRUE)

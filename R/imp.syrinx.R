@@ -1,6 +1,6 @@
 #' Importing Syrinx selections from many text files simultaneously
 #' 
-#' \code{imp.syrinx} Imports data from Syrinx selection from many files simultaneously. 
+#' \code{imp.syrinx} Imports Syrinx selection data from many files simultaneously. 
 #' All files must be have the same columns.
 #' @usage imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE)  
 #' @param path A character string indicating the path of the directory in which to look for the text files. 
@@ -29,7 +29,7 @@
 #' write.table(selection.files[[4]],file = "Phae.long4.wav.txt",row.names = F, 
 #' col.names = F, sep= "\t")
 #' 
-#' syr.dat<-imp.syrinx(sound.file.col = "End.File", all.data = FALSE)
+#' syr.dat<-imp.syrinx(all.data = FALSE)
 #' 
 #' View(syr.dat)
 #' 

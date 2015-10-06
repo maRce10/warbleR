@@ -26,7 +26,7 @@ both spectrogram and waveform views are included in the Raven selection files. I
 columns in selection files are returned.
 }
 \description{
-\code{imp.raven} Imports data from Raven selection from many files simultaneously. Files must be in .txt format.
+\code{imp.raven} Imports Raven selection data from many files simultaneously. Files must be in .txt format.
 }
 \examples{
 \dontrun{
