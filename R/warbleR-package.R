@@ -65,6 +65,8 @@
 #'   
 #'   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
 #'   
+#'   \code{\link{coor.test}}: Assess statistical significance of singing coordination 
+#'   
 #' @import maps
 #' @import rjson
 #' @import RCurl

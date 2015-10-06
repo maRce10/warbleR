@@ -78,6 +78,8 @@ License: GPL (>= 2)
   \code{\link{dfts}}: Extract the dominant frequency values as a time series
 
   \code{\link{coor.graph}}: Creat graphs of coordinated singing
+
+  \code{\link{coor.test}}: Assess statistical significance of singing coordination
 }
 \author{
 Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong

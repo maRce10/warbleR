@@ -3,6 +3,7 @@
 export(autodetec)
 export(checkwavs)
 export(coor.graph)
+export(coor.test)
 export(dfts)
 export(imp.raven)
 export(imp.syrinx)
