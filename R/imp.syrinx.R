@@ -1,4 +1,4 @@
-#' Importing Syrinx selections from many text files simultaneously
+#' Import Syrinx selections
 #' 
 #' \code{imp.syrinx} Imports Syrinx selection data from many files simultaneously. 
 #' All files must be have the same columns.

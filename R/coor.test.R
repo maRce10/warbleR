@@ -1,6 +1,6 @@
-#' Monte Carlo randomization test to assess the statistical significance of singing coordination
+#' Randomization test for singing coordination 
 #' 
-#' \code{coor.test} assess the statistical significance of singing coordination 
+#' \code{coor.test} Monte Carlo randomization test to assess the statistical significance of singing coordination
 #' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
@@ -30,8 +30,22 @@
 #' coor.test(coor.sing, iterations = 1000, less.than.chance = F)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+
 coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE)
-{tovlp<-pblapply(unique(X$sing.event),function(h)
+{
+  if(!is.data.frame(X))  stop("X is not a data frame")
+  
+  #if iterations is not vector or length==1 stop
+  if(any(!is.vector(iterations),!is.numeric(iterations))) stop("'interations' must be a numeric vector of length 1") else{
+    if(!length(iterations) == 1) stop("'interations' must be a numeric vector of length 1")}
+  
+  interations <- round(iterations)
+  
+  #interations should be positive
+  if(iterations < 1) stop("'iterations' must be a positive integer")
+  
+  
+  tovlp<-pblapply(unique(X$sing.event),function(h)
 {
   sub<-X[X$sing.event==h,]
   
@@ -100,7 +114,7 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE)
   #resutls
   obs.overlaps <- length(ovlp[ovlp=="ovlp"])
   mean.random.ovlps <- mean(rov)
-  if(less.than.chance) p <- length(rov[rov >= obs.overlaps])/iterations else p <- length(rov[rov <= obs.overlaps])/iterations
+  if(less.than.chance) p <- length(rov[rov <= obs.overlaps])/iterations else p <- length(rov[rov >= obs.overlaps])/iterations
   l <- c(obs.overlaps, mean.random.ovlps, p)
   
   return(l)})
