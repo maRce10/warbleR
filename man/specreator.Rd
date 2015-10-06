@@ -117,7 +117,7 @@ Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith
   frequency measurements by \code{\link{specan}}, \code{\link{snrspecs}} for
   creating spectrograms to optimize noise margins used in \code{\link{sig2noise}}
 
-Other spectrogram.creators: \code{\link{snrspecs}};
-  \code{\link{trackfreqs}}
+Other spectrogram.creators: \code{\link{dfts}};
+  \code{\link{snrspecs}}; \code{\link{trackfreqs}}
 }
 

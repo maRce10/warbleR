@@ -10,7 +10,7 @@
 #'   directory as .mp3 files. Default is \code{FALSE}.
 #' @param X data frame with the same columns as the output of the function, or at least the following
 #' columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in the data frame 
-#' will be download (\code{download} argument isautomatically set to \code{TRUE}). This can be used to select
+#' will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 #' the recordings to be downloaded based on their attributes.  
 #' @return A data frame with recording information is returned if X is not provided. Sound files in .mp3 format 
 #' (if download = \code{TRUE} or if X is provided).

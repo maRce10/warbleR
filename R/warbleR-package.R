@@ -19,9 +19,13 @@
 #'   
 #' @section Obtaining avian vocalization data:
 #'   
-#'  \code{\link{querxc}}: Download recordings and metadata from Xeno-Canto
+#'   \code{\link{querxc}}: Download recordings and metadata from Xeno-Canto
 #'   
 #'   \code{\link{xcmaps}}: Create maps to visualize the geographic spread of Xeno-Canto recordings
+#'   
+#'   \code{\link{imp.syrinx}}: Importing Syrinx selections
+#'   
+#'   \code{\link{imp.raven}}: Importing Raven selections
 #'   
 #' @section Managing sound files:
 #'   
@@ -57,6 +61,10 @@
 #'   \code{\link{specan}}: Measure acoustic parameters on selected acoustic 
 #'   signals
 #'   
+#'   \code{\link{dfts}}: Extract the dominant frequency values as a time series
+#'   
+#'   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
+#'   
 #' @import maps
 #' @import rjson
 #' @import RCurl
@@ -68,6 +76,7 @@
 #' @import grDevices
 #' @import utils
 #' @import stats
+#' @import ggplot2
 
 
 #'   

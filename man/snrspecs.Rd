@@ -136,7 +136,7 @@ Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith
   frequency measurements by \code{\link{specan}}, \code{\link{specreator}} for
   creating spectrograms after using \code{\link{manualoc}}
 
-Other spectrogram.creators: \code{\link{specreator}};
-  \code{\link{trackfreqs}}
+Other spectrogram.creators: \code{\link{dfts}};
+  \code{\link{specreator}}; \code{\link{trackfreqs}}
 }
 
