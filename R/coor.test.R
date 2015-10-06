@@ -4,7 +4,7 @@
 #' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
-#' @param iterations number of iterations for shuffling and calculation of the expected number of overlaps. 
+#' @param iterations number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.
 #' @param less.than.chance Logical. If \code{TRUE} the test evaluates whether overlaps occur less often than expected by chance.
 #' If \code{FALSE} the opposite pattern is evaluted (whether overlaps occur more often than expected by chance). 
 #' Default is  \code{TRUE}.
