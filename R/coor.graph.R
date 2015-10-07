@@ -19,7 +19,8 @@
 #' @name coor.graph
 #' @details This function provides visualization for coordination of acoustic signals. Signals are shown as
 #' polygon across a time axis. It also shows which signals overlap, the amount of overlap, and 
-#' highlights the individual responsible for the overlap using a color code.  
+#' highlights the individual responsible for the overlap using a color code. The width of the polygons 
+#' depicting the time of overlap. 
 #' @examples
 #' \dontrun{
 #' #load data
@@ -118,9 +119,10 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
       
       cols <- c("#F9766E66", "#00BFC466")
       
-      if(all(exists("recdf"), ovlp,nrow(recdf) > 0)) if(suppressWarnings(min(which(df$id == "#!"))) < suppressWarnings(min(which(df$id == "^%"))))
+      if(all(exists("recdf"), ovlp)) if(nrow(recdf) > 0) {if(suppressWarnings(min(which(df$id == "#!"))) < suppressWarnings(min(which(df$id == "^%"))))
       {  cols <- c("#00BFC466", "#F9766E66") 
       ids <- c(unique(y$indiv)[2], unique(y$indiv)[1])} else {cols <- c("#F9766E66", "#00BFC466")
+      ids <- c(unique(y$indiv)[1], unique(y$indiv)[2])}} else {cols <- c("#F9766E66", "#00BFC466")
       ids <- c(unique(y$indiv)[1], unique(y$indiv)[2])}
       
       ggp <- ggplot2::ggplot(df, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, group = id, fill = col)) +
