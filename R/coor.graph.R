@@ -118,7 +118,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
       
       cols <- c("#F9766E66", "#00BFC466")
       
-      if(ovlp & nrow(recdf) > 0) if(suppressWarnings(min(which(df$id == "#!"))) < suppressWarnings(min(which(df$id == "^%"))))
+      if(exists("recdf")) if(ovlp & nrow(recdf) > 0) if(suppressWarnings(min(which(df$id == "#!"))) < suppressWarnings(min(which(df$id == "^%"))))
       {  cols <- c("#00BFC466", "#F9766E66") 
       ids <- c(unique(y$indiv)[2], unique(y$indiv)[1])} else {cols <- c("#F9766E66", "#00BFC466")
       ids <- c(unique(y$indiv)[1], unique(y$indiv)[2])}
