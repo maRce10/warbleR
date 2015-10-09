@@ -7,7 +7,7 @@
 #' avian vocalizations from Xeno-Canto \url{http://www.xeno-canto.org/}, creating maps of Xeno-Canto recordings, 
 #' converting .mp3 files to .wav files, checking .wav files, automatically detecting acoustic signals, selecting 
 #' them manually, printing spectrograms of whole recordings or individual signals, measuring signal 
-#' to noise ratio and performing acoustic measurements.
+#' to noise ratio, cross-correlation and performing acoustic measurements.
 #'      
 #' The warbleR package offers three overarching categories of
 #'   functions:
@@ -60,6 +60,8 @@
 #'   
 #'   \code{\link{specan}}: Measure acoustic parameters on selected acoustic 
 #'   signals
+#'   
+#'   \code{\link{x.corr}}: Pairwise cross-correlation of multiple signals  
 #'   
 #'   \code{\link{dfts}}: Extract the dominant frequency values as a time series
 #'   

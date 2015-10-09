@@ -130,8 +130,8 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   options( show.error.messages = TRUE)
   
   #if bp is not vector or length!=2 stop
-  if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}
+  if(!is.null(bp)) {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
   
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
@@ -164,7 +164,8 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     cex <- cex
  
     b<- bp 
-    if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
+    if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
+    b <- b * 1000}
     
     if(img) {
       #in case bp its higher than can be due to sampling rate
@@ -189,13 +190,6 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
     # Change relative widths of columns for spectrogram when sc = TRUE
     if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
-    
-    #     old.par <- par(no.readonly = TRUE) # par settings which could be changed.
-    #     on.exit(par(old.par)) 
-    
-    # Change inner and outer plot margins
-    par(mar = inner.mar)
-    par(oma = outer.mar)
     
     # Generate spectrogram using seewave
     seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
@@ -225,7 +219,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
     dev.off()
     } else 
-      dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = 99, bandpass = b * 1000, fftw = TRUE, 
+      dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = 99, bandpass = b, fftw = TRUE, 
                               threshold = threshold, tlim=c(start[i],end[i]))
     
     apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")

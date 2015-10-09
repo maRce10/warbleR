@@ -29,7 +29,7 @@ This function calculates the probability of finding and equal or lower number
 The function shuffles the sequences of signals and silence-between-signals for both individuals to produce
 a null distribution of expected number of overlaps by chance.  The observed number of overlaps is compared to this
 expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher)
-than the observed value. The function runs a separated test for each singing event in the input data frame.
+than the observed value. The function runs one test for each singing event in the input data frame.
 }
 \examples{
 \dontrun{
