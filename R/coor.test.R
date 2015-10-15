@@ -1,6 +1,6 @@
 #' Randomization test for singing coordination 
 #' 
-#' \code{coor.test} Monte Carlo randomization test to assess the statistical significance of singing coordination
+#' \code{coor.test} applies a Monte Carlo randomization test to assess the statistical significance of singing coordination
 #' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
@@ -13,7 +13,7 @@
 #' @export
 #' @name coor.test
 #' @details This function calculates the probability of finding and equal or lower number 
-#' (of higher if les.than.chance is \code{TRUE}) of song overlaps in a coordinated singing event. 
+#' (of higher if \code{less.than.chance} is \code{TRUE}) of song overlaps in a coordinated singing event. 
 #' The function shuffles the sequences of signals and silence-between-signals for both individuals to produce 
 #' a null distribution of expected number of overlaps by chance.  The observed number of overlaps is compared to this
 #' expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
