@@ -108,10 +108,10 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                          "start", "end") %in% colnames(X))) 
   {
-    start <- as.numeric(unlist(X$start))
-    end <- as.numeric(unlist(X$end))
-    sound.files <- as.character(unlist(X$sound.files))
-    selec <- as.character(unlist(X$selec))
+    start <- as.numeric(X$start)
+    end <- as.numeric(X$end)
+    sound.files <- as.character(X$sound.files)
+    selec <- as.character(X$selec)
   } else stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                         "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   } else  stop("X is not a data frame")
@@ -204,7 +204,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     }
     
     # Plot dominant frequency at each time point     
-    dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b * 1000, fftw = TRUE, 
+    dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
                             threshold = threshold, tlim=c(start[i],end[i]))
     
     apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
