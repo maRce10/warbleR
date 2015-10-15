@@ -88,8 +88,7 @@
 #' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
-#' # make  spectrograms  
-#' 
+#' # run function 
 #' dfts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
 
 #' 
