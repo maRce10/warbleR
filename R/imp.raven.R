@@ -1,18 +1,18 @@
 #' Import Raven selections
 #' 
-#' \code{imp.raven} Imports Raven selection data from many files simultaneously. Files must be in .txt format.
+#' \code{imp.raven} imports Raven selections simultaneously from many files. Files must be in .txt format.
 #' @usage imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE)  
 #' @param path A character string indicating the path of the directory in which to look for the text files. 
-#' If not provided (default) the function searches into the current working directory. Default is \code{NULL}).
+#' If not provided (default) the function searches into the current working directory. Default is \code{NULL}.
 #' @param sound.file.col A character string with the name of the column listing the sound files in 
-#' the selection text files. Default is \code{NULL}).
-#' @param all.data Logical. If \code{TRUE}) all columns in text files are returned. Default is \code{FALSE}). Note 
+#' the selection text files. Default is \code{NULL}.
+#' @param all.data Logical. If \code{TRUE} all columns in text files are returned. Default is \code{FALSE}. Note 
 #' that all files should contain exactly the same columns in the same order. 
-#' @param recursive Logical. If \code{TRUE}) the listing recurse into sub-directories.
-#' @return A single data frame with the information from the selection files. If all.data argument is set to \code{FALSE}) the data 
+#' @param recursive Logical. If \code{TRUE} the listing recurses into sub-directories.
+#' @return A single data frame with the information from the selection files. If all.data argument is set to \code{FALSE} the data 
 #' frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
 #' will also contain a sound.file column. In addition, all rows with duplicated data are removed. This is useful when 
-#' both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE}) then all 
+#' both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE} then all 
 #' columns in selection files are returned.
 #' @export
 #' @name imp.raven
@@ -25,10 +25,10 @@
 #' data(selection.files)
 #' 
 #' write.table(selection.files[[1]],file = "100889-Garrulax monileger.selections.txt",
-#' row.names = F, sep= "\t")
+#' row.names = FALSE, sep= "\t")
 #' 
 #' write.table(selection.files[[2]],file = "1023-Arremonops rufivirgatus.selections.txt",
-#' row.names = F, sep= "\t")
+#' row.names = FALSE, sep= "\t")
 #' 
 #' #providing the name of the column with the sound file names
 #' rav.dat<-imp.raven(sound.file.col = "End.File", all.data = FALSE)

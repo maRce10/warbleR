@@ -23,14 +23,22 @@
 #' depicting the time of overlap. 
 #' @examples
 #' \dontrun{
+#' 
+#' #First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+#' 
 #' #load data
 #' data(coor.sing)
 #' 
 #' # make coor.graphs in jpeg format
-#' coor.graph(X = coor.sing, ovlp = T,only.coor = F, xl =2, res =80)
+#' coor.graph(X = coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80)
 #' 
 #' # make coor.graphs in tiff format
-#' coor.graph(X = coor.sing, ovlp = T,only.coor = F, xl =2, res =80, it = "jpeg")                  
+#' coor.graph(X = coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, it = "tiff")
+#' 
+#' # remove example directory
+#' unlink(getwd(),recursive = TRUE)                                  
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 

@@ -1,17 +1,17 @@
 #' Import Syrinx selections
 #' 
-#' \code{imp.syrinx} Imports Syrinx selection data from many files simultaneously. 
+#' \code{imp.syrinx} imports Syrinx selections simultaneously from many files. 
 #' All files must be have the same columns.
 #' @usage imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE)  
 #' @param path A character string indicating the path of the directory in which to look for the text files. 
-#' If not provided (default) the function searches into the current working directory. Default is \code{NULL}).
-#' @param all.data Logical. If \code{TRUE}) all columns in text files are returned. Default is \code{FALSE}). Note 
+#' If not provided (default) the function searches into the current working directory. Default is \code{NULL}.
+#' @param all.data Logical. If \code{TRUE} all columns in text files are returned. Default is \code{FALSE}. Note 
 #' that all files should contain exactly the same columns in the same order. 
-#' @param recursive Logical. If \code{TRUE}) the listing recurse into sub-directories.
-#' @return A single data frame with the information from the selection files. If all.data argument is set to \code{FALSE}) the data 
+#' @param recursive Logical. If \code{TRUE} the listing recurse into sub-directories.
+#' @return A single data frame with the information from the selection files. If all.data argument is set to \code{FALSE} the data 
 #' frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
 #' will also contain a sound.file column. In addition, all rows with duplicated data are removed. This is useful when 
-#' both spectrogram and waveform views are included in the Syrinx selection files. If all.data is set to \code{TRUE}) then all 
+#' both spectrogram and waveform views are included in the Syrinx selection files. If all.data is set to \code{TRUE} then all 
 #' columns in selection files are returned.
 #' @export
 #' @name imp.syrinx
@@ -23,11 +23,11 @@
 #' 
 #' data(selection.files)
 #' 
-#' write.table(selection.files[[3]],file = "harpyeagle.wav.txt",row.names = F,
-#'  col.names = F, sep= "\t")
+#' write.table(selection.files[[3]],file = "harpyeagle.wav.txt",row.names = FALSE,
+#'  col.names = FALSE, sep= "\t")
 #' 
-#' write.table(selection.files[[4]],file = "Phae.long4.wav.txt",row.names = F, 
-#' col.names = F, sep= "\t")
+#' write.table(selection.files[[4]],file = "Phae.long4.wav.txt",row.names = FALSE, 
+#' col.names = FALSE, sep= "\t")
 #' 
 #' syr.dat<-imp.syrinx(all.data = FALSE)
 #' 
@@ -36,7 +36,7 @@
 #' #getting all the data
 #' syr.dat<-imp.syrinx(all.data = TRUE)
 #' 
-#' View(rav.dat)
+#' View(syr.dat)
 
 #' # remove example directory
 #' unlink(getwd(),recursive = TRUE)
