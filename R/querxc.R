@@ -130,7 +130,7 @@ results <- X  }
       if(!file.exists(file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep = ""))))
         download.file(paste("http://xeno-canto.org/download.php?XC=", rid, sep=""), 
                       file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep="")),
-                      quiet = FALSE,  mode = "wb", cacheOK = TRUE,
+                      quiet = TRUE,  mode = "wb", cacheOK = TRUE,
                       extra = getOption("download.file.extra"))
       return (NULL)
     })

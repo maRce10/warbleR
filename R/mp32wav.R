@@ -28,10 +28,10 @@
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
 mp32wav <- function() {
-  options( show.error.messages = FALSE)  
   files <- list.files(path=getwd(), pattern = "mp3$", ignore.case = TRUE) #list .mp3 files in working directory
   if(length(files) == 0) stop("no 'wav' files in working directory")
   message("Start writing wav files:")
-  invisible(pblapply(files, function(x) tuneR::writeWave(tuneR::readMP3(filename = paste(getwd(), "/", x, sep="")),
-                                                paste(getwd(), "/", substr(x, 0, nchar(x) - 4), ".wav", sep=""))))
-}
+  pbapply::pblapply(files, function(x) tuneR::writeWave(tuneR::readMP3(filename =  x),
+                                                paste(substr(x, 0, nchar(x) - 4), ".wav", sep="")))
+  
+  }

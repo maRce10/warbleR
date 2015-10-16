@@ -8,7 +8,7 @@ H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic
 cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 }
 \usage{
-x.corr <- function(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning',
+x.corr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning',
 cor.method = "pearson")
 }
 \arguments{
@@ -56,7 +56,16 @@ from the awesome R package `monitoR`.
 \examples{
 \dontrun{
 #load data
-data(manualo.df)
+#First create empty folder
+dir.create(file.path(getwd(),"temp"))
+setwd(file.path(getwd(),"temp"))
+
+#load data
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","manualoc.df"))
+writeWave(Phae.long1, "Phae.long1.wav") #save sound files
+writeWave(Phae.long2, "Phae.long2.wav")
+writeWave(Phae.long3, "Phae.long3.wav")
+writeWave(Phae.long4, "Phae.long4.wav")
 
 xcor<-x.corr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90,
 dens=1, wn='hanning', cor.method = "pearson")

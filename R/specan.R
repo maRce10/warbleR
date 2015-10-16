@@ -118,7 +118,6 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15){
   }
 
 ####
-#Hua modified into pbapply, Apr 17, 2015
 message("Measuring acoustic parameters:")
 x <- as.data.frame(pbapply::pbapply(matrix(c(1:length(start)), ncol=1), 1, function(i) { 
   r <- tuneR::readWave(file.path(getwd(), sound.files[i]), from = start[i], to = end[i], units = "seconds") 
