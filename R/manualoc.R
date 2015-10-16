@@ -245,9 +245,9 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       {if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) & 
             all(xy$x < (((tlim[2] - tlim[1])/marg2) + tlim[1])) &
             all(xy$y < (fl[2] - fl[1])/marg2 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & 
-            all(xy$y > (fl[2] - fl[1])/marg1 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]))
-      { if(!is.null(player)) tuneR::play(cutw(rec, from = tlim[1], to = tlim[2], output = "Wave"), player = player)
-      } else {if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) & all(xy$x < (((tlim[2] - tlim[1])/marg2) + 
+            all(xy$y > (fl[2] - fl[1])/marg1 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & !is.null(player))
+       tuneR::play(cutw(rec, from = tlim[1], to = tlim[2], output = "Wave"), player = player)
+       else {if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) & all(xy$x < (((tlim[2] - tlim[1])/marg2) + 
                                                                                      tlim[1])) & #if click on delete
                    all(xy$y < (fl[2] - fl[1])/marg2 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) &
                    all(xy$y > (fl[2] - fl[1])/marg1 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) &
