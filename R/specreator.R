@@ -5,7 +5,7 @@
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE, 
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-#'   mar = 0.05, it = "jpeg")
+#'   mar = 0.05, it = "jpeg", parallel = FALSE)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -50,6 +50,9 @@
 #' dealineating spectrogram limits. Default is 0.05.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
+#'  Not available for windows OS. 
 #' @return Image files containing spectrograms of the signals listed in the input data frame.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
@@ -87,7 +90,7 @@
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, 
                        cexlab = 1, title = TRUE, trel = FALSE, propwidth = FALSE, xl=1, osci = FALSE, 
-                       gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg"){
+                       gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg", parallel = FALSE){
                   
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
@@ -138,12 +141,17 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   
   if(propwidth) picsize <- 1
     
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+      FUN, mc.cores = 2)} else    
+          if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+                FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  
   # Create spectrograms overlaid with start and end times from manualoc()
-  message("Creating spectrograms from selections:")
-    
-    ####
-    #Hua modified, Apr 17, 2015
-    invisible(pbapply::pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
+  if(!parallel) message("Creating spectrograms from selections:")
+
+  
+    invisible(lapp(1:length(sound.files), function(i){
       
       # Read sound files, initialize frequency and time limits for spectrogram
       r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
@@ -203,8 +211,6 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
 
       invisible() # execute par(old.par) 
         dev.off()
-      return (NULL)
     }
     ))
-  message("all done!")
   }

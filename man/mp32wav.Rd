@@ -18,9 +18,8 @@ This should be fixed in the next version of tuneR.
 }
 \examples{
 \dontrun{
-# First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+# First set temporary folder
+setwd(tempdir())
 
 #Then download mp3 files from xeno-canto
 querxc(qword = "Phaethornis aethopygus", download = TRUE)
@@ -30,9 +29,6 @@ mp32wav()
 
 #check this folder!!
 getwd()
-
-#remove example directory
-unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

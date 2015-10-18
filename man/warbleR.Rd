@@ -48,7 +48,7 @@ License: GPL (>= 2)
   functions
 }
 
-\section{Streamlining acoustic analysis in R}{
+\section{Streamlining analysis of acoustic signal structure in R}{
 
 
   \code{\link{autodetec}}: Automatically detect start and
@@ -75,7 +75,9 @@ License: GPL (>= 2)
   \code{\link{specan}}: Measure acoustic parameters on selected acoustic
   signals
 
-  \code{\link{x.corr}}: Pairwise cross-correlation of multiple signals
+  \code{\link{xcorr}}: Pairwise cross-correlation of multiple signals
+
+  \code{\link{xcorr.graph}}: Pairwise cross-correlation of multiple signals
 
   \code{\link{dfts}}: Extract the dominant frequency values as a time series
 

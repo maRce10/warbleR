@@ -5,7 +5,8 @@
 #' @usage autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL, 
 #'   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
 #'   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
-#'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL)
+#'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
+#'   parallel = FALSE)
 #' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
@@ -70,6 +71,8 @@
 #' smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals, 
 #' determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the 
 #' increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.  
 #' @return Image files with spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 
 #'   sound file and selection number.
@@ -117,7 +120,7 @@
 autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 
                     bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 
                     ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
-                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL){
+                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = FALSE){
 
   #if bp is not vector or length!=2 stop
   if(!is.null(bp))
@@ -194,6 +197,11 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   if(!is.null(smadj)) if(!any(smadj == "start", smadj == "end", smadj == "both")) 
     stop(paste("smooth adjustment", smadj, "not allowed"))  
   
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+     FUN, mc.cores = 2)} else    if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+     FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+                                                                                                                                                              
   if(!is.null(X)){
     
     
@@ -235,10 +243,10 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
       if(nrow(X) == 0) stop("All selections have been analyzed (redo = F)") 
     }    
     
-    if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
-      message("Detecting signals in sound files:")
-  
-    ad<-pbapply::pblapply(1:nrow(X),function(i)
+    if(!parallel) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
+      message("Detecting signals in sound files:")}
+    
+    ad<-lapp(1:nrow(X),function(i)
   {
     song<-tuneR::readWave(as.character(X$sound.files[i]),from=X$start[i],to=X$end[i],units="seconds")
     
@@ -376,9 +384,9 @@ if(length(files) == 0) stop("All files have been analyzed (redo = F)")
     }
     }  
     
-   message("Detecting signals in sound files:")
+    if(!parallel)  message("Detecting signals in sound files:")
     
-    ad<-pbapply::pblapply(1:length(files),function(i)
+    ad<-lapp(1:length(files),function(i)
     {
       song<-tuneR::readWave(as.character(files[i]))
       f <- song@samp.rate
@@ -463,7 +471,7 @@ results<-rbind(results,data.frame(sound.files =  files[v], selec = 1,start=ad[[v
   
   #long spectrograms
 if(any(ls,is.null(X)) & img) {
-  message("Producing long spectrogram:")
+  if(!parallel) message("Producing long spectrogram:")
   
   collev = seq(-40, 0, 1)  
   manualoc = data.frame(results,sel.comment=NA)
@@ -531,7 +539,7 @@ if(!redo) {
     if(!is.null(manualoc)) manloc <- manualoc  else manloc <- NULL
     
     #apply over each sound file
-  pbapply::pblapply(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = manualoc) {
+  lapp(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = manualoc) {
       
       #loop to print spectros (modified from lspec function)
       rec <- tuneR::readWave(z) #read wave file 
@@ -613,5 +621,4 @@ if(!is.null(ssmooth) & !is.null(smadj))
   {if(smadj == "start" | smadj == "both") results$start <- results$start-((threshold*2.376025e-07)-1.215234e-05)*ssmooth 
   if(smadj == "end" | smadj == "both")  results$end <- results$end-((threshold*-2.369313e-07)+1.215129e-05)*ssmooth }
 return(results)
-message("all done!")
 }

@@ -1,8 +1,8 @@
 #' Spectrogram cross-correlation 
 #' 
-#' \code{x.corr} Estimates the similarity of two spectrograms by means of cross-correlation
-#' @usage x.corr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-#' cor.method = "pearson")
+#' \code{xcorr} Estimates the similarity of two spectrograms by means of cross-correlation
+#' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
+#' cor.method = "pearson", parallel = FALSE)
 #' @param  X Data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -21,22 +21,25 @@
 #' Only applied when frange is \code{NULL}. Default is \code{NULL}.
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}. 
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
+#'  Not available for windows OS. 
 #' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.  
 #' @export
-#' @name x.corr
+#' @name xcorr
 #' @details This function calculates the pairwise similarity of multiple signals by means of spectrogram cross-correlation.
 #' This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
 #' The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
-#' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. This function
+#' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
+#' of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. This function
 #' is a modified version of the \code{\link[monitoR]{corMatch}} and \code{\link[monitoR]{makeTemplate}} 
 #' from the awesome R package `monitoR`.   
 #' @examples
 #' \dontrun{
 #' #load data
-#' #First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
+#' #First set temporal working directory
+#' setwd(tempdir())
 #' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","manualoc.df"))
@@ -45,17 +48,18 @@
 #' writeWave(Phae.long3, "Phae.long3.wav")
 #' writeWave(Phae.long4, "Phae.long4.wav")
 #'
-#' xcor<-x.corr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
+#' xcor<-xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
 #' dens=1, wn='hanning', cor.method = "pearson") 
 #' 
 #' }
+#' @seealso \code{\link{xcorr.graph}}
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 #' @source H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
 #' cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 
 
-x.corr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, 
-                   wn='hanning', cor.method = "pearson")
+xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, 
+                   wn='hanning', cor.method = "pearson", parallel = FALSE)
 {
   if(!is.data.frame(X))  stop("X is not a data frame")
   
@@ -86,15 +90,21 @@ x.corr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL,
     if(!is.vector(dens)) stop("'dens' must be a numeric vector of length 1") else{
       if(!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
   
-if(is.null(frange)) {df<-dfts(X= manualoc.df, wl =300, img = F, length.out = 50)
+if(is.null(frange)) {df<-dfts(X, wl =300, img = F, length.out = 50)
   df<-df[, 3:ncol(df)]
 frq.lim = c(min(df), max(df))} else{
   frq.lim = frange
 }
 
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+   FUN, mc.cores = 2)} else    
+     if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+        FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  
 #create templates
-message("creating templates:")
-ltemp<-pbapply::pblapply(1:nrow(X), function(x)
+if(!parallel) message("creating templates:")
+ltemp<-lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
    samp.rate <- clip@samp.rate
@@ -160,9 +170,9 @@ ltemp<-pbapply::pblapply(1:nrow(X), function(x)
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
 #run cross-correlation
-message("running cross-correlation:")
+if(!parallel) message("running cross-correlation:")
 
-a<-pbapply::pblapply(1:(nrow(X)-1), function(j)
+a<-lapp(1:(nrow(X)-1), function(j)
   {
 
     a <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
@@ -253,7 +263,7 @@ b <- data.frame(dyad = paste(b$sound.file1,b$sound.file2,sep = "/"), b)
 # calculate maximum correlation values
 scores <- aggregate(as.data.frame(b$score), by = list(b$dyad), FUN = max)
 
-#create a similarity matrix with the max x.corr
+#create a similarity matrix with the max xcorr
 mat <- matrix(nrow = nrow(X), ncol = nrow(X))
 mat[]<-1
 colnames(mat) <- rownames(mat) <- paste(X$sound.files, X$selec, sep = "-")
@@ -269,7 +279,7 @@ for(i in 1:nrow(scores))
 
 #list results
 c <- list(b, mat, frq.lim)
-names(c) <- c("correlation.data", "max.x.corr.matrix", "frq.lim") 
+names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim") 
  
 return(c)
 

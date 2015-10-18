@@ -35,7 +35,7 @@
 #'   \code{\link{checkwavs}}: Check whether .wav files can be read by subsequent 
 #'   functions
 #'   
-#' @section Streamlining acoustic analysis in R:
+#' @section Streamlining analysis of acoustic signal structure in R:
 #'   
 #'   \code{\link{autodetec}}: Automatically detect start and 
 #'   end of acoustic signals
@@ -61,7 +61,9 @@
 #'   \code{\link{specan}}: Measure acoustic parameters on selected acoustic 
 #'   signals
 #'   
-#'   \code{\link{x.corr}}: Pairwise cross-correlation of multiple signals  
+#'   \code{\link{xcorr}}: Pairwise cross-correlation of multiple signals  
+#'   
+#'   \code{\link{xcorr.graph}}: Pairwise cross-correlation of multiple signals
 #'   
 #'   \code{\link{dfts}}: Extract the dominant frequency values as a time series
 #'   
@@ -81,9 +83,8 @@
 #' @import utils
 #' @import stats
 #' @import ggplot2
-
-
-#'   
+#' @import parallel
+#' 
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
 #'   
 #'   Maintainer: Marcelo Araya-Salas (marceloa27@@gmail.com)

@@ -12,8 +12,7 @@
 #' @examples
 #' \dontrun{
 #' # First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
+#' setwd(tempdir())
 #' 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
@@ -23,8 +22,6 @@
 #' 
 #' checkwavs()
 #' 
-#' #remove example directory
-#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 

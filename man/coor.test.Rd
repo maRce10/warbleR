@@ -4,7 +4,7 @@
 \alias{coor.test}
 \title{Randomization test for singing coordination}
 \usage{
-coor.test(X, iterations = 1000, less.than.chance = TRUE)
+coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = FALSE)
 }
 \arguments{
 \item{X}{Data frame containing columns for singing event (sing.event),
@@ -15,6 +15,9 @@ individual (indiv), and start and end time of signal (start and end).}
 \item{less.than.chance}{Logical. If \code{TRUE} the test evaluates whether overlaps occur less often than expected by chance.
 If \code{FALSE} the opposite pattern is evaluted (whether overlaps occur more often than expected by chance).
 Default is  \code{TRUE}.}
+
+\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
+If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. Not available for windows OS.}
 }
 \value{
 A data frame with the observed number of overlaps (obs.overlaps), mean number of overlaps expected by chance,

@@ -7,7 +7,7 @@
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
 #'   xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.8, 1), 
 #'   threshold = 15, col = c("chartreuse3", "dodgerblue"), pch = c(17, 16),  mar = 0.05, 
-#'   lpos = "topright", it = "jpeg")
+#'   lpos = "topright", it = "jpeg", parallel = FALSE)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -66,6 +66,9 @@
 #'   Default is "topright".
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
+#'  Not available for windows OS. 
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
 #' @family spectrogram creators
@@ -116,7 +119,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
                      bp = c(0, 22), cex = c(0.8, 1), threshold = 15, col = c("chartreuse3", "dodgerblue"),
-                       pch = c(17, 16), mar = 0.05, lpos = "topright", it = "jpeg"){     
+                       pch = c(17, 16), mar = 0.05, lpos = "topright", it = "jpeg", parallel = FALSE){     
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                          "start", "end") %in% colnames(X))) 
@@ -166,8 +169,14 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     sound.files <- sound.files[d]
   }
   
-  message("Creating spectrograms overlaid with acoustic measurements:")
-  invisible(pbapply::pbapply(matrix(c(1:length(sound.files)), ncol=1), 1, function(i){
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+    FUN, mc.cores = 2)} else    
+        if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+              FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  
+  if(!parallel) message("Creating spectrograms overlaid with acoustic measurements:")
+  invisible(lapp(1:length(sound.files), function(i){
     
     r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
     
@@ -247,5 +256,5 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     return(NULL)
     
   }))
-message("all done!")
+
 }

@@ -2,7 +2,7 @@
 #'
 #' \code{specan} measures 22 acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
-#' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15)
+#' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = FALSE)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
@@ -12,6 +12,9 @@
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param threshold amplitude threshold (\%) for fundamental frequency and 
 #'   dominant frequency detection. Default is 15.
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
+#'  Not available for windows OS. 
 #' @return Data frame with the following acoustic parameters: 
 #' \itemize{
 #'    \item \code{duration}: length of signal
@@ -71,7 +74,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}), Grace Smith Vidaurre and Hua Zhong
 
-specan <- function(X, bp = c(0,22), wl = 512, threshold = 15){
+specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = FALSE){
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                         "start", "end") %in% colnames(X))) 
   {
@@ -116,10 +119,14 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15){
     selec <- selec[d]
     sound.files <- sound.files[d]
   }
-
-####
-message("Measuring acoustic parameters:")
-x <- as.data.frame(pbapply::pbapply(matrix(c(1:length(start)), ncol=1), 1, function(i) { 
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+      FUN, mc.cores = 2)} else    
+        if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+              FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  
+if(!parallel) message("Measuring acoustic parameters:")
+x <- as.data.frame(lapp(1:length(start), function(i) { 
   r <- tuneR::readWave(file.path(getwd(), sound.files[i]), from = start[i], to = end[i], units = "seconds") 
  
   b<- bp #in case bp its higher than can be due to sampling rate
@@ -183,6 +190,5 @@ x <- as.data.frame(pbapply::pbapply(matrix(c(1:length(start)), ncol=1), 1, funct
   colnames(x)[1:2] <- c("sound.files", "selec")
   rownames(x) <- c(1:nrow(x))
   
-  message("all done!")
   return(x)
 }

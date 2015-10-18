@@ -9,7 +9,7 @@ dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE,
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1,
   threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05,
-  lpos = "topright", it = "jpeg", img = TRUE)
+  lpos = "topright", it = "jpeg", img = TRUE, parallel = FALSE)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files),
@@ -94,6 +94,10 @@ Default is "topright".}
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
+
+\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
+If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
+Not available for windows OS.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is
@@ -111,9 +115,8 @@ measures.
 }
 \examples{
 \dontrun{
-#First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+# set the temp directory
+setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
@@ -123,8 +126,6 @@ writeWave(Phae.long1, "Phae.long1.wav")
 # run function
 dfts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
 
-# remove example directory
-unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

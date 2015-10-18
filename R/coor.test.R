@@ -1,13 +1,15 @@
 #' Randomization test for singing coordination 
 #' 
 #' \code{coor.test} Monte Carlo randomization test to assess the statistical significance of singing coordination
-#' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE)
+#' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = FALSE)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param iterations number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.
 #' @param less.than.chance Logical. If \code{TRUE} the test evaluates whether overlaps occur less often than expected by chance.
 #' If \code{FALSE} the opposite pattern is evaluted (whether overlaps occur more often than expected by chance). 
 #' Default is  \code{TRUE}.
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. Not available for windows OS.
 #' @return A data frame with the observed number of overlaps (obs.overlaps), mean number of overlaps expected by chance,
 #' and p value.  
 #' @export
@@ -31,7 +33,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
-coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE)
+coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, parallel = FALSE)
 {
   if(!is.data.frame(X))  stop("X is not a data frame")
   
@@ -47,8 +49,13 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE)
   #interations should be positive
   if(iterations < 1) stop("'iterations' must be a positive integer")
   
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2)} else    
+    if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+        FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
   
-  tovlp<-pblapply(unique(X$sing.event),function(h)
+  tovlp<-lapp(unique(X$sing.event),function(h)
 {
   sub<-X[X$sing.event==h,]
   

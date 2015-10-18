@@ -43,10 +43,10 @@ depicting the time of overlap.
 data(coor.sing)
 
 # make coor.graphs in jpeg format
-coor.graph(X = coor.sing, ovlp = T,only.coor = F, xl =2, res =80)
+coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80)
 
 # make coor.graphs in tiff format
-coor.graph(X = coor.sing, ovlp = T,only.coor = F, xl =2, res =80, it = "jpeg")
+coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80, it = "jpeg")
 }
 }
 \author{

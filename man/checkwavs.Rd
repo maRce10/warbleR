@@ -21,8 +21,7 @@ This function has no associated arguments, although users must
 \examples{
 \dontrun{
 # First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+setwd(tempdir())
 
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
@@ -32,8 +31,6 @@ writeWave(Phae.long3,"Phae.long3.wav")
 
 checkwavs()
 
-#remove example directory
-unlink(getwd(),recursive = TRUE)
 }
 }
 \author{
