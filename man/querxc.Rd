@@ -31,6 +31,11 @@ A data frame with recording information is returned if X is not provided. Sound 
 \description{
 \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
 }
+\details{
+This function queries for avian vocalization recordings in the open-access
+online repository Xeno-Canto (\url{http://www.xeno-canto.org/}). It can return recordings metadata
+or can also download the associated sound files.
+}
 \examples{
 \dontrun{
 # First create empty folder

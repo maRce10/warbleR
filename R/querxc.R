@@ -19,6 +19,9 @@
 #' (if download = \code{TRUE} or if X is provided).
 #' @export
 #' @name querxc
+#' @details This function queries for avian vocalization recordings in the open-access
+#' online repository Xeno-Canto (\url{http://www.xeno-canto.org/}). It can return recordings metadata
+#' or can also download the associated sound files.  
 #' @examples
 #' \dontrun{
 #' # First create empty folder
