@@ -64,19 +64,24 @@ xcmaps <- function(X, img = TRUE, it = "jpeg") {
        
        #add empty  map
        maps::map("world", xlim = c(min(lon) - buf, max(lon) + buf), interior = FALSE,
-                 ylim = c(min(lat) - buf, max(lat) + buf), fill = FALSE,
-                 xlab = "Longitude")  
+                 ylim = c(min(lat) - buf, max(lat) + buf), fill = FALSE)  
        
        #change background color
        rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = 
-              "skyblue")
+              cm.colors(10)[3])
+       
+       #plot lat lon lines in background
+       abline(h = seq(-90, 90, 5), col = "white", lwd = 0.9)
+       abline(h = seq(-90, 90, 10), col = "white", lwd = 1.1)
+       abline(v = seq(-180, 180, 5), col = "white", lwd = 0.9)
+       abline(v = seq(-180, 180, 10), col = "white", lwd = 1.1)
        
        #add map
        maps::map("world", xlim = c(min(lon) - buf, max(lon) + buf), add = TRUE,
                  ylim = c(min(lat) - buf, max(lat) + buf), fill = TRUE, 
-                 col = "green", myborder = 0, interior =  F, lty = 2)
-       mtext("Longitude", side = 1, line = 2)
-       mtext("Latitude", side = 2, line = 2)
+                 col = terrain.colors(10)[5], myborder = 0, interior =  F, lty = 2)
+       mtext("Longitude (DD)", side = 1, line = 2)
+       mtext("Latitude (DD)", side = 2, line = 2)
        mtext(i, side =3, line = 1, cex = 1.4, font = 4)
        
        #add axes
@@ -87,10 +92,11 @@ xcmaps <- function(X, img = TRUE, it = "jpeg") {
                  ylim = c(min(lat) - buf, max(lat) + buf), fill = FALSE, add = TRUE)  
        
        # add points
-       points(lon, lat, pch = 20, cex = 3, col = "red")
+       points(lon, lat, pch = 21, cex = 1.8, col = "black", bg= heat.colors(10)[2])
+       
       
       # add scale
-       map.scale(ratio = FALSE, relwidth = 0.2)   
+       map.scale(ratio = FALSE, relwidth = 0.4)   
        dev.off()
      
        } else {
@@ -102,19 +108,24 @@ xcmaps <- function(X, img = TRUE, it = "jpeg") {
          
          #add empty  map
          maps::map("world", xlim = c(min(lon) - buf, max(lon) + buf), interior = FALSE,
-                   ylim = c(min(lat) - buf, max(lat) + buf), fill = FALSE,
-                   xlab = "Longitude")  
+                   ylim = c(min(lat) - buf, max(lat) + buf), fill = FALSE)  
          
          #change background color
          rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = 
-                "skyblue")
+                cm.colors(10)[3])
+         
+         #plot lat lon lines in background
+         abline(h = seq(-90, 90, 5), col = "white", lwd = 0.9)
+         abline(h = seq(-90, 90, 10), col = "white", lwd = 1.1)
+         abline(v = seq(-180, 180, 5), col = "white", lwd = 0.9)
+         abline(v = seq(-180, 180, 10), col = "white", lwd = 1.1)
          
          #add map
          maps::map("world", xlim = c(min(lon) - buf, max(lon) + buf), add = TRUE,
                    ylim = c(min(lat) - buf, max(lat) + buf), fill = TRUE, 
-                   col = "green", myborder = 0, interior =  F, lty = 2)
-         mtext("Longitude", side = 1, line = 2)
-         mtext("Latitude", side = 2, line = 2)
+                   col = terrain.colors(10)[5], myborder = 0, interior =  F, lty = 2)
+         mtext("Longitude (DD)", side = 1, line = 2)
+         mtext("Latitude (DD)", side = 2, line = 2)
          mtext(i, side =3, line = 1, cex = 1, font = 4)
          
          #add axes
@@ -125,10 +136,10 @@ xcmaps <- function(X, img = TRUE, it = "jpeg") {
                    ylim = c(min(lat) - buf, max(lat) + buf), fill = FALSE, add = TRUE)  
          
          # add points
-         points(lon, lat, pch = 20, cex = 2, col = "red")
+         points(lon, lat, pch = 21, cex = 1.8, col = "black", bg= heat.colors(10)[2])
          
          # add scale
-         map.scale(ratio = FALSE, relwidth = 0.2)
+       map.scale(ratio = FALSE, relwidth = 0.4)
       }    
     }
   }
