@@ -292,7 +292,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
                                   write.csv(results, "manualoc_output.csv", row.names = F)
                                   dev.off()}
        
-       stop("Stopped by user XXX!")}
+       stop("Stopped by user")}
       
       #next rec
       if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && 

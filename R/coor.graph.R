@@ -23,11 +23,58 @@
 #' depicting the time of overlap. 
 #' @examples
 #' \dontrun{
+#' 
+#' #######simulate singing events########
+#' # create two sequences at different rates (not synchronize)
+#' durs1 <- cumsum(rnorm(90,0.2, 0.01))
+#' durs2 <- cumsum(rnorm(30,0.7, 0.01))
+#' st.en1<-as.data.frame(matrix(durs1, ncol = 2, byrow = T))
+#' st.en2<-as.data.frame(matrix(durs2, ncol = 2, byrow = T))
+#' s1 <- data.frame(indiv = "a", st.en1)
+#' s2 <- data.frame(indiv = "b", st.en2)
+#' 
+#' notsync<-data.frame(sing.event = "notsync", rbind(s1,s2))
+#' 
+#' # create two sequences at that overlap most of the time
+#' 
+#' durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
+#' st.en1<-matrix(durs1, ncol = 2, byrow = T)
+#' st2<-st.en1[,1]+rnorm(nrow(st.en1),0.1,0.05)
+#' en2<-st2+rnorm(nrow(st.en1),0.2,0.01)
+#' st.en2 <- cbind(st2, en2)
+#' colnames(st.en2) <- colnames(st.en1)
+#' s1 <- data.frame(indiv = "a", st.en1)
+#' s2 <- data.frame(indiv = "b", st.en2)
+#' 
+#' ovlp<-data.frame(sing.event = "ovlp", rbind(s1,s2))
+#' 
+#' 
+#' # create two sequences at that do not overlap most of the time
+#' 
+#' durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
+#' st.en1<-matrix(durs1, ncol = 2, byrow = T)
+#' st2<-st.en1[,1]+rnorm(nrow(st.en1), 0.25, 0.1)
+#' en2<-st2+rnorm(nrow(st.en1), 0.2, 0.01)
+#' st.en2 <- cbind(st2, en2)
+#' colnames(st.en2) <- colnames(st.en1)
+#' s1 <- data.frame(indiv = "a", st.en1)
+#' s2 <- data.frame(indiv = "b", st.en2)
+#' 
+#' no.ovlp<-data.frame(sing.event = "no.ovlp", rbind(s1,s2))
+#' 
+#' 
+#' #put all events together in a single data frame
+#' colnames(ovlp) <- colnames(no.ovlp) <- colnames(notsync)
+#' td<-rbind(ovlp, notsync, no.ovlp)
+#' colnames(td)[3:4] <-c("start", "end")
+#' 
+#' 
+#' #' #produce graphs
+#' coor.graph(X = td, it = "tiff", res = 100)
+#'  
+#' # now try with some real data  
 #' #load data
 #' data(coor.sing)
-#' 
-#' # make coor.graphs in jpeg format
-#' coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80)
 #' 
 #' # make coor.graphs in tiff format
 #' coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80, it = "jpeg")                  
@@ -47,7 +94,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
   
   X$sing.event <- as.character(X$sing.event)
   
-  invisible(pblapply(unique(X$sing.event), function(x)
+  invisible(pbapply::pblapply(unique(X$sing.event), function(x)
   {
     
     y <- X[X$sing.event == x, ]
@@ -118,25 +165,25 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
       }
       
       cols <- c("#F9766E66", "#00BFC466")
-      ids <- c(unique(y$indiv)[2], unique(y$indiv)[1])
+      ids <- c(as.character(unique(y$indiv)[2]), as.character(unique(y$indiv)[1]))
       
       if(all(exists("recdf"), ovlp)) if(nrow(recdf) > 0) {if(suppressWarnings(min(which(df$id == "#!"))) < suppressWarnings(min(which(df$id == "^%"))))
       {  cols <- c("#00BFC466", "#F9766E66") 
-      ids <- c(unique(y$indiv)[2], unique(y$indiv)[1])} else {cols <- c("#F9766E66", "#00BFC466")
-      ids <- c(unique(y$indiv)[1], unique(y$indiv)[2])}} 
+      ids <- c(as.character(unique(y$indiv)[2]), as.character(unique(y$indiv)[1]))} else {cols <- c("#F9766E66", "#00BFC466")
+      ids <- c(as.character(unique(y$indiv)[1]), as.character(unique(y$indiv)[2]))}} 
       
-      ggp <- ggplot2::ggplot(df, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, group = id, fill = col)) +
+      ggp <- ggplot2::ggplot(df, ggplot2::aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, group = id, fill = col)) +
         ggplot2::geom_rect() +
         ggplot2::scale_x_continuous("Time (s)") +
         ggplot2::scale_y_continuous(name = NULL, breaks= c(0.95, 1.55), labels = c(unique(y$indiv)[1],unique(y$indiv)[2])) +
         ggplot2::scale_fill_manual(values=c("#F9766E","#00BFC4",cols), name = "", 
-                          labels=c(unique(y$indiv)[1],unique(y$indiv)[2], paste("overlap from", ids[1]),
+                          labels=c(as.character(unique(y$indiv)[1]),as.character(unique(y$indiv)[2]), paste("overlap from", ids[1]),
                                    paste("overlap from", ids[2]))) + 
         ggplot2::theme(legend.position="top")
       
       if(it == "jpeg") ite <- "coor.singing.jpeg" else ite <- "coor.singing.tiff"
       ggplot2::ggsave(plot = ggp, filename = paste(x, ite, sep = "-"),
-             dpi= 160,units = "in", width = 9 * xl,height = 5.5)
+             dpi= res, units = "in", width = 9 * xl,height = 5.5)
     }
   }))
 }

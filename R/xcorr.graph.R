@@ -32,8 +32,8 @@
 
 #'
 #'  #run cross correlation first
- # xcor<-xcorr(X = manualoc.df[1:5,], wl =300, frange= c(2, 9), ovlp=90, 
- # dens=0.8, wn='hanning', cor.method = "pearson") 
+#'  xcor<-xcorr(X = manualoc.df[1:5,], wl =300, frange= c(2, 9), ovlp=90, 
+#'  dens=0.8, wn='hanning', cor.method = "pearson") 
 #'  
 #'  #plot pairwise scores
 #'  xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1.3, rel.cex = T)
@@ -132,4 +132,5 @@ for(i in a)
 if(rel.cex) cex <- w$score[x]*cex.cor else cex <- cex.cor
   text(1, 1, round(w$score[x], 2), cex = cex)
 x <- x + 1}
+on.exit(close.screen(all = TRUE))
 }
