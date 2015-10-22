@@ -7,7 +7,7 @@
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
 #'   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
 #'   threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05, 
-#'   lpos = "topright", it = "jpeg", img = TRUE)
+#'   lpos = "topright", it = "jpeg", img = TRUE, parallel = FALSE)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -65,6 +65,9 @@
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
+#'  Not available for windows OS. 
 #' @return A data frame with the dominant frequency values measured across the signals. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies.
@@ -79,9 +82,8 @@
 #' measures.
 #' @examples
 #' \dontrun{
-#' #First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
+#' # set the temp directory
+#' setwd(tempdir())
 #' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
@@ -90,11 +92,9 @@
 #' writeWave(Phae.long3, "Phae.long3.wav")
 #' writeWave(Phae.long4, "Phae.long4.wav")
 #' 
-#' # make  spectrograms  
+#' # run function 
 #' dfts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
 #' 
-#' # remove example directory
-#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
@@ -102,16 +102,16 @@
 dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
-                       bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue",
-                       pch = 16, mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE){     
+                       bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue",pch = 16,
+                       mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = FALSE){     
   
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                          "start", "end") %in% colnames(X))) 
   {
-    start <- as.numeric(unlist(X$start))
-    end <- as.numeric(unlist(X$end))
-    sound.files <- as.character(unlist(X$sound.files))
-    selec <- as.character(unlist(X$selec))
+    start <- as.numeric(X$start)
+    end <- as.numeric(X$end)
+    sound.files <- as.character(X$sound.files)
+    selec <- as.character(X$selec)
   } else stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                         "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   } else  stop("X is not a data frame")
@@ -153,9 +153,16 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     sound.files <- sound.files[d]
   }
   
-  if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
-    message("Calculating dominant frequency measurements:")
-  lst<-pbapply::pblapply(matrix(c(1:length(sound.files)), ncol=1), function(i){
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+        FUN, mc.cores = 2)} else    
+            if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+                FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  
+ if(!parallel) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
+    message("Calculating dominant frequency measurements:")}  
+  
+  lst<-lapp(1:length(sound.files), function(i){
     
     r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
     
@@ -192,7 +199,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
     
     # Generate spectrogram using seewave
-    seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
+    seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5),
                      wn = "hanning", widths = wts, palette = pal, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "")
@@ -204,7 +211,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     }
     
     # Plot dominant frequency at each time point     
-    dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b * 1000, fftw = TRUE, 
+    dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
                             threshold = threshold, tlim=c(start[i],end[i]))
     
     apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
@@ -229,8 +236,6 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
 
   df<-data.frame(sound.files, selec, (as.data.frame(matrix(unlist(lst),nrow = length(sound.files), byrow = T))))
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
-    
-                 message("all done!")
                  return(df)
                  }
 

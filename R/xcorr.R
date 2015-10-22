@@ -1,8 +1,8 @@
 #' Spectrogram cross-correlation 
 #' 
-#' \code{x.corr} estimates the similarity of two spectrograms by means of cross-correlation.
-#' @usage x.corr <- function(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-#' cor.method = "pearson")
+#' \code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
+#' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
+#' cor.method = "pearson", parallel = FALSE)
 #' @param  X Data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -21,18 +21,23 @@
 #' Only applied when frange is \code{NULL}. Default is \code{NULL}.
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}. 
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
+#'  Not available for windows OS. 
 #' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.  
 #' @export
-#' @name x.corr
+#' @name xcorr
 #' @details This function calculates the pairwise similarity of multiple signals by means of spectrogram cross-correlation.
 #' This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
 #' The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
-#' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. This function
+#' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
+#' of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. This function
 #' is a modified version of the \code{\link[monitoR]{corMatch}} and \code{\link[monitoR]{makeTemplate}} 
 #' from the awesome R package `monitoR`.   
 #' @examples
 #' \dontrun{
+<<<<<<< HEAD:R/x.corr.R
 #' 
 #' # First create empty folder
 #' dir.create(file.path(getwd(),"temp"))
@@ -41,25 +46,34 @@
 #' # Load data
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
 #' writeWave(Phae.long1, "Phae.long1.wav")
+=======
+#' #load data
+#' #First set temporal working directory
+#' setwd(tempdir())
+#' 
+#' #load data
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","manualoc.df"))
+#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
+>>>>>>> upstream/master:R/xcorr.R
 #' writeWave(Phae.long2, "Phae.long2.wav")
 #' writeWave(Phae.long3, "Phae.long3.wav")
 #' writeWave(Phae.long4, "Phae.long4.wav")
 #'
-#' xcor<-x.corr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
+#' xcor<-xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
 #' dens=1, wn='hanning', cor.method = "pearson") 
 #' 
 #' # remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' 
 #' }
+#' @seealso \code{\link{xcorr.graph}}
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 #' @source H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
 #' cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 
-library(pbapply)
 
-x.corr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, 
-                   wn='hanning', cor.method = "pearson")
+xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, 
+                   wn='hanning', cor.method = "pearson", parallel = FALSE)
 {
   if(!is.data.frame(X))  stop("X is not a data frame")
   
@@ -90,22 +104,28 @@ x.corr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL,
     if(!is.vector(dens)) stop("'dens' must be a numeric vector of length 1") else{
       if(!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
   
-if(is.null(frange)) {df<-dfts(X= manualoc.df, wl =300, img = F, length.out = 50)
+if(is.null(frange)) {df<-dfts(X, wl =300, img = F, length.out = 50)
   df<-df[, 3:ncol(df)]
 frq.lim = c(min(df), max(df))} else{
   frq.lim = frange
 }
 
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+   FUN, mc.cores = 2)} else    
+     if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+        FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  
 #create templates
-message("creating templates:")
-ltemp<-pblapply(1:nrow(X), function(x)
+if(!parallel) message("creating templates:")
+ltemp<-lapp(1:nrow(X), function(x)
 {
-   clip<-readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
+   clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
    samp.rate <- clip@samp.rate
    
    # Fourier transform
    t.survey <- length(clip@left)/clip@samp.rate
-   fspec <- spectro(wave=clip, wl=wl, ovlp=ovlp, wn=wn, plot=F)
+   fspec <- seewave::spectro(wave=clip, wl=wl, ovlp=ovlp, wn=wn, plot=F)
    
    # Filter amplitudes 
    t.bins <- fspec$time
@@ -124,7 +144,7 @@ ltemp<-pblapply(1:nrow(X), function(x)
    frq.step <- frq.bins[2]-frq.bins[1]
    
       # Set cells that meet criteria to 1 in bin.amp
-      on.mat <- on.mat+sample(c(1, 0), length(on.mat), TRUE, c(dens, 1-dens))
+      on.mat <- on.mat + sample(c(1, 0), length(on.mat), TRUE, c(dens, 1-dens))
 
       # Then find locations of 
       pts <- which(on.mat == 1, arr.ind=TRUE)
@@ -151,9 +171,9 @@ ltemp<-pblapply(1:nrow(X), function(x)
    duration <- n.t.bins*t.step
    frq.lim <- range(pts[, 'frq'])*frq.step
 
-   template <- list(X$sound.files[x], X$selec[x], samp.rate=as.integer(samp.rate), 
-                        pts=pts, t.step=t.step, frq.step=frq.step, n.t.bins=as.integer(n.t.bins), 
-                        first.t.bin=first.t.bin, n.frq.bins=as.integer(n.frq.bins), duration=duration)
+   template <- list(X$sound.files[x], X$selec[x], samp.rate = as.integer(samp.rate), 
+                        pts = pts, t.step = t.step, frq.step = frq.step, n.t.bins = as.integer(n.t.bins), 
+                        first.t.bin = first.t.bin, n.frq.bins = as.integer(n.frq.bins), duration = duration)
    names(template)<-c("sound.files", "selec", "samp.rate", "pts", "t.step", "frq.step", "n.t.bins","first.t.bin",
                       "n.frq.bins", "duration")
   
@@ -164,19 +184,19 @@ ltemp<-pblapply(1:nrow(X), function(x)
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
 #run cross-correlation
-message("running cross-correlation:")
+if(!parallel) message("running cross-correlation:")
 
-a<-pblapply(1:(nrow(X)-1), function(j)
+a<-lapp(1:(nrow(X)-1), function(j)
   {
 
-    a <- readWave(as.character(X$sound.files[j]),header = TRUE)
+    a <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
   margin <-(X$end[j] - X$start[j])/2
   start <-X$start[j] - margin
   if(start < 0) start <- 0
   end <-X$end[j] + margin
-  if(end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate-0.001
+  if(end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate - 0.001
   
-  survey<-readWave(filename = as.character(X$sound.files[j]),from = start, to = end,units = "seconds")
+  survey<-tuneR::readWave(filename = as.character(X$sound.files[j]), from = start, to = end, units = "seconds")
   
   
   score.L <- lapply((1+j):length(ltemp), function(i)
@@ -184,7 +204,7 @@ a<-pblapply(1:(nrow(X)-1), function(j)
     template <- ltemp[[i]]
     
     # Perform Fourier transform on survey
-    survey.spec <- spectro(wave=survey, wl=wl, ovlp=ovlp, wn=wn, plot = FALSE)
+    survey.spec <- seewave::spectro(wave = survey, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
     
     # NTS arbitrary adjustment to eliminate -Inf
     survey.spec$amp[is.infinite(survey.spec$amp)] <- min(survey.spec$amp[!is.infinite(survey.spec$amp)]) - 10
@@ -198,10 +218,10 @@ a<-pblapply(1:(nrow(X)-1), function(j)
     
     # Adjust pts if step sizes differ
     if(!isTRUE(all.equal(template$t.step, t.step, tolerance=t.step/1E4))) {
-      pts[, 't'] <- round(pts[, 't']*template$t.step/t.step)
+      pts[, 't'] <- round(pts[, 't'] * template$t.step/t.step)
     }
     if(!isTRUE(all.equal(template$frq.step, frq.step, tolerance=frq.step/1E6))) {
-      pts[, 'frq'] <- round(pts[, 'frq']*template$frq.step/frq.step)
+      pts[, 'frq'] <- round(pts[, 'frq'] * template$frq.step/frq.step)
     }
     
     # Determine the frequency limits from the template points
@@ -242,40 +262,39 @@ a<-pblapply(1:(nrow(X)-1), function(j)
     return(score.L)
   })
   
-  for(u in 1:length(score.L)){ if(u == 1) score.df <- score.L[[u]] else
-    score.df<-rbind(score.df, score.L[[u]])}
+  score.df <- do.call("rbind", score.L)
   
 return(score.df)
   }
 )
 
 # put together correlation results in a single data frame
-for(u in 1:length(a)){ if(u == 1) b <- a[[u]] else
-  b<-rbind(b, a[[u]])}
+b <- do.call("rbind", a)
+rm(a)
 
 b <- data.frame(dyad = paste(b$sound.file1,b$sound.file2,sep = "/"), b)
 
 # calculate maximum correlation values
 scores <- aggregate(as.data.frame(b$score), by = list(b$dyad), FUN = max)
 
-#create a similarity matrix with the max x.corr
+#create a similarity matrix with the max xcorr
 mat <- matrix(nrow = nrow(X), ncol = nrow(X))
 mat[]<-1
 colnames(mat) <- rownames(mat) <- paste(X$sound.files, X$selec, sep = "-")
 
 for(i in 1:nrow(scores))
 {
-  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/",fixed=T), "[[", 1)[i], 
-      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/",fixed=T), "[[", 2)[i]] <- scores$`b$score`[i]
+  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed=T), "[[", 1)[i], 
+      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed=T), "[[", 2)[i]] <- scores$`b$score`[i]
   
-  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/",fixed=T), "[[", 2)[i], 
-      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/",fixed=T), "[[", 1)[i]] <- scores$`b$score`[i]
+  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed=T), "[[", 2)[i], 
+      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed=T), "[[", 1)[i]] <- scores$`b$score`[i]
 }
 
 #list results
-b <- list(b, mat, frq.lim)
-names(b) <- c("correlation.data", "max.x.corr.matrix","frq.lim") 
+c <- list(b, mat, frq.lim)
+names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim") 
  
-return(b)
+return(c)
 
 }

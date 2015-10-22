@@ -28,10 +28,10 @@ All files must be have the same columns.
 }
 \examples{
 \dontrun{
-# First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+# First set temporary folder
+setwd(tempdir())
 
+#load data
 data(selection.files)
 
 write.table(selection.files[[3]],file = "harpyeagle.wav.txt",row.names = F,
@@ -48,8 +48,6 @@ View(syr.dat)
 syr.dat<-imp.syrinx(all.data = TRUE)
 
 View(rav.dat)
-# remove example directory
-unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

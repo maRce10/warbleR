@@ -1,12 +1,15 @@
 #' Measure signal-to-noise ratio
 #' 
 #' \code{sig2noise} measures signal-to-noise ratio across multiple files.
-#' @usage sig2noise(X, mar)
+#' @usage sig2noise(X, mar, parallel = FALSE)
 #' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param mar numeric vector of length 1. Specifies the margins adjacent to
 #'   the start and end points of selection over which to measure noise.
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
+#'  Not available for windows OS.
 #' @return Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 
 #' with the signal-to-noise values.
 #' @export
@@ -24,9 +27,8 @@
 #'   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
 #' @examples
 #' \dontrun{
-#' # First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
+#' # First set temporary folder
+#' setwd(tempdir())
 #' 
 #' data(list = c("Phae.long1","manualoc.df"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
@@ -37,15 +39,12 @@
 #' 
 #' # this smaller margin doesn't overlap neighboring signals
 #' sig2noise(manualoc.df[grep("Phae.long1", manualoc.df$sound.files), ], mar = 0.1)
-#' 
-#' # remove example directory 
-#' unlink(getwd(),recursive = TRUE)
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 #' @source \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 
-sig2noise <- function(X, mar){
+sig2noise <- function(X, mar, parallel = FALSE){
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                          "start", "end") %in% colnames(X))) 
   {
@@ -87,9 +86,13 @@ sig2noise <- function(X, mar){
     sound.files <- sound.files[d]
   }
    
-  #options(show.error.messages = TRUE)
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+      FUN, mc.cores = 2)} else    
+          if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+          FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
   
-  SNR <- pbapply::pbsapply(c(1:length(sound.files)), function(y){
+  SNR <- lapp(c(1:length(sound.files)), function(y){
       
       # Read sound file
       r <- tuneR::readWave(file.path(getwd(), sound.files[y]))
@@ -125,8 +128,7 @@ sig2noise <- function(X, mar){
   })
       
     # Add SNR data to manualoc output
-    z <- data.frame(X[d,], SNR)
-  message("all done!")    
+    z <- data.frame(X[d,], SNR = unlist(SNR))
   return(z)
     
 }

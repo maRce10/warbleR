@@ -17,10 +17,10 @@
 #' @name imp.syrinx
 #' @examples
 #' \dontrun{
-#' # First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
+#' # First set temporary folder
+#' setwd(tempdir())
 #' 
+#' #load data 
 #' data(selection.files)
 #' 
 #' write.table(selection.files[[3]],file = "harpyeagle.wav.txt",row.names = FALSE,
@@ -35,9 +35,8 @@
 #' 
 #' #getting all the data
 #' syr.dat<-imp.syrinx(all.data = TRUE)
-#' 
 #' View(syr.dat)
-
+#'
 #' # remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }

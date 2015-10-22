@@ -7,7 +7,8 @@
 autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL,
   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur =
-  NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL)
+  NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
+  parallel = FALSE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function or any data frame with columns
@@ -97,6 +98,9 @@ values should be adjusted. "start", "end" or "both" are the inputs admitted by t
 smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals,
 determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the
 increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.}
+
+\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
+If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.}
 }
 \value{
 Image files with spectrograms showing the start and end of the detected signals. It

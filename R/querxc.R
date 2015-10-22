@@ -1,7 +1,7 @@
 #' Access Xeno-Canto recordings and metadata
 #' 
 #' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
-#' @usage querxc(qword, download = FALSE, X = NULL)  
+#' @usage querxc(qword, download = FALSE, X = NULL, parallel = FALSE)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'   species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 #'   (\url{http://www.xeno-canto.org/}).
@@ -12,10 +12,16 @@
 #' columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in the data frame 
 #' will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 #' the recordings to be downloaded based on their attributes.  
+#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
+#'  Not available for windows OS. Only used for downloading files.
 #' @return A data frame with recording information is returned if X is not provided. Sound files in .mp3 format 
 #' (if download = \code{TRUE} or if X is provided).
 #' @export
 #' @name querxc
+#' @details This function queries for avian vocalization recordings in the open-access
+#' online repository Xeno-Canto (\url{http://www.xeno-canto.org/}). It can return recordings metadata
+#' or can also download the associated sound files.  
 #' @examples
 #' \dontrun{
 #' # First create empty folder
@@ -36,7 +42,14 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 
-querxc <- function(qword, download=FALSE, X = NULL) {
+querxc <- function(qword, download=FALSE, X = NULL, parallel = FALSE) {
+  
+  #if parallel was called
+  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
+      FUN, mc.cores = 2)} else    
+      if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
+            FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+                                                                                                                                    
   
   if(is.null(X))
   {
@@ -123,18 +136,17 @@ results <- X  }
 
   #download recordings
   if(download) {
-    pbapply::pbsapply(matrix(c(1:length(results$Genus)), ncol=1), function(x){
+    lapp(matrix(c(1:length(results$Genus)), ncol=1), function(x){
       gen <- results$Genus[x]
       se <- results$Specific_epithet[x]
       rid <- results$Recording_ID[x]
       if(!file.exists(file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep = ""))))
         download.file(paste("http://xeno-canto.org/download.php?XC=", rid, sep=""), 
                       file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep="")),
-                      quiet = FALSE,  mode = "wb", cacheOK = TRUE,
+                      quiet = TRUE,  mode = "wb", cacheOK = TRUE,
                       extra = getOption("download.file.extra"))
       return (NULL)
     })
-  message("all done!")
   }  
  if(is.null(X)) return(droplevels(results))
 }

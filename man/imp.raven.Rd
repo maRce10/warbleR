@@ -30,9 +30,8 @@ columns in selection files are returned.
 }
 \examples{
 \dontrun{
-# First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+# First set temporary folder
+setwd(tempdir())
 
 data(selection.files)
 
@@ -50,8 +49,6 @@ View(rav.dat)
 #getting all the data
 rav.dat<-imp.raven(all.data = TRUE)
 View(rav.dat)
-# remove example directory
-unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

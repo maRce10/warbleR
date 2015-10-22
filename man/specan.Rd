@@ -4,7 +4,7 @@
 \alias{specan}
 \title{Measure acoustic parameters in batches of sound files}
 \usage{
-specan(X, bp = c(0,22), wl = 512, threshold = 15)
+specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = FALSE)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav
@@ -19,6 +19,10 @@ frequency bandpass filter (in kHz). Default is c(0, 22).}
 
 \item{threshold}{amplitude threshold (\%) for fundamental frequency and
 dominant frequency detection. Default is 15.}
+
+\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
+If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
+Not available for windows OS.}
 }
 \value{
 Data frame with the following acoustic parameters:

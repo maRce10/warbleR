@@ -9,7 +9,7 @@ trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE,
   xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.8, 1),
   threshold = 15, col = c("chartreuse3", "dodgerblue"), pch = c(17, 16),  mar = 0.05,
-  lpos = "topright", it = "jpeg")
+  lpos = "topright", it = "jpeg", parallel = FALSE)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files),
@@ -94,6 +94,10 @@ Default is "topright".}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
+
+\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
+If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
+Not available for windows OS.}
 }
 \value{
 Spectrograms of the signals listed in the input data frame showing the location of
