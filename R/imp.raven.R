@@ -57,7 +57,8 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
              end = a[, grep("End.Time",colnames(a), ignore.case = T)], selec.file = sel.txt2[i])} else
                c<-data.frame(selec.file = sel.txt2[i],selec = a[,grep("Selection",colnames(a), ignore.case = T)],
                              start = a[, grep("Begin.Time", colnames(a), ignore.case = T)],
-                             end = a[, grep("End.Time", colnames(a), ignore.case = T)])} else c <- a 
+                             end = a[, grep("End.Time", colnames(a), ignore.case = T)])} else 
+                               c <- data.frame(a, selec.file = sel.txt[i]) 
     return(c)
  })
 
