@@ -36,7 +36,7 @@
 #' #getting all the data
 #' syr.dat<-imp.syrinx(all.data = TRUE)
 #' 
-#' View(rav.dat)
+#' View(syr.dat)
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
@@ -53,9 +53,9 @@ if(length(sel.txt) == 0) stop("No selection files in path provided")
 b<-NULL
 if(substring(text = readLines(sel.txt[1])[1], first = 0, last = 9) == "fieldkey:") field <- T else field <- F
 
-  
-for(i in 1:length(sel.txt))  
-{    
+
+clist<-lapply(1:length(sel.txt), function(i)
+  {    
   if(field)  {a <- read.table(sel.txt[i], header = T, sep = "\t", fill = TRUE) 
 
   if(!all.data) { c <- data.frame(selec.file = sel.txt2[i], sound.files = a[, grep("soundfile",colnames(a))],
@@ -74,9 +74,11 @@ for(i in 1:length(sel.txt))
                                        start = c[, grep("lefttime",colnames(c), ignore.case = T)],
                                        end = c[, grep("righttime",colnames(c), ignore.case = T)])
            for(i in 2:nrow(c)) if(c$sound.files[i] == c$sound.files[i-1]) c$selec[i] <- c$selec[i-1] + 1}          
-           b<-rbind(b, c)
-           }
-}
+  return(c)
+                    }
+})
+
+b <- do.call("rbind", clist)
 if(!all.data) if(any(is.na(b$start))) warning("NAs found (empty rows)")
 return(b[!duplicated(b), ])
 }
