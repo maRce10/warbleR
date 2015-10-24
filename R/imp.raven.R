@@ -47,9 +47,8 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
   sel.txt2 <- list.files(path = path, pattern = ".txt$", full.names = F, recursive = recursive)
   if(length(sel.txt) == 0) stop("No selection files in path provided")
   
-  b<-NULL
-    for(i in 1:length(sel.txt))  
-    {    a<-read.table(sel.txt[i], header = T, sep = "\t", fill = TRUE)
+    clist<-lapply(1:length(sel.txt), function(i)
+      {    a<-read.table(sel.txt[i], header = T, sep = "\t", fill = TRUE)
     if(!all.data) { if(!is.null(sound.file.col)) 
     {  if(length(grep(sound.file.col, colnames(a))) == 0) stop(paste(sound.file.col , "column not found")) 
     c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a))],
@@ -59,9 +58,10 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
                c<-data.frame(selec.file = sel.txt2[i],selec = a[,grep("Selection",colnames(a))],
                              start = a[, grep("Begin.Time", colnames(a))],
                              end = a[, grep("End.Time", colnames(a))])} else c <- a 
-  b<-rbind(b, c)
-    }
-  
+    return(c)
+ })
+
+b <- do.call("rbind", clist)
 return(b[!duplicated(b), ])
 }
 
