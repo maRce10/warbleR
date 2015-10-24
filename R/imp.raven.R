@@ -52,12 +52,12 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
     if(!all.data) { if(!is.null(sound.file.col)) 
     {  if(length(grep(sound.file.col, colnames(a))) == 0) stop(paste(sound.file.col , "column not found")) 
     c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a))],
-                                            selec = a[,grep("Selection",colnames(a))],
-             start = a[,grep("Begin.Time",colnames(a))],
-             end = a[, grep("End.Time",colnames(a))], selec.file = sel.txt2[i])} else
-               c<-data.frame(selec.file = sel.txt2[i],selec = a[,grep("Selection",colnames(a))],
-                             start = a[, grep("Begin.Time", colnames(a))],
-                             end = a[, grep("End.Time", colnames(a))])} else c <- a 
+                                            selec = a[,grep("Selection",colnames(a), ignore.case = T)],
+             start = a[,grep("Begin.Time",colnames(a), ignore.case = T)],
+             end = a[, grep("End.Time",colnames(a), ignore.case = T)], selec.file = sel.txt2[i])} else
+               c<-data.frame(selec.file = sel.txt2[i],selec = a[,grep("Selection",colnames(a), ignore.case = T)],
+                             start = a[, grep("Begin.Time", colnames(a), ignore.case = T)],
+                             end = a[, grep("End.Time", colnames(a), ignore.case = T)])} else c <- a 
     return(c)
  })
 
