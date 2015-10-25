@@ -37,24 +37,12 @@
 #' from the awesome R package `monitoR`.   
 #' @examples
 #' \dontrun{
-<<<<<<< HEAD:R/x.corr.R
-#' 
-#' # First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
-#' 
-#' # Load data
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
-#' writeWave(Phae.long1, "Phae.long1.wav")
-=======
-#' #load data
 #' #First set temporal working directory
 #' setwd(tempdir())
 #' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","manualoc.df"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
->>>>>>> upstream/master:R/xcorr.R
 #' writeWave(Phae.long2, "Phae.long2.wav")
 #' writeWave(Phae.long3, "Phae.long3.wav")
 #' writeWave(Phae.long4, "Phae.long4.wav")
