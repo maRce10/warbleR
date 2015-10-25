@@ -5,6 +5,6 @@
 # see https://github.com/hadley/r-pkgs/blob/master/r.rmd
 
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("install ggplot2 to run warbleR")
+  packageStartupMessage("warbleR note: install ggplot2 to run coor.graph()")
 }
 

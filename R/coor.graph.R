@@ -73,7 +73,7 @@
 #' colnames(td)[3:4] <-c("start", "end")
 #' 
 #' 
-#' #' #produce graphs
+#' #produce graphs
 #' coor.graph(X = td, it = "tiff", res = 100)
 #'  
 #' # now try with some real data  
@@ -89,6 +89,10 @@
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
 coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg") { 
+  
+  # warning message if ggplot2 is not installed
+  if(!require("ggplot2", character.only=TRUE))
+    stop("'install ggplot2 to use coor.graph()'")
   
   #if xl is not vector or length!=1 stop
   if(is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
