@@ -19,7 +19,10 @@
 #' The function shuffles the sequences of signals and silence-between-signals for both individuals to produce 
 #' a null distribution of expected number of overlaps by chance.  The observed number of overlaps is compared to this
 #' expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
-#' than the observed value. The function runs one test for each singing event in the input data frame.  
+#' than the observed value. The function runs one test for each singing event in the input data frame. The function 
+#' is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
+#' @references Masco, C., Allesina, S., Mennill, D. J., & Pruett-Jones, S. (2015). The Song Overlap Null model 
+#' Generator (SONG): a new tool for distinguishing between random and non-random song overlap. Bioacoustics. 1–12. 
 #' @examples
 #' \dontrun{
 #' #######simulate singing events########
