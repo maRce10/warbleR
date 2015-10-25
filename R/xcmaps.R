@@ -25,7 +25,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
-xcmaps <- function(X, img = TRUE, it = "jpeg") {
+xcmaps <- function(X, img = TRUE, it = "jpeg", res = res) {
   
   #stop if X is not a data frame
   if(!is.data.frame(X))  stop("X is not a data frame")
@@ -54,9 +54,14 @@ xcmaps <- function(X, img = TRUE, it = "jpeg") {
      
      if(img){
        prop <- abs((min(lon) - buf)-(max(lon) + buf))/abs((min(lat) - buf)-(max(lat) + buf)) * 1.15
-       if(it == "tiff") tiff(filename = paste("Map of ", i, " recordings", ".tiff", sep = ""), 
-                             width = 480 * prop) else
-         jpeg(filename = paste("Map of ", i, " recordings", ".jpeg", sep = ""), width = 480 * prop)
+       if (it == "tiff") 
+         tiff(filename = paste("Map of ", i, " recordings", 
+                               ".tiff", sep = ""), units = "cm", width = 20 * prop, 
+              height = 20 * prop, res = res) 
+       
+       else jpeg(filename = paste("Map of ", i, " recordings", 
+                                  ".jpeg", sep = ""), units = "cm", width = 20 * prop,
+                 height = 20 * prop, res = res)
 
        #change margins
        par(mar= rep(2,4))
