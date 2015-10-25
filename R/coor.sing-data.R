@@ -1,4 +1,4 @@
-#' Selections of coordinated singing events from lekking \emph{Phaethornis longirostris} (Long-billed Hermit).
+#' Selections of coordinated singing events from lekking \emph{Phaethornis longirostris} (Long-billed Hermit hummingbird).
 #' 
 #' @format \describe{
 #'   

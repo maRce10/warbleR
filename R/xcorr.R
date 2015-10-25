@@ -1,6 +1,6 @@
 #' Spectrogram cross-correlation 
 #' 
-#' \code{xcorr} Estimates the similarity of two spectrograms by means of cross-correlation
+#' \code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = FALSE)
 #' @param  X Data frame containing columns for sound files (sound.files), 
@@ -37,6 +37,16 @@
 #' from the awesome R package `monitoR`.   
 #' @examples
 #' \dontrun{
+<<<<<<< HEAD:R/x.corr.R
+#' 
+#' # First create empty folder
+#' dir.create(file.path(getwd(),"temp"))
+#' setwd(file.path(getwd(),"temp"))
+#' 
+#' # Load data
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
+#' writeWave(Phae.long1, "Phae.long1.wav")
+=======
 #' #load data
 #' #First set temporal working directory
 #' setwd(tempdir())
@@ -44,12 +54,16 @@
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","manualoc.df"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
+>>>>>>> upstream/master:R/xcorr.R
 #' writeWave(Phae.long2, "Phae.long2.wav")
 #' writeWave(Phae.long3, "Phae.long3.wav")
 #' writeWave(Phae.long4, "Phae.long4.wav")
 #'
 #' xcor<-xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
 #' dens=1, wn='hanning', cor.method = "pearson") 
+#' 
+#' # remove example directory
+#' unlink(getwd(),recursive = TRUE)
 #' 
 #' }
 #' @seealso \code{\link{xcorr.graph}}
