@@ -132,5 +132,5 @@ for(i in a)
 if(rel.cex) cex <- w$score[x]*cex.cor else cex <- cex.cor
   text(1, 1, round(w$score[x], 2), cex = cex)
 x <- x + 1}
-on.exit(close.screen(all = TRUE))
+on.exit(close.screen(all.screens = TRUE))
 }

@@ -91,8 +91,9 @@
 coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg") { 
   
   # warning message if ggplot2 is not installed
-  if(!require("ggplot2", character.only=TRUE))
+  if(!requireNamespace("ggplot2",quietly = TRUE))
     stop("'install ggplot2 to use coor.graph()'")
+  
   
   #if xl is not vector or length!=1 stop
   if(is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
@@ -104,6 +105,9 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
     if(!length(res) == 1) stop("'res' must be a numeric vector of length 1")}
   
   X$sing.event <- as.character(X$sing.event)
+  
+  # to avoid "notes" when submitting to CRAN
+  xmin <- xmax <- ymin <- ymax <- NULL
   
   invisible(pbapply::pblapply(unique(X$sing.event), function(x)
   {

@@ -2,12 +2,15 @@
 #' 
 #' \code{xcmaps} creates maps to visualize the geographic spread of Xeno-Canto
 #'   recordings.
-#' @usage xcmaps(X, img = TRUE, it = "jpeg")   
+#' @usage xcmaps(X, img = TRUE, it = "jpeg", res = 100)   
 #' @param X Data frame output from \code{\link{querxc}}.
 #' @param img A logical argument specifying whether an image file of each species
 #'   map should be returned, default is \code{TRUE}.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
+#' @param res Numeric argument of length 1. Controls image resolution.
+#'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
+#'   presentation quality.
 #' @return A map of Xeno-Canto recordings per species (image file), or a faceted
 #'   plot of species map(s) in the active graphic device.
 #' @export
@@ -25,7 +28,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
-xcmaps <- function(X, img = TRUE, it = "jpeg", res = res) {
+xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100) {
   
   #stop if X is not a data frame
   if(!is.data.frame(X))  stop("X is not a data frame")

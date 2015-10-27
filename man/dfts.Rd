@@ -2,7 +2,7 @@
 % Please edit documentation in R/dfts.R
 \name{dfts}
 \alias{dfts}
-\title{Extract the dominant frequency values as a time series}
+\title{Extract dominant frequency values as a time series}
 \usage{
 dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
@@ -101,16 +101,16 @@ Not available for windows OS.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is
-\code{FALSE} it also produces image files with the spectrograms of the signals listed in the
+\code{TRUE} it also produces image files with the spectrograms of the signals listed in the
 input data frame showing the location of the dominant frequencies.
 }
 \description{
-\code{dfts} extract the dominant frequency values as a time series.
+\code{dfts} extracts the dominant frequency values as a time series
 of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function extracts the dominant frequency values as a time series.
-The function uses the `approx` function to interpolate values between dominant frequency
+The function uses the \code{approx} function to interpolate values between dominant frequency
 measures.
 }
 \examples{
@@ -119,9 +119,11 @@ measures.
 setwd(tempdir())
 
 #load data
-data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
-writeWave(Phae.long2, "Phae.long2.wav") #save sound files
-writeWave(Phae.long1, "Phae.long1.wav")
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
+writeWave(Phae.long1, "Phae.long1.wav") # save sound files
+writeWave(Phae.long2, "Phae.long2.wav")
+writeWave(Phae.long3, "Phae.long3.wav")
+writeWave(Phae.long4, "Phae.long4.wav")
 
 # run function
 dfts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))

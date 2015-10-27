@@ -82,7 +82,6 @@
 #' @import grDevices
 #' @import utils
 #' @import stats
-#' @import ggplot2
 #' @import parallel
 #' 
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 

@@ -24,11 +24,11 @@ A data frame with the observed number of overlaps (obs.overlaps), mean number of
 and p value.
 }
 \description{
-\code{coor.test} Monte Carlo randomization test to assess the statistical significance of singing coordination
+\code{coor.test} applies a Monte Carlo randomization test to assess the statistical significance of singing coordination
 }
 \details{
 This function calculates the probability of finding and equal or lower number
-(of higher if les.than.chance is \code{TRUE}) of song overlaps in a coordinated singing event.
+(of higher if \code{less.than.chance} is \code{TRUE}) of song overlaps in a coordinated singing event.
 The function shuffles the sequences of signals and silence-between-signals for both individuals to produce
 a null distribution of expected number of overlaps by chance.  The observed number of overlaps is compared to this
 expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher)
@@ -36,6 +36,55 @@ than the observed value. The function runs one test for each singing event in th
 }
 \examples{
 \dontrun{
+#######simulate singing events########
+# create two sequences at different rates (not synchronize)
+durs1 <- cumsum(rnorm(90,0.2, 0.01))
+durs2 <- cumsum(rnorm(30,0.7, 0.01))
+st.en1<-as.data.frame(matrix(durs1, ncol = 2, byrow = T))
+st.en2<-as.data.frame(matrix(durs2, ncol = 2, byrow = T))
+s1 <- data.frame(indiv = "a", st.en1)
+s2 <- data.frame(indiv = "b", st.en2)
+
+notsync<-data.frame(sing.event = "notsync", rbind(s1,s2))
+
+# create two sequences at that overlap most of the time
+
+durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
+st.en1<-matrix(durs1, ncol = 2, byrow = T)
+st2<-st.en1[,1]+rnorm(nrow(st.en1),0.1,0.05)
+en2<-st2+rnorm(nrow(st.en1),0.2,0.01)
+st.en2 <- cbind(st2, en2)
+colnames(st.en2) <- colnames(st.en1)
+s1 <- data.frame(indiv = "a", st.en1)
+s2 <- data.frame(indiv = "b", st.en2)
+
+ovlp<-data.frame(sing.event = "ovlp", rbind(s1,s2))
+
+
+# create two sequences at that do not overlap most of the time
+
+durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
+st.en1<-matrix(durs1, ncol = 2, byrow = T)
+st2<-st.en1[,1]+rnorm(nrow(st.en1), 0.25, 0.1)
+en2<-st2+rnorm(nrow(st.en1), 0.2, 0.01)
+st.en2 <- cbind(st2, en2)
+colnames(st.en2) <- colnames(st.en1)
+s1 <- data.frame(indiv = "a", st.en1)
+s2 <- data.frame(indiv = "b", st.en2)
+
+no.ovlp<-data.frame(sing.event = "no.ovlp", rbind(s1,s2))
+
+
+#put all events together in a single data frame
+colnames(ovlp) <- colnames(no.ovlp) <- colnames(notsync)
+td<-rbind(ovlp, notsync, no.ovlp)
+colnames(td)[3:4] <-c("start", "end")
+
+#run test
+coor.test(X = td, iterations = 10, less.than.chance = T, parallel = F)
+
+
+# now try with some real data
 #load data
 data(coor.sing)
 
