@@ -1,9 +1,0 @@
-name: Publish Document
-account: rpubs
-server: rpubs.com
-appId:
-        https://api.rpubs.com/api/v1/document/109933/593a76fba6d948069d29466c9ddf3716
-bundleId:
-        https://api.rpubs.com/api/v1/document/109933/593a76fba6d948069d29466c9ddf3716
-url: http://rpubs.com/marcelo-araya-salas/109933/edit
-when: 1442532140.77476
