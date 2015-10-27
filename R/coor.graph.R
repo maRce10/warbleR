@@ -3,7 +3,7 @@
 #' \code{coor.graph} creates graphs of coordinated singing and highlights the signals that overlap 
 #' in time. The signals are represented by polygons of different colors.
 #' @usage coor.graph(X, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg")
-#' @param  X Data frame with results containing columns for singing event (sing.event), 
+#' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param only.coor Logical. If \code{TRUE} only the segment in which both individuals are singing is 
 #' included (solo singing is removed). Default is \code{FALSE}.

@@ -237,5 +237,6 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   df<-data.frame(sound.files, selec, (as.data.frame(matrix(unlist(lst),nrow = length(sound.files), byrow = T))))
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
                  return(df)
-                 }
+    if(img) on.exit(dev.off())
+}
 

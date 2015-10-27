@@ -621,4 +621,5 @@ if(!is.null(ssmooth) & !is.null(smadj))
   {if(smadj == "start" | smadj == "both") results$start <- results$start-((threshold*2.376025e-07)-1.215234e-05)*ssmooth 
   if(smadj == "end" | smadj == "both")  results$end <- results$end-((threshold*-2.369313e-07)+1.215129e-05)*ssmooth }
 return(results)
+if(img) on.exit(dev.off())
 }

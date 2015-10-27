@@ -257,5 +257,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
     return (NULL)
     
   })) 
+  on.exit(dev.off())
 }
 
