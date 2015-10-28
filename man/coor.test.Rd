@@ -37,7 +37,7 @@ than the observed value. The function runs one test for each singing event in th
 \examples{
 \dontrun{
 #######simulate singing events########
-# create two sequences at different rates (not synchronize)
+# create two sequences at different rates (not synchronized)
 durs1 <- cumsum(rnorm(90,0.2, 0.01))
 durs2 <- cumsum(rnorm(30,0.7, 0.01))
 st.en1<-as.data.frame(matrix(durs1, ncol = 2, byrow = T))
@@ -61,7 +61,7 @@ s2 <- data.frame(indiv = "b", st.en2)
 ovlp<-data.frame(sing.event = "ovlp", rbind(s1,s2))
 
 
-# create two sequences at that do not overlap most of the time
+# create two sequences that do not overlap most of the time
 
 durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
 st.en1<-matrix(durs1, ncol = 2, byrow = T)
