@@ -45,7 +45,7 @@ depicting the time of overlap.
 # First set temporary folder
 setwd(tempdir())
 
-# load simulate singing events
+# load simulate singing events  (see data documentation)
 data(coor.sing)
 
 # make coor.graphs in tiff format
