@@ -1,6 +1,6 @@
 #' Spectrogram cross-correlation 
 #' 
-#' \code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
+#' \code{xcorr} Estimates the similarity of two spectrograms by means of cross-correlation
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = FALSE)
 #' @param  X Data frame containing columns for sound files (sound.files), 
@@ -37,6 +37,10 @@
 #' from the awesome R package `monitoR`.   
 #' @examples
 #' \dontrun{
+<<<<<<< HEAD
+=======
+#' #load data
+>>>>>>> parent of 471140b... Combining two overal commits: the most recent round of edits to new warbleR functions, and then the addition of "res" argument to xcmaps, and zzz.R containing ggplot2 start-up message
 #' #First set temporal working directory
 #' setwd(tempdir())
 #' 
@@ -49,9 +53,6 @@
 #'
 #' xcor<-xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
 #' dens=1, wn='hanning', cor.method = "pearson") 
-#' 
-#' # remove example directory
-#' unlink(getwd(),recursive = TRUE)
 #' 
 #' }
 #' @seealso \code{\link{xcorr.graph}}

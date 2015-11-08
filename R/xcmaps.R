@@ -28,7 +28,11 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
+<<<<<<< HEAD
 xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100) {
+=======
+xcmaps <- function(X, img = TRUE, it = "jpeg") {
+>>>>>>> parent of 471140b... Combining two overal commits: the most recent round of edits to new warbleR functions, and then the addition of "res" argument to xcmaps, and zzz.R containing ggplot2 start-up message
   
   #stop if X is not a data frame
   if(!is.data.frame(X))  stop("X is not a data frame")
@@ -57,14 +61,9 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100) {
      
      if(img){
        prop <- abs((min(lon) - buf)-(max(lon) + buf))/abs((min(lat) - buf)-(max(lat) + buf)) * 1.15
-       if (it == "tiff") 
-         tiff(filename = paste("Map of ", i, " recordings", 
-                               ".tiff", sep = ""), units = "cm", width = 20 * prop, 
-              height = 20 * prop, res = res) 
-       
-       else jpeg(filename = paste("Map of ", i, " recordings", 
-                                  ".jpeg", sep = ""), units = "cm", width = 20 * prop,
-                 height = 20 * prop, res = res)
+       if(it == "tiff") tiff(filename = paste("Map of ", i, " recordings", ".tiff", sep = ""), 
+                             width = 480 * prop) else
+         jpeg(filename = paste("Map of ", i, " recordings", ".jpeg", sep = ""), width = 480 * prop)
 
        #change margins
        par(mar= rep(2,4))

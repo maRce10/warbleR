@@ -24,11 +24,7 @@
 #' @examples
 #' \dontrun{
 #' 
-#' #First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))  
-#' 
-#' ####### simulate singing events ########
+#' #######simulate singing events########
 #' # create two sequences at different rates (not synchronize)
 #' durs1 <- cumsum(rnorm(90,0.2, 0.01))
 #' durs2 <- cumsum(rnorm(30,0.7, 0.01))
@@ -81,10 +77,7 @@
 #' data(coor.sing)
 #' 
 #' # make coor.graphs in tiff format
-#' coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80, it = "jpeg")
-#'
-#'  # remove example directory
-#' unlink(getwd(),recursive = TRUE)                   
+#' coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80, it = "jpeg")                  
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
