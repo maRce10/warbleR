@@ -4,7 +4,7 @@
 \alias{coor.graph}
 \title{Coordinated singing graphs}
 \usage{
-coor.graph(X, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg")
+coor.graph(X, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg", img = TRUE)
 }
 \arguments{
 \item{X}{Data frame containing columns for singing event (sing.event),
@@ -23,6 +23,8 @@ spectrogram width. Default is 1.}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
+
+\item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 }
 \value{
 Graphs of the singing events in the input data frame are saved in the working directory.
@@ -40,67 +42,18 @@ depicting the time of overlap.
 \examples{
 \dontrun{
 
-#First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+# First set temporary folder
+setwd(tempdir())
 
-####### simulate singing events ########
-# create two sequences at different rates (not synchronize)
-durs1 <- cumsum(rnorm(90,0.2, 0.01))
-durs2 <- cumsum(rnorm(30,0.7, 0.01))
-st.en1<-as.data.frame(matrix(durs1, ncol = 2, byrow = T))
-st.en2<-as.data.frame(matrix(durs2, ncol = 2, byrow = T))
-s1 <- data.frame(indiv = "a", st.en1)
-s2 <- data.frame(indiv = "b", st.en2)
-
-notsync<-data.frame(sing.event = "notsync", rbind(s1,s2))
-
-# create two sequences at that overlap most of the time
-
-durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
-st.en1<-matrix(durs1, ncol = 2, byrow = T)
-st2<-st.en1[,1]+rnorm(nrow(st.en1),0.1,0.05)
-en2<-st2+rnorm(nrow(st.en1),0.2,0.01)
-st.en2 <- cbind(st2, en2)
-colnames(st.en2) <- colnames(st.en1)
-s1 <- data.frame(indiv = "a", st.en1)
-s2 <- data.frame(indiv = "b", st.en2)
-
-ovlp<-data.frame(sing.event = "ovlp", rbind(s1,s2))
-
-
-# create two sequences at that do not overlap most of the time
-
-durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
-st.en1<-matrix(durs1, ncol = 2, byrow = T)
-st2<-st.en1[,1]+rnorm(nrow(st.en1), 0.25, 0.1)
-en2<-st2+rnorm(nrow(st.en1), 0.2, 0.01)
-st.en2 <- cbind(st2, en2)
-colnames(st.en2) <- colnames(st.en1)
-s1 <- data.frame(indiv = "a", st.en1)
-s2 <- data.frame(indiv = "b", st.en2)
-
-no.ovlp<-data.frame(sing.event = "no.ovlp", rbind(s1,s2))
-
-
-#put all events together in a single data frame
-colnames(ovlp) <- colnames(no.ovlp) <- colnames(notsync)
-td<-rbind(ovlp, notsync, no.ovlp)
-colnames(td)[3:4] <-c("start", "end")
-
-
-#produce graphs
-coor.graph(X = td, it = "tiff", res = 100)
-
-# now try with some real data
-#load data
+# load simulate singing events  (see data documentation)
 data(coor.sing)
 
 # make coor.graphs in tiff format
-coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80, it = "jpeg")
+coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80, it = "jpeg" , img = TRUE)
 
- # remove example directory
-unlink(getwd(),recursive = TRUE)
+
+#' # make coor.graphs in graphic device format
+coor.graph(X = coor.sing, ovlp = T, only.coor = F, img = FALSE)
 }
 }
 \author{

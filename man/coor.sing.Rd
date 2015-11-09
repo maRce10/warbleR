@@ -3,7 +3,13 @@
 \docType{data}
 \name{coor.sing}
 \alias{coor.sing}
-\title{Selections of coordinated singing events from lekking \emph{Phaethornis longirostris} (Long-billed Hermit hummingbird).}
+\title{Selections of simulated interactive singing events. The simulated events use the mean and standard
+deviation of real lekking \emph{Phaethornis longirostris} (Long-billed Hermit hummingbird) songs and
+intervals between songs. Three events are simulated: synchronized overlaping signals (ovlp),
+synchronized not overlapping signals (no.ovlp) and not synchronized signals (no.sync). For the not
+synchronized simulated event one "birds" sings at the solo singing rate while the
+second one sings at the duetting rate (lower singing rate).
+.}
 \format{\describe{
 
   \item{coor.sing}{Selections of coordinated singing}
@@ -13,7 +19,13 @@
 data(coor.sing)
 }
 \description{
-Selections of coordinated singing events from lekking \emph{Phaethornis longirostris} (Long-billed Hermit hummingbird).
+Selections of simulated interactive singing events. The simulated events use the mean and standard
+deviation of real lekking \emph{Phaethornis longirostris} (Long-billed Hermit hummingbird) songs and
+intervals between songs. Three events are simulated: synchronized overlaping signals (ovlp),
+synchronized not overlapping signals (no.ovlp) and not synchronized signals (no.sync). For the not
+synchronized simulated event one "birds" sings at the solo singing rate while the
+second one sings at the duetting rate (lower singing rate).
+.
 }
 \keyword{datasets}
 

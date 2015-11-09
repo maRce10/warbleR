@@ -21,60 +21,10 @@
 #' expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
 #' than the observed value. The function runs one test for each singing event in the input data frame. The function 
 #' is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
-#' @references Masco, C., Allesina, S., Mennill, D. J., & Pruett-Jones, S. (2015). The Song Overlap Null model 
-#' Generator (SONG): a new tool for distinguishing between random and non-random song overlap. Bioacoustics. 1–12. 
+#' @references Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song Overlap Null model Generator (SONG): a new tool for distinguishing between random and non-random song overlap. Bioacoustics. 1-12. 
 #' @examples
 #' \dontrun{
-#' #######simulate singing events########
-#' # create two sequences at different rates (not synchronized)
-#' durs1 <- cumsum(rnorm(90,0.2, 0.01))
-#' durs2 <- cumsum(rnorm(30,0.7, 0.01))
-#' st.en1<-as.data.frame(matrix(durs1, ncol = 2, byrow = T))
-#' st.en2<-as.data.frame(matrix(durs2, ncol = 2, byrow = T))
-#' s1 <- data.frame(indiv = "a", st.en1)
-#' s2 <- data.frame(indiv = "b", st.en2)
-#' 
-#' notsync<-data.frame(sing.event = "notsync", rbind(s1,s2))
-#' 
-#' # create two sequences at that overlap most of the time
-#' 
-#' durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
-#' st.en1<-matrix(durs1, ncol = 2, byrow = T)
-#' st2<-st.en1[,1]+rnorm(nrow(st.en1),0.1,0.05)
-#' en2<-st2+rnorm(nrow(st.en1),0.2,0.01)
-#' st.en2 <- cbind(st2, en2)
-#' colnames(st.en2) <- colnames(st.en1)
-#' s1 <- data.frame(indiv = "a", st.en1)
-#' s2 <- data.frame(indiv = "b", st.en2)
-#' 
-#' ovlp<-data.frame(sing.event = "ovlp", rbind(s1,s2))
-#' 
-#' 
-#' # create two sequences that do not overlap most of the time
-#' 
-#' durs1 <- cumsum(rnorm(90,c(0.4, 0.2), 0.01))
-#' st.en1<-matrix(durs1, ncol = 2, byrow = T)
-#' st2<-st.en1[,1]+rnorm(nrow(st.en1), 0.25, 0.1)
-#' en2<-st2+rnorm(nrow(st.en1), 0.2, 0.01)
-#' st.en2 <- cbind(st2, en2)
-#' colnames(st.en2) <- colnames(st.en1)
-#' s1 <- data.frame(indiv = "a", st.en1)
-#' s2 <- data.frame(indiv = "b", st.en2)
-#' 
-#' no.ovlp<-data.frame(sing.event = "no.ovlp", rbind(s1,s2))
-#' 
-#' 
-#' #put all events together in a single data frame
-#' colnames(ovlp) <- colnames(no.ovlp) <- colnames(notsync)
-#' td<-rbind(ovlp, notsync, no.ovlp)
-#' colnames(td)[3:4] <-c("start", "end")
-#' 
-#' #run test
-#' coor.test(X = td, iterations = 10, less.than.chance = T, parallel = F)
-#' 
-#'  
-#' # now try with some real data  
-#' #load data
+#' #load  simulated singing data (see data documentation)
 #' data(coor.sing)
 #' 
 #' # testing if coordination happens less than expected by chance
