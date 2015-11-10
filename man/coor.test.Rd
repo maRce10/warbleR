@@ -24,16 +24,16 @@ A data frame with the observed number of overlaps (obs.overlaps), mean number of
 and p value.
 }
 \description{
-\code{coor.test} applies a Monte Carlo randomization test to assess the statistical significance of singing coordination
+\code{coor.test} Monte Carlo randomization test to assess the statistical significance of singing coordination
 }
 \details{
 This function calculates the probability of finding and equal or lower number
-(of higher if \code{less.than.chance} is \code{TRUE}) of song overlaps in a coordinated singing event.
+(of higher if les.than.chance is \code{TRUE}) of song overlaps in a coordinated singing event.
 The function shuffles the sequences of signals and silence-between-signals for both individuals to produce
 a null distribution of expected number of overlaps by chance.  The observed number of overlaps is compared to this
 expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher)
-than the observed value. Solo singing at the beggining and end is not taken into account. The function runs one test
-for each singing event in the input data frame.
+than the observed value. The function runs one test for each singing event in the input data frame. The function
+is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
 }
 \examples{
 \dontrun{
@@ -49,5 +49,8 @@ coor.test(coor.sing, iterations = 1000, less.than.chance = F)
 }
 \author{
 Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+}
+\references{
+Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song Overlap Null model Generator (SONG): a new tool for distinguishing between random and non-random song overlap. Bioacoustics. 1-12.
 }
 

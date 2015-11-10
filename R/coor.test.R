@@ -40,7 +40,7 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, para
   if(!is.data.frame(X))  stop("X is not a data frame")
   
   #stop if some events have less than 10 observations
-  if(any(table(X$sing.event) < 10)) stop("At least one singing event with less than 10 vocalizations")
+  if(any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
   
   #if iterations is not vector or length==1 stop
   if(any(!is.vector(iterations),!is.numeric(iterations))) stop("'interations' must be a numeric vector of length 1") else{

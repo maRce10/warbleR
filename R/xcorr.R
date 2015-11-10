@@ -37,10 +37,6 @@
 #' from the awesome R package `monitoR`.   
 #' @examples
 #' \dontrun{
-<<<<<<< HEAD
-=======
-#' #load data
->>>>>>> parent of 471140b... Combining two overal commits: the most recent round of edits to new warbleR functions, and then the addition of "res" argument to xcmaps, and zzz.R containing ggplot2 start-up message
 #' #First set temporal working directory
 #' setwd(tempdir())
 #' 

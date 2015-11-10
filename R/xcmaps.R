@@ -28,12 +28,8 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
-<<<<<<< HEAD
 xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100) {
-=======
-xcmaps <- function(X, img = TRUE, it = "jpeg") {
->>>>>>> parent of 471140b... Combining two overal commits: the most recent round of edits to new warbleR functions, and then the addition of "res" argument to xcmaps, and zzz.R containing ggplot2 start-up message
-  
+
   #stop if X is not a data frame
   if(!is.data.frame(X))  stop("X is not a data frame")
 
