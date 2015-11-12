@@ -214,7 +214,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
       dev.off() #reset graphic device
     }
   })
-  on.exit(dev.off())
   
   }
 

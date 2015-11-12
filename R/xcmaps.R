@@ -146,5 +146,4 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100) {
       }    
     }
   }
-  if(img) on.exit(dev.off())
 }

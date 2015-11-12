@@ -22,21 +22,20 @@
 #' @examples
 #' \dontrun{
 #' #load data
-#' #First set temporal working directory
+#' #First set temporal working directory]
 #' setwd(tempdir())
 #' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2", "manualoc.df"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
 #' writeWave(Phae.long2, "Phae.long2.wav")
-
 #'
 #'  #run cross correlation first
-#'  xcor<-xcorr(X = manualoc.df[1:5,], wl =300, frange= c(2, 9), ovlp=90, 
-#'  dens=0.8, wn='hanning', cor.method = "pearson") 
+#'  xcor<-xcorr(X = manualoc.df[1:5,], wl =300, frange= c(2, 9), ovlp=90, dens=0.8, wn='hanning', 
+#'  cor.method = "pearson") 
 #'  
 #'  #plot pairwise scores
-#'  xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1.3, rel.cex = T)
+#'  xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 2, rel.cex = FALSE)
 #' }
 #' @seealso \code{\link{xcorr}}
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
@@ -87,10 +86,16 @@ for(j in 1:(levs - 1))
 if(z == 1) mar1[2] <- mar[2] * ax.mar else mar1 <- mar
     if(i == lvs[length(lvs)]) mar1[1] <- mar[1] * ax.mar
   par(mar = mar1)
-  plot(seq(-1, 1, length.out = length(y$time[y$dyad==unique(y$dyad)[x]])), y$score[y$dyad==unique(y$dyad)[x]], 
-       type = "l", col = heat.colors(10)[round((1 - w$score[x])*10, 0)], 
-     ylim = c(0,1), yaxt = "n", xaxt = "n", xlab = "", ylab = "", lwd = 5, xlim = c(-1,1))
-if(z == 1 & x == floor(levs/2)) mtext("Correlation coeff.", side = 2, line = 1, cex = 0.8 * cex.lab)
+  plot(1, 1, col ="white", ylim = c(0,1), yaxt = "n", xaxt = "n", xlab = "", ylab = "", lwd = 5, xlim = c(-1,1))
+  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "#FFE4C4", density = 60)
+  abline(h = seq(0, 1, length.out = 11), col = "white", lwd = 0.9)
+  abline(h = seq(0, 1, length.out = 6), col = "white", lwd = 1.1)
+  abline(v = seq(-1, 1, length.out = 21) , col = "white", lwd = 0.9)
+  abline(v = seq(-1, 1, length.out = 11), col = "white", lwd = 1.1)
+  box()
+   lines(seq(-1, 1, length.out = length(y$time[y$dyad==unique(y$dyad)[x]])), y$score[y$dyad==unique(y$dyad)[x]], lwd = 4,
+      col = c("#B2182B", "#D6604D", "#F4A582", "#FDDBC7", "#FFFFFF", "#D1E5F0", "#92C5DE", "#4393C3", "#2166AC", "#053061")[round((1 - w$score[x])*10, 0)])
+if(z == 1 & x == floor(levs/2)) mtext("Corr. coeff.", side = 2, line = 1, cex = 0.8 * cex.lab)
   if(z == 1) axis(side = 2, line =-1, at = c(0, 1),tick = F)
   if(i == lvs[length(lvs)]) axis(side = 1, line =-1, at = c(-1, 0, 1),tick = F)
   if(i == lvs[length(lvs)] & i == ceiling((levs^2)-levs/2)) mtext("Time diff", 
@@ -103,10 +108,11 @@ if(z == 1 & x == floor(levs/2)) mtext("Correlation coeff.", side = 2, line = 1, 
   if(z == 1) mar1[2] <- mar[2] * ax.mar 
   par(mar = mar1)
   plot(1, 1, col ="white",  xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "#E0EEEE", density = 50)
   text(1, 1, unique(c(as.character(y$sound.file1), as.character(y$sound.file2) ))[z], srt =45,
-       cex =0.5 * cex.lab, col = "blue4")
+       cex =0.5 * cex.lab, col = "#053061")
   z <- z + 1
-  
+  box(lwd = 2)
   updiag<-append(updiag,c(lvs, min(lvs)-levs))
   lvs <- lvs[2:length(lvs)]+1
 }
@@ -116,9 +122,10 @@ screen(levs * levs)
 mar1[1] <- mar[1] * ax.mar
 par(mar = mar1)
 plot(1, 1, col ="white",  xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "#E0EEEE", density = 50)
 text(1, 1, unique(c(as.character(y$sound.file1), as.character(y$sound.file2) ))[z], srt =45,
-     cex =0.5 * cex.lab, col = "blue4")
-
+     cex =0.5 * cex.lab, col = "#053061")
+box(lwd = 2)
 #plot max scores in upper triangle
 a <- 2:((levs * levs)-1)
 a <- a[!a %in% updiag]
@@ -129,6 +136,7 @@ for(i in a)
   screen(i)
   par(mar= mar)
   plot(1, 1, col ="white",  xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = c("#67001F", "#B2182B", "#D6604D", "#F4A582","#FFFFFF", "#D1E5F0", "#92C5DE", "#4393C3", "#2166AC", "#053061")[round((1 - w$score[x])*10, 0)], density = 40,border = "black")
 if(rel.cex) cex <- w$score[x]*cex.cor else cex <- cex.cor
   text(1, 1, round(w$score[x], 2), cex = cex)
 x <- x + 1}

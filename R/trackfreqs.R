@@ -257,5 +257,4 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
   }))
 
-  on.exit(dev.off())
 }
