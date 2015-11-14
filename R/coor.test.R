@@ -15,9 +15,9 @@
 #' @export
 #' @name coor.test
 #' @details This function calculates the probability of finding and equal or lower number 
-#' (of higher if les.than.chance is \code{TRUE}) of song overlaps in a coordinated singing event. 
+#' (or higher if les.than.chance is \code{TRUE}) of song overlaps in a coordinated singing event. 
 #' The function shuffles the sequences of signals and silence-between-signals for both individuals to produce 
-#' a null distribution of expected number of overlaps by chance.  The observed number of overlaps is compared to this
+#' a null distribution of expected number of overlaps by chance. The observed number of overlaps is compared to this
 #' expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
 #' than the observed value. The function runs one test for each singing event in the input data frame. The function 
 #' is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
