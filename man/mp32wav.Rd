@@ -4,7 +4,10 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav()
+mp32wav(samp.rate = 44.1)
+}
+\arguments{
+\item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.}
 }
 \value{
 .wav files saved in the working directory with same name as original mp3 files.
