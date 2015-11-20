@@ -32,7 +32,5 @@ mp32wav <- function(samp.rate = 44.1) {
   files <- list.files(path=getwd(), pattern = "mp3$", ignore.case = TRUE) #list .mp3 files in working directory
   if(length(files) == 0) stop("no 'wav' files in working directory")
   message("Start writing wav files:")
-  pbapply::pblapply(files, function(x) tuneR::writeWave(downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate),
-                                                paste(substr(x, 0, nchar(x) - 4), ".wav", sep="")))
-  
+  pbapply::pblapply(files, function(x) tuneR::writeWave(downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate * 1000), paste(substr(x, 0, nchar(x) - 4), ".wav", sep="")))
   }
