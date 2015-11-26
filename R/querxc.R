@@ -8,15 +8,14 @@
 #' @param download Logical argument. Downloads recording file names and
 #'   associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
 #'   directory as .mp3 files. Default is \code{FALSE}.
-#' @param X data frame with the same columns as the output of the function, or at least the following
+#' @param X Data frame with the same columns as the output of the function, or at least the following
 #' columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in the data frame 
 #' will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 #' the recordings to be downloaded based on their attributes.  
 #' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
 #'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
 #'  Not available for windows OS. Only used for downloading files.
-#' @return A data frame with recording information is returned if X is not provided. Sound files in .mp3 format 
-#' (if download = \code{TRUE} or if X is provided).
+#' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided.
 #' @export
 #' @name querxc
 #' @details This function queries for avian vocalization recordings in the open-access
@@ -105,13 +104,14 @@ querxc <- function(qword, download=FALSE, X = NULL, parallel = FALSE) {
       rec$file,
       rec$lic,
       rec$url,
-      rec$q
+      rec$q,
+      rec$time,
+      rec$date
       ))
     ####
   })))
 
-  names(results) <- c("Recording_ID", "Genus", "Specific_epithet", "Subspecies", "English_name", "Recordist", "Country", 
-                      "Locality", "Latitude", "Longitude", "Vocalization_type", "Audio_file", "License", "URL", "Quality")
+  names(results) <- c("Recording_ID", "Genus", "Specific_epithet", "Subspecies", "English_name", "Recordist", "Country", "Locality", "Latitude", "Longitude", "Vocalization_type", "Audio_file", "License", "URL", "Quality","Time", "Date")
 
   #adjust ouput in case search has 2 words instead of 1
   if(sapply(strsplit(qword, " "), length) == 2) 

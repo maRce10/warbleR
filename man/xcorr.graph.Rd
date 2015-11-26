@@ -4,7 +4,7 @@
 \alias{xcorr.graph}
 \title{Pairwise plots of spectrogram cross-correlation scores}
 \usage{
-xcorr.graph(X, cex.cor = 1, cex.lab = 1, rel.cex = FALSE)
+xcorr.graph(X, cex.cor = 1, cex.lab = 1, rel.cex = FALSE, labs = NULL)
 }
 \arguments{
 \item{X}{Output from \code{\link{xcorr}} function.}
@@ -16,7 +16,9 @@ the upper triangle of the multipannel plot) should be magnified. Default is 1.}
 (in diagonal of the multipannel plot) should be magnified. Default is 1.}
 
 \item{rel.cex}{Logical. Controls whether the size of the correlation scores (in
-the upper triangle of the multipannel plot) should be relative to the correlation score.
+the upper triangle of the multipannel plot) should be relative to the correlation score.}
+
+\item{labs}{Alternative selection labels. If not provided the combined name of sound files and selection numbers are used as labels.
 Default is \code{FALSE}.}
 }
 \description{
@@ -47,7 +49,7 @@ writeWave(Phae.long2, "Phae.long2.wav")
  cor.method = "pearson")
 
  #plot pairwise scores
- xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 2, rel.cex = FALSE)
+  xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
 }
 }
 \author{

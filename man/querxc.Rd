@@ -15,7 +15,7 @@ species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{
 associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
 directory as .mp3 files. Default is \code{FALSE}.}
 
-\item{X}{data frame with the same columns as the output of the function, or at least the following
+\item{X}{Data frame with the same columns as the output of the function, or at least the following
 columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in the data frame
 will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 the recordings to be downloaded based on their attributes.}
@@ -25,8 +25,7 @@ If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of core
 Not available for windows OS. Only used for downloading files.}
 }
 \value{
-A data frame with recording information is returned if X is not provided. Sound files in .mp3 format
-(if download = \code{TRUE} or if X is provided).
+If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided.
 }
 \description{
 \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
