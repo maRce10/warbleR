@@ -1,9 +1,7 @@
 #' Selections of simulated interactive singing events. The simulated events use the mean and standard 
 #' deviation of real lekking \emph{Phaethornis longirostris} (Long-billed Hermit hummingbird) songs and 
-#' intervals between songs. Three events are simulated: synchronized overlaping signals (ovlp), 
-#' synchronized not overlapping signals (no.ovlp) and not synchronized signals (no.sync). For the not
-#' synchronized simulated event one "bird" sings at the solo singing rate while the
-#' second one sings at the duetting rate (lower singing rate).
+#' intervals between songs. Three events are simulated: overlapping signals (ovlp), 
+#' alternating signals (altern) and non-synchronized signals (no.sync).
 #' .
 #' 
 #' @format \describe{

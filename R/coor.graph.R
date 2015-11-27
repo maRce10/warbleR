@@ -155,5 +155,5 @@ if(img){      if(it == "jpeg") ite <- "coor.singing.jpeg" else ite <- "coor.sing
         } else return(ggp)
       }
   }))
-if(!img) ggs
+if(!img) invisible(ggs)
   }
