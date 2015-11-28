@@ -4,7 +4,7 @@
 \alias{xcorr.graph}
 \title{Pairwise plots of spectrogram cross-correlation scores}
 \usage{
-xcorr.graph(X, cex.cor = 1, cex.lab = 1, rel.cex = FALSE, labs = NULL)
+xcorr.graph(X, cex.cor = 1, cex.lab = 1, cex.axis.lab = 1, rel.cex = FALSE, labs = NULL)
 }
 \arguments{
 \item{X}{Output from \code{\link{xcorr}} function.}
@@ -14,6 +14,8 @@ the upper triangle of the multipannel plot) should be magnified. Default is 1.}
 
 \item{cex.lab}{A numeric vector of length 1 giving the amount by which signal selection labels
 (in diagonal of the multipannel plot) should be magnified. Default is 1.}
+
+\item{cex.axis.lab}{A numeric vector of length 1 giving the amount by which the axis labels should be magnified. Default is 1.}
 
 \item{rel.cex}{Logical. Controls whether the size of the correlation scores (in
 the upper triangle of the multipannel plot) should be relative to the correlation score.}
