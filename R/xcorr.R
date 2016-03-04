@@ -21,7 +21,7 @@
 #' Only applied when frange is \code{NULL}. Default is \code{NULL}.
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}. 
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
-#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
+#' @param parallel Either logical or numeric. Controls whether parallel computing is applied.
 #'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
 #'  Not available for windows OS. 
 #' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
@@ -96,13 +96,11 @@ frq.lim = c(min(df), max(df))} else{
 }
 
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-   FUN, mc.cores = 2)} else    
-     if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-        FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
-  
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+   FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
+        
 #create templates
-if(!parallel) message("creating templates:")
+   if(is.logical(parallel) & !parallel) message("creating templates:")
 ltemp<-lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
@@ -236,7 +234,7 @@ a<-lapp(1:(nrow(X)-1), function(j)
       lapply(X=c.win.start, FUN=function(x) 
       {
         # Unpack columns of survey amplitude matrix for correlation analysis
-        cor(amp.template, amp.survey.v[x + pts.v], method=cor.method, use='complete.obs')  
+        cor(amp.template, amp.survey.v[x + pts.v], method=cor.method, use='complete.obs') 
       }
       )
     )
