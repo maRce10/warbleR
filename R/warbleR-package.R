@@ -71,6 +71,8 @@
 #'   
 #'   \code{\link{coor.test}}: Assess statistical significance of singing coordination 
 #'   
+#'   \code{\link{seltailor}}: nteractive view of spectrograms to tailor start and end of selections
+#'   
 #' @import maps
 #' @import rjson
 #' @import RCurl

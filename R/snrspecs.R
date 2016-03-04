@@ -4,8 +4,8 @@
 #' will be measured by \code{\link{sig2noise}}.
 #' @usage snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-#'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
-#'   FALSE, propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
+#'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, 
+#'   propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
 #'   0.2, snrmar = 0.1, it = "jpeg", parallel = FALSE)
 #' @param  X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
@@ -35,8 +35,6 @@
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
 #'   Default is \code{TRUE}.
-#' @param trel Logical argument to add a time axis scale relative to the wave. 
-#'   Default is \code{FALSE}.
 #' @param propwidth Logical argument to scale the width of spectrogram 
 #'   proportionally to duration of the selected call. Default is \code{FALSE}.
 #' @param xl Numeric vector of length 1, a constant by which to scale 
@@ -48,7 +46,7 @@
 #'   \code{FALSE}.
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the 
 #' start and end points of the selections to define spectrogram limits. Default is 0.2.
-#' @param snrmar Numeric vector of length 1. Specifies the margins adjacent to the start and end 
+#' @param snrmar Numeric vector of length 1. Specifies the margins adjacent to the start and end
 #' points of the selections where noise will be measured. Default is 0.1.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
@@ -105,7 +103,7 @@
 
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70,
                      inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100,
-                     cexlab = 1, title = TRUE, trel = FALSE, propwidth = FALSE, xl = 1, osci = FALSE, 
+                     cexlab = 1, title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE, 
                      gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg", parallel = FALSE){
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
@@ -153,10 +151,8 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
   }
   
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-        FUN, mc.cores = 2)} else    
-          if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-              FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
   
   
   if(!parallel) message("Creating spectrograms with signal and noise margins to be used in sig2noise():")
@@ -165,20 +161,34 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
     r <- tuneR::readWave(file.path(getwd(), sound.files[i])) 
     f <- r@samp.rate
     
+    # Read sound files to get sample rate and length
+    r <- tuneR::readWave(file.path(getwd(), sound.files[i]), header = TRUE)
+    f <- r$sample.rate
+    
     fl<- flim #in case flim its higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     
-    # Correct start and end time if is smaller than 0 or higer than length of rec
-    st <- start[i] - mar
-    en <- end[i] + mar
-    if (st < 0) st <- 0
-    if (en > length(r@left)/r@samp.rate) en <- length(r@left)/r@samp.rate
-    
-    t <- c(st, en)
     
     # Set mar equals to snrmar if is smaller
     if(mar < snrmar) mar <- snrmar
+    
+    # Correct start and end time if is smaller than 0 or higher than length of rec
+    st <- start[i] - mar
+    en <- end[i] + mar
+    mar1 <- mar
+    mar2 <- mar1 + end[i] - start[i]
+    
+    if (st < 0)  {
+      mar1 <- mar1  + st
+      mar2 <- mar2  + st
+      st <- 0
+      }
+  
+    if(en > r$samples/f) en <- r$samples/f
 
+    r <- tuneR::readWave(file.path(getwd(), sound.files[i]), from = st, to = en, units = "seconds")
+    
+    
 # Spectrogram width can be proportional to signal duration
     if(propwidth == TRUE){
       if(it == "tiff")  tiff(filename = paste(sound.files[i],"-", selec[i], "-", "snr", ".tiff", sep = ""), 
@@ -210,49 +220,29 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
     seewave::spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, 
             collab = "black", cexlab = cexlab, cex.axis = 0.5*picsize, tlab = "Time (s)", 
-            flab = "Frequency (kHz)", tlim = t, flim = fl, alab = "", trel = trel)
+            flab = "Frequency (kHz)", flim = fl, alab = "", trel = FALSE)
     
     if(title){
-      
       title(paste(sound.files[i], "-", selec[i], "-", "snr", sep = ""), cex.main = cexlab)
-      
     }
     
     # Add lines to visualize signal
-    if(trel)
-    abline(v = c(start[i], end[i]), col = "red", lwd = 1.5, lty = "dashed") else {
-      abline(v = c(mar, end[i] - start[i] + mar), col = "red", lwd = 1.5, lty = "dashed")
-    }
+    abline(v = c(mar1, mar2), col = "red", lwd = 1.5, lty = "dashed") 
     
     # Add lines to visualize where noise will be measured in sig2noise
-    if(trel)
-    abline(v = c(start[i] - snrmar, end[i] + snrmar), col = "red", lwd = 1.5, lty = "dashed") else{
-    abline(v = c(mar - snrmar, end[i] - start[i] + mar + snrmar), col = "red", lwd = 1.5, lty = "dashed")  
-  }
-   
+    abline(v = c(mar1 - snrmar, mar2 + snrmar), col = "red", lwd = 1.5, lty = "dashed") 
+    
     #add arrows/text indicating noise position
-    if(trel) 
-    {arrows(x0 =start[i] - snrmar, y0 = fl[1]+fl[2]/6, x1 = start[i], y1 = fl[1]+fl[2]/6, code = 3, 
+    arrows(x0 =mar1 - snrmar, y0 = fl[1]+fl[2]/6, x1 = mar1, y1 = fl[1]+fl[2]/6, code = 3, 
            col = "red", lty = "solid", lwd = 2, angle = 60)        
   
-    arrows(x0 =end[i] + snrmar, y0 = fl[1]+fl[2]/6, x1 = end[i], y1 = fl[1]+fl[2]/6, code = 3, 
+    arrows(x0 =mar2 + snrmar, y0 = fl[1]+fl[2]/6, x1 = mar2, y1 = fl[1]+fl[2]/6, code = 3, 
            col = "red", lty = "solid", lwd = 2, angle = 60)        
     
-    text(x = start[i] - (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)
+    text(x = mar1 - (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)
     
-    text(x = end[i] + (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)} else {
-      
-    arrows(x0 =mar - snrmar, y0 = fl[1]+fl[2]/6, x1 = mar, y1 = fl[1]+fl[2]/6, code = 3, 
-    col = "red", lty = "solid", lwd = 2, angle = 60)        
-      
-    arrows(x0 =end[i] - start[i] + mar + snrmar, y0 = fl[1]+fl[2]/6, x1 = end[i] - start[i] + mar, y1 = fl[1]+fl[2]/6, code = 3, 
-    col = "red", lty = "solid", lwd = 2, angle = 60)        
-      
-    text(x = mar - (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)
-      
-    text(x = end[i] - start[i] + mar + (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)  
-    }
-
+    text(x = mar2 + (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3) 
+    
     dev.off()  
     return (NULL)
     

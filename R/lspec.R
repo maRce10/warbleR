@@ -139,14 +139,15 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-      FUN, mc.cores = 2)} else    if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-      FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  #if parallel was called
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
+  
   
   #apply over each sound file
   lapp(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
     
-    #loop to print psectros  
+    #loop to print spectros  
     rec <- tuneR::readWave(z) #read wave file 
     f <- rec@samp.rate #set sampling rate
     frli<- fl #in case flim its higher than can be due to samplin rate

@@ -87,31 +87,39 @@ sig2noise <- function(X, mar, parallel = FALSE){
   }
    
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-      FUN, mc.cores = 2)} else    
-          if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-          FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
   
   SNR <- lapp(c(1:length(sound.files)), function(y){
       
-      # Read sound file
-      r <- tuneR::readWave(file.path(getwd(), sound.files[y]))
-
-      # Set the frequency or sampling rate of the signal 
-      f <- r@samp.rate 
-      
-      # Identify the signal
-      signal <- seewave::cutw(r, from = start[y], to = end[y], f = f)
+    # Read sound files to get sample rate and length
+      r <- tuneR::readWave(file.path(getwd(), sound.files[y]), header = TRUE)
+      f <- r$sample.rate
     
-      # Identify areas before and after signal over which to measure noise 
+      #reset coordinates of signals 
       stn <- start[y] - mar
       enn <- end[y] + mar
-      if (stn < 0) stn <- 0
-      if (enn > length(r@left)/r@samp.rate) enn <- length(r@left)/r@samp.rate
-      noise1 <- seewave::cutw(r, from =  stn, 
-                     to = start[y], f = f)
+      mar1 <- mar
+      mar2 <- mar1 + end[y] - start[y]
       
-      noise2 <- seewave::cutw(r, from = end[y], to = enn, f = f)
+      if (stn < 0) { 
+      mar1 <- mar1  + stn
+      mar2 <- mar2  + stn
+      stn <- 0
+      }
+      
+      if(enn > r$samples/f) enn <- r$samples/f
+      
+      r <- tuneR::readWave(file.path(getwd(), sound.files[y]), from = stn, to = enn, units = "seconds")
+      
+      # Identify the signal
+      signal <- seewave::cutw(r, from =  mar1, to = mar2, f = f)
+      
+      # Identify areas before and after signal over which to measure noise 
+      noise1 <- seewave::cutw(r, from =  0, 
+                     to = mar1, f = f)
+      
+      noise2 <- seewave::cutw(r, from = mar2, to = length(r@left)/r@samp.rate, f = f)
       
       # Calculate mean noise amplitude 
       noisamp <- mean(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 

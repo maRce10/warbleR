@@ -6,7 +6,7 @@
 \usage{
 specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE,
+  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
   mar = 0.05, it = "jpeg", parallel = FALSE)
 }
@@ -51,9 +51,6 @@ labels. See \code{\link[seewave]{spectro}}.}
 \item{title}{Logical argument to add a title to individual spectrograms.
 Default is \code{TRUE}.}
 
-\item{trel}{Logical argument to add a time axis scale relative to the wave.
-Default is \code{FALSE}.}
-
 \item{propwidth}{Logical argument to scale the width of spectrogram
 proportionally to duration of the selection. Default is \code{FALSE}.}
 
@@ -76,7 +73,7 @@ dealineating spectrogram limits. Default is 0.05.}
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
-\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
+\item{parallel}{Either logical or numeric. Controls whether parallel computing is applied.
 If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
 Not available for windows OS.}
 }

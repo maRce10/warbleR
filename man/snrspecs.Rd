@@ -9,8 +9,8 @@
 \usage{
 snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel =
-  FALSE, propwidth = FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
+  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
+  propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
   0.2, snrmar = 0.1, it = "jpeg", parallel = FALSE)
 }
 \arguments{
@@ -53,9 +53,6 @@ labels. See \code{\link[seewave]{spectro}}.}
 
 \item{title}{Logical argument to add a title to individual spectrograms.
 Default is \code{TRUE}.}
-
-\item{trel}{Logical argument to add a time axis scale relative to the wave.
-Default is \code{FALSE}.}
 
 \item{propwidth}{Logical argument to scale the width of spectrogram
 proportionally to duration of the selected call. Default is \code{FALSE}.}

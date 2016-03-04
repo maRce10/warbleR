@@ -84,6 +84,8 @@ License: GPL (>= 2)
   \code{\link{coor.graph}}: Creat graphs of coordinated singing
 
   \code{\link{coor.test}}: Assess statistical significance of singing coordination
+
+  \code{\link{seltailor}}: nteractive view of spectrograms to tailor start and end of selections
 }
 \author{
 Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong

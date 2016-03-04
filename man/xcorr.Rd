@@ -38,7 +38,7 @@ Only applied when frange is \code{NULL}. Default is \code{NULL}.}
 
 \item{cor.method}{A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.}
 
-\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
+\item{parallel}{Either logical or numeric. Controls whether parallel computing is applied.
 If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
 Not available for windows OS.}
 }

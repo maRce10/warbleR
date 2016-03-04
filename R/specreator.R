@@ -3,7 +3,7 @@
 #' \code{specreator} creates spectrograms of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-#'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, trel = FALSE, 
+#'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 #'   mar = 0.05, it = "jpeg", parallel = FALSE)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
@@ -34,8 +34,6 @@
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
 #'   Default is \code{TRUE}.
-#' @param trel Logical argument to add a time axis scale relative to the wave. 
-#'   Default is \code{FALSE}.
 #' @param propwidth Logical argument to scale the width of spectrogram 
 #'   proportionally to duration of the selection. Default is \code{FALSE}.
 #' @param xl Numeric vector of length 1. A constant by which to scale 
@@ -89,7 +87,7 @@
 
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                         inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, 
-                        cexlab = 1, title = TRUE, trel = FALSE, propwidth = FALSE, xl=1, osci = FALSE, 
+                        cexlab = 1, title = TRUE, propwidth = FALSE, xl=1, osci = FALSE, 
                         gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg", parallel = FALSE){
   
   
@@ -142,10 +140,8 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   if(propwidth) picsize <- 1
   
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-                                                             FUN, mc.cores = 2)} else    
-                                                               if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-                                                                                                                                    FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
   
   # Create spectrograms overlaid with start and end times from manualoc()
   if(!parallel) message("Creating spectrograms from selections:")
@@ -157,8 +153,17 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     r <- tuneR::readWave(file.path(getwd(), sound.files[i]), header = T)
     f <- r$sample.rate
     t <- c(start[i] - mar, end[i] + mar)
-    if(t[1]<0) t[1]<-0
-    if(t[2]>r$samples/f) t[2]<-r$samples/f
+    
+    mar1 <- mar
+    mar2 <- mar1 + end[i] - start[i]
+    
+    if (t[1] < 0) { 
+      mar1 <- mar1  + t[1]
+      mar2 <- mar2  + t[1]
+      t[1] <- 0
+    }
+    
+    if(t[2] > r$samples/f) t[2] <- r$samples/f
     
     fl<- flim #in case flim its higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
@@ -196,7 +201,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     seewave::spectro(tuneR::readWave(as.character(sound.files[i]), from = t[1], to = t[2], units = "seconds") , f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts, wn = "hanning", 
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
-                     flab = "Frequency (kHz)", alab = "", trel = trel)
+                     flab = "Frequency (kHz)", alab = "", trel = FALSE)
     
     # Add title to spectrogram
     if(title) if(!is.na(selcom[i]))
@@ -204,11 +209,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
         title(paste(sound.files[i], "-", selec[i], sep = ""), cex.main = cexlab)
     
     # Plot lines to visualize selections (start and end of signal)
-    if(line) if(trel)
-      abline(v = c(start[i], end[i]), col = "red", lwd = 3, lty = "dashed") else
-        if(start[i] - mar < 0) abline(v = c(start[i], end[i]), col = "red", lwd = 3, lty = "dashed") else
-          abline(v = c(mar, end[i]- start[i] + mar), col = "red", lwd = 3, lty = "dashed")
-    
+        abline(v = c(mar1, mar2), col = "red", lwd = 3, lty = "dashed")
     invisible() # execute par(old.par) 
     dev.off()
   }

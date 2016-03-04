@@ -170,23 +170,36 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   }
   
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-    FUN, mc.cores = 2)} else    
-        if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-              FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
   
   if(!parallel) message("Creating spectrograms overlaid with acoustic measurements:")
   invisible(lapp(1:length(sound.files), function(i){
     
-    r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
+    # Read sound files, initialize frequency and time limits for spectrogram
+    r <- tuneR::readWave(file.path(getwd(), sound.files[i]), header = T)
+    f <- r$sample.rate
+    t <- c(start[i] - mar, end[i] + mar)
+    if(t[1]<0) t[1]<-0
+    if(t[2]>r$samples/f) t[2]<-r$samples/f
     
+    
+    mar1 <- mar
+    mar2 <- mar1 + end[i] - start[i]
+    
+    if (t[1] < 0) { 
+      mar1 <- mar1  + t[1]
+      mar2 <- mar2  + t[1]
+      t[1] <- 0
+    }
+    
+    if(t[2] > r$samples/f) t[2] <- r$samples/f
+    
+    # read rec segment
+    r <- tuneR::readWave(as.character(sound.files[i]), from = t[1], to = t[2], units = "seconds")
     #in case bp its higher than can be due to sampling rate
     b<- bp 
     if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
-    
-    f <- r@samp.rate
-    t <- c(start[i] - mar, end[i] + mar)
-    cex <- cex
     
     fl<- flim #in case flim its higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
@@ -220,10 +233,11 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     par(mar = inner.mar)
     par(oma = outer.mar)
     
+    
     # Generate spectrogram using seewave
     seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
-            cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = fl, tlab = "Time (s)", 
+            cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
             flab = "Frequency (kHz)", alab = "")
     
     if(title){
@@ -233,19 +247,19 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     }
     
     # Plot fundamental frequencies at each time point
-    ffreq <- seewave::fund(r, from=start[i], to = end[i],  
+    ffreq <- seewave::fund(r, from=mar1, to = mar2,  
               fmax= b[2]*1000, f = f, ovlp = 70, threshold = threshold, plot = FALSE) 
     ffreq <- ffreq[ffreq[,2] > b[1],]
     
-    points(c(ffreq[,1])+start[i], c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1]) 
+    points(c(ffreq[,1])+mar1, c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1]) 
 
     # Plot dominant frequency at each time point     
     dfreq <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
-                   threshold = threshold, tlim = c(start[i], end[i]))
+                   threshold = threshold, tlim = c(mar1, mar2))
 
-    points(dfreq[,1]+start[i], dfreq[,2], col = col[2], cex = cex[1], pch = pch[2]) 
+    points(dfreq[,1] + mar1, dfreq[,2], col = col[2], cex = cex[1], pch = pch[2]) 
     
-    abline(v = c(end[i],start[i]), col= "red", lty = "dashed")
+    abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
     # Legend coordinates can be uniquely adjusted 
     legend(lpos, legend = c("Ffreq", "Dfreq"),

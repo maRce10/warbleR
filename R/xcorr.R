@@ -22,7 +22,7 @@
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}. 
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
 #' @param parallel Either logical or numeric. Controls whether parallel computing is applied.
-#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
+#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
 #'  Not available for windows OS. 
 #' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.  

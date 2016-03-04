@@ -119,12 +119,11 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = FALSE){
     selec <- selec[d]
     sound.files <- sound.files[d]
   }
+
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-      FUN, mc.cores = 2)} else    
-        if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-              FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
-  
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
+    
 if(!parallel) message("Measuring acoustic parameters:")
 x <- as.data.frame(lapp(1:length(start), function(i) { 
   r <- tuneR::readWave(file.path(getwd(), sound.files[i]), from = start[i], to = end[i], units = "seconds") 

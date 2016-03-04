@@ -152,25 +152,37 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   }
   
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-        FUN, mc.cores = 2)} else    
-            if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-                FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+ FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
   
  if(!parallel) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
     message("Calculating dominant frequency measurements:")}  
   
   lst<-lapp(1:length(sound.files), function(i){
     
-    r <- tuneR::readWave(file.path(getwd(), sound.files[i]))
-    
-    f <- r@samp.rate
+    # Read sound files to get sample rate and length
+    r <- tuneR::readWave(file.path(getwd(), sound.files[i]), header = TRUE)
+    f <- r$sample.rate
     t <- c(start[i] - mar, end[i] + mar)
-    cex <- cex
- 
+    
+    #reset coordinates of signals 
+    mar1 <- start[i]-t[1]
+    mar2 <- mar1 + end[i] - start[i]
+    
+    if (t[1] < 0) { t[2] <- abs(t[1]) + t[2] 
+    mar1 <- mar1  + t[1]
+    mar2 <- mar2  + t[1]
+    t[1] <- 0
+    }
+    
+    if(t[2] > r$samples/f) t[2] <- r$samples/f
+  
     b<- bp 
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
+    
+    
+      r <- tuneR::readWave(as.character(sound.files[i]), from = t[1], to = t[2], units = "seconds")
     
     if(img) {
       #in case bp its higher than can be due to sampling rate
@@ -199,7 +211,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     # Generate spectrogram using seewave
     seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5),
                      wn = "hanning", widths = wts, palette = pal, grid = gr, scale = sc, collab = "black", 
-                     cexlab = cexlab, cex.axis = 0.5*picsize, tlim = t, flim = fl, tlab = "Time (s)", 
+                     cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "")
     
     if(title){
@@ -210,13 +222,13 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
     # Plot dominant frequency at each time point     
     dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
-                            threshold = threshold, tlim=c(start[i],end[i]))
+                            threshold = threshold, tlim = c(mar1, mar2))
     
     apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
     
     
-    points(apdom$x+start[i], apdom$y, col = col, cex = cex, pch = pch) 
-    abline(v = c(end[i],start[i]), col= "red", lty = "dashed")
+    points(apdom$x+mar1, apdom$y, col = col, cex = cex, pch = pch) 
+    abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
     # Legend coordinates can be uniquely adjusted 
     legend(lpos, legend = c("Dfreq"),
@@ -225,7 +237,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     dev.off()
     } else 
       dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = 99, bandpass = b, fftw = TRUE, 
-                              threshold = threshold, tlim=c(start[i],end[i]))
+                              threshold = threshold, tlim = c(mar1, mar2))
     
     apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
     

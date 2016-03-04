@@ -55,10 +55,8 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, para
   if(iterations < 1) stop("'iterations' must be a positive integer")
   
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-  FUN, mc.cores = 2)} else    
-    if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-        FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
   
   tovlp<-lapp(unique(X$sing.event),function(h)
 {

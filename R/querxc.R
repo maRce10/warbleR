@@ -42,13 +42,10 @@
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 
 querxc <- function(qword, download=FALSE, X = NULL, parallel = FALSE) {
-  
+
   #if parallel was called
-  if (parallel) {lapp <- function(X, FUN) parallel::mclapply(X, 
-      FUN, mc.cores = 2)} else    
-      if(is.numeric(parallel)) lapp <- function(X, FUN) parallel::mclapply(X, 
-            FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
-                                                                                                                                    
+  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
   
   if(is.null(X))
   {
