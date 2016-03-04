@@ -1,4 +1,4 @@
-#' Import Raven selections
+#' Import Raven selections AWEAWE
 #' 
 #' \code{imp.raven} Imports Raven selection data from many files simultaneously. Files must be in .txt format.
 #' @usage imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE)  
