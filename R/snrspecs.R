@@ -6,7 +6,7 @@
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, 
 #'   propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
-#'   0.2, snrmar = 0.1, it = "jpeg", parallel = FALSE)
+#'   0.2, snrmar = 0.1, it = "jpeg", parallel = 1)
 #' @param  X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
@@ -50,9 +50,9 @@
 #' points of the selections where noise will be measured. Default is 0.1.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
-#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
-#'  Not available for windows OS. 
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#' It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+#' For windows OS the \code{parallelsugar} package should be installed.   
 #' @return Spectrograms per selection marked with margins where background noise will be measured.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
@@ -104,7 +104,7 @@
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70,
                      inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100,
                      cexlab = 1, title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE, 
-                     gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg", parallel = FALSE){
+                     gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg", parallel = 1){
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                          "start", "end") %in% colnames(X))){
@@ -150,12 +150,23 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse
     sound.files <- sound.files[d]
   }
   
-  #if parallel was called
-  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
-  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
+  # If parallel is not numeric
+  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
+  # If parallel was called
+  if(parallel > 1)
+  { options(warn = -1)
+    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
+      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
+        if(Sys.info()[1] == "Windows"){ 
+          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
+  
+  options(warn = 0)
   
   
-  if(!parallel) message("Creating spectrograms with signal and noise margins to be used in sig2noise():")
+  if(parallel == 1) message("Creating spectrograms with signal and noise margins to be used in sig2noise():")
   invisible(lapp(1:length(sound.files), function(i){
     
     r <- tuneR::readWave(file.path(getwd(), sound.files[i])) 

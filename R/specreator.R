@@ -5,7 +5,7 @@
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-#'   mar = 0.05, it = "jpeg", parallel = FALSE)
+#'   mar = 0.05, it = "jpeg", parallel = 1)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -48,9 +48,9 @@
 #' dealineating spectrogram limits. Default is 0.05.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @param parallel Either logical or numeric. Controls whether parallel computing is applied.
-#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
-#'  Not available for windows OS. 
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#' It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+#' For windows OS the \code{parallelsugar} package should be installed.   
 #' @return Image files containing spectrograms of the signals listed in the input data frame.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
@@ -88,7 +88,7 @@
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                         inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, 
                         cexlab = 1, title = TRUE, propwidth = FALSE, xl=1, osci = FALSE, 
-                        gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg", parallel = FALSE){
+                        gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg", parallel = 1){
   
   
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
@@ -139,12 +139,23 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   
   if(propwidth) picsize <- 1
   
-  #if parallel was called
-  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
-  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
+  # If parallel is not numeric
+  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
+  # If parallel was called
+  if(parallel > 1)
+  { options(warn = -1)
+    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
+      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
+        if(Sys.info()[1] == "Windows"){ 
+          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
+  
+  options(warn = 0)
   
   # Create spectrograms overlaid with start and end times from manualoc()
-  if(!parallel) message("Creating spectrograms from selections:")
+  if(parallel == 1) message("Creating spectrograms from selections:")
   
   
   invisible(lapp(1:length(sound.files), function(i){

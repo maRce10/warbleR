@@ -1,8 +1,8 @@
-#' Extract the dominant frequency values as a time series
+#' Extract the fundamental frequency values as a time series
 #' 
-#' \code{dfts} extract the dominant frequency values as a time series.
+#' \code{ffts} extract the fundamental frequency values as a time series.
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
-#' @usage dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
+#' @usage ffts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
 #'   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
@@ -15,7 +15,7 @@
 #'   is 512.
 #' @param flim A numeric vector of length 2 for the frequency limit of 
 #'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
-#' @param length.out A character vector of length 1 giving the number of measurements of dominant 
+#' @param length.out A character vector of length 1 giving the number of measurements of fundamental 
 #' frequency desired (the length of the time series).
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
@@ -50,9 +50,9 @@
 #' @param cex Numeric vector of length 1, specifies relative size of points 
 #'   plotted for frequency measurements and legend font/points, respectively. 
 #'   See \code{\link[seewave]{spectro}}.
-#' @param threshold amplitude threshold (\%) for dominant frequency detection. Default is 15.
+#' @param threshold amplitude threshold (\%) for fundamental frequency detection. Default is 15.
 #' @param col Vector of length 1 specifying colors of points plotted to mark 
-#'  dominant frequency measurements. Default is "dodgerblue".
+#'  fundamental frequency measurements. Default is "dodgerblue".
 #' @param pch Numeric vector of length 1 specifying plotting characters for 
 #'   the frequency measurements. Default is 16.
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the selections
@@ -68,17 +68,17 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
 #'   For windows users the \code{parallelsugar} package should be installed.   
-#' @return A data frame with the dominant frequency values measured across the signals. If img is 
+#' @return A data frame with the fundamental frequency values measured across the signals. If img is 
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
-#' input data frame showing the location of the dominant frequencies.
+#' input data frame showing the location of the fundamental frequencies.
 #' @family spectrogram creators
 #' @seealso \code{\link{specreator}} for creating spectrograms from selections,
 #'  \code{\link{snrspecs}} for creating spectrograms to 
 #'   optimize noise margins used in \code{\link{sig2noise}}
 #' @export
-#' @name dfts
-#' @details This function extracts the dominant frequency values as a time series. 
-#' The function uses the `approx` function to interpolate values between dominant frequency 
+#' @name ffts
+#' @details This function extracts the fundamental frequency values as a time series. 
+#' The function uses the `approx` function to interpolate values between fundamental frequency 
 #' measures.
 #' @examples
 #' \dontrun{
@@ -91,13 +91,13 @@
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # run function 
-#' dfts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
+#' ffts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
 
-dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
+ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue",pch = 16,
@@ -134,10 +134,6 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
-  # If length.out is not numeric
-  if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
-  if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
-  
   #return warning if not all sound files were found
   recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = T)
   if(length(unique(sound.files[(sound.files %in% recs.wd)])) != length(unique(sound.files))) 
@@ -169,8 +165,8 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   
   options(warn = 0)
   
- if(parallel == 1) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
-    message("Calculating dominant frequency measurements:")}  
+ if(parallel == 1) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
+    message("Calculating fundamental frequency measurements:")}  
   
   lst<-lapp(1:length(sound.files), function(i){
     
@@ -206,15 +202,15 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
     # Spectrogram width can be proportional to signal duration
     if(propwidth == TRUE){
-      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "dfts", ".tiff", sep = ""), 
+      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "ffts", ".tiff", sep = ""), 
                             width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "dfts", ".jpeg", sep = ""), 
+                              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "ffts", ".jpeg", sep = ""), 
                                    width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     } else {
-      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "dfts", ".tiff", sep = ""), 
+      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "ffts", ".tiff", sep = ""), 
                             width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "dfts", ".jpeg", sep = ""), 
+                              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "ffts", ".jpeg", sep = ""), 
                                    width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     }
@@ -223,38 +219,41 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
     
     # Generate spectrogram using seewave
-    seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5),
+    seewave::spectro(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5),
                      wn = "hanning", widths = wts, palette = pal, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "")
     
     if(title){
       
-      title(paste(sound.files[i], "-", selec[i], "-", "dfts", sep = ""), cex.main = cexlab)
+      title(paste(sound.files[i], "-", selec[i], "-", "ffts", sep = ""), cex.main = cexlab)
       
     }
     
-    # Plot dominant frequency at each time point     
-    dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
-                            threshold = threshold, tlim = c(mar1, mar2))
+    # Plot fundamental frequency at each time point     
+    ffreq <- seewave::fund(r, from=mar1, to = mar2,  
+                           fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
+    ffreq <- ffreq[!is.na(ffreq[,2]), ]
+    ffreq <- ffreq[ffreq[,2] > b[1], ]
     
-    apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
+    apdom <- approx(ffreq[,1], ffreq[,2], n =length.out, method = "linear")
     
     
     points(apdom$x+mar1, apdom$y, col = col, cex = cex, pch = pch) 
     abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
     # Legend coordinates can be uniquely adjusted 
-    legend(lpos, legend = c("Dfreq"),
+    legend(lpos, legend = c("Ffreq"),
            pch = pch, col = col, bty = "o", cex = cex)
     
     dev.off()
     } else 
-      dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = 99, bandpass = b, fftw = TRUE, 
-                              threshold = threshold, tlim = c(mar1, mar2))
-    
-    apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
-    
+      ffreq <- seewave::fund(r, from=mar1, to = mar2,  
+                             fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
+      ffreq <- ffreq[!is.na(ffreq[,2]), ]
+      ffreq <- ffreq[ffreq[,2] > b[1],]
+      
+      apdom<-approx(ffreq[,1], ffreq[,2], n =length.out, method = "linear")
     return(apdom$y)  
   } )
 

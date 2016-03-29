@@ -1,7 +1,7 @@
 #' Access Xeno-Canto recordings and metadata
 #' 
 #' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
-#' @usage querxc(qword, download = FALSE, X = NULL, parallel = FALSE)  
+#' @usage querxc(qword, download = FALSE, X = NULL, parallel = 1)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'   species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 #'   (\url{http://www.xeno-canto.org/}).
@@ -12,9 +12,9 @@
 #' columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in the data frame 
 #' will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 #' the recordings to be downloaded based on their attributes.  
-#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
-#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used. 
-#'  Not available for windows OS. Only used for downloading files.
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#' It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+#' For windows OS the \code{parallelsugar} package should be installed.   
 #' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided.
 #' @export
 #' @name querxc
@@ -41,11 +41,23 @@
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 
-querxc <- function(qword, download=FALSE, X = NULL, parallel = FALSE) {
+querxc <- function(qword, download=FALSE, X = NULL, parallel = 1) {
 
-  #if parallel was called
-  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
-  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
+  
+  # If parallel is not numeric
+  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
+  # If parallel was called
+  if(parallel > 1)
+  { options(warn = -1)
+    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
+      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
+        if(Sys.info()[1] == "Windows"){ 
+          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
+          
+          options(warn = 0)
   
   if(is.null(X))
   {

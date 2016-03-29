@@ -2,7 +2,7 @@
 #' 
 #' \code{xcorr} Estimates the similarity of two spectrograms by means of cross-correlation
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-#' cor.method = "pearson", parallel = FALSE)
+#' cor.method = "pearson", parallel = 1)
 #' @param  X Data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -21,9 +21,9 @@
 #' Only applied when frange is \code{NULL}. Default is \code{NULL}.
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}. 
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
-#' @param parallel Either logical or numeric. Controls whether parallel computing is applied.
-#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-#'  Not available for windows OS. 
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#' It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+#' For windows OS the \code{parallelsugar} package should be installed.   
 #' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.  
 #' @export
@@ -58,7 +58,7 @@
 
 
 xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, 
-                   wn='hanning', cor.method = "pearson", parallel = FALSE)
+                   wn='hanning', cor.method = "pearson", parallel = 1)
 {
   if(!is.data.frame(X))  stop("X is not a data frame")
   
@@ -95,12 +95,23 @@ frq.lim = c(min(df), max(df))} else{
   frq.lim = frange
 }
 
-  #if parallel was called
-  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
-   FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
-        
+  # If parallel is not numeric
+  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
+  # If parallel was called
+  if(parallel > 1)
+  { options(warn = -1)
+    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
+      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
+        if(Sys.info()[1] == "Windows"){ 
+          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
+          
+          options(warn = 0)
+          
 #create templates
-   if(is.logical(parallel) & !parallel) message("creating templates:")
+   if(parallel == 1) message("creating templates:")
 ltemp<-lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
@@ -167,7 +178,7 @@ ltemp<-lapp(1:nrow(X), function(x)
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
 #run cross-correlation
-if(!parallel) message("running cross-correlation:")
+if(parallel == 1) message("running cross-correlation:")
 
 a<-lapp(1:(nrow(X)-1), function(j)
   {

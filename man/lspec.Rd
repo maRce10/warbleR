@@ -5,7 +5,7 @@
 \title{Create long spectrograms of whole sound files}
 \usage{
 lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),
-ovlp = 50, parallel = FALSE, wl = 512, gr = FALSE, pal = reverse.gray.colors.2,
+ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2,
 cex = 1, it = "jpeg", flist = NULL)
 }
 \arguments{
@@ -33,9 +33,9 @@ resolution of the spectrogram. Default is seq(-40, 0, 1).}
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. High values of ovlp
 slow down the function but produce more accurate selection limits (when X is provided).}
 
-\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-Not available for windows OS.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+ For windows users the \code{parallelsugar} package should be installed.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512.}

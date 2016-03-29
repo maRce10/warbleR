@@ -11,7 +11,7 @@ snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
   propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
-  0.2, snrmar = 0.1, it = "jpeg", parallel = FALSE)
+  0.2, snrmar = 0.1, it = "jpeg", parallel = 1)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -77,9 +77,9 @@ points of the selections where noise will be measured. Default is 0.1.}
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
-\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-Not available for windows OS.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+For windows OS the \code{parallelsugar} package should be installed.}
 }
 \value{
 Spectrograms per selection marked with margins where background noise will be measured.
@@ -138,6 +138,7 @@ Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith
   creating spectrograms after using \code{\link{manualoc}}
 
 Other spectrogram.creators: \code{\link{dfts}};
-  \code{\link{specreator}}; \code{\link{trackfreqs}}
+  \code{\link{ffts}}; \code{\link{specreator}};
+  \code{\link{trackfreqs}}
 }
 

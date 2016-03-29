@@ -8,7 +8,7 @@ specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-  mar = 0.05, it = "jpeg", parallel = FALSE)
+  mar = 0.05, it = "jpeg", parallel = 1)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files),
@@ -73,9 +73,9 @@ dealineating spectrogram limits. Default is 0.05.}
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
-\item{parallel}{Either logical or numeric. Controls whether parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-Not available for windows OS.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+For windows OS the \code{parallelsugar} package should be installed.}
 }
 \value{
 Image files containing spectrograms of the signals listed in the input data frame.
@@ -119,6 +119,7 @@ Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith
   creating spectrograms to optimize noise margins used in \code{\link{sig2noise}}
 
 Other spectrogram.creators: \code{\link{dfts}};
-  \code{\link{snrspecs}}; \code{\link{trackfreqs}}
+  \code{\link{ffts}}; \code{\link{snrspecs}};
+  \code{\link{trackfreqs}}
 }
 

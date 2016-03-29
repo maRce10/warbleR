@@ -81,6 +81,11 @@ License: GPL (>= 2)
 
   \code{\link{dfts}}: Extract the dominant frequency values as a time series
 
+  \code{\link{ffts}}: Extract the fundamental frequency values as a time series
+
+  \code{\link{compare.methods}}: Produces graphs to visually assess performance of acoustic
+  distance measurements
+
   \code{\link{coor.graph}}: Creat graphs of coordinated singing
 
   \code{\link{coor.test}}: Assess statistical significance of singing coordination

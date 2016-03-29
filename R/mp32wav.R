@@ -1,11 +1,11 @@
 #' Convert .mp3 files to .wav
 #' 
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
-#' @usage mp32wav(samp.rate = 44.1, parallel = FALSE)  
+#' @usage mp32wav(samp.rate = 44.1, parallel = 1)  
 #' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.
-#' @param parallel Either logical or numeric. Controls whether parallel computing is applied.
-#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-#'  Not available for windows OS. 
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+#'   For windows OS the \code{parallelsugar} package should be installed.   
 #' @return .wav files saved in the working directory with same name as original mp3 files.
 #' @export
 #' @name mp32wav
@@ -27,14 +27,24 @@
 #' This should be fixed in the next version of tuneR. 
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
-mp32wav <- function(samp.rate = 44.1, parallel = FALSE) {
+mp32wav <- function(samp.rate = 44.1, parallel = 1) {
   
   if(samp.rate > 44.1) samp.rate <- 44.1
   
-  #if parallel was called
-  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
-                          FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) 
+  #if parallel is not numeric
+  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  if(parallel > 1)
+  { options(warn = -1)
+    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
+      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
+        if(Sys.info()[1] == "Windows"){ 
+          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
+          
+          options(warn = 0)
+          
   files <- list.files(path=getwd(), pattern = "mp3$", ignore.case = TRUE) #list .mp3 files in working directory
   if(length(files) == 0) stop("no 'wav' files in working directory")
   message("Start writing wav files:")

@@ -6,7 +6,7 @@
 #'   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
 #'   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
 #'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
-#'   parallel = FALSE)
+#'   parallel = 1)
 #' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
@@ -71,8 +71,9 @@
 #' smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals, 
 #' determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the 
 #' increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.
-#' @param parallel Either logical or numeric. Controls wehther parallel computing is applied.
-#'  If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.  
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+#'   For windows users the \code{parallelsugar} package should be installed.   
 #' @return Image files with spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 
 #'   sound file and selection number.
@@ -116,7 +117,7 @@
 autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 
                     bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 
                     ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
-                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = FALSE){
+                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1){
 
   #if bp is not vector or length!=2 stop
   if(!is.null(bp))
@@ -172,6 +173,9 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   if(is.null(threshold))  stop("'threshold' must be a numeric vector of length 1") else {
     if(!is.vector(threshold)) stop("'threshold' must be a numeric vector of length 1") else{
       if(!length(threshold) == 1) stop("'threshold' must be a numeric vector of length 1")}}  
+  #if parallel is not numeric
+  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
@@ -195,15 +199,16 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   #if parallel was called
       #if on windows you need parallelsugar package
-  if(all(Sys.info()[1] == "Windows",require("parallelsugar") == T, parallel != F))      
-    parafun <- parallelsugar::mclapply else if(Sys.info()[1] == "Windows"){
-      message("Windows users need to install the parallelsugar package for parallel computing (you are not doing it now!)")} else parafun <- parallel::mclapply
+   if(parallel > 1)
+  { options(warn = -1)
+    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
+      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
+       if(Sys.info()[1] == "Windows"){ 
+      message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+      lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
       
-  if(parallel != F) { if(is.logical(parallel)) lapp <- function(X, FUN) parafun(X,
-  FUN, mc.cores = 2) else 
-    lapp <- function(X, FUN) parafun(X, FUN, mc.cores = parallel)} else 
-      lapp <- pbapply::pblapply
-                                                                                    
+      options(warn = 0)
+      
   if(!is.null(X)){
     
     #check if all columns are found
@@ -244,7 +249,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
       if(nrow(X) == 0) stop("All selections have been analyzed (redo = F)") 
     }    
     
-    if(!parallel) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
+    if(parallel == 1) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
       message("Detecting signals in sound files:")}
     
     ad<-lapp(1:nrow(X),function(i)
@@ -385,7 +390,7 @@ if(length(files) == 0) stop("All files have been analyzed (redo = F)")
     }
     }  
     
-    if(!parallel)  message("Detecting signals in sound files:")
+    if(parallel == 1)  message("Detecting signals in sound files:")
     
     ad<-lapp(1:length(files),function(i)
     {
@@ -472,7 +477,7 @@ results<-rbind(results,data.frame(sound.files =  files[v], selec = 1,start=ad[[v
   
   #long spectrograms
 if(any(ls,is.null(X)) & img) {
-  if(!parallel) message("Producing long spectrogram:")
+  if(parallel == 1) message("Producing long spectrogram:")
   
   collev = seq(-40, 0, 1)  
   manualoc = data.frame(results,sel.comment=NA)

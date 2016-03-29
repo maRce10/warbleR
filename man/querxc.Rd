@@ -4,7 +4,7 @@
 \alias{querxc}
 \title{Access Xeno-Canto recordings and metadata}
 \usage{
-querxc(qword, download = FALSE, X = NULL, parallel = FALSE)
+querxc(qword, download = FALSE, X = NULL, parallel = 1)
 }
 \arguments{
 \item{qword}{Character vector of length one indicating the genus, or genus and
@@ -20,9 +20,9 @@ columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in
 will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 the recordings to be downloaded based on their attributes.}
 
-\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-Not available for windows OS. Only used for downloading files.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+For windows OS the \code{parallelsugar} package should be installed.}
 }
 \value{
 If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided.

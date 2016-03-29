@@ -9,7 +9,7 @@ cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 }
 \usage{
 xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning',
-cor.method = "pearson", parallel = FALSE)
+cor.method = "pearson", parallel = 1)
 }
 \arguments{
 \item{X}{Data frame containing columns for sound files (sound.files),
@@ -38,9 +38,9 @@ Only applied when frange is \code{NULL}. Default is \code{NULL}.}
 
 \item{cor.method}{A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.}
 
-\item{parallel}{Either logical or numeric. Controls whether parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-Not available for windows OS.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+For windows OS the \code{parallelsugar} package should be installed.}
 }
 \value{
 A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with

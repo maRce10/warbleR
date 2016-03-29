@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 }
 \usage{
-sig2noise(X, mar, parallel = FALSE)
+sig2noise(X, mar, parallel = 1)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -17,9 +17,9 @@ for sound file name (sound.files), selection number (selec), and start and end t
 \item{mar}{numeric vector of length 1. Specifies the margins adjacent to
 the start and end points of selection over which to measure noise.}
 
-\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-Not available for windows OS.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+For windows OS the \code{parallelsugar} package should be installed.}
 }
 \value{
 Data frame similar to \code{\link{autodetec}} output, but also includes a new variable

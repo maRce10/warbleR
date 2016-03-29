@@ -9,7 +9,7 @@ dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE,
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1,
   threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05,
-  lpos = "topright", it = "jpeg", img = TRUE, parallel = FALSE)
+  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files),
@@ -95,9 +95,9 @@ Default is "topright".}
 
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
-\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-Not available for windows OS.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+ For windows users the \code{parallelsugar} package should be installed.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is
@@ -136,7 +136,8 @@ Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
  \code{\link{snrspecs}} for creating spectrograms to
   optimize noise margins used in \code{\link{sig2noise}}
 
-Other spectrogram.creators: \code{\link{snrspecs}};
-  \code{\link{specreator}}; \code{\link{trackfreqs}}
+Other spectrogram.creators: \code{\link{ffts}};
+  \code{\link{snrspecs}}; \code{\link{specreator}};
+  \code{\link{trackfreqs}}
 }
 

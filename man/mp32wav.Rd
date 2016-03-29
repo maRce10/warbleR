@@ -4,14 +4,14 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav(samp.rate = 44.1, parallel = FALSE)
+mp32wav(samp.rate = 44.1, parallel = 1)
 }
 \arguments{
 \item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.}
 
-\item{parallel}{Either logical or numeric. Controls whether parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.
-Not available for windows OS.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+ For windows OS the \code{parallelsugar} package should be installed.}
 }
 \value{
 .wav files saved in the working directory with same name as original mp3 files.

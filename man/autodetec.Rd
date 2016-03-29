@@ -8,7 +8,7 @@ autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL
   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur =
   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
-  parallel = FALSE)
+  parallel = 1)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function or any data frame with columns
@@ -99,8 +99,9 @@ smoothing through ssmooth generates a predictable deviation from the actual star
 determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the
 increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.}
 
-\item{parallel}{Either logical or numeric. Controls wehther parallel computing is applied.
-If \code{TRUE} 2 cores are employed. If numeric, it specifies the number of cores to be used.}
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+ For windows users the \code{parallelsugar} package should be installed.}
 }
 \value{
 Image files with spectrograms showing the start and end of the detected signals. It
@@ -123,8 +124,7 @@ This function determines the start and end of signals in the segments of the sou
 \examples{
 \dontrun{
 # First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1,"Phae.long1.wav")
@@ -143,9 +143,6 @@ wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
 
 #check this folder!!
 getwd()
-
-#remove example directory
-unlink(getwd(),recursive = TRUE)
 }
 }
 \author{
