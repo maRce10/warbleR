@@ -195,19 +195,16 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   #if parallel was called
       #if on windows you need parallelsugar package
-  if(Sys.info()[1] == "Windows") {    
-    if (require("parallelsugar")) {
-      parafun <- parallelsugar::mclapply
-    } else {
-      message("Windows users need to install the parallelsugar package for parallel computing (you are not doing it now!)")
-      parafun <- parallel::mclapply
-      }
-  }  
-
-    if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parafun(X, 
-  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parafun(X, FUN, mc.cores = parallel)                                                                                                                                                               
+  if(all(Sys.info()[1] == "Windows",require("parallelsugar") == T, parallel != F))      
+    parafun <- parallelsugar::mclapply else if(Sys.info()[1] == "Windows"){
+      message("Windows users need to install the parallelsugar package for parallel computing (you are not doing it now!)")} else parafun <- parallel::mclapply
+      
+  if(parallel != F) { if(is.logical(parallel)) lapp <- function(X, FUN) parafun(X,
+  FUN, mc.cores = 2) else 
+    lapp <- function(X, FUN) parafun(X, FUN, mc.cores = parallel)} else 
+      lapp <- pbapply::pblapply
+                                                                                    
   if(!is.null(X)){
-    
     
     #check if all columns are found
     if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
