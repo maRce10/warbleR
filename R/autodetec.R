@@ -89,8 +89,7 @@
 #' @examples
 #' \dontrun{
 #' # First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
+#' setwd(tempdir())
 #' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
@@ -109,9 +108,6 @@
 #' 
 #' #check this folder!!
 #' getwd()
-#' 
-#' #remove example directory
-#' unlink(getwd(),recursive = TRUE)
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}). Implements a
@@ -198,8 +194,18 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     stop(paste("smooth adjustment", smadj, "not allowed"))  
   
   #if parallel was called
-  if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parallel::mclapply(X, 
-  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)                                                                                                                                                               
+      #if on windows you need parallelsugar package
+  if(Sys.info()[1] == "Windows") {    
+    if (require("parallelsugar")) {
+      parafun <- parallelsugar::mclapply
+    } else {
+      message("Windows users need to install the parallelsugar package for parallel computing (you are not doing it now!)")
+      parafun <- parallel::mclapply
+      }
+  }  
+
+    if(is.logical(parallel)) { if(parallel) lapp <- function(X, FUN) parafun(X, 
+  FUN, mc.cores = 2) else lapp <- pbapply::pblapply} else   lapp <- function(X, FUN) parafun(X, FUN, mc.cores = parallel)                                                                                                                                                               
   if(!is.null(X)){
     
     

@@ -86,9 +86,8 @@
 #'   when osci or sc = TRUE, this may take some optimization by the user.
 #' @examples
 #' \dontrun{
-#' #First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
+#' #Set temporal folder as working directory
+#' setwd(tempdir())
 #' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2"))
@@ -109,8 +108,6 @@
 #' bp = c(3, 14), cex = c(1.5, 2), col = c("blue", "red"),  mar = 0.09, 
 #' lpos = "bottomright", it = "tiff")
 #' 
-#' # remove example directory
-#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
 
@@ -246,17 +243,27 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       
     }
     
-    # Plot fundamental frequencies at each time point
+    # Calculate fundamental frequencies at each time point
     ffreq <- seewave::fund(r, from=mar1, to = mar2,  
               fmax= b[2]*1000, f = f, ovlp = 70, threshold = threshold, plot = FALSE) 
     ffreq <- ffreq[ffreq[,2] > b[1],]
     
+    # Plot extreme values fundamental frequency
+    points(c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),1])+mar1, c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),2]), col = "yellow", cex = cex[1]+1, pch = pch[1]) 
+    
+    # Plot all fundamental frequency values
     points(c(ffreq[,1])+mar1, c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1]) 
-
-    # Plot dominant frequency at each time point     
+    
+    
+    
+    # Calculate dominant frequency at each time point     
     dfreq <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
                    threshold = threshold, tlim = c(mar1, mar2))
 
+    # Plot extreme values dominant frequency
+    points(c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),1])+mar1, c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),2]), col = "yellow", cex = cex[1]+1, pch = pch[2]) 
+    
+    # Plot all dominant frequency values
     points(dfreq[,1] + mar1, dfreq[,2], col = col[2], cex = cex[1], pch = pch[2]) 
     
     abline(v = c(mar1, mar2), col= "red", lty = "dashed")
