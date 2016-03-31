@@ -152,7 +152,7 @@ compare.methods <- function(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ov
   if("dfDTW" %in% methods)
     {dtwmat <- dfts(X, wl = 512, flim = frange, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out)
     
-  dm <- dist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)],method="DTW")  
+  dm <- dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)])  
   
   MDSdtw <- stats::cmdscale(dm)  
   MDSdtw <- scale(MDSdtw)
@@ -162,7 +162,7 @@ compare.methods <- function(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ov
   if("ffDTW" %in% methods)
   {dtwmat <- ffts(X, wl = 512, flim = frange, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out)
   
-  dm <- dist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)],method="DTW")  
+  dm <- dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)],method="DTW")  
   
   MDSdtw <- stats::cmdscale(dm)  
   MDSdtw <- scale(MDSdtw)

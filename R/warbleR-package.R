@@ -89,9 +89,8 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
-#' @importMethodsFrom dtw "DTW"
-#' @importFrom proxy dist
-#' @importFrom stats cor
+#' @import dtw
+#' @importFrom stats cor dist
 #' 
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
 #'   
