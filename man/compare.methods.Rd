@@ -5,7 +5,7 @@
 \title{Produces graphs to visually assess performance of acoustic distance measurements}
 \usage{
 compare.methods(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ovlp = 90,
-res = 150, picsize = 1, n = 10, length.out = 30, methods = c("XCORR",
+res = 150, n = 10, length.out = 30, methods = c("XCORR",
 "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1)
 }
 \arguments{
@@ -27,9 +27,6 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90.}
 
 \item{res}{Numeric argument of length 1. Controls image resolution.
 Default is 150.}
-
-\item{picsize}{Numeric argument of length 1. Controls relative size of
-spectrogram. Default is 1.}
 
 \item{n}{Numeric argument of length 1. Defines the number of plots to be produce.
 Default is 10.}
@@ -93,7 +90,7 @@ writeWave(Phae.long3,"Phae.long3.wav")s
 writeWave(Phae.long4,"Phae.long4.wav")
 
 compare.methods(manualoc.df, frange = c(0, 10), mar = 0.1, wl = 512,
-ovlp = 90, res = 200, picsize = 1.5, n = 10, length.out = 30,
+ovlp = 90, res = 200, n = 10, length.out = 30,
 methods = c("XCORR", "dfDTW"),parallel = 1, it = "tiff")
 
 #check this folder!!

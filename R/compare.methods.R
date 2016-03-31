@@ -4,7 +4,7 @@
 #' allow to visually assess the performance of 2 acoustic distance methods at 
 #' comparing those selections 
 #' @usage compare.methods(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
-#' res = 150, picsize = 1, n = 10, length.out = 30, methods = c("XCORR", 
+#' res = 150, n = 10, length.out = 30, methods = c("XCORR", 
 #' "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1)
 #' @param X Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 #' function, or any data frame with columns for sound file name (sound.files), 
@@ -17,8 +17,6 @@
 #'   is 512.
 #' @param ovlp Numeric vector of length 1 specifying the percent overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90.
-#' @param picsize Numeric argument of length 1. Controls relative size of 
-#'   spectrogram. Default is 1.
 #' @param res Numeric argument of length 1. Controls image resolution.
 #'   Default is 150.
 #' @param n Numeric argument of length 1. Defines the number of plots to be produce. 
@@ -72,7 +70,7 @@
 #' writeWave(Phae.long4,"Phae.long4.wav") 
 #'
 #' compare.methods(manualoc.df, frange = c(0, 10), mar = 0.1, wl = 512, 
-#' ovlp = 90, res = 200, picsize = 1.5, n = 10, length.out = 30, 
+#' ovlp = 90, res = 200, n = 10, length.out = 30, 
 #' methods = c("XCORR", "dfDTW"),parallel = 1, it = "tiff")
 #' 
 #' #check this folder!!
@@ -84,7 +82,7 @@
 #' seewave package to create spectrograms.
 
 compare.methods <- function(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
-    res = 150, picsize = 1, n = 10, length.out = 30, methods = c("XCORR",
+    res = 150, n = 10, length.out = 30, methods = c("XCORR",
 "dfDTW", "ffDTW", "SP"), 
     it = "jpeg", parallel = 1){  
   
@@ -128,9 +126,6 @@ compare.methods <- function(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ov
   # If length.out is not numeric
   if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
   if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
-  
-  # If picsize is not numeric
-  if(!is.numeric(picsize)) stop("'picsize' must be a numeric vector of length 1") 
 
     #return warning if not all sound files were found
   fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
@@ -235,8 +230,8 @@ compare.methods <- function(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ov
   # screen 5,6 for scatterplots
   # screen 7:9 for similarities/lines
   
-  if(it == "tiff") tiff(filename = paste("comp.spec-", names(disim.mats)[1],"-",names(disim.mats)[2], paste(X$labels, collapse = "-"), ".tiff", sep = ""), width = (10.16) * picsize * 1.6, height = (10.16) * picsize * 1.6, units = "cm", res = res) else 
-    jpeg(filename = paste("comp.spec-", names(disim.mats)[1],"-",names(disim.mats)[2], paste(X$labels, collapse = "-"), ".jpeg", sep = ""), width = (10.16) * picsize * 1.6, height = (10.16) * picsize * 1.6, units = "cm", res = res)
+  if(it == "tiff") tiff(filename = paste("comp.spec-", names(disim.mats)[1],"-",names(disim.mats)[2], paste(X$labels, collapse = "-"), ".tiff", sep = ""), width = 16.25, height =  16.25, units = "cm", res = res) else 
+    jpeg(filename = paste("comp.spec-", names(disim.mats)[1],"-",names(disim.mats)[2], paste(X$labels, collapse = "-"), ".jpeg", sep = ""), width =  16.25, height =  16.25, units = "cm", res = res)
   
   split.screen(m)
   
@@ -343,4 +338,108 @@ compare.methods <- function(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ov
   on.exit(invisible(close.screen(all.screens = TRUE)))
   })
 return()
+}
+
+
+#internal warbleR function called by compare.methods. Modified from the spectro function from seewave
+spectro2 <-function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, 
+                    complex = FALSE, norm = TRUE, fftw = FALSE, dB = "max0", 
+                    dBref = NULL, plot = TRUE, grid = TRUE, 
+                    cont = FALSE, collevels = NULL, palette = spectro.colors, 
+                    contlevels = NULL, colcont = "black", colbg = "white", colgrid = "black", 
+                    colaxis = "black", collab = "black", cexlab = 1, cexaxis = 1, 
+                    tlab = "Time (s)", flab = "Frequency (kHz)", alab = "Amplitude", 
+                    scalelab = "Amplitude\n(dB)", main = NULL, scalefontlab = 1, 
+                    scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
+                    trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
+                    heights = c(3, 1), oma = rep(0, 4), listen = FALSE, ...) 
+{
+  if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
+    stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
+  if (complex & norm) {
+    norm <- FALSE
+    warning("\n'norm' was turned to 'FALSE'")
   }
+  if (complex & !is.null(dB)) {
+    dB <- NULL
+    warning("\n'dB' was turned to 'NULL'")
+  }
+  input <- inputw(wave = wave, f = f)
+  
+  wave <- input$w
+  
+  f <- input$f
+  rm(input)
+  if (!is.null(tlim)) 
+    wave <- cutw(wave, f = f, from = tlim[1], to = tlim[2])
+  if (!is.null(flimd)) {
+    mag <- round((f/2000)/(flimd[2] - flimd[1]))
+    wl <- wl * mag
+    if (ovlp == 0) 
+      ovlp <- 100
+    ovlp <- 100 - round(ovlp/mag)
+    flim <- flimd
+  }
+  n <- nrow(wave)
+  step <- seq(1, n - wl, wl - (ovlp * wl/100))
+  z <- stft(wave = wave, f = f, wl = wl, zp = zp, step = step, 
+            wn = wn, fftw = fftw, scale = norm, complex = complex)
+  if (!is.null(tlim) && trel) {
+    X <- seq(tlim[1], tlim[2], length.out = length(step))
+  }  else {
+    X <- seq(0, n/f, length.out = length(step))
+  }
+  if (is.null(flim)) {
+    Y <- seq(0, (f/2) - (f/wl), length.out = nrow(z))/1000
+  } else {
+    fl1 <- flim[1] * nrow(z) * 2000/f
+    fl2 <- flim[2] * nrow(z) * 2000/f
+    z <- z[(fl1:fl2) + 1, ]
+    Y <- seq(flim[1], flim[2], length.out = nrow(z))
+  }
+  if (!is.null(dB)) {
+    if (is.null(dBref)) {
+      z <- 20 * log10(z)
+    } else {
+      z <- 20 * log10(z/dBref)
+    }
+    if (dB != "max0") {
+      if (dB == "A") 
+        z <- dBweight(Y * 1000, dBref = z)$A
+      if (dB == "B") 
+        z <- dBweight(Y * 1000, dBref = z)$B
+      if (dB == "C") 
+        z <- dBweight(Y * 1000, dBref = z)$C
+      if (dB == "D") 
+        z <- dBweight(Y * 1000, dBref = z)$D
+    }
+  }
+  Z <- t(z)
+  
+  maxz <- round(max(z, na.rm = TRUE))
+  if (!is.null(dB)) {
+    if (is.null(collevels)) 
+      collevels <- seq(maxz - 30, maxz, by = 1)
+    if (is.null(contlevels)) 
+      contlevels <- seq(maxz - 30, maxz, by = 10)
+  } else {
+    if (is.null(collevels)) 
+      collevels <- seq(0, maxz, length = 30)
+    if (is.null(contlevels)) 
+      contlevels <- seq(0, maxz, length = 3)
+  }
+  Zlim <- range(Z, finite = TRUE, na.rm = TRUE)
+  
+  # par(las = 1, col = colaxis, col.axis = colaxis, 
+  # col.lab = collab, bg = colbg, cex.axis = cexaxis, 
+  # cex.lab = cexlab)
+  filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
+                        nlevels = 20, plot.title = title(main = main, 
+                                                         xlab = tlab, ylab = flab), color.palette = palette, 
+                        axisX = axisX, axisY = axisY, col.lab = collab, 
+                        colaxis = colaxis)
+  if (grid) 
+    grid(nx = NA, ny = NULL, col = colgrid)
+  
+}
+
