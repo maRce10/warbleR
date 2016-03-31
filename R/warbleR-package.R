@@ -89,7 +89,7 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
-#' @import dtw
+#' @importMethodsFrom dtw DTW
 #' @importFrom proxy dist
 #' @importFrom stats cor
 #' 
