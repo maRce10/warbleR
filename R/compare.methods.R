@@ -220,6 +220,8 @@ compare.methods <- function(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ov
      
   options(warn = -1)
   
+  if(parallel > 1)  message("Saving graphs in image files")
+  
   lapp(1:ncol(combs), function(u)
     {
     rs <- combs[,u]
