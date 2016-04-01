@@ -4,7 +4,7 @@
 \alias{compare.methods}
 \title{Produces graphs to visually assess performance of acoustic distance measurements}
 \usage{
-compare.methods(X = NULL, frange = c(0, 22), mar = 0.1, wl = 512, ovlp = 90,
+compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90,
 res = 150, n = 10, length.out = 30, methods = c("XCORR",
 "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1)
 }
@@ -14,8 +14,11 @@ function, or any data frame with columns for sound file name (sound.files),
 selection number (selec), and start and end time of signal (start and end).
 Default \code{NULL}.}
 
-\item{frange}{A numeric vector of length 2 for the frequency limit in kHz of
+\item{flim}{A numeric vector of length 2 for the frequency limit in kHz of
 the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
+
+\item{bp}{numeric vector of length 2 giving the lower and upper limits of the
+frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22).}
 
 \item{mar}{Numeric vector of length 1. Specifies plot margins around selection in seconds.}
 
@@ -58,7 +61,7 @@ allow to visually assess the performance of 2 acoustic distance methods at
 comparing those selections
 }
 \details{
-This function produces graphs with spectrograms from 4 selections that allow visual inspection of the performance of acoustic distance methods at comparing those selections. The function compares 2 methods at the time. The methods available are: cross
+This function produces graphs with spectrograms from 4 selections that allow visual inspection of the performance of acoustic distance methods at comparing those selections. The spectrograms are all show in the same frequency and time scales. The function compares 2 methods at the time. The methods available are: cross
 -correlation (XCORR, from \code{xcorr}), dynamic time warping on dominant frequency time
 series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{dfts} output), dynamic time
 warping on dominant frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on
@@ -89,7 +92,7 @@ writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")s
 writeWave(Phae.long4,"Phae.long4.wav")
 
-compare.methods(manualoc.df, frange = c(0, 10), mar = 0.1, wl = 512,
+compare.methods(manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 512,
 ovlp = 90, res = 200, n = 10, length.out = 30,
 methods = c("XCORR", "dfDTW"),parallel = 1, it = "tiff")
 
