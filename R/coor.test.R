@@ -43,6 +43,13 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, para
   #stop if some events have less than 10 observations
   if(any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
   
+  #stop if some events do not have 2 individuals 
+      qw <- as.data.frame((tapply(X$sing.event, list(X$sing.event, X$indiv), length)))
+
+qw[qw > 0] <- 1
+
+if(any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interating individuals ('indiv' colum)")
+
   #if iterations is not vector or length==1 stop
   if(any(!is.vector(iterations),!is.numeric(iterations))) stop("'interations' must be a numeric vector of length 1") else{
     if(!length(iterations) == 1) stop("'interations' must be a numeric vector of length 1")}
