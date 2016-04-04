@@ -1,6 +1,6 @@
 #' Extract the fundamental frequency values as a time series
 #' 
-#' \code{ffts} extract the fundamental frequency values as a time series.
+#' \code{ffts} extracts the fundamental frequency values as a time series
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage ffts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 

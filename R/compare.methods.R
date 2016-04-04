@@ -1,8 +1,7 @@
 #' Produces graphs to visually assess performance of acoustic distance measurements 
 #' 
-#' \code{compare.methods} Produces graphs with spectrograms from 4 selections that 
-#' allow to visually assess the performance of 2 acoustic distance methods at 
-#' comparing those selections 
+#' \code{compare.methods} Visually assess the performance of 2 acoustic distance 
+#' methods using a subset of selections
 #' @usage compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 #' res = 150, n = 10, length.out = 30, methods = c("XCORR", 
 #' "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1)
@@ -14,7 +13,7 @@
 #'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
 #' @param bp numeric vector of length 2 giving the lower and upper limits of the 
 #' frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22).
-#' @param mar Numeric vector of length 1. Specifies plot margins around selection in seconds. 
+#' @param mar Numeric vector of length 1. Specifies plot margins around selection in seconds. Default is 0.1.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param ovlp Numeric vector of length 1 specifying the percent overlap between two 
@@ -40,7 +39,7 @@
 #' of the acoustic space of all signals in the input data frame 'X'.  
 #' @export
 #' @name compare.methods
-#' @details This function produces graphs with spectrograms from 4 selections that allow visual inspection of the performance of acoustic distance methods at comparing those selections. The spectrograms are all show in the same frequency and time scales. The function compares 2 methods at the time. The methods available are: cross
+#' @details This function produces graphs with spectrograms from 4 selections that allow visual inspection of the performance of acoustic distance methods at comparing those selections. The spectrograms are all plotted with the same frequency and time scales. The function compares 2 methods at a time. The methods available are: cross
 #' -correlation (XCORR, from \code{xcorr}), dynamic time warping on dominant frequency time 
 #' series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{dfts} output), dynamic time 
 #' warping on dominant frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on 
@@ -68,7 +67,7 @@
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")s
+#' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav") 
 #'
 #' compare.methods(manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 512, 
