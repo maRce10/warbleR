@@ -91,7 +91,7 @@
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # run function 
-#' ffts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
+#' ffts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(0, 20))
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
