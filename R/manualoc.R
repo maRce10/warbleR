@@ -87,7 +87,8 @@
 #'   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
 #'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
 #'   cm.colors. The function is slow when working on files of length > 5min.
-#'   
+#'  @seealso  \code{\link{seltailor}}
+#'    
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 

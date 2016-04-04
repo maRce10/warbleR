@@ -4,7 +4,7 @@
 \alias{seltailor}
 \title{Interactive view of spectrograms to tailor start and end of selections}
 \usage{
-seltailor(X = NULL, wl = 512, flim = c(0,12), wn = "hanning", mar = 0.5,
+seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70)
 }
 \arguments{
@@ -17,7 +17,7 @@ be used as the input data frame. Required.}
 
 \item{flim}{A numeric vector of length 2 specifying the frequency limit (in kHz) of
 the spectrogram, as in the function \code{\link[seewave]{spectro}}.
-Default is c(0,12).}
+Default is c(0,22).}
 
 \item{wn}{A character vector of length 1 specifying the window function (by default "hanning"). See function
 \code{\link[seewave]{ftwindow}} for more options.}
@@ -40,28 +40,26 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
   selections.
 }
 \description{
-\code{seltailor} produces an interactive spectrographic view in which the start and end times of acoustic signals listed in a data frame can be adjusted.
+\code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in which the start and end times of acoustic signals listed in a data frame can be adjusted.
 }
 \details{
-Users can zoom-in a specific sound file segment by clicking at the
-  start and end (left side and right side) of the segment. To select the
-  start and end of a vocalization unit the users need to click at the end and
-  then at the start (right side and left side) of the unit. In addition, 3
+This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in which users can select a new
+  start and end of a vocalization unit (e.g. elements) by clicking at the end and
+  then at the start (right side and left side) of the signal. In addition, 3
   "buttons" are provided at the upper right side of the spectrogram that
-  allow to stop the analysis ("Stop"), go to the next sound file ("Next rec"), play the current view using external software, or delete the last manual selection in the
+  allow to stop the analysis ("Stop"), go to the next sound file ("Next rec") or delete the last manual selection in the
   current sound file ("Del-sel"). When a unit has been selected, the function
   plots red dottedd lines in the start and end of the
   selection in the spectrogram.The  lines "disappear" when the
   selection is deleted ("Del-sel" button). Only the last selection is kept for each selection that is adjusted.
-
-  The function produces a .csv file (seltailor_output.csv) with information about the .wav file name,
-  selection number, start and end time. The file is saved in the working directory and
+   The function produces a .csv file (seltailor_output.csv) with information about the .wav file name,
+  selection number (which corresponds to the one in the input data frame), start and end time. The file is saved in the working directory and
   is updated every time the user moves into the next sound file (Next rec
   "button") or stop the process (Stop "button"). When resuming the process
   (after "stop" and re-running the function in the same working directory),
   the function will keep the previous selections and will only pick up .wav
   files that are not present in the .csv file (not previously analyzed). When users
-  go to the next sound file (Next rec "button") without making any
+  go to the next selection (Next rec "button") without making any
   selection the file is still included in the .csv file, with NA's in the
   "end", "time" and "selec" field.
 
@@ -70,30 +68,50 @@ Users can zoom-in a specific sound file segment by clicking at the
   color palette that comes with the seewave package can be used: temp.colors,
   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
-  cm.colors.
+  cm.colors. Note that, unlike \code{\link{manualoc}}, you cannot zoom in the spectrogram \code{\link{seltailor}}. The zoom can be adjusted by setting the \code{mar} argument.
 }
 \examples{
 \dontrun{
 #First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+setwd(tempdir())
 
-# save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
-seltailor(X = manualoc.df)
-# need to use the buttoms to manipulate function
-# check working directory for .csv file after stopping function
+seltailor(X =  manualoc.df, flim = c(1,12), wl = 300, auto.next = FALSE)
 
-#remove example directory
-unlink(getwd(),recursive = TRUE)
+# need to use the buttoms to manipulate function
+
+# Read output .csv file
+seltailor.df <- read.csv("seltailor_output.csv")
+
+# in case you skipt some selections (using the 'next' button)
+seltailor.df <- seltailor.df[!is.na(seltailor.df$selec), ]
+
+#to include comments (or other columns) from the input data frame
+newdf <- merge(seltailor.df, manualoc.df[,c(1, 2, 5, 6)],
+by = c("sound.files", "selec"), all = FALSE)
+
+#if not all selection were adjusted you can put all selections back together
+newdf2 <- rbind(newdf, manualoc.df[!paste(manualoc.df$sound.files,
+manualoc.df$selec) \%in\% paste(newdf$sound.files, newdf$selec), ])
+
+#order by sound file and selection
+newdf2 <- newdf2[order(newdf2$sound.files, newdf2$selec), ]
+
+newdf2
+
+# check this directory for .csv file after stopping function
+getwd()
 }
 }
 \author{
 Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+}
+\seealso{
+\code{\link{manualoc}}
 }
 
