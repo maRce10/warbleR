@@ -5,11 +5,30 @@ Version: 1.0.5
 Date: 2015-09-08
 Author: Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong
 Maintainer: Marcelo Araya-Salas <marceloa27@gmail.com>
-Description: Offers three overarching categories of functions to obtain bird vocalization recordings from the web, manage sound files, and facilitate (bio)acoustic analysis in R. 
+Description: Offers three overarching categories of functions to obtain bird
+    vocalization recordings from the web, manage sound files, and facilitate
+    (bio)acoustic analysis in R.
 License: GPL (>= 2)
-Imports: rjson, pbapply, RCurl, fftw, utils, stats, grDevices, graphics, dtw
-Depends: R (>= 3.2.1), maps, seewave (>= 2.0.1), tuneR
+Imports:
+    rjson,
+    pbapply,
+    RCurl,
+    fftw,
+    utils,
+    stats,
+    grDevices,
+    graphics,
+    dtw
+Depends:
+    R (>= 3.2.1),
+    maps,
+    seewave (>= 2.0.1),
+    tuneR
 LazyData: TRUE
 NeedsCompilation: no
-Suggests: knitr, ggplot2, parallelsugar
+Suggests:
+    knitr,
+    ggplot2,
+    parallelsugar
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1
