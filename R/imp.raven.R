@@ -41,7 +41,7 @@
 #' View(rav.dat)
 #' }
 #' 
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
 imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE) 
   { if(is.null(path)) path = getwd()

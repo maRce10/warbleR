@@ -38,7 +38,7 @@
 #'#' # make coor.graphs in graphic device format
 #' coor.graph(X = coor.sing, ovlp = T, only.coor = F, img = FALSE)
 #' }
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
 coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg",
                         img = TRUE) { 

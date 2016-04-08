@@ -100,7 +100,7 @@ getwd()
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}). It uses
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}). It uses
 internally a modified version of the \code{\link[seewave]{spectro}} function from
 seewave package to create spectrograms.
 }

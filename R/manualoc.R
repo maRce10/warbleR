@@ -89,7 +89,7 @@
 #'   cm.colors. The function is slow when working on files of length > 5min.
 #'  @seealso  \code{\link{seltailor}}
 #'    
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
                      selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2)

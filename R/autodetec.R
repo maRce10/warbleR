@@ -111,7 +111,7 @@
 #' getwd()
 #' }
 #' 
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}). Implements a
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}). Implements a
 #' modified version of the timer function from seewave. 
 
 autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 

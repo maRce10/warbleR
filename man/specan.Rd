@@ -88,6 +88,6 @@ unlink(getwd(), recursive = TRUE)
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}), Grace Smith Vidaurre and Hua Zhong
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}), Grace Smith Vidaurre and Hua Zhong
 }
 

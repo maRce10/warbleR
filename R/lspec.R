@@ -64,7 +64,7 @@
 #' #remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
                   wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL) {

@@ -129,7 +129,7 @@ ffts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp =
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
 \code{\link{specreator}} for creating spectrograms from selections,

@@ -94,7 +94,7 @@
 #' ffts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(0, 20))
 #' 
 #' }
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
 
 ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 

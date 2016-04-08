@@ -40,7 +40,7 @@
 #'   xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
 #' }
 #' @seealso \code{\link{xcorr}}
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #' @export
 
 

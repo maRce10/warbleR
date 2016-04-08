@@ -39,7 +39,7 @@
 #' # remove example directory
 #' unlink(getwd(),recursive = TRUE)
 #' }
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
 
 querxc <- function(qword, download=FALSE, X = NULL, parallel = 1) {
 

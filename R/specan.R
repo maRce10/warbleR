@@ -72,7 +72,7 @@
 #' # remove example directory
 #' unlink(getwd(), recursive = TRUE)
 #' }
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}), Grace Smith Vidaurre and Hua Zhong
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}), Grace Smith Vidaurre and Hua Zhong
 
 specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1){
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 

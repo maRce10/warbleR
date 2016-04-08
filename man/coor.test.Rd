@@ -49,7 +49,7 @@ coor.test(coor.sing, iterations = 1000, less.than.chance = F)
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \references{
 Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song Overlap Null model Generator (SONG): a new tool for distinguishing between random and non-random song overlap. Bioacoustics. 1-12.

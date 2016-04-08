@@ -23,7 +23,7 @@
 #' checkwavs()
 #' 
 #' }
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
 
 checkwavs <- function() { 

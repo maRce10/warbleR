@@ -55,7 +55,7 @@ writeWave(Phae.long2, "Phae.long2.wav")
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
 \code{\link{xcorr}}

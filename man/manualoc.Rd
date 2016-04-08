@@ -110,7 +110,7 @@ unlink(getwd(),recursive = TRUE)
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Hua Zhong
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Hua Zhong
 }
 \seealso{
 \code{\link{seltailor}}

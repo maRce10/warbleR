@@ -132,7 +132,7 @@ ffDTW(manualoc.df, length.out = 30, flim = c(1, 12), img = F, bp = c(2, 9))
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
 \code{\link{specreator}} for creating spectrograms from selections,

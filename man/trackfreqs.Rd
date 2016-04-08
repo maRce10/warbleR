@@ -137,7 +137,7 @@ getwd()
 }
 }
 \author{
-Grace Smith Vidaurre and Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
 \code{\link{specreator}} for creating spectrograms from selections,

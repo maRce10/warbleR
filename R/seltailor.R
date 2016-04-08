@@ -90,7 +90,7 @@
 #'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
 #'   cm.colors. Note that, unlike \code{\link{manualoc}}, you cannot zoom in the spectrogram \code{\link{seltailor}}. The zoom can be adjusted by setting the \code{mar} argument.
 #'  @seealso  \code{\link{manualoc}}
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
 seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5, osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70)
 {

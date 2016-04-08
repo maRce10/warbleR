@@ -34,7 +34,7 @@
 #' # testing if coordination happens more than expected by chance
 #' coor.test(coor.sing, iterations = 1000, less.than.chance = F)
 #' }
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
 coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, parallel = 1)
 {

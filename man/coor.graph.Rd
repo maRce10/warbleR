@@ -57,6 +57,6 @@ coor.graph(X = coor.sing, ovlp = T, only.coor = F, img = FALSE)
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 

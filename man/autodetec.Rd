@@ -146,7 +146,7 @@ getwd()
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}). Implements a
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}). Implements a
 modified version of the timer function from seewave.
 }
 

@@ -25,7 +25,7 @@
 #' }
 #' @details convert all .mp3 files in working directory to .wav format. Function used internally to read .mp3 files (\code{\link[tuneR]{readMP3}}) sometimes crashes
 #' This should be fixed in the next version of tuneR. 
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 
 mp32wav <- function(samp.rate = 44.1, parallel = 1) {
   

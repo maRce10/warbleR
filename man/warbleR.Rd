@@ -100,6 +100,6 @@ License: GPL (>= 2)
 \author{
 Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong
 
-  Maintainer: Marcelo Araya-Salas (marceloa27@gmail.com)
+  Maintainer: Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 

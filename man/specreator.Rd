@@ -106,7 +106,7 @@ getwd()
 }
 }
 \author{
-Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
 }
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize

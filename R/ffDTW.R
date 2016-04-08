@@ -98,7 +98,7 @@
 #' ffDTW(manualoc.df, length.out = 30, flim = c(1, 12), img = F, bp = c(2, 9))
 #' 
 #' }
-#' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/})
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
 
 ffDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
