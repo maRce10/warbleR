@@ -5,8 +5,7 @@ citEntry(entry = "MISC",
         author = personList(as.person("M. Araya-Salas"),as.person("G. Smith-Vidaurre"), as.person("H. Zhong")),
         year = "2015",
 	url = "http://cran.r-project.org/package=warbleR",
- doi = "DOI:http://dx.doi.org/10.5281/zenodo.19933",
-        textVersion = "Araya-Salas, M., G. Smith-Vidaurre and  H. Zhong. 2015. warbleR: an R package to streamline bioacoustic analysis. url: http://cran.r-project.org/package=warbleR. DOI:http://dx.doi.org/10.5281/zenodo.19933
+        textVersion = "Araya-Salas, M., G. Smith-Vidaurre and  H. Zhong. 2015. warbleR: an R package to streamline bioacoustic analysis. url: http://cran.r-project.org/package=warbleR. 
 
 NOTE: please also cite the seewave package if you use any spectrogram-creating or acoustic-measuring function (try citation('seewave'))"
 )

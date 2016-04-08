@@ -64,10 +64,9 @@
 #' this may take some optimization by the user.
 #' @examples
 #' \dontrun{ 
-#' # First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
-#' 
+#' # First set empty folder
+#' setwd(tempdir())
+
 #' data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 #' writeWave(Phae.long2, "Phae.long2.wav")
@@ -79,10 +78,8 @@
 
 #' #check this folder!!
 #' getwd()
-#' 
-#' #remove example directory
-#' unlink(getwd(),recursive = TRUE)
 #' }
+#' 
 #' @author Marcelo Araya-Salas (\url{http://marceloarayasalas.weebly.com/}) and Grace Smith Vidaurre
 
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 

@@ -155,7 +155,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   options(warn = 0)
   
   #apply over each sound file
-  lapp(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
+  invisible(lapp(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
     
     #loop to print spectros  
     rec <- tuneR::readWave(z) #read wave file 
@@ -224,7 +224,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
       }
       dev.off() #reset graphic device
     }
-  })
+  }))
   
   }
 

@@ -54,7 +54,7 @@
 #' distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{princomp}}) 
 #' is applied to calculate distances when using spectral parameters (SP). In that case the first 2 PC's are used. Classical 
 #' Multidimensional Scalling (also knwon as Principal Coordinates Analysis, 
-#' (\code{\link[stats]{cmdscale}})) is used for all other methods.Note that SP can only be used with at least 22 selections (number of rows in input data frame) as PCA can only be used with more units than variables. The graphs are return as image files in the 
+#' (\code{\link[stats]{cmdscale}})) is used for all other methods. Note that SP can only be used with at least 22 selections (number of rows in input data frame) as PCA only works with more units than variables. The graphs are return as image files in the 
 #' working directory. The file name contains the methods being compared and the 
 #' rownumber of the selections. This function uses internally a modified version
 #' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms. 
@@ -85,8 +85,8 @@
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = c("XCORR",
 "dfDTW", "ffDTW", "SP"), 
+ 
     it = "jpeg", parallel = 1){  
-  
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -145,6 +145,11 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if(length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else X <- X[d,]
+  
+  # If SP is used need at least 22 selections
+  if("SP" %in% methods)
+  {if(nrow(X) < 22)  stop("SP can only be used with at least 22 selections (number of rows in input data frame) as PCA only works with more units than variables")}
+  
   
   disim.mats <- list()
   
@@ -227,6 +232,11 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
              c(0, 3.5/7, 9/10, 10/10), #10
              c(3.5/7, 1, 9/10, 10/10)) #11
      
+  # screen 1:4 for spectros
+  # screen 5,6 for scatterplots
+  # screen 7:9 for similarities/arrows
+  # screen 10:11 method labels
+  
   options(warn = -1)
   
   if(parallel == 1)  message("Saving graphs in image files")
@@ -237,10 +247,6 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
        X <- X[rs,]
   
 
-  # screen 1:4 for spectros
-  # screen 5,6 for scatterplots
-  # screen 7:9 for similarities/arrows
-  # screen 10:11 method labels
        
   if(it == "tiff") tiff(filename = paste("comp.spec-", names(disim.mats)[1],"-",names(disim.mats)[2], paste(X$labels, collapse = "-"), ".tiff", sep = ""), width = 16.25, height =  16.25, units = "cm", res = res) else 
     jpeg(filename = paste("comp.spec-", names(disim.mats)[1],"-",names(disim.mats)[2], paste(X$labels, collapse = "-"), ".jpeg", sep = ""), width =  16.25, height =  16.25, units = "cm", res = res)
@@ -281,8 +287,8 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       spectro2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = F, axisY = F, tlab = F, flab = F, palette = reverse.gray.colors.2)
       box(lwd = 2)
       if(x == 1 | x == 3) 
-        text((tlim[2] - tlim[1]), (flim[2] - flim[1])*0.86, labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 2) else 
-          text(0, (flim[2] - flim[1])*0.86, labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 4)  
+        text(tlim[2] - tlim[1], ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 2) else 
+          text(0, ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 4)  
 
       abline(v=c(mar1, mar2),lty = 4)
     }

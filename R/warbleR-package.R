@@ -69,7 +69,13 @@
 #'   
 #'   \code{\link{ffts}}: Extract the fundamental frequency values as a time series
 #'   
-#'   \code{\link{compare.methods}}: Produces graphs to visually assess performance of acoustic 
+#'   \code{\link{dfDTW}}: Calculates acoustic dissimilarity using dynamic time warping
+#'    on dominant frequency contours
+#'   
+#'   \code{\link{ffDTW}}: Calculates acoustic dissimilarity using dynamic time warping
+#'   on fundamental frequency contours
+
+#'      \code{\link{compare.methods}}: Produces graphs to visually assess performance of acoustic 
 #'   distance measurements 
 #'   
 #'   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
@@ -89,8 +95,8 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
-#' @import dtw
-#' @importFrom stats cor dist
+#' @importFrom dtw dtwDist
+#' @importFrom stats cor dist aggregate approx ave princomp time ts    
 #' 
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
 #'   

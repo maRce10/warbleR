@@ -13,7 +13,9 @@
 #' frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
 #' will also contain a sound.file column. In addition, all rows with duplicated data are removed. This is useful when 
 #' both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE}) then all 
-#' columns in selection files are returned.
+#' columns in selection files are returned. 
+#' @details The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that a selection files including data from mulitple recordings cannot be imported.
+#'   
 #' @export
 #' @name imp.raven
 #' @examples
