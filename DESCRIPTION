@@ -30,5 +30,6 @@ Suggests:
     knitr,
     ggplot2,
     parallelsugar
+Additional_repositories: https://github.com/    
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
