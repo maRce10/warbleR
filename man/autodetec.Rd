@@ -97,12 +97,11 @@ if X is provided.}
 values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude
 smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals,
 determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the
-increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if
-ssmooth is \code{NULL}.}
+increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
- For parallel computation in windows OS: install both warbleR and parallelsugar from github.}
+ For windows users the 'parallelsugar' package should be installed.}
 }
 \value{
 Image files with spectrograms showing the start and end of the detected signals. It

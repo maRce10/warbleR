@@ -5,7 +5,8 @@
 \title{Interactive view of spectrograms to tailor start and end of selections}
 \usage{
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
- osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70)
+ osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 2,
+  comments = TRUE)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav
@@ -19,8 +20,8 @@ be used as the input data frame. Required.}
 the spectrogram, as in the function \code{\link[seewave]{spectro}}.
 Default is c(0,22).}
 
-\item{wn}{A character vector of length 1 specifying the window function (by default "hanning"). See function
-\code{\link[seewave]{ftwindow}} for more options.}
+\item{wn}{A character vector of length 1 specifying the window function (by default "hanning").
+See function \code{\link[seewave]{ftwindow}} for more options.}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the
 start and end points of the selections to define spectrogram limits. Default is 0.5.}
@@ -34,41 +35,49 @@ plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. Se
 
 \item{ovlp}{Numeric vector of length 1 specifying the percent overlap between two
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
+
+\item{auto.next}{Logical argument to control whether the functions moves automatically to the
+next selection. The time interval before moving to the next selection is controled by the 'pause' argument.}
+
+\item{pause}{Numeric vector of length 1. Controls the duration of the waiting period before
+moving to the next selection.}
+
+\item{comments}{Logical argument specifying if 'sel.comment' (when in data frame) should be included
+in the title of the spectrograms. Default is \code{TRUE}.}
 }
 \value{
 .csv file saved in the working directory with start and end time of
   selections.
 }
 \description{
-\code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in which the start and end times of acoustic signals listed in a data frame can be adjusted.
+\code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) i
+n which the start and end times of acoustic signals listed in a data frame can be adjusted.
 }
 \details{
-This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in which users can select a new
-  start and end of a vocalization unit (e.g. elements) by clicking at the end and
-  then at the start (right side and left side) of the signal. In addition, 3
+This function produces an interactive spectrographic view (similar to \code{\link{manualoc}})
+in which users can select a new start and end of a vocalization unit (e.g. elements)
+ by clicking at the end and then at the start of the signal (in any order). In addition, 2
   "buttons" are provided at the upper right side of the spectrogram that
-  allow to stop the analysis ("Stop"), go to the next sound file ("Next rec") or delete the last manual selection in the
-  current sound file ("Del-sel"). When a unit has been selected, the function
-  plots red dottedd lines in the start and end of the
-  selection in the spectrogram.The  lines "disappear" when the
-  selection is deleted ("Del-sel" button). Only the last selection is kept for each selection that is adjusted.
-   The function produces a .csv file (seltailor_output.csv) with information about the .wav file name,
-  selection number (which corresponds to the one in the input data frame), start and end time. The file is saved in the working directory and
-  is updated every time the user moves into the next sound file (Next rec
-  "button") or stop the process (Stop "button"). When resuming the process
-  (after "stop" and re-running the function in the same working directory),
-  the function will keep the previous selections and will only pick up .wav
-  files that are not present in the .csv file (not previously analyzed). When users
-  go to the next selection (Next rec "button") without making any
-  selection the file is still included in the .csv file, with NA's in the
-  "end", "time" and "selec" field.
+  allow to stop the analysis ("Stop") or go to the next sound file ("next sel"). When a unit
+  has been selected, the function plots red dotted lines in the start and end of the
+  selection in the spectrogram. The  lines "disappear" when a new selections is made.
+  Only the last selection is kept for each selection that is adjusted.
+  The function produces a .csv file (seltailor_output.csv) with the same information than the input
+  data frame, except for the new time coordinates, plus a new column (X$tailored) indicating if the selection
+  has been tailored. The file is saved in the working directory  and is updated every time the user
+   moves into the next sound file (next sel "button") or stop the process
+ (Stop "button").  If no selection (by clicking on the 'next' buttom) the
+ original time coordinates are kept. When resuming the process (after "stop" and re-running
+ the function in the same working directory), the function will continue working on the
+ selections that have not been analyzed.
 
   Windows length (wl) controls the temporal and frequency precision of the spectrogram.
   A high "wl" value increases the frequency resolution but reduces the temporal resolution, and vice versa. Any
   color palette that comes with the seewave package can be used: temp.colors,
   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
-  cm.colors. Note that, unlike \code{\link{manualoc}}, you cannot zoom in the spectrogram \code{\link{seltailor}}. The zoom can be adjusted by setting the \code{mar} argument.
+  cm.colors. Note that, unlike \code{\link{manualoc}}, you cannot zoom in the spectrogram \code{\link{seltailor}}.
+  The zoom can be adjusted by setting the \code{mar} argument.
 }
 \examples{
 \dontrun{
@@ -87,22 +96,7 @@ seltailor(X =  manualoc.df, flim = c(1,12), wl = 300, auto.next = FALSE)
 
 # Read output .csv file
 seltailor.df <- read.csv("seltailor_output.csv")
-
-# in case you skipt some selections (using the 'next' button)
-seltailor.df <- seltailor.df[!is.na(seltailor.df$selec), ]
-
-#to include comments (or other columns) from the input data frame
-newdf <- merge(seltailor.df, manualoc.df[,c(1, 2, 5, 6)],
-by = c("sound.files", "selec"), all = FALSE)
-
-#if not all selection were adjusted you can put all selections back together
-newdf2 <- rbind(newdf, manualoc.df[!paste(manualoc.df$sound.files,
-manualoc.df$selec) \%in\% paste(newdf$sound.files, newdf$selec), ])
-
-#order by sound file and selection
-newdf2 <- newdf2[order(newdf2$sound.files, newdf2$selec), ]
-
-newdf2
+seltailor.df
 
 # check this directory for .csv file after stopping function
 getwd()

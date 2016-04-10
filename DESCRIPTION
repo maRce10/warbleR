@@ -2,7 +2,7 @@ Package: warbleR
 Type: Package
 Title: Streamline Bioacoustic Analysis
 Version: 1.1.1
-Date: 2016-04-07
+Date: 2016-04-10
 Author: Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong
 Maintainer: Marcelo Araya-Salas <araya-salas@cornell.edu>
 Description: Offers three overarching categories of functions to obtain bird

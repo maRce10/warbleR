@@ -1,8 +1,10 @@
 #' Interactive view of spectrograms to tailor start and end of selections 
 #' 
-#' \code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in which the start and end times of acoustic signals listed in a data frame can be adjusted.
+#' \code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) i
+#' n which the start and end times of acoustic signals listed in a data frame can be adjusted.
 #' @usage seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
-#'  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70)
+#'  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 2,
+#'   comments = TRUE)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{seltailor}} or \code{\link{autodetec}} can 
@@ -11,8 +13,8 @@
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
 #'   Default is c(0,22).
-#' @param wn A character vector of length 1 specifying the window function (by default "hanning"). See function 
-#' \code{\link[seewave]{ftwindow}} for more options.
+#' @param wn A character vector of length 1 specifying the window function (by default "hanning"). 
+#' See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the 
 #' start and end points of the selections to define spectrogram limits. Default is 0.5.
 #' @param osci Logical argument. If \code{TRUE} adds a oscillogram whenever the spectrograms are produced 
@@ -22,6 +24,12 @@
 #'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.
 #' @param ovlp Numeric vector of length 1 specifying the percent overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
+#' @param auto.next Logical argument to control whether the functions moves automatically to the 
+#' next selection. The time interval before moving to the next selection is controled by the 'pause' argument.
+#' @param pause Numeric vector of length 1. Controls the duration of the waiting period before 
+#' moving to the next selection.
+#' @param comments Logical argument specifying if 'sel.comment' (when in data frame) should be included 
+#' in the title of the spectrograms. Default is \code{TRUE}.
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
@@ -43,86 +51,61 @@
 #' 
 #' # Read output .csv file
 #' seltailor.df <- read.csv("seltailor_output.csv")
-#' 
-#' # in case you skipt some selections (using the 'next' button)
-#' seltailor.df <- seltailor.df[!is.na(seltailor.df$selec), ]
-#' 
-#' #to include comments (or other columns) from the input data frame
-#' newdf <- merge(seltailor.df, manualoc.df[,c(1, 2, 5, 6)], 
-#' by = c("sound.files", "selec"), all = FALSE)
-#' 
-#' #if not all selection were adjusted you can put all selections back together
-#' newdf2 <- rbind(newdf, manualoc.df[!paste(manualoc.df$sound.files, 
-#' manualoc.df$selec) %in% paste(newdf$sound.files, newdf$selec), ])
-#' 
-#' #order by sound file and selection
-#' newdf2 <- newdf2[order(newdf2$sound.files, newdf2$selec), ]
-#' 
-#' newdf2
+#' seltailor.df
 #' 
 #' # check this directory for .csv file after stopping function
 #' getwd()
 #' }
-#' @details This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in which users can select a new
-#'   start and end of a vocalization unit (e.g. elements) by clicking at the end and
-#'   then at the start (right side and left side) of the signal. In addition, 3 
+#' @details This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) 
+#' in which users can select a new start and end of a vocalization unit (e.g. elements)
+#'  by clicking at the end and then at the start of the signal (in any order). In addition, 2
 #'   "buttons" are provided at the upper right side of the spectrogram that
-#'   allow to stop the analysis ("Stop"), go to the next sound file ("Next rec") or delete the last manual selection in the
-#'   current sound file ("Del-sel"). When a unit has been selected, the function 
-#'   plots red dottedd lines in the start and end of the 
-#'   selection in the spectrogram.The  lines "disappear" when the 
-#'   selection is deleted ("Del-sel" button). Only the last selection is kept for each selection that is adjusted.
-#'    The function produces a .csv file (seltailor_output.csv) with information about the .wav file name,
-#'   selection number (which corresponds to the one in the input data frame), start and end time. The file is saved in the working directory and
-#'   is updated every time the user moves into the next sound file (Next rec
-#'   "button") or stop the process (Stop "button"). When resuming the process
-#'   (after "stop" and re-running the function in the same working directory),
-#'   the function will keep the previous selections and will only pick up .wav
-#'   files that are not present in the .csv file (not previously analyzed). When users 
-#'   go to the next selection (Next rec "button") without making any
-#'   selection the file is still included in the .csv file, with NA's in the
-#'   "end", "time" and "selec" field. 
+#'   allow to stop the analysis ("Stop") or go to the next sound file ("next sel"). When a unit 
+#'   has been selected, the function plots red dotted lines in the start and end of the 
+#'   selection in the spectrogram. The  lines "disappear" when a new selections is made.
+#'   Only the last selection is kept for each selection that is adjusted.
+#'   The function produces a .csv file (seltailor_output.csv) with the same information than the input 
+#'   data frame, except for the new time coordinates, plus a new column (X$tailored) indicating if the selection 
+#'   has been tailored. The file is saved in the working directory  and is updated every time the user
+#'    moves into the next sound file (next sel "button") or stop the process 
+#'  (Stop "button").  If no selection (by clicking on the 'next' buttom) the 
+#'  original time coordinates are kept. When resuming the process (after "stop" and re-running 
+#'  the function in the same working directory), the function will continue working on the
+#'  selections that have not been analyzed.
 #'   
 #'   Windows length (wl) controls the temporal and frequency precision of the spectrogram. 
 #'   A high "wl" value increases the frequency resolution but reduces the temporal resolution, and vice versa. Any
 #'   color palette that comes with the seewave package can be used: temp.colors,
 #'   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
 #'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
-#'   cm.colors. Note that, unlike \code{\link{manualoc}}, you cannot zoom in the spectrogram \code{\link{seltailor}}. The zoom can be adjusted by setting the \code{mar} argument.
+#'   cm.colors. Note that, unlike \code{\link{manualoc}}, you cannot zoom in the spectrogram \code{\link{seltailor}}. 
+#'   The zoom can be adjusted by setting the \code{mar} argument.
 #'  @seealso  \code{\link{manualoc}}
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
-seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5, osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70)
+seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
+            osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE,
+            pause = 2, comments = TRUE)
 {
   
-  # return warning if not all sound files were found
+  # stop if not all sound files were found
   fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+    stop(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
-  
-  #count number of sound files in working directory and if 0 stop
-  d <- which(X$sound.files %in% fs) 
-  if(length(d) == 0){
-    stop("The .wav files are not in the working directory")
-  }  else {
-  X <- X[d, ]
-  }
+
+  wavs = 0
   
   if(!file.exists(file.path(getwd(), "seltailor_output.csv")))
-  {results <- data.frame(matrix(nrow = 0, ncol = 4))
-   colnames(results) <- c("sound.files", "selec", "start", "end")
-   write.csv(results, "seltailor_output.csv", row.names = F)} else
-   {if(nrow(read.csv("seltailor_output.csv")) == 0)
-   {results <- data.frame(matrix(nrow = 0, ncol = 4))
-    colnames(results) <- c("sound.files", "selec", "start", "end")} else
-   {results <- read.csv("seltailor_output.csv")  
-    X <- X[!paste(X$sound.files, X$selec) %in% paste(results$sound.files, results$selec), ]
-    }} 
+  {X$tailored <- ""
+    write.csv(X, "seltailor_output.csv", row.names = F)  
+    } else {X <- read.csv("seltailor_output.csv")  
+  if(any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
+  if(all(any(!is.na(X$tailored)),X$tailored[nrow(X)] == "y")) { stop("all selections have been analyzed")}}
   
-  if(nrow(X) == 0) { stop("all .wav files in working directory have been analyzed")}
+  if(any(!is.na(X$tailored))) if(length(which(X$tailored == "y"))>0) wavs = max(which(X$tailored == "y"))
+    
   
-  wavs = 0
   
   #this first loop runs over files
   repeat{
@@ -130,7 +113,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     try(dev.off(), silent = T)
     recs <- vector() #store results
     rec <- tuneR::readWave(as.character(X$sound.files[wavs]), header = TRUE)
-    main <- paste(X$sound.files[wavs], X$selec[wavs], sep = "-")  
+    main <- paste(X$sound.files[wavs], X$selec[wavs], sep = "-") 
+    if(comments & !is.null(X$sel.comment)) main <- paste(X$sound.files[wavs],"-", X$selec[wavs],"   ",
+                                                         "(",X$sel.comment[wavs], ")", sep = "")
     f <- rec$sample.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
@@ -141,10 +126,11 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     prop <- 14.1 # for box size
     marg1 <- 15/prop # for box size
     marg2 <- marg1*prop/14.9 # for box size
-    an <- FALSE
+    selcount <- 0
     tlim <- c(X$start[wavs] - mar, X$end[wavs] + mar)
     if(tlim[1]<0) tlim[1]<-0
     if(tlim[2]>rec$samples/f) tlim[2]<-rec$samples/f
+
     
     #this second run on a single file and breaks when clicking on stop or next
     repeat{
@@ -153,8 +139,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       if(mean(par("mfrow")) != 1) par(mfrow = c(1, 1))
       
       #create spectrogram
-      seewave::spectro(tuneR::readWave(as.character(X$sound.files[wavs]),from =  tlim[1], to = tlim[2], units = "seconds"), f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seq(-40, 0, 0.5), heights = c(3, 2), osc = osci, palette =  pal, 
-              main = main, axisX = T, grid = F, collab = "black", alab = "", fftw = T, 
+      seewave::spectro(tuneR::readWave(as.character(X$sound.files[wavs]),from =  tlim[1], to = tlim[2], units = "seconds"), 
+                       f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seq(-40, 0, 0.5), heights = c(3, 2), 
+                       osc = osci, palette =  pal, main = main, axisX = T, grid = F, collab = "black", alab = "", fftw = T, 
               flim = fl, scale = FALSE, axisY = T, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
       
       #add the circle and lines of selections on spectrogram
@@ -163,14 +150,14 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       #Stop button
       polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg2, 
                 (tlim[2] - tlim[1])/marg2), c((fl[2] - fl[1])/marg1, (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
-                                                        (fl[2] - fl[1])/marg1) - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1], 
+                                              (fl[2] - fl[1])/marg1) - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1], 
               col=topo.colors(6, alpha = 0.55)[3], border = topo.colors(6, alpha = 1)[3])      
       
       text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2), 
            ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1] - (2*((fl[2] - fl[1])/
                                                                                    marg2 - (fl[2] - fl[1])/marg1)), "Stop", cex = 0.6, font = 2)
       
-      #next rec button
+      #next sel button
       polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg2,
                 (tlim[2] - tlim[1])/marg2), c((fl[2] - fl[1])/marg1, (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
                                                         (fl[2] - fl[1])/marg1) - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1], 
@@ -178,18 +165,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       
       text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2), 
            ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1] - (3*((fl[2] - fl[1])/
-                                                                                   marg2 - (fl[2] - fl[1])/marg1)), "Next rec", cex = 0.6, font = 2)
-      
-
-      #delete selection
-      polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg2, 
-                (tlim[2] - tlim[1])/marg2), c((fl[2] - fl[1])/marg1, (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
-                                                        (fl[2] - fl[1])/marg1) - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1], 
-              col = topo.colors(6, alpha = 0.7)[6], border = topo.colors(6, alpha = 1)[6])
-      
-      text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2), 
-           ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1] - (5*((fl[2] - fl[1])/
-                                                                                   marg2 - (fl[2] - fl[1])/marg1)), "Del-sel", cex = 0.5, font = 2)
+                                                                                   marg2 - (fl[2] - fl[1])/marg1)), "next sel", cex = 0.6, font = 2)
       
       #ask users to select what to do next (2 clicks)
       xy <- locator(n = 2, type = "n")
@@ -197,79 +173,58 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       #if selected is lower than 0 make it 
       xy$x[xy$x<0] <- 0  
       
-      #this is the most complicated. It keeps running if the users make a     selection (right-left)
-      while(any(xy$x[1] > xy$x[2] & xy$x < (((tlim[2] - tlim[1])/marg1)),  
-                all(xy$x > (((tlim[2] - tlim[1])/marg1))) & all(xy$x < (((tlim[2] - tlim[1])/marg2))) & 
-                  all(xy$y < (fl[2] - fl[1])/marg2 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & 
-                  all(xy$y > (fl[2] - fl[1])/marg1 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]),
-                all(xy$x > (((tlim[2] - tlim[1])/marg1))) & 
-                  all(xy$x < (((tlim[2] - tlim[1])/marg2))) & 
-                  all(xy$y < (fl[2] - fl[1])/marg2 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & 
-                  all(xy$y > (fl[2] - fl[1])/marg1 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])))
-      {if(all(xy$x > (((tlim[2] - tlim[1])/marg1))) & 
-            all(xy$x < (((tlim[2] - tlim[1])/marg2))) &
-            all(xy$y < (fl[2] - fl[1])/marg2 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & 
-            all(xy$y > (fl[2] - fl[1])/marg1 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & !is.null(NULL))
-       ffffff <- 1 
-        
-      else {if(all(xy$x > (((tlim[2] - tlim[1])/marg1))) & all(xy$x < (((tlim[2] - tlim[1])/marg2))) & #if click on delete
-                   all(xy$y < (fl[2] - fl[1])/marg2 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) &
-                   all(xy$y > (fl[2] - fl[1])/marg1 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) &
-                   length(start) > 0) {
-                                       abline(v = c(start[length(start)], end[length(end)]), lty = 1, col = "white", lwd = 2.3)
-                                       
-                                       if(length(start) == 1) start <- numeric() else start <- start[1:(length(start) - 1)]
-                                       if(length(end) == 1) end <- numeric() else end <- end[1:(length(end) - 1)]
-      } else {start[length(start) + 1] <- xy$x[2]
-              end[length(end) + 1] <- xy$x[1]
-              
-              abline(v = c(start, end), lty = 3, col = "red", lwd = 1.2)
-   }}
-  
-          xy <- locator(n = 2, type = "n")}
+      #this keeps runnig as long as next of stop have not been clicked twice
+      while(all(!all(all(xy$x > (((tlim[2] - tlim[1])/marg1))), all(xy$x < (((tlim[2] - tlim[1])/marg2))), # not stop
+            all(xy$y < (fl[2] - fl[1])/marg2 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]),
+            all(xy$y > (fl[2] - fl[1])/marg1 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])),
+      !all(all(xy$x > (((tlim[2] - tlim[1])/marg1))), all(xy$x < (((tlim[2] - tlim[1])/marg2))), #not next
+           all(xy$y < (fl[2] - fl[1])/marg2 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]),
+           all(xy$y > (fl[2] - fl[1])/marg1 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]))))
+      {
+        abline(v = xy$x, lty = 3, col = "red", lwd = 1.2)
+        if(selcount > 0) abline(v = c(X$start[wavs], X$end[wavs]), lty = 1, col = "white", lwd = 2.3)
+        X$start[wavs] <-  min(xy$x)
+        X$end[wavs] <-  max(xy$x)
+      selcount <- selcount + 1
       
-      #if selected is lower than 0 make it 0
-      xy$x[xy$x<0] <- 0  
+      #if auto.next was set
+      if(auto.next){
+        X$tailored[wavs] <- "y"
+        write.csv(X, "seltailor_output.csv", row.names = F)  
+        if(X$tailored[nrow(X)] == "y") stop("all selections have been analyzed") 
+      Sys.sleep(pause) 
+        break}   
       
+     #ask users to select what to do next (2 clicks)
+      xy <- locator(n = 2, type = "n")
+      
+      #if selected is lower than 0 make it 
+      xy$x[xy$x<0] <- 0 
+      }
+
       #stop
-      if(all(xy$x > (((tlim[2] - tlim[1])/marg1))) && 
-           all(xy$x < (((tlim[2] - tlim[1])/marg2))) && 
-           all(xy$y < (fl[2] - fl[1])/marg2 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])
-         && all(xy$y > (fl[2] - fl[1])/marg1 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]))
-      {if(length(start) > 0) {results <- rbind(results, data.frame(sound.files = X$sound.files[wavs], selec = X$selec[wavs], start = start[length(start)], end = end[length(end)]))
-                                  results$sound.files <- as.character(results$sound.files)
-                                  write.csv(results, "seltailor_output.csv", row.names = F)
-                                  dev.off()}
-       
+      if(all(all(xy$x > (((tlim[2] - tlim[1])/marg1))), all(xy$x < (((tlim[2] - tlim[1])/marg2))),
+           all(xy$y < (fl[2] - fl[1])/marg2 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]),
+        all(xy$y > (fl[2] - fl[1])/marg1 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])))
+      {dev.off()
+      if(selcount > 0) X$tailored[wavs] <- "y"
+        write.csv(X, "seltailor_output.csv", row.names = F)
        stop("Stopped by user")}
       
-      #next rec
-      if(any(all(xy$x > (((tlim[2] - tlim[1])/marg1))) && 
-           all(xy$x < (((tlim[2] - tlim[1])/marg2))) && 
-           all(xy$y < (fl[2] - fl[1])/marg2 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])
-         && all(xy$y > (fl[2] - fl[1])/marg1 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]), an))
-      { 
-        if(length(setdiff(X$sound.files, unique(results$sound.files))) == 0)
-      {try(dev.off(), silent = T)
-       message("This was the last selection (all selections have been re-analyzed)")
-       options(show.error.messages = F)
-       stop("")}
-      if(length(start) > 0) {results <- rbind(results, data.frame(sound.files = X$sound.files[wavs], selec = X$selec[wavs], start = start[length(start)], end = end[length(end)]))
-                              results$sound.files <- as.character(results$sound.files)
-                              write.csv(results, "seltailor_output.csv", row.names = F)} else {
-                                results <- rbind(results, data.frame(sound.files = X$sound.files[wavs], selec = NA, start = NA,
-                                                                     end = NA))
-                                results$sound.files <- as.character(results$sound.files)
-                                write.csv(results, "seltailor_output.csv", row.names = F)}
-        break}
       
-      if(abs(tlim[1] - tlim[2]) < 0.01) {tlim <- c(0.1, len - 0.1)}
-
-            dev.off()}
+      #next sel
+      if(all(all(xy$x > (((tlim[2] - tlim[1])/marg1))),
+           all(xy$x < (((tlim[2] - tlim[1])/marg2))),
+           all(xy$y < (fl[2] - fl[1])/marg2 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]),
+       all(xy$y > (fl[2] - fl[1])/marg1 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])))
+      {    X$tailored[wavs] <- "y"
+       write.csv(X, "seltailor_output.csv", row.names = F)  
+       
+         if(X$tailored[nrow(X)] == "y") { stop("all selections have been analyzed")}  else break}
     
-    if(!file.exists(file.path(getwd(), X$sound.files[wavs + 1])))
-    {try(dev.off(), silent = T)
-     message("This was the last selection (all selections have been re-analyzed)")
-     break}
-  }
+            if(auto.next){if(X$tailored[nrow(X)] == "y") { stop("all selections have been analyzed")} else 
+            {Sys.sleep(pause) 
+                break}}   
+      }
+      }
 }
