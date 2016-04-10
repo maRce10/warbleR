@@ -3,7 +3,7 @@
 #' \code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) i
 #' n which the start and end times of acoustic signals listed in a data frame can be adjusted.
 #' @usage seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
-#'  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 2,
+#'  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
 #'   comments = TRUE)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
@@ -27,7 +27,7 @@
 #' @param auto.next Logical argument to control whether the functions moves automatically to the 
 #' next selection. The time interval before moving to the next selection is controled by the 'pause' argument.
 #' @param pause Numeric vector of length 1. Controls the duration of the waiting period before 
-#' moving to the next selection.
+#' moving to the next selection (in seconds). Default is 1. 
 #' @param comments Logical argument specifying if 'sel.comment' (when in data frame) should be included 
 #' in the title of the spectrograms. Default is \code{TRUE}.
 #' @return .csv file saved in the working directory with start and end time of 
@@ -85,7 +85,7 @@
 
 seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
             osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE,
-            pause = 2, comments = TRUE)
+            pause = 1, comments = TRUE)
 {
   
   # stop if not all sound files were found
@@ -98,8 +98,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   
   if(!file.exists(file.path(getwd(), "seltailor_output.csv")))
   {X$tailored <- ""
+  X$tailored <- as.character(X$tailored)
     write.csv(X, "seltailor_output.csv", row.names = F)  
-    } else {X <- read.csv("seltailor_output.csv")  
+    } else {X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
   if(any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
   if(all(any(!is.na(X$tailored)),X$tailored[nrow(X)] == "y")) { stop("all selections have been analyzed")}}
   
@@ -114,8 +115,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     recs <- vector() #store results
     rec <- tuneR::readWave(as.character(X$sound.files[wavs]), header = TRUE)
     main <- paste(X$sound.files[wavs], X$selec[wavs], sep = "-") 
-    if(comments & !is.null(X$sel.comment)) main <- paste(X$sound.files[wavs],"-", X$selec[wavs],"   ",
-                                                         "(",X$sel.comment[wavs], ")", sep = "")
+    
+    if(all(comments, !is.null(X$sel.comment))) {if(!is.na(X$sel.comment[wavs])) main <- paste(X$sound.files[wavs],"-", X$selec[wavs],"   ",
+                                                         "(",X$sel.comment[wavs], ")", sep = "")}
     f <- rec$sample.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 

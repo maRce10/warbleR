@@ -5,7 +5,7 @@
 \title{Interactive view of spectrograms to tailor start and end of selections}
 \usage{
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
- osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 2,
+ osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
   comments = TRUE)
 }
 \arguments{
@@ -40,7 +40,7 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 next selection. The time interval before moving to the next selection is controled by the 'pause' argument.}
 
 \item{pause}{Numeric vector of length 1. Controls the duration of the waiting period before
-moving to the next selection.}
+moving to the next selection (in seconds). Default is 1.}
 
 \item{comments}{Logical argument specifying if 'sel.comment' (when in data frame) should be included
 in the title of the spectrograms. Default is \code{TRUE}.}
