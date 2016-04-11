@@ -6,9 +6,9 @@
 #'  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
 #'   comments = TRUE)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
-#' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+#' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{seltailor}} or \code{\link{autodetec}} can 
-#' be used as the input data frame. Required.
+#' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Required.
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
