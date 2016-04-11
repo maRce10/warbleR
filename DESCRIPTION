@@ -18,12 +18,13 @@ Imports:
     stats,
     grDevices,
     graphics,
-    dtw
+    dtw,
+    parallel
 Depends:
     R (>= 3.2.1),
     maps,
     seewave (>= 2.0.1),
-    tuneR
+    tuneR,
 LazyData: TRUE
 NeedsCompilation: no
 Suggests:
