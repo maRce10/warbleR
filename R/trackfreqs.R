@@ -1,13 +1,13 @@
 #' Spectrograms with frequency measurements
 #' 
-#' \code{trackfreqs} creates spectrograms to visualize dominant and fundametal frequency measurements
+#' \code{trackfreqs} creates spectrograms to visualize dominant and fundametal frequency measurements (contours)
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
 #'   xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.8, 1), 
-#'   threshold = 15, contour = "both", col = c("chartreuse3", "dodgerblue"), 
-#'   pch = c(17, 16),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1)
+#'   threshold = 15, contour = "both", col = c("chartreuse3", "dodgerblue"),
+#'    pch = c(17, 16),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -97,21 +97,28 @@
 #' 
 #' #autodetec location of signals
 #' ad <- autodetec(threshold = 6, bp = c(1, 3), flim = c(0, 5), mindur = 1.2,
-#'  maxdur = 3, sxrow = 5, rows = 3, ssmooth = 600)
+#'  maxdur = 3, sxrow = 5, rows = 3, ssmooth = 600, redo = TRUE)
 #' 
-#' #track frequency graphs
-#' trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff", bp = c(1, 3))
-#' 
+#' #track dominant frequency graphs
+#' trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
+#'  bp = c(1, 3), contour = "df")
+#'  
 #'# Check this folder
-#' getwd()
+#'getwd()
+#'
+#'#track both frequencies 
+#'trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
+#' bp = c(1, 3), contour = "both")
+#' 
 #' }
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
 trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
-                     bp = c(0, 22), cex = c(0.8, 1), threshold = 15, contour = "both", col = c("chartreuse3", "dodgerblue"),
-                       pch = c(17, 16), mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1){     
+                     bp = c(0, 22), cex = c(0.8, 1), threshold = 15, contour = "both", 
+                     col = c("chartreuse3", "dodgerblue"),  pch = c(17, 16), 
+                     mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1){     
 
   if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
                                          "start", "end") %in% colnames(X))) 
@@ -249,70 +256,49 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       
     }
     
+    # Calculate fundamental frequencies at each time point
+if(contour %in% c("both", "ff"))
+{        ffreq <- seewave::fund(r, from=mar1, to = mar2,  
+              fmax= b[2]*1000, f = f, ovlp = 70, threshold = threshold, plot = FALSE) 
+    ffreq <- ffreq[ffreq[,2] > b[1],]
     
-      # Calculate fundamental frequencies at each time point
-      ffreq <- seewave::fund(r, from=mar1, to = mar2,  
-                             fmax= b[2]*1000, f = f, ovlp = 70, threshold = threshold, plot = FALSE) 
-      ffreq <- ffreq[ffreq[,2] > b[1],]
+    # Plot all fundamental frequency values
+    points(c(ffreq[,1])+mar1, c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1])
     
-#     # Plot extreme values fundamental frequency
-#     points(c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),1])+mar1, c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),2]), col = "yellow", cex = cex[1]+1, pch = pch[1]) 
-#     
-#     # Plot all fundamental frequency values
-#     points(c(ffreq[,1])+mar1, c(ffreq[,2]), col = col[1], cex = cex[1], pch = pch[1]) 
-    
-    
+    # Plot extreme values fundamental frequency
+    points(c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),1])+mar1, c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),2]), col = "yellow", cex = cex[1]+1, pch = pch[1]) 
+  
+    points(c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),1])+mar1, c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),2]), col = col[1], cex = cex[1], pch = pch[1]) 
+}    
     
     # Calculate dominant frequency at each time point     
-    dfreq <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
+    if(contour %in% c("both", "df"))
+{       dfreq <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
                    threshold = threshold, tlim = c(mar1, mar2))
 
-#     # Plot extreme values dominant frequency
-#     points(c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),1])+mar1, c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),2]), col = "yellow", cex = cex[1]+1, pch = pch[2]) 
-#     
-#     # Plot all dominant frequency values
-#     points(dfreq[,1] + mar1, dfreq[,2], col = col[2], cex = cex[1], pch = pch[2]) 
-#     
+    # Plot all dominant frequency values
+    points(dfreq[,1] + mar1, dfreq[,2], col = col[2], cex = cex[1], pch = pch[2]) 
+    
+    # Plot extreme values dominant frequency
+    points(c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),1])+mar1, c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),2]), col = "yellow", cex = cex[1]+1, pch = pch[2]) 
+    
+    points(c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),1])+mar1, c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),2]), col = col[2], cex = cex[1], pch = pch[2]) 
+        }
+    
     abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
-
-    if(contour == "both"){
-      ps <- list(dfreq, ffreq)
-      
-      # Plot extreme values dominant frequency
-      points(c(ps[[1]][c(which.max(ps[[1]][,2]),which.min(ps[[1]][,2])),1])+mar1, c(ps[[1]][c(which.max(ps[[1]][,2]),which.min(ps[[1]][,2])),2]), col = "yellow", cex = cex[1]+1, pch = pch[2]) 
-      
-      # Plot extreme values fundamental frequency
-      points(c(ps[[2]][c(which.max(ps[[2]][,2]),which.min(ps[[2]][,2])),1])+mar1, c(ps[[2]][c(which.max(ps[[2]][,2]),which.min(ps[[2]][,2])),2]), col = "yellow", cex = cex[1]+1, pch = pch[1]) 
-      
-      # Plot all dominant frequency values
-      points(dfreq[,1] + mar1, dfreq[,2], col = col[2], cex = cex[1], pch = pch[2]) 
-      
-      # Plot all fundamental frequency values
-      points(ffreq[,1] + mar1, ffreq[,2], col = col[1], cex = cex[1], pch = pch[1]) 
-      
-    } else if(contour == "df"){ 
-      ps <- dfreq; col1 <- col[2]; cex1 <- cex[1]; pch1 <- pch[2]
-      
-      # Plot extreme frequency values 
-      points(c(ps[c(which.max(ps[,2]),which.min(ps[,2])),1])+mar1, c(ps[c(which.max(ps[,2]),which.min(ps[,2])),2]), col = "yellow", cex = cex[1] + 1, pch = pch1) 
-      
-      # Plot all frequency values
-      points(ps[,1] + mar1, ps[,2], col = col1, cex = cex1, pch = pch1) 
-      
-    }else if(contour == "ff"){ 
-      ps <- ffreq; col1 <- col[1]; cex1 <- cex[1]; pch1 <- pch[1]
-      
-      # Plot extreme frequency values 
-      points(c(ps[c(which.max(ps[,2]),which.min(ps[,2])),1])+mar1, c(ps[c(which.max(ps[,2]),which.min(ps[,2])),2]), col = "yellow", cex = cex[1] + 1, pch = pch1) 
-      
-      # Plot all frequency values
-      points(ps[,1] + mar1, ps[,2], col = col1, cex = cex1, pch = pch1) 
-    }
-    
     # Legend coordinates can be uniquely adjusted 
+    if(contour == "both")
     legend(lpos, legend = c("Ffreq", "Dfreq"),
            pch = pch, col = col[1:2], bty = "o", cex = cex[2])
+
+    if(contour == "ff")
+      legend(lpos, legend = "Ffreq",
+             pch = pch, col = col[1], bty = "o", cex = cex[2])
+
+    if(contour == "df")
+      legend(lpos, legend = "Dfreq",
+             pch = pch, col = col[2], bty = "o", cex = cex[2])
     
     invisible() # execute par(old.par)  
     dev.off()
