@@ -8,7 +8,7 @@
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{seltailor}} or \code{\link{autodetec}} can 
-#' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Required.
+#' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Required. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
@@ -132,8 +132,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     tlim <- c(X$start[wavs] - mar, X$end[wavs] + mar)
     if(tlim[1]<0) tlim[1]<-0
     if(tlim[2]>rec$samples/f) tlim[2]<-rec$samples/f
+    org.start <- X$start[wavs] #original start value
 
-    
     #this second run on a single file and breaks when clicking on stop or next
     repeat{
       
@@ -146,7 +146,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
                        osc = osci, palette =  pal, main = main, axisX = T, grid = F, collab = "black", alab = "", fftw = T, 
               flim = fl, scale = FALSE, axisY = T, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
       
-      #add the circle and lines of selections on spectrogram
+      #add lines of selections on spectrogram
       abline(v = c(X$start[wavs], X$end[wavs]) - tlim[1], lty = 3, col = "blue", lwd = 1.2)
       
       #Stop button
@@ -185,8 +185,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       {
         abline(v = xy$x, lty = 3, col = "red", lwd = 1.2)
         if(selcount > 0) abline(v = c(X$start[wavs], X$end[wavs]), lty = 1, col = "white", lwd = 2.3)
-        X$start[wavs] <-  min(xy$x)
-        X$end[wavs] <-  max(xy$x)
+        X$start[wavs] <-  tlim[1] + min(xy$x) 
+        X$end[wavs] <-  tlim[1] + max(xy$x)
       selcount <- selcount + 1
       
       #if auto.next was set
