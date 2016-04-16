@@ -87,8 +87,8 @@ writeWave(Phae.long2,"Phae.long2.wav")
 
 lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
 
-including selections
-lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = FALSE)
+# including selections
+lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = F)
 
 check this floder
 getwd()

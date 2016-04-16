@@ -202,7 +202,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   #if parallel T and img T
   if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
     parallel <- 1
-    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
   #if parallel was called
@@ -212,7 +212,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
        if(Sys.info()[1] == "Windows"){ 
-      message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+      cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
       lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
       
       options(warn = 0)
@@ -238,7 +238,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     #return warning if not all sound files were found
     fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
     if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-      message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+      cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                     ".wav file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
@@ -257,8 +257,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
       if(nrow(X) == 0) stop("All selections have been analyzed (redo = F)") 
     }    
     
-    if(parallel == 1) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
-      message("Detecting signals in sound files:")}
+    if(parallel == 1) {if(!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
+      cat("Detecting signals in sound files:")}
     
     ad<-lapp(1:nrow(X),function(i)
   {
@@ -398,7 +398,7 @@ if(length(files) == 0) stop("All files have been analyzed (redo = F)")
     }
     }  
     
-    if(parallel == 1)  message("Detecting signals in sound files:")
+    if(parallel == 1)  cat("Detecting signals in sound files:")
     
     ad<-lapp(1:length(files),function(i)
     {
@@ -485,7 +485,7 @@ results<-rbind(results,data.frame(sound.files =  files[v], selec = 1,start=ad[[v
   
   #long spectrograms
 if(any(ls,is.null(X)) & img) {
-  if(parallel == 1) message("Producing long spectrogram:")
+  if(parallel == 1) cat("Producing long spectrogram:")
   
   collev = seq(-40, 0, 1)  
   manualoc = data.frame(results,sel.comment=NA)

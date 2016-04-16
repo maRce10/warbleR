@@ -72,7 +72,7 @@ sig2noise <- function(X, mar, parallel = 1){
   #return warning if not all sound files were found
   fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = T)
   if(length(unique(sound.files[(sound.files %in% fs)])) != length(unique(sound.files))) 
-    message(paste(length(unique(sound.files))-length(unique(sound.files[(sound.files %in% fs)])), 
+    cat(paste(length(unique(sound.files))-length(unique(sound.files[(sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -96,7 +96,7 @@ sig2noise <- function(X, mar, parallel = 1){
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
         if(Sys.info()[1] == "Windows"){ 
-          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
           lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
   
   options(warn = 0)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/compare.methods.R
 \name{compare.methods}
 \alias{compare.methods}
-\title{Produces graphs to visually assess performance of acoustic distance measurements}
+\title{Assessing the performance of acoustic analysis methods}
 \usage{
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90,
 res = 150, n = 10, length.out = 30, methods = c("XCORR",
@@ -58,8 +58,7 @@ Image files with 4 spectrograms of the selection being compared and scatterplots
 of the acoustic space of all signals in the input data frame 'X'.
 }
 \description{
-\code{compare.methods} Visually assess the performance of 2 acoustic distance
-methods using a subset of selections
+\code{compare.methods} Produces graphs to visually assess performance of acoustic distance measurements
 }
 \details{
 This function produces graphs with spectrograms from 4 selections that allow visual inspection of the performance of acoustic distance methods at comparing those selections. The spectrograms are all plotted with the same frequency and time scales. The function compares 2 methods at a time. The methods available are: cross

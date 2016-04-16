@@ -1,7 +1,6 @@
-#' Produces graphs to visually assess performance of acoustic distance measurements 
-#' 
-#' \code{compare.methods} Visually assess the performance of 2 acoustic distance 
-#' methods using a subset of selections
+#' Assessing the performance of acoustic analysis methods  
+#'  
+#' \code{compare.methods} Produces graphs to visually assess performance of acoustic distance measurements 
 #' @usage compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 #' res = 150, n = 10, length.out = 30, methods = c("XCORR", 
 #' "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1)
@@ -139,7 +138,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     #return warning if not all sound files were found
   fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -202,9 +201,9 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if(nrow(X) == 4)  {n <- 1
   combs <- as.matrix(1:4)
-  message("Only 1 possible combination of signals")
+  cat("Only 1 possible combination of signals")
   } else if(n > ncol(combs)) {n <- ncol(combs)
-  message(paste("Only",n, "possible combinations of signals"))
+  cat(paste("Only",n, "possible combinations of signals"))
   }
   
   if(nrow(X) > 4)  combs <- as.data.frame(combs[,sample(1:ncol(combs), n)])
@@ -212,7 +211,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   #if parallel in OSX
   if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
     parallel <- 1
-    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
   #if parallel was called
@@ -222,7 +221,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
         if(Sys.info()[1] == "Windows"){ 
-          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
           lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
   
   options(warn = 0)
@@ -247,7 +246,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   options(warn = -1)
   
-  if(parallel == 1)  message("Saving graphs in image files")
+  if(parallel == 1)  cat("Saving graphs in image files")
   
   invisible(lapp(1:ncol(combs), function(u)
     {

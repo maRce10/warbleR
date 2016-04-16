@@ -54,7 +54,7 @@ querxc <- function(qword, download=FALSE, X = NULL, parallel = 1) {
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
         if(Sys.info()[1] == "Windows"){ 
-          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
           lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
           
           options(warn = 0)
@@ -68,7 +68,7 @@ querxc <- function(qword, download=FALSE, X = NULL, parallel = 1) {
   if(a == "Could not connect to the database")  stop("xeno-canto.org website is apparently down")
   
   #search recs in xeno-canto (results are returned in pages with 500 recordings each)
-  message("Obtaining recording list...")
+  cat("Obtaining recording list...")
   if(sapply(strsplit(qword, " "), length) == 2)
   query <- rjson::fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
                             strsplit(qword, " ")[[1]][1],"%20",strsplit(qword, " ")[[1]][2], sep="")) else
@@ -91,7 +91,7 @@ querxc <- function(qword, download=FALSE, X = NULL, parallel = 1) {
     recs <- c(recs, query$recordings)
   }
   
-  message("Processing recording information:")
+  cat("Processing recording information:")
   
   results <- as.data.frame(t(sapply(matrix(c(1:n.recs), ncol=1), function(x){
 
@@ -130,7 +130,7 @@ querxc <- function(qword, download=FALSE, X = NULL, parallel = 1) {
   #remove duplicates
 results <- results[!duplicated(results$Recording_ID), ]
 
-message(paste( nrow(results), " recordings found!", sep=""))  
+cat(paste( nrow(results), " recordings found!", sep=""))  
 
 } else { 
   #stop if X is not a data frame

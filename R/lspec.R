@@ -63,8 +63,8 @@
 #' 
 #' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
 #' 
-#' including selections
-#' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = FALSE)
+#' # including selections
+#' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = F)
 #' 
 #' check this floder
 #' getwd()
@@ -151,7 +151,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   #if parallel
   if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
     parallel <- 1
-    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
   #if parallel was called
@@ -160,14 +160,14 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
         if(Sys.info()[1] == "Windows"){ 
-          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
           lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
   
   options(warn = 0)
   
   # redo
   if(!redo) 
-    files <-   files[!gsub(".wav$","", list.files(pattern = ".wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
+    files <- files[!gsub(".wav$","", list.files(pattern = ".wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
       unlist(sapply(strsplit(as.character(list.files(pattern = paste(it, "$", 
                                                                      sep = ""), ignore.case = TRUE)), "-p",fixed=T), "[",1))]
   

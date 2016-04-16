@@ -71,7 +71,7 @@ if(any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interatin
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
         if(Sys.info()[1] == "Windows"){ 
-          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
           lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
   
   options(warn = 0)

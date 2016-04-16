@@ -105,13 +105,13 @@ frq.lim = c(min(df), max(df))} else{
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
         if(Sys.info()[1] == "Windows"){ 
-          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
           lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
           
           options(warn = 0)
           
 #create templates
-   if(parallel == 1) message("creating templates:")
+   if(parallel == 1) cat("creating templates:")
 ltemp<-lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
@@ -178,7 +178,7 @@ ltemp<-lapp(1:nrow(X), function(x)
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
 #run cross-correlation
-if(parallel == 1) message("running cross-correlation:")
+if(parallel == 1) cat("running cross-correlation:")
 
 a<-lapp(1:(nrow(X)-1), function(j)
   {

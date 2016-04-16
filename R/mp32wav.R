@@ -40,14 +40,14 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1) {
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
         if(Sys.info()[1] == "Windows"){ 
-          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
           lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
           
           options(warn = 0)
           
   files <- list.files(path=getwd(), pattern = "mp3$", ignore.case = TRUE) #list .mp3 files in working directory
   if(length(files) == 0) stop("no 'wav' files in working directory")
-  message("Start writing wav files:")
+  cat("Start writing wav files:")
   
   a<-lapp(files, function(x) tuneR::writeWave(downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate * 1000), paste(substr(x, 0, nchar(x) - 4), ".wav", sep="")))
 return()  

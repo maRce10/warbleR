@@ -143,7 +143,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   #return warning if not all sound files were found
   recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = T)
   if(length(unique(sound.files[(sound.files %in% recs.wd)])) != length(unique(sound.files))) 
-    message(paste(length(unique(sound.files))-length(unique(sound.files[(sound.files %in% recs.wd)])), 
+    cat(paste(length(unique(sound.files))-length(unique(sound.files[(sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -166,7 +166,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   #if parallel
   if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
     parallel <- 1
-    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
   if(parallel > 1)
@@ -174,13 +174,13 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
       lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
         if(Sys.info()[1] == "Windows"){ 
-          message("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
+          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
           lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
   
   options(warn = 0)
   
- if(parallel == 1) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
-    message("Calculating dominant frequency measurements:")}  
+ if(parallel == 1) {if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
+    cat("Calculating dominant frequency measurements:")}  
   
   lst<-lapp(1:length(sound.files), function(i){
     
