@@ -67,7 +67,9 @@
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#'   For windows users the \code{parallelsugar} package should be installed.   
+#'   For windows users the \code{parallelsugar} package should be installed. 
+#'   Note that creating images is not compatible with parallel computing 
+#'   (parallel > 1) in OSX (mac).   
 #' @return A data frame with the fundamental frequency values measured across the signals. If img is 
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the fundamental frequencies.
@@ -154,6 +156,12 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
+  #if parallel
+  if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
+    parallel <- 1
+    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+  }
   
   if(parallel > 1)
   { options(warn = -1)

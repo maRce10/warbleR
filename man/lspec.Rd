@@ -6,7 +6,7 @@
 \usage{
 lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),
 ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2,
-cex = 1, it = "jpeg", flist = NULL)
+cex = 1, it = "jpeg", flist = NULL, redo = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -35,7 +35,9 @@ slow down the function but produce more accurate selection limits (when X is pro
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
- For windows users the \code{parallelsugar} package should be installed.}
+ For windows users the \code{parallelsugar} package should be installed.
+ Note that creating images is not compatible with parallel computing
+ (parallel > 1) in OSX (mac).}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512.}
@@ -53,6 +55,10 @@ is 512.}
 
 \item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.}
+
+\item{redo}{Logical argument. If \code{TRUE} all selections will be analyzed again
+when code is rerun. If \code{FALSE} only the selections that do not have a image
+file in the working directory will be analyzed. Default is \code{FALSE}.}
 }
 \value{
 image files with spectrograms of whole sound files in the working directory. Multiple pages
@@ -73,19 +79,19 @@ The function creates spectrograms for complete sound files, printing
 \examples{
 \dontrun{
 # First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
-
+setwd(tempdir())
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 
 lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
-lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
 
-#remove example directory
-unlink(getwd(),recursive = TRUE)
+including selections
+lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = FALSE)
+
+check this floder
+getwd()
 }
 }
 \author{

@@ -97,7 +97,9 @@ Default is "topright".}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
- For windows users the \code{parallelsugar} package should be installed.}
+ For windows users the \code{parallelsugar} package should be installed.
+ Note that creating images is not compatible with parallel computing
+ (parallel > 1) in OSX (mac).}
 }
 \value{
 A matrix with the pairwise dissimilarity values. If img is

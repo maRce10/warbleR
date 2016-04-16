@@ -70,7 +70,9 @@
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#' For windows OS the \code{parallelsugar} package should be installed.   
+#' For windows OS the \code{parallelsugar} package should be installed.
+#'   Note that creating images is not compatible with parallel computing 
+#'   (parallel > 1) in OSX (mac).    
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
 #' @family spectrogram creators
@@ -171,6 +173,12 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
+  #if parallel in OSX
+  if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
+    parallel <- 1
+    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+  }
   
   # If parallel was called
   if(parallel > 1)

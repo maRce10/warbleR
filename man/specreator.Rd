@@ -75,7 +75,9 @@ dealineating spectrogram limits. Default is 0.05.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-For windows OS the \code{parallelsugar} package should be installed.}
+For windows OS the \code{parallelsugar} package should be installed.
+  Note that creating images is not compatible with parallel computing
+  (parallel > 1) in OSX (mac).}
 }
 \value{
 Image files containing spectrograms of the signals listed in the input data frame.

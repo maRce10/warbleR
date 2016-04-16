@@ -101,7 +101,9 @@ increase and decrease in amplitude at the start and end of the signal (respectiv
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
- For windows users the 'parallelsugar' package should be installed.}
+ For windows users the 'parallelsugar' package should be installed.
+ Note that creating images is not compatible with parallel computing
+ (parallel > 1) in OSX (mac).}
 }
 \value{
 Image files with spectrograms showing the start and end of the detected signals. It

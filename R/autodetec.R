@@ -73,7 +73,9 @@
 #' increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#'   For windows users the 'parallelsugar' package should be installed.   
+#'   For windows users the 'parallelsugar' package should be installed.
+#'   Note that creating images is not compatible with parallel computing 
+#'   (parallel > 1) in OSX (mac).   
 #' @return Image files with spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 
 #'   sound file and selection number.
@@ -118,7 +120,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
                     bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 
                     ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
                     img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1){
-
+  
   #if bp is not vector or length!=2 stop
   if(!is.null(bp))
   {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
@@ -196,6 +198,12 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   #if smadj argument is not "start" "end" or "both"
   if(!is.null(smadj)) if(!any(smadj == "start", smadj == "end", smadj == "both")) 
     stop(paste("smooth adjustment", smadj, "not allowed"))  
+  
+  #if parallel T and img T
+  if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
+    parallel <- 1
+    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+  }
   
   #if parallel was called
       #if on windows you need parallelsugar package

@@ -4,7 +4,7 @@
 #'   rows.
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1), 
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
-#' cex = 1, it = "jpeg", flist = NULL) 
+#' cex = 1, it = "jpeg", flist = NULL, redo = TRUE) 
 #' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
@@ -25,7 +25,9 @@
 #'   slow down the function but produce more accurate selection limits (when X is provided). 
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#'   For windows users the \code{parallelsugar} package should be installed.   
+#'   For windows users the \code{parallelsugar} package should be installed. 
+#'   Note that creating images is not compatible with parallel computing 
+#'   (parallel > 1) in OSX (mac).   
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
@@ -37,6 +39,9 @@
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
+#' @param redo Logical argument. If \code{TRUE} all selections will be analyzed again 
+#'   when code is rerun. If \code{FALSE} only the selections that do not have a image 
+#'   file in the working directory will be analyzed. Default is \code{FALSE}.
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -50,24 +55,24 @@
 #' @examples
 #' \dontrun{
 #' # First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
-#' 
+#' setwd(tempdir())
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
 #' writeWave(Phae.long1,"Phae.long1.wav") 
 #' writeWave(Phae.long2,"Phae.long2.wav")
-#'
+#' 
 #' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
-#' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors) #including selections
-#'
-#' #remove example directory
-#' unlink(getwd(),recursive = TRUE)
+#' 
+#' including selections
+#' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = FALSE)
+#' 
+#' check this floder
+#' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL) {
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE) {
   
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
@@ -143,6 +148,12 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  #if parallel
+  if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
+    parallel <- 1
+    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+  }
+  
   #if parallel was called
   if(parallel > 1)
   { options(warn = -1)
@@ -154,10 +165,22 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   
   options(warn = 0)
   
+  # redo
+  if(!redo) 
+    files <-   files[!gsub(".wav$","", list.files(pattern = ".wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
+      unlist(sapply(strsplit(as.character(list.files(pattern = paste(it, "$", 
+                                                                     sep = ""), ignore.case = TRUE)), "-p",fixed=T), "[",1))]
+  
+  
+  #stop if files are not in working directory
+  if(length(files) == 0) stop("all .wav files have been processed")
+  
+  
   #apply over each sound file
   invisible(lapp(files, function(z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X) {
     
-    #loop to print spectros  
+
+          #loop to print spectros  
     rec <- tuneR::readWave(z) #read wave file 
     f <- rec@samp.rate #set sampling rate
     frli<- fl #in case flim its higher than can be due to samplin rate

@@ -49,7 +49,9 @@ methods that would be compared. The methods available are: cross-correlation (XC
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-For windows users the \code{parallelsugar} package should be installed.}
+For windows users the \code{parallelsugar} package should be installed.
+ Note that creating images is not compatible with parallel computing
+ (parallel > 1) in OSX (mac).}
 }
 \value{
 Image files with 4 spectrograms of the selection being compared and scatterplots
@@ -91,9 +93,9 @@ writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
-compare.methods(manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 512,
+compare.methods(X = manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 512,
 ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "dfDTW"),parallel = 1, it = "tiff")
+methods = c("XCORR", "dfDTW"), parallel = 1, it = "tiff")
 
 #check this folder!!
 getwd()

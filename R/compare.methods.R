@@ -34,7 +34,9 @@
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#'  For windows users the \code{parallelsugar} package should be installed.   
+#'  For windows users the \code{parallelsugar} package should be installed. 
+#'   Note that creating images is not compatible with parallel computing 
+#'   (parallel > 1) in OSX (mac).  
 #' @return Image files with 4 spectrograms of the selection being compared and scatterplots 
 #' of the acoustic space of all signals in the input data frame 'X'.  
 #' @export
@@ -70,9 +72,9 @@
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav") 
 #'
-#' compare.methods(manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 512, 
+#' compare.methods(X = manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 512, 
 #' ovlp = 90, res = 200, n = 10, length.out = 30, 
-#' methods = c("XCORR", "dfDTW"),parallel = 1, it = "tiff")
+#' methods = c("XCORR", "dfDTW"), parallel = 1, it = "tiff")
 #' 
 #' #check this folder!!
 #' getwd()
@@ -200,12 +202,18 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if(nrow(X) == 4)  {n <- 1
   combs <- as.matrix(1:4)
-  message("Only 1 possible combination")
+  message("Only 1 possible combination of signals")
   } else if(n > ncol(combs)) {n <- ncol(combs)
-  message(paste("Only",n, "possible combinations"))
+  message(paste("Only",n, "possible combinations of signals"))
   }
   
   if(nrow(X) > 4)  combs <- as.data.frame(combs[,sample(1:ncol(combs), n)])
+  
+  #if parallel in OSX
+  if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
+    parallel <- 1
+    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+  }
   
   #if parallel was called
   #if on windows you need parallelsugar package
@@ -246,8 +254,6 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     rs <- combs[,u]
        X <- X[rs,]
   
-
-       
   if(it == "tiff") tiff(filename = paste("comp.spec-", names(disim.mats)[1],"-",names(disim.mats)[2], paste(X$labels, collapse = "-"), ".tiff", sep = ""), width = 16.25, height =  16.25, units = "cm", res = res) else 
     jpeg(filename = paste("comp.spec-", names(disim.mats)[1],"-",names(disim.mats)[2], paste(X$labels, collapse = "-"), ".jpeg", sep = ""), width =  16.25, height =  16.25, units = "cm", res = res)
   
@@ -276,8 +282,10 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       mar2 <- mar2  + tlim[1]
       tlim[1] <- 0
       }
-      if (tlim[2] > r$samples/r$sample.rate) { tlim[1] <- tlim[1] - r$samples/r$sample.rate - tlim[2]
-      tlim[2] <- length(r@left)/r@samp.rate}
+      if (tlim[2] > r$samples/r$sample.rate) { tlim[1] <- tlim[1] - (r$samples/r$sample.rate - tlim[2])
+      mar1 <- X$start[x]-tlim[1]
+      mar2 <- mar1 + X$end[x] - X$start[x]
+      tlim[2] <- r$samples/r$sample.rate}
       
       if (flim[2] > ceiling(r$sample.rate/2000) - 1) flim[2] <- ceiling(r$sample.rate/2000) - 1
       
