@@ -42,8 +42,6 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
 
 querxc <- function(qword, download=FALSE, X = NULL, parallel = 1) {
-
-  
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -141,8 +139,6 @@ cat(paste( nrow(results), " recordings found!", sep=""))
   download <- TRUE
 results <- X  }
 
-
-
   #download recordings
   if(download) {
     lapp(matrix(c(1:length(results$Genus)), ncol=1), function(x){
@@ -156,6 +152,31 @@ results <- X  }
                       extra = getOption("download.file.extra"))
       return (NULL)
     })
+    
+    cat("double-checking downloaded files")
+   
+    fl <- list.files(pattern = ".mp3$")
+    size0 <- fl[file.size(fl) == 0]
+    
+    if(length(size0) > 0)
+{   
+ unlink(size0)
+    
+    s0df <- data.frame(Genus = sapply(strsplit(as.character(size0), "-",fixed=T), "[",1), Specific_epithet = sapply(strsplit(as.character(size0), "-",fixed=T), "[",2), Recording_ID = gsub(".mp3", "",sapply(strsplit(as.character(size0), "-",fixed=T), "[",3)))
+ 
+    lapp(matrix(c(1:length(s0df$Genus)), ncol=1), function(x){
+      gen <- s0df$Genus[x]
+      se <- s0df$Specific_epithet[x]
+      rid <- s0df$Recording_ID[x]
+      if(!file.exists(file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep = ""))))
+        download.file(paste("http://xeno-canto.org/download.php?XC=", rid, sep=""), 
+                      file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep="")),
+                      quiet = TRUE,  mode = "wb", cacheOK = TRUE,
+                      extra = getOption("download.file.extra"))
+      return (NULL)
+    })
+       
+}    
   }  
  if(is.null(X)) return(droplevels(results))
 }

@@ -33,7 +33,7 @@ checkwavs <- function() {
       if(is.numeric(try(tuneR::readWave(as.character(x), header = T)$sample.rate,silent = T)))
       return(1) else return (0)})) 
   if(length(files[a == 0])>0){
-    cat("These file(s) cannot be read:")
+    cat("Some file(s) cannot be read:")
     return(files[a == 0])
   } else cat("All files are OK!") 
 }

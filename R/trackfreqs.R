@@ -98,8 +98,8 @@
 #' writeWave(Cryp.soui, "Cryp.soui.wav") #save sound files 
 #' 
 #' #autodetec location of signals
-#' ad <- autodetec(threshold = 6, bp = c(1, 3), flim = c(0, 5), mindur = 1.2,
-#'  maxdur = 3, sxrow = 5, rows = 3, ssmooth = 600, redo = TRUE)
+#' ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2,
+#' maxdur = 3, img = FALSE, ssmooth = 600)
 #' 
 #' #track dominant frequency graphs
 #' trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
