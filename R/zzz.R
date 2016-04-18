@@ -9,3 +9,9 @@
   packageStartupMessage("2. install 'parallelsugar' to run parallel computing in windows OS")
 }
 
+
+.onLoad <- function(libname, pkgname) {
+  if(all(!suppressWarnings(suppressPackageStartupMessages(requireNamespace("parallelsugar",
+                quietly=TRUE))),Sys.info()[1] == "Windows"))
+    suppressPackageStartupMessages(devtools::install_github("nathanvan/parallelsugar"))
+}

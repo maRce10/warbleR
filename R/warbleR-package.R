@@ -97,6 +97,7 @@
 #' @import parallel
 #' @importFrom dtw dtwDist
 #' @importFrom stats cor dist aggregate approx ave princomp time ts    
+#' @importFrom devtools install_github  
 #' 
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
 #'   

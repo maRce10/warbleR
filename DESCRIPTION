@@ -19,7 +19,9 @@ Imports:
     grDevices,
     graphics,
     dtw,
-    parallel
+    parallel,
+    devtools,
+    parallelsugar  
 Depends:
     R (>= 3.2.1),
     maps,
@@ -29,8 +31,6 @@ LazyData: TRUE
 NeedsCompilation: no
 Suggests:
     knitr,
-    ggplot2,
-    parallelsugar
-Additional_repositories: https://github.com/    
+    ggplot2
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
