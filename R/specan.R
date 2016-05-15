@@ -162,11 +162,11 @@ x <- as.data.frame(lapp(1:length(start), function(i) {
   centroid <- analysis$cent/1000
   
   #Frequency with amplitude peaks
-  peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1]
+  peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl, nmax = 3, plot = FALSE)[1, 1]
   
   #Fundamental frequency parameters
   ff <- seewave::fund(r, f = r@samp.rate, ovlp = 50, threshold = threshold, 
-                     fmax = b[2] * 1000, plot = F)[, 2]
+                     fmax = b[2] * 1000, plot = FALSE, wl = wl)[, 2]
   meanfun<-mean(ff, na.rm = T)
   minfun<-min(ff, na.rm = T)
   maxfun<-max(ff, na.rm = T)
