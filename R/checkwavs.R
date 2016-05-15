@@ -2,12 +2,19 @@
 #' 
 #' \code{checkwavs} checks whether .wav files can be read by subsequent functions.
 #' @usage checkwavs()
+#' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
+#' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+#' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+#' be used as the input data frame. If provided the function also returns the
+#' smallest number of samples from the listed selections. This could be useful to 
+#' troubleshoot downstream functions (e.g. specan).  
 #' @return If all .wav files are ok, returns message "All files are ok!".
 #'   Otherwise returns "These file(s) cannot be read" message with names of the
 #'   corrupted .wav files.
-#' @details This function has no associated arguments, although users must
-#'   set the working directory where they wish to check .wav files beforehand.
-#' @export
+#' @details This function checks if .wav files in the working directory can be read.
+#' Users must set the working directory where they wish to check .wav files beforehand. 
+#' If X is provided it also returns the smallest number of samples from
+#' the selections listed in X (if all files can be read).
 #' @name checkwavs
 #' @examples
 #' \dontrun{
