@@ -25,16 +25,23 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 
-
-checkwavs <- function() { 
+checkwavs <- function(X = NULL) { 
     files <- list.files(path = getwd(), pattern = "wav$", ignore.case = T) #list .wav files in working director    
     if(length(files) == 0) stop("no .wav files in working directory") 
-    a <- unlist(lapply(files, function(x) {
-      if(is.numeric(try(tuneR::readWave(as.character(x), header = T)$sample.rate,silent = T)))
-      return(1) else return (0)})) 
-  if(length(files[a == 0])>0){
-    cat("Some file(s) cannot be read:")
-    return(files[a == 0])
-  } else cat("All files are OK!") 
+    a <- sapply(files, function(x) {
+      r <- try(suppressWarnings(tuneR::readWave(as.character(x), header = T)), silent = T)
+      if(is.list(r) & is.numeric(unlist(r)) & all(unlist(r) > 0))
+        return(r$sample.rate) else return (NA)}) 
+
+    if(length(files[is.na(a)])>0){
+    cat("Some file(s) cannot be read ")
+    return(files[is.na(a)])
+  } else {cat("All files are OK!") 
+    if(!is.null(X)) {
+      X <- X[X$sound.files %in% files,]
+      df <- merge(X, data.frame(f = a, sound.files = names(a)), by = "sound.files")
+      cat("  smallest number of samples: ", floor(min((df$end - df$start)*df$f)), " (sound file:", as.character(X$sound.files[which.min((df$end - df$start)*df$f)]),"; selection: ", X$selec[which.min((df$end - df$start)*df$f)], ")", sep = "")
+      }
+      }
 }
 
