@@ -121,7 +121,6 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
                     ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
                     img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1){
   
-  
   #if bp is not vector or length!=2 stop
   if(!is.null(bp))
   {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
