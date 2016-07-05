@@ -9,8 +9,7 @@
 #' If \code{FALSE} the opposite pattern is evaluted (whether overlaps occur more often than expected by chance). 
 #' Default is  \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#'   For windows users the \code{parallelsugar} package should be installed.   
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @return A data frame with the observed number of overlaps (obs.overlaps), mean number of overlaps expected by chance,
 #' and p value.  
 #' @export
@@ -29,12 +28,13 @@
 #' data(coor.sing)
 #' 
 #' # testing if coordination happens less than expected by chance
-#' coor.test(coor.sing, iterations = 1000, less.than.chance = T)
+#' coor.test(coor.sing, iterations = 1000, less.than.chance = TRUE)
 #' 
 #' # testing if coordination happens more than expected by chance
-#' coor.test(coor.sing, iterations = 1000, less.than.chance = F)
+#' coor.test(coor.sing, iterations = 1000, less.than.chance = FALSE)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#last modification on jul-5-2016 (MAS)
 
 coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, parallel = 1)
 {
@@ -66,18 +66,8 @@ if(any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interatin
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel was called
-  if(parallel > 1)  { options(warn = -1)
-    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
-      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
-        if(Sys.info()[1] == "Windows"){ 
-          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
-          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
-  
-  options(warn = 0)
-  
-  tovlp<-lapp(unique(X$sing.event),function(h)
-{
+    #create function to randomized singing events
+      coortestFUN <- function(X, h){
   sub<-X[X$sing.event==h,]
   
   #remove solo singing
@@ -146,11 +136,41 @@ if(any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interatin
   obs.overlaps <- length(ovlp[ovlp=="ovlp"])
   mean.random.ovlps <- mean(rov)
   if(less.than.chance) p <- length(rov[rov <= obs.overlaps])/iterations else p <- length(rov[rov >= obs.overlaps])/iterations
-  l <- c(obs.overlaps, mean.random.ovlps, p)
+  l <- data.frame(h, obs.overlaps, mean.random.ovlps, p)
   
-  return(l)})
+  return(l)}
+      # )
 
-df <- data.frame(unique(X$sing.event), matrix(unlist(tovlp), ncol = 3, byrow = T))
+    if(parallel > 1) {if(Sys.info()[1] == "Windows") {
+      
+      cl <- parallel::makeCluster(parallel)
+      
+      doParallel::registerDoParallel(cl)
+      
+      cote <- parallel::parLapply(cl, unique(X$sing.event), function(h)
+      {
+        coortestFUN(X, h)
+      })
+      
+      parallel::stopCluster(cl)
+      
+    } else {    # Run parallel in other operating systems
+      
+      cote <- parallel::mclapply(unique(X$sing.event), function(h) {
+        coortestFUN(X, h)
+        })
+      
+      }
+    } else {cote <- pbapply::pblapply(unique(X$sing.event), function(h) 
+    { 
+      coortestFUN(X, h)
+    })
+    
+    }
+    
+  df <- do.call(rbind, cote)
+    
 colnames(df) <- c("sing.event", "obs.ovlps", "mean.random.ovlps", "p.value")
 
-return(df)}
+return(df)
+}

@@ -39,10 +39,10 @@ setwd(tempdir())
 data(selection.files)
 
 write.table(selection.files[[1]],file = "100889-Garrulax monileger.selections.txt",
-row.names = F, sep= "\\t")
+row.names = FALSE, sep= "\\t")
 
 write.table(selection.files[[2]],file = "1023-Arremonops rufivirgatus.selections.txt",
-row.names = F, sep= "\\t")
+row.names = FALSE, sep= "\\t")
 
 #providing the name of the column with the sound file names
 rav.dat<-imp.raven(sound.file.col = "End.File", all.data = FALSE)

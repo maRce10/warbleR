@@ -26,10 +26,10 @@
 #' data(selection.files)
 #' 
 #' write.table(selection.files[[1]],file = "100889-Garrulax monileger.selections.txt",
-#' row.names = F, sep= "\t")
+#' row.names = FALSE, sep= "\t")
 #' 
 #' write.table(selection.files[[2]],file = "1023-Arremonops rufivirgatus.selections.txt",
-#' row.names = F, sep= "\t")
+#' row.names = FALSE, sep= "\t")
 #' 
 #' #providing the name of the column with the sound file names
 #' rav.dat<-imp.raven(sound.file.col = "End.File", all.data = FALSE)
@@ -42,25 +42,30 @@
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#last modification on jul-5-2016 (MAS)
 
 imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE) 
-  { if(is.null(path)) path = getwd()
-  sel.txt <- list.files(path = path, pattern = ".txt$", full.names = T, recursive = recursive)
-  sel.txt2 <- list.files(path = path, pattern = ".txt$", full.names = F, recursive = recursive)
-  if(length(sel.txt) == 0) stop("No selection files in path provided")
+  {
+  #check path to working directory
+  if(!is.null(path))
+  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  
+  sel.txt <- list.files(pattern = ".txt$", full.names = TRUE, recursive = recursive)
+  sel.txt2 <- list.files(pattern = ".txt$", full.names = FALSE, recursive = recursive)
+  if(length(sel.txt) == 0) stop("No selection files in working directory/'path' provided")
   
     clist<-lapply(1:length(sel.txt), function(i)
-      {    a<-read.table(sel.txt[i], header = T, sep = "\t", fill = TRUE)
+      {    a<-read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE)
     if(!all.data) { if(!is.null(sound.file.col)) 
     {  if(length(grep(sound.file.col, colnames(a))) == 0) stop(paste(sound.file.col , "column not found")) 
-    c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a), ignore.case = T)], channel = a[, grep("channel", colnames(a), ignore.case = T)],
-                                            selec = a[,grep("Selection",colnames(a), ignore.case = T)],
-             start = a[,grep("Begin.Time",colnames(a), ignore.case = T)],
-             end = a[, grep("End.Time",colnames(a), ignore.case = T)], selec.file = sel.txt2[i])} else
-               c<-data.frame(selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), ignore.case = T)],
-                             selec = a[,grep("Selection",colnames(a), ignore.case = T)],
-                             start = a[, grep("Begin.Time", colnames(a), ignore.case = T)],
-                             end = a[, grep("End.Time", colnames(a), ignore.case = T)])} else 
+    c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a), ignore.case = TRUE)], channel = a[, grep("channel", colnames(a), ignore.case = T)],
+                                            selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
+             start = a[,grep("Begin.Time",colnames(a), ignore.case = TRUE)],
+             end = a[, grep("End.Time",colnames(a), ignore.case = TRUE)], selec.file = sel.txt2[i])} else
+               c<-data.frame(selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)],
+                             selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
+                             start = a[, grep("Begin.Time", colnames(a), ignore.case = TRUE)],
+                             end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)])} else 
                                c <- data.frame(a, selec.file = sel.txt[i]) 
     return(c)
  })

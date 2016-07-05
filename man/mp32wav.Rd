@@ -4,14 +4,17 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav(samp.rate = 44.1, parallel = 1)
+mp32wav(samp.rate = 44.1, parallel = 1, path = NULL)
 }
 \arguments{
 \item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
- For windows OS the \code{parallelsugar} package should be installed.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+Not availble in Windows OS.}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 .wav files saved in the working directory with same name as original mp3 files.
@@ -20,8 +23,7 @@ It specifies the number of cores to be used. Default is 1 (e.i. no parallel comp
 \code{mp32wav} converts several .mp3 files in working directory to .wav format
 }
 \details{
-convert all .mp3 files in working directory to .wav format. Function used internally to read .mp3 files (\code{\link[tuneR]{readMP3}}) sometimes crashes
-This should be fixed in the next version of tuneR.
+convert all .mp3 files in working directory to .wav format. Function used internally to read .mp3 files (\code{\link[tuneR]{readMP3}}) sometimes crashes.
 }
 \examples{
 \dontrun{

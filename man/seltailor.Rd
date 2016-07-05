@@ -6,7 +6,7 @@
 \usage{
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
-  comments = TRUE)
+  comments = TRUE, path = NULL)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -44,6 +44,9 @@ moving to the next selection (in seconds). Default is 1.}
 
 \item{comments}{Logical argument specifying if 'sel.comment' (when in data frame) should be included 
 in the title of the spectrograms. Default is \code{TRUE}.}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 .csv file saved in the working directory with start and end time of 

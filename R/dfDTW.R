@@ -1,13 +1,13 @@
-#' Calculates acoustic dissimilarity using dynamic time warping on dominant frequency contours
+#' Acoustic dissimilarity using dynamic time warping on dominant frequency contours
 #' 
-#' \code{dfDTW} calculates acoustic dissimilarity of frequency contours.
-#' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+#' \code{dfDTW} calculates acoustic dissimilarity of dominant frequency contours using dynamic
+#' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} from the \code{dtw} package.
 #' @usage dfDTW(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
 #'   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
 #'   threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05, 
-#'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1)
+#'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -66,10 +66,9 @@
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#'   For windows users the \code{parallelsugar} package should be installed. 
-#'   Note that creating images is not compatible with parallel computing 
-#'   (parallel > 1) in OSX (mac).  
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not availble in Windows OS.
+#' @param path Character string containing the directory path where the sound files are located. 
+#' If \code{NULL} (default) then the current working directory is used.
 #' @return A matrix with the pairwise dissimilarity values. If img is 
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies.
@@ -97,40 +96,42 @@
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # run function 
-#' dfDTW(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
+#' dfDTW(manualoc.df, length.out = 30, flim = c(1, 12), bp = c(2, 9))
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-
+#last modification on jul-5-2016 (MAS)
 
 dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue",pch = 16,
-                       mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1){     
+                       mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, 
+                  path = NULL){     
   
-  if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
-                                         "start", "end") %in% colnames(X))) 
-  {
-    start <- as.numeric(X$start)
-    end <- as.numeric(X$end)
-    sound.files <- as.character(X$sound.files)
-    selec <- as.character(X$selec)
-  } else stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
-                                                                        "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
-  } else  stop("X is not a data frame")
+  #check path to working directory
+  if(!is.null(path))
+  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  
+  #if X is not a data frame
+  if(!class(X) == "data.frame") stop("X is not a data frame")
+  
+  if(!all(c("sound.files", "selec", 
+            "start", "end") %in% colnames(X))) 
+    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+                                                                   "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(end, start)))) stop("NAs found in start and/or end")  
+  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(end) != "numeric" & class(start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(end - start<0)) stop(paste("The start is higher than the end in", length(which(end - start<0)), "case(s)"))  
+  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #if any selections longer than 20 secs stop
-  if(any(end - start>20)) stop(paste(length(which(end - start>20)), "selection(s) longer than 20 sec"))  
+  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   options( show.error.messages = TRUE)
   
   #if bp is not vector or length!=2 stop
@@ -145,22 +146,17 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
   if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
   
   #return warning if not all sound files were found
-  recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = T)
-  if(length(unique(sound.files[(sound.files %in% recs.wd)])) != length(unique(sound.files))) 
-    cat(paste(length(unique(sound.files))-length(unique(sound.files[(sound.files %in% recs.wd)])), 
+  recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
+  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
+    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
-  d <- which(sound.files %in% recs.wd) 
+  d <- which(X$sound.files %in% recs.wd) 
   if(length(d) == 0){
     stop("The .wav files are not in the working directory")
-  }  else {
-    start <- start[d]
-    end <- end[d]
-    selec <- selec[d]
-    sound.files <- sound.files[d]
-  }
-  
+  }  else X <- X[d, ]
+    
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -168,33 +164,32 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
   #if parallel T and img T
   if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
     parallel <- 1
-    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
-  # parallel dependending on OS
-  if(parallel > 1)
-  { options(warn = -1)
-    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
-      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
-        if(Sys.info()[1] == "Windows"){ 
-          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
-          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
+  #parallel not available on windows
+  if(parallel > 1 & Sys.info()[1] == "Windows")
+  {message("parallel computing not availabe in Windows OS for this function")
+    parallel <- 1}
+  
+  if(parallel > 1) 
+    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
   
   options(warn = 0)
   
- if(parallel == 1) {if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
-    cat("Calculating dominant frequency measurements:")}  
+ if(parallel == 1) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
+    message("Measuring dominant frequency:")}  
   
-  lst<-lapp(1:length(sound.files), function(i){
+  lst<-lapp(1:length(X$sound.files), function(i){
     
     # Read sound files to get sample rate and length
-    r <- tuneR::readWave(file.path(getwd(), sound.files[i]), header = TRUE)
+    r <- tuneR::readWave(file.path(getwd(), X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
-    t <- c(start[i] - mar, end[i] + mar)
+    t <- c(X$start[i] - mar, X$end[i] + mar)
     
     #reset coordinates of signals 
-    mar1 <- start[i]-t[1]
-    mar2 <- mar1 + end[i] - start[i]
+    mar1 <- X$start[i]-t[1]
+    mar2 <- mar1 + X$end[i] - X$start[i]
     
     if (t[1] < 0) { t[2] <- abs(t[1]) + t[2] 
     mar1 <- mar1  + t[1]
@@ -209,7 +204,7 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
     b <- b * 1000}
     
     
-      r <- tuneR::readWave(as.character(sound.files[i]), from = t[1], to = t[2], units = "seconds")
+      r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
     
     if(img) {
       #in case bp its higher than can be due to sampling rate
@@ -219,15 +214,15 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
     
     # Spectrogram width can be proportional to signal duration
     if(propwidth == TRUE){
-      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "dfDTW", ".tiff", sep = ""), 
+      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "dfDTW", ".tiff", sep = ""), 
                             width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "dfDTW", ".jpeg", sep = ""), 
+                              jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "dfDTW", ".jpeg", sep = ""), 
                                    width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     } else {
-      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "dfDTW", ".tiff", sep = ""), 
+      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "dfDTW", ".tiff", sep = ""), 
                             width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "dfDTW", ".jpeg", sep = ""), 
+                              jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "dfDTW", ".jpeg", sep = ""), 
                                    width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     }
@@ -243,7 +238,7 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
     
     if(title){
       
-      title(paste(sound.files[i], "-", selec[i], "-", "dfDTW", sep = ""), cex.main = cexlab)
+      title(paste(X$sound.files[i], "-", X$selec[i], "-", "dfDTW", sep = ""), cex.main = cexlab)
       
     }
     
@@ -271,9 +266,9 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
     return(apdom$y)  
   } )
 
-  mat <- matrix(unlist(lst),nrow = length(sound.files), byrow = T)
-  dm <- dtwDist(mat,mat)       
-  rownames(dm) <- colnames(dm) <- paste(sound.files, selec, sep = "-")
+  mat <- matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)
+  dm <- dtw::dtwDist(mat,mat)       
+  rownames(dm) <- colnames(dm) <- paste(X$sound.files, X$selec, sep = "-")
   return(dm)
 }
 

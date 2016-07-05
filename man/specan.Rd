@@ -4,15 +4,15 @@
 \alias{specan}
 \title{Measure acoustic parameters in batches of sound files}
 \usage{
-specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1)
+specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL)
 }
 \arguments{
-\item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
+\item{X}{Data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 be used as the input data frame.}
 
-\item{bp}{numeric vector of length 2 giving the lower and upper limits of the 
+\item{bp}{Numeric vector of length 2 giving the lower and upper limits of the 
 frequency bandpass filter (in kHz). Default is c(0, 22).}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -21,8 +21,14 @@ frequency bandpass filter (in kHz). Default is c(0, 22).}
 dominant frequency detection. Default is 15.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 For windows OS the \code{parallelsugar} package should be installed.}
+
+\item{fast}{Logical. If \code{TRUE} (default) then the peakf acoustic parameter (see below) is not computed, which 
+substantially increases performance (~9 times faster).}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 Data frame with the following acoustic parameters: 
@@ -66,9 +72,8 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used
 }
 \examples{
 \dontrun{
-#First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+# First set temporary folder
+setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1,"Phae.long1.wav")
@@ -83,11 +88,9 @@ a <- specan(X = manualoc.df, bp = c(0, 22))
 a <- specan(X = manualoc.df, bp = c(0, 22), threshold = 20)
 # View(a)
 
-# remove example directory
-unlink(getwd(), recursive = TRUE)
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}), Grace Smith Vidaurre and Hua Zhong
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
 }
 

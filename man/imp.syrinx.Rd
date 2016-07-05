@@ -34,11 +34,11 @@ setwd(tempdir())
 #load data 
 data(selection.files)
 
-write.table(selection.files[[3]],file = "harpyeagle.wav.txt",row.names = F,
- col.names = F, sep= "\\t")
+write.table(selection.files[[3]],file = "harpyeagle.wav.txt",row.names = FALSE,
+ col.names = FALSE, sep= "\\t")
 
-write.table(selection.files[[4]],file = "Phae.long4.wav.txt",row.names = F, 
-col.names = F, sep= "\\t")
+write.table(selection.files[[4]],file = "Phae.long4.wav.txt",row.names = FALSE, 
+col.names = FALSE, sep= "\\t")
 
 syr.dat<-imp.syrinx(all.data = FALSE)
 

@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 }
 \usage{
-sig2noise(X, mar, parallel = 1)
+sig2noise(X, mar, parallel = 1, path = NULL)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -18,8 +18,11 @@ for sound file name (sound.files), selection number (selec), and start and end t
 the start and end points of selection over which to measure noise.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-For windows OS the \code{parallelsugar} package should be installed.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+Not available in Windows OS.}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 

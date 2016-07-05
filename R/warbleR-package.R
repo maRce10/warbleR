@@ -33,9 +33,11 @@
 #'   format
 #'   
 #'   \code{\link{checkwavs}}: Check whether .wav files can be read by subsequent 
-#'   functions
+#'   functions and the minimum windows length ("wl" argument) that can be used
 #'   
-#' @section Streamlining analysis of acoustic signal structure in R:
+#'   \code{\link{wavdur}}: Determine the duration of sound files
+#'   
+#' @section Streamlining analysis of animal acoustic signal structure in R:
 #'   
 #'   \code{\link{autodetec}}: Automatically detect start and 
 #'   end of acoustic signals
@@ -95,9 +97,10 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
+#' @import foreach
+#' @importFrom  doParallel registerDoParallel
 #' @importFrom dtw dtwDist
 #' @importFrom stats cor dist aggregate approx ave princomp time ts    
-#' @importFrom devtools install_github  
 #' 
 #' @author Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
 #'   

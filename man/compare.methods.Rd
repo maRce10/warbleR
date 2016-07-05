@@ -2,13 +2,11 @@
 % Please edit documentation in R/compare.methods.R
 \name{compare.methods}
 \alias{compare.methods}
-\title{Assessing the performance of acoustic analysis methods  
- 
-\code{compare.methods} Produces graphs to visually assess performance of acoustic distance measurements}
+\title{Assessing the performance of acoustic distance measurements}
 \usage{
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 res = 150, n = 10, length.out = 30, methods = c("XCORR", 
-"dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1)
+"dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1, path = NULL)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
@@ -50,19 +48,18 @@ methods that would be compared. The methods available are: cross-correlation (XC
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-For windows users the \code{parallelsugar} package should be installed. 
- Note that creating images is not compatible with parallel computing 
- (parallel > 1) in OSX (mac).}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). 
+Not available in Windows OS.}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 Image files with 4 spectrograms of the selection being compared and scatterplots 
 of the acoustic space of all signals in the input data frame 'X'.
 }
 \description{
-Assessing the performance of acoustic analysis methods  
- 
-\code{compare.methods} Produces graphs to visually assess performance of acoustic distance measurements
+\code{compare.methods} create graphs to visually assess performance of acoustic distance measurements
 }
 \details{
 This function produces graphs with spectrograms from 4 selections that allow visual inspection of the performance of acoustic distance methods at comparing those selections. The spectrograms are all plotted with the same frequency and time scales. The function compares 2 methods at a time. The methods available are: cross

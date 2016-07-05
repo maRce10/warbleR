@@ -3,7 +3,7 @@
 \docType{data}
 \name{Phae.long4}
 \alias{Phae.long4}
-\title{Acoustic recording #4 of \emph{Phaethornis longirostris} (Long-billed Hermit).}
+\title{Acoustic recording #1 of \emph{Phaethornis longirostris}}
 \format{One .wav file: \describe{
   
   \item{Phae.long4}{\emph{Phaethornis longirostris} #4 recording}

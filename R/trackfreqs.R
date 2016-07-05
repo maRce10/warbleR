@@ -7,7 +7,8 @@
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
 #'   xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.8, 1), 
 #'   threshold = 15, contour = "both", col = c("chartreuse3", "dodgerblue"),
-#'    pch = c(17, 16),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1)
+#'    pch = c(17, 16),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
+#'    path = NULL)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -69,10 +70,9 @@
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#' It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#' For windows OS the \code{parallelsugar} package should be installed.
-#'   Note that creating images is not compatible with parallel computing 
-#'   (parallel > 1) in OSX (mac).    
+#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+#' @param path Character string containing the directory path where the sound files are located. 
+#' If \code{NULL} (default) then the current working directory is used.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
 #' @family spectrogram creators
@@ -114,96 +114,75 @@
 #' 
 #' }
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#last modification on jul-5-2016 (MAS)
 
 trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
-                     bp = c(0, 22), cex = c(0.8, 1), threshold = 15, contour = "both", 
-                     col = c("chartreuse3", "dodgerblue"),  pch = c(17, 16), 
-                     mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1){     
-
-  if(class(X) == "data.frame") {if(all(c("sound.files", "selec", 
-                                         "start", "end") %in% colnames(X))) 
-  {
-    start <- as.numeric(unlist(X$start))
-    end <- as.numeric(unlist(X$end))
-    sound.files <- as.character(unlist(X$sound.files))
-    selec <- as.character(unlist(X$selec))
-  } else stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
-                                                                       "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
-  } else  stop("X is not a data frame")
+                       bp = c(0, 22), cex = c(0.8, 1), threshold = 15, contour = "both", 
+                       col = c("chartreuse3", "dodgerblue"),  pch = c(17, 16), 
+                       mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, path = NULL){     
+  
+  #check path to working directory
+  if(!is.null(path))
+  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  
+  #if X is not a data frame
+  if(!class(X) == "data.frame") stop("X is not a data frame")
+  
+  if(!all(c("sound.files", "selec", 
+            "start", "end") %in% colnames(X))) 
+    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+                                                                   "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(end, start)))) stop("NAs found in start and/or end")  
+  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(end) != "numeric" & class(start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(end - start<0)) stop(paste("The start is higher than the end in", length(which(end - start<0)), "case(s)"))  
+  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #if any selections longer than 20 secs stop
-  if(any(end - start>20)) stop(paste(length(which(end - start>20)), "selection(s) longer than 20 sec"))  
+  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   options( show.error.messages = TRUE)
   
   #if bp is not vector or length!=2 stop
   if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}
- 
+  
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
   #return warning if not all sound files were found
-  recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = T)
-  if(length(unique(sound.files[(sound.files %in% recs.wd)])) != length(unique(sound.files))) 
-    (paste(length(unique(sound.files))-length(unique(sound.files[(sound.files %in% recs.wd)])), 
-                  ".wav file(s) not found"))
+  recs.wd <- list.files(pattern = ".wav$", ignore.case = TRUE)
+  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
+    (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
+           ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
-  d <- which(sound.files %in% recs.wd) 
+  d <- which(X$sound.files %in% recs.wd) 
   if(length(d) == 0){
     stop("The .wav files are not in the working directory")
-  }  else {
-    start <- start[d]
-    end <- end[d]
-    selec <- selec[d]
-    sound.files <- sound.files[d]
-  }
+  }  else X <- X[d, ]
   
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel in OSX
-  if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
-    parallel <- 1
-    ("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
-  }
-  
-  # If parallel was called
-  if(parallel > 1)
-  { options(warn = -1)
-    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
-      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
-        if(Sys.info()[1] == "Windows"){ 
-          ("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
-          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
-  
-  options(warn = 0)
-  
-  if(parallel == 1) ("Creating spectrograms overlaid with acoustic measurements:")
-  invisible(lapp(1:length(sound.files), function(i){
+          trackfreFUN <- function(X, i, mar, flim, xl, picsize, wl, cexlab, inner.mar, outer.mar, res, bp, cex, threshold, pch){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- tuneR::readWave(file.path(getwd(), sound.files[i]), header = T)
+    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
-    t <- c(start[i] - mar, end[i] + mar)
+    t <- c(X$start[i] - mar, X$end[i] + mar)
     if(t[1]<0) t[1]<-0
     if(t[2]>r$samples/f) t[2]<-r$samples/f
     
     
     mar1 <- mar
-    mar2 <- mar1 + end[i] - start[i]
+    mar2 <- mar1 + X$end[i] - X$start[i]
     
     if (t[1] < 0) { 
       mar1 <- mar1  + t[1]
@@ -214,7 +193,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     if(t[2] > r$samples/f) t[2] <- r$samples/f
     
     # read rec segment
-    r <- tuneR::readWave(as.character(sound.files[i]), from = t[1], to = t[2], units = "seconds")
+    r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
     #in case bp its higher than can be due to sampling rate
     b<- bp 
     if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
@@ -225,15 +204,15 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
     # Spectrogram width can be proportional to signal duration
     if(propwidth == TRUE){
-      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
+      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
            width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-             jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".jpeg", sep = ""), 
+             jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "trackfreqs", ".jpeg", sep = ""), 
                   width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     } else {
-      if(it == "tiff") tiff(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
+      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "trackfreqs", ".tiff", sep = ""), 
            width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-             jpeg(filename = paste(sound.files[i],"-", selec[i], "-", "trackfreqs", ".jpeg", sep = ""), 
+             jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "trackfreqs", ".jpeg", sep = ""), 
                   width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
       
     }
@@ -243,9 +222,6 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
     # Change relative widths of columns for spectrogram when sc = TRUE
     if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
-    
-#     old.par <- par(no.readonly = TRUE) # par settings which could be changed.
-#     on.exit(par(old.par)) 
     
     # Change inner and outer plot margins
     par(mar = inner.mar)
@@ -260,7 +236,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
     if(title){
       
-      title(paste(sound.files[i], "-", selec[i], "-", "trackfreqs", sep = ""), cex.main = cexlab)
+      title(paste(X$sound.files[i], "-", X$selec[i], "-", "trackfreqs", sep = ""), cex.main = cexlab)
       
     }
     
@@ -312,6 +288,34 @@ if(contour %in% c("both", "ff"))
     dev.off()
     return(NULL)
     
-  }))
+  }
 
+          # Run parallel in windows
+          if(parallel > 1) {if(Sys.info()[1] == "Windows") {
+            
+            i <- NULL #only to avoid non-declared objects
+            
+            cl <- parallel::makeCluster(parallel)
+            
+            # doSNOW::registerDoSNOW(cl) 
+            doParallel::registerDoParallel(cl)
+            
+            sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+              trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch)
+            }
+            parallel::stopCluster(cl)
+            
+          } else {    # Run parallel in other operating systems
+            
+          sp <- parallel::mclapply(1:nrow(X), function (i) {
+              trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch)
+            })
+          }
+          }
+          else {sp <- pbapply::pblapply(1:nrow(X), function(i) {
+            trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch) 
+          })
+          }
+          
+          
 }

@@ -45,10 +45,12 @@ License: GPL (>= 2)
   format
   
   \code{\link{checkwavs}}: Check whether .wav files can be read by subsequent 
-  functions
+  functions and the minimum windows length ("wl" argument) that can be used
+  
+  \code{\link{wavdur}}: Determine the duration of sound files
 }
 
-\section{Streamlining analysis of acoustic signal structure in R}{
+\section{Streamlining analysis of animal acoustic signal structure in R}{
 
   
   \code{\link{autodetec}}: Automatically detect start and 

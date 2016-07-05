@@ -4,7 +4,19 @@
 \alias{checkwavs}
 \title{Check .wav files}
 \usage{
-checkwavs()
+checkwavs(X = NULL, path = NULL)
+}
+\arguments{
+\item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
+files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+be used as the input data frame. If provided the function also returns the
+smallest number of samples from the listed selections, which limits the minimum window 
+length (wl argument in other functions) that can be used in batch analyses. 
+This could be useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}).}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 If all .wav files are ok, returns message "All files are ok!".
@@ -15,12 +27,14 @@ If all .wav files are ok, returns message "All files are ok!".
 \code{checkwavs} checks whether .wav files can be read by subsequent functions.
 }
 \details{
-This function has no associated arguments, although users must
-  set the working directory where they wish to check .wav files beforehand.
+This function checks if .wav files in the working directory can be read.
+Users must set the working directory where they wish to check .wav files beforehand. 
+If X is provided it also returns the smallest number of samples from
+the selections listed in X (if all files can be read).
 }
 \examples{
 \dontrun{
-# First create empty folder
+# First set temporary folder
 setwd(tempdir())
 
 # save wav file examples

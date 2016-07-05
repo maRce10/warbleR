@@ -9,7 +9,7 @@ dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
   threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05, 
-  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1)
+  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -96,10 +96,10 @@ Default is "topright".}
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
- For windows users the \code{parallelsugar} package should be installed.
- Note that creating images is not compatible with parallel computing 
- (parallel > 1) in OSX (mac).}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+Not available in Windows OS.}
+
+\item{path}{Character string containing the directory path where the sound files are located.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is 
@@ -126,7 +126,7 @@ writeWave(Phae.long2, "Phae.long2.wav") #save sound files
 writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-dfts(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
+dfts(manualoc.df, length.out = 30, flim = c(1, 12), bp = c(2, 9))
 
 }
 }

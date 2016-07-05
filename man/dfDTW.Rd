@@ -2,14 +2,14 @@
 % Please edit documentation in R/dfDTW.R
 \name{dfDTW}
 \alias{dfDTW}
-\title{Calculates acoustic dissimilarity using dynamic time warping on dominant frequency contours}
+\title{Acoustic dissimilarity using dynamic time warping on dominant frequency contours}
 \usage{
 dfDTW(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
   threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05, 
-  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1)
+  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -96,10 +96,10 @@ Default is "topright".}
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
- For windows users the \code{parallelsugar} package should be installed. 
- Note that creating images is not compatible with parallel computing 
- (parallel > 1) in OSX (mac).}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not availble in Windows OS.}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 A matrix with the pairwise dissimilarity values. If img is 
@@ -107,8 +107,8 @@ A matrix with the pairwise dissimilarity values. If img is
 input data frame showing the location of the dominant frequencies.
 }
 \description{
-\code{dfDTW} calculates acoustic dissimilarity of frequency contours.
-of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+\code{dfDTW} calculates acoustic dissimilarity of dominant frequency contours using dynamic
+time warping. Internally it applies the \code{\link[dtw]{dtwDist}} from the \code{dtw} package.
 }
 \details{
 This function extracts the dominant frequency values as a time series and
@@ -129,7 +129,7 @@ writeWave(Phae.long2, "Phae.long2.wav") #save sound files
 writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-dfDTW(manualoc.df, length.out = 30, flim = c(1, 12), picsize = 2, res = 100, bp = c(2, 9))
+dfDTW(manualoc.df, length.out = 30, flim = c(1, 12), bp = c(2, 9))
 
 }
 }

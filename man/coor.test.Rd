@@ -17,8 +17,7 @@ If \code{FALSE} the opposite pattern is evaluted (whether overlaps occur more of
 Default is  \code{TRUE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
- For windows users the \code{parallelsugar} package should be installed.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 }
 \value{
 A data frame with the observed number of overlaps (obs.overlaps), mean number of overlaps expected by chance,
@@ -42,10 +41,10 @@ is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
 data(coor.sing)
 
 # testing if coordination happens less than expected by chance
-coor.test(coor.sing, iterations = 1000, less.than.chance = T)
+coor.test(coor.sing, iterations = 1000, less.than.chance = TRUE)
 
 # testing if coordination happens more than expected by chance
-coor.test(coor.sing, iterations = 1000, less.than.chance = F)
+coor.test(coor.sing, iterations = 1000, less.than.chance = FALSE)
 }
 }
 \author{

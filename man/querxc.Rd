@@ -13,7 +13,9 @@ species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{
 
 \item{download}{Logical argument. Downloads recording file names and
 associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
-directory as .mp3 files. Default is \code{FALSE}.}
+directory as .mp3 files. Default is \code{FALSE}. Note that if the recording is already in the 
+working directory (as when the downloading process has been interrupted) it will be skipped. 
+Hence, resuming downloading processes will not start from scratch.}
 
 \item{X}{Data frame with the same columns as the output of the function, or at least the following
 columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in the data frame 
@@ -21,8 +23,8 @@ will be download (\code{download} argument is automatically set to \code{TRUE}).
 the recordings to be downloaded based on their attributes.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-For windows OS the \code{parallelsugar} package should be installed.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+Not available in Windows OS.}
 }
 \value{
 If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided.

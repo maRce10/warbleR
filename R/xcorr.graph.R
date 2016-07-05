@@ -107,12 +107,12 @@ xcorr.graph<-function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = FA
     par(mar = mar)
     plot(1, 1, col ="white", ylim = c(0,1), xlab = "", ylab = "", yaxt = "n", xaxt = "n", lwd = 5, xlim = c(-1,1))
     if(i %in% sidepan) 
-    {      axis(side = 2, line =0, at = seq(0, 1,length.out = 5),tick = T, cex=0.2,labels = F)
-      axis(side = 2, line =-0.6, at = seq(0, 1,length.out = 5),tick = F, cex.axis=0.7,labels = round(seq(0, 1,length.out = 5),1))
+    {      axis(side = 2, line =0, at = seq(0, 1,length.out = 5),tick = TRUE, cex=0.2,labels = FALSE)
+      axis(side = 2, line =-0.6, at = seq(0, 1,length.out = 5),tick = FALSE, cex.axis=0.7,labels = round(seq(0, 1,length.out = 5),1))
     }
     if(i %in% bottompan) 
-    {      axis(side = 1, line =0, at = seq(-1, 1,length.out = 5),tick = T, cex=0.2,labels = F)
-      axis(side = 1, line =-0.6, at = seq(-1, 1,length.out = 5),tick = F, cex.axis=0.7,labels = round(seq(-1, 1,length.out = 5),1))
+    {      axis(side = 1, line =0, at = seq(-1, 1,length.out = 5),tick = TRUE, cex=0.2,labels = FALSE)
+      axis(side = 1, line =-0.6, at = seq(-1, 1,length.out = 5),tick = FALSE, cex.axis=0.7,labels = round(seq(-1, 1,length.out = 5),1))
     }
     
     rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "ivory")
@@ -133,7 +133,7 @@ xcorr.graph<-function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = FA
     screen(i) 
     par(mar = rep(0.2,4))
     plot(1, 1, col ="white",   xlab = "", ylab = "", tck=0.1,  yaxt = "n", xaxt = "n")
-    # axis(side = 1, line =-1, at = c(-1, 0, 1),tick = F)
+    # axis(side = 1, line =-1, at = c(-1, 0, 1),tick = FALSE)
     rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "ivory")
     text(1, 1, labs[z], srt =45, cex =0.5 * cex.lab )
     z <- z + 1

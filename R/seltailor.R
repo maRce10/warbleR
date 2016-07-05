@@ -4,7 +4,7 @@
 #' n which the start and end times of acoustic signals listed in a data frame can be adjusted.
 #' @usage seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
 #'  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
-#'   comments = TRUE)
+#'   comments = TRUE, path = NULL)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{seltailor}} or \code{\link{autodetec}} can 
@@ -30,6 +30,8 @@
 #' moving to the next selection (in seconds). Default is 1. 
 #' @param comments Logical argument specifying if 'sel.comment' (when in data frame) should be included 
 #' in the title of the spectrograms. Default is \code{TRUE}.
+#' @param path Character string containing the directory path where the sound files are located. 
+#' If \code{NULL} (default) then the current working directory is used.
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
@@ -82,11 +84,16 @@
 #'   The zoom can be adjusted by setting the \code{mar} argument.
 #'  @seealso  \code{\link{manualoc}}
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#last modification on jul-5-2016 (MAS)
 
 seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
             osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE,
-            pause = 1, comments = TRUE)
+            pause = 1, comments = TRUE, path = NULL)
 {
+  
+  #check path to working directory
+  if(!is.null(path))
+  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
   # stop if not all sound files were found
   fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
@@ -99,7 +106,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   if(!file.exists(file.path(getwd(), "seltailor_output.csv")))
   {X$tailored <- ""
   X$tailored <- as.character(X$tailored)
-    write.csv(X, "seltailor_output.csv", row.names = F)  
+    write.csv(X, "seltailor_output.csv", row.names =  FALSE)  
     } else {X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
   if(any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
   if(all(any(!is.na(X$tailored)),X$tailored[nrow(X)] == "y")) { stop("all selections have been analyzed")}}
@@ -111,7 +118,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   #this first loop runs over files
   repeat{
     wavs = wavs + 1 # for selecting .wav files
-    try(dev.off(), silent = T)
+    try(dev.off(), silent= TRUE)
     recs <- vector() #store results
     rec <- tuneR::readWave(as.character(X$sound.files[wavs]), header = TRUE)
     main <- paste(X$sound.files[wavs], X$selec[wavs], sep = "-") 
@@ -143,8 +150,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       #create spectrogram
       seewave::spectro(tuneR::readWave(as.character(X$sound.files[wavs]),from =  tlim[1], to = tlim[2], units = "seconds"), 
                        f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seq(-40, 0, 0.5), heights = c(3, 2), 
-                       osc = osci, palette =  pal, main = main, axisX = T, grid = F, collab = "black", alab = "", fftw = T, 
-              flim = fl, scale = FALSE, axisY = T, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
+                       osc = osci, palette =  pal, main = main, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, 
+              flim = fl, scale = FALSE, axisY= TRUE, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
       
       #add lines of selections on spectrogram
       abline(v = c(X$start[wavs], X$end[wavs]) - tlim[1], lty = 3, col = "blue", lwd = 1.2)
@@ -192,7 +199,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       #if auto.next was set
       if(auto.next){
         X$tailored[wavs] <- "y"
-        write.csv(X, "seltailor_output.csv", row.names = F)  
+        write.csv(X, "seltailor_output.csv", row.names =  FALSE)  
         if(X$tailored[nrow(X)] == "y") stop("all selections have been analyzed") 
       Sys.sleep(pause) 
         break}   
@@ -210,7 +217,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         all(xy$y > (fl[2] - fl[1])/marg1 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])))
       {dev.off()
       if(selcount > 0) X$tailored[wavs] <- "y"
-        write.csv(X, "seltailor_output.csv", row.names = F)
+        write.csv(X, "seltailor_output.csv", row.names =  FALSE)
        stop("Stopped by user")}
       
       
@@ -220,7 +227,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
            all(xy$y < (fl[2] - fl[1])/marg2 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]),
        all(xy$y > (fl[2] - fl[1])/marg1 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])))
       {    X$tailored[wavs] <- "y"
-       write.csv(X, "seltailor_output.csv", row.names = F)  
+       write.csv(X, "seltailor_output.csv", row.names =  FALSE)  
        
          if(X$tailored[nrow(X)] == "y") { stop("all selections have been analyzed")}  else break}
     

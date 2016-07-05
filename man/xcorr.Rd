@@ -9,7 +9,7 @@ cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 }
 \usage{
 xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-cor.method = "pearson", parallel = 1)
+cor.method = "pearson", parallel = 1,  path = NULL)
 }
 \arguments{
 \item{X}{Data frame containing columns for sound files (sound.files), 
@@ -39,8 +39,11 @@ Only applied when frange is \code{NULL}. Default is \code{NULL}.}
 \item{cor.method}{A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-For windows OS the \code{parallelsugar} package should be installed.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+ Not available in Windows OS.}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
@@ -70,7 +73,7 @@ writeWave(Phae.long2, "Phae.long2.wav")
 writeWave(Phae.long3, "Phae.long3.wav")
 writeWave(Phae.long4, "Phae.long4.wav")
 
-xcor<-xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
+xcor <- xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
 dens=1, wn='hanning', cor.method = "pearson") 
 
 }

@@ -6,12 +6,4 @@
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("\nNOTE: 1. install 'ggplot2' to run coor.graph()")
-  packageStartupMessage("2. install 'parallelsugar' to run parallel computing in windows OS")
-}
-
-
-.onLoad <- function(libname, pkgname) {
-  if(all(!suppressWarnings(suppressPackageStartupMessages(requireNamespace("parallelsugar",
-                quietly=TRUE))),Sys.info()[1] == "Windows"))
-    suppressPackageStartupMessages(devtools::install_github("nathanvan/parallelsugar"))
 }

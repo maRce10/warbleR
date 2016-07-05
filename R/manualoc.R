@@ -4,7 +4,7 @@
 #' and end times of acoustic signals can be measured.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-#'   NULL, pal = reverse.gray.colors.2)
+#'   NULL, pal = reverse.gray.colors.2, path = NULL)
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
@@ -30,6 +30,8 @@
 #'   The external program must be closed before resuming analysis. Default is \code{NULL}.
 #' @param pal A color palette function to be used to assign colors in the 
 #'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.
+#' @param path Character string containing the directory path where the sound files are located. 
+#' If \code{NULL} (default) then the current working directory is used.
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
@@ -90,19 +92,25 @@
 #'  @seealso  \code{\link{seltailor}}
 #'    
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
+#last modification on jul-5-2016 (MAS)
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
-                     selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2)
+                     selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2,
+                     path = NULL)
 {
   
-  options(show.error.messages = T) 
-  files <- list.files(pattern = "wav$", ignore.case = T) #list .wav files in working director
+  #check path to working directory
+  if(!is.null(path))
+  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  
+  options(show.error.messages = TRUE) 
+  files <- list.files(pattern = "wav$", ignore.case = TRUE) #list .wav files in working director
   if(length(files) == 0) stop("no .wav files in working directory")
   
   if(!file.exists(file.path(getwd(), "manualoc_output.csv")))
   {results <- data.frame(matrix(nrow = 0, ncol = 6))
    colnames(results) <- c("sound.files", "selec", "start", "end", "sel.comment", "rec.comment")
-   write.csv(results, "manualoc_output.csv", row.names = F)} else
+   write.csv(results, "manualoc_output.csv", row.names = FALSE)} else
    {if(nrow(read.csv("manualoc_output.csv")) == 0)
    {results <- data.frame(matrix(nrow = 0, ncol = 6))
     colnames(results) <- c("sound.files", "selec", "start", "end", "sel.comment", "rec.comment")} else
@@ -118,7 +126,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
     wavs = wavs + 1 # for selecting .wav files
     rec.comment <- NA
     sel.comment <- NA
-    try(dev.off(), silent = T)
+    try(dev.off(), silent = TRUE)
     ovlp <- 0 # for spectro display
     prev <- NULL #for going to previous view
     recs <- vector() #store results
@@ -149,8 +157,8 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       
       #create spectrogram
       seewave::spectro(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  pal, 
-              main = main, tlim = tlim, axisX = T, grid = F, collab = "black", alab = "", fftw = T, 
-              flim = fl, scale = FALSE, axisY = T, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
+              main = main, tlim = tlim, axisX = TRUE, grid = FALSE, collab = "black", alab = "", fftw = TRUE, 
+              flim = fl, scale = FALSE, axisY = TRUE, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
       
       #add the circle and lines of selections on spectrogram
       if(length(start) > 0)
@@ -290,7 +298,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
                                   selec <- 1:length(start)
                                   results <- rbind(results, data.frame(sound.files = files[wavs], selec, start, end, sel.comment, rec.comment))
                                   results$sound.files <- as.character(results$sound.files)
-                                  write.csv(results, "manualoc_output.csv", row.names = F)
+                                  write.csv(results, "manualoc_output.csv", row.names = FALSE)
                                   dev.off()}
        
        stop("Stopped by user")}
@@ -301,19 +309,19 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
            all(xy$y < (fl[2] - fl[1])/marg2 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])
          && all(xy$y > (fl[2] - fl[1])/marg1 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]))
       {if(length(setdiff(files, unique(results$sound.files))) == 0)
-      {try(dev.off(), silent = T)
-       cat("all .wav files in working directory have been analyzed")
-       options( show.error.messages = F)
+      {try(dev.off(), silent = TRUE)
+       message("all .wav files in working directory have been analyzed")
+       options( show.error.messages = FALSE)
        stop("")}
       if(reccomm) rec.comment <- edit(rec.comment) else rec.comment <- ""   
       if(length(start) > 0) { selec <- 1:length(start)
                               results <- rbind(results, data.frame(sound.files = files[wavs], selec, start, end, sel.comment, rec.comment))
                               results$sound.files <- as.character(results$sound.files)
-                              write.csv(results, "manualoc_output.csv", row.names = F)} else {
+                              write.csv(results, "manualoc_output.csv", row.names = FALSE)} else {
                                 results <- rbind(results, data.frame(sound.files = files[wavs], selec = NA, start = NA,
                                                                      end = NA, sel.comment = NA, rec.comment))
                                 results$sound.files <- as.character(results$sound.files)
-                                write.csv(results, "manualoc_output.csv", row.names = F)}    
+                                write.csv(results, "manualoc_output.csv", row.names = FALSE)}    
       break}
       
       #previous view
@@ -341,8 +349,8 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       dev.off()}
     
     if(!file.exists(file.path(getwd(), files[wavs + 1])))
-    {try(dev.off(), silent = T)
-     cat("This was the last sound file")
+    {try(dev.off(), silent = TRUE)
+     message("This was the last sound file")
      break}
   }
 }

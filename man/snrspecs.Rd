@@ -7,11 +7,11 @@
 \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 }
 \usage{
-snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
-  reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, 
-  propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar =
-  0.2, snrmar = 0.1, it = "jpeg", parallel = 1)
+snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70, 
+inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, 
+res = 100, cexlab = 1, title = TRUE, 
+  propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
+   snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -26,9 +26,6 @@ the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options.}
-
-\item{pal}{A color palette function to be used to assign colors in the 
-plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
@@ -78,10 +75,10 @@ points of the selections where noise will be measured. Default is 0.1.}
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-For windows OS the \code{parallelsugar} package should be installed. 
-  Note that creating images is not compatible with parallel computing 
-  (parallel > 1) in OSX (mac).}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 Spectrograms per selection marked with margins where background noise will be measured.
@@ -103,9 +100,8 @@ This function can be used to test different margins to facilitate
 \examples{
 \dontrun{
 # First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
-
+setwd(tempdir())
+ 
 data(list = c("Phae.long1", "Phae.long2"))
 data(manualoc.df)
 writeWave(Phae.long1, "Phae.long1.wav") #save sound.files
@@ -126,9 +122,6 @@ mar = 0.2, snrmar = 0.01)
 
 #check this folder!!
 getwd()
-
-#remove example directory
-unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

@@ -2,7 +2,7 @@
 #' 
 #' \code{xcorr} Estimates the similarity of two spectrograms by means of cross-correlation
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-#' cor.method = "pearson", parallel = 1)
+#' cor.method = "pearson", parallel = 1,  path = NULL)
 #' @param  X Data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -22,8 +22,10 @@
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}. 
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#' It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#' For windows OS the \code{parallelsugar} package should be installed.   
+#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+#'  Not available in Windows OS.
+#' @param path Character string containing the directory path where the sound files are located. 
+#' If \code{NULL} (default) then the current working directory is used.
 #' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.  
 #' @export
@@ -47,7 +49,7 @@
 #' writeWave(Phae.long3, "Phae.long3.wav")
 #' writeWave(Phae.long4, "Phae.long4.wav")
 #'
-#' xcor<-xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
+#' xcor <- xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
 #' dens=1, wn='hanning', cor.method = "pearson") 
 #' 
 #' }
@@ -58,8 +60,13 @@
 
 
 xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, 
-                   wn='hanning', cor.method = "pearson", parallel = 1)
+                   wn='hanning', cor.method = "pearson", parallel = 1, path = NULL)
 {
+  
+  #check path to working directory
+  if(!is.null(path))
+  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  
   if(!is.data.frame(X))  stop("X is not a data frame")
   
   #if there are NAs in start or end stop
@@ -89,7 +96,7 @@ xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL,
     if(!is.vector(dens)) stop("'dens' must be a numeric vector of length 1") else{
       if(!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
   
-if(is.null(frange)) {df<-dfts(X, wl =300, img = F, length.out = 50)
+if(is.null(frange)) {df<-dfts(X, wl =300, img = FALSE, length.out = 50)
   df<-df[, 3:ncol(df)]
 frq.lim = c(min(df), max(df))} else{
   frq.lim = frange
@@ -99,19 +106,18 @@ frq.lim = c(min(df), max(df))} else{
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  # If parallel was called
-  if(parallel > 1)
-  { options(warn = -1)
-    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
-      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
-        if(Sys.info()[1] == "Windows"){ 
-          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
-          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
-          
+  #parallel not available on windows
+  if(parallel > 1 & Sys.info()[1] == "Windows")
+  {message("parallel computing not availabe in Windows OS for this function")
+    parallel <- 1}
+  
+  if(parallel > 1) 
+    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+    
           options(warn = 0)
           
 #create templates
-   if(parallel == 1) cat("creating templates:")
+   if(parallel == 1) message("creating templates:")
 ltemp<-lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
@@ -119,7 +125,7 @@ ltemp<-lapp(1:nrow(X), function(x)
    
    # Fourier transform
    t.survey <- length(clip@left)/clip@samp.rate
-   fspec <- seewave::spectro(wave=clip, wl=wl, ovlp=ovlp, wn=wn, plot=F)
+   fspec <- seewave::spectro(wave = clip, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
    
    # Filter amplitudes 
    t.bins <- fspec$time
@@ -141,7 +147,7 @@ ltemp<-lapp(1:nrow(X), function(x)
       on.mat <- on.mat + sample(c(1, 0), length(on.mat), TRUE, c(dens, 1-dens))
 
       # Then find locations of 
-      pts <- which(on.mat == 1, arr.ind=TRUE)
+      pts <- which(on.mat == 1, arr.ind = TRUE)
       pts <- pts[, 2:1]
       colnames(pts) <- c('t', 'frq')
       pts[, 'frq'] <- pts[, 'frq'] + min(which.frq.bins) - 1
@@ -178,7 +184,7 @@ ltemp<-lapp(1:nrow(X), function(x)
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
 #run cross-correlation
-if(parallel == 1) cat("running cross-correlation:")
+if(parallel == 1) message("running cross-correlation:")
 
 a<-lapp(1:(nrow(X)-1), function(j)
   {
@@ -278,11 +284,11 @@ colnames(mat) <- rownames(mat) <- paste(X$sound.files, X$selec, sep = "-")
 
 for(i in 1:nrow(scores))
 {
-  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed=T), "[[", 1)[i], 
-      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed=T), "[[", 2)[i]] <- scores$`b$score`[i]
+  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 1)[i], 
+      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 2)[i]] <- scores$`b$score`[i]
   
-  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed=T), "[[", 2)[i], 
-      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed=T), "[[", 1)[i]] <- scores$`b$score`[i]
+  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 2)[i], 
+      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 1)[i]] <- scores$`b$score`[i]
 }
 
 #list results

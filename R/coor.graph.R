@@ -32,13 +32,14 @@
 #' data(coor.sing)
 #' 
 #' # make coor.graphs in tiff format
-#' coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80, it = "jpeg" , img = TRUE)
+#' coor.graph(X = coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, it = "jpeg" , img = TRUE)
 #'
 #'
 #'#' # make coor.graphs in graphic device format
-#' coor.graph(X = coor.sing, ovlp = T, only.coor = F, img = FALSE)
+#' coor.graph(X = coor.sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#last modification on jul-5-2016 (MAS)
 
 coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg",
                         img = TRUE) { 

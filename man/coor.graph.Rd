@@ -49,11 +49,11 @@ setwd(tempdir())
 data(coor.sing)
 
 # make coor.graphs in tiff format
-coor.graph(X = coor.sing, ovlp = T, only.coor = F, xl =2, res =80, it = "jpeg" , img = TRUE)
+coor.graph(X = coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, it = "jpeg" , img = TRUE)
 
 
 #' # make coor.graphs in graphic device format
-coor.graph(X = coor.sing, ovlp = T, only.coor = F, img = FALSE)
+coor.graph(X = coor.sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
 }
 }
 \author{

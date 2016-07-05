@@ -1,9 +1,9 @@
-#' Assessing the performance of acoustic analysis methods  
-#'  
-#' \code{compare.methods} Produces graphs to visually assess performance of acoustic distance measurements 
+#' @title Assessing the performance of acoustic distance measurements
+#' 
+#' @description \code{compare.methods} create graphs to visually assess performance of acoustic distance measurements 
 #' @usage compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 #' res = 150, n = 10, length.out = 30, methods = c("XCORR", 
-#' "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1)
+#' "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1, path = NULL)
 #' @param X Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 #' function, or any data frame with columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
@@ -32,10 +32,10 @@
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#'  It specifies the number of cores to be used. Default is 1 (e.i. no parallel computing).
-#'  For windows users the \code{parallelsugar} package should be installed. 
-#'   Note that creating images is not compatible with parallel computing 
-#'   (parallel > 1) in OSX (mac).  
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). 
+#'  Not available in Windows OS.
+#' @param path Character string containing the directory path where the sound files are located. 
+#' If \code{NULL} (default) then the current working directory is used.  
 #' @return Image files with 4 spectrograms of the selection being compared and scatterplots 
 #' of the acoustic space of all signals in the input data frame 'X'.  
 #' @export
@@ -82,13 +82,19 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}). It uses 
 #' internally a modified version of the \code{\link[seewave]{spectro}} function from 
 #' seewave package to create spectrograms.
+#last modification on jul-5-2016
 
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = c("XCORR",
 "dfDTW", "ffDTW", "SP"), 
  
-    it = "jpeg", parallel = 1){  
-  #if parallel is not numeric
+    it = "jpeg", parallel = 1, path = NULL){  
+ 
+  #check path to working directory
+  if(!is.null(path))
+  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  
+   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
@@ -138,7 +144,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     #return warning if not all sound files were found
   fs <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -165,7 +171,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if("dfDTW" %in% methods)
     {dtwmat <- dfts(X, wl = 512, flim = flim, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out)
     
-  dm <- dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)])  
+  dm <- dtw::dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)])  
   
   MDSdtw <- stats::cmdscale(dm)  
   MDSdtw <- scale(MDSdtw)
@@ -175,7 +181,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if("ffDTW" %in% methods)
   {dtwmat <- ffts(X, wl = 512, flim = flim, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out)
   
-  dm <- dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)],method="DTW")  
+  dm <- dtw::dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)],method="DTW")  
   
   MDSdtw <- stats::cmdscale(dm)  
   MDSdtw <- scale(MDSdtw)
@@ -185,7 +191,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if("SP" %in% methods)
   {spmat <- specan(X, wl = 512, bp = flim, parallel = parallel)
   
-  sp <- princomp(scale(spmat[,3:ncol(spmat)]), cor = F)$scores[ ,1:2]
+  sp <- princomp(scale(spmat[,3:ncol(spmat)]), cor = FALSE)$scores[ ,1:2]
 
   PCsp <- scale(sp)
   disim.mats[[length(disim.mats) + 1]] <- PCsp
@@ -193,7 +199,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   names(disim.mats) <- methods
   
-  maxdist <-lapply(disim.mats, function(x) max(dist(x)))
+  maxdist <-lapply(disim.mats, function(x) max(stats::dist(x)))
   
   X$labels <- 1:nrow(X)
   
@@ -201,30 +207,31 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if(nrow(X) == 4)  {n <- 1
   combs <- as.matrix(1:4)
-  cat("Only 1 possible combination of signals")
+  message("Only 1 possible combination of signals")
   } else if(n > ncol(combs)) {n <- ncol(combs)
-  cat(paste("Only",n, "possible combinations of signals"))
+  message(paste("Only",n, "possible combinations of signals"))
   }
   
   if(nrow(X) > 4)  combs <- as.data.frame(combs[,sample(1:ncol(combs), n)])
   
-  #if parallel in OSX
-  if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
-    parallel <- 1
-    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
-  }
+#   #if parallel in OSX
+#   if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
+#     parallel <- 1
+#     message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+#   }
   
-  #if parallel was called
   #if on windows you need parallelsugar package
-  if(parallel > 1)
-  { options(warn = -1)
-    if(all(Sys.info()[1] == "Windows",requireNamespace("parallelsugar", quietly = TRUE) == TRUE)) 
-      lapp <- function(X, FUN) parallelsugar::mclapply(X, FUN, mc.cores = parallel) else
-        if(Sys.info()[1] == "Windows"){ 
-          cat("Windows users need to install the 'parallelsugar' package for parallel computing (you are not doing it now!)")
-          lapp <- pbapply::pblapply} else lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
+  # if(parallel > 1)
+  # { 
+         options(warn = -1)
+    #      
+    #        
+    #        if(Sys.info()[1] == "Windows"){ 
+    #       cat 
+    #       lapp <- pbapply::pblapply} else 
+    # lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
   
-  options(warn = 0)
+  # options(warn = 0)
 
   #create matrix for sppliting screen
   m <- rbind(c(0, 2.5/7, 3/10, 5/10), #1
@@ -244,11 +251,11 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   # screen 7:9 for similarities/arrows
   # screen 10:11 method labels
   
-  options(warn = -1)
   
-  if(parallel == 1)  cat("Saving graphs in image files")
+  if(parallel == 1)  message("Saving graphs in image files")
   
-  invisible(lapp(1:ncol(combs), function(u)
+  # invisible(lapp(1:ncol(combs), 
+      comp.methFUN <- function(X, u, res, disim.mats, m, mar, flim)
     {
     rs <- combs[,u]
        X <- X[rs,]
@@ -262,15 +269,15 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   col <- rep("gray40", nrow(disim.mats[[1]]))
   
-  col[rs] <- topo.colors(5)[1:4]
+  col[rs] <- grDevices::topo.colors(5)[1:4]
   
   invisible(lapply(c(7:9, 1:4, 5:6, 10:11), function(x)
   {
-    screen(x)
+    graphics::screen(x)
     par( mar = rep(0, 4))
     if(x < 5) 
     { 
-      r <- readWave(as.character(X$sound.files[x]), header = TRUE)
+      r <-  tuneR::readWave(as.character(X$sound.files[x]), header = TRUE)
       tlim <- c((X$end[x] - X$start[x])/2 + X$start[x] - mxdur/2, (X$end[x] - X$start[x])/2 + X$start[x] + mxdur/2)
       
       mar1 <- X$start[x]-tlim[1]
@@ -291,7 +298,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       
       r <- tuneR::readWave(as.character(X$sound.files[x]), from = tlim[1], to = tlim[2], units = "seconds")
       
-      spectro2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = F, axisY = F, tlab = F, flab = F, palette = reverse.gray.colors.2)
+      spectro2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = reverse.gray.colors.2)
       box(lwd = 2)
       if(x == 1 | x == 3) 
         text(tlim[2] - tlim[1], ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 2) else 
@@ -324,47 +331,47 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     
     #lower mid
     if(x == 8){
-      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = F, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "#FFFFCC", col = "#FFFFCC")
       arrows(0, 5.5/7, 1, 5.5/7, code = 3, length = 0.09, lwd = 2)
-      text(0.5, 5.36/7,labels =round(dist(disim.mats[[1]][rs[c(1,2)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
-      text(0.5, 5.545/7,labels =round(dist(disim.mats[[2]][rs[c(1,2)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)
+      text(0.5, 5.36/7,labels =round(stats::dist(disim.mats[[1]][rs[c(1,2)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
+      text(0.5, 5.545/7,labels =round(stats::dist(disim.mats[[2]][rs[c(1,2)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)
       arrows(0, 1.5/7, 1, 1.5/7, code = 3, length = 0.09, lwd = 2)
-      text(0.5, 1.4/7,labels = round(dist(disim.mats[[1]][rs[c(3,4)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
-      text(0.5, 1.63/7,labels =round(dist(disim.mats[[2]][rs[c(3,4)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)
+      text(0.5, 1.4/7,labels = round(stats::dist(disim.mats[[1]][rs[c(3,4)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
+      text(0.5, 1.63/7,labels =round(stats::dist(disim.mats[[2]][rs[c(3,4)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)
       arrows(0, 2/7, 1, 5/7, code = 3, length = 0.09, lwd = 2)
-      text(0.69, 4.16/7,labels =round(dist(disim.mats[[1]][rs[c(2,3)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
-      text(0.85, 4.4/7,labels =round(dist(disim.mats[[2]][rs[c(2,3)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)
+      text(0.69, 4.16/7,labels =round(stats::dist(disim.mats[[1]][rs[c(2,3)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
+      text(0.85, 4.4/7,labels =round(stats::dist(disim.mats[[2]][rs[c(2,3)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)
       arrows(0, 5/7, 1, 2/7, code = 3, length = 0.09, lwd = 2)
-      text(0.3, 4.16/7,labels =round(dist(disim.mats[[1]][rs[c(1,4)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
-      text(0.15, 4.4/7,labels =round(dist(disim.mats[[2]][rs[c(1,4)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)  
+      text(0.3, 4.16/7,labels =round(stats::dist(disim.mats[[1]][rs[c(1,4)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
+      text(0.15, 4.4/7,labels =round(stats::dist(disim.mats[[2]][rs[c(1,4)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)  
     }
     
     #in between left
     if(x == 7){
-      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = F, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "#FFFFCC", col = "#FFFFCC")
       arrows(0.5, 0, 0.5, 1, code = 3, length = 0.09, lwd = 2)
-      text(0.53, 0.5, labels =round(dist(disim.mats[[1]][rs[c(1,3)],])/maxdist[[1]],2), col = "black", font = 2, pos = 2)
-      text(0.47, 0.5, labels =round(dist(disim.mats[[2]][rs[c(1,3)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 4)
+      text(0.53, 0.5, labels =round(stats::dist(disim.mats[[1]][rs[c(1,3)],])/maxdist[[1]],2), col = "black", font = 2, pos = 2)
+      text(0.47, 0.5, labels =round(stats::dist(disim.mats[[2]][rs[c(1,3)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 4)
     }
     
     #in between right
     if(x == 9){
-      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = F, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "#FFFFCC", col = "#FFFFCC")
       arrows(0.5, 0, 0.5, 1, code = 3, length = 0.09, lwd = 2)
-      text(0.53, 0.5,labels =round(dist(disim.mats[[1]][rs[c(2,4)],])/maxdist[[1]],2), col = "black", font = 2, pos = 2)
-      text(0.47, 0.5,labels =round(dist(disim.mats[[2]][rs[c(2,4)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 4)
+      text(0.53, 0.5,labels =round(stats::dist(disim.mats[[1]][rs[c(2,4)],])/maxdist[[1]],2), col = "black", font = 2, pos = 2)
+      text(0.47, 0.5,labels =round(stats::dist(disim.mats[[2]][rs[c(2,4)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 4)
       
     }
     
     #top (for method labels)
     if(x == 10){
-      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = F, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "black", col = "#CCFFCC")
         text(0.5, 0.5, labels = names(disim.mats)[1], col = 'black', font = 2, cex = 1.2)
@@ -372,7 +379,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
         }
     
     if(x == 11){
-      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = F, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+      plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "black", col = "#CCFFCC")
       text(0.5, 0.5, labels = names(disim.mats)[2], col = 'gray50', font = 2, cex = 1.2)      
@@ -382,13 +389,38 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   ))
   invisible(dev.off())
   on.exit(invisible(close.screen(all.screens = TRUE)))
-  }))
+  }
 
+      if(parallel > 1) {if(Sys.info()[1] == "Windows") {
+        #parallel not available on windows
+        message("parallel computing not availabe in Windows OS for this function")
+           
+         a1 <- pbapply::pblapply(1:ncol(combs), function(u) 
+        { 
+          comp.methFUN(X, u, res, disim.mats, m, mar, flim)
+           
+           })
+
+        
+      } else {    # Run parallel in other operating systems
+        
+        a1 <- parallel::mclapply(1:ncol(combs), function(u) {
+          comp.methFUN(X, u, res, disim.mats, m, mar, flim)
+        })
+        
+      }
+      } else {a1 <- pbapply::pblapply(1:ncol(combs), function(u) 
+      { 
+        comp.methFUN(X, u, res, disim.mats, m, mar, flim)
+      })
+      
+      }
+      options(warn = -1)      
 }
 
 
 #internal warbleR function called by compare.methods. Modified from \code{\link[seewave]{spectro}}  
-spectro2 <-function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, 
+spectro2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, 
                     complex = FALSE, norm = TRUE, fftw = FALSE, dB = "max0", 
                     dBref = NULL, plot = TRUE, grid = TRUE, 
                     cont = FALSE, collevels = NULL, palette = spectro.colors, 
