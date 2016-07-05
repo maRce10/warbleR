@@ -18,7 +18,7 @@ vignette: >
 
 Here we present a case study of how [`warbleR`](https://cran.r-project.org/package=warbleR) functions can be used for bioacoustics, as well as some tips on managing bioacoustic data in R. For more details about function arguments, input or output, please read the documentation for the function in question (e.g. `?querxc`). 
 
-Please note that most tools in [`warbleR`](https://cran.r-project.org/package=warbleR) use functions from the [`seewave package`](https://cran.r-project.org/package=seewave) internally. [`warbleR`](https://cran.r-project.org/package=warbleR) has been designed to make the analyses more accessible to average R-users. However, acoustic analysis in R would not be possible without the tools provided by [`seewave`](https://cran.r-project.org/package=seewave). Hence, both packages should be given credit when using [`warbleR`](https://cran.r-project.org/package=warbleR) and both should be appropriately cited in publications (try `citation("warbleR")` and `citation("seewave")`. 
+Please note that most tools in [`warbleR`](https://cran.r-project.org/package=warbleR) use functions from the [`seewave package`](https://cran.r-project.org/package=seewave) internally. [`warbleR`](https://cran.r-project.org/package=warbleR) has been designed to make the analyses more accessible to average R-users. However, acoustic analysis in R would not be possible without the tools provided by [`seewave`](https://cran.r-project.org/package=seewave). Hence, both packages should be given credit when using [`warbleR`](https://cran.r-project.org/package=warbleR) and both should be appropriately cited in publications (try `citation("warbleR")` and `citation("seewave")`). 
 
 This vignette can be run without an advanced understanding of R, as long as you know how to run code in you R console. However, knowing more about data and file manipulation would be very helpful in order to modify the code to fit your own needs.
 
@@ -399,7 +399,7 @@ autodetec(flist = sub, bp = c(1, 10), threshold = 10, mindur = 0.05, maxdur = 0.
 
 ```
 
-The image files should look like this (shown below is recording ID 154161):
+The image files (in the working directory) should look like this (shown below is recording ID 154161):
 
 ![autodetec image example, make it 700 pxls width](154161-autodetec.th10.jpg)
 

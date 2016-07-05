@@ -362,11 +362,6 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     #remove duration column
   time.song <- time.song[,grep("duration",colnames(time.song),invert = TRUE)]
   
-  #add sound file column
-  time.song$sound.files <-X$sound.files[i]
-  
-  # change column order as the on e in manualoc output
-  time.song <- time.song[,c(4,1:3)]  
   return(time.song)
   on.exit(rm(time.song))
   }
@@ -374,7 +369,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
 
   #Apply over each sound file
   # Run parallel in windows
-  if(parallel > 1) {if(Sys.info()[1] == "Windows") {
+  if(parallel > 1) {
+    if(Sys.info()[1] == "Windows") {
     
     i <- NULL #only to avoid non-declared objects
     
@@ -389,13 +385,27 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     
     parallel::stopCluster(cl)
      
-  } else {    # Run parallel in other operating systems
+  } 
+    if(Sys.info()[1] == "Linux")  {    # Run parallel in linux
     
     ad <- parallel::mclapply(1:nrow(X), function (i) {
       adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
     })
     }
-  } else {ad <- pbapply::pblapply(1:nrow(X), function(i) 
+  
+    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    {
+      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+      
+      sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+        adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
+      }
+      
+      parallel::stopCluster(cl)
+    }  
+    
+  } else {
+    ad <- pbapply::pblapply(1:nrow(X), function(i) 
   {adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
     })
   }
@@ -500,7 +510,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
       }
     } 
 
-  if(parallel > 1) {if(Sys.info()[1] == "Windows") {
+  if(parallel > 1) {if(Sys.info()[1] == "Windows") 
+    {
     
     z <- NULL #only to avoid non-declared objects
     
@@ -515,13 +526,27 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     
     parallel::stopCluster(cl)
     
-  } else {    # Run parallel in other operating systems
+  } 
     
-    a1 <- parallel::mclapply(unique(results$sound.files), function(z) {
-      lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
-    })
-  }
-  } else {a1 <- pbapply::pblapply(unique(results$sound.files), function(z) 
+    if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+      
+      a1 <- parallel::mclapply(unique(results$sound.files), function(z) {
+        lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
+      })
+    }
+    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    {
+      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+      
+      sp <- foreach::foreach(i = unique(results$sound.files)) %dopar% {
+        lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
+      }
+      
+      parallel::stopCluster(cl)
+    }
+    
+  } else {
+    a1 <- pbapply::pblapply(unique(results$sound.files), function(z) 
   { 
   lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
   })

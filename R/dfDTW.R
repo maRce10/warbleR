@@ -172,18 +172,15 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
   {message("parallel computing not availabe in Windows OS for this function")
     parallel <- 1}
   
-  if(parallel > 1) 
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
-  
-  options(warn = 0)
-  
  if(parallel == 1) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
     message("Measuring dominant frequency:")}  
   
-  lst<-lapp(1:length(X$sound.files), function(i){
+  # lst<-lapp(1:length(X$sound.files), 
+            
+      dfDFUN <- function(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold){
     
     # Read sound files to get sample rate and length
-    r <- tuneR::readWave(file.path(getwd(), X$sound.files[i]), header = TRUE)
+    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -264,7 +261,46 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
     apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
     
     return(apdom$y)  
-  } )
+  }
+
+      # Run parallel in windows
+      if(parallel > 1) {
+        if(Sys.info()[1] == "Windows") {
+          
+          i <- NULL #only to avoid non-declared objects
+          
+          cl <- parallel::makeCluster(parallel)
+          
+          doParallel::registerDoParallel(cl)
+          
+          lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+            dfDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)
+          }
+          
+          parallel::stopCluster(cl)
+          
+        } 
+        if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+          
+          lst <- parallel::mclapply(1:nrow(X), function (i) {
+            dfDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)
+          })
+        }
+        if(!any(Sys.info()[1] == c("Linux", "Windows")))
+        {
+          cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+          
+          lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+            dfDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)
+          }
+          
+          parallel::stopCluster(cl)
+          
+        }
+      }
+      else {
+        lst <- pbapply::pblapply(1:nrow(X), function(i) dfDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold))
+      }
 
   mat <- matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)
   dm <- dtw::dtwDist(mat,mat)       

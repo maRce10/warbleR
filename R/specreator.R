@@ -207,29 +207,42 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   }
 
   # Run parallel in windows
-  if(parallel > 1) {if(Sys.info()[1] == "Windows") {
-    
-    i <- NULL #only to avoid non-declared objects
-    
-    cl <- parallel::makeCluster(parallel)
-    
-    # doSNOW::registerDoSNOW(cl) 
-    doParallel::registerDoParallel(cl)
-    
-    sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-      specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)
+  if(parallel > 1) {
+    if(Sys.info()[1] == "Windows") {
+      
+      i <- NULL #only to avoid non-declared objects
+      
+      cl <- parallel::makeCluster(parallel)
+      
+      doParallel::registerDoParallel(cl)
+      
+      sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+        specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)
+      }
+      
+      parallel::stopCluster(cl)
+      
+    } 
+    if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+      
+      sp <- parallel::mclapply(1:nrow(X), function (i) {
+        specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)
+      })
     }
-    
-    parallel::stopCluster(cl)
-    
-  } else {    # Run parallel in other operating systems
-    
-    sp <- parallel::mclapply(1:nrow(X), function (i) {
-      specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)
-    })
-  }
-  }
-  else {sp <- pbapply::pblapply(1:nrow(X), function(i) specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab))
+    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    {
+      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+      
+      sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+        specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)
+      }
+      
+      parallel::stopCluster(cl)
+      
+    }
+    }
+  else {
+    sp <- pbapply::pblapply(1:nrow(X), function(i) specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab))
   }
           
 }

@@ -391,25 +391,47 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   on.exit(invisible(close.screen(all.screens = TRUE)))
   }
 
-      if(parallel > 1) {if(Sys.info()[1] == "Windows") {
-        #parallel not available on windows
-        message("parallel computing not availabe in Windows OS for this function")
+      #parallel not available on windows
+      if(parallel > 1 & Sys.info()[1] == "Windows")
+      {message("parallel computing not availabe in Windows OS for this function")
+        parallel <- 1}
+      
+      if(parallel > 1) {
+        if(Sys.info()[1] == "Windows") {
            
-         a1 <- pbapply::pblapply(1:ncol(combs), function(u) 
-        { 
-          comp.methFUN(X, u, res, disim.mats, m, mar, flim)
-           
-           })
-
+        u <- NULL #only to avoid non-declared objects
+         
+         cl <- parallel::makeCluster(parallel)
+         
+         doParallel::registerDoParallel(cl)
+         
+         a1 <- foreach::foreach(u = 1:ncol(combs)) %dopar% {
+           comp.methFUN(X, u, res, disim.mats, m, mar, flim)
+         }
+         
+         parallel::stopCluster(cl)
+         
+      } 
         
-      } else {    # Run parallel in other operating systems
+        if(Sys.info()[1] == "Linux"){    # Run parallel in other operating systems
         
         a1 <- parallel::mclapply(1:ncol(combs), function(u) {
           comp.methFUN(X, u, res, disim.mats, m, mar, flim)
         })
         
       }
-      } else {a1 <- pbapply::pblapply(1:ncol(combs), function(u) 
+        if(!any(Sys.info()[1] == c("Linux", "Windows")))
+        {
+          cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+          
+          a1 <- foreach::foreach(u = 1:ncol(combs)) %dopar% {
+            comp.methFUN(X, u, res, disim.mats, m, mar, flim)
+          }
+          parallel::stopCluster(cl)
+        }
+        
+        
+        } else {a1 <- pbapply::pblapply(1:ncol(combs), function(u) 
       { 
         comp.methFUN(X, u, res, disim.mats, m, mar, flim)
       })
