@@ -50,4 +50,7 @@ checkwavs()
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
+\seealso{
+\code{\link{checksels}}
+}
 

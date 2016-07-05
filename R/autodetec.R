@@ -114,7 +114,7 @@
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}). Implements a
 #' modified version of the timer function from seewave. 
-#last modification on jul-5-2016
+#last modification on jul-5-2016 (MAS)
 
 autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 
                     bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 

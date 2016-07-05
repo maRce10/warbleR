@@ -19,6 +19,7 @@
 #' If X is provided it also returns the smallest number of samples from
 #' the selections listed in X (if all files can be read). 
 #' @export
+#' @seealso \code{\link{checksels}}
 #' @name checkwavs
 #' @examples
 #' \dontrun{

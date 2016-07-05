@@ -24,7 +24,7 @@
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) 
-#last modification on jul-5-2016
+#last modification on jul-5-2016 (MAS)
 
 wavdur <- function(files=NULL, path = NULL) { 
   

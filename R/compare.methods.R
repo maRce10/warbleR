@@ -82,7 +82,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}). It uses 
 #' internally a modified version of the \code{\link[seewave]{spectro}} function from 
 #' seewave package to create spectrograms.
-#last modification on jul-5-2016
+#last modification on jul-5-2016 (MAS)
 
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = c("XCORR",
