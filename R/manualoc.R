@@ -48,7 +48,7 @@
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
-#' manualoc()
+#' manualoc(wl = 300)
 #' # need to use the buttoms to manipulate function
 #' # check working directory for .csv file after stopping function
 #' #check here:

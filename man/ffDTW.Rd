@@ -130,7 +130,7 @@ writeWave(Phae.long2, "Phae.long2.wav") #save sound files
 writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-ffDTW(manualoc.df, length.out = 30, flim = c(1, 12), img = T, bp = c(0, 9))
+ffDTW(manualoc.df, length.out = 30, flim = c(1, 12), img = T, bp = c(0, 9), wl = 300)
 
 }
 }

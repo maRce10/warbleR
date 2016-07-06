@@ -104,7 +104,7 @@
 #' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
 #' 
 #' #run it with different settings
-#' ad <- autodetec(threshold = 10, env = "abs", ssmooth = 300, power = 1, 
+#' ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, redo = TRUE,
 #' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
 #' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
 #' 
@@ -270,7 +270,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
      song<-tuneR::readWave(as.character(X$sound.files[i]),from=X$start[i],to=X$end[i],units="seconds")
     
     f <- song@samp.rate
-    fl<- flim #in case flim its higher than can be due to samplin rate
+    fl<- flim #in case flim is higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     
     #filter frequnecies below 1000 Hz
@@ -316,7 +316,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     aut.det <- list(s = signal, s.start = start.signal)
     
     #put time of detection in data frame
-    time.song<-data.frame(duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
+    time.song<-data.frame(sound.files = X$sound.files[i], duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
    
     #remove signals based on duration  
     if(!is.null(mindur)) time.song<-time.song[time.song$duration>mindur,]
@@ -438,7 +438,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
       #loop to print spectros (modified from lspec function)
       rec <- tuneR::readWave(as.character(z)) #read wave file 
       f <- rec@samp.rate #set sampling rate
-      frli<- fl #in case flim its higher than can be due to samplin rate
+      frli<- fl #in case flim is higher than can be due to sampling rate
       if(frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
       dur <- length(rec@left)/rec@samp.rate #set duration    
       

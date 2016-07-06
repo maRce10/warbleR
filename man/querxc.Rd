@@ -40,8 +40,7 @@ or can also download the associated sound files.
 \examples{
 \dontrun{
 # First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+setwd(tempdir())
 df1 <- querxc("Phaethornis anthophilus", download = FALSE)
 View(df1)
 
@@ -49,9 +48,6 @@ View(df1)
 querxc("Phaethornis anthophilus", download = TRUE)
 #check this folder!!
 getwd()
-
-# remove example directory
-unlink(getwd(),recursive = TRUE)
 }
 }
 \author{

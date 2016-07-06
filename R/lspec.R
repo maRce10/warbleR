@@ -60,10 +60,10 @@
 #' writeWave(Phae.long1,"Phae.long1.wav") 
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' 
-#' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
+#' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
 #' 
 #' # including selections
-#' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = FALSE)
+#' lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = TRUE, wl = 300)
 #' 
 #' check this floder
 #' getwd()
@@ -176,7 +176,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
           #loop to print spectros  
     rec <- tuneR::readWave(z) #read wave file 
     f <- rec@samp.rate #set sampling rate
-    frli<- fl #in case flim its higher than can be due to samplin rate
+    frli<- fl #in case flim is higher than can be due to sampling rate
     if(frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
     dur <- length(rec@left)/rec@samp.rate #set duration    
     

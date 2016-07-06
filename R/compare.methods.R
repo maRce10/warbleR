@@ -71,11 +71,11 @@
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav") 
 #'
-#' compare.methods(X = manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 512, 
+#' compare.methods(X = manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300, 
 #' ovlp = 90, res = 200, n = 10, length.out = 30, 
 #' methods = c("XCORR", "dfDTW"), parallel = 1, it = "tiff")
 #' 
-#' #check this folder!!
+#' #check this folder!
 #' getwd()
 #' }
 #' 

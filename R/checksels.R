@@ -55,8 +55,9 @@ checksels <- function(X = NULL, parallel =  1, path = NULL){
   }
   else lapp <- pbapply::pblapply
   
-  Y <- lapp(unique(X$sound.files), function(x)
-    {
+  # Y <- lapp(unique(X$sound.files),
+    
+      csFUN <- function(x, X){
     Y <- X[X$sound.files == x, ]
     if(file.exists(as.character(x)))     {
       rec <- try(suppressWarnings(tuneR::readWave(as.character(x), header = T)), silent = T)
@@ -67,8 +68,55 @@ checksels <- function(X = NULL, parallel =  1, path = NULL){
           Y$check.res <- "Sound file can't be read"
         } else    Y$check.res <- "sound file not found"
     return(Y)
-    })
-  return(do.call(rbind, Y))  
+      }
+      #parallel not available on windows
+      if(parallel > 1 & Sys.info()[1] == "Windows")
+      {message("parallel computing not availabe in Windows OS for this function")
+        parallel <- 1}
+      
+      if(parallel > 1) {
+        if(Sys.info()[1] == "Windows") {
+          
+          x <- NULL #only to avoid non-declared objects
+          
+          cl <- parallel::makeCluster(parallel)
+          
+          doParallel::registerDoParallel(cl)
+          
+          a1 <- foreach::foreach(x = unique(X$sound.files)) %dopar% {
+            csFUN(x, X)
+          }
+          
+          parallel::stopCluster(cl)
+          
+        } 
+        
+        if(Sys.info()[1] == "Linux"){    # Run parallel in other operating systems
+          
+          a1 <- parallel::mclapply(unique(X$sound.files), function(x) {
+            csFUN(x, X)
+          })
+          
+        }
+        if(!any(Sys.info()[1] == c("Linux", "Windows")))
+        {
+          cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+          
+          a1 <- foreach::foreach(x = unique(X$sound.files)) %dopar% {
+            csFUN(x, X)
+          }
+          parallel::stopCluster(cl)
+        }
+        
+        
+      } else {a1 <- pbapply::pblapply(unique(X$sound.files), function(x) 
+      { 
+        csFUN(x, X)
+      })
+      
+      }    
+      
+  return(do.call(rbind, a1))  
 }
 
 

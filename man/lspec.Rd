@@ -85,10 +85,10 @@ data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
 writeWave(Phae.long1,"Phae.long1.wav") 
 writeWave(Phae.long2,"Phae.long2.wav")
 
-lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors)
+lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
 
 # including selections
-lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = FALSE)
+lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = TRUE, wl = 300)
 
 check this floder
 getwd()

@@ -89,14 +89,15 @@ Users can zoom-in a specific sound file segment by clicking at the
   color palette that comes with the seewave package can be used: temp.colors,
   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
-  cm.colors. The function is slow when working on files of length > 5min.
+  cm.colors. The function is slow when working on files of length > 5min. In most cases other
+  sound analysis softwares for manually selecting acoustic signals (e.g. Raven, Syrinx) should
+  be prefered.
  @seealso  \code{\link{seltailor}}
 }
 \examples{
 \dontrun{
 #First create empty folder
-dir.create(file.path(getwd(),"temp"))
-setwd(file.path(getwd(),"temp"))
+setwd(tempdir())
 
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
@@ -105,12 +106,11 @@ writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
-manualoc()
+manualoc(wl = 300)
 # need to use the buttoms to manipulate function
 # check working directory for .csv file after stopping function
-
-#remove example directory
-unlink(getwd(),recursive = TRUE)
+#check here:
+getwd()
 }
 }
 \author{

@@ -75,7 +75,7 @@
 #' # make spectrograms
 #' 
 #' specreator(manualoc.df, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
-#'           picsize = 2, res = 300, cexlab = 2, mar = 0.05)
+#'           picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
 
 #' #check this folder!!
 #' getwd()
