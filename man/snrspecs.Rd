@@ -102,8 +102,7 @@ This function can be used to test different margins to facilitate
 # First create empty folder
 setwd(tempdir())
  
-data(list = c("Phae.long1", "Phae.long2"))
-data(manualoc.df)
+data(list = c("Phae.long1", "Phae.long2", "manualoc.df"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound.files
 writeWave(Phae.long2, "Phae.long2.wav") 
 

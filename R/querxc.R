@@ -26,8 +26,7 @@
 #' @examples
 #' \dontrun{
 #' # First create empty folder
-#' dir.create(file.path(getwd(),"temp"))
-#' setwd(file.path(getwd(),"temp"))
+#' setwd(tempdir())
 
 #' df1 <- querxc("Phaethornis anthophilus", download = FALSE)
 #' View(df1)
@@ -37,9 +36,6 @@
 
 #' #check this folder!!
 #' getwd()
-#' 
-#' # remove example directory
-#' unlink(getwd(),recursive = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
 #last modification on jul-5-2016 (MAS)
