@@ -278,9 +278,6 @@ for(i in 1:length(recs))
 
 ```
 
-```
-
-
 <br>
 
 ### Filter recordings by visual inspection 
@@ -325,7 +322,7 @@ lspec(flim = c(1.5, 11), ovlp = 10, sxrow = 6, rows = 15, it = "tiff")
 
 ```
 
-The image files should look like this:
+The image files (in the working directory) should look like this:
 
 ![lspec example, make it 700 pxls width](Phaethornis-longirostris-154072-p1.jpg)
 
