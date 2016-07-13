@@ -9,8 +9,11 @@
 warbleR is a package designed to streamline analysis of (bio)acoustic signals in R. This 
 package allows users to collect open-access avian vocalizations data or input their 
 own data into a workflow that facilitates spectrographic visualization 
-and measurement of acoustic parameters in a batch process. The functions facilitate searching and downloading 
-avian vocalizations from Xeno-Canto \url{http://www.xeno-canto.org/}, creating maps of Xeno-Canto recordings, 
+and measurement of acoustic parameters. warbleR makes fundamental sound 
+analysis tools from the R package seewave, as well as new tools not yet 
+offered in the R environment, readily available for batch process analysis. The functions 
+facilitate searching and downloading avian vocalizations from Xeno-Canto 
+\url{http://www.xeno-canto.org/}, creating maps of Xeno-Canto recordings, 
 converting .mp3 files to .wav files, checking .wav files, automatically detecting acoustic signals, selecting 
 them manually, printing spectrograms of whole recordings or individual signals, measuring signal 
 to noise ratio, cross-correlation and performing acoustic measurements.
@@ -90,7 +93,9 @@ License: GPL (>= 2)
   
   \code{\link{ffDTW}}: Calculates acoustic dissimilarity using dynamic time warping
   on fundamental frequency contours
-     \code{\link{compare.methods}}: Produces graphs to visually assess performance of acoustic 
+  
+  
+  \code{\link{compare.methods}}: Produces graphs to visually assess performance of acoustic 
   distance measurements 
   
   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
@@ -100,7 +105,7 @@ License: GPL (>= 2)
   \code{\link{seltailor}}: nteractive view of spectrograms to tailor start and end of selections
 }
 \author{
-Marcelo Araya-Salas, Grace Smith Vidaurre, Hua Zhong 
+Marcelo Araya-Salas & Grace Smith Vidaurre
   
   Maintainer: Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }

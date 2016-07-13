@@ -37,7 +37,7 @@
 #' #check this folder!!
 #' getwd()
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) 
 #last modification on jul-5-2016 (MAS)
 
 querxc <- function(qword, download = FALSE, X = NULL, parallel = 1) {

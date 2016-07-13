@@ -112,7 +112,7 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function extracts the dominant frequency values as a time series. 
-The function uses the `approx` function to interpolate values between dominant frequency 
+The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant frequency 
 measures.
 }
 \examples{

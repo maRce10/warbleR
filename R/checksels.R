@@ -42,9 +42,9 @@ checksels <- function(X = NULL, parallel =  1, path = NULL){
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
-  files <- list.files(pattern = "wav$", ignore.case = T)
+  files <- list.files(pattern = "wav$", ignore.case = TRUE)
   if (length(files) == 0) 
     stop("no .wav files in working directory")
   
@@ -60,7 +60,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL){
       csFUN <- function(x, X){
     Y <- X[X$sound.files == x, ]
     if(file.exists(as.character(x)))     {
-      rec <- try(suppressWarnings(tuneR::readWave(as.character(x), header = T)), silent = T)
+      rec <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
       if(is.list(rec) & is.numeric(unlist(rec)) & all(unlist(rec) > 0))
       {maxdur <- rec$samples/rec$sample.rate  
         Y$check.res <- "OK"

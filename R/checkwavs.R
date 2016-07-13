@@ -42,7 +42,7 @@ checkwavs <- function(X = NULL, path = NULL) {
 
     #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
     files <- list.files(pattern = "wav$", ignore.case = TRUE) #list .wav files in working director    
   if(length(files) == 0) stop("no .wav files in working directory") 

@@ -48,7 +48,7 @@
 #' @details The function creates spectrograms for complete sound files, printing
 #'   the name of the sound files and the "page" number (p1-p2...) at the upper 
 #'   right corner of the image files. If results from \code{\link{manualoc}} are 
-#'   supplied (or a equivalent data frame), the function delimits and labels the selections. 
+#'   supplied (or an equivalent data frame), the function delimits and labels the selections. 
 #'   This function aims to facilitate visual classification of vocalization units and the 
 #'   analysis of animal vocal sequences.
 #' @examples
@@ -68,7 +68,7 @@
 #' check this floder
 #' getwd()
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-5-2016 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
@@ -76,7 +76,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   
   #check path to working directory
   if(!is.null(path)) 
-    if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else 
+    if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
       setwd(path) #set working directory
   
   #if sel.comment column not found create it

@@ -26,23 +26,23 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) 
 #last modification on jul-5-2016 (MAS)
 
-wavdur <- function(files=NULL, path = NULL) { 
+wavdur <- function(files = NULL, path = NULL) { 
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
   #stop if files is not a character vector
   if(!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
    if(is.null(files))
-  files <- list.files(pattern = "wav$", ignore.case = T) #list .wav files in working director    
+  files <- list.files(pattern = "wav$", ignore.case = TRUE) #list .wav files in working director    
   
    #stop if no wav files are found
    if(length(files) == 0) stop("no .wav files in working directory") 
   
   a <- sapply(files, function(x) {
-    rec<-tuneR::readWave(as.character( x),header = T)
+    rec<-tuneR::readWave(as.character(x),header = TRUE)
     return(rec$samples/rec$sample.rate)  
   })
    return(data.frame(sound.files=names(a),duration=a,row.names = NULL))

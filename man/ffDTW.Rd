@@ -114,7 +114,7 @@ time warping. Internally it applies the \code{\link[dtw]{dtwDist}} from the \cod
 \details{
 This function extracts the fundamental frequency values as a time series and
  then calculates the pairwise acoustic dissimilarity of the selections using dynamic time warping.
-The function uses the `approx` function to interpolate values between fundamental
+The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental
  frequency  measures. If 'img' is  \code{TRUE} the function also produces image files
  with the spectrograms of the signals listed in the input data frame showing the
  location of the fundamental frequencies.

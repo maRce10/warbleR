@@ -92,7 +92,6 @@ Users can zoom-in a specific sound file segment by clicking at the
   cm.colors. The function is slow when working on files of length > 5min. In most cases other
   sound analysis softwares for manually selecting acoustic signals (e.g. Raven, Syrinx) should
   be prefered.
- @seealso  \code{\link{seltailor}}
 }
 \examples{
 \dontrun{
@@ -114,6 +113,9 @@ getwd()
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Hua Zhong
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}
+\seealso{
+\code{\link{seltailor}}
 }
 

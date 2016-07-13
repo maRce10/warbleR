@@ -30,6 +30,7 @@ columns in selection files are returned.
 }
 \details{
 The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that a selection files including data from mulitple recordings cannot be imported.
+ @seealso \code{\link{imp.syrinx}}
 }
 \examples{
 \dontrun{

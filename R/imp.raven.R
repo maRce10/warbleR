@@ -15,7 +15,7 @@
 #' both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE}) then all 
 #' columns in selection files are returned. 
 #' @details The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that a selection files including data from mulitple recordings cannot be imported.
-#'   
+#'  @seealso \code{\link{imp.syrinx}} 
 #' @export
 #' @name imp.raven
 #' @examples
@@ -48,17 +48,17 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
   {
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
-  sel.txt <- list.files(pattern = ".txt$", full.names = TRUE, recursive = recursive)
-  sel.txt2 <- list.files(pattern = ".txt$", full.names = FALSE, recursive = recursive)
+  sel.txt <- list.files(pattern = ".txt$", full.names = TRUE, recursive = recursive, ignore.case = TRUE)
+  sel.txt2 <- list.files(pattern = ".txt$", full.names = FALSE, recursive = recursive, ignore.case = TRUE)
   if(length(sel.txt) == 0) stop("No selection files in working directory/'path' provided")
   
     clist<-lapply(1:length(sel.txt), function(i)
       {    a<-read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE)
     if(!all.data) { if(!is.null(sound.file.col)) 
     {  if(length(grep(sound.file.col, colnames(a))) == 0) stop(paste(sound.file.col , "column not found")) 
-    c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a), ignore.case = TRUE)], channel = a[, grep("channel", colnames(a), ignore.case = T)],
+    c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a), ignore.case = TRUE)], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)],
                                             selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
              start = a[,grep("Begin.Time",colnames(a), ignore.case = TRUE)],
              end = a[, grep("End.Time",colnames(a), ignore.case = TRUE)], selec.file = sel.txt2[i])} else

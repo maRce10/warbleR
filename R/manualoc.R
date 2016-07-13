@@ -89,9 +89,10 @@
 #'   cm.colors. The function is slow when working on files of length > 5min. In most cases other
 #'   sound analysis softwares for manually selecting acoustic signals (e.g. Raven, Syrinx) should
 #'   be prefered.
-#'  @seealso  \code{\link{seltailor}}
+#'  
+#' @seealso  \code{\link{seltailor}}
 #'    
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Hua Zhong
+#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) 
 #last modification on jul-5-2016 (MAS)
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
@@ -101,7 +102,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
   options(show.error.messages = TRUE) 
   files <- list.files(pattern = "wav$", ignore.case = TRUE) #list .wav files in working director

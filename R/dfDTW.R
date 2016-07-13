@@ -75,16 +75,15 @@
 #' @family spectrogram creators
 #' @seealso \code{\link{specreator}} for creating spectrograms from selections,
 #'  \code{\link{snrspecs}} for creating spectrograms to 
-#'   optimize noise margins used in \code{\link{sig2noise}}
+#'   optimize noise margins used in \code{\link{sig2noise}} and \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{ffDTW}} for frequency contour overlaid spectrograms.
 #' @export
 #' @name dfDTW
 #' @details This function extracts the dominant frequency values as a time series and
 #'  then calculates the pairwise acoustic dissimilarity using dynamic time warping.
-#' The function uses the `approx` function to interpolate values between dominant
+#' The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant
 #'  frequency  measures. If 'img' is  \code{TRUE} the function also produces image files
 #'  with the spectrograms of the signals listed in the input data frame showing the
 #'  location of the dominant frequencies.
-#' @seealso dfts, ffts, ffDTW
 #' @examples
 #' \dontrun{
 #' # set the temp directory
@@ -111,7 +110,7 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")

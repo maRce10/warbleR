@@ -113,7 +113,7 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function extracts the fundamental frequency values as a time series. 
-The function uses the `approx` function to interpolate values between fundamental frequency 
+The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency 
 measures.
 }
 \examples{

@@ -80,7 +80,7 @@
 #' @export
 #' @name ffts
 #' @details This function extracts the fundamental frequency values as a time series. 
-#' The function uses the `approx` function to interpolate values between fundamental frequency 
+#' The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency 
 #' measures.
 #' @examples
 #' \dontrun{
@@ -108,7 +108,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = T)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")

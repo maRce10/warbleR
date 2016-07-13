@@ -81,7 +81,6 @@ in which users can select a new start and end of a vocalization unit (e.g. eleme
   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
   cm.colors. Note that, unlike \code{\link{manualoc}}, you cannot zoom in the spectrogram \code{\link{seltailor}}. 
   The zoom can be adjusted by setting the \code{mar} argument.
- @seealso  \code{\link{manualoc}}
 }
 \examples{
 \dontrun{
@@ -108,5 +107,8 @@ getwd()
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}
+\seealso{
+\code{\link{manualoc}}
 }
 
