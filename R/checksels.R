@@ -44,20 +44,36 @@ checksels <- function(X = NULL, parallel =  1, path = NULL){
   if(!is.null(path))
   {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
+  #if X is not a data frame
+  if(!class(X) == "data.frame") stop("X is not a data frame")
+  
+  if(!all(c("sound.files", "selec", 
+            "start", "end") %in% colnames(X))) 
+    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+                                                                   "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+
+  #check if files are in working directory
   files <- list.files(pattern = "wav$", ignore.case = TRUE)
   if (length(files) == 0) 
     stop("no .wav files in working directory")
   
   if(!any(X$sound.files %in% files)) stop("Sound files in X aren't found in the working directory")
-  
-  if (parallel > 1) {
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)
-  }
-  else lapp <- pbapply::pblapply
-  
-  # Y <- lapp(unique(X$sound.files),
     
-      csFUN <- function(x, X){
+  #if there are NAs in start or end stop
+  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  
+  #if end or start are not numeric stop
+  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  
+  #if any start higher than end stop
+  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  
+  #if any selections longer than 20 secs stop
+  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
+  options( show.error.messages = TRUE)
+  
+  
+    csFUN <- function(x, X){
     Y <- X[X$sound.files == x, ]
     if(file.exists(as.character(x)))     {
       rec <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)

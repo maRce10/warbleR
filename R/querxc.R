@@ -1,7 +1,8 @@
 #' Access Xeno-Canto recordings and metadata
 #' 
 #' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
-#' @usage querxc(qword, download = FALSE, X = NULL, parallel = 1)  
+#' @usage querxc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
+#' parallel = 1)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'   species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 #'   (\url{http://www.xeno-canto.org/}).
@@ -10,51 +11,58 @@
 #'   directory as .mp3 files. Default is \code{FALSE}. Note that if the recording is already in the 
 #'   working directory (as when the downloading process has been interrupted) it will be skipped. 
 #'   Hence, resuming downloading processes will not start from scratch.   
-#' @param X Data frame with the same columns as the output of the function, or at least the following
-#' columns: Genus, Specific_epithet and Recording_ID. Only the recordings listed in the data frame 
+#' @param X Data frame with a Recording_ID column and any other column listed in the file.name argument. Only the recordings listed in the data frame 
 #' will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 #' the recordings to be downloaded based on their attributes.  
+#' @param file.name Character vector indicating the tags (or column names) to be included in the sound file names (if download = \code{TRUE}). Several tags can be included. If \code{NULL} only the Xeno-Canto recording identification number ("Recording_ID") is used. Default is c("Genus", "Specific_epithet").
+#' Note that recording id is always used (whether or not is listed by users) to avoid duplicated names.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' Not available in Windows OS.
-#' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided.
+#' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files (sound file) is included in the output data frame.  
 #' @export
 #' @name querxc
 #' @details This function queries for avian vocalization recordings in the open-access
 #' online repository Xeno-Canto (\url{http://www.xeno-canto.org/}). It can return recordings metadata
-#' or can also download the associated sound files.  
+#' or download the associated sound files.  
 #' @examples
 #' \dontrun{
 #' # First create empty folder
 #' setwd(tempdir())
-
-#' df1 <- querxc("Phaethornis anthophilus", download = FALSE)
-#' View(df1)
 #' 
+#' #search without downloading
+#' df1 <- querxc(qword = "Phaethornis anthophilus", download = FALSE)
+#' View(df1)
+#'
 #' #downloading files
-#' querxc("Phaethornis anthophilus", download = TRUE)
+#' querxc(qword = "Phaethornis anthophilus", download = TRUE)
 
 #' #check this folder!!
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) 
-#last modification on jul-5-2016 (MAS)
+#last modification on jul-24-2016 (MAS)
 
-querxc <- function(qword, download = FALSE, X = NULL, parallel = 1) {
-  # If parallel is not numeric
+querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
+                   parallel = 1) {
+ 
+   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #parallel not available on windows
-  if(parallel > 1 & Sys.info()[1] == "Windows")
-  {message("parallel computing not availabe in Windows OS for this function")
-    parallel <- 1}
+file.name <- gsub(" ", "_", file.name) 
+   file.name <- tolower(file.name) 
   
-  if(parallel > 1) 
-lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
-    
-          options(warn = 0)
-  
+if(is.null(X) & !is.null(file.name))  
+{
+
+   if(any(!(file.name %in%
+  c("recording_id", "genus", "specific_epithet", "subspecies", "english_name", "recordist"   , 
+  "country", "locality", "latitude", "longitude", "vocalization_type", "audio_file",        "license",
+  "url", "quality", "time", "date")))) stop("File name tags don't match column names in the output of this function (see documentation)")
+}
+
+
   if(is.null(X))
   {
   #check internet connection
@@ -131,51 +139,148 @@ message(paste( nrow(results), " recordings found!", sep=""))
 } else { 
   #stop if X is not a data frame
   if(class(X) != "data.frame") stop("X is not a data frame")
-  if(any(!c("Genus", "Specific_epithet", "Recording_ID") %in% colnames(X))) 
-    stop(paste(paste(c("Genus", "Specific_epithet", "Recording_ID")[!c("Genus",
-      "Specific_epithet", "Recording_ID") %in% colnames(X)], collapse=", "), "column(s) not found in data frame"))
-  download <- TRUE
-results <- X  }
+
+  #stop if the basic columns are not found
+  if(!is.null(file.name))
+  {if(any(!c(file.name, "recording_id") %in% tolower(colnames(X)))) 
+    stop(paste(paste(c(file.name, "recording_id")[!c(file.name, "recording_id") %in% tolower(colnames(X))], collapse=", "), "column(s) not found in data frame"))} else
+    if(!"recording_id" %in% colnames(X)) 
+    stop("Recording_ID column not found in data frame")
+  
+    download <- TRUE
+results <- X  
+}
 
   #download recordings
   if(download) {
-    message("Downloading sound files...")
-    lapp(matrix(c(1:length(results$Genus)), ncol=1), function(x){
-      gen <- results$Genus[x]
-      se <- results$Specific_epithet[x]
-      rid <- results$Recording_ID[x]
-      if(!file.exists(file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep = ""))))
-        download.file(paste("http://xeno-canto.org/download.php?XC=", rid, sep=""), 
-                      file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep="")),
+    if(any(file.name == "recording_id")) file.name <- file.name[-which(file.name == "recording_id")]
+    
+    if(!is.null(file.name))  {  if(length(which(tolower(names(results)) %in% file.name)) > 1)
+      fn <- apply(results[,which(tolower(names(results)) %in% file.name)], 1 , paste , collapse = "-" ) else 
+        fn <- results[,which(tolower(names(results)) %in% file.name)]
+          results$sound.files <- paste(paste(fn, results$Recording_ID, sep = "-"), ".mp3", sep = "")     
+      } else
+results$sound.files <- paste(results$Recording_ID, ".mp3", sep = "")   
+
+      
+      xcFUN <-  function(results, x){
+      if(!file.exists(results$sound.files[x]))
+        download.file(url = paste("http://xeno-canto.org/download.php?XC=", results$Recording_ID[x], sep=""), destfile = results$sound.files[x],
                       quiet = TRUE,  mode = "wb", cacheOK = TRUE,
                       extra = getOption("download.file.extra"))
       return (NULL)
+    }
+        message("Downloading sound files...")
+
+      
+  if(parallel > 1) {if(Sys.info()[1] == "Windows") 
+    {
+    
+    x <- NULL #only to avoid non-declared objects
+    
+    cl <- parallel::makeCluster(parallel)
+    
+    doParallel::registerDoParallel(cl)
+    
+    a1 <- parallel::parLapply(cl, 1:nrow(results), function(x)
+    {
+      xcFUN(results, x) 
     })
     
-    message("double-checking downloaded files")
+    parallel::stopCluster(cl)
+    
+  } 
+    
+    if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+      
+      a1 <- parallel::mclapply(1:nrow(results), function(x) {
+      xcFUN(results, x) 
+      })
+    }
+    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    {
+      cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
+      
+       doParallel::registerDoParallel(cl)
+ 
+      a1 <- foreach::foreach(x = 1:nrow(results)) %dopar% {
+            xcFUN(results, x)
+      }
+      
+      parallel::stopCluster(cl)
+    }
+    
+  } else {
+    a1 <- pbapply::pblapply(1:nrow(results), function(x) 
+  { 
+      xcFUN(results, x) 
+
+  })
+  }
+  
+
+   message("double-checking downloaded files")
    
+   #check if some files have no data
     fl <- list.files(pattern = ".mp3$")
     size0 <- fl[file.size(fl) == 0]
+   
+    #if so redo those files
+    if(length(size0) > 1)
+  {  Y <- results[results$sound.files %in% size0, ]
+     unlink(size0)
+     
     
-    if(length(size0) > 0)
-{   
- unlink(size0)
+     
+       if(parallel > 1) {if(Sys.info()[1] == "Windows") 
+    {
     
-    s0df <- data.frame(Genus = sapply(strsplit(as.character(size0), "-",fixed = TRUE), "[",1), Specific_epithet = sapply(strsplit(as.character(size0), "-",fixed = TRUE), "[",2), Recording_ID = gsub(".mp3", "",sapply(strsplit(as.character(size0), "-",fixed = TRUE), "[",3)))
- 
-    lapp(matrix(c(1:length(s0df$Genus)), ncol=1), function(x){
-      gen <- s0df$Genus[x]
-      se <- s0df$Specific_epithet[x]
-      rid <- s0df$Recording_ID[x]
-      if(!file.exists(file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep = ""))))
-        download.file(paste("http://xeno-canto.org/download.php?XC=", rid, sep=""), 
-                      file.path(getwd(), paste(gen, "-", se, "-", rid, ".mp3", sep="")),
-                      quiet = TRUE,  mode = "wb", cacheOK = TRUE,
-                      extra = getOption("download.file.extra"))
-      return (NULL)
+    x <- NULL #only to avoid non-declared objects
+    
+    cl <- parallel::makeCluster(parallel)
+    
+    doParallel::registerDoParallel(cl)
+    
+    a1 <- parallel::parLapply(cl, 1:nrow(Y), function(x)
+    {
+      xcFUN(Y, x) 
     })
-       
-}    
-  }  
+    
+    parallel::stopCluster(cl)
+    
+  } 
+    
+    if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+      
+      a1 <- parallel::mclapply(1:nrow(Y), function(x) {
+      xcFUN(Y, x) 
+      })
+    }
+    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    {
+      cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
+      
+       doParallel::registerDoParallel(cl)
+ 
+      a1 <- foreach::foreach(x = 1:nrow(Y)) %dopar% {
+            xcFUN(Y, x)
+      }
+      
+      parallel::stopCluster(cl)
+    }
+    
+  } else {
+    a1 <- pbapply::pblapply(1:nrow(Y), function(x) 
+  { 
+      xcFUN(Y, x) 
+
+  })
+  }
+     
+     
+     }
+    
+    
+  }
  if(is.null(X)) return(droplevels(results))
-}
+  }
