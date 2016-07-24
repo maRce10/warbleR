@@ -11,7 +11,7 @@ vignette: >
 <center>![warbleR logo](Logo_Warble-azul_small_margin.png)</center>
 
 <center> <h1><b>Streamlining acoustic analysis</h1></b> </center>
-<center> <i><font size="4"><a href="http://biology-web.nmsu.edu/~twright/people.html">Grace Smith Vidaurre</a> and <a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas</a></font></i> </center>
+<center> <i><font size="4"><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas</a> and <a href="gsmithvi.github.io">Grace Smith Vidaurre</a></font></i> </center>
 <center> `r Sys.Date()` </center>
 <br>
 
@@ -33,7 +33,7 @@ To start, we will use [`warbleR`](https://cran.r-project.org/package=warbleR) to
 
 -----
 
-First, we need to install and load [`warbleR`](https://cran.r-project.org/package=warbleR). Notice that you need an R version ≥ 2.10 and seewave package version ≥ 2.0.1
+First, we need to install and load [`warbleR`](https://cran.r-project.org/package=warbleR). Notice that you need an R version ≥ 2.10 and seewave package version ≥ 2.0.1. Also, users using UNIX machines (Mac OSX or Linux), will need to install `fftw3`, `pkg-config` and `libsndfile` on their machines prior to installing `warbleR`. These external packages will need to be installed through a UNIX terminal.
 
 ```{r, eval=FALSE}
 
@@ -159,8 +159,8 @@ table(Phae.lon$Vocalization_type)
 # reflect variation in data entry.
 
 # Luckily, it's very easy to filter the signals we want 
-Phae.lon.song <- droplevels(Phae.lon[grep("song", Phae.lon$Vocalization_type, 
-                                ignore.case = TRUE), ])
+Phae.lon.song <- Phae.lon[grep("song", Phae.lon$Vocalization_type, 
+                                ignore.case = TRUE), ]
 
 # Check resulting data frame
 str(Phae.lon.song) 
