@@ -38,13 +38,13 @@ is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
 \examples{
 \dontrun{
 #load  simulated singing data (see data documentation)
-data(coor.sing)
+, data(sim.coor.sing)
 
 # testing if coordination happens less than expected by chance
-coor.test(coor.sing, iterations = 1000, less.than.chance = TRUE)
+coor.test(sim.coor.sing, iterations = 1000, less.than.chance = TRUE)
 
 # testing if coordination happens more than expected by chance
-coor.test(coor.sing, iterations = 1000, less.than.chance = FALSE)
+coor.test(sim.coor.sing, iterations = 1000, less.than.chance = FALSE)
 }
 }
 \author{

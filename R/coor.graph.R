@@ -29,14 +29,15 @@
 #' setwd(tempdir())
 #' 
 #' # load simulate singing events  (see data documentation)
-#' data(coor.sing)
+#' , data(sim.coor.sing)
 #' 
 #' # make coor.graphs in tiff format
-#' coor.graph(X = coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, it = "jpeg" , img = TRUE)
+#' coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, 
+#' it = "jpeg", img = TRUE)
 #'
 #'
 #'#' # make coor.graphs in graphic device format
-#' coor.graph(X = coor.sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
+#' coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-5-2016 (MAS)
