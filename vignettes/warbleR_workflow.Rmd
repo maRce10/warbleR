@@ -681,7 +681,7 @@ As fundamental frequency does not seem to be adequately tracked, we will remove 
 
 ### Batch-process acoustic measurements with `specan`
 
-We're close to finshing the warbleR workflow. We can now perform acoustic measurements with the function `specan`. This function calculates 22 acoustic parameters across all the specified recordings. It's a batch process that is much faster than calculating measurements one recording at a time. `specan` uses and customizes several functions available in the [`seewave package`](https://cran.r-project.org/package=seewave). 
+We're close to finshing the warbleR workflow. We can now perform acoustic measurements with the function `specan`. This function calculates several acoustic parameters across all the specified recordings. It's a batch process that is much faster than calculating measurements one recording at a time. `specan` uses and customizes several functions available in the [`seewave package`](https://cran.r-project.org/package=seewave). 
 
 `specan` uses the time coordinates in the autodetec or manualoc output. It will measure acoustic parameters within the start and end times of the selections.
 

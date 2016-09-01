@@ -223,15 +223,17 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       parallel::stopCluster(cl)
       
     } 
-    if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
       
       sp <- parallel::mclapply(1:nrow(X), function (i) {
         specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)
       })
     }
-    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
     {
       cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+      
+      doParallel::registerDoParallel(cl)
       
       sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
         specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)

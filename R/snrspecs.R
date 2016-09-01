@@ -243,29 +243,50 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     dev.off()  
     return (NULL)
   }
-      # Run parallel in windows
-      if(parallel > 1) {if(Sys.info()[1] == "Windows") {
+     
+      
+    # Run parallel in windows
+    if(parallel > 1) {
+      if(Sys.info()[1] == "Windows") {
+        
+        i <- NULL #only to avoid non-declared objects
         
         cl <- parallel::makeCluster(parallel)
         
         doParallel::registerDoParallel(cl)
         
-        a1 <- parallel::parLapply(cl, 1:nrow(X), function(i)
-        {
+        a1 <- foreach::foreach(i = 1:nrow(X)) %dopar% {
           snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
-        })
+        }
         
         parallel::stopCluster(cl)
         
-        
-      } else {    # Run parallel in other operating systems
+      } 
+      
+      if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
         
         a1 <- parallel::mclapply(1:nrow(X), function (i) {
           snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
         })
       }
+      if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
+      {
+        cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+        
+        doParallel::registerDoParallel(cl)
+       
+         a1 <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+          snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
+        }
+        
+        parallel::stopCluster(cl)
+        
       }
-      else {sp <- pbapply::pblapply(1:nrow(X), function(i) snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar))
-      }
+    }
+    else {
+      a1 <- pbapply::pblapply(1:nrow(X), function(i) snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar))
+    }
+    
+    
     }
 

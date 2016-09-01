@@ -1,11 +1,11 @@
 #' Measure acoustic parameters in batches of sound files
 #'
-#' \code{specan} measures 22 acoustic parameters on acoustic signals for which the start and end times 
+#' \code{specan} measures of acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
 #' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL)
 #' @param X Data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+#' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' be used as the input data frame.
 #' @param bp Numeric vector of length 2 giving the lower and upper limits of the 
 #' frequency bandpass filter (in kHz). Default is c(0, 22).
@@ -43,13 +43,16 @@
 #'    \item \code{maxdom}: maximum of dominant frequency measured across acoustic signal 
 #'    \item \code{dfrange}: range of dominant frequency measured across acoustic signal 
 #'    \item \code{modindx}: modulation index. Calculated as the accumulated absolute 
-#'      difference between adjacent measurements of fundamental frequencies divided
-#'      by the frequency range
+#'      difference between adjacent measurements of dominant frequencies divided
+#'      by the dominant frequency range
+#'    \item \code{startdom}:  dominant frequency measurement at the start of the signal 
+#'    \item \code{enddom}: dominant frequency measurement at the end of the signal 
+#'    \item \code{dfslope}: slope of the change in dominant through time ([enddom-startdom]/duration)  
 #' }
 #' @export
 #' @name specan
 #' @details The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used 
-#'  directly without any additional modification. The function measures 22 acoustic parameters on 
+#'  directly without any additional modification. The function measures 25 acoustic parameters (if fast = \code{TRUE}) on 
 #'  each selection in the data frame. Most parameters are produced internally by 
 #'  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
 #'  and \code{\link[seewave]{dfreq}} from the package seewave. 
@@ -168,6 +171,10 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     maxdom <- max(y, na.rm = TRUE)
     dfrange <- (maxdom - mindom)
     duration <- (X$end[i] - X$start[i])
+    startdom <- y[!is.na(y)][1]
+    enddom <- y[!is.na(y)][length(y[!is.na(y)])]
+    dfslope <- (enddom -startdom)/duration
+    
     
     #modulation index calculation
     changes <- vector()
@@ -179,9 +186,9 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
     #save results
     if(fast) return(data.frame(sound.files = X$sound.files[i], selec = X$selec[i], duration, meanfreq, sd, median, Q25, Q75, IQR, skew, kurt, sp.ent, sfm, mode, 
-                               centroid, meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx)) else
+                               centroid, meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope)) else
                                  return(data.frame(sound.files = X$sound.files[i], selec = X$selec[i], duration, meanfreq, sd, median, Q25, Q75, IQR, skew, kurt, sp.ent, sfm, mode, 
-                                                   centroid, peakf, meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx))
+                                                   centroid, peakf, meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope))
   }
   
   # Run parallel in windows

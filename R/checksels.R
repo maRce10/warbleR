@@ -114,9 +114,11 @@ checksels <- function(X = NULL, parallel =  1, path = NULL){
           })
           
         }
-        if(!any(Sys.info()[1] == c("Linux", "Windows")))
+        if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
         {
           cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+          
+          doParallel::registerDoParallel(cl)
           
           a1 <- foreach::foreach(x = unique(X$sound.files)) %dopar% {
             csFUN(x, X)

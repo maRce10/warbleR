@@ -4,7 +4,8 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav(samp.rate = 44.1, parallel = 1, path = NULL)
+mp32wav(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = NULL, 
+normalize = NULL)
 }
 \arguments{
 \item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.}
@@ -13,8 +14,14 @@ mp32wav(samp.rate = 44.1, parallel = 1, path = NULL)
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 Not availble in Windows OS.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{from.path}{Character string containing the directory path where the .mp3 files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{to.path}{Character string containing the directory path where the .wav files will be saved. 
+If \code{NULL} (default) then the current working directory is used.}
+
+\item{normalize}{Character string containing the units to be used for amplitude normalization. Check 
+(\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.}
 }
 \value{
 .wav files saved in the working directory with same name as original mp3 files.

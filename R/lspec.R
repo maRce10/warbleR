@@ -246,37 +246,47 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
     }
     
    #Apply over each sound file
-    # Run parallel in windows
-    if(parallel > 1) {if(Sys.info()[1] == "Windows") {
-      
-      z <- NULL
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      
-      sp <- foreach::foreach(z = files) %dopar% {
-          lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
-      }
-      
-#       sp <- parallel::parLapply(cl, files, function(z)
-#       {
-#         lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
-#       })
-      
-      parallel::stopCluster(cl)
-      
-    } else {    # Run parallel in other operating systems
-      
-      sp <- parallel::mclapply(files, function(z) {
-        lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
-      })
-    }
-    }
-    else {sp <- pbapply::pblapply(files, function(z) 
-      lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X))
-    }
-     
+   # Run parallel in windows
+   if(parallel > 1) {
+     if(Sys.info()[1] == "Windows") {
+       
+       z <- NULL
+       
+       cl <- parallel::makeCluster(parallel)
+       
+       doParallel::registerDoParallel(cl)
+       
+       sp <- foreach::foreach(z = files) %dopar% {
+         lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
+       }
+       
+       parallel::stopCluster(cl)
+       
+     } 
+     if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
+       
+       sp <- parallel::mclapply(files, function (z) {
+         lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
+       })
+     }
+     if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
+     {
+       cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+       
+       doParallel::registerDoParallel(cl)
+       
+       sp <- foreach::foreach(z = files) %dopar% {
+         lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
+       }
+       
+       parallel::stopCluster(cl)
+       
+     }
+   }
+   else {
+     sp <- pbapply::pblapply(files, function(z) 
+       lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X))
+   }
+       
 }
 

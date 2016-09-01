@@ -114,7 +114,7 @@
 #' 
 #' }
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jul-5-2016 (MAS)
+#last modification on jul-25-2016 (MAS)
 
 trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
@@ -242,8 +242,9 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
     # Calculate fundamental frequencies at each time point
 if(contour %in% c("both", "ff"))
-{        ffreq <- seewave::fund(r, from=mar1, to = mar2,  
-              fmax= b[2]*1000, f = f, ovlp = 70, threshold = threshold, plot = FALSE) 
+{
+  ffreq <- seewave::fund(wave = r, wl = wl, from=mar1, to = mar2,
+              fmax= b[2]*1000, f = f, ovlp = 70, threshold = threshold, plot = FALSE)
     ffreq <- ffreq[ffreq[,2] > b[1],]
     
     # Plot all fundamental frequency values
@@ -291,30 +292,45 @@ if(contour %in% c("both", "ff"))
   }
 
           # Run parallel in windows
-          if(parallel > 1) {if(Sys.info()[1] == "Windows") {
-            
-            i <- NULL #only to avoid non-declared objects
-            
-            cl <- parallel::makeCluster(parallel)
-            
-            # doSNOW::registerDoSNOW(cl) 
-            doParallel::registerDoParallel(cl)
-            
-            sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-              trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch)
+          if(parallel > 1) {
+            if(Sys.info()[1] == "Windows") {
+              
+              i <- NULL #only to avoid non-declared objects
+              
+              cl <- parallel::makeCluster(parallel)
+              
+              doParallel::registerDoParallel(cl)
+              
+              sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+                trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch)
+              }
+              
+              parallel::stopCluster(cl)
+              
+            } 
+            if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
+              
+              sp <- parallel::mclapply(1:nrow(X), function (i) {
+                trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch)
+              })
             }
-            parallel::stopCluster(cl)
-            
-          } else {    # Run parallel in other operating systems
-            
-          sp <- parallel::mclapply(1:nrow(X), function (i) {
-              trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch)
-            })
+            if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
+            {
+              cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+              
+              doParallel::registerDoParallel(cl)
+              
+              sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+                trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch)
+              }
+              
+              parallel::stopCluster(cl)
+              
+            }
           }
-          }
-          else {sp <- pbapply::pblapply(1:nrow(X), function(i) {
-            trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch) 
-          })
+          else {
+            sp <- pbapply::pblapply(1:nrow(X), function(i) 
+              trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch))
           }
           
           

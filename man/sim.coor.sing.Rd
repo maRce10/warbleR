@@ -17,7 +17,7 @@ data(sim.coor.sing)
 \code{sim.coor.sing} Selections of simulated interactive singing events.The simulated events use the mean 
 and standard deviation of real lekking \emph{Phaethornis longirostris} (Long-billed 
 Hermit hummingbird) songs and intervals between songs (e.i gaps). Three events are simulated: overlapping signals (ovlp), 
-alternating signals (altern) and non-synchronized signals (no.sync).
+alternating signals (altern) and non-synchronized signals (uncoor).
 }
 \keyword{datasets}
 

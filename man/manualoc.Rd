@@ -6,7 +6,7 @@
 \usage{
 manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-  NULL, pal = reverse.gray.colors.2, path = NULL)
+  NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL)
 }
 \arguments{
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -47,6 +47,9 @@ plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. Se
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
+if X is provided.}
 }
 \value{
 .csv file saved in the working directory with start and end time of 

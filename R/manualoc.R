@@ -4,7 +4,7 @@
 #' and end times of acoustic signals can be measured.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-#'   NULL, pal = reverse.gray.colors.2, path = NULL)
+#'   NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL)
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
@@ -32,6 +32,8 @@
 #'   plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. See Details.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
+#' if X is provided.
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
@@ -97,7 +99,7 @@
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
                      selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2,
-                     path = NULL)
+                     path = NULL, flist = NULL)
 {
   
   #check path to working directory
@@ -105,8 +107,15 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
   {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
   
   options(show.error.messages = TRUE) 
-  files <- list.files(pattern = "wav$", ignore.case = TRUE) #list .wav files in working director
+  files <- list.files(pattern = ".wav$", ignore.case = TRUE) #list .wav files in working director
   if(length(files) == 0) stop("no .wav files in working directory")
+  
+  #if flist is not character vector
+  if(!is.null(flist) & any(!is.character(flist), !is.vector(flist))) stop("'flist' must be a character vector") 
+  
+  #filter based on flist
+  if(!is.null(flist)) files <- files[files %in% flist]
+  if(length(files) == 0) stop("Files in 'flist' not in working directory")
   
   if(!file.exists(file.path(getwd(), "manualoc_output.csv")))
   {results <- data.frame(matrix(nrow = 0, ncol = 6))

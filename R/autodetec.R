@@ -319,8 +319,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     time.song<-data.frame(sound.files = X$sound.files[i], duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
    
     #remove signals based on duration  
-    if(!is.null(mindur)) time.song<-time.song[time.song$duration>mindur,]
-    if(!is.null(maxdur)) time.song<-time.song[time.song$duration<maxdur,]
+    if(!is.null(mindur)) time.song <-time.song[time.song$duration > mindur,]
+    if(!is.null(maxdur)) time.song <-time.song[time.song$duration < maxdur,]
     
     if(nrow(time.song)>0) 
     {if(xprov) time.song$selec <- paste(X$selec[i], 1:nrow(time.song), sep = "-") else
@@ -393,9 +393,11 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     })
     }
   
-    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
     {
       cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+      
+      doParallel::registerDoParallel(cl)
       
       sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
         adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
@@ -528,13 +530,13 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     
   } 
     
-    if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
       
       a1 <- parallel::mclapply(unique(results$sound.files), function(z) {
         lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
       })
     }
-    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
     {
       cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
       

@@ -63,6 +63,8 @@
 #'   \code{\link{trackfreqs}}: Create spectrograms to visualize frequency 
 #'   measurements
 #'   
+#'   \code{\link{filtersels}}: Filter selection data frames based on filtered image files
+#'      
 #'   \code{\link{specan}}: Measure acoustic parameters on selected acoustic 
 #'   signals
 #'   
@@ -79,7 +81,6 @@
 #'   
 #'   \code{\link{ffDTW}}: Calculates acoustic dissimilarity using dynamic time warping
 #'   on fundamental frequency contours
-#'   
 #'   
 #'   \code{\link{compare.methods}}: Produces graphs to visually assess performance of acoustic 
 #'   distance measurements 

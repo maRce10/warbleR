@@ -214,24 +214,6 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if(nrow(X) > 4)  combs <- as.data.frame(combs[,sample(1:ncol(combs), n)])
   
-#   #if parallel in OSX
-#   if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
-#     parallel <- 1
-#     message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
-#   }
-  
-  #if on windows you need parallelsugar package
-  # if(parallel > 1)
-  # { 
-         options(warn = -1)
-    #      
-    #        
-    #        if(Sys.info()[1] == "Windows"){ 
-    #       cat 
-    #       lapp <- pbapply::pblapply} else 
-    # lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else lapp <- pbapply::pblapply
-  
-  # options(warn = 0)
 
   #create matrix for sppliting screen
   m <- rbind(c(0, 2.5/7, 3/10, 5/10), #1
@@ -420,9 +402,11 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
         })
         
       }
-        if(!any(Sys.info()[1] == c("Linux", "Windows")))
+        if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
         {
           cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+          
+          doParallel::registerDoParallel(cl)
           
           a1 <- foreach::foreach(u = 1:ncol(combs)) %dopar% {
             comp.methFUN(X, u, res, disim.mats, m, mar, flim)

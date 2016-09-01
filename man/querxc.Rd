@@ -5,20 +5,20 @@
 \title{Access Xeno-Canto recordings and metadata}
 \usage{
 querxc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
-parallel = 1)
+parallel = 1, path = NULL)
 }
 \arguments{
 \item{qword}{Character vector of length one indicating the genus, or genus and
 species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 (\url{http://www.xeno-canto.org/}).}
 
-\item{download}{Logical argument. Downloads recording file names and
-associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
+\item{download}{Logical argument. If \code{FALSE} only the recording file names and
+associated metadata are downloaded. If \code{TRUE}, recordings are also downloaded to the working
 directory as .mp3 files. Default is \code{FALSE}. Note that if the recording is already in the 
 working directory (as when the downloading process has been interrupted) it will be skipped. 
 Hence, resuming downloading processes will not start from scratch.}
 
-\item{X}{Data frame with a Recording_ID column and any other column listed in the file.name argument. Only the recordings listed in the data frame 
+\item{X}{Data frame with a 'Recording_ID' column and any other column listed in the file.name argument. Only the recordings listed in the data frame 
 will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 the recordings to be downloaded based on their attributes.}
 
@@ -28,9 +28,12 @@ Note that recording id is always used (whether or not is listed by users) to avo
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 Not available in Windows OS.}
+
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
-If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files (sound file) is included in the output data frame.
+If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files (sound file) is included in the output data frame.
 }
 \description{
 \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).

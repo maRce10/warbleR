@@ -2,7 +2,8 @@
 #' 
 #' \code{coor.graph} creates graphs of coordinated singing and highlights the signals that overlap 
 #' in time. The signals are represented by polygons of different colors.
-#' @usage coor.graph(X, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg", img = TRUE)
+#' @usage coor.graph(X, only.coor = FALSE, ovlp = TRUE, xl = 1, res= 80, it = "jpeg", img = TRUE, 
+#' tlim = NULL)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param only.coor Logical. If \code{TRUE} only the segment in which both individuals are singing is 
@@ -14,8 +15,13 @@
 #' @param res Numeric argument of length 1. Controls image resolution. Default is 80.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
-#' @return Graphs of the singing events in the input data frame are saved in the working directory.
+#' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}. Note that 
+#' images are return 
+#' @param tlim Numeric vector of length 2 indicating the start and end time of the coordinated singing events
+#' to be displayed in the graphs.  
+#' @return The function returns a list of graphs, one for each singing event in the input data frame. The graphs can be plotted by simply calling the list. If 'img' is \code{TRUE} then the graphs are also saved in the working 
+#' directory as files.
+#' 
 #' @export
 #' @name coor.graph
 #' @details This function provides visualization for coordination of acoustic signals. Signals are shown as
@@ -37,17 +43,44 @@
 #'
 #'
 #'#' # make coor.graphs in graphic device format
-#' coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
+#'cgs <- coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
+#' 
+#' cgs
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jul-5-2016 (MAS)
+#last modification on aug-13-2016 (MAS)
 
 coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg",
-                        img = TRUE) { 
+                        img = TRUE, tlim = NULL) { 
   
   # warning message if ggplot2 is not installed
   if(!requireNamespace("ggplot2",quietly = TRUE))
     stop("'install ggplot2 to use coor.graph()'")
+  
+  if(!is.data.frame(X))  stop("X is not a data frame")
+  
+  #stop if some events have less than 10 observations
+  if(any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
+  
+  #stop if some cells are not labeled
+  if(any(is.na(X$sing.event))) stop("NA's in singing event names ('sing.event' column) not allowed")
+  
+  if(any(is.na(X$indiv))) stop("NA's in individual names ('indiv' column) not allowed")  
+  
+  if(any(is.na(X$start))) stop("NA's in 'start' column not allowed")  
+  
+  if(any(is.na(X$end))) stop("NA's in 'end' column  not allowed")
+  
+  if(!is.null(tlim)) X <- X[X$start > tlim[1] & X$end < tlim[2], ] 
+    
+    
+    #stop if some events do not have 2 individuals 
+    qw <- as.data.frame((tapply(X$sing.event, list(X$sing.event, X$indiv), length)))
+  
+  qw[qw > 0] <- 1
+  
+  if(any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interating individuals ('indiv' colum)")
+  
   
   
   #if xl is not vector or length!=1 stop
@@ -149,13 +182,14 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
         ggplot2::scale_fill_manual(values=c("#F9766E","#00BFC4",cols), name = "", 
                           labels=c(as.character(unique(y$indiv)[1]),as.character(unique(y$indiv)[2]), paste("overlap from", ids[1]),
                                    paste("overlap from", ids[2]))) + 
-        ggplot2::theme(legend.position="top")
+        ggplot2::theme(legend.position="top") + ggplot2::ggtitle(x)
       
 if(img){      if(it == "jpeg") ite <- "coor.singing.jpeg" else ite <- "coor.singing.tiff"
       ggplot2::ggsave(plot = ggp, filename = paste(x, ite, sep = "-"),
-             dpi= res, units = "in", width = 9 * xl,height = 5.5)
-        } else return(ggp)
+             dpi= res, units = "in", width = 9 * xl,height = 2.5)
+        } 
+      
+      return(ggp)
       }
   }))
-if(!img) invisible(ggs)
   }

@@ -282,15 +282,17 @@ ffDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
         parallel::stopCluster(cl)
         
       } 
-      if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+      if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
         
         lst <- parallel::mclapply(1:nrow(X), function (i) {
           ffDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)
         })
       }
-      if(!any(Sys.info()[1] == c("Linux", "Windows")))
+      if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
       {
         cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+        
+        doParallel::registerDoParallel(cl)
         
         lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
           ffDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)

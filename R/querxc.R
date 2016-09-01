@@ -2,16 +2,16 @@
 #' 
 #' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
 #' @usage querxc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
-#' parallel = 1)  
+#' parallel = 1, path = NULL)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'   species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 #'   (\url{http://www.xeno-canto.org/}).
-#' @param download Logical argument. Downloads recording file names and
-#'   associated metadata if \code{FALSE}. If \code{TRUE}, recordings are also downloaded to working
+#' @param download Logical argument. If \code{FALSE} only the recording file names and
+#'   associated metadata are downloaded. If \code{TRUE}, recordings are also downloaded to the working
 #'   directory as .mp3 files. Default is \code{FALSE}. Note that if the recording is already in the 
 #'   working directory (as when the downloading process has been interrupted) it will be skipped. 
 #'   Hence, resuming downloading processes will not start from scratch.   
-#' @param X Data frame with a Recording_ID column and any other column listed in the file.name argument. Only the recordings listed in the data frame 
+#' @param X Data frame with a 'Recording_ID' column and any other column listed in the file.name argument. Only the recordings listed in the data frame 
 #' will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 #' the recordings to be downloaded based on their attributes.  
 #' @param file.name Character vector indicating the tags (or column names) to be included in the sound file names (if download = \code{TRUE}). Several tags can be included. If \code{NULL} only the Xeno-Canto recording identification number ("Recording_ID") is used. Default is c("Genus", "Specific_epithet").
@@ -19,7 +19,9 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' Not available in Windows OS.
-#' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality,Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files (sound file) is included in the output data frame.  
+#' @param path Character string containing the directory path where the sound files are located. 
+#' If \code{NULL} (default) then the current working directory is used.
+#' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files (sound file) is included in the output data frame.  
 #' @export
 #' @name querxc
 #' @details This function queries for avian vocalization recordings in the open-access
@@ -44,8 +46,12 @@
 #last modification on jul-24-2016 (MAS)
 
 querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
-                   parallel = 1) {
+                   parallel = 1, path = NULL) {
  
+  #check path to working directory
+  if(!is.null(path))
+  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  
    # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -191,13 +197,13 @@ results$sound.files <- paste(results$Recording_ID, ".mp3", sep = "")
     
   } 
     
-    if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
       
       a1 <- parallel::mclapply(1:nrow(results), function(x) {
       xcFUN(results, x) 
       })
     }
-    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
     {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
       
@@ -250,13 +256,13 @@ results$sound.files <- paste(results$Recording_ID, ".mp3", sep = "")
     
   } 
     
-    if(Sys.info()[1] == "Linux") {    # Run parallel in other operating systems
+    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
       
       a1 <- parallel::mclapply(1:nrow(Y), function(x) {
       xcFUN(Y, x) 
       })
     }
-    if(!any(Sys.info()[1] == c("Linux", "Windows")))
+    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
     {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
       
