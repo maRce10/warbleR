@@ -88,12 +88,13 @@
 #' setwd(tempdir())
 #' 
 #' #load data
-#' data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
-#' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
-#' writeWave(Phae.long1, "Phae.long1.wav")
+#' data(list = c("Phae.long1","manualoc.df"))
+#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 #' 
 #' # run function 
 #' ffts(manualoc.df, length.out = 30, flim = c(1, 12), bp = c(0, 9), wl = 300)
+#' 
+#' Note that fundamental frequency is not accurate for noisy signals, works better with pure tones
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
@@ -242,7 +243,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
       
     }
     
-    points(apfund$x+mar1, apfund$y, col = col, cex = cex, pch = pch) 
+    points(apfund$x[!is.na(apfund$y)] + mar1, apfund$y[!is.na(apfund$y)], col = col, cex = cex, pch = pch) 
     abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
     # Legend coordinates can be uniquely adjusted 
