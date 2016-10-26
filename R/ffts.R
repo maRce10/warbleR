@@ -194,6 +194,18 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
       r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
     
+      # calculate fundamental frequency at each time point     
+      ffreq1 <- seewave::fund(r, from=mar1, to = mar2,  
+                             fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
+      ffreq <- ffreq1[!is.na(ffreq1[,2]), ]
+      ffreq <- ffreq[ffreq[,2] > b[1], ]
+      
+      if(nrow(ffreq) < 2) {apfund <- list()
+      apfund$x <- ffreq1[, 1]
+      apfund$y <- rep(NA, length.out)
+      } else
+      apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],  to = ffreq1[nrow(ffreq1), 1], length.out = length.out), method = "linear")
+      
     if(img) {
       #in case bp its higher than can be due to sampling rate
     
@@ -230,16 +242,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
       
     }
     
-    # Plot fundamental frequency at each time point     
-    ffreq <- seewave::fund(r, from=mar1, to = mar2,  
-                           fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
-    ffreq <- ffreq[!is.na(ffreq[,2]), ]
-    ffreq <- ffreq[ffreq[,2] > b[1], ]
-    
-    apdom <- approx(ffreq[,1], ffreq[,2], n =length.out, method = "linear")
-    
-    
-    points(apdom$x+mar1, apdom$y, col = col, cex = cex, pch = pch) 
+    points(apfund$x+mar1, apfund$y, col = col, cex = cex, pch = pch) 
     abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
     # Legend coordinates can be uniquely adjusted 
@@ -247,14 +250,9 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
            pch = pch, col = col, bty = "o", cex = cex)
     
     dev.off()
-    } else 
-      ffreq <- seewave::fund(r, from=mar1, to = mar2,  
-                             fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
-      ffreq <- ffreq[!is.na(ffreq[,2]), ]
-      ffreq <- ffreq[ffreq[,2] > b[1],]
-      
-      apdom<-approx(ffreq[,1], ffreq[,2], n =length.out, method = "linear")
-    return(apdom$y)  
+    } 
+ 
+    return(apfund$y)  
   } 
 
         # Run parallel in windows
