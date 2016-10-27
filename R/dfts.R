@@ -80,7 +80,12 @@
 #' @name dfts
 #' @details This function extracts the dominant frequency values as a time series. 
 #' The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant frequency 
-#' measures.
+#' measures. #' If there are no frequencies above the amplitude theshold at the begining or end 
+#'  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
+#'  above the amplitude theshold in between signal segments in which amplitude was 
+#'  detected then the values of this adjacent segments will be interpolated 
+#'  to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
+#' 
 #' @examples
 #' \dontrun{
 #' # set the temp directory
@@ -211,8 +216,8 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
       dfreq <- dfreq1[!is.na(dfreq1[,2]), ]
       dfreq <- dfreq[dfreq[,2] > b[1]/1000, ]
       
-      if(nrow(ffreq) < 2) {apdom <- list()
-      apdom$x <- ffreq1[, 1]
+      if(nrow(dfreq) < 2) {apdom <- list()
+      apdom$x <- dfreq1[, 1]
       apdom$y <- rep(NA, length.out)
       } else
         apdom <- approx(dfreq[,1], dfreq[,2], xout = seq(from = dfreq1[1, 1],  to = dfreq1[nrow(dfreq1), 1], length.out = length.out), method = "linear")
@@ -312,7 +317,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   }
   
   
-  df<-data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
+  df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
                  return(df)
 }
