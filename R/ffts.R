@@ -7,7 +7,7 @@
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
 #'   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
 #'   threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05, 
-#'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL)
+#'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL, img.sufix = NULL)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -69,7 +69,9 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #'  Not available in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
-#' If \code{NULL} (default) then the current working directory is used.  
+#' If \code{NULL} (default) then the current working directory is used. 
+#' @param img.sufix A character vector of length 1 with a sufix (label) to add at the end of the names of 
+#' image files. Default is \code{NULL}.
 #' @return A data frame with the fundamental frequency values measured across the signals. If img is 
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the fundamental frequencies.
@@ -80,8 +82,11 @@
 #' @export
 #' @name ffts
 #' @details This function extracts the fundamental frequency values as a time series. 
-#' The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency 
-#' measures.
+#' The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude theshold at the begining or end 
+#'  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
+#'  above the amplitude theshold in between signal segments in which amplitude was 
+#'  detected then the values of this adjacent segments will be interpolated 
+#'  to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
 #' @examples
 #' \dontrun{
 #' # set the temp directory
@@ -93,20 +98,20 @@
 #' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
 #' 
 #' # run function 
-#' ffts(manualoc.df, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300, threshold = 20)
+#' ffts(manualoc.df, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300)
 #' 
 #' Note that fundamental frequency is not accurate for noisy signals, works better with pure tones
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jul-5-2016 (MAS)
+#last modification on oct-26-2016 (MAS)
 
 ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue", pch = 16,
                        mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1,
-                 path = NULL){     
+                 path = NULL, img.sufix = NULL){     
   
   #check path to working directory
   if(!is.null(path))
@@ -140,6 +145,9 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
+  #wrap img creating function
+  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  
   #return warning if not all sound files were found
   recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
@@ -152,6 +160,10 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     stop("The .wav files are not in the working directory")
   }  else X <- X[d, ]
   
+  #join img.sufix and it
+  if(is.null(img.sufix))
+  img.sufix2 <- paste("ffts", it, sep = ".") else   img.sufix2 <- paste(img.sufix, it, sep = ".")
+    
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -215,20 +227,12 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     
     # Spectrogram width can be proportional to signal duration
-    if(propwidth == TRUE){
-      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "ffts", ".tiff", sep = ""), 
-                            width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "ffts", ".jpeg", sep = ""), 
-                                   width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
-      
-    } else {
-      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "ffts", ".tiff", sep = ""), 
-                            width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "ffts", ".jpeg", sep = ""), 
-                                   width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
-      
-    }
+    if(propwidth == TRUE)
+      pwc <- (10.16) * ((t[2]-t[1])/0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
     
+        imgfun(filename = paste0(X$sound.files[i],"-", X$selec[i], "-", img.sufix2), 
+                            width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
+
     # Change relative widths of columns for spectrogram when sc = TRUE
     if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
     
@@ -239,13 +243,16 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
                      flab = "Frequency (kHz)", alab = "")
     
     if(title){
+      if(is.null(img.sufix))
+      title(paste(X$sound.files[i], X$selec[i], sep = "-"), cex.main = cexlab) else
+        title(paste(X$sound.files[i], X$selec[i], img.sufix, sep = "-"), cex.main = cexlab)
       
-      title(paste(X$sound.files[i], "-", X$selec[i], "-", "ffts", sep = ""), cex.main = cexlab)
       
     }
     
+    # Plot dominant frequency at each time point     
     if(length(apfund$y[!is.na(apfund$y)]))
-    points(apfund$x[!is.na(apfund$y)] + mar1, apfund$y[!is.na(apfund$y)], col = col, cex = cex, pch = pch) 
+      points(apfund$x[!is.na(apfund$y)] + mar1, apfund$y[!is.na(apfund$y)], col = col, cex = cex, pch = pch) 
     abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
     # Legend coordinates can be uniquely adjusted 
@@ -299,8 +306,8 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
           lst <- pbapply::pblapply(1:nrow(X), function(i) fftsFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold))
         }
         
-  df<-data.frame(X$sound.files, X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
-    colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
+  df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
+    colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
                  return(df)
-}
+    }
 
