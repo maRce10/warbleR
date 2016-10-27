@@ -84,7 +84,9 @@
 #' The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental
 #'  frequency  measures. If 'img' is  \code{TRUE} the function also produces image files
 #'  with the spectrograms of the signals listed in the input data frame showing the
-#'  location of the fundamental frequencies.
+#'  location of the fundamental frequencies. Note that if no amplitude is detected  at the begining or end 
+#'  of the signals then NAs will be generated. On the other hand, if amplitude is not detected in between signal
+#'  segments in which amplitude was detected then the values of this adjacent segments will be interpolated to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
 #' @seealso dfts, ffts, dfDTW
 #' @examples
 #' \dontrun{
@@ -97,218 +99,32 @@
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # run function 
-#' ffDTW(manualoc.df, length.out = 30, flim = c(1, 12), img = T, bp = c(0, 9), wl = 300)
+#' ffDTW(manualoc.df, length.out = 30, flim = c(1, 12), img = T, bp = c(1, 9), wl = 300)
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jul-5-2016 (MAS)
+#last modification on oct-26-2016 (MAS)
 
 ffDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue",pch = 16,
                        mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL){     
- 
-   #check path to working directory
-  if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+    
+  res <- ffts(X = X, wl = wl, flim = flim, length.out = length.out, wn = wn, pal = pal, ovlp = ovlp, 
+       inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, 
+       title = title, propwidth = propwidth, xl = xl, gr = gr, sc = sc, bp = bp, cex = cex,
+           threshold = threshold, col = col, pch = pch,  mar = mar,
+           lpos = lpos, it = it, img = img, parallel = parallel, path = path, img.sufix = "ffDTW")
   
-  #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+  #matrix of dom freq time series
+  mat <- res[,3:ncol(res)]
+    
+  #stop if NAs in matrix
+    if(any(is.na(mat))) stop("missing values in frequency time series (fundamental frequency was not detected at one or both extremes of the signal)")
   
-  if(!all(c("sound.files", "selec", 
-            "start", "end") %in% colnames(X))) 
-    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
-                                                                   "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
-  
-  #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
-  
-  #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
-  
-  #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
-  
-  #if any selections longer than 20 secs stop
-  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
-  options( show.error.messages = TRUE)
-  options( show.error.messages = TRUE)
-  
-  #if bp is not vector or length!=2 stop
-  if(!is.null(bp)) {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
-  
-  #if it argument is not "jpeg" or "tiff" 
-  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
-  
-  # If length.out is not numeric
-  if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
-  if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
-  
-  #return warning if not all sound files were found
-  recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
-                  ".wav file(s) not found"))
-  
-  #count number of sound files in working directory and if 0 stop
-  d <- which(X$sound.files %in% recs.wd) 
-  if(length(d) == 0){
-    stop("The .wav files are not in the working directory")
-  }  else X <- X[d, ]
-  
-  #if parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-  
-  #if parallel
-  if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
-    parallel <- 1
-    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
-  }
-  
-  #parallel not available on windows
-  if(parallel > 1 & Sys.info()[1] == "Windows")
-  {message("parallel computing not availabe in Windows OS for this function")
-    parallel <- 1}
-
- if(parallel == 1) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
-    message("Measuring fundamental frequency:")}  
-                      
-    ffDFUN <- function(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold){
-    
-    # Read sound files to get sample rate and length
-    r <- tuneR::readWave(file.path(getwd(), X$sound.files[i]), header = TRUE)
-    f <- r$sample.rate
-    t <- c(X$start[i] - mar, X$end[i] + mar)
-    
-    #reset coordinates of signals 
-    mar1 <- X$start[i]-t[1]
-    mar2 <- mar1 + X$end[i] - X$start[i]
-    
-    if (t[1] < 0) { t[2] <- abs(t[1]) + t[2] 
-    mar1 <- mar1  + t[1]
-    mar2 <- mar2  + t[1]
-    t[1] <- 0
-    }
-    
-    if(t[2] > r$samples/f) t[2] <- r$samples/f
-  
-    b<- bp 
-    if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
-    b <- b * 1000}
-    
-    
-      r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
-    
-    if(img) {
-      #in case bp its higher than can be due to sampling rate
-    
-    fl<- flim #in case flim its higher than can be due to sampling rate
-    if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
-    
-    # Spectrogram width can be proportional to signal duration
-    if(propwidth == TRUE){
-      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "ffDTW", ".tiff", sep = ""), 
-                            width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "ffDTW", ".jpeg", sep = ""), 
-                                   width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
-      
-    } else {
-      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "ffDTW", ".tiff", sep = ""), 
-                            width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "ffDTW", ".jpeg", sep = ""), 
-                                   width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
-      
-    }
-    
-    # Change relative widths of columns for spectrogram when sc = TRUE
-    if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
-    
-    # Generate spectrogram using seewave
-    seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5),
-                     wn = "hanning", widths = wts, palette = pal, grid = gr, scale = sc, collab = "black", 
-                     cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
-                     flab = "Frequency (kHz)", alab = "")
-    
-    if(title){
-      
-      title(paste(X$sound.files[i], "-", X$selec[i], "-", "ffDTW", sep = ""), cex.main = cexlab)
-      
-    }
-    
-    # Plot fundamental frequency at each time point     
-    ffreq <- seewave::fund(r, from=mar1, to = mar2,  
-                           fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
-    ffreq <- ffreq[!is.na(ffreq[,2]), ]
-    ffreq <- ffreq[ffreq[,2] > b[1], ]
-    
-    apdom <- approx(ffreq[,1], ffreq[,2], n =length.out, method = "linear")
-    
-    
-    points(apdom$x+mar1, apdom$y, col = col, cex = cex, pch = pch) 
-    abline(v = c(mar1, mar2), col= "red", lty = "dashed")
-    
-    # Legend coordinates can be uniquely adjusted 
-    legend(lpos, legend = c("Ffreq"),
-           pch = pch, col = col, bty = "o", cex = cex)
-    
-    dev.off()
-    } else 
-      ffreq <- seewave::fund(r, from=mar1, to = mar2,  
-                             fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
-      ffreq <- ffreq[!is.na(ffreq[,2]), ]
-      ffreq <- ffreq[ffreq[,2] > b[1],]
-      
-      apdom<-approx(ffreq[,1], ffreq[,2], n =length.out, method = "linear")
-      return(apdom$y)  
-        }
-
-    # Run parallel in windows
-    if(parallel > 1) {
-      if(Sys.info()[1] == "Windows") {
-        
-        i <- NULL #only to avoid non-declared objects
-        
-        cl <- parallel::makeCluster(parallel)
-        
-        doParallel::registerDoParallel(cl)
-        
-        lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-          ffDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)
-        }
-        
-        parallel::stopCluster(cl)
-        
-      } 
-      if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-        
-        lst <- parallel::mclapply(1:nrow(X), function (i) {
-          ffDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)
-        })
-      }
-      if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-      {
-        cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-        
-        doParallel::registerDoParallel(cl)
-        
-        lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-          ffDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)
-        }
-        
-        parallel::stopCluster(cl)
-        
-      }
-    }
-    else {
-      lst <- pbapply::pblapply(1:nrow(X), function(i) ffDFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold))
-    }
-    
-  mat <- matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)
-  dm <- dtw::dtwDist(mat,mat)       
-  rownames(dm) <- colnames(dm) <- paste(X$sound.files, X$selec, sep = "-")
+  dm <- dtw::dtwDist(mat, mat)       
+  rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
   return(dm)
-}
 
+  }
