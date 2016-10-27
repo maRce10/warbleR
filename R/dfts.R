@@ -7,7 +7,7 @@
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
 #'   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
 #'   threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05, 
-#'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL)
+#'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL, img.sufix = NULL)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -68,7 +68,9 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #'  Not available in Windows OS.
-#' @param path Character string containing the directory path where the sound files are located.  
+#' @param path Character string containing the directory path where the sound files are located.
+#' @param img.sufix A character vector of length 1 with a sufix (label) to add at the end of the names of 
+#' image files. Default is \code{NULL}.
 #' @return A data frame with the dominant frequency values measured across the signals. If img is 
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies.
@@ -80,7 +82,7 @@
 #' @name dfts
 #' @details This function extracts the dominant frequency values as a time series. 
 #' The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant frequency 
-#' measures. #' If there are no frequencies above the amplitude theshold at the begining or end 
+#' measures. If there are no frequencies above the amplitude theshold at the begining or end 
 #'  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
 #'  above the amplitude theshold in between signal segments in which amplitude was 
 #'  detected then the values of this adjacent segments will be interpolated 
@@ -101,13 +103,14 @@
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jul-5-2016 (MAS)
+#last modification on oct-26-2016 (MAS)
 
 dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue",pch = 16,
-                       mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL){     
+                       mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL, 
+                 img.sufix = NULL){     
   
   
   #check path to working directory
@@ -144,6 +147,9 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
+  #wrap img creating function
+  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  
   # If length.out is not numeric
   if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
   if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
@@ -161,6 +167,9 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   }  else 
   X <- X[d, ]
   
+  #join img.sufix and it
+  if(is.null(img.sufix))
+  img.sufix2 <- paste("dfts", it, sep = ".") else   img.sufix2 <- paste(img.sufix, it, sep = ".")
   
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -229,20 +238,12 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     
     # Spectrogram width can be proportional to signal duration
-    if(propwidth == TRUE){
-      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "dfts", ".tiff", sep = ""), 
-                            width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "dfts", ".jpeg", sep = ""), 
-                                   width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
+    if(propwidth == TRUE)
+      pwc <- (10.16) * ((t[2]-t[1])/0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
       
-    } else {
-      if(it == "tiff") tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "dfts", ".tiff", sep = ""), 
-                            width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-                              jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "dfts", ".jpeg", sep = ""), 
-                                   width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
+      imgfun(filename = paste0(X$sound.files[i],"-", X$selec[i], "-", img.sufix2), 
+          width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
       
-    }
-    
     # Change relative widths of columns for spectrogram when sc = TRUE
     if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
     
@@ -254,12 +255,13 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
     if(title){
       
-      title(paste(X$sound.files[i], "-", X$selec[i], "-", "dfts", sep = ""), cex.main = cexlab)
-      
+      if(is.null(img.sufix))
+        title(paste(X$sound.files[i], X$selec[i], sep = "-"), cex.main = cexlab) else
+          title(paste(X$sound.files[i], X$selec[i], img.sufix, sep = "-"), cex.main = cexlab)  
     }
     
     # Plot dominant frequency at each time point     
-    if(length(apdom$y[!is.na(apdom$y)]))
+    if(length(apdom$y[!is.na(apdom$y)]) > 0)
       points(apdom$x[!is.na(apdom$y)] + mar1, apdom$y[!is.na(apdom$y)], col = col, cex = cex, pch = pch) 
     
     #add lines at start and end of signal
