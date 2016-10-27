@@ -196,6 +196,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
     if(t[2] > r$samples/f) t[2] <- r$samples/f
   
+    #in case bp its higher than can be due to sampling rate
     b<- bp 
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
@@ -203,8 +204,21 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
       r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
     
+      # calculate dominant frequency at each time point     
+      dfreq1 <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
+                              threshold = threshold, tlim = c(mar1, mar2))
+      
+      dfreq <- dfreq1[!is.na(dfreq1[,2]), ]
+      dfreq <- dfreq[dfreq[,2] > b[1]/1000, ]
+      
+      if(nrow(ffreq) < 2) {apdom <- list()
+      apdom$x <- ffreq1[, 1]
+      apdom$y <- rep(NA, length.out)
+      } else
+        apdom <- approx(dfreq[,1], dfreq[,2], xout = seq(from = dfreq1[1, 1],  to = dfreq1[nrow(dfreq1), 1], length.out = length.out), method = "linear")
+      
+      
     if(img) {
-      #in case bp its higher than can be due to sampling rate
     
     fl<- flim #in case flim its higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
@@ -240,13 +254,10 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     }
     
     # Plot dominant frequency at each time point     
-    dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
-                            threshold = threshold, tlim = c(mar1, mar2))
+    if(length(apdom$y[!is.na(apdom$y)]))
+      points(apdom$x[!is.na(apdom$y)] + mar1, apdom$y[!is.na(apdom$y)], col = col, cex = cex, pch = pch) 
     
-    apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
-    
-    
-    points(apdom$x+mar1, apdom$y, col = col, cex = cex, pch = pch) 
+    #add lines at start and end of signal
     abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
     # Legend coordinates can be uniquely adjusted 
@@ -254,11 +265,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
            pch = pch, col = col, bty = "o", cex = cex)
     
     dev.off()
-    } else 
-      dfreq <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = 99, bandpass = b, fftw = TRUE, 
-                              threshold = threshold, tlim = c(mar1, mar2))
-    
-    apdom<-approx(dfreq[,1], dfreq[,2], n =length.out, method = "linear")
+    } 
     
     return(apdom$y)  
   } 
