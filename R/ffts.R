@@ -88,11 +88,12 @@
 #' setwd(tempdir())
 #' 
 #' #load data
-#' data(list = c("Phae.long1","manualoc.df"))
+#' data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
+#' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
 #' 
 #' # run function 
-#' ffts(manualoc.df, length.out = 30, flim = c(1, 12), bp = c(0, 9), wl = 300)
+#' ffts(manualoc.df, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300, threshold = 20)
 #' 
 #' Note that fundamental frequency is not accurate for noisy signals, works better with pure tones
 #' 
@@ -103,7 +104,7 @@
 ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
-                       bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue",pch = 16,
+                       bp = c(0, 22), cex = 1, threshold = 15, col = "dodgerblue", pch = 16,
                        mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1,
                  path = NULL){     
   
@@ -197,9 +198,9 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     
       # calculate fundamental frequency at each time point     
       ffreq1 <- seewave::fund(r, from=mar1, to = mar2,  
-                             fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
+                             fmax= b[2], f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
       ffreq <- ffreq1[!is.na(ffreq1[,2]), ]
-      ffreq <- ffreq[ffreq[,2] > b[1], ]
+      ffreq <- ffreq[ffreq[,2] > b[1]/1000, ]
       
       if(nrow(ffreq) < 2) {apfund <- list()
       apfund$x <- ffreq1[, 1]
@@ -243,6 +244,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
       
     }
     
+    if(length(apfund$y[!is.na(apfund$y)]))
     points(apfund$x[!is.na(apfund$y)] + mar1, apfund$y[!is.na(apfund$y)], col = col, cex = cex, pch = pch) 
     abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     
