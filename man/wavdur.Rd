@@ -16,7 +16,7 @@ If \code{NULL} (default) then the current working directory is used.}
 A data frame with the duration (in seconds) of the sound files.
 }
 \description{
-\code{wavdur} Measures the duration of sound files in '.wav' format
+\code{wavdur} measures the duration of sound files in '.wav' format
 }
 \details{
 This function returns the duration (in seconds) of sound files.

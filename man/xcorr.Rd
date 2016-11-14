@@ -9,7 +9,7 @@ cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 }
 \usage{
 xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-cor.method = "pearson", parallel = 1,  path = NULL)
+cor.method = "pearson", parallel = 1, path = NULL)
 }
 \arguments{
 \item{X}{Data frame containing columns for sound files (sound.files), 
@@ -50,15 +50,16 @@ A list that includes 1) a data frame with the correlation statistic for each "sl
 the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.
 }
 \description{
-\code{xcorr} Estimates the similarity of two spectrograms by means of cross-correlation
+\code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
 }
 \details{
 This function calculates the pairwise similarity of multiple signals by means of spectrogram cross-correlation.
 This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
-of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. This function
-is a modified version of the \code{\link[monitoR]{corMatch}} and \code{\link[monitoR]{makeTemplate}} 
+of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. 
+The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).
+This function is a modified version of the \code{\link[monitoR]{corMatch}} and \code{\link[monitoR]{makeTemplate}} 
 from the awesome R package `monitoR`.
 }
 \examples{
@@ -73,8 +74,8 @@ writeWave(Phae.long2, "Phae.long2.wav")
 writeWave(Phae.long3, "Phae.long3.wav")
 writeWave(Phae.long4, "Phae.long4.wav")
 
-xcor <- xcorr(X = manualoc.df, wl =300, frange= c(2, 9), ovlp=90, 
-dens=1, wn='hanning', cor.method = "pearson") 
+xcor <- xcorr(X = manualoc.df, wl = 300, frange = c(2, 9), ovlp = 90, 
+dens = 1, wn = 'hanning', cor.method = "pearson") 
 
 }
 }

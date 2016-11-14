@@ -56,7 +56,7 @@ setwd(tempdir())
 
 # make coor.graphs in tiff format
 coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, 
-it = "jpeg", img = TRUE)
+it = "tiff", img = TRUE)
 
 
 #' # make coor.graphs in graphic device format

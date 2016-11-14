@@ -39,7 +39,7 @@
 #' 
 #' # make coor.graphs in tiff format
 #' coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, 
-#' it = "jpeg", img = TRUE)
+#' it = "tiff", img = TRUE)
 #'
 #'
 #'#' # make coor.graphs in graphic device format
@@ -72,7 +72,9 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
   if(any(is.na(X$end))) stop("NA's in 'end' column  not allowed")
   
   if(!is.null(tlim)) X <- X[X$start > tlim[1] & X$end < tlim[2], ] 
-    
+
+    #if it argument is not "jpeg" or "tiff" 
+  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
     
     #stop if some events do not have 2 individuals 
     qw <- as.data.frame((tapply(X$sing.event, list(X$sing.event, X$indiv), length)))

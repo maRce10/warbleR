@@ -1,8 +1,9 @@
+
 #' Maps of Xeno-Canto recordings by species
 #' 
 #' \code{xcmaps} creates maps to visualize the geographic spread of Xeno-Canto
 #'   recordings.
-#' @usage xcmaps(X, img = TRUE, it = "jpeg", res = 100)   
+#' @usage xcmaps(X, img = TRUE, it = "jpeg", res = 100, labels = F)   
 #' @param X Data frame output from \code{\link{querxc}}.
 #' @param img A logical argument specifying whether an image file of each species
 #'   map should be returned, default is \code{TRUE}.
@@ -11,6 +12,8 @@
 #' @param res Numeric argument of length 1. Controls image resolution.
 #'   Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 #'   presentation quality.
+#' @param labels A logical argument defining whether dots depicting recording locations are labeled.
+#' If \code{TRUE} then the Recording_ID is used as label.
 #' @return A map of Xeno-Canto recordings per species (image file), or a faceted
 #'   plot of species map(s) in the active graphic device.
 #' @export
@@ -28,7 +31,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 
-xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100) {
+xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = F) {
 
   #stop if X is not a data frame
   if(!is.data.frame(X))  stop("X is not a data frame")
@@ -97,6 +100,9 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100) {
        # add points
        points(lon, lat, pch = 21, cex = 1.8, col = "black", bg= heat.colors(10)[2])
        
+       #add labels 
+       if(labels)
+        text(lon, lat, labels = X$Recording_ID, cex = 0.7, pos = 4)
       
       # add scale
        map.scale(ratio = FALSE, relwidth = 0.4)   
@@ -140,6 +146,10 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100) {
          
          # add points
          points(lon, lat, pch = 21, cex = 1.8, col = "black", bg= heat.colors(10)[2])
+        
+        #add labels 
+         if(labels)
+        text(lon, lat, labels = X$Recording_ID, cex = 0.7, pos = 4)
          
          # add scale
        map.scale(ratio = FALSE, relwidth = 0.4)

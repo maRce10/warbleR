@@ -24,7 +24,7 @@ the upper triangle of the multipannel plot) should be relative to the correlatio
 Default is \code{FALSE}.}
 }
 \description{
-\code{xcorr.graph} Generates pairwise plots showing the spectrogram cross-correlation scores
+\code{xcorr.graph} generates pairwise plots showing the spectrogram cross-correlation scores
 against the time sliding.
 }
 \details{

@@ -1,6 +1,6 @@
 #' warbleR: A package to streamline bioacoustic analysis
 #' 
-#' warbleR is a package designed to streamline analysis of (bio)acoustic signals in R. This 
+#' warbleR is a package designed to streamline analysis of animal acoustic signals in R. This 
 #' package allows users to collect open-access avian vocalizations data or input their 
 #' own data into a workflow that facilitates spectrographic visualization 
 #' and measurement of acoustic parameters. warbleR makes fundamental sound 
@@ -53,6 +53,8 @@
 #'   \code{\link{lspec}}: Produce spectrograms of whole recordings split into 
 #'   multiple rows
 #'   
+#'   \code{\link{lspec2pdf}}: Combine lspec images to single pdf files
+#'   
 #'   \code{\link{specreator}}: Create spectrograms of manualoc selections
 #'   
 #'   \code{\link{snrspecs}}: Create spectrograms to visualize margins over which 
@@ -76,20 +78,20 @@
 #'   
 #'   \code{\link{ffts}}: Extract the fundamental frequency values as a time series
 #'   
-#'   \code{\link{dfDTW}}: Calculates acoustic dissimilarity using dynamic time warping
+#'   \code{\link{dfDTW}}: Calculate acoustic dissimilarity using dynamic time warping
 #'    on dominant frequency contours
 #'   
-#'   \code{\link{ffDTW}}: Calculates acoustic dissimilarity using dynamic time warping
+#'   \code{\link{ffDTW}}: Calculate acoustic dissimilarity using dynamic time warping
 #'   on fundamental frequency contours
 #'   
-#'   \code{\link{compare.methods}}: Produces graphs to visually assess performance of acoustic 
+#'   \code{\link{compare.methods}}: Produce graphs to visually assess performance of acoustic 
 #'   distance measurements 
 #'   
 #'   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
 #'   
 #'   \code{\link{coor.test}}: Assess statistical significance of singing coordination 
 #'   
-#'   \code{\link{seltailor}}: nteractive view of spectrograms to tailor start and end of selections
+#'   \code{\link{seltailor}}: Interactive view of spectrograms to tailor start and end of selections
 #'   
 #' @import maps
 #' @import rjson
@@ -103,7 +105,8 @@
 #' @import utils
 #' @import parallel
 #' @import foreach
-#' @importFrom  doParallel registerDoParallel
+#' @importFrom jpeg readJPEG 
+#' @importFrom doParallel registerDoParallel
 #' @importFrom dtw dtwDist
 #' @importFrom stats cor dist aggregate approx ave princomp time ts    
 #' 

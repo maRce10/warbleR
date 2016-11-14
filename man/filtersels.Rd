@@ -2,9 +2,9 @@
 % Please edit documentation in R/filtersels.R
 \name{filtersels}
 \alias{filtersels}
-\title{Filter selection data frames based on filtered image files}
+\title{Subset selection data frames based on manually filtered image files}
 \usage{
-filtersels(X, path = NULL, lspec = F)
+filtersels(X, path = NULL, lspec = FALSE, pdf = FALSE)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -14,7 +14,12 @@ be used as the input data frame.}
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{lspec}{A logical argument indicating if the image files to be use for filtering were produced by the function \code{\link{lspec}}.}
+\item{lspec}{A logical argument indicating if the image files to be use for filtering were produced by the function \code{\link{lspec}}. 
+All the image files that correspond to a sound file must be deleted in order to be filtered out.}
+
+\item{pdf}{A logical argument indicating if the image files are in .pdf format. Default is \code{FALSE}. Note that
+pdf files can only be generated using \code{\link{lspec2pdf}} (so they are long spectrograms). 
+Then, if \code{TRUE}, \code{lspec} argument is ignored.}
 }
 \value{
 If all .wav files are ok, returns message "All files are ok!".
@@ -22,17 +27,17 @@ If all .wav files are ok, returns message "All files are ok!".
   corrupted .wav files.
 }
 \description{
-\code{filtersels} Filter selection data frames based on image files from spectrogram creating functions that have been manually filtered.
+\code{filtersels} subsets selection data frames based on image files that have been manually filtered.
 }
 \details{
-This function removes selections listed in a data frame based on the image files
-from spectrogram creating function (e.g. \code{\link{specreator}}) in the working directory.
- This is useful for avoiding including selections from undesired signals. Note that the
- image files should be in the working directory (or the directory provided 
-in 'path').
+This function subsets selections (or sound files if \code{lspec} is \code{TRUE}) listed in a data frame
+ based on the image files from spectrogram-creating functions (e.g. \code{\link{specreator}}) in the 
+ working directory. Only the selections/sound files with and image in the working directory will remain. 
+ This is useful for excluding selections from undesired signals. Note that the
+ image files should be in the working directory (or the directory provided in 'path').
 }
 \examples{
-\dontrun{
+\dontrun{ 
 # First set temporary folder
 setwd(tempdir())
 
@@ -48,9 +53,17 @@ picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
 #go to the working directory and delete some images
 
 #filter selection data frame
-fmloc <- filtersels(X = manualoc.df)
 
+#this data frame does not have the selections corresponding to the images that were deleted
 fmloc
+
+#now using lspec images
+lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, ovlp = 10)
+
+#go to the working directory and delete lspec images (the ones with several rows of spectrograms)
+
+#filter selection data frame
+
 }
 }
 \author{

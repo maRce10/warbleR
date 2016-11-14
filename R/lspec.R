@@ -49,8 +49,8 @@
 #'   the name of the sound files and the "page" number (p1-p2...) at the upper 
 #'   right corner of the image files. If results from \code{\link{manualoc}} are 
 #'   supplied (or an equivalent data frame), the function delimits and labels the selections. 
-#'   This function aims to facilitate visual classification of vocalization units and the 
-#'   analysis of animal vocal sequences.
+#'   This function aims to facilitate visual inspection of multiple files as well as visual classification 
+#'   of vocalization units and the analysis of animal vocal sequences.
 #' @examples
 #' \dontrun{
 #' # First create empty folder
@@ -69,15 +69,16 @@
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jul-5-2016 (MAS)
+#last modification on nov-12-2016 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
                   wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL) {
   
   #check path to working directory
-  if(!is.null(path)) 
-    if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-      setwd(path) #set working directory
+  if(!is.null(path))
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
   
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
@@ -150,15 +151,12 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
+  #wrap img creating function
+  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-  
-  #if parallel
-  # if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
-  #   parallel <- 1
-  #   message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
-  # }
   
   # redo
   if(!redo) 
@@ -185,12 +183,13 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
     dur <- length(rec@left)/rec@samp.rate #set duration    
     
     if(!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset X data
+    
     #loop over pages 
-    for (j in 1:ceiling(dur/(li*sl))){
-      if(it == "tiff") tiff(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".tiff", sep = ""),  
-           res = 160, units = "in", width = 8.5, height = 11) else
-             jpeg(filename = paste(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".jpeg", sep = ""),  
-           res = 160, units = "in", width = 8.5, height = 11)
+    no.out <-lapply(1:ceiling(dur/(li*sl)), function(j)  
+      {
+       imgfun(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".", it),  
+           res = 160, units = "in", width = 8.5, height = 11) 
+      
       par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
       
       #creates spectrogram rows
@@ -243,6 +242,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
       }
       dev.off() #reset graphic device
     }
+    )
     }
     
    #Apply over each sound file
@@ -287,6 +287,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
      sp <- pbapply::pblapply(files, function(z) 
        lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X))
    }
-       
+   if(!is.null(path)) on.exit(setwd(wd))       
 }
 

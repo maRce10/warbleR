@@ -1,6 +1,6 @@
 #' Measure acoustic parameters in batches of sound files
 #'
-#' \code{specan} measures of acoustic parameters on acoustic signals for which the start and end times 
+#' \code{specan} measures acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
 #' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL)
 #' @param X Data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -82,7 +82,9 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -210,7 +212,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
   } else {    # Run parallel in other operating systems
     
-    sp <- parallel::mclapply(1:nrow(X), function (i) {
+    sp <- parallel::mclapply(1:nrow(X), function(i) {
       spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
     })
     
@@ -224,4 +226,5 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   row.names(sp) <- 1:nrow(sp)
   
   return(sp)
-}
+  if(!is.null(path)) on.exit(setwd(wd))
+  }

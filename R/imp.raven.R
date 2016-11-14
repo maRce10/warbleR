@@ -1,6 +1,6 @@
 #' Import Raven selections
 #' 
-#' \code{imp.raven} Imports Raven selection data from many files simultaneously. Files must be in .txt format.
+#' \code{imp.raven} imports Raven selection data from many files simultaneously. Files must be in .txt format.
 #' @usage imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE)  
 #' @param path A character string indicating the path of the directory in which to look for the text files. 
 #' If not provided (default) the function searches into the current working directory. Default is \code{NULL}).
@@ -9,13 +9,13 @@
 #' @param all.data Logical. If \code{TRUE}) all columns in text files are returned. Default is \code{FALSE}). Note 
 #' that all files should contain exactly the same columns in the same order. 
 #' @param recursive Logical. If \code{TRUE}) the listing recurse into sub-directories.
-#' @return A single data frame with the information from the selection files. If all.data argument is set to \code{FALSE}) the data 
+#' @return A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 
 #' frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
-#' will also contain a sound.file column. In addition, all rows with duplicated data are removed. This is useful when 
-#' both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE}) then all 
+#' will also contain a 'sound.files' column. In addition, all rows with duplicated data are removed. This is useful when 
+#' both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE} then all 
 #' columns in selection files are returned. 
-#' @details The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that a selection files including data from mulitple recordings cannot be imported.
-#'  @seealso \code{\link{imp.syrinx}} 
+#' @details The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that selection files including data from mulitple recordings cannot be imported.
+#' @seealso \code{\link{imp.syrinx}} 
 #' @export
 #' @name imp.raven
 #' @examples
@@ -48,7 +48,9 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
   {
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
   
   sel.txt <- list.files(pattern = ".txt$", full.names = TRUE, recursive = recursive, ignore.case = TRUE)
   sel.txt2 <- list.files(pattern = ".txt$", full.names = FALSE, recursive = recursive, ignore.case = TRUE)
@@ -72,5 +74,6 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
 
 b <- do.call("rbind", clist)
 return(b[!duplicated(b), ])
+if(!is.null(path)) on.exit(setwd(wd))
 }
 

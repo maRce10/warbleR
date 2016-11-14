@@ -73,8 +73,8 @@ The function creates spectrograms for complete sound files, printing
   the name of the sound files and the "page" number (p1-p2...) at the upper 
   right corner of the image files. If results from \code{\link{manualoc}} are 
   supplied (or an equivalent data frame), the function delimits and labels the selections. 
-  This function aims to facilitate visual classification of vocalization units and the 
-  analysis of animal vocal sequences.
+  This function aims to facilitate visual inspection of multiple files as well as visual classification 
+  of vocalization units and the analysis of animal vocal sequences.
 }
 \examples{
 \dontrun{

@@ -1,6 +1,6 @@
 #' Import Syrinx selections
 #' 
-#' \code{imp.syrinx} Imports Syrinx selection data from many files simultaneously. 
+#' \code{imp.syrinx} imports Syrinx selection data from many files simultaneously. 
 #' All files must be have the same columns.
 #' @usage imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE)  
 #' @param path A character string indicating the path of the directory in which to look for the text files. 
@@ -8,12 +8,12 @@
 #' @param all.data Logical. If \code{TRUE}) all columns in text files are returned. Default is \code{FALSE}). Note 
 #' that all files should contain exactly the same columns in the same order. 
 #' @param recursive Logical. If \code{TRUE}) the listing recurse into sub-directories.
-#' @return A single data frame with the information from the selection files. If all.data argument is set to \code{FALSE}) the data 
+#' @return A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 
 #' frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
-#' will also contain a sound.file column. In addition, all rows with duplicated data are removed. This is useful when 
-#' both spectrogram and waveform views are included in the Syrinx selection files. If all.data is set to \code{TRUE}) then all 
+#' will also contain a 'sound.files' column. In addition, all rows with duplicated data are removed. This is useful when 
+#' both spectrogram and waveform views are included in the Syrinx selection files. If all.data is set to \code{TRUE} then all 
 #' columns in selection files are returned.
-#'  @seealso \code{\link{imp.raven}}
+#' @seealso \code{\link{imp.raven}}
 #' @export
 #' @name imp.syrinx
 #' @examples
@@ -47,7 +47,9 @@ imp.syrinx <- function(path = NULL, all.data = FALSE, recursive = FALSE)
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
 
 sel.txt <- list.files(full.names = TRUE)
 sel.txt2 <- list.files(full.names = FALSE)
@@ -88,4 +90,5 @@ clist<-lapply(1:length(sel.txt), function(i)
 b <- do.call("rbind", clist)
 if(!all.data) if(any(is.na(b$start))) warning("NAs found (empty rows)")
 return(b[!duplicated(b), ])
+if(!is.null(path)) on.exit(setwd(wd))
 }

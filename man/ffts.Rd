@@ -8,8 +8,9 @@ ffts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
-  threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05, 
-  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL)
+  threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
+  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL, 
+  img.suffix = "ffts")
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -76,7 +77,7 @@ See \code{\link[seewave]{spectro}}.}
 \item{threshold}{amplitude threshold (\%) for fundamental frequency detection. Default is 15.}
 
 \item{col}{Vector of length 1 specifying colors of points plotted to mark 
-fundamental frequency measurements. Default is "dodgerblue".}
+fundamental frequency measurements. Default is "red2".}
 
 \item{pch}{Numeric vector of length 1 specifying plotting characters for 
 the frequency measurements. Default is 16.}
@@ -101,10 +102,13 @@ Not available in Windows OS.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of 
+image files.}
 }
 \value{
 A data frame with the fundamental frequency values measured across the signals. If img is 
-\code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
+\code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the fundamental frequencies.
 }
 \description{
@@ -113,8 +117,11 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function extracts the fundamental frequency values as a time series. 
-The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency 
-measures.
+The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude theshold at the begining or end 
+ of the signals then NAs will be generated. On the other hand, if there are no frequencies 
+ above the amplitude theshold in between signal segments in which amplitude was 
+ detected then the values of this adjacent segments will be interpolated 
+ to fill out the missing values (e.g. no NAs in between detected amplitude segments).
 }
 \examples{
 \dontrun{
@@ -123,11 +130,13 @@ setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
+writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
-writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-ffts(manualoc.df, length.out = 30, flim = c(1, 12), bp = c(0, 9), wl = 300)
+ffts(manualoc.df, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300)
+
+Note that fundamental frequency is not accurate for noisy signals, works better with pure tones
 
 }
 }
@@ -135,9 +144,7 @@ ffts(manualoc.df, length.out = 30, flim = c(1, 12), bp = c(0, 9), wl = 300)
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
-\code{\link{specreator}} for creating spectrograms from selections,
- \code{\link{snrspecs}} for creating spectrograms to 
-  optimize noise margins used in \code{\link{sig2noise}}
+\code{\link{sig2noise}}, \code{\link{dfts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 
 Other spectrogram.creators: \code{\link{dfDTW}},
   \code{\link{dfts}}, \code{\link{ffDTW}},

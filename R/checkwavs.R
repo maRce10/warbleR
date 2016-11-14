@@ -40,9 +40,12 @@
 
 checkwavs <- function(X = NULL, path = NULL) { 
 
-    #check path to working directory
+  #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
+  
   
     files <- list.files(pattern = "wav$", ignore.case = TRUE) #list .wav files in working director    
   if(length(files) == 0) stop("no .wav files in working directory") 
@@ -61,4 +64,5 @@ checkwavs <- function(X = NULL, path = NULL) {
       message("  smallest number of samples: ", floor(min((df$end - df$start)*df$f)), " (sound file:", as.character(X$sound.files[which.min((df$end - df$start)*df$f)]),"; selection: ", X$selec[which.min((df$end - df$start)*df$f)], ")", sep = "")
     }
   }
-}
+  if(!is.null(path)) on.exit(setwd(wd))
+  }

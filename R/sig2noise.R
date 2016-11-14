@@ -51,7 +51,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL){
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -149,5 +151,5 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL){
     # Add SNR data to manualoc output
     z <- data.frame(X[d,], SNR = unlist(SNR))
   return(z)
-    
+    if(!is.null(path)) on.exit(setwd(wd))    
 }

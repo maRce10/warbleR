@@ -24,7 +24,7 @@ A data frame with the observed number of overlaps (obs.overlaps), mean number of
 and p value.
 }
 \description{
-\code{coor.test} Monte Carlo randomization test to assess the statistical significance of singing coordination
+Monte Carlo randomization test to assess the statistical significance of singing coordination
 }
 \details{
 This function calculates the probability of finding and equal or lower number 

@@ -1,6 +1,6 @@
 #' Measure the duration of sound files
 #' 
-#' \code{wavdur} Measures the duration of sound files in '.wav' format
+#' \code{wavdur} measures the duration of sound files in '.wav' format
 #' @usage wavdur(files = NULL, path = NULL)
 #' @param files Character vector with the names of the sound files to be measured. The sound files should be in the working directory or in the directory provided in 'path'.
 #' @param path Character string containing the directory path where the sound files are located. 
@@ -30,20 +30,24 @@ wavdur <- function(files = NULL, path = NULL) {
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
   
   #stop if files is not a character vector
   if(!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
    if(is.null(files))
-  files <- list.files(pattern = "wav$", ignore.case = TRUE) #list .wav files in working director    
+  files <- list.files(pattern = ".wav$", ignore.case = TRUE) #list .wav files in working director    
   
    #stop if no wav files are found
    if(length(files) == 0) stop("no .wav files in working directory") 
   
   a <- sapply(files, function(x) {
-    rec<-tuneR::readWave(as.character(x),header = TRUE)
+    rec <- tuneR::readWave(as.character(x),header = TRUE)
     return(rec$samples/rec$sample.rate)  
   })
-   return(data.frame(sound.files=names(a),duration=a,row.names = NULL))
-}
+   return(data.frame(sound.files = files, duration = a, row.names = NULL))
+
+    if(!is.null(path)) on.exit(setwd(wd))
+  }

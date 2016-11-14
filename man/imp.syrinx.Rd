@@ -16,15 +16,14 @@ that all files should contain exactly the same columns in the same order.}
 \item{recursive}{Logical. If \code{TRUE}) the listing recurse into sub-directories.}
 }
 \value{
-A single data frame with the information from the selection files. If all.data argument is set to \code{FALSE}) the data 
+A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 
 frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
-will also contain a sound.file column. In addition, all rows with duplicated data are removed. This is useful when 
-both spectrogram and waveform views are included in the Syrinx selection files. If all.data is set to \code{TRUE}) then all 
+will also contain a 'sound.files' column. In addition, all rows with duplicated data are removed. This is useful when 
+both spectrogram and waveform views are included in the Syrinx selection files. If all.data is set to \code{TRUE} then all 
 columns in selection files are returned.
- @seealso \code{\link{imp.raven}}
 }
 \description{
-\code{imp.syrinx} Imports Syrinx selection data from many files simultaneously. 
+\code{imp.syrinx} imports Syrinx selection data from many files simultaneously. 
 All files must be have the same columns.
 }
 \examples{
@@ -53,5 +52,8 @@ View(syr.dat)
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}
+\seealso{
+\code{\link{imp.raven}}
 }
 

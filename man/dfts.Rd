@@ -8,8 +8,9 @@ dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
-  threshold = 15, col = "dodgerblue", pch = 16,  mar = 0.05, 
-  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL)
+  threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
+  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL,
+   img.suffix = "dfts")
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -76,7 +77,7 @@ See \code{\link[seewave]{spectro}}.}
 \item{threshold}{amplitude threshold (\%) for dominant frequency detection. Default is 15.}
 
 \item{col}{Vector of length 1 specifying colors of points plotted to mark 
-dominant frequency measurements. Default is "dodgerblue".}
+dominant frequency measurements. Default is "red2".}
 
 \item{pch}{Numeric vector of length 1 specifying plotting characters for 
 the frequency measurements. Default is 16.}
@@ -100,20 +101,27 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 Not available in Windows OS.}
 
 \item{path}{Character string containing the directory path where the sound files are located.}
+
+\item{img.suffix}{A character vector of length 1 with a sufix (label) to add at the end of the names of 
+image files.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is 
-\code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
+\code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the dominant frequencies.
 }
 \description{
-\code{dfts} extract the dominant frequency values as a time series.
+\code{dfts} extracts the dominant frequency values as a time series.
 of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function extracts the dominant frequency values as a time series. 
 The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant frequency 
-measures.
+measures. If there are no frequencies above the amplitude theshold at the begining or end 
+ of the signals then NAs will be generated. On the other hand, if there are no frequencies 
+ above the amplitude theshold in between signal segments in which amplitude was 
+ detected then the values of this adjacent segments will be interpolated 
+ to fill out the missing values (e.g. no NAs in between detected amplitude segments).
 }
 \examples{
 \dontrun{

@@ -101,7 +101,7 @@
 #' 
 #' ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1, 
 #' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
-#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
+#' wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE)
 #' 
 #' #run it with different settings
 #' ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, redo = TRUE,
@@ -123,8 +123,9 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
-  
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
   
   #if bp is not vector or length!=2 stop
   if(length(list.files(pattern = ".wav$", ignore.case = TRUE)) == 0) if(is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
@@ -194,6 +195,9 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
+  #wrap img creating function
+  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  
   #if envt is not vector or length!=1 stop
   if(any(envt %in% c("abs", "hil"))){if(!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
   } else stop("'envt' must be either 'abs' or 'hil'" )
@@ -241,12 +245,12 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     if(length(d) == 0) stop("The .wav files are not in the working directory") else X <- X[d,]  
   xprov <- T #to replace X if not provided
      } else  { 
-  X <- warbleR::wavdur()
+       if(!is.null(flist)) X <- warbleR::wavdur(files = flist) else
+         X <- warbleR::wavdur()
   X$start <- 0
   X$selec <- 1
   names(X)[2] <- "end"  
   xprov <- F #to replace X if not provided
-  if(!is.null(flist)) X <- X[X$sound.files %in% flist, ]
   if(nrow(X) == 0) stop("Files in 'flist' not in working directory")
   }
     
@@ -316,7 +320,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     aut.det <- list(s = signal, s.start = start.signal)
     
     #put time of detection in data frame
-    time.song<-data.frame(sound.files = X$sound.files[i], duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
+    time.song <- data.frame(sound.files = X$sound.files[i], duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
    
     #remove signals based on duration  
     if(!is.null(mindur)) time.song <-time.song[time.song$duration > mindur,]
@@ -336,11 +340,9 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
         fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
                 "-", X$selec[i], "-autodetec", sep = "")                  
   
-      if(it == "tiff") tiff(filename = paste(fna, ".tiff", sep = "-"), 
-        width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-          jpeg(filename = paste(fna, "-", X$selec[i], ".jpeg", sep = ""), 
-               width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
-      
+        imgfun(filename = paste(fna, paste0(".", it), sep = "-"), 
+        width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
+        
       seewave::spectro(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,
               scale = FALSE, palette = seewave::reverse.gray.colors.2, flim = fl)
       rm(song)
@@ -357,7 +359,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     }
     #if nothing was detected
   if(nrow(time.song)==0)
-  time.song<-data.frame(sound.files = X$sound.files[i], duration=NA,selec=NA,start=NA, end=NA)
+  time.song<-data.frame(sound.files = X$sound.files[i], duration = NA,selec = NA,start = NA, end = NA)
   
     #remove duration column
   time.song <- time.song[,grep("duration",colnames(time.song),invert = TRUE)]
@@ -556,5 +558,6 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   }
 
 return(results)
-if(img) on.exit(dev.off())
+  if(img) on.exit(dev.off())
+  if(!is.null(path)) on.exit(setwd(wd))
 }

@@ -85,8 +85,8 @@
 #' # make only Phae.long1 spectrograms
 #' # snrmar now doesn't overlap neighboring signals
 #' 
-#' snrspecs(manualoc.df[grepl(c("Phae.long1"), manualoc.df$sound.files), ], flim = c(3, 14), 
-#' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2, 
+#' snrspecs(manualoc.df[grepl(c("Phae.long1"), manualoc.df$sound.files), ], flim = c(3, 14),
+#' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2,
 #' mar = 0.2, snrmar = 0.01, wl = 300)
 #' 
 #' #check this folder!!
@@ -104,8 +104,9 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
  
   #check path to working directory
   if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else setwd(path)} #set working directory
-  
+  {wd <- getwd()
+  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    setwd(path)} #set working directory
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -127,6 +128,9 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
+  #wrap img creating function
+  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  
   #if any selections longer than 20 secs stop
   if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   options( show.error.messages = TRUE)
@@ -147,11 +151,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel in OSX
-  # if(all(parallel > 1, !Sys.info()[1] %in% c("Linux","Windows"))) {
-  #   parallel <- 1
-  #   message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
-  # }
   
     snrspeFUN <- function(i, X, wl, flim, ovlp, inner.mar, outer.mar, picsize, res, cexlab, xl, mar, snrmar){
     
@@ -187,19 +186,11 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     
     
 # Spectrogram width can be proportional to signal duration
-    if(propwidth == TRUE){
-      if(it == "tiff")  tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "snr", ".tiff", sep = ""), 
-           width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-             jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "snr", ".jpeg", sep = ""), 
-                  width = (10.16) * ((t[2]-t[1])/0.27) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
-      
-    } else {
-      if(it == "tiff")  tiff(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "snr", ".tiff", sep = ""), 
-           width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res) else
-             jpeg(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "snr", ".jpeg", sep = ""), 
-                  width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
-    }
+    if(propwidth) pwc <- (10.16) * ((en-st)/0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
     
+          imgfun(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "snr.", it, sep = ""), 
+           width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
+
     # Change relative heights of rows for spectrogram when osci = TRUE
     if(osci == TRUE) hts <- c(3, 2) else hts <- NULL
     
@@ -287,6 +278,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
       a1 <- pbapply::pblapply(1:nrow(X), function(i) snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar))
     }
     
-    
+    if(!is.null(path)) on.exit(setwd(wd))
     }
 

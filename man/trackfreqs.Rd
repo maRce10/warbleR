@@ -7,10 +7,10 @@
 trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
-  xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.8, 1), 
-  threshold = 15, contour = "both", col = c("chartreuse3", "dodgerblue"),
-   pch = c(17, 16),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
-   path = NULL)
+  xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.6, 1), 
+  threshold = 15, contour = "both", col = c("skyblue", "red2"),
+   pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
+   path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -70,7 +70,7 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz). Default is c(0, 22).}
 
-\item{cex}{Numeric vector of length 1, specifies relative size of points 
+\item{cex}{Numeric vector of length 2, specifies relative size of points 
 plotted for frequency measurements and legend font/points, respectively. 
 See \code{\link[seewave]{spectro}}.}
 
@@ -80,12 +80,12 @@ dominant frequency detection. Default is 15.}
 \item{contour}{Character vector, one of "df", "ff" or "both", specifying whether the
 dominant or fundamental frequencies or both should be plotted. Default is "both".}
 
-\item{col}{Vector of length 2 specifying colors of points plotted to mark 
-fundamental and dominant frequency measurements. Default is c("chartreuse3",
-"dodgerblue").}
+\item{col}{Vector of length 1 or 2 specifying colors of points plotted to mark 
+fundamental and dominant frequency measurements respetively (if both are plotted). Default is c("skyblue",
+"red2").}
 
-\item{pch}{Numeric vector of length 2 specifying plotting characters for 
-the frequency measurements. Default is c(17, 16).}
+\item{pch}{Numeric vector of length 1 or 2 specifying plotting characters for 
+the frequency measurements. Default is c(21, 24).}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the selections
 to set spectrogram limits. Default is 0.05.}
@@ -104,6 +104,17 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of 
+image files. Default is \code{NULL}.}
+
+\item{custom.contour}{A data frame with frequency contours for exactly the same sound files and selection as in X. 
+The frequency values are assumed to be equally spaced in between the start and end of the signal. The 
+first 2 colums of the data frame should contain the 'sound.files' and 'selec' columns and should be 
+identical to the corresponding columns in X.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 Spectrograms of the signals listed in the input data frame showing the location of 
@@ -114,13 +125,14 @@ the dominant and fundamental frequencies.
 of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
-This function provides visualization of frequency measurements 
-  made by \code{\link{specan}}. Arguments that are accepted by xy.coords and can be 
-  used for lpos are: "bottomright", "bottom", "bottomleft", "left", 
+This function provides visualization of frequency measurements as the ones 
+  made by \code{\link{specan}}. Frequency measures can be made by the function or input by the user (see 'custom.contour' argument)  Arguments that are accepted by xy.coords and can be 
+  used for 'lpos' are: "bottomright", "bottom", "bottomleft", "left", 
   "topleft", "top", "topright", "right" and "center". Setting inner.mar to 
   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
   Title font size, inner.mar and outer.mar (from mar and oma) don't work well
-  when osci or sc = TRUE, this may take some optimization by the user.
+  when osci or sc = TRUE, this may take some optimization by the user. Note that if no amplitude was detected
+  for a particular time bin, then the image will show a dark dot at the bottom of the time bin.
 }
 \examples{
 \dontrun{
@@ -133,11 +145,11 @@ writeWave(Cryp.soui, "Cryp.soui.wav") #save sound files
 
 #autodetec location of signals
 ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2,
-maxdur = 3, img = FALSE, ssmooth = 600, wl = 300)
+maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav")
 
 #track dominant frequency graphs
 trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
- bp = c(1, 3), contour = "df", wl = 300)
+bp = c(1, 3), contour = "df", wl = 300)
  
 # Check this folder
 getwd()

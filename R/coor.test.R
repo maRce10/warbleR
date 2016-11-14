@@ -1,6 +1,6 @@
 #' Randomization test for singing coordination 
 #' 
-#' \code{coor.test} Monte Carlo randomization test to assess the statistical significance of singing coordination
+#' Monte Carlo randomization test to assess the statistical significance of singing coordination
 #' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).

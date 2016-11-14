@@ -63,7 +63,7 @@ Data frame with the following acoustic parameters:
 }
 }
 \description{
-\code{specan} measures of acoustic parameters on acoustic signals for which the start and end times 
+\code{specan} measures acoustic parameters on acoustic signals for which the start and end times 
 are provided.
 }
 \details{

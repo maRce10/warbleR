@@ -4,7 +4,7 @@
 \alias{xcmaps}
 \title{Maps of Xeno-Canto recordings by species}
 \usage{
-xcmaps(X, img = TRUE, it = "jpeg", res = 100)
+xcmaps(X, img = TRUE, it = "jpeg", res = 100, labels = F)
 }
 \arguments{
 \item{X}{Data frame output from \code{\link{querxc}}.}
@@ -18,6 +18,9 @@ map should be returned, default is \code{TRUE}.}
 \item{res}{Numeric argument of length 1. Controls image resolution.
 Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 presentation quality.}
+
+\item{labels}{A logical argument defining whether dots depicting recording locations are labeled.
+If \code{TRUE} then the Recording_ID is used as label.}
 }
 \value{
 A map of Xeno-Canto recordings per species (image file), or a faceted

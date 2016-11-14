@@ -1,6 +1,6 @@
 #' Pairwise plots of spectrogram cross-correlation scores 
 #' 
-#' \code{xcorr.graph} Generates pairwise plots showing the spectrogram cross-correlation scores
+#' \code{xcorr.graph} generates pairwise plots showing the spectrogram cross-correlation scores
 #' against the time sliding. 
 #' @usage xcorr.graph(X, cex.cor = 1, cex.lab = 1, cex.axis.lab = 1, rel.cex = FALSE, labs = NULL)
 #' @param  X Output from \code{\link{xcorr}} function.
