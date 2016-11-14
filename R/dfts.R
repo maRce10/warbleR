@@ -188,8 +188,6 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
  if(parallel == 1) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
     message("Measuring dominant frequency:")}  
   
-  # lst<-lapp(1:length(X$sound.files), 
-            
   dftsFUN <- function(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold){
     
     # Read sound files to get sample rate and length
@@ -235,7 +233,7 @@ dfts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
     trackfreqs(X[i,], wl = wl, flim = flim, wn = wn, pal = pal, ovlp = ovlp,
       inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab,
       title = title, propwidth = propwidth, xl = xl, osci = FALSE, gr = gr, sc = sc, 
-      bp = bp, cex = c(cex, cex), threshold = threshold, contour = contour, 
+      bp = bp, cex = c(cex, cex), threshold = threshold, contour = "df", 
       col = col,  pch = pch, mar = mar, lpos = lpos, pb = FALSE,
       it = it, parallel = 1, path = path, img.suffix =  img.suffix, 
       custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom$y)))
