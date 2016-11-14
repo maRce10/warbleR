@@ -2,7 +2,7 @@
 #' 
 #' \code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-#' cor.method = "pearson", parallel = 1, path = NULL)
+#' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE)
 #' @param  X Data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -26,6 +26,8 @@
 #'  Not available in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.  
 #' @export
@@ -50,8 +52,8 @@
 #' writeWave(Phae.long3, "Phae.long3.wav")
 #' writeWave(Phae.long4, "Phae.long4.wav")
 #'
-#' xcor <- xcorr(X = manualoc.df, wl = 300, frange = c(2, 9), ovlp = 90, 
-#' dens = 1, wn = 'hanning', cor.method = "pearson") 
+#'xcor <- xcorr(X = manualoc.df, wl = 300, frange = c(2, 9), ovlp = 90,
+#'dens = 1, wn = 'hanning', cor.method = "pearson")
 #' 
 #' }
 #' @seealso \code{\link{xcorr.graph}}
@@ -61,7 +63,7 @@
 
 
 xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, 
-                   wn='hanning', cor.method = "pearson", parallel = 1, path = NULL)
+                   wn='hanning', cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE)
 {
   
   #check path to working directory
@@ -111,16 +113,18 @@ frq.lim = c(min(df), max(df))} else{
   
   #parallel not available on windows
   if(parallel > 1 & Sys.info()[1] == "Windows")
-  {message("parallel computing not availabe in Windows OS for this function")
+  {  if(pb) message("parallel computing not availabe in Windows OS for this function")
     parallel <- 1}
   
   if(parallel > 1) 
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
-    
+    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else { 
+      if(pb)
+      lapp <- pbapply::pblapply else   lapp <- lapply
+  }  
           options(warn = 0)
           
 #create templates
-   if(parallel == 1) message("creating templates:")
+   if(parallel == 1 & pb) message("creating templates:")
 ltemp <- lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
@@ -187,7 +191,7 @@ ltemp <- lapp(1:nrow(X), function(x)
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
 #run cross-correlation
-if(parallel == 1) message("running cross-correlation:")
+if(parallel == 1 & pb) message("running cross-correlation:")
 
 a<-lapp(1:(nrow(X)-1), function(j)
   {

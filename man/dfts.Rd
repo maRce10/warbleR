@@ -10,7 +10,7 @@ dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
   threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL,
-   img.suffix = "dfts")
+   img.suffix = "dfts", pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -104,6 +104,9 @@ Not available in Windows OS.}
 
 \item{img.suffix}{A character vector of length 1 with a sufix (label) to add at the end of the names of 
 image files.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is 

@@ -4,7 +4,7 @@
 \alias{coor.test}
 \title{Randomization test for singing coordination}
 \usage{
-coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1)
+coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame containing columns for singing event (sing.event), 
@@ -18,6 +18,9 @@ Default is  \code{TRUE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 A data frame with the observed number of overlaps (obs.overlaps), mean number of overlaps expected by chance,
@@ -41,10 +44,10 @@ is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
 , data(sim.coor.sing)
 
 # testing if coordination happens less than expected by chance
-coor.test(sim.coor.sing, iterations = 1000, less.than.chance = TRUE)
+coor.test(sim.coor.sing, iterations = 100, less.than.chance = TRUE)
 
 # testing if coordination happens more than expected by chance
-coor.test(sim.coor.sing, iterations = 1000, less.than.chance = FALSE)
+coor.test(sim.coor.sing, iterations = 100, less.than.chance = FALSE)
 }
 }
 \author{

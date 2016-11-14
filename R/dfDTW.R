@@ -8,7 +8,7 @@
 #'   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
 #'   threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
 #'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL, 
-#'   img.suffix = "dfDTW")
+#'   img.suffix = "dfDTW", pb = TRUE)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -72,6 +72,8 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param img.suffix A character vector of length 1 with a suffix (label) to add at the end of the names of 
 #' image files. Default is \code{NULL}.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return A matrix with the pairwise dissimilarity values. If img is 
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies.
@@ -109,13 +111,13 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = 1, threshold = 15, col = "red2",pch = 16,
                        mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, 
-                  path = NULL,  img.suffix = "dfDTW"){     
+                  path = NULL,  img.suffix = "dfDTW", pb = TRUE){     
  
   #run dfts function
   res <- dfts(X = X, wl = wl, flim = flim, length.out = length.out, wn = wn, pal = pal, ovlp = ovlp, 
     inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, 
     title = title, propwidth = propwidth, xl = xl, gr = gr, sc = sc, bp = bp, cex = cex,
-    threshold = threshold, col = col, pch = pch,  mar = mar,
+    threshold = threshold, col = col, pch = pch,  mar = mar, pb = pb,
     lpos = lpos, it = it, img = img, parallel = parallel, path = path, img.suffix = img.suffix)
 
   #matrix of dom freq time series

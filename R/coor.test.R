@@ -1,7 +1,7 @@
 #' Randomization test for singing coordination 
 #' 
 #' Monte Carlo randomization test to assess the statistical significance of singing coordination
-#' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1)
+#' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param iterations number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.
@@ -10,6 +10,8 @@
 #' Default is  \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return A data frame with the observed number of overlaps (obs.overlaps), mean number of overlaps expected by chance,
 #' and p value.  
 #' @export
@@ -28,15 +30,15 @@
 #' , data(sim.coor.sing)
 #' 
 #' # testing if coordination happens less than expected by chance
-#' coor.test(sim.coor.sing, iterations = 1000, less.than.chance = TRUE)
+#' coor.test(sim.coor.sing, iterations = 100, less.than.chance = TRUE)
 #' 
 #' # testing if coordination happens more than expected by chance
-#' coor.test(sim.coor.sing, iterations = 1000, less.than.chance = FALSE)
+#' coor.test(sim.coor.sing, iterations = 100, less.than.chance = FALSE)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-5-2016 (MAS)
 
-coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, parallel = 1)
+coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE)
 {
   if(!is.data.frame(X))  stop("X is not a data frame")
   
@@ -168,7 +170,13 @@ if(any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interatin
         })
       
       }
-    } else {cote <- pbapply::pblapply(unique(X$sing.event), function(h) 
+    } else {
+      if(pb)
+      cote <- pbapply::pblapply(unique(X$sing.event), function(h) 
+    { 
+      coortestFUN(X, h)
+    }) else     
+      cote <- lapply(unique(X$sing.event), function(h) 
     { 
       coortestFUN(X, h)
     })

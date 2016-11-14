@@ -8,7 +8,7 @@
 #'   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
 #'   threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
 #'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL, 
-#'   img.suffix = "ffts")
+#'   img.suffix = "ffts", pb = TRUE)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -73,6 +73,8 @@
 #' If \code{NULL} (default) then the current working directory is used. 
 #' @param img.suffix A character vector of length 1 with a suffix (label) to add at the end of the names of 
 #' image files.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return A data frame with the fundamental frequency values measured across the signals. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the fundamental frequencies.
@@ -110,7 +112,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = 1, threshold = 15, col = "red2", pch = 16,
                        mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1,
-                 path = NULL, img.suffix = "ffts"){     
+                 path = NULL, img.suffix = "ffts", pb = TRUE){     
   
   #check path to working directory
   if(!is.null(path))
@@ -176,7 +178,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   {message("parallel computing not availabe in Windows OS for this function")
     parallel <- 1}
 
- if(parallel == 1) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
+ if(parallel == 1 & pb) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
     message("Measuring fundamental frequency:")}  
   
         fftsFUN <- function(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold){
@@ -268,7 +270,9 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
           }
         }
         else {
-          lst <- pbapply::pblapply(1:nrow(X), function(i) fftsFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold))
+          if(pb)
+          lst <- pbapply::pblapply(1:nrow(X), function(i) fftsFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold)) else
+            lst <- lapply(1:nrow(X), function(i) fftsFUN(X, i, mar, bp, xl,  picsize, res, flim, wl, cexlab, threshold))
         }
         
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))

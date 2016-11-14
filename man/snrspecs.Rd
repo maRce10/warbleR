@@ -11,7 +11,7 @@ snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
 inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, 
 res = 100, cexlab = 1, title = TRUE, 
   propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
-   snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL)
+   snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -79,6 +79,9 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 Spectrograms per selection marked with margins where background noise will be measured.

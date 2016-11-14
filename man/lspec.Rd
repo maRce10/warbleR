@@ -6,7 +6,7 @@
 \usage{
 lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1), 
 ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
-cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL)
+cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -59,6 +59,9 @@ file in the working directory will be analyzed. Default is \code{FALSE}.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 image files with spectrograms of whole sound files in the working directory. Multiple pages

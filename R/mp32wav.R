@@ -2,7 +2,7 @@
 #' 
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
 #' @usage mp32wav(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = NULL, 
-#' normalize = NULL)  
+#' normalize = NULL, pb = TRUE)  
 #' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -13,6 +13,8 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param normalize Character string containing the units to be used for amplitude normalization. Check 
 #' (\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return .wav files saved in the working directory with same name as original mp3 files.
 #' @export
 #' @name mp32wav
@@ -34,7 +36,8 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on jul-5-2016 (MAS)
 
-mp32wav <- function(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = NULL, normalize = NULL) {
+mp32wav <- function(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = NULL, normalize = NULL, 
+                    pb = TRUE) {
   
   if(!is.null(to.path))
   {if(class(try(setwd(from.path), silent = TRUE)) == "try-error") stop("'path' provided does not exist")} else
@@ -59,7 +62,8 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = 
     parallel <- 1}
   
   if(parallel > 1) 
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else 
+      {if(pb) lapp <- pbapply::pblapply else lapp <- lapply} 
   
           
   files <- list.files(path=getwd(), pattern = ".mp3$", ignore.case = TRUE) #list .mp3 files in working directory

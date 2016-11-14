@@ -2,7 +2,7 @@
 #' 
 #' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
 #' @usage querxc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
-#' parallel = 1, path = NULL)  
+#' parallel = 1, path = NULL, pb = TRUE)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'   species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 #'   (\url{http://www.xeno-canto.org/}).
@@ -16,11 +16,13 @@
 #' the recordings to be downloaded based on their attributes.  
 #' @param file.name Character vector indicating the tags (or column names) to be included in the sound file names (if download = \code{TRUE}). Several tags can be included. If \code{NULL} only the Xeno-Canto recording identification number ("Recording_ID") is used. Default is c("Genus", "Specific_epithet").
 #' Note that recording id is always used (whether or not is listed by users) to avoid duplicated names.
-#' @param parallel Numeric. Controls whether parallel computing is applied.
-#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' Not available in Windows OS.
+#' @param parallel Numeric. Controls whether parallel computing is applied when downloading mp3 files.
+#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Might not work 
+#' in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.  
 #' @export
 #' @name querxc
@@ -46,7 +48,7 @@
 #last modification on jul-24-2016 (MAS)
 
 querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
-                   parallel = 1, path = NULL) {
+                   parallel = 1, path = NULL, pb = TRUE) {
  
   #check path to working directory
   if(!is.null(path))
@@ -80,7 +82,9 @@ if(is.null(X) & !is.null(file.name))
   if(a == "Could not connect to the database")  stop("xeno-canto.org website is apparently down")
   
   #search recs in xeno-canto (results are returned in pages with 500 recordings each)
+  if(pb)
   message("Obtaining recording list...")
+  
   if(sapply(strsplit(qword, " "), length) == 2)
   query <- rjson::fromJSON(, paste("http://www.xeno-canto.org/api/recordings.php?species_nr=&query=", #run search
                             strsplit(qword, " ")[[1]][1],"%20",strsplit(qword, " ")[[1]][2], sep="")) else
@@ -103,6 +107,7 @@ if(is.null(X) & !is.null(file.name))
     recs <- c(recs, query$recordings)
   }
   
+  if(pb)
   message("Processing recording information:")
   
   results <- as.data.frame(t(sapply(matrix(c(1:n.recs), ncol=1), function(x){
@@ -142,6 +147,7 @@ if(is.null(X) & !is.null(file.name))
   #remove duplicates
 results <- results[!duplicated(results$Recording_ID), ]
 
+if(pb)
 message(paste( nrow(results), " recordings found!", sep=""))  
 
 } else { 
@@ -178,7 +184,8 @@ results$sound.files <- paste(results$Recording_ID, ".mp3", sep = "")
                       extra = getOption("download.file.extra"))
       return (NULL)
     }
-        message("Downloading sound files...")
+      if(pb)
+      message("Downloading sound files...")
 
       
   if(parallel > 1) {if(Sys.info()[1] == "Windows") 
@@ -219,14 +226,18 @@ results$sound.files <- paste(results$Recording_ID, ".mp3", sep = "")
     }
     
   } else {
-    a1 <- pbapply::pblapply(1:nrow(results), function(x) 
+    if(pb)
+       a1 <- pbapply::pblapply(1:nrow(results), function(x) 
   { 
       xcFUN(results, x) 
-
-  })
+  }) else
+    a1 <- lapply(1:nrow(results), function(x) 
+    { 
+      xcFUN(results, x) 
+    })
   }
   
-
+if(pb)
    message("double-checking downloaded files")
    
    #check if some files have no data
@@ -278,11 +289,16 @@ results$sound.files <- paste(results$Recording_ID, ".mp3", sep = "")
     }
     
   } else {
+    if(pb)
     a1 <- pbapply::pblapply(1:nrow(Y), function(x) 
   { 
       xcFUN(Y, x) 
-
-  })
+  }) else
+    a1 <- lapply(1:nrow(Y), function(x) 
+    { 
+      xcFUN(Y, x) 
+    })
+  
   }
      
      

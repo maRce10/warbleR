@@ -2,7 +2,8 @@
 #'
 #' \code{specan} measures acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
-#' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL)
+#' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL, 
+#' pb = TRUE)
 #' @param X Data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
@@ -19,6 +20,8 @@
 #' substantially increases performance (~9 times faster).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return Data frame with the following acoustic parameters: 
 #' \itemize{
 #'    \item \code{duration}: length of signal
@@ -78,7 +81,8 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on jul-5-2016 (MAS)
 
-specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL){
+specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, 
+                   path = NULL, pb = TRUE){
   
   #check path to working directory
   if(!is.null(path))
@@ -218,7 +222,10 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
   }
   }
-  else {sp <- pbapply::pblapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold = threshold))             
+  else {
+    if(pb) 
+      sp <- pbapply::pblapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold = threshold)) else
+        sp <- lapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold = threshold))        
 
   }
   sp <- do.call(rbind, sp)

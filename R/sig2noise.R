@@ -1,7 +1,7 @@
 #' Measure signal-to-noise ratio
 #' 
 #' \code{sig2noise} measures signal-to-noise ratio across multiple files.
-#' @usage sig2noise(X, mar, parallel = 1, path = NULL)
+#' @usage sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE)
 #' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
@@ -12,6 +12,8 @@
 #' Not available in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 
 #' with the signal-to-noise values.
 #' @export
@@ -47,7 +49,7 @@
 #' @source \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 #last modification on jul-5-2016 (MAS)
 
-sig2noise <- function(X, mar, parallel = 1, path = NULL){
+sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE){
   
   #check path to working directory
   if(!is.null(path))
@@ -99,7 +101,8 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL){
     parallel <- 1}
   
   if(parallel > 1) 
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else lapp <- pbapply::pblapply
+    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else {
+      if(pb) lapp <- pbapply::pblapply else lapp <- lapply}
   
   options(warn = 0)
   

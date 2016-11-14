@@ -8,7 +8,7 @@ autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL
   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
-  parallel = 1, path = NULL)
+  parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function or any data frame with columns
@@ -95,7 +95,7 @@ if X is provided.}
 
 \item{smadj}{adjustment for amplitude smoothing. Character vector of length one indicating whether start end 
 values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude 
-smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals, 
+smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals,
 determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the 
 increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.}
 
@@ -104,6 +104,9 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 Image files with spectrograms showing the start and end of the detected signals. It 
@@ -134,8 +137,8 @@ writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav") 
 
-ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1, 
-bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
+ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1,
+bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
 wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE)
 
 #run it with different settings

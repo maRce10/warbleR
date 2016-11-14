@@ -5,7 +5,7 @@
 \title{Convert .mp3 files to .wav}
 \usage{
 mp32wav(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = NULL, 
-normalize = NULL)
+normalize = NULL, pb = TRUE)
 }
 \arguments{
 \item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.}
@@ -22,6 +22,9 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{normalize}{Character string containing the units to be used for amplitude normalization. Check 
 (\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 .wav files saved in the working directory with same name as original mp3 files.

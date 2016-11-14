@@ -4,7 +4,7 @@
 #'   rows.
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1), 
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
-#' cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL) 
+#' cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE) 
 #' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
@@ -41,6 +41,8 @@
 #'   file in the working directory will be analyzed. Default is \code{FALSE}.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -72,7 +74,7 @@
 #last modification on nov-12-2016 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL) {
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE) {
   
   #check path to working directory
   if(!is.null(path))
@@ -284,8 +286,11 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
      }
    }
    else {
+     if(pb)
      sp <- pbapply::pblapply(files, function(z) 
-       lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X))
+       lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)) else
+         sp <- lapply(files, function(z) 
+           lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X))
    }
    if(!is.null(path)) on.exit(setwd(wd))       
 }

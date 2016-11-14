@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 }
 \usage{
-sig2noise(X, mar, parallel = 1, path = NULL)
+sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -23,6 +23,9 @@ Not available in Windows OS.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 

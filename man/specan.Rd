@@ -4,7 +4,8 @@
 \alias{specan}
 \title{Measure acoustic parameters in batches of sound files}
 \usage{
-specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL)
+specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL, 
+pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -29,6 +30,9 @@ substantially increases performance (~9 times faster).}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 Data frame with the following acoustic parameters: 

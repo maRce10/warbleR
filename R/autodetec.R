@@ -6,7 +6,7 @@
 #'   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
 #'   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
 #'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
-#'   parallel = 1, path = NULL)
+#'   parallel = 1, path = NULL, pb = TRUE)
 #' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
@@ -68,13 +68,15 @@
 #' if X is provided.
 #' @param smadj adjustment for amplitude smoothing. Character vector of length one indicating whether start end 
 #' values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude 
-#' smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals, 
+#' smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals,
 #' determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the 
 #' increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @return Image files with spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 
 #'   sound file and selection number.
@@ -99,8 +101,8 @@
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav") 
 #' 
-#' ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1, 
-#' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
+#' ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1,
+#' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
 #' wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE)
 #' 
 #' #run it with different settings
@@ -119,7 +121,8 @@
 autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 
                     bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 
                     ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
-                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1, path = NULL){
+                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1, 
+                    path = NULL, pb = TRUE){
   
   #check path to working directory
   if(!is.null(path))
@@ -265,7 +268,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     }    
   
       # if parallel was not called 
-    if(parallel == 1) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
+    if(parallel == 1 & pb) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
       message("Detecting signals in sound files:")}
     
   #create function to detec signals          
@@ -409,8 +412,12 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     }  
     
   } else {
+    if(pb)
     ad <- pbapply::pblapply(1:nrow(X), function(i) 
   {adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
+    }) else
+    ad <- lapply(1:nrow(X), function(i) 
+    {adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
     })
   }
   
@@ -427,7 +434,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   # long spectrograms
   if(ls & img) {  
-   if(parallel == 1) message("Producing long spectrogram:")
+   if(parallel == 1 & pb) message("Producing long spectrogram:")
     
     #function for long spectrograms (based on lspec function)
     lspeFUN2 <- function(X, z, fl = flim, sl = sxrow, li = rows, fli = fli, pal) {
@@ -550,10 +557,15 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     }
     
   } else {
-    a1 <- pbapply::pblapply(unique(results$sound.files), function(z) 
+    if(pb)
+     a1 <- pbapply::pblapply(unique(results$sound.files), function(z) 
   { 
   lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
+  }) else  a1 <- lapply(unique(results$sound.files), function(z) 
+  { 
+    lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
   })
+  
   }
   }
 

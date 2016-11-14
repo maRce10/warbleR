@@ -9,7 +9,7 @@ cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 }
 \usage{
 xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-cor.method = "pearson", parallel = 1, path = NULL)
+cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame containing columns for sound files (sound.files), 
@@ -44,6 +44,9 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \value{
 A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
@@ -74,8 +77,8 @@ writeWave(Phae.long2, "Phae.long2.wav")
 writeWave(Phae.long3, "Phae.long3.wav")
 writeWave(Phae.long4, "Phae.long4.wav")
 
-xcor <- xcorr(X = manualoc.df, wl = 300, frange = c(2, 9), ovlp = 90, 
-dens = 1, wn = 'hanning', cor.method = "pearson") 
+xcor <- xcorr(X = manualoc.df, wl = 300, frange = c(2, 9), ovlp = 90,
+dens = 1, wn = 'hanning', cor.method = "pearson")
 
 }
 }
