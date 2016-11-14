@@ -1,7 +1,7 @@
 #' Interactive view of spectrograms to tailor start and end of selections 
 #' 
-#' \code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) i
-#' n which the start and end times of acoustic signals listed in a data frame can be adjusted.
+#' \code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in 
+#' which the start and end times of acoustic signals listed in a data frame can be adjusted.
 #' @usage seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
 #'  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
 #'   comments = TRUE, path = NULL)

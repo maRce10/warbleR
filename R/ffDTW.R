@@ -1,7 +1,7 @@
 #' Acoustic dissimilarity using dynamic time warping on fundamental frequency contours
 #' 
 #' \code{ffDTW} calculates acoustic dissimilarity of fundamental frequency contours using dynamic
-#' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} from the \code{dtw} package.
+#' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
 #' @usage ffDTW(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 

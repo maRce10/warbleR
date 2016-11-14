@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.7.5)  14 NOV 2016 14:44
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.7.5)  14 NOV 2016 16:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -727,21 +727,27 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [7]
-Overfull \hbox (30.78088pt too wide) in paragraph at lines 347--347
+Overfull \hbox (30.78088pt too wide) in paragraph at lines 350--350
  []\T1/zi4/m/n/10 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar
  = 0.1, wl = 512, ovlp = 90,[] 
+ []
+
+
+Overfull \hbox (13.78088pt too wide) in paragraph at lines 352--352
+ []\T1/zi4/m/n/10 "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1, path = NUL
+L, sp = NULL, pb = TRUE)[] 
  []
 
 [8] [9] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-Overfull \hbox (22.78088pt too wide) in paragraph at lines 471--471
+Overfull \hbox (22.78088pt too wide) in paragraph at lines 482--482
  []\T1/zi4/m/n/10 coor.graph(X, only.coor = FALSE, ovlp = TRUE, xl = 1, res= 80
 , it = "jpeg", img = TRUE,[] 
  []
 
 [10]
-LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 534.
+LaTeX Font Info:    Try loading font information for TS1+zi4 on input line 545.
 
  (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
 File: ts1zi4.fd 2013/06/07 Fontinst v1.933 font definitions for TS1/zi4.
@@ -749,106 +755,103 @@ File: ts1zi4.fd 2013/06/07 Fontinst v1.933 font definitions for TS1/zi4.
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [11]
-Overfull \hbox (18.50716pt too wide) in paragraph at lines 572--579
+Overfull \hbox (18.50716pt too wide) in paragraph at lines 586--593
 []\T1/ptm/m/n/10 This func-tion cal-cu-lates the prob-a-bil-ity of find-ing and
  equal or lower num-ber (or higher if les.than.chance
  []
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [12]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[12] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-Overfull \hbox (9.78088pt too wide) in paragraph at lines 648--648
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) [13]
+Overfull \hbox (9.78088pt too wide) in paragraph at lines 662--662
  []  \T1/zi4/m/n/10 c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = 
 TRUE, propwidth = FALSE,[] 
  []
 
-[13] [14] [15] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[14] [15] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) [16]
+Overfull \hbox (9.78088pt too wide) in paragraph at lines 829--829
+ []  \T1/zi4/m/n/10 c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = 
+TRUE, propwidth = FALSE,[] 
+ []
+
+[17] [18] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-Overfull \hbox (9.78088pt too wide) in paragraph at lines 812--812
+Overfull \hbox (9.78088pt too wide) in paragraph at lines 997--997
  []  \T1/zi4/m/n/10 c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = 
 TRUE, propwidth = FALSE,[] 
  []
 
-[16] [17] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[19] [20] [21] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [18]
-Overfull \hbox (9.78088pt too wide) in paragraph at lines 977--977
- []  \T1/zi4/m/n/10 c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = 
-TRUE, propwidth = FALSE,[] 
- []
-
-[19] [20] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [21]
-Overfull \hbox (9.78088pt too wide) in paragraph at lines 1146--1146
+)
+Overfull \hbox (9.78088pt too wide) in paragraph at lines 1166--1166
  []  \T1/zi4/m/n/10 c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = 
 TRUE, propwidth = FALSE,[] 
  []
 
 [22] [23]
-Overfull \hbox (19.68097pt too wide) in paragraph at lines 1293--1293
+Overfull \hbox (19.68097pt too wide) in paragraph at lines 1316--1316
  []\T1/zi4/m/n/9 Note that fundamental frequency is not accurate for noisy sign
 als, works better with pure tones[] 
  []
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [24]
-Overfull \hbox (0.78094pt too wide) in paragraph at lines 1360--1360
+) [24] [25]
+Overfull \hbox (0.78094pt too wide) in paragraph at lines 1383--1383
  []\T1/zi4/m/n/9 specreator(manualoc.df, flim = c(0, 11), inner.mar = c(4,4.5,2
 ,1), outer.mar = c(4,2,2,1),[] 
  []
 
 
-Overfull \hbox (1.68097pt too wide) in paragraph at lines 1367--1367
+Overfull \hbox (1.68097pt too wide) in paragraph at lines 1390--1390
  []\T1/zi4/m/n/9 #this data frame does not have the selections corresponding to
  the images that were deleted[] 
  []
 
 
-Overfull \hbox (27.78098pt too wide) in paragraph at lines 1373--1373
+Overfull \hbox (27.78098pt too wide) in paragraph at lines 1396--1396
  []\T1/zi4/m/n/9 #go to the working directory and delete lspec images (the ones
  with several rows of spectrograms)[] 
  []
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [25]
-Overfull \hbox (3.78088pt too wide) in paragraph at lines 1390--1390
+)
+Overfull \hbox (3.78088pt too wide) in paragraph at lines 1413--1413
  []\T1/zi4/m/n/10 imp.raven(path = NULL, sound.file.col = NULL, all.data = FALS
 E, recursive = FALSE)[] 
  []
 
-[26] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[26] [27] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [27]
+) [28]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [28] [29]
-Overfull \hbox (7.98099pt too wide) in paragraph at lines 1627--1627
+) [29] [30]
+Overfull \hbox (7.98099pt too wide) in paragraph at lines 1653--1653
  []\T1/zi4/m/n/9 lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat
 .colors, redo = TRUE, wl = 300)[] 
  []
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [30]
+) [31]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [31] [32]
-Overfull \hbox (12.28708pt too wide) in paragraph at lines 1785--1793
+) [32]
+Overfull \hbox (12.28708pt too wide) in paragraph at lines 1811--1819
 \T1/ptm/m/n/10 re-verse.gray.colors.2, re-verse.heat.colors, re-verse.terrain.c
 olors, re-verse.topo.colors, re-verse.cm.colors,
  []
 
 [33] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-)
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [34]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
@@ -865,65 +868,67 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) [37]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-Overfull \hbox (19.78088pt too wide) in paragraph at lines 2040--2040
+Overfull \hbox (19.78088pt too wide) in paragraph at lines 2069--2069
  []\T1/zi4/m/n/10 querxc(qword, download = FALSE, X = NULL, file.name = c("Genu
 s", "Specific_epithet"),[] 
  []
 
-[37] [38] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[38] [39] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [39]
-Overfull \hbox (9.78088pt too wide) in paragraph at lines 2139--2139
+)
+Overfull \hbox (9.78088pt too wide) in paragraph at lines 2171--2171
  [] \T1/zi4/m/n/10 osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.n
 ext = FALSE, pause = 1,[] 
  []
 
 [40]
-Overfull \hbox (12.28708pt too wide) in paragraph at lines 2205--2212
+Overfull \hbox (12.28708pt too wide) in paragraph at lines 2237--2244
 \T1/ptm/m/n/10 re-verse.gray.colors.2, re-verse.heat.colors, re-verse.terrain.c
 olors, re-verse.topo.colors, re-verse.cm.colors,
  []
 
 [41] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [42]
+) [42] [43]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [43] [44]
-Overfull \hbox (3.9582pt too wide) in paragraph at lines 2470--2473
+) [44] [45]
+Overfull \hbox (3.9582pt too wide) in paragraph at lines 2508--2511
 [][][]\T1/zi4/m/n/10 trackfreqs[][][] \T1/ptm/m/n/10 for cre-at-ing spec-tro-gr
 ams to vi-su-al-ize fre-quency mea-sure-ments by [][]\T1/zi4/m/n/10 specan[][][
 ]\T1/ptm/m/n/10 , [][]\T1/zi4/m/n/10 specreator[][][]
  []
 
-[45] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[46] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-Overfull \hbox (31.78088pt too wide) in paragraph at lines 2519--2519
+Overfull \hbox (31.78088pt too wide) in paragraph at lines 2557--2557
  []\T1/zi4/m/n/10 specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 
-1, fast = TRUE, path = NULL)[] 
+1, fast = TRUE, path = NULL,[] 
  []
 
-[46]
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 2562
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 2604
 .
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [47]
+) [47] [48]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [48] [49]
+) [49] [50]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [50]
-Overfull \hbox (9.78088pt too wide) in paragraph at lines 2767--2767
+)
+Overfull \hbox (9.78088pt too wide) in paragraph at lines 2812--2812
  []  \T1/zi4/m/n/10 c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = 
 TRUE, propwidth = FALSE,[] 
  []
@@ -931,30 +936,30 @@ TRUE, propwidth = FALSE,[]
 [51] [52] [53] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [54]
-Overfull \hbox (2.06717pt too wide) in paragraph at lines 3017--3019
+Overfull \hbox (2.06717pt too wide) in paragraph at lines 3062--3064
 [][][]\T1/zi4/m/n/10 snrspecs[][][]\T1/ptm/m/n/10 : Cre-ate spec-tro-grams to v
 i-su-al-ize mar-gins over which noise will be mea-sured by sig2noise 
  []
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [55]
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[55] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [56]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
-) [57] [58]
+) [57]
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+) [58] [59]
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-Overfull \hbox (29.78088pt too wide) in paragraph at lines 3280--3280
+Overfull \hbox (29.78088pt too wide) in paragraph at lines 3328--3328
  []\T1/zi4/m/n/10 xcorr.graph(X, cex.cor = 1, cex.lab = 1, cex.axis.lab = 1, re
 l.cex = FALSE, labs = NULL)[] 
  []
 
-[59] [60]
-Overfull \hbox (17.88095pt too wide) in paragraph at lines 3334--3334
+[60]
+Overfull \hbox (17.88095pt too wide) in paragraph at lines 3382--3382
  [] \T1/zi4/m/n/9 xcor<-xcorr(X = manualoc.df[1:5,], wl =300, frange= c(2, 9), 
 ovlp=90, dens=0.8, wn=\TS1/zi4/m/n/9 '\T1/zi4/m/n/9 hanning\TS1/zi4/m/n/9 '\T1/
 zi4/m/n/9 ,[] 
@@ -966,16 +971,18 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 234.
+(Font)              using `T1/zi4/m/n' instead on input line 235.
 
 [62
 
+] [63
+
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3344.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3344.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3392.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3392.
  (./Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3344.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3344.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3392.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3392.
 
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: FC2FC8745BCB847BCA3045CFB3AEB2B2;1887.
@@ -983,11 +990,11 @@ Package rerunfilecheck Info: File `Rd2.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3344.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3392.
  ) 
 Here is how much of TeX's memory you used:
- 6855 strings out of 495028
- 99137 string characters out of 6181498
+ 6856 strings out of 495028
+ 99144 string characters out of 6181498
  170902 words of memory out of 5000000
  9484 multiletter control sequences out of 15000+600000
  41566 words of font info for 52 fonts, out of 8000000 for 9000
@@ -1056,10 +1063,10 @@ pe1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/time
 s/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></
 usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (62 pages, 232635 bytes).
+Output written on Rd2.pdf (63 pages, 236089 bytes).
 PDF statistics:
- 1411 PDF objects out of 1440 (max. 8388607)
- 1326 compressed objects within 14 object streams
- 407 named destinations out of 1000 (max. 500000)
+ 1424 PDF objects out of 1440 (max. 8388607)
+ 1338 compressed objects within 14 object streams
+ 408 named destinations out of 1000 (max. 500000)
  305 words of extra memory for PDF output out of 10000 (max. 10000000)
 

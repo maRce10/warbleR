@@ -113,7 +113,7 @@ input data frame showing the location of the fundamental frequencies.
 }
 \description{
 \code{ffDTW} calculates acoustic dissimilarity of fundamental frequency contours using dynamic
-time warping. Internally it applies the \code{\link[dtw]{dtwDist}} from the \code{dtw} package.
+time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
 }
 \details{
 This function extracts the fundamental frequency values as a time series and

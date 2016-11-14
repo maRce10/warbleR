@@ -68,8 +68,8 @@ Use updateWave(object) to convert Wave objects saved with previous versions of t
 > ##D writeWave(Phae.long3,"Phae.long3.wav")
 > ##D writeWave(Phae.long4,"Phae.long4.wav") 
 > ##D 
-> ##D ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1, 
-> ##D bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
+> ##D ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1,
+> ##D bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
 > ##D wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE)
 > ##D 
 > ##D #run it with different settings
@@ -168,11 +168,16 @@ Use updateWave(object) to convert Wave objects saved with previous versions of t
 > ##D writeWave(Phae.long1,"Phae.long1.wav")
 > ##D writeWave(Phae.long2,"Phae.long2.wav")
 > ##D writeWave(Phae.long3,"Phae.long3.wav")
-> ##D writeWave(Phae.long4,"Phae.long4.wav") 
+> ##D writeWave(Phae.long4,"Phae.long4.wav")
 > ##D 
 > ##D compare.methods(X = manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 > ##D ovlp = 90, res = 200, n = 10, length.out = 30,
 > ##D methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg")
+> ##D 
+> ##D #remove progress bar
+> ##D compare.methods(X = manualoc.df, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+> ##D ovlp = 90, res = 200, n = 10, length.out = 30,
+> ##D methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE)
 > ##D 
 > ##D #check this folder!
 > ##D getwd()
@@ -237,10 +242,10 @@ Use updateWave(object) to convert Wave objects saved with previous versions of t
 > ##D , data(sim.coor.sing)
 > ##D 
 > ##D # testing if coordination happens less than expected by chance
-> ##D coor.test(sim.coor.sing, iterations = 1000, less.than.chance = TRUE)
+> ##D coor.test(sim.coor.sing, iterations = 100, less.than.chance = TRUE)
 > ##D 
 > ##D # testing if coordination happens more than expected by chance
-> ##D coor.test(sim.coor.sing, iterations = 1000, less.than.chance = FALSE)
+> ##D coor.test(sim.coor.sing, iterations = 100, less.than.chance = FALSE)
 > ## End(Not run)
 > 
 > 
@@ -974,8 +979,8 @@ Use updateWave(object) to convert Wave objects saved with previous versions of t
 > ##D writeWave(Phae.long3, "Phae.long3.wav")
 > ##D writeWave(Phae.long4, "Phae.long4.wav")
 > ##D 
-> ##D xcor <- xcorr(X = manualoc.df, wl = 300, frange = c(2, 9), ovlp = 90, 
-> ##D dens = 1, wn = 'hanning', cor.method = "pearson") 
+> ##D xcor <- xcorr(X = manualoc.df, wl = 300, frange = c(2, 9), ovlp = 90,
+> ##D dens = 1, wn = 'hanning', cor.method = "pearson")
 > ##D 
 > ## End(Not run)
 > 
@@ -1022,7 +1027,7 @@ Use updateWave(object) to convert Wave objects saved with previous versions of t
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.434 0.018 0.54 0 0 
+Time elapsed:  0.472 0.015 0.489 0 0 
 > grDevices::dev.off()
 null device 
           1 

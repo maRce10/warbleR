@@ -53,8 +53,8 @@ If \code{NULL} (default) then the current working directory is used.}
   selections.
 }
 \description{
-\code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) i
-n which the start and end times of acoustic signals listed in a data frame can be adjusted.
+\code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in 
+which the start and end times of acoustic signals listed in a data frame can be adjusted.
 }
 \details{
 This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) 
