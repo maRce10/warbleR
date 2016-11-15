@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.7.5)  14 NOV 2016 16:10
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.7.5)  15 NOV 2016 16:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -933,10 +933,16 @@ Overfull \hbox (9.78088pt too wide) in paragraph at lines 2812--2812
 TRUE, propwidth = FALSE,[] 
  []
 
-[51] [52] [53] (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+[51] [52] [53]
+Overfull \hbox (32.28098pt too wide) in paragraph at lines 2983--2983
+ []\T1/zi4/m/n/9 trackfreqs(X = ad[!is.na(ad$start),], custom.contour = df ,fli
+m = c(0, 5), ovlp = 90, it = "tiff")[] 
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 ) [54]
-Overfull \hbox (2.06717pt too wide) in paragraph at lines 3062--3064
+Overfull \hbox (2.06717pt too wide) in paragraph at lines 3071--3073
 [][][]\T1/zi4/m/n/10 snrspecs[][][]\T1/ptm/m/n/10 : Cre-ate spec-tro-grams to v
 i-su-al-ize mar-gins over which noise will be mea-sured by sig2noise 
  []
@@ -953,13 +959,13 @@ File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 )
-Overfull \hbox (29.78088pt too wide) in paragraph at lines 3328--3328
+Overfull \hbox (29.78088pt too wide) in paragraph at lines 3337--3337
  []\T1/zi4/m/n/10 xcorr.graph(X, cex.cor = 1, cex.lab = 1, cex.axis.lab = 1, re
 l.cex = FALSE, labs = NULL)[] 
  []
 
 [60]
-Overfull \hbox (17.88095pt too wide) in paragraph at lines 3382--3382
+Overfull \hbox (17.88095pt too wide) in paragraph at lines 3391--3391
  [] \T1/zi4/m/n/9 xcor<-xcorr(X = manualoc.df[1:5,], wl =300, frange= c(2, 9), 
 ovlp=90, dens=0.8, wn=\TS1/zi4/m/n/9 '\T1/zi4/m/n/9 hanning\TS1/zi4/m/n/9 '\T1/
 zi4/m/n/9 ,[] 
@@ -971,18 +977,18 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 235.
+(Font)              using `T1/zi4/m/n' instead on input line 236.
 
 [62
 
 ] [63
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3392.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3392.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3401.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3401.
  (./Rd2.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3392.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3392.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3401.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3401.
 
 Package rerunfilecheck Info: File `Rd2.out' has not changed.
 (rerunfilecheck)             Checksum: FC2FC8745BCB847BCA3045CFB3AEB2B2;1887.
@@ -990,7 +996,7 @@ Package rerunfilecheck Info: File `Rd2.out' has not changed.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3392.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3401.
  ) 
 Here is how much of TeX's memory you used:
  6856 strings out of 495028
@@ -1063,7 +1069,7 @@ pe1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/time
 s/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></
 usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Rd2.pdf (63 pages, 236089 bytes).
+Output written on Rd2.pdf (63 pages, 236203 bytes).
 PDF statistics:
  1424 PDF objects out of 1440 (max. 8388607)
  1338 compressed objects within 14 object streams

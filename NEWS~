@@ -1,0 +1,19 @@
+warbleR v1.1,4 (Release date: 2016-11-14)
+==============
+
+Changes:
+
+* "pb" argument to allow users to knock down progress bars (in interative functions)
+* modification to (slightly) improve 'lspec' performance 
+* new "sp" argument in compare.methods to allow users to input their own spectral parameters
+* new "custom.contour" argument in trackfreqs to allow users to input their own frequency contours 
+* bug fix for setting 'path' argument in several functions
+* bug fix to due to missing values (undetected) in amplitude detection in trackfreqs, ffts, dfts, ffDTW, and dfDTW  
+ 
+New functions:
+*  filtersels: subsets selection data frames based on manually filtered image files
+*  lspec2pdf: combines lspec images to single pdf files
+
+
+==============
+

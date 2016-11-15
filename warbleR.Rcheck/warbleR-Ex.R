@@ -858,7 +858,15 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ##D #track dominant frequency graphs
 ##D trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
 ##D bp = c(1, 3), contour = "df", wl = 300)
-##D  
+##D 
+##D #using users frequency data (custom.contour argument) 
+##D #first get contours using dfts
+##D df <- dfts(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, img = FALSE,
+##D bp = c(1, 3),  wl = 300)
+##D 
+##D # now input the dfts output into trackfreqs         
+##D trackfreqs(X = ad[!is.na(ad$start),], custom.contour = df ,flim = c(0, 5), ovlp = 90, it = "tiff")
+##D 
 ##D # Check this folder
 ##D getwd()
 ##D 

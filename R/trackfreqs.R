@@ -78,7 +78,7 @@
 #' @param custom.contour A data frame with frequency contours for exactly the same sound files and selection as in X. 
 #' The frequency values are assumed to be equally spaced in between the start and end of the signal. The 
 #' first 2 colums of the data frame should contain the 'sound.files' and 'selec' columns and should be 
-#' identical to the corresponding columns in X. 
+#' identical to the corresponding columns in X (same order). 
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
@@ -90,7 +90,8 @@
 #' @export
 #' @name trackfreqs
 #' @details This function provides visualization of frequency measurements as the ones 
-#'   made by \code{\link{specan}}. Frequency measures can be made by the function or input by the user (see 'custom.contour' argument)  Arguments that are accepted by xy.coords and can be 
+#'   made by \code{\link{specan}}. Frequency measures can be made by the function or input by the 
+#'   user (see 'custom.contour' argument)  Arguments that are accepted by xy.coords and can be 
 #'   used for 'lpos' are: "bottomright", "bottom", "bottomleft", "left", 
 #'   "topleft", "top", "topright", "right" and "center". Setting inner.mar to 
 #'   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
@@ -113,9 +114,17 @@
 #' #track dominant frequency graphs
 #' trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
 #' bp = c(1, 3), contour = "df", wl = 300)
-#'  
+#'
+#' #using users frequency data (custom.contour argument) 
+#' #first get contours using dfts
+#' df <- dfts(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, img = FALSE,
+#' bp = c(1, 3),  wl = 300)
+#'
+#'# now input the dfts output into trackfreqs         
+#'trackfreqs(X = ad[!is.na(ad$start),], custom.contour = df ,flim = c(0, 5), ovlp = 90, it = "tiff")
+#' 
 #'# Check this folder
-#'getwd()
+#' getwd()
 #'
 #'#track both frequencies 
 #'trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
@@ -188,6 +197,16 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
+  # Compare custom.contour to X
+  if(!is.null(custom.contour)){
+    #check if sound.files and selec columns are present and in the right order
+    if(!identical(names(custom.contour)[1:2], c("sound.files", "selec"))) stop("'sound.files' and/or 'selec' columns are not found in custom.contour")
+
+      #check if the info in sound.files and selec columns is the same for X and custom.contour
+      clms <- grep("^sound.files$|^selec$", names(X))
+  if(!identical(X[,sort(clms)], custom.contour[ ,1:2])) stop("'sound.files' and/or 'selec' columns are not identical in X and custom.contour")
+  }  
   
   #if only 1 pch was specfified
   if(length(pch) == 1) pch <- c(pch, pch)
