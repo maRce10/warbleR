@@ -10,7 +10,14 @@ parallel = 1, path = NULL, pb = TRUE)
 \arguments{
 \item{qword}{Character vector of length one indicating the genus, or genus and
 species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
-(\url{http://www.xeno-canto.org/}).}
+(\url{http://www.xeno-canto.org/}). More complex queries can be done by using search terms that follow the 
+xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings 
+(e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song' 
+will search for all recordings in which the sound type description contains the word 'song'. 
+Several tags can be included in the same query. The query "phaethornis cnt:belize' will only return 
+results for birds in the genus \emph{Phaethornis} that were recorded in  Belize. 
+See \url{http://www.xeno-canto.org/help/search} for a full description and see examples below 
+for queries using terms with more than one word.}
 
 \item{download}{Logical argument. If \code{FALSE} only the recording file names and
 associated metadata are downloaded. If \code{TRUE}, recordings are also downloaded to the working
@@ -51,14 +58,30 @@ or download the associated sound files.
 # First create empty folder
 setwd(tempdir())
 
-#search without downloading
-df1 <- querxc(qword = "Phaethornis anthophilus", download = FALSE)
+# search without downloading
+df1 <- querxc(qword = 'Phaethornis anthophilus', download = FALSE)
 View(df1)
 
-#downloading files
-querxc(qword = "Phaethornis anthophilus", download = TRUE)
-#check this folder!!
+# downloading files
+querxc(qword = 'Phaethornis anthophilus', download = TRUE)
+
+# check this folder
 getwd()
+
+## search using xeno-canto advance query ###
+orth.pap <- querxc(qword = 'gen:orthonyx cnt:papua loc:tari', download = FALSE)
+ 
+# download file using the output data frame as input
+querxc(X = orth.pap)
+
+# use quotes for queries with more than 1 word (e.g. Costa Rica),note that the 
+# single quotes are used for the whole 'qword' and double quotes for the 2-word term inside
+#Phaeochroa genus in Costa Rica 
+phae.cr <- querxc(qword = 'gen:phaeochroa cnt:"costa rica"', download = FALSE)
+
+# several terms can be searched for in the same field
+# search for all female songs in sound type
+femsong <- querxc(qword = 'type:song type:female', download = FALSE)
 }
 }
 \author{

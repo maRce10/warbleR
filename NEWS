@@ -1,4 +1,13 @@
-warbleR v1.1,4 (Release date: 2016-11-14)
+warbleR v1.1.5 (Release date: 2016-11-16)
+==============
+
+Changes:
+
+* complex searches are now allowed following xeno-canto advance query syntax in querxc()
+
+
+==============
+warbleR v1.1.4 (Release date: 2016-11-14)
 ==============
 
 Changes:
@@ -11,6 +20,7 @@ Changes:
 * bug fix to due to missing values (undetected) in amplitude detection in trackfreqs, ffts, dfts, ffDTW, and dfDTW  
  
 New functions:
+
 *  filtersels: subsets selection data frames based on manually filtered image files
 *  lspec2pdf: combines lspec images to single pdf files
 

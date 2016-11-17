@@ -38,10 +38,15 @@ working directory.
 }
 \examples{
 \dontrun{
+# search in xeno-canto
 X <- querxc("Phaethornis anthophilus", download = FALSE)
-View(X)
+
+#create image in R graphic device
+xcmaps(X, img = FALSE)
+
+#or save it as a file in the working directory
 xcmaps(X)
-xcmaps(X, img = FALSE, it = "jpeg")
+
 }
 }
 \author{
