@@ -10,7 +10,7 @@ ffDTW(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
   threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL,
-   img.suffix = "ffDTW")
+   img.suffix = "ffDTW", pb = TRUE, clip.edges = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -105,6 +105,14 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{img.suffix}{A character vector of length 1 with a sufix (label) to add at the end of the names of 
 image files. Default is \code{NULL}.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
+
+\item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
+which amplitude values above the threshold were not detected will be removed. If 
+\code{TRUE} (default) this edges will be excluded and signal contour will be calculated on the
+remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).}
 }
 \value{
 A matrix with the pairwise dissimilarity values. If img is 

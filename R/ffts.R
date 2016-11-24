@@ -158,7 +158,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   
   #return warning if not all sound files were found
   recs.wd <- list.files(path = getwd(), pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
+  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
   
