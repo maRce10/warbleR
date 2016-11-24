@@ -166,7 +166,6 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   
   #if any selections longer than 20 secs stop
   if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
-  options( show.error.messages = TRUE)
   
   #if bp is not vector or length!=2 stop
   if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
@@ -183,9 +182,9 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     img.suffix2 <- paste("trackfreqs", it, sep = ".") else   img.suffix2 <- paste(img.suffix, it, sep = ".")
   
   #return warning if not all sound files were found
-  recs.wd <- list.files(pattern = ".wav$", ignore.case = TRUE)
+  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
-    (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
+    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
            ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -204,9 +203,15 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     if(!identical(names(custom.contour)[1:2], c("sound.files", "selec"))) stop("'sound.files' and/or 'selec' columns are not found in custom.contour")
 
       #check if the info in sound.files and selec columns is the same for X and custom.contour
-      clms <- grep("^sound.files$|^selec$", names(X))
-  if(!identical(X[,sort(clms)], custom.contour[ ,1:2])) stop("'sound.files' and/or 'selec' columns are not identical in X and custom.contour")
-  }  
+      #remove custom.contour selections not in X
+      custom.contour <- custom.contour[paste(custom.contour[,c("sound.files")], custom.contour[,c("selec")]) %in% paste(X[,c("sound.files")], X[,c("selec")])]
+
+      #stop if not the same number of selections
+      if(nrow(X) > nrow(custom.contour)) stop("selection(s) in X but not in custom.contour")
+      
+      #order custom.contour as in X
+      custom.contour <- custom.contour[match(paste(custom.contour[,c("sound.files")], custom.contour[,c("selec")]), paste(X[,c("sound.files")], X[,c("selec")])),]      
+    }
   
   #if only 1 pch was specfified
   if(length(pch) == 1) pch <- c(pch, pch)
@@ -320,7 +325,7 @@ if(contour %in% c("both", "ff") & is.null(custom.contour))
     
         }
     
-    # Calculate dominant frequency at each time point     
+    # Use freq values provided by user   
     if(!is.null(custom.contour))
     {    
       custom <- custom.contour[i, 3:ncol(custom.contour)]

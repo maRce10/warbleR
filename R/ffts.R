@@ -8,7 +8,7 @@
 #'   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
 #'   threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
 #'   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL, 
-#'   img.suffix = "ffts", pb = TRUE)
+#'   img.suffix = "ffts", pb = TRUE, clip.edges = FALSE)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -75,9 +75,14 @@
 #' image files.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
+#' @param clip.edges Logical argument to control whether edges (start or end of signal) in
+#' which amplitude values above the threshold were not detected will be removed. If 
+#' \code{TRUE} this edges will be excluded and signal contour will be calculated on the
+#' remainging values. Default is \code{FALSE}. 
 #' @return A data frame with the fundamental frequency values measured across the signals. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
-#' input data frame showing the location of the fundamental frequencies.
+#' input data frame showing the location of the fundamental frequencies 
+#' (see \code{\link{trackfreqs}} description for more details).
 #' @family spectrogram creators
 #' @seealso \code{\link{sig2noise}}, \code{\link{dfts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 #' @export
@@ -112,7 +117,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
                        title = TRUE, propwidth = FALSE, xl = 1, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = 1, threshold = 15, col = "red2", pch = 16,
                        mar = 0.05, lpos = "topright", it = "jpeg", img = TRUE, parallel = 1,
-                 path = NULL, img.suffix = "ffts", pb = TRUE){     
+                 path = NULL, img.suffix = "ffts", pb = TRUE, clip.edges = FALSE){     
   
   #check path to working directory
   if(!is.null(path))
@@ -152,7 +157,7 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
   if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   #return warning if not all sound files were found
-  recs.wd <- list.files(path = getwd(), pattern = ".wav$", ignore.case = TRUE)
+  recs.wd <- list.files(path = getwd(), pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
@@ -213,11 +218,18 @@ ffts <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", 
       ffreq <- ffreq1[!is.na(ffreq1[,2]), ]
       ffreq <- ffreq[ffreq[,2] > b[1]/1000, ]
       
-      if(nrow(ffreq) < 2) {apfund <- list()
+      if(nrow(ffreq) < 2) {
+        apfund <- list()
       apfund$x <- ffreq1[, 1]
       apfund$y <- rep(NA, length.out)
-      } else
-      apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],  to = ffreq1[nrow(ffreq1), 1], length.out = length.out), method = "linear")
+      } else {
+        if(!clip.edges)
+      apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],
+                to = ffreq1[nrow(ffreq1), 1], length.out = length.out), 
+                method = "linear") else apfund <- approx(ffreq[,1], ffreq[,2], 
+                      xout = seq(from = ffreq[1, 1],  to = ffreq[nrow(ffreq), 1], 
+                                 length.out = length.out), method = "linear")
+      }
       
     if(img) 
       trackfreqs(X[i,], wl = wl, flim = flim, wn = wn, pal = pal, ovlp = ovlp,

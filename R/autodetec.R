@@ -131,7 +131,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     setwd(path)} #set working directory
   
   #if bp is not vector or length!=2 stop
-  if(length(list.files(pattern = ".wav$", ignore.case = TRUE)) == 0) if(is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
+  if(length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if(is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
   
   #if bp is not vector or length!=2 stop
   if(!is.null(bp))
@@ -238,7 +238,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
     
     #return warning if not all sound files were found
-    fs <- list.files(pattern = ".wav$", ignore.case = TRUE)
+    fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
     if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
       message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                     ".wav file(s) not found"))
@@ -259,7 +259,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     
     #redo the ones that have no images in folder
   if(!redo) {
-    imgfs <- list.files(pattern = ".jpeg$|.tiff$")
+    imgfs <- list.files(pattern = "\\.jpeg$|\\.tiff$")
     done <- sapply(1:nrow(X), function(x){
       any(grep(paste(gsub(".wav","", X$sound.files[x]),X$selec[x], sep = "-"), imgfs,  invert = FALSE))
       })

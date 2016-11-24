@@ -70,7 +70,7 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = 
   if(length(files) == 0) stop("no 'mp3' files in working directory")
   
   #exclude the ones that already have a .wav version
-  wavs <- list.files(path=getwd(), pattern = ".wav$", ignore.case = TRUE)
+  wavs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   files <- files[!substr(files, 0, nchar(files) - 4) %in% substr(wavs, 0, nchar(wavs) - 4)]
   if(length(files) == 0) stop("all 'mp3' files have been converted")
   

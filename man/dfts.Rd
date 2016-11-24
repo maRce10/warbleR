@@ -10,7 +10,7 @@ dfts(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
   threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL,
-   img.suffix = "dfts", pb = TRUE)
+   img.suffix = "dfts", pb = TRUE, clip.edges = FALSE)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -107,11 +107,17 @@ image files.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
+
+\item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
+which amplitude values above the threshold were not detected will be removed. If 
+\code{TRUE} this edges will be excluded and signal contour will be calculated on the
+remainging values. Default is \code{FALSE}.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is 
 \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
-input data frame showing the location of the dominant frequencies.
+input data frame showing the location of the dominant frequencies 
+(see \code{\link{trackfreqs}} description for more details).
 }
 \description{
 \code{dfts} extracts the dominant frequency values as a time series.
@@ -137,7 +143,7 @@ writeWave(Phae.long2, "Phae.long2.wav") #save sound files
 writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-dfts(manualoc.df, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
+dfts(X = manualoc.df, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
 
 }
 }

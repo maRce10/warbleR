@@ -44,7 +44,7 @@ lspec2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = 
   setwd(path)} #set working directory
   
   #list jpeg files
-  imgs <- list.files(pattern = ".jpeg$", ignore.case = TRUE)
+  imgs <- list.files(pattern = "//.jpeg$", ignore.case = TRUE)
   if(length(imgs) == 0) stop("NO .jpeg files were found in the working directory")
   
   #remove images that don't have the pX.jpeg ending

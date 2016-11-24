@@ -125,7 +125,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   #return warning if not all sound files were found
-  recs.wd <- list.files(pattern = ".wav$", ignore.case = TRUE)
+  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
            ".wav file(s) not found"))

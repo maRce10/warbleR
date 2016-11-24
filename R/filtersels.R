@@ -73,7 +73,7 @@ if(!all(c("sound.files", "selec") %in% colnames(X)))
 if(!pdf)
 {
   #check if files are in working directory
-  imgs <- list.files(pattern = ".jpeg$|.tiff$", ignore.case = FALSE)
+  imgs <- list.files(pattern = "//.jpeg$|//.tiff$", ignore.case = FALSE)
   if (length(imgs) == 0) 
     stop("No image files in working directory")
   

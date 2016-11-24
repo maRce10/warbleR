@@ -38,7 +38,7 @@ wavdur <- function(files = NULL, path = NULL) {
   if(!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
    if(is.null(files))
-  files <- list.files(pattern = ".wav$", ignore.case = TRUE) #list .wav files in working director    
+  files <- list.files(pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director    
   
    #stop if no wav files are found
    if(length(files) == 0) stop("no .wav files in working directory") 

@@ -86,7 +86,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   if(is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
   
   #read files
-  files <- list.files(pattern = ".wav$", ignore.case = TRUE)  
+  files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)  
   
   
   #stop if files are not in working directory
@@ -162,7 +162,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   
   # redo
   if(!redo) 
-    files <- files[!gsub(".wav$","", list.files(pattern = ".wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
+    files <- files[!gsub(".wav$","", list.files(pattern = "\\.wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
       unlist(sapply(strsplit(as.character(list.files(pattern = paste(it, "$", 
                                                                      sep = ""), ignore.case = TRUE)), "-p",fixed = TRUE), "[",1))]
   

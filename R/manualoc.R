@@ -109,7 +109,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
     setwd(path)} #set working directory
   
   options(show.error.messages = TRUE) 
-  files <- list.files(pattern = ".wav$", ignore.case = TRUE) #list .wav files in working director
+  files <- list.files(pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director
   if(length(files) == 0) stop("no .wav files in working directory")
   
   #if flist is not character vector
