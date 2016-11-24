@@ -4,7 +4,7 @@ warbleR v1.1.5 (Release date: 2016-11-24)
 Changes:
 
 * complex searches are now allowed following xeno-canto advance query syntax in querxc()
-* added 'clip.edges' argument to dfts/ffts functions to remove missing values at the start or end of signals
+* added 'clip.edges' argument to dfts/ffts/dfDTW/ffDTW functions to remove missing values at the start or end of signals
 
 ==============
 warbleR v1.1.4 (Release date: 2016-11-14)
