@@ -155,8 +155,9 @@ checksels <- function(X = NULL, parallel =  1, path = NULL){
   })
   
   }    
-  
-  return(do.call(rbind, a1))  
+  res <- do.call(rbind, a1)
+  res <- res[match(paste(X$sound.files, X$selec), paste(res$sound.files, res$selec)),]
+  return(res)  
   if(!is.null(path)) on.exit(setwd(wd))
 }
 
