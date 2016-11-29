@@ -43,7 +43,8 @@
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   \code{FALSE}.
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the 
-#' start and end points of the selections to define spectrogram limits. Default is 0.2.
+#' start and end points of the selections to define spectrogram limits. Default is 0.2. If snrmar 
+#' is larger than mar, then mar is set to be equal to snrmar.
 #' @param snrmar Numeric vector of length 1. Specifies the margins adjacent to the start and end
 #' points of the selections where noise will be measured. Default is 0.1.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
@@ -170,20 +171,35 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     # Set mar equals to snrmar if is smaller
     if(mar < snrmar) mar <- snrmar
     
-    # Correct start and end time if is smaller than 0 or higher than length of rec
+    # # Correct start and end time if is smaller than 0 or higher than length of rec
+    # st <- X$start[i] - mar
+    # en <- X$end[i] + mar
+    # mar1 <- mar
+    # 
+    # if (st < 0)  {
+    #   mar1 <- mar1  + st
+    #   st <- 0
+    #   }
+    # 
+    # mar2 <- mar1 + X$end[i] - X$start[i]
+    # 
+    # if(en > r$samples/f) en <- r$samples/f
+
+    #reset coordinates of signals 
     st <- X$start[i] - mar
     en <- X$end[i] + mar
     mar1 <- mar
+    
+    if (st < 0) { 
+      mar1 <- mar1  + st
+      st <- 0
+    }
+    
     mar2 <- mar1 + X$end[i] - X$start[i]
     
-    if (st < 0)  {
-      mar1 <- mar1  + st
-      mar2 <- mar2  + st
-      st <- 0
-      }
-  
     if(en > r$samples/f) en <- r$samples/f
-
+    
+    
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = st, to = en, units = "seconds")
     
     

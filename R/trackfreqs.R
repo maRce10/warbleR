@@ -227,21 +227,19 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
-    if(t[1]<0) t[1]<-0
-    if(t[2]>r$samples/f) t[2]<-r$samples/f
-    
     
     mar1 <- mar
+      
+    if(t[1] < 0) {
+      t[1] <- 0
+    mar1 <- X$start[i]
+    }
+
     mar2 <- mar1 + X$end[i] - X$start[i]
     
-    if (t[1] < 0) { 
-      mar1 <- mar1  + t[1]
-      mar2 <- mar2  + t[1]
-      t[1] <- 0
-    }
-    
     if(t[2] > r$samples/f) t[2] <- r$samples/f
-    
+
+
     # read rec segment
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
     #in case bp its higher than can be due to sampling rate
@@ -287,13 +285,13 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     # Calculate fundamental frequencies at each time point
 if(contour %in% c("both", "ff") & is.null(custom.contour))
 {
-  ffreq1 <- seewave::fund(wave = r, wl = wl, from=mar1, to = mar2,
+  ffreq1 <- seewave::fund(wave = r, wl = wl, from = mar1, to = mar2,
               fmax= b[2]*1000, f = f, ovlp = 70, threshold = threshold, plot = FALSE)
-  ffreq <- ffreq1[!is.na(ffreq1[,2]),]  
-  ffreq <- ffreq[ffreq[,2] > b[1],]
+  ffreq <- matrix(ffreq1[!is.na(ffreq1[,2]),], ncol = 2)  
+  ffreq <- matrix(ffreq[ffreq[,2] > b[1],], ncol = 2)
     
     # Plot extreme values fundamental frequency
-    points(c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),1])+mar1, c(ffreq[c(which.max(ffreq[,2]), 
+    points(c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),1]) + mar1, c(ffreq[c(which.max(ffreq[,2]), 
         which.min(ffreq[,2])),2]), col = col[3], cex = cex[1] * 1.6, pch = pch[1], lwd = 2)  
   
   # Plot all fundamental frequency values
@@ -301,7 +299,7 @@ if(contour %in% c("both", "ff") & is.null(custom.contour))
     
     # Plot empty points at the bottom for the bins that did not detected any frequencies or out of bp
     if(nrow(ffreq1) > nrow(ffreq))
-    points(c(ffreq1[!ffreq1[,1] %in% ffreq[,1], 1]) + mar1, rep(fl[1] + (fl[2] - fl[1]) * 0.05, nrow(ffreq1) - nrow(ffreq)), col = col[4], cex = cex[1] * 0.7, pch = pch[1])
+    points(c(ffreq1[!ffreq1[,1] %in% ffreq[,1], 1]) + mar1, rep(fl[1] + (fl[2] - fl[1]) * 0.04, nrow(ffreq1) - nrow(ffreq)), col = col[4], cex = cex[1] * 0.7, pch = pch[1])
 }
      
   
@@ -310,7 +308,7 @@ if(contour %in% c("both", "ff") & is.null(custom.contour))
 {    
       dfreq1 <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
                    threshold = threshold, tlim = c(mar1, mar2)) 
-      dfreq <- dfreq1[!is.na(dfreq1[,2]),]  
+      dfreq <- matrix(dfreq1[!is.na(dfreq1[,2]),], ncol = 2)  
 
     # Plot extreme values dominant frequency
     points(c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),1])+mar1, c(dfreq[c(which.max(dfreq[,2]),

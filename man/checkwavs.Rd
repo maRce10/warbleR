@@ -7,7 +7,7 @@
 checkwavs(X = NULL, path = NULL)
 }
 \arguments{
-\item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
+\item{X}{Optional. Data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 be used as the input data frame. If provided the function also returns the
@@ -19,9 +19,8 @@ This could be useful for avoiding errors in dowstream functions (e.g. \code{\lin
 If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
-If all .wav files are ok, returns message "All files are ok!".
-  Otherwise returns "These file(s) cannot be read" message with names of the
-  corrupted .wav files.
+If all .wav files are ok, returns message "All files can be read!".
+  Otherwise returns the names of the corrupted .wav files.
 }
 \description{
 \code{checkwavs} checks whether .wav files can be read by subsequent functions.
@@ -30,7 +29,8 @@ If all .wav files are ok, returns message "All files are ok!".
 This function checks if .wav files in the working directory can be read.
 Users must set the working directory where they wish to check .wav files beforehand. 
 If X is provided it also returns the smallest number of samples from
-the selections listed in X (if all files can be read).
+the selections listed in X (if all files can be read).  The function is intended for a "quick and dirty"
+check of the .wav files in a selections data frame. For a more thourough analysis see \code{\link{checksels}}.
 }
 \examples{
 \dontrun{
@@ -38,13 +38,17 @@ the selections listed in X (if all files can be read).
 setwd(tempdir())
 
 # save wav file examples
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
+writeWave(Phae.long4,"Phae.long4.wav")
 
+# without selection data frame
 checkwavs()
 
+# without selection data frame
+checkwavs(X = manualoc.df)
 }
 }
 \author{

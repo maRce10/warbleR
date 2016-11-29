@@ -66,7 +66,8 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 \code{FALSE}.}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the 
-start and end points of the selections to define spectrogram limits. Default is 0.2.}
+start and end points of the selections to define spectrogram limits. Default is 0.2. If snrmar 
+is larger than mar, then mar is set to be equal to snrmar.}
 
 \item{snrmar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end
 points of the selections where noise will be measured. Default is 0.1.}

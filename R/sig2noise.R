@@ -116,13 +116,13 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE){
       stn <- X$start[y] - mar
       enn <- X$end[y] + mar
       mar1 <- mar
-      mar2 <- mar1 + X$end[y] - X$start[y]
       
       if (stn < 0) { 
       mar1 <- mar1  + stn
-      mar2 <- mar2  + stn
       stn <- 0
       }
+      
+      mar2 <- mar1 + X$end[y] - X$start[y]
       
       if(enn > r$samples/f) enn <- r$samples/f
       

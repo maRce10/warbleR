@@ -10,7 +10,7 @@ dfDTW(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
   xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
   threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
   lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL, 
-  img.suffix = "dfDTW", pb = TRUE, clip.edges = FALSE)
+  img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 

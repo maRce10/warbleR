@@ -131,7 +131,7 @@ dfDTW <- function(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning",
   if(any(is.na(mat))) stop("missing values in frequency time series (fundamental frequency was not detected at
                            the start and/or end of the signal)")
   
-  dm <- dtw::dtwDist(mat,mat)       
+  dm <- dtw::dtwDist(mat, mat)       
   rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
   return(dm)
 }
