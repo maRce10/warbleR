@@ -122,6 +122,6 @@ Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
 Other spectrogram.creators: \code{\link{dfDTW}},
   \code{\link{dfts}}, \code{\link{ffDTW}},
   \code{\link{ffts}}, \code{\link{snrspecs}},
-  \code{\link{trackfreqs}}
+  \code{\link{sp.en.ts}}, \code{\link{trackfreqs}}
 }
 

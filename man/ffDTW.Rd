@@ -4,13 +4,9 @@
 \alias{ffDTW}
 \title{Acoustic dissimilarity using dynamic time warping on fundamental frequency contours}
 \usage{
-ffDTW(X, wl = 512, flim = c(0, 22), length.out = 20, wn = "hanning", pal =
-  reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
-  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
-  xl = 1, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = 1, 
-  threshold = 15, col = "red2", pch = 16,  mar = 0.05, 
-  lpos = "topright", it = "jpeg", img = TRUE, parallel = 1, path = NULL,
-   img.suffix = "ffDTW", pb = TRUE, clip.edges = TRUE)
+ffDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1, path = NULL, 
+img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -20,79 +16,19 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as t
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
 
-\item{flim}{A numeric vector of length 2 for the frequency limit of 
-the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
-
 \item{length.out}{A character vector of length 1 giving the number of measurements of fundamental 
 frequency desired (the length of the time series).}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options.}
 
-\item{pal}{A color palette function to be used to assign colors in the 
-plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2.}
-
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
-
-\item{inner.mar}{Numeric vector with 4 elements, default is c(5,4,4,2). 
-Specifies number of lines in inner plot margins where axis labels fall, 
-with form c(bottom, left, top, right). See \code{\link[graphics]{par}}.}
-
-\item{outer.mar}{Numeric vector with 4 elements, default is c(0,0,0,0). 
-Specifies number of lines in outer plot margins beyond axis labels, with 
-form c(bottom, left, top, right). See \code{\link[graphics]{par}}.}
-
-\item{picsize}{Numeric argument of length 1. Controls relative size of 
-spectrogram. Default is 1.}
-
-\item{res}{Numeric argument of length 1. Controls image resolution.
-Default is 100 (faster) although 300 - 400 is recommended for publication/ 
-presentation quality.}
-
-\item{cexlab}{Numeric vector of length 1 specifying the relative size of axis 
-labels. See \code{\link[seewave]{spectro}}.}
-
-\item{title}{Logical argument to add a title to individual spectrograms. 
-Default is \code{TRUE}.}
-
-\item{propwidth}{Logical argument to scale the width of spectrogram 
-proportionally to duration of the selected call. Default is \code{FALSE}.}
-
-\item{xl}{Numeric vector of length 1. A constant by which to scale 
-spectrogram width. Default is 1.}
-
-\item{gr}{Logical argument to add grid to spectrogram. Default is \code{FALSE}.}
-
-\item{sc}{Logical argument to add amplitude scale to spectrogram, default is 
-\code{FALSE}.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz). Default is c(0, 22).}
 
-\item{cex}{Numeric vector of length 1, specifies relative size of points 
-plotted for frequency measurements and legend font/points, respectively. 
-See \code{\link[seewave]{spectro}}.}
-
 \item{threshold}{amplitude threshold (\%) for fundamental frequency detection. Default is 15.}
-
-\item{col}{Vector of length 1 specifying colors of points plotted to mark 
-fundamental frequency measurements. Default is "red2".}
-
-\item{pch}{Numeric vector of length 1 specifying plotting characters for 
-the frequency measurements. Default is 16.}
-
-\item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the selections
-to set spectrogram limits. Default is 0.05.}
-
-\item{lpos}{Character vector of length 1 or numeric vector of length 2, 
-specifiying position of legend. If the former, any keyword accepted by 
-xy.coords can be used (see below). If the latter, the first value will be the x 
-coordinate and the second value the y coordinate for the legend's position.
-Default is "topright".}
-
-\item{it}{A character vector of length 1 giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is "jpeg".}
 
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
@@ -113,6 +49,8 @@ when parallel = 1.}
 which amplitude values above the threshold were not detected will be removed. If 
 \code{TRUE} (default) this edges will be excluded and signal contour will be calculated on the
 remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).}
+
+\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}.}
 }
 \value{
 A matrix with the pairwise dissimilarity values. If img is 
@@ -160,7 +98,7 @@ dfDTW \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}}
 
 Other spectrogram.creators: \code{\link{dfDTW}},
   \code{\link{dfts}}, \code{\link{ffts}},
-  \code{\link{snrspecs}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+  \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
+  \code{\link{specreator}}, \code{\link{trackfreqs}}
 }
 

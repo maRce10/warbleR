@@ -7,8 +7,13 @@
 ## Changes and additions:
 
 * complex searches are now allowed in querxc() following xeno-canto advance query syntax
-* added 'clip.edges' argument to dfts/ ffts/ dfDTW/ ffDTW functions to remove missing values at the start or end of signals
+* added 'clip.edges' argument to dfts/ ffts/ dfDTW/ ffDTW/sp.en.ts functions to remove missing values at the start or end of signals
 * more detailed checksels output (now including, sampling rate, duration, number of samples and bits)
+
+## New functions:
+
+*  sp.en.ts: extracts the spectral entropy across signals as a time series iteratively
+
 
 ===============================================================================================
 
@@ -30,6 +35,6 @@
 ## New functions:
 
 *  filtersels: subsets selection data frames based on manually filtered image files
-*  lspec2pdf: combines lspec images to single pdf files
+*  lspec2pdf: combines lspec images to single pdf files iteratively
 
 

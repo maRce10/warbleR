@@ -274,8 +274,10 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   #create function to detec signals          
   adFUN <- function(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
   {
-     song<-tuneR::readWave(as.character(X$sound.files[i]),from=X$start[i],to=X$end[i],units="seconds")
+     song <- tuneR::readWave(as.character(X$sound.files[i]),from=X$start[i],to=X$end[i],units="seconds")
     
+     if(length(song@left) > wl + 2)
+    { 
     f <- song@samp.rate
     fl<- flim #in case flim is higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
@@ -359,7 +361,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     
 
  dev.off()
-    }
+ }  
+  }
     #if nothing was detected
   if(nrow(time.song)==0)
   time.song<-data.frame(sound.files = X$sound.files[i], duration = NA,selec = NA,start = NA, end = NA)

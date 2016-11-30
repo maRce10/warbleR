@@ -4,7 +4,7 @@
 \alias{checksels}
 \title{Check selection data frames}
 \usage{
-checksels(X, parallel =  1, path = NULL)
+checksels(X, parallel =  1, path = NULL, check.header = FALSE)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -18,6 +18,10 @@ Not available in Windows OS.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{check.header}{Logical. Controls whether sound file headers correspond to the actual file properties 
+(i.e. if is corrupted). This could significantly affect the performance of the function (much slower) particularly 
+with long sound files.}
 }
 \value{
 A data frame with the sane columns as the input data frame (X) with 2 additional columns:
