@@ -58,7 +58,8 @@ in the output image.}
 on the spectrogram (when img = TRUE). Default is c(2, 10). Negative values can be used in order to stretch more
 the range.}
 
-\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}.}
+\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
+graphical output.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is 

@@ -55,7 +55,6 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on nov-13-2016 (MAS)
 
-
 filtersels <- function(X, path = NULL, lspec = FALSE, pdf = FALSE)
   {
   #check path to working directory
@@ -73,26 +72,36 @@ if(!all(c("sound.files", "selec") %in% colnames(X)))
 if(!pdf)
 {
   #check if files are in working directory
-  imgs <- list.files(pattern = "//.jpeg$|//.tiff$", ignore.case = FALSE)
+  imgs <- list.files(pattern = "\\.jpeg$|\\.tiff$", ignore.case = FALSE)
   if (length(imgs) == 0) 
     stop("No image files in working directory")
   
   if(!lspec){
   
-  #remove the ones with no pX.jpeg ending
-  imgs <- grep("-\\d+\\.jpeg|-\\d+\\.tiff" ,imgs, value = TRUE)
-  if(length(imgs) == 0) stop("Images have not been produced by 'lspec' function")
-
-  pgs <- substr(imgs, regexpr("-\\d+\\.jpeg" ,imgs), nchar(imgs))
-  pgs <- as.numeric(gsub("-|.jpeg", "", pgs, ignore.case = TRUE))
-  
-    #subset selection table
-  Y <- X[paste(X$sound.files, X$selec, sep = "-") %in%
-           paste(gsub("-\\d+\\.jpeg|-\\d+\\.tiff", "" ,imgs), pgs, sep = "-"),]
-
+  #extract sound file and selec names
+    #sound file without extension
+    sf <- sapply(strsplit(imgs, "\\.wav+", perl = TRUE), "[[", 1)
+    if(length(sf) == 0) stop("Image files don't seem to be the output of warbleR functions (don't contained a '.wav' file name)")
+    
+    #extension
+    ext <- sapply(1:length(sf), function(x) gsub(sf[x], "", imgs[x]))
+    ext <- sapply(strsplit(ext, "-"), "[[", 1)
+    
+    #selection
+    sl <- sapply(strsplit(imgs, "\\.wav+", perl = TRUE), "[[", 2)
+    sl <- sapply(strsplit(sl, "-"), "[[", 2)
+    
+    #sound file + selection names
+    sfsl <- paste0(sf, ext, "-", sl)  
+    sfslX <- paste(X$sound.files, X$selec, sep =  "-")  
+    
+    #subset data frame X
+    Y <- X[grep(paste(sfsl, collapse = "|"), sfslX), ]
+    
   } else {
 
-  imgs <- grep("p\\d+\\.jpeg|p\\d+\\.tiff" ,imgs, value = TRUE)
+    #remove the ones with no pX.jpeg ending
+    imgs <- grep("p\\d+\\.jpeg|p\\d+\\.tiff" ,imgs, value = TRUE)
   if(length(imgs) == 0) stop("Images have not been produced by 'lspec' function")
   
   #subset selection table
@@ -104,9 +113,6 @@ if(!pdf)
   imgs <- list.files(pattern = ".pdf$", ignore.case = FALSE)
   if (length(imgs) == 0) 
     stop("No pdf files in working directory")
-  
-  # imgs <- grep("p\\d+\\.jpeg|p\\d+\\.tiff" ,imgs, value = TRUE)
-  # if(length(imgs) == 0) stop("Images have not been produced by 'lspec' function")
   
   #subset selection table
   Y <- X[gsub(".wav$", "", X$sound.files, ignore.case = TRUE) %in% gsub(".pdf$" , "", imgs), ]

@@ -39,7 +39,8 @@
 #' @param sp.en.range Numeric vector of length 2. Range of frequency in which to display the entropy values 
 #' on the spectrogram (when img = TRUE). Default is c(2, 10). Negative values can be used in order to stretch more
 #' the range. 
-#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}.
+#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
+#' graphical output.
 #' @return A data frame with the dominant frequency values measured across the signals. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies 
@@ -191,12 +192,13 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       } else sp.en1 <- sp.en
       
       apen <- approx(sp.en1[,1], sp.en1[,2], xout = seq(from = sp.en1[1, 1],
-                                                        to = sp.en1[nrow(sp.en1), 1], length.out = length.out),
+                            to = sp.en1[nrow(sp.en1), 1], length.out = length.out),
                      method = "linear")  
       
+      #fix for ploting with trackfreqs
       if(clip.edges) 
       { apen1 <- approx(sp.en[,1], sp.en[,2], xout = seq(from = sp.en[1, 1],
-                                                         to = sp.en[nrow(sp.en), 1], length.out = length.out),
+                            to = sp.en[nrow(sp.en), 1], length.out = length.out),
                         method = "linear")
       
       #make 0s at start and end NAs so they are plot at the bottom by trackfreqs

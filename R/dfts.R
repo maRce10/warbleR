@@ -34,7 +34,8 @@
 #' remainging values. Default is \code{FALSE}. 
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
-#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}.
+#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
+#' graphical output.
 #' @return A data frame with the dominant frequency values measured across the signals. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies 
@@ -135,11 +136,6 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
-  #parallel not available on windows
-  if(parallel > 1 & Sys.info()[1] == "Windows")
-  {message("parallel computing not availabe in Windows OS for this function")
-    parallel <- 1}
-
  if(parallel == 1 & pb) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
     message("Measuring dominant frequency:")}  
   
@@ -149,13 +145,10 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
 
-    if(t[2] > r$samples/f) t[2] <- r$samples/f
-  
     #in case bp its higher than can be due to sampling rate
     b<- bp 
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
-    
     
       r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
     
@@ -169,22 +162,48 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       if(nrow(dfreq) < 2) {apdom <- list()
       apdom$x <- dfreq1[, 1]
       apdom$y <- rep(NA, length.out)
-      } else {
+      apdom1 <- apdom
+      
+       } else {
         if(!clip.edges)
-        apdom <- approx(dfreq[,1], dfreq[,2], xout = seq(from = dfreq1[1, 1], 
+{        apdom <- approx(dfreq[,1], dfreq[,2], xout = seq(from = dfreq1[1, 1], 
             to = dfreq1[nrow(dfreq1), 1], length.out = length.out),
-            method = "linear") else 
+            method = "linear")
+      apdom1 <- apdom
+          } else {
               apdom <- approx(dfreq[,1], dfreq[,2], 
               xout = seq(from = dfreq[1, 1],  to = dfreq[nrow(dfreq), 1], 
               length.out = length.out), method = "linear")
-            }
-          
+            
+      #fix for ploting with trackfreqs
+      dfreq1[,2][is.na(dfreq1[,2])] <- 0
+      
+      #calculate time at start and end with no amplitude detected (duration of clipped edges)
+      durend1 <- suppressWarnings(diff(range(dfreq1[,1][rev(cumsum(rev(dfreq1[,2])) == 0)])))
+      durend <- durend1
+      if(is.infinite(durend) | is.na(durend)) durend <- 0
+      
+      durst1 <- suppressWarnings(diff(range(dfreq1[,1][cumsum(dfreq1[,2]) == 0])))   
+      durst <- durst1
+      if(is.infinite(durst) | is.na(durst)) durst <- 0
+      
+      by.dur <- mean(diff(apdom$x))
+      clipst <- length(seq(from = 0, to = durst, by = by.dur))
+      clipend <- length(seq(from = 0, to = durend, by = by.dur))
+      
+      apdom1 <- apdom
+      apdom1$y <- c(rep(NA, clipst) ,apdom$y, rep(NA, clipend))
+      
+      if(is.infinite(durst1) | is.na(durst1)) apdom1$y <- apdom1$y[-1]
+      if(is.infinite(durend1) | is.na(durend1)) apdom1$y <- apdom1$y[-length(apdom1$y)]
+               } 
+          }
       
       
   if(img) 
       trackfreqs(X[i,], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
                  parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
-                 custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom$y)), ...)
+                 custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom1$y)), ...)
       
       
     return(apdom$y)  

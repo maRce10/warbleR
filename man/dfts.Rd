@@ -52,7 +52,8 @@ remainging values. Default is \code{FALSE}.}
 \item{leglab}{A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 in the output image.}
 
-\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}.}
+\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
+graphical output.}
 }
 \value{
 A data frame with the dominant frequency values measured across the signals. If img is 

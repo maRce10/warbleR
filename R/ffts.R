@@ -37,7 +37,8 @@
 #' in the output image.
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
-#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}.
+#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}. for customizing
+#' graphical output.
 #' @return A data frame with the fundamental frequency values measured across the signals. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the fundamental frequencies 
@@ -130,8 +131,6 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     # Read sound files to get sample rate and length
     r <- tuneR::readWave(file.path(getwd(), X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
-    
-    if(t[2] > r$samples/f) t[2] <- r$samples/f
   
     b<- bp 
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
@@ -149,13 +148,38 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
         apfund <- list()
       apfund$x <- ffreq1[, 1]
       apfund$y <- rep(NA, length.out)
+      apfund1 <- apfund
       } else {
-        if(!clip.edges)
-      apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],
+        if(!clip.edges)  {
+          apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],
                 to = ffreq1[nrow(ffreq1), 1], length.out = length.out), 
-                method = "linear") else apfund <- approx(ffreq[,1], ffreq[,2], 
+                method = "linear") 
+          apfund1 <- apfund
+          } else {
+            apfund <- approx(ffreq[,1], ffreq[,2], 
                       xout = seq(from = ffreq[1, 1],  to = ffreq[nrow(ffreq), 1], 
                                  length.out = length.out), method = "linear")
+          
+          #fix for ploting with trackfreqs
+          #calculate time at start and end with no amplitude detected (duration of clipped edges)
+          durend1 <- suppressWarnings(diff(range(ffreq1[,1][rev(cumsum(rev(ffreq1[,2])) == 0)])))
+          durend <- durend1
+          if(is.infinite(durend) | is.na(durend)) durend <- 0
+
+          durst1 <- suppressWarnings(diff(range(ffreq1[,1][cumsum(ffreq1[,2]) == 0])))   
+          durst <- durst1
+          if(is.infinite(durst) | is.na(durst)) durst <- 0
+          
+          by.dur <- mean(diff(apfund$x))
+          clipst <- length(seq(from = 0, to = durst, by = by.dur))
+          clipend <- length(seq(from = 0, to = durend, by = by.dur))
+          
+          apfund1 <- apfund
+          apfund1$y <- c(rep(NA, clipst) ,apfund$y, rep(NA, clipend))
+          
+          if(is.infinite(durst1) | is.na(durst1)) apfund1$y <- apfund1$y[-1]
+          if(is.infinite(durend1) | is.na(durend1)) apfund1$y <- apfund1$y[-length(apfund1$y)]
+          }
       }
       
     if(img) 

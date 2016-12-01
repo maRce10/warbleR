@@ -49,7 +49,8 @@ which amplitude values above the threshold were not detected will be removed. If
 \code{TRUE} (default) this edges will be excluded and signal contour will be calculated on the
 remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).}
 
-\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}.}
+\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
+graphical output.}
 }
 \value{
 A matrix with the pairwise dissimilarity values. If img is 
