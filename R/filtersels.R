@@ -20,6 +20,7 @@
 #'  working directory. Only the selections/sound files with and image in the working directory will remain. 
 #'  This is useful for excluding selections from undesired signals. Note that the
 #'  image files should be in the working directory (or the directory provided in 'path').
+#' @export
 #' @name filtersels
 #' @examples
 #' \dontrun{ 
@@ -53,7 +54,7 @@
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on nov-13-2016 (MAS)
+#last modification on nov-29-2016 (MAS)
 
 filtersels <- function(X, path = NULL, lspec = FALSE, pdf = FALSE)
   {
