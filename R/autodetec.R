@@ -84,11 +84,11 @@
 #' @name autodetec
 #' @details This function determines the start and end of signals in the segments of the sound files listed 
 #'   in the input data frame. Alternatively, if no data frame is provided, the function detects signals across
-#'   each entire sound file and creates long spectrograms for all sound files in the working directory.
-#'   The input data frame should have the following columns: c("sound.files","selec","start","end"). 
-#'   The ouptut of \code{\link{manualoc}} can be used as the input data frame. This function uses 
-#'   a modified version of the \code{\link[seewave]{timer}} function from seewave 
-#'   package to detect signals. 
+#'   each entire sound file and creates long spectrograms highlighting the start and of the detected
+#'   signals for all sound files in the working directory. The input data frame should have the following 
+#'   columns: c("sound.files","selec","start","end"). The ouptut of \code{\link{manualoc}} can be used as the 
+#'   input data frame. This function uses a modified version of the \code{\link[seewave]{timer}} function from 
+#'   seewave package to detect signals. 
 #'   
 #' @examples
 #' \dontrun{

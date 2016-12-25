@@ -173,9 +173,9 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     #Dominant frecuency parameters
     y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = 0, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
     meandom <- mean(y, na.rm = TRUE)
-    mindom <- min(y, na.rm = TRUE)
+    if(length(y[y > 0 & !is.na(y)]) > 0) mindom <- min(y[y > 0 & !is.na(y)]) else mindom <- NA
     maxdom <- max(y, na.rm = TRUE)
-    dfrange <- (maxdom - mindom)
+    if(is.na(mindom)) dfrange <- NA else dfrange <- maxdom - mindom
     duration <- (X$end[i] - X$start[i])
     startdom <- y[!is.na(y)][1]
     enddom <- y[!is.na(y)][length(y[!is.na(y)])]

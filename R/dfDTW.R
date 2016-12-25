@@ -70,6 +70,9 @@ dfDTW <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
            bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1, path = NULL, 
            img.suffix = "dfDTW", pb = TRUE, clip.edges = FALSE, ...){     
  
+  #stop if only 1 selection
+  if(nrow(X) == 1) stop("you need more than one selection for dfDTW")
+  
   #run dfts function
   res <- dfts(X, wl = wl, length.out = length.out, wn = wn, ovlp = ovlp, 
               bp = bp, threshold = threshold, img = img, parallel = parallel,

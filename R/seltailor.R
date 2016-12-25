@@ -4,7 +4,7 @@
 #' which the start and end times of acoustic signals listed in a data frame can be adjusted.
 #' @usage seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
 #'  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
-#'   comments = TRUE, path = NULL)
+#'   comments = TRUE, path = NULL, frange = FALSE)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{seltailor}} or \code{\link{autodetec}} can 
@@ -30,7 +30,9 @@
 #' moving to the next selection (in seconds). Default is 1. 
 #' @param comments Logical argument specifying if 'sel.comment' (when in data frame) should be included 
 #' in the title of the spectrograms. Default is \code{TRUE}.
-#' @param path Character string containing the directory path where the sound files are located. 
+#' @param path Character string containing the directory path where the sound files are located.
+#' @param frange Logical argument specifying whether limits on frequency range should be
+#'  recorded. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
@@ -47,9 +49,7 @@
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
-#' seltailor(X =  manualoc.df, flim = c(1,12), wl = 300, auto.next = FALSE)
-#' 
-#' # need to use the buttoms to manipulate function
+#' seltailor(X =  manualoc.df, flim = c(1,12), wl = 300, auto.next = TRUE)
 #' 
 #' # Read output .csv file
 #' seltailor.df <- read.csv("seltailor_output.csv")
@@ -88,7 +88,7 @@
 
 seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
             osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE,
-            pause = 1, comments = TRUE, path = NULL)
+            pause = 1, comments = TRUE, path = NULL, frange = FALSE)
 {
   
   #check path to working directory
@@ -103,6 +103,10 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     stop(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
 
+    if(frange & !all(any(names(X) == "low.f"), any(names(X) == "high.f")))
+      X$high.f <- X$low.f <- NA
+        
+  # initiate recs variable
   wavs = 0
   
   if(!file.exists(file.path(getwd(), "seltailor_output.csv")))
@@ -115,7 +119,6 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   
   if(any(!is.na(X$tailored))) if(length(which(X$tailored == "y"))>0) wavs = max(which(X$tailored == "y"))
     
-  
   
   #this first loop runs over files
   repeat{
@@ -192,11 +195,17 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
            all(xy$y < (fl[2] - fl[1])/marg2 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]),
            all(xy$y > (fl[2] - fl[1])/marg1 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]))))
       {
-        abline(v = xy$x, lty = 3, col = "red", lwd = 1.2)
+        if(frange) polygon(x = rep(sort(xy$x), each = 2), y = c(sort(xy$y),sort(xy$y, decreasing = TRUE)), lty = 3, border = "red", lwd = 1.2, col = adjustcolor("blue", alpha.f = 0.15)) else
+abline(v = xy$x, lty = 3, col = "red", lwd = 1.2)
+        
         if(selcount > 0) abline(v = c(X$start[wavs], X$end[wavs]), lty = 1, col = "white", lwd = 2.3)
         X$start[wavs] <-  tlim[1] + min(xy$x) 
         X$end[wavs] <-  tlim[1] + max(xy$x)
-      selcount <- selcount + 1
+        if(frange) {
+        X$low.f[wavs] <- min(xy$y)  
+        X$high.f[wavs] <- max(xy$y)  
+        }
+        selcount <- selcount + 1
       
       #if auto.next was set
       if(auto.next){

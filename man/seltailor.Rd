@@ -6,7 +6,7 @@
 \usage{
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
  osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
-  comments = TRUE, path = NULL)
+  comments = TRUE, path = NULL, frange = FALSE)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -45,7 +45,10 @@ moving to the next selection (in seconds). Default is 1.}
 \item{comments}{Logical argument specifying if 'sel.comment' (when in data frame) should be included 
 in the title of the spectrograms. Default is \code{TRUE}.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.}
+
+\item{frange}{Logical argument specifying whether limits on frequency range should be
+ recorded. 
 If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
@@ -93,9 +96,7 @@ writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
-seltailor(X =  manualoc.df, flim = c(1,12), wl = 300, auto.next = FALSE)
-
-# need to use the buttoms to manipulate function
+seltailor(X =  manualoc.df, flim = c(1,12), wl = 300, auto.next = TRUE)
 
 # Read output .csv file
 seltailor.df <- read.csv("seltailor_output.csv")

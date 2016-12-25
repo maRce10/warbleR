@@ -76,6 +76,8 @@ xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL,
   
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
+  
+  #stop if only 1 selection
   if(nrow(X) == 1) stop("you need more than one selection to do cross-correlation")
   
   #if bp is not vector or length!=2 stop
