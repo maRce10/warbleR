@@ -52,15 +52,15 @@ Signal-to-noise ratio (SNR) is a measure of the level of a desired signal compar
 # First set temporary folder
 setwd(tempdir())
 
-data(list = c("Phae.long1","manualoc.df"))
+data(list = c("Phae.long1","selec.table"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 
 # specifying the correct margin is important
 # use snrspecs to troubleshoot margins for sound files
-sig2noise(manualoc.df[grep("Phae.long1", manualoc.df$sound.files), ], mar = 0.2)
+sig2noise(selec.table[grep("Phae.long1", selec.table$sound.files), ], mar = 0.2)
 
 # this smaller margin doesn't overlap neighboring signals
-sig2noise(manualoc.df[grep("Phae.long1", manualoc.df$sound.files), ], mar = 0.1)
+sig2noise(selec.table[grep("Phae.long1", selec.table$sound.files), ], mar = 0.1)
 }
 
 }

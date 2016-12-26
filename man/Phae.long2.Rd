@@ -3,7 +3,7 @@
 \docType{data}
 \name{Phae.long2}
 \alias{Phae.long2}
-\title{Acoustic recording #2 of \emph{Phaethornis longirostris}}
+\title{Audio recording #2 of \emph{Phaethornis longirostris}}
 \format{One .wav file: \describe{
   
   \item{Phae.long2}{\emph{Phaethornis longirostris} #2 recording}
@@ -16,7 +16,7 @@
 data(Phae.long2)
 }
 \description{
-Acoustic recording #2 of \emph{Phaethornis longirostris}  (Long-billed Hermit).
+Audio recording #2 of \emph{Phaethornis longirostris}  (Long-billed Hermit).
 }
 \keyword{datasets}
 

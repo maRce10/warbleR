@@ -80,12 +80,12 @@ measures. If there are no frequencies above the amplitude theshold at the begini
 setwd(tempdir())
 
 #load data
-data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
+data(list = c("Phae.long1", "Phae.long2","selec.table"))
 writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
 writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-dfts(X = manualoc.df, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
+dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
 
 }
 }

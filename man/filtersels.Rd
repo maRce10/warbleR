@@ -45,12 +45,12 @@ This function subsets selections (or sound files if \code{lspec} is \code{TRUE})
 setwd(tempdir())
 
 # save wav file examples
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "manualoc.df"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 
-specreator(manualoc.df, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
+specreator(selec.table, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
 
 #go to the working directory and delete some images

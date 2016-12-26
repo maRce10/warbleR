@@ -78,12 +78,12 @@ The function uses the \code{\link[stats]{approx}} function to interpolate values
 setwd(tempdir())
 
 #load data
-data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
+data(list = c("Phae.long1", "Phae.long2","selec.table"))
 writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
 writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-ffDTW(manualoc.df, length.out = 30, flim = c(1, 12), img = T, bp = c(1, 9), wl = 300)
+ffDTW(selec.table, length.out = 30, flim = c(1, 12), img = T, bp = c(1, 9), wl = 300)
 
 }
 }

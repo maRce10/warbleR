@@ -28,12 +28,12 @@
 #' setwd(tempdir())
 #' 
 #' #load data
-#' data(list = c("Phae.long1", "Phae.long2", "manualoc.df"))
+#' data(list = c("Phae.long1", "Phae.long2", "selec.table"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
 #' writeWave(Phae.long2, "Phae.long2.wav")
 #'
 #'  #run cross correlation first
-#'  xcor<-xcorr(X = manualoc.df[1:5,], wl =300, frange= c(2, 9), ovlp=90, dens=0.8, wn='hanning', 
+#'  xcor<-xcorr(X = selec.table[1:5,], wl =300, frange= c(2, 9), ovlp=90, dens=0.8, wn='hanning', 
 #'  cor.method = "pearson") 
 #'  
 #'  #plot pairwise scores

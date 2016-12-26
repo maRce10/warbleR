@@ -1,6 +1,6 @@
-#' Acoustic recording #3 of \emph{Phaethornis longirostris}
+#' Audio recording #3 of \emph{Phaethornis longirostris}
 #' 
-#'   Acoustic recording #3 of \emph{Phaethornis longirostris} (Long-billed Hermit).
+#'   Audio recording #3 of \emph{Phaethornis longirostris} (Long-billed Hermit).
 #' 
 #' @format One .wav file: \describe{
 #'   

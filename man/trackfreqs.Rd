@@ -11,7 +11,7 @@ trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   threshold = 15, contour = "both", col = c("skyblue", "red2"),
    pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
    path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
-   leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6)
+   leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -69,7 +69,8 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 \code{FALSE}.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz). Default is c(0, 22).}
+frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f 
+and high.f columns will be used as bandpass limits. Default is c(0, 22).}
 
 \item{cex}{Numeric vector of length 2, specifies relative size of points 
 plotted for frequency measurements and legend font/points, respectively. 
@@ -124,6 +125,8 @@ Possible types are "p" for points, "l" for lines and "b" for both.}
 in the output image.}
 
 \item{col.alpha}{A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.}
+
+\item{line}{Logical argument to add red lines (or box if low.f and high.f columns are provided) at start and end times of selection. Default is \code{TRUE}.}
 }
 \value{
 Spectrograms of the signals listed in the input data frame showing the location of 

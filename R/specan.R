@@ -65,16 +65,16 @@
 #' # First set temporary folder
 #' setwd(tempdir())
 #' 
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
-#' a <- specan(X = manualoc.df, bp = c(0, 22))
+#' a <- specan(X = selec.table, bp = c(0, 22))
 #' 
 #' # using a diferent threshold
-#' a <- specan(X = manualoc.df, bp = c(0, 22), threshold = 20)
+#' a <- specan(X = selec.table, bp = c(0, 22), threshold = 20)
 #' # View(a)
 #' 
 #' }

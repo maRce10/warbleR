@@ -9,7 +9,7 @@
 #'   threshold = 15, contour = "both", col = c("skyblue", "red2"),
 #'    pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
 #'    path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
-#'    leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6)
+#'    leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -48,7 +48,8 @@
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   \code{FALSE}.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz). Default is c(0, 22).
+#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f 
+#'   and high.f columns will be used as bandpass limits. Default is c(0, 22).
 #' @param cex Numeric vector of length 2, specifies relative size of points 
 #'   plotted for frequency measurements and legend font/points, respectively. 
 #'   See \code{\link[seewave]{spectro}}.
@@ -87,6 +88,7 @@
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
 #' @param col.alpha A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.
+#' @param line Logical argument to add red lines (or box if low.f and high.f columns are provided) at start and end times of selection. Default is \code{TRUE}.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
 #' @family spectrogram creators
@@ -146,7 +148,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
                        bp = c(0, 22), cex = c(0.6, 1), threshold = 15, contour = "both", 
                        col = c("skyblue", "red2"),  pch = c(21, 24), mar = 0.05, lpos = "topright", 
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
-                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6){     
+                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE){     
   
   #check path to working directory
   if(!is.null(path))
@@ -175,8 +177,15 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   
   #if bp is not vector or length!=2 stop
-  if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}
+  if(bp != "frange")
+  {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
+  } else
+  {if(!any(names(X) == "low.f") & !any(names(X) == "high.f")) stop("'bp' = frange requires low.f and high.f columns in X")
+    if(any(is.na(c(X$low.f, X$high.f)))) stop("NAs found in low.f and/or high.f") 
+    if(any(c(X$low.f, X$high.f) < 0)) stop("Negative values found in low.f and/or high.f") 
+    if(any(X$high.f - X$low.f < 0)) stop("high.f should be higher than low.f")
+    }
   
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
@@ -235,7 +244,6 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   #make colors transparent
   col <- adjustcolor(c(col, "yellow", "black", "white", "red"), alpha.f = col.alpha)
   
-  
           trackfreFUN <- function(X, i, mar, flim, xl, picsize, wl, cexlab, inner.mar, outer.mar, res, bp, cex, threshold, pch, custom.contour){
     
     # Read sound files, initialize frequency and time limits for spectrogram
@@ -258,8 +266,11 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
 
     # read rec segment
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
+   
     #in case bp its higher than can be due to sampling rate
+    if(bp == "frange") bp <- c(X$low.f[i], X$high.f[i])
     b<- bp 
+
     if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
     
     fl<- flim #in case flim its higher than can be due to sampling rate
@@ -376,7 +387,13 @@ if(contour %in% c("both", "ff") & is.null(custom.contour))
       
     }
     
-    abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
+  if(line){  
+    if(any(names(X) == "low.f") & any(names(X) == "high.f"))
+  {   if(!is.na(X$low.f[i]) & !is.na(X$high.f[i]))
+      polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.f[i], X$high.f[i], X$high.f[i], X$low.f[i]), lty = 3, border = "blue", lwd = 1.2, col = adjustcolor("blue", alpha.f = 0.05)) else
+          abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
+    } else abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
+    }
     
 ## legend
       # remove points fo legend

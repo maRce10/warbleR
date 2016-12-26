@@ -30,18 +30,18 @@
 #' setwd(tempdir())
 #' 
 #' # save wav file examples
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "manualoc.df"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' 
-#' specreator(manualoc.df, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
+#' specreator(selec.table, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #' picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
 #' 
 #' #go to the working directory and delete some images
 #' 
 #' #filter selection data frame
-# fmloc <- filtersels(X = manualoc.df)
+# fmloc <- filtersels(X = selec.table)
 #' 
 #' #this data frame does not have the selections corresponding to the images that were deleted
 #' fmloc
@@ -52,7 +52,7 @@
 #' #go to the working directory and delete lspec images (the ones with several rows of spectrograms)
 #' 
 #' #filter selection data frame
-# fmloc2 <- filtersels(X = manualoc.df, lspec = TRUE)
+# fmloc2 <- filtersels(X = selec.table, lspec = TRUE)
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})

@@ -38,7 +38,7 @@ check of the .wav files in a selections data frame. For a more thourough analysi
 setwd(tempdir())
 
 # save wav file examples
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
@@ -48,7 +48,7 @@ writeWave(Phae.long4,"Phae.long4.wav")
 checkwavs()
 
 # without selection data frame
-checkwavs(X = manualoc.df)
+checkwavs(X = selec.table)
 }
 }
 \author{

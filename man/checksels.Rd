@@ -48,12 +48,12 @@ This is useful for avoiding errors in dowstream functions (e.g. \code{\link{spec
 setwd(tempdir())
 
 # save wav file examples
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "manualoc.df"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 
-checksels(X = manualoc.df)
+checksels(X = selec.table)
 }
 }
 \author{

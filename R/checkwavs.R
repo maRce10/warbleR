@@ -27,7 +27,7 @@
 #' setwd(tempdir())
 #' 
 #' # save wav file examples
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "manualoc.df"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
@@ -37,7 +37,7 @@
 #' checkwavs()
 #' 
 #' # without selection data frame
-#' checkwavs(X = manualoc.df)
+#' checkwavs(X = selec.table)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-5-2016 (MAS)

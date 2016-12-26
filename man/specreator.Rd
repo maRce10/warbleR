@@ -65,7 +65,8 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 \item{sc}{Logical argument to add amplitude scale to spectrogram, default is 
 \code{FALSE}.}
 
-\item{line}{Logical argument to add red lines at start and end times of selection. Default is \code{TRUE}.}
+\item{line}{Logical argument to add red lines at start and end times of selection 
+(or box if low.f and high.f columns are provided). Default is \code{TRUE}.}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections, 
 dealineating spectrogram limits. Default is 0.05.}
@@ -98,13 +99,13 @@ this may take some optimization by the user.
 \dontrun{ 
 # First set empty folder
 setwd(tempdir())
-data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
+data(list = c("Phae.long1", "Phae.long2","selec.table"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 writeWave(Phae.long2, "Phae.long2.wav")
 
 # make spectrograms
 
-specreator(manualoc.df, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
+specreator(selec.table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
  
  #' #check this folder!!
 getwd()

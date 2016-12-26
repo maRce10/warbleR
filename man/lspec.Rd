@@ -84,14 +84,14 @@ The function creates spectrograms for complete sound files, printing
 # First create empty folder
 setwd(tempdir())
 # save sound file examples
-data(list = c("Phae.long1", "Phae.long2","manualoc.df"))
+data(list = c("Phae.long1", "Phae.long2","selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav") 
 writeWave(Phae.long2,"Phae.long2.wav")
 
 lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
 
 # including selections
-lspec(sxrow = 2, rows = 8, X = manualoc.df, pal = reverse.heat.colors, redo = TRUE, wl = 300)
+lspec(sxrow = 2, rows = 8, X = selec.table, pal = reverse.heat.colors, redo = TRUE, wl = 300)
 
 check this floder
 getwd()
