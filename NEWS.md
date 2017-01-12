@@ -5,7 +5,10 @@
 ##### (Release date: XXX)
 
 ## Changes and additions:
-
+* "frange" argument in seltailor to define also the frequency range (low.f and high.f)
+* trackfreqs, specan now can use low.f and high.f as bandpass limits
+* trackfreqs and specreator can plot boxes around signals if low.f and high.f are provided
+* manualoc.df data frame example replaced by selec.table (wich includes low.f and high.f columns)
 * complex searches are now allowed in querxc() following xeno-canto advance query syntax
 * added 'clip.edges' argument to dfts/ ffts/ dfDTW/ ffDTW/sp.en.ts functions to remove missing values at the start or end of signals
 * more detailed checksels output (now including, sampling rate, duration, number of samples and bits)

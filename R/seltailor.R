@@ -203,6 +203,7 @@ abline(v = xy$x, lty = 3, col = "red", lwd = 1.2)
         X$end[wavs] <-  tlim[1] + max(xy$x)
         if(frange) {
         X$low.f[wavs] <- min(xy$y)  
+        if(min(xy$y) < 0) X$low.f[wavs] <- 0  
         X$high.f[wavs] <- max(xy$y)  
         }
         selcount <- selcount + 1

@@ -1,6 +1,6 @@
 # Combine lspec images to single pdf files
 #' 
-#' \code{lspec2pdf} combines lspec images in .jpeg format to a single pdf file. 
+#' \code{lspec2pdf} combines \code{\link{lspec}} images in .jpeg format to a single pdf file. 
 #' @usage lspec2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL)
 #' @param keep.jpeg Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 #'   (including sound file and page number) should be magnified. Default is 1.
