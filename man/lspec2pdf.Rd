@@ -2,7 +2,7 @@
 % Please edit documentation in R/lspec2pdf.R
 \name{lspec2pdf}
 \alias{lspec2pdf}
-\title{\code{lspec2pdf} combines lspec images in .jpeg format to a single pdf file.}
+\title{\code{lspec2pdf} combines \code{\link{lspec}} images in .jpeg format to a single pdf file.}
 \usage{
 lspec2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL)
 }
@@ -20,7 +20,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 If \code{NULL} (default) then the current working directory is used.}
 }
 \description{
-\code{lspec2pdf} combines lspec images in .jpeg format to a single pdf file.
+\code{lspec2pdf} combines \code{\link{lspec}} images in .jpeg format to a single pdf file.
 }
 \details{
 The function combines  spectrograms for complete sound files from the \code{\link{lspec}} function into

@@ -13,8 +13,9 @@ files, 2) "sel": number of the selections, 3) "start": start time of selections,
 end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 be used as the input data frame.}
 
-\item{bp}{Numeric vector of length 2 giving the lower and upper limits of the 
-frequency bandpass filter (in kHz). Default is c(0, 22).}
+\item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
+frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f 
+and high.f columns will be used as bandpass limits. Default is c(0, 22).}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
 

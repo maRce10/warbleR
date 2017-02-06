@@ -11,7 +11,7 @@ vignette: >
 <center>![warbleR logo](Logo_Warble-azul_small_margin.png)</center>
 
 <center> <h1><b>Streamlining acoustic analysis</h1></b> </center>
-<center> <i><font size="4"><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas</a> and <a href="gsmithvi.github.io">Grace Smith Vidaurre</a></font></i> </center>
+<center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center>
 <center> `r Sys.Date()` </center>
 <br>
 
@@ -792,8 +792,8 @@ Songs of the same song type are more similar (they cluster together). This PCA c
 
 <font size="5"><a name="References">References</a></font> 
 
-1. Araya-Salas, M. and T. Wright. 2013. Open-ended song learning in a hummingbird. _Biology Letters_. 9 (5). doi: 10.1098/rsbl.2013.0625 [PDF](http://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/araya-salas__wright_2013.pdf)
+1. Araya-Salas, M. and T. Wright. 2013. Open-ended song learning in a hummingbird. _Biology Letters_. 9 (5). doi: 10.1098/rsbl.2013.0625 
 
-2. Medina‐García, Angela, M. Araya‐Salas, and T. Wright. 2015. Does vocal learning accelerate acoustic diversification? Evolution of contact calls in Neotropical parrots. _Journal of Evolutionary Biology_. doi: 10.1111/jeb.12694 [PDF](http://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/medina-garcia_araya-salas_&_wright_2015.pdf)
+2. Medina‐García, Angela, M. Araya‐Salas, and T. Wright. 2015. Does vocal learning accelerate acoustic diversification? Evolution of contact calls in Neotropical parrots. _Journal of Evolutionary Biology_. doi: 10.1111/jeb.12694
 
 <br>

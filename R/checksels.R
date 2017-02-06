@@ -14,13 +14,9 @@
 #' @param check.header Logical. Controls whether sound file headers correspond to the actual file properties 
 #' (i.e. if is corrupted). This could significantly affect the performance of the function (much slower) particularly 
 #' with long sound files.  
-#' @return A data frame with the sane columns as the input data frame (X) with 2 additional columns:
+#' @return A data frame including the columns in the input data frame (X) and 2 additional columns:
 #' "check.res" (check selections), and "min.n.samples" (the smallest number of samples). Note the number of samples available
-#' in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses
-#'  
-#'  If the .wav files can be read and returns message "All files are ok!".
-#'   Otherwise returns "These file(s) cannot be read" message with names of the
-#'   corrupted .wav files.
+#' in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses.
 #' @details This function checks 1) if the selections listed in the data frame correspond to .wav files
 #' in the working directory, 2) if the sound files can be read and if so, 3) if the start and end time
 #' of the selections are found within the duration of the sound files. Note that the sound files 

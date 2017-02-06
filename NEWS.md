@@ -1,8 +1,15 @@
 # NEWS
 
 
+# warbleR 1.1.6 
+##### (Release date: XXXXXXX)
+
+## Changes and additions:
+* "incl.wav" argument to filtersels function to indicate if the sound file extension is included in the image files
+
+
 # warbleR 1.1.5 
-##### (Release date: XXX)
+##### (Release date: 2017-01-19)
 
 ## Changes and additions:
 * "frange" argument in seltailor to define also the frequency range (low.f and high.f)
