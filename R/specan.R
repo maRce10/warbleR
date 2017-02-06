@@ -113,7 +113,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   options( show.error.messages = TRUE)
   
   # bp checking
-  if(bp != "frange")
+  if(bp[1] != "frange")
   {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
   } else
@@ -145,7 +145,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   spFUN <- function(i, X, bp, wl, threshold) { 
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds") 
     
-    if(bp == "frange") bp <- c(X$low.f[i], X$high.f[i])
+    if(bp[1] == "frange") bp <- c(X$low.f[i], X$high.f[i])
     b<- bp 
     
     b<- bp #in case bp its higher than can be due to sampling rate

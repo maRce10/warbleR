@@ -177,7 +177,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   
   # bp checking
-  if(bp != "frange")
+  if(bp[1] != "frange")
   {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
   } else
@@ -268,7 +268,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
    
     #in case bp its higher than can be due to sampling rate
-    if(bp == "frange") bp <- c(X$low.f[i], X$high.f[i])
+    if(bp[1] == "frange") bp <- c(X$low.f[i], X$high.f[i])
     b<- bp 
 
     if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
