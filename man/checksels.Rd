@@ -24,13 +24,9 @@ If \code{NULL} (default) then the current working directory is used.}
 with long sound files.}
 }
 \value{
-A data frame with the sane columns as the input data frame (X) with 2 additional columns:
+A data frame including the columns in the input data frame (X) and 2 additional columns:
 "check.res" (check selections), and "min.n.samples" (the smallest number of samples). Note the number of samples available
-in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses
- 
- If the .wav files can be read and returns message "All files are ok!".
-  Otherwise returns "These file(s) cannot be read" message with names of the
-  corrupted .wav files.
+in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses.
 }
 \description{
 \code{checksels} checks whether selections can be read by subsequent functions.
