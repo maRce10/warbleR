@@ -6,6 +6,7 @@
 
 ## Changes and additions:
 * "incl.wav" argument to filtersels function to indicate if the sound file extension is included in the image files
+* 3 different options (formulas) for calculating signal-to-noise ratio are now available (sig2noise function). In addition the "eq.dur" argument allows to measure a noise segment of the same duration than the signal.
 
 
 # warbleR 1.1.5 

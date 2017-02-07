@@ -33,7 +33,7 @@
 #' @param path Character string containing the directory path where the sound files are located.
 #' @param frange Logical argument specifying whether limits on frequency range should be
 #'  recorded. 
-#' If \code{NULL} (default) then the current working directory is used.
+#' If \code{NULL} (default) then only the time limits are recorded.
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
@@ -90,12 +90,25 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
             osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE,
             pause = 1, comments = TRUE, path = NULL, frange = FALSE)
 {
+ 
+  #X must be provided
+  if(is.null(X)) stop("'X' must be provided (a data frame)")
   
   #check path to working directory
   if(!is.null(path))
   {wd <- getwd()
   if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
     setwd(path)} #set working directory
+  
+  #if there are NAs in start or end stop
+  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  
+  #if end or start are not numeric stop
+  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  
+  #if any start higher than end stop
+  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
+  
   
   # stop if not all sound files were found
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)

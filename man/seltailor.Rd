@@ -49,7 +49,7 @@ in the title of the spectrograms. Default is \code{TRUE}.}
 
 \item{frange}{Logical argument specifying whether limits on frequency range should be
  recorded. 
-If \code{NULL} (default) then the current working directory is used.}
+If \code{NULL} (default) then only the time limits are recorded.}
 }
 \value{
 .csv file saved in the working directory with start and end time of 
