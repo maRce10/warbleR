@@ -103,11 +103,12 @@ xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL,
     if(!is.vector(dens)) stop("'dens' must be a numeric vector of length 1") else{
       if(!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
   
-if(is.null(frange)) {df<-dfts(X, wl =300, img = FALSE, length.out = 50, parallel = parallel)
-  df<-df[, 3:ncol(df)]
-frq.lim = c(min(df), max(df))} else{
-  frq.lim = frange
-}
+# if frange was not provided the range is calculated with dominant frequency range  
+if(is.null(frange)) {df <- dfts(X, wl =300, img = FALSE, length.out = 50, parallel = parallel)
+  df <- df[, 3:ncol(df)]
+frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
+} else frq.lim = frange
+
 
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 

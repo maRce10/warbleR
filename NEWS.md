@@ -7,6 +7,10 @@
 ## Changes and additions:
 * "incl.wav" argument to filtersels function to indicate if the sound file extension is included in the image files
 * 3 different options (formulas) for calculating signal-to-noise ratio are now available (sig2noise function). In addition the "eq.dur" argument allows to measure a noise segment of the same duration than the signal.
+* grid can be removed from spectrograms in compare.methods function
+
+# Bug fixes:
+* error produced when calculating frequency limits based on dominant frequency contours in xcorr (when frange is not provided)
 
 
 # warbleR 1.1.5 

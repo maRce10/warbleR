@@ -5,8 +5,8 @@
 \title{Assessing the performance of acoustic distance measurements}
 \usage{
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
-res = 150, n = 10, length.out = 30, methods = c("XCORR", 
-"dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE)
+res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), it = "jpeg", 
+parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
@@ -59,6 +59,8 @@ and "selec' columns and the same selections as in 'X'.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
+
+\item{grid}{Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).}
 }
 \value{
 Image files with 4 spectrograms of the selection being compared and scatterplots 
@@ -110,6 +112,38 @@ methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE)
 
 #check this folder!
 getwd()
+
+
+#compare SP and XCORR
+#first we need to create a larger data set as the PCA that summarizes the spectral parameters
+#needs more units (rows) that variables (columns)
+#so I just create a new selection table repeating 3 times selec.table
+st2 <- rbind(selec.table, selec.table, selec.table)
+
+#note that the selection labels should be also changed
+st2$selec <- 1:nrow(st2)
+#now we can compare SP method against XCORR
+compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+ovlp = 90, res = 200, n = 10, length.out = 30,
+methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
+
+#compare SP method against dfDTW
+compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+ovlp = 90, res = 200, n = 10, length.out = 30,
+methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg")
+
+#alternatively we can provide our own SP matrix
+sp <- specan(selec.table, bp = c(0, 10))
+
+#and selec just a few variables to avoid the problem of # observations vs # parameters in PCA
+sp <- sp[, 1:7]
+
+compare.methods(X = selec.table, flim = c(0, 10), sp = sp, bp = c(0, 10), mar = 0.1, wl = 300,
+ovlp = 90, res = 200, n = 10, length.out = 30,
+methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
+
+#note that "SP" should also be included as a method in 'methods'
+#again, all images are saved in the working directory
 }
 
 }

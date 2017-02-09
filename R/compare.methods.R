@@ -2,8 +2,8 @@
 #' 
 #' @description \code{compare.methods} creates graphs to visually assess performance of acoustic distance measurements 
 #' @usage compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
-#' res = 150, n = 10, length.out = 30, methods = c("XCORR", 
-#' "dfDTW", "ffDTW", "SP"),it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE)
+#' res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), it = "jpeg", 
+#' parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE)
 #' @param X Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 #' function, or any data frame with columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
@@ -40,6 +40,7 @@
 #' and "selec' columns and the same selections as in 'X'.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
+#' @param grid Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).
 #' @return Image files with 4 spectrograms of the selection being compared and scatterplots 
 #' of the acoustic space of all signals in the input data frame 'X'.  
 #' @export
@@ -86,6 +87,38 @@
 #'
 #' #check this folder!
 #' getwd()
+#' 
+#' 
+#' #compare SP and XCORR
+#' #first we need to create a larger data set as the PCA that summarizes the spectral parameters
+#' #needs more units (rows) that variables (columns)
+#' #so I just create a new selection table repeating 3 times selec.table
+#' st2 <- rbind(selec.table, selec.table, selec.table)
+#' 
+#' #note that the selection labels should be also changed
+#' st2$selec <- 1:nrow(st2)
+#' #now we can compare SP method against XCORR
+#' compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+#' ovlp = 90, res = 200, n = 10, length.out = 30,
+#' methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
+#' 
+#' #compare SP method against dfDTW
+#' compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+#' ovlp = 90, res = 200, n = 10, length.out = 30,
+#' methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg")
+#' 
+#' #alternatively we can provide our own SP matrix
+#' sp <- specan(selec.table, bp = c(0, 10))
+#' 
+#' #and selec just a few variables to avoid the problem of # observations vs # parameters in PCA
+#' sp <- sp[, 1:7]
+#' 
+#' compare.methods(X = selec.table, flim = c(0, 10), sp = sp, bp = c(0, 10), mar = 0.1, wl = 300,
+#' ovlp = 90, res = 200, n = 10, length.out = 30,
+#' methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
+#' 
+#' #note that "SP" should also be included as a method in 'methods'
+#' #again, all images are saved in the working directory
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}). It uses 
@@ -95,7 +128,7 @@
 
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = c("XCORR","dfDTW", "ffDTW", "SP"),
-    it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE){  
+    it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE){  
  
   #check path to working directory
   if(!is.null(path))
@@ -168,9 +201,9 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     stop("The .wav files are not in the working directory")
   }  else X <- X[d,]
   
-  # If SP is used need at least 22 selections
+  # If SP is used need at least 24 selections
   if("SP" %in% methods & is.null(sp))
-  {if(nrow(X) < 22)  stop("SP can only be used with at least 23 selections (number of rows in input data frame) as PCA only works with more units than variables")}
+  {if(nrow(X) < 24)  stop("SP can only be used with at least 24 selections (number of rows in input data frame) as PCA only works with more units than variables (NOTE that you can also input your own matrix with the 'sp' argument)")}
   
   #check sp data frame
   if(!is.null(sp))
@@ -266,9 +299,8 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   # screen 10:11 method labels
   
   
-  if(parallel == 1)  message("Saving graphs in image files")
+  if(parallel == 1 & pb)  message("Saving graphs in image files")
   
-  # invisible(lapp(1:ncol(combs), 
       comp.methFUN <- function(X, u, res, disim.mats, m, mar, flim)
     {
     rs <- combs[,u]
@@ -280,9 +312,18 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   mxdur<-max(X$end - X$start) + mar*2
   
+  #set colors for numbers in scatterplots and spectrograms
   col <- rep("gray40", nrow(disim.mats[[1]]))
   
-  col[rs] <- grDevices::topo.colors(5)[1:4]
+  col <- adjustcolor(col, alpha.f = 0.5)
+  
+  
+  col[rs] <- hcl(h = seq(15, 375, length = 4 + 1), l = 65, c = 100)[1:4]
+
+  col[rs] <- adjustcolor(col[rs], alpha.f = 0.8)
+  
+  # col[rs] <- grDevices::topo.colors(5)[1:4]
+
   
   invisible(lapply(c(7:9, 1:4, 5:6, 10:11), function(x)
   {
@@ -311,13 +352,13 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       
       r <- tuneR::readWave(as.character(X$sound.files[x]), from = tlim[1], to = tlim[2], units = "seconds")
       
-      spectro2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = reverse.gray.colors.2)
+      spectro2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = reverse.gray.colors.2, grid = grid)
       box(lwd = 2)
       if(x == 1 | x == 3) 
         text(tlim[2] - tlim[1], ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 2) else 
           text(0, ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 4)  
-
-      abline(v=c(mar1, mar2),lty = 4)
+      if(grid)
+      abline(v=c(mar1, mar2),lty = 4, col = "gray")
     }
     
     #upper left
@@ -404,6 +445,9 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   on.exit(invisible(close.screen(all.screens = TRUE)))
   }
 
+      
+      options(warn = -1)
+      
       #parallel not available on windows
       if(parallel > 1 & Sys.info()[1] == "Windows")
       {message("parallel computing not availabe in Windows OS for this function")
@@ -458,7 +502,6 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       })
       
       }
-      options(warn = -1)      
       
       #reset wd
       if(!is.null(path)) on.exit(setwd(wd)) 
@@ -470,7 +513,7 @@ spectro2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0,
                     complex = FALSE, norm = TRUE, fftw = FALSE, dB = "max0", 
                     dBref = NULL, plot = TRUE, grid = TRUE, 
                     cont = FALSE, collevels = NULL, palette = spectro.colors, 
-                    contlevels = NULL, colcont = "black", colbg = "white", colgrid = "black", 
+                    contlevels = NULL, colcont = "black", colbg = "white", colgrid = "gray", 
                     colaxis = "black", collab = "black", cexlab = 1, cexaxis = 1, 
                     tlab = "Time (s)", flab = "Frequency (kHz)", alab = "Amplitude", 
                     scalelab = "Amplitude\n(dB)", main = NULL, scalefontlab = 1, 

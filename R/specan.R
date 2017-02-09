@@ -21,7 +21,7 @@
 #' substantially increases performance (~9 times faster).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
 #' @return Data frame with the following acoustic parameters: 
 #' \itemize{
@@ -207,6 +207,8 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
                                  return(data.frame(sound.files = X$sound.files[i], selec = X$selec[i], duration, meanfreq, sd, median, Q25, Q75, IQR, skew, kurt, sp.ent, sfm, mode, 
                                                    centroid, peakf, meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope))
   }
+  
+  if(parallel == 1 & pb) message("Measuring acoustic parameters:")
   
   # Run parallel in windows
   if(parallel > 1) {if(Sys.info()[1] == "Windows") {
