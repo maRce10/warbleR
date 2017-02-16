@@ -4,7 +4,7 @@
 \alias{imp.syrinx}
 \title{Import Syrinx selections}
 \usage{
-imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE)
+imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE, exclude = FALSE)
 }
 \arguments{
 \item{path}{A character string indicating the path of the directory in which to look for the text files. 
@@ -14,6 +14,8 @@ If not provided (default) the function searches into the current working directo
 that all files should contain exactly the same columns in the same order.}
 
 \item{recursive}{Logical. If \code{TRUE}) the listing recurse into sub-directories.}
+
+\item{exclude}{Logical. Controls whether files that cannot be read are ignored (\code{TRUE}). Default is \code{FALSE}.}
 }
 \value{
 A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 

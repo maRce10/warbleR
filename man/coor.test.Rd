@@ -4,7 +4,8 @@
 \alias{coor.test}
 \title{Randomization test for singing coordination}
 \usage{
-coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE)
+coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE, 
+rm.imcomp = FALSE, cutoff = 2, rm.solo = FALSE)
 }
 \arguments{
 \item{X}{Data frame containing columns for singing event (sing.event), 
@@ -21,6 +22,18 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
+
+\item{rm.imcomp}{Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
+\code{FALSE}.}
+
+\item{cutoff}{Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
+this criterium are removed if rm.imcomp is \code{TRUE}. If rm.icomp is \code{FALSE} cutoff is ignored. Default is 2. 
+Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
+should be available in each singing event.}
+
+\item{rm.solo}{Logical. Controls if signals that are not intercalated at the start or end of the 
+sequence are removed (if \code{TRUE}). For instances the sequence of signals A-A-A-B-A-B-A-B-B-B (in which A and B represent different individuals, as in the 'indiv' column) would be subset to 
+A-B-A-B-A-B. Default is  \code{FALSE}.}
 }
 \value{
 A data frame with the observed number of overlaps (obs.overlaps), mean number of overlaps expected by chance,

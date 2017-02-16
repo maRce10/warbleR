@@ -5,8 +5,15 @@
 ##### (Release date: XXXXXXX)
 
 ## Changes and additions:
-* "incl.wav" argument to filtersels function to indicate if the sound file extension is included in the image files
-* 3 different options (formulas) for calculating signal-to-noise ratio are now available (sig2noise function). In addition the "eq.dur" argument allows to measure a noise segment of the same duration than the signal.
+* "exclude" agument in imp.syrinx function to exclude selection files that cannot be read
+* "rm.imcomp" argument in coor.test function to exclude singing events that only have one individual
+* "cutoff" argument in coor.test function to determine the minimum number of signals per individual needed for a singing event to
+be included
+* "rm.solo" argument in coor.test to  control if signals that are not intercalated at the start or end of the 
+sequence are removed. For instances the sequence of signals A-A-A-B-A-B-A-B-B-B (in which A and B represent 
+different individuals) would be subset to A-B-A-B-A-B
+* "incl.wav" argument in filtersels function to indicate if the sound file extension is included in the image files
+* 3 different options (formulas) for calculating signal-to-noise ratio are now available (sig2noise function). In addition the "eq.dur" argument allows to measure a noise segment of the same duration than the signal
 * grid can be removed from spectrograms in compare.methods function
 
 # Bug fixes:

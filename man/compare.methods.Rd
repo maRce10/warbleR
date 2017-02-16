@@ -5,8 +5,8 @@
 \title{Assessing the performance of acoustic distance measurements}
 \usage{
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
-res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), it = "jpeg", 
-parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE)
+res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
+it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
