@@ -93,9 +93,7 @@ dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
-\code{\link{specreator}} for creating spectrograms from selections,
- \code{\link{snrspecs}} for creating spectrograms to 
-  optimize noise margins used in \code{\link{sig2noise}}
+\code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 
 Other spectrogram.creators: \code{\link{dfDTW}},
   \code{\link{ffDTW}}, \code{\link{ffts}},

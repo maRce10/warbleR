@@ -6,7 +6,8 @@
 \usage{
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
-it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE)
+it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
+clip.edges = FALSE, threshold = 15)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
@@ -39,10 +40,10 @@ frequency desired (the length of the time series). Default is 30.}
 
 \item{methods}{A character vector of length 2 giving the names of the acoustic distance
 methods that would be compared. The methods available are: cross-correlation (XCORR, from
-\code{xcorr}), dynamic time warping on dominant frequency time series (dfDTW, from
- \code{\link[dtw]{dtw}} applied on \code{dfts} output), dynamic time warping on dominant 
- frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on \code{ffts} output),
-  spectral parameters (SP, from \code{specan}).}
+\code{\link{xcorr}}), dynamic time warping on dominant frequency time series (dfDTW, from
+ \code{\link[dtw]{dtw}} applied on \code{\link{dfts}} output), dynamic time warping on dominant 
+ frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{ffts}} output),
+  spectral parameters (SP, from \code{\link{specan}}).}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
@@ -61,6 +62,14 @@ and "selec' columns and the same selections as in 'X'.}
 when parallel = 1.}
 
 \item{grid}{Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).}
+
+\item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
+which amplitude values above the threshold were not detected will be removed when using dfDTW and 
+ffDTW methods. If \code{TRUE} this edges will be excluded and signal contour will be calculated on the
+remainging values. Default is \code{FALSE}.}
+
+\item{threshold}{amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
+and SP methods. Default is 15.}
 }
 \value{
 Image files with 4 spectrograms of the selection being compared and scatterplots 
@@ -71,10 +80,10 @@ of the acoustic space of all signals in the input data frame 'X'.
 }
 \details{
 This function produces graphs with spectrograms from 4 selections that allow visual inspection of the performance of acoustic distance methods at comparing those selections. The spectrograms are all plotted with the same frequency and time scales. The function compares 2 methods at a time. The methods available are: cross
--correlation (XCORR, from \code{xcorr}), dynamic time warping on dominant frequency time 
-series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{dfts} output), dynamic time 
+-correlation (XCORR, from \code{\link{xcorr}}), dynamic time warping on dominant frequency time 
+series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{dfts}} output), dynamic time 
 warping on dominant frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on 
-\code{ffts} output), spectral parameters (SP, from \code{specan}). The graph also 
+\code{\link{ffts}} output), spectral parameters (SP, from \code{\link{specan}}). The graph also 
 contains 2 scatterplots (1 for each method) of the acoustic space of all signals in the 
 input data frame 'X'. The compared selections are randomly picked up from the pool of 
 selections in the input data frame. The argument 'n' defines the number of comparison (e

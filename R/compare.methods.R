@@ -3,7 +3,8 @@
 #' @description \code{compare.methods} creates graphs to visually assess performance of acoustic distance measurements 
 #' @usage compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 #' res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
-#' it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE)
+#' it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
+#' clip.edges = FALSE, threshold = 15)
 #' @param X Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 #' function, or any data frame with columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
@@ -25,10 +26,10 @@
 #' frequency desired (the length of the time series). Default is 30.
 #' @param methods A character vector of length 2 giving the names of the acoustic distance
 #' methods that would be compared. The methods available are: cross-correlation (XCORR, from
-#' \code{xcorr}), dynamic time warping on dominant frequency time series (dfDTW, from
-#'  \code{\link[dtw]{dtw}} applied on \code{dfts} output), dynamic time warping on dominant 
-#'  frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on \code{ffts} output),
-#'   spectral parameters (SP, from \code{specan}).
+#' \code{\link{xcorr}}), dynamic time warping on dominant frequency time series (dfDTW, from
+#'  \code{\link[dtw]{dtw}} applied on \code{\link{dfts}} output), dynamic time warping on dominant 
+#'  frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{ffts}} output),
+#'   spectral parameters (SP, from \code{\link{specan}}).
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -41,15 +42,21 @@
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
 #' @param grid Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).
+#' @param clip.edges Logical argument to control whether edges (start or end of signal) in
+#' which amplitude values above the threshold were not detected will be removed when using dfDTW and 
+#' ffDTW methods. If \code{TRUE} this edges will be excluded and signal contour will be calculated on the
+#' remainging values. Default is \code{FALSE}. 
+#' @param threshold amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
+#' and SP methods. Default is 15.
 #' @return Image files with 4 spectrograms of the selection being compared and scatterplots 
-#' of the acoustic space of all signals in the input data frame 'X'.  
+#' of the acoustic space of all signals in the input data frame 'X'.
 #' @export
 #' @name compare.methods
 #' @details This function produces graphs with spectrograms from 4 selections that allow visual inspection of the performance of acoustic distance methods at comparing those selections. The spectrograms are all plotted with the same frequency and time scales. The function compares 2 methods at a time. The methods available are: cross
-#' -correlation (XCORR, from \code{xcorr}), dynamic time warping on dominant frequency time 
-#' series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{dfts} output), dynamic time 
+#' -correlation (XCORR, from \code{\link{xcorr}}), dynamic time warping on dominant frequency time 
+#' series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{dfts}} output), dynamic time 
 #' warping on dominant frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on 
-#' \code{ffts} output), spectral parameters (SP, from \code{specan}). The graph also 
+#' \code{\link{ffts}} output), spectral parameters (SP, from \code{\link{specan}}). The graph also 
 #' contains 2 scatterplots (1 for each method) of the acoustic space of all signals in the 
 #' input data frame 'X'. The compared selections are randomly picked up from the pool of 
 #' selections in the input data frame. The argument 'n' defines the number of comparison (e
@@ -128,7 +135,8 @@
 
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = c("XCORR","dfDTW", "ffDTW", "SP"),
-    it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE){  
+    it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
+    clip.edges = FALSE, threshold = 15){  
  
   #check path to working directory
   if(!is.null(path))
@@ -232,7 +240,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if("dfDTW" %in% methods)
     {dtwmat <- dfts(X, wl = 512, flim = flim, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out,
-                    pb = pb)
+                    pb = pb, clip.edges = clip.edges, threshold = threshold)
     
   dm <- dtw::dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)])  
   
@@ -243,7 +251,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
 
   if("ffDTW" %in% methods)
   {dtwmat <- ffts(X, wl = 512, flim = flim, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out,
-                  pb = pb)
+                  pb = pb, clip.edges = clip.edges, threshold = threshold)
   
   dm <- dtw::dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)],method="DTW")  
   
@@ -253,7 +261,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   }
   
   if("SP" %in% methods)
-  { if(is.null(sp)) spmat <- specan(X, wl = 512, bp = flim, parallel = parallel, pb = pb) else spmat <- sp
+  { if(is.null(sp)) spmat <- specan(X, wl = 512, bp = flim, parallel = parallel, pb = pb, threshold = threshold) else spmat <- sp
   
   sp <- princomp(scale(spmat[,3:ncol(spmat)]), cor = FALSE)$scores[ ,1:2]
 

@@ -5,6 +5,8 @@
 ##### (Release date: XXXXXXX)
 
 ## Changes and additions:
+* "clip.edges" argument in compare.methods function to set removing mising values at the start and end of signals when using dfDTW and ffDTW methods  
+* "treshold" argument in compare.methods function to set the amplitude detection threshold for ffDTW, dfDTW and SP methods  
 * "exclude" agument in imp.syrinx function to exclude selection files that cannot be read
 * "rm.imcomp" argument in coor.test function to exclude singing events that only have one individual
 * "cutoff" argument in coor.test function to determine the minimum number of signals per individual needed for a singing event to

@@ -41,9 +41,7 @@
 #' input data frame showing the location of the dominant frequencies 
 #' (see \code{\link{trackfreqs}} description for more details).
 #' @family spectrogram creators
-#' @seealso \code{\link{specreator}} for creating spectrograms from selections,
-#'  \code{\link{snrspecs}} for creating spectrograms to 
-#'   optimize noise margins used in \code{\link{sig2noise}}
+#' @seealso \code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 #' @export
 #' @name dfts
 #' @details This function extracts the dominant frequency values as a time series. 
