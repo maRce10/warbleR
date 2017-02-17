@@ -19,7 +19,8 @@ Default \code{NULL}.}
 the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
 
 \item{bp}{numeric vector of length 2 giving the lower and upper limits of the 
-frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22).}
+frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22). Note that
+for XCORR this argument sets the frange argument from the \code{\link{xcorr}} function.}
 
 \item{mar}{Numeric vector of length 1. Specifies plot margins around selection in seconds. Default is 0.1.}
 
