@@ -38,7 +38,7 @@ default graphic device. In such cases saving the plot as and image file is advic
 \examples{
 \dontrun{
 #load data
-#First set temporal working directory]
+#First set temporary working directory]
 setwd(tempdir())
 
 #load data

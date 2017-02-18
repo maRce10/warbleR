@@ -149,7 +149,7 @@ This function provides visualization of frequency measurements as the ones
 }
 \examples{
 \dontrun{
-#Set temporal folder as working directory
+#Set temporary working directory
 setwd(tempdir())
 
 #load data

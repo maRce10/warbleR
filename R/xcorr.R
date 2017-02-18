@@ -42,7 +42,7 @@
 #' from the awesome R package `monitoR`.   
 #' @examples
 #' \dontrun{
-#' #First set temporal working directory
+#' #First set temporary working directory
 #' setwd(tempdir())
 #' 
 #' #load data

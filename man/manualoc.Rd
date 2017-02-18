@@ -98,7 +98,7 @@ Users can zoom-in a specific sound file segment by clicking at the
 }
 \examples{
 \dontrun{
-#First create empty folder
+#Set temporary working directory
 setwd(tempdir())
 
 # save wav file examples

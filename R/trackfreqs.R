@@ -108,7 +108,7 @@
 #'   for a particular time bin, then the image will show a dark dot at the bottom of the time bin.
 #' @examples
 #' \dontrun{
-#' #Set temporal folder as working directory
+#' #Set temporary working directory
 #' setwd(tempdir())
 #' 
 #' #load data

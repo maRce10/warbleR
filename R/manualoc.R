@@ -40,7 +40,7 @@
 #' @name manualoc
 #' @examples
 #' \dontrun{
-#' #First create empty folder
+#' #Set temporary working directory
 #' setwd(tempdir())
 #' 
 #' # save wav file examples

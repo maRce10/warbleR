@@ -24,7 +24,7 @@
 #' @examples
 #' \dontrun{
 #' #load data
-#' #First set temporal working directory]
+#' #First set temporary working directory]
 #' setwd(tempdir())
 #' 
 #' #load data

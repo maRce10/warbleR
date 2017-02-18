@@ -81,7 +81,7 @@ The function creates spectrograms for complete sound files, printing
 }
 \examples{
 \dontrun{
-# First create empty folder
+# Set temporary working directory
 setwd(tempdir())
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2","selec.table"))

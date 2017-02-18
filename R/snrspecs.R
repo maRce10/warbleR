@@ -72,7 +72,7 @@
 #'   when osci or sc = \code{TRUE}, this may take some optimization by the user.
 #' @examples
 #' \dontrun{
-#' # First create empty folder
+#' # Set temporary working directory
 #' setwd(tempdir())
 #'  
 #' data(list = c("Phae.long1", "Phae.long2", "selec.table"))

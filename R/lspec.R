@@ -55,7 +55,7 @@
 #'   of vocalization units and the analysis of animal vocal sequences.
 #' @examples
 #' \dontrun{
-#' # First create empty folder
+#' # Set temporary working directory
 #' setwd(tempdir())
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","selec.table"))

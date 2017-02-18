@@ -103,7 +103,7 @@ This function can be used to test different margins to facilitate
 }
 \examples{
 \dontrun{
-# First create empty folder
+# Set temporary working directory
 setwd(tempdir())
  
 data(list = c("Phae.long1", "Phae.long2", "selec.table"))

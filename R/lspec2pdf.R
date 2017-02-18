@@ -16,7 +16,7 @@
 #' a single pdf (for each sound file).
 #' @examples
 #' \dontrun{
-#' # First create empty folder
+#' # Set temporary working directory
 #' setwd(tempdir())
 #' 
 #' # save sound file examples

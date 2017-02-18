@@ -87,7 +87,7 @@ in which users can select a new start and end of a vocalization unit (e.g. eleme
 }
 \examples{
 \dontrun{
-#First create empty folder
+#Set temporary working directory
 setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))

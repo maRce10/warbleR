@@ -38,7 +38,7 @@
 #' or download the associated sound files.  
 #' @examples
 #' \dontrun{
-#' # First create empty folder
+#' # Set temporary working directory
 #' setwd(tempdir())
 #' 
 #' # search without downloading

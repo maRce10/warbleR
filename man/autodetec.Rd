@@ -128,7 +128,7 @@ This function determines the start and end of signals in the segments of the sou
 }
 \examples{
 \dontrun{
-# First create empty folder
+# Set temporary working directory
 setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
