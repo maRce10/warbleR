@@ -62,7 +62,7 @@ which the start and end times of acoustic signals listed in a data frame can be 
 \details{
 This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) 
 in which users can select a new start and end of a vocalization unit (e.g. elements)
- by clicking at the end and then at the start of the signal (in any order). In addition, 2
+ by clicking at the end and at the start of the signal (in any order). In addition, 2
   "buttons" are provided at the upper right side of the spectrogram that
   allow to stop the analysis ("Stop") or go to the next sound file ("next sel"). When a unit 
   has been selected, the function plots red dotted lines in the start and end of the 

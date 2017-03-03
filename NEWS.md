@@ -5,6 +5,7 @@
 ##### (Release date: XXXXXXX)
 
 ## Changes and additions:
+* selections longer than 20 s can be analyzed with specan function
 * "clip.edges" argument in compare.methods function to set removing mising values at the start and end of signals when using dfDTW and ffDTW methods  
 * "treshold" argument in compare.methods function to set the amplitude detection threshold for ffDTW, dfDTW and SP methods  
 * "exclude" agument in imp.syrinx function to exclude selection files that cannot be read

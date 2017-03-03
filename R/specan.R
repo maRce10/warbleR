@@ -108,9 +108,8 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   #if any start higher than end stop
   if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
-  #if any selections longer than 20 secs stop
-  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
-  options( show.error.messages = TRUE)
+  #if any selections longer than 20 secs warning
+  if(any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
   
   # bp checking
   if(bp[1] != "frange")
