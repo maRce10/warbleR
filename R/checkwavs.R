@@ -74,8 +74,6 @@ checkwavs <- function(X = NULL, path = NULL) {
     #if any start higher than end stop
     if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
     
-    
-    
     if(length(unique(X$sound.files[(X$sound.files %in% files)])) != length(unique(X$sound.files))) 
       message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% files)])), 
                     ".wav file(s) not found"))
@@ -92,8 +90,8 @@ checkwavs <- function(X = NULL, path = NULL) {
   
   a <- sapply(files, function(x) {
     r <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
-    if(is.list(r) & is.numeric(unlist(r)) & all(unlist(r) > 0))
-      return(r$sample.rate) else return (NA)}) 
+    if(class(r) == "try-error")return (NA) else
+      return(r$sample.rate)  }) 
   
   if(length(files[is.na(a)])>0){
     message("Some file(s) cannot be read ")

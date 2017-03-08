@@ -21,7 +21,7 @@ different individuals) would be subset to A-B-A-B-A-B
 
 # Bug fixes:
 * error produced when calculating frequency limits based on dominant frequency contours in xcorr (when frange is not provided)
-
+* error for identifying readable sound files in some specific .wav formats in checkwavs function
 
 # warbleR 1.1.5 
 ##### (Release date: 2017-01-19)
