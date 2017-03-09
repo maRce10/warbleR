@@ -107,7 +107,7 @@
 #' @import utils
 #' @import parallel
 #' @import foreach
-#' @importFrom monitoR gray.1 gray.2 gray.3 rainbow.1 topo.1 
+#' @importF monitoR
 #' @importFrom jpeg readJPEG 
 #' @importFrom doParallel registerDoParallel
 #' @importFrom dtw dtwDist
