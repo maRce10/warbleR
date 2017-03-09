@@ -6,7 +6,7 @@
 \usage{
 manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-  NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL)
+  NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, fast = FALSE)
 }
 \arguments{
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -50,6 +50,11 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.}
+
+\item{fast}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+This option is indicated for signals with high background noise levels. Palette colors gray.1, gray.2 and gray.3 offer 
+different darkness levels. THIS IS STILL BEING TESTED.}
 }
 \value{
 .csv file saved in the working directory with start and end time of 

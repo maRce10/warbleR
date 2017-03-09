@@ -5,7 +5,7 @@
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-#'   mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
+#'   mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast = FALSE, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -55,6 +55,11 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
+#' @param fast Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+#' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+#' This option is indicated for signals with high background noise levels. Palette colors gray.1, gray.2 and gray.3 offer 
+#' different darkness levels. THIS IS STILL BEING TESTED.
+#' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments. 
 #' @return Image files containing spectrograms of the signals listed in the input data frame.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
@@ -62,10 +67,12 @@
 #'   creating spectrograms to optimize noise margins used in \code{\link{sig2noise}}
 #' @export
 #' @name specreator
-#' @details This function provides access to bath process of the \code{\link[seewave]{spectro}} function from the 'seewave' package. The function creates spectrograms for visualization of vocalizations. 
+#' @details This function provides access to bath process of (a modified version of) the \code{\link[seewave]{spectro}} function from the 'seewave' package. The function creates spectrograms for visualization of vocalizations. 
 #' Setting inner.mar to c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
 #' Title font size, inner.mar and outer.mar (from mar and oma) don't work well when osci or sc = TRUE,
-#' this may take some optimization by the user.
+#' this may take some optimization by the user. Setting 'fast' argument to TRUE significantly increases speed, although 
+#' some options become unavailable, as collevels, and sc (amplitude scale). This option is indicated for signals with 
+#' high background noise levels. Palette colors gray.1, gray.2 and gray.3 
 #' @examples
 #' \dontrun{ 
 #' # First set empty folder
@@ -90,7 +97,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
                         inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, 
                         cexlab = 1, title = TRUE, propwidth = FALSE, xl=1, osci = FALSE, 
                         gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg", parallel = 1, 
-                       path = NULL, pb = TRUE){
+                       path = NULL, pb = TRUE, fast = FALSE, ...){
   
   #check path to working directory
   if(!is.null(path))
@@ -188,10 +195,10 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     par(oma = outer.mar)
     
     # Generate spectrogram using seewave 
-    seewave::spectro(tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds") , f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts, wn = "hanning", 
+  spectroW(tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds") , f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts, wn = "hanning", 
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
-                     flab = "Frequency (kHz)", alab = "", trel = FALSE)
+                     flab = "Frequency (kHz)", alab = "", trel = FALSE, fast = fast, ...)
     
     # Add title to spectrogram
     if(title) if(!is.null(X$sel.comment[i]))
@@ -202,7 +209,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     if(line){  
       if(any(names(X) == "low.f") & any(names(X) == "high.f"))
       {   if(!is.na(X$low.f[i]) & !is.na(X$high.f[i]))
-        polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.f[i], X$high.f[i], X$high.f[i], X$low.f[i]), lty = 3, border = "blue", lwd = 1.2, col = adjustcolor("blue", alpha.f = 0.05)) else
+        polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.f[i], X$high.f[i], X$high.f[i], X$low.f[i]), lty = 3, border = "blue", lwd = 1.2) else
           abline(v = c(mar1, mar2), col= "red", lty = "dashed")
       } else abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     }  

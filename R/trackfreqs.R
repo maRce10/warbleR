@@ -9,7 +9,7 @@
 #'   threshold = 15, contour = "both", col = c("skyblue", "red2"),
 #'    pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
 #'    path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
-#'    leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE)
+#'    leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast = FALSE, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -89,6 +89,11 @@
 #' in the output image.
 #' @param col.alpha A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.
 #' @param line Logical argument to add red lines (or box if low.f and high.f columns are provided) at start and end times of selection. Default is \code{TRUE}.
+#' @param fast Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+#' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+#' This option is indicated for signals with high background noise levels. Palette colors gray.1, gray.2 and gray.3 offer 
+#' different darkness levels. THIS IS STILL BEING TESTED.
+#' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
 #' @family spectrogram creators
@@ -148,7 +153,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
                        bp = c(0, 22), cex = c(0.6, 1), threshold = 15, contour = "both", 
                        col = c("skyblue", "red2"),  pch = c(21, 24), mar = 0.05, lpos = "topright", 
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
-                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE){     
+                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast = FALSE, ...){     
   
   #check path to working directory
   if(!is.null(path))
@@ -296,10 +301,10 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     par(oma = outer.mar)
     
     # Generate spectrogram using seewave
-    seewave::spectro(r, f = f, wl = wl, ovlp = 70, collevels = seq(-40, 0, 0.5), heights = hts,
+    spectroW(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
             wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
             cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
-            flab = "Frequency (kHz)", alab = "")
+            flab = "Frequency (kHz)", alab = "", fast = fast, ...)
     
     if(title){
 
@@ -390,7 +395,7 @@ if(contour %in% c("both", "ff") & is.null(custom.contour))
   if(line){  
     if(any(names(X) == "low.f") & any(names(X) == "high.f"))
   {   if(!is.na(X$low.f[i]) & !is.na(X$high.f[i]))
-      polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.f[i], X$high.f[i], X$high.f[i], X$low.f[i]), lty = 3, border = "blue", lwd = 1.2, col = adjustcolor("blue", alpha.f = 0.05)) else
+      polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.f[i], X$high.f[i], X$high.f[i], X$low.f[i]), lty = 3, border = "blue", lwd = 1.2) else
           abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     } else abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     }

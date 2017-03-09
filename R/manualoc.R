@@ -4,7 +4,7 @@
 #' and end times of acoustic signals can be measured.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-#'   NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL)
+#'   NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, fast = FALSE)
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
@@ -34,6 +34,10 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
+#' @param fast Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+#' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+#' This option is indicated for signals with high background noise levels. Palette colors gray.1, gray.2 and gray.3 offer 
+#' different darkness levels. THIS IS STILL BEING TESTED.
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
@@ -99,7 +103,7 @@
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
                      selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2,
-                     path = NULL, flist = NULL)
+                     path = NULL, flist = NULL, fast = FALSE)
 {
   
   #check path to working directory
@@ -168,9 +172,9 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       if(mean(par("mfrow")) != 1) par(mfrow = c(1, 1))
       
       #create spectrogram
-      seewave::spectro(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  pal, 
+      spectroW(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  pal, 
               main = main, tlim = tlim, axisX = TRUE, grid = FALSE, collab = "black", alab = "", fftw = TRUE, 
-              flim = fl, scale = FALSE, axisY = TRUE, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)")
+              flim = fl, scale = FALSE, axisY = TRUE, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)", fast = fast)
       
       #add the circle and lines of selections on spectrogram
       if(length(start) > 0)

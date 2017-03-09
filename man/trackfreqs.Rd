@@ -11,7 +11,7 @@ trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   threshold = 15, contour = "both", col = c("skyblue", "red2"),
    pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
    path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
-   leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE)
+   leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast = FALSE, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -127,6 +127,13 @@ in the output image.}
 \item{col.alpha}{A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.}
 
 \item{line}{Logical argument to add red lines (or box if low.f and high.f columns are provided) at start and end times of selection. Default is \code{TRUE}.}
+
+\item{fast}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+This option is indicated for signals with high background noise levels. Palette colors gray.1, gray.2 and gray.3 offer 
+different darkness levels. THIS IS STILL BEING TESTED.}
+
+\item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
 \value{
 Spectrograms of the signals listed in the input data frame showing the location of 

@@ -88,9 +88,11 @@ License: GPL (>= 2)
   
   \code{\link{xcorr.graph}}: Pairwise cross-correlation of multiple signals
   
-  \code{\link{dfts}}: Extract the dominant frequency values as a time series
+  \code{\link{dfts}}: Extract the dominant frequency values across the signal as a time series
   
-  \code{\link{ffts}}: Extract the fundamental frequency values as a time series
+  \code{\link{ffts}}: Extract the fundamental frequency values across the signal as a time series
+  
+  \code{\link{sp.en.ts}}: Extract the spectral entropy values across the signal as a time series
   
   \code{\link{dfDTW}}: Calculate acoustic dissimilarity using dynamic time warping
    on dominant frequency contours

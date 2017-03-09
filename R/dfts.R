@@ -199,7 +199,7 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       
       
   if(img) 
-      trackfreqs(X[i,], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
+      trackfreqs2(X[i,], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
                  parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
                  custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom1$y)), ...)
       

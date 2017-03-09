@@ -8,7 +8,7 @@ specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-  mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
+  mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast = FALSE, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -82,6 +82,13 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
+
+\item{fast}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+This option is indicated for signals with high background noise levels. Palette colors gray.1, gray.2 and gray.3 offer 
+different darkness levels. THIS IS STILL BEING TESTED.}
+
+\item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
 \value{
 Image files containing spectrograms of the signals listed in the input data frame.
@@ -90,10 +97,12 @@ Image files containing spectrograms of the signals listed in the input data fram
 \code{specreator} creates spectrograms of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
-This function provides access to bath process of the \code{\link[seewave]{spectro}} function from the 'seewave' package. The function creates spectrograms for visualization of vocalizations. 
+This function provides access to bath process of (a modified version of) the \code{\link[seewave]{spectro}} function from the 'seewave' package. The function creates spectrograms for visualization of vocalizations. 
 Setting inner.mar to c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
 Title font size, inner.mar and outer.mar (from mar and oma) don't work well when osci or sc = TRUE,
-this may take some optimization by the user.
+this may take some optimization by the user. Setting 'fast' argument to TRUE significantly increases speed, although 
+some options become unavailable, as collevels, and sc (amplitude scale). This option is indicated for signals with 
+high background noise levels. Palette colors gray.1, gray.2 and gray.3
 }
 \examples{
 \dontrun{ 
