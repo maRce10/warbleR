@@ -91,19 +91,20 @@ spectro2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0,
   seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                         nlevels = 20, plot.title = title(main = main, 
                                                          xlab = tlab, ylab = flab), color.palette = palette, 
-                        axisX = axisX, axisY = axisY, col.lab = collab, 
+                        axisX = FALSE, axisY = axisY, col.lab = collab, 
                         colaxis = colaxis) else {
                           image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
                           if (axisY) axis(2, at = pretty(Y), labels = pretty(Y), cex.axis = cexlab)
-                         
-                           if (axisX) {
-                             if (rm.zero)
-                             axis(1, at = pretty(X)[-1], labels = pretty(X)[-1], cex.axis = cexlab)  else
-                               axis(1, at = pretty(X), labels = pretty(X), cex.axis = cexlab) 
-                             }
                                 box()
                           if(!is.null(main)) title(main)       
                         }
+  
+  if (axisX) {
+    if (rm.zero)
+      axis(1, at = pretty(X)[-1], labels = pretty(X)[-1], cex.axis = cexlab)  else
+        axis(1, at = pretty(X), labels = pretty(X), cex.axis = cexlab) 
+  }
+  
   if (grid) 
     grid(nx = NA, ny = NULL, col = colgrid)
   

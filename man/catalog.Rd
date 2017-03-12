@@ -74,9 +74,11 @@ horizontal orientation ('h' option). Note that width and height can also be spec
 
 \item{labels}{String vector. Provides the column names that will be used as labels above the corresponding spectrograms.}
 
-\item{height}{Numeric. Single value (in inches) indicating the height of the output image files.}
+\item{height}{Numeric. Single value (in inches) indicating the height of the output image files. Default is 11 
+for vertical orientation.}
 
-\item{width}{Numeric. Single value (in inches) indicating the width of the output image files.}
+\item{width}{Numeric. Single value (in inches) indicating the width of the output image files.  Default is 8.5
+for vertical orientation.}
 
 \item{tags}{String vector. Provides the column names that will be used for the color tagging legend above
 spectrograms.}
@@ -116,21 +118,20 @@ writeWave(Phae.long2,"Phae.long2.wav")
 
 
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = gray.3, 
- orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
- width = 20, collev = seq(-65, 0, 5))
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
+ orientation = "v",  labels = c("sound.files", "selec"), legend = T)
  
  #different time scales and tag palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = gray.3, 
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
- width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors)
+ tag.pal = terrain.colors)
  #'  
- #adding tags
+ #adding tags and changing spectro palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = gray.3, 
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = reverse.heat.colors,
  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
- width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors, tags = "sound.files")
+ tag.pal = terrain.colors, tags = "sound.files")
 
  #create a bigger selection table
  X <- rbind(selec.table, selec.table, selec.table, selec.table)
@@ -142,19 +143,24 @@ catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = 
 
 # 12 columns in 5 rows, 2 tags
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = gray.3, 
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = F, 
- width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors, 
- tags = c("songtype", "indiv"))
+ collev = seq(-65, 0, 5), tag.pal = terrain.colors, tags = c("songtype", "indiv"))
 
 
 # with legend
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = gray.3, 
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
  width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors,
   tags = c("songtype", "indiv"))
   
+  #' horizontal orientation
+catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
+ orientation = "h",  labels = c("sound.files", "selec"), legend = T, 
+ width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors,
+  tags = c("songtype", "indiv"))
 check this floder
 getwd()
 }
