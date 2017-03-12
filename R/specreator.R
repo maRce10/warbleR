@@ -45,7 +45,7 @@
 #'   \code{FALSE}.
 #' @param line Logical argument to add red lines at start and end times of selection 
 #' (or box if low.f and high.f columns are provided). Default is \code{TRUE}.
-#' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections, 
+#' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 #' dealineating spectrogram limits. Default is 0.05.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".

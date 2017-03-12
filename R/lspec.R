@@ -174,7 +174,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
       unlist(sapply(strsplit(as.character(list.files(pattern = paste(it, "$", 
                                                                      sep = ""), ignore.case = TRUE)), "-p",fixed = TRUE), "[",1))]
   
-  
   #stop if files are not in working directory
   if(length(files) == 0) stop("all .wav files have been processed")
   

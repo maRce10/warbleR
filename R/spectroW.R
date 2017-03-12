@@ -235,7 +235,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
                               image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
                               if (axisY) axis(2, at = yat, labels = ylabel)
                               box()
-                title(main)            
+                              if(!is.null(main)) title(main)            
                 }
       if (grid) 
         abline(h = yat, col = colgrid, lty = "dotted")

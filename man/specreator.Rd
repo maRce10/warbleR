@@ -68,7 +68,7 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 \item{line}{Logical argument to add red lines at start and end times of selection 
 (or box if low.f and high.f columns are provided). Default is \code{TRUE}.}
 
-\item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections, 
+\item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 dealineating spectrogram limits. Default is 0.05.}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
