@@ -4,7 +4,7 @@
 \alias{imp.raven}
 \title{Import Raven selections}
 \usage{
-imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE)
+imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE, name.from.file = FALSE, ext.case = NULL, freq.cols = FALSE)
 }
 \arguments{
 \item{path}{A character string indicating the path of the directory in which to look for the text files. 
@@ -17,6 +17,16 @@ the selection text files. Default is \code{NULL}).}
 that all files should contain exactly the same columns in the same order.}
 
 \item{recursive}{Logical. If \code{TRUE}) the listing recurse into sub-directories.}
+
+\item{name.from.file}{Logical. If \code{TRUE}) the sound file names are extracted from the selection text file name. Note that by default it will assume 
+that the extension file name is ".wav". This can be control using the argumet 'ext.wav'. Default is \code{FALSE}). Ignored if
+'sound.file.col' is provided and/or all.data is \code{TRUE}).}
+
+\item{ext.case}{Character string of length 1 to specify whether sound file extensions are in upper or lower case. This should match the extension of the
+of the .wav files from which the selection were made. It must be either 'upper' or 'lower'. Only needed when 'name.from.file' is \code{TRUE}). 
+Ignored if 'sound.file.col' is provided and/or all.data is \code{TRUE}).}
+
+\item{freq.cols}{Logical. If \code{TRUE}) 'Low Freq' and 'High Freq' columns are also imported. Ignored if ll.data is \code{TRUE}.}
 }
 \value{
 A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 
@@ -39,12 +49,13 @@ setwd(tempdir())
 data(selection.files)
 
 write.table(selection.files[[1]],file = "100889-Garrulax monileger.selections.txt",
-row.names = FALSE, sep= "\\t")
+row.names = FALSE, sep= '\\t')
 
 write.table(selection.files[[2]],file = "1023-Arremonops rufivirgatus.selections.txt",
-row.names = FALSE, sep= "\\t")
+row.names = FALSE, sep= '\\t')
 
-#providing the name of the column with the sound file names
+## MAKE SURE THERE ARE NO OTHER .txt FILES IN THE WORKING DIRECTORY
+ #providing the name of the column with the sound file names
 rav.dat<-imp.raven(sound.file.col = "End.File", all.data = FALSE)
 
 View(rav.dat)
