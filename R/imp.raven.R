@@ -22,7 +22,8 @@
 #' will also contain a 'sound.files' column. In addition, all rows with duplicated data are removed. This is useful when 
 #' both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE} then all 
 #' columns in selection files are returned. 
-#' @details The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that selection files including data from mulitple recordings cannot be imported.
+#' @details The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that selection 
+#' files including data from mulitple recordings cannot be imported.
 #' @seealso \code{\link{imp.syrinx}} 
 #' @export
 #' @name imp.raven
@@ -53,8 +54,8 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-5-2016 (MAS)
 
-imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE, name.from.file = FALSE, 
-                    ext.case = NULL, freq.cols = FALSE) 
+imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE, 
+                    name.from.file = FALSE, ext.case = NULL, freq.cols = FALSE) 
   {
   #check path to working directory
   if(!is.null(path))
