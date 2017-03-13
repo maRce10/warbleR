@@ -1,7 +1,7 @@
 # Combine lspec images to single pdf files
 #' 
 #' \code{lspec2pdf} combines \code{\link{lspec}} images in .jpeg format to a single pdf file. 
-#' @usage lspec2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL)
+#' @usage lspec2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE)
 #' @param keep.jpeg Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @param overwrite Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
@@ -10,6 +10,8 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+#' when parallel = 1.
 #' @export
 #' @name lspec2pdf
 #' @details The function combines  spectrograms for complete sound files from the \code{\link{lspec}} function into
@@ -35,7 +37,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on nov-13-2016 (MAS)
 
-lspec2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL)
+lspec2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE)
 {
   #check path to working directory
   if(!is.null(path))
@@ -112,7 +114,12 @@ lspec2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = 
     } 
     if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
       
-      lst <- parallel::mclapply(unique(or.sf), function (i) {
+      if(pb)
+      lst <- pbmcapply::pbmclapply(unique(or.sf), mc.cores = parallel,function (i) {
+        l2pdfFUN(i, overwrite, keep.jpeg)
+      }) else
+      
+      lst <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function (i) {
         l2pdfFUN(i, overwrite, keep.jpeg)
       })
     }
@@ -130,8 +137,9 @@ lspec2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = 
       
     }
   } else 
-    lst <- pbapply::pblapply(unique(or.sf), function(i) l2pdfFUN(i, overwrite, keep.jpeg))
+    if(pb)
+    lst <- pbapply::pblapply(unique(or.sf), function(i) l2pdfFUN(i, overwrite, keep.jpeg)) else
+      lst <- lapply(unique(or.sf), function(i) l2pdfFUN(i, overwrite, keep.jpeg))
   
-  
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
 }

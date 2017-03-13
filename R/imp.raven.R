@@ -74,6 +74,6 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
 
 b <- do.call("rbind", clist)
 return(b[!duplicated(b), ])
-if(!is.null(path)) on.exit(setwd(wd))
+if(!is.null(path)) setwd(wd)
 }
 

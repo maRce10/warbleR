@@ -49,5 +49,5 @@ wavdur <- function(files = NULL, path = NULL) {
   })
    return(data.frame(sound.files = files, duration = a, row.names = NULL))
 
-    if(!is.null(path)) on.exit(setwd(wd))
+    if(!is.null(path)) setwd(wd)
   }

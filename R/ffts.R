@@ -123,7 +123,7 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
 
- if(parallel == 1 & pb) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
+ if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
     message("Measuring fundamental frequency:")}
   
         fftsFUN <- function(X, i, bp, wl, threshold){
@@ -208,8 +208,13 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
             
           } 
           if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-            
-            lst <- parallel::mclapply(1:nrow(X), function (i) {
+
+            if(pb)
+            lst <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
+              fftsFUN(X, i, bp, wl, threshold)
+            }) else
+                        
+            lst <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
               fftsFUN(X, i, bp, wl, threshold)
             })
           }
@@ -236,5 +241,5 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
     colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
                  return(df)
-    if(!is.null(path)) on.exit(setwd(wd))
+    if(!is.null(path)) setwd(wd)
     }

@@ -608,8 +608,13 @@ if(cel < 1)
    }
    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
 
-     out <- parallel::mclapply(1:length(Xlist), function (z) {
+     if(pb)
+     out <- pbmcapply::pbmclapply(1:length(Xlist), mc.cores = parallel, function (z) {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast, flim, wl, ovlp, pal, 
+                width, height, tag.col.df, legend, cex)
+     }) else
+         out <- parallel::mclapply(1:length(Xlist),  mc.cores = parallel, function (z) {
+       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast, flim, wl, ovlp, pal,
                 width, height, tag.col.df, legend, cex)
             })
    }

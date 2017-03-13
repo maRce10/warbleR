@@ -273,8 +273,10 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
       } 
       
       if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-        
-        a1 <- parallel::mclapply(1:nrow(X), function (i) {
+        if(pb)         a1 <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
+          snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
+        }) else
+        a1 <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
           snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
         })
       }
@@ -298,6 +300,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
         a1 <- lapply(1:nrow(X), function(i) snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar))
     }
     
-    if(!is.null(path)) on.exit(setwd(wd))
+    if(!is.null(path)) setwd(wd)
     }
 

@@ -112,7 +112,8 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     parallel <- 1}
   
   if(parallel > 1) 
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else {
+    {if(Sys.info()[1] == "Linux" & pb) lapp <- function(X, FUN) pbmcapply::pbmclapply(X, FUN, mc.cores = parallel) else
+    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else {
       if(pb) lapp <- pbapply::pblapply else lapp <- lapply}
   
   options(warn = 0)
@@ -189,5 +190,5 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     # Add SNR data to manualoc output
     z <- data.frame(X[d,], SNR = unlist(SNR))
   return(z)
-    if(!is.null(path)) on.exit(setwd(wd))    
+    if(!is.null(path)) setwd(wd)    
 }

@@ -64,6 +64,8 @@ License: GPL (>= 2)
 
   \code{\link{autodetec}}: Automatic detection of acoustic signals based on ampltiude 
 
+  \code{\link{seltailor}}: Interactive view of spectrograms to tailor start and end of selections
+  
   \code{\link{lspec}}: Produce spectrograms of whole recordings split into 
   multiple rows
   
@@ -103,11 +105,12 @@ License: GPL (>= 2)
   \code{\link{compare.methods}}: Produce graphs to visually assess performance of acoustic 
   distance measurements 
   
+  \code{\link{catalog}}: Produce a vocalization catalog with spectrograms in and array with 
+  several rows and columns  
+  
   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
   
-  \code{\link{coor.test}}: Assess statistical significance of singing coordination 
-  
-  \code{\link{seltailor}}: Interactive view of spectrograms to tailor start and end of selections
+  \code{\link{coor.test}}: Assess statistical significance of singing coordination
 }
 \author{
 Marcelo Araya-Salas & Grace Smith Vidaurre

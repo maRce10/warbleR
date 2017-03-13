@@ -453,8 +453,12 @@ legend(lpos, legend = leglab[1],
               
             } 
             if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-              
-              sp <- parallel::mclapply(1:nrow(X), function (i) {
+              if(pb)
+                sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
+                  trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch,
+                              custom.contour)
+                }) else
+              sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
                 trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold = threshold, pch = pch,
                             custom.contour)
               })
@@ -485,6 +489,6 @@ legend(lpos, legend = leglab[1],
             
           }
           
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
           
 }

@@ -235,8 +235,11 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       
     } 
     if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      lst <- parallel::mclapply(1:nrow(X), function (i) {
+      if(pb)
+        lst <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
+          sp.en.tsFUN(X, i, bp, wl, threshold, sp.en.range)
+        }) else
+      lst <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
         sp.en.tsFUN(X, i, bp, wl, threshold, sp.en.range)
       })
     }
@@ -264,5 +267,5 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
                  return(df)
 
-    if(!is.null(path)) on.exit(setwd(wd))
+    if(!is.null(path)) setwd(wd)
     }

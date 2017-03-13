@@ -207,7 +207,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
                                                    centroid, peakf, meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope))
   }
   
-  if(parallel == 1 & pb) message("Measuring acoustic parameters:")
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("Measuring acoustic parameters:")
   
   # Run parallel in windows
   if(parallel > 1) {if(Sys.info()[1] == "Windows") {
@@ -227,8 +227,12 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
     
   } else {    # Run parallel in other operating systems
-    
-    sp <- parallel::mclapply(1:nrow(X), function(i) {
+  
+    if(pb)  
+      sp <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function(i) {
+        spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
+      }) else    
+    sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function(i) {
       spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
     })
     
@@ -245,5 +249,5 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   row.names(sp) <- 1:nrow(sp)
   
   return(sp)
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
   }

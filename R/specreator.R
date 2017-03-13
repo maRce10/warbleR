@@ -237,8 +237,12 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       
     } 
     if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      sp <- parallel::mclapply(1:nrow(X), function (i) {
+     
+      if(pb)       
+        sp <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
+        specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)
+      }) else
+      sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
         specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab)
       })
     }
@@ -262,5 +266,5 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       sp <- lapply(1:nrow(X), function(i) specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab))
   }
   
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
 }

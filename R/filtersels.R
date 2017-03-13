@@ -124,5 +124,5 @@ if(it != "pdf")
 
 if(nrow(Y) == 0) stop("Image files in working directory do not match sound file names in X (wrong working directory?)") else
  return(Y)
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
 }

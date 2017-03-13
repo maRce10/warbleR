@@ -188,7 +188,12 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
       
     } else {    # Run parallel in other operating systems
       
-      cote <- parallel::mclapply(unique(X$sing.event), function(h) {
+      if(pb)
+        cote <- pbmcapply::pbmclapply(unique(X$sing.event), mc.cores = parallel, function(h) {
+          coortestFUN(X, h) 
+        }) else  
+      
+      cote <- parallel::mclapply(unique(X$sing.event), mc.cores = parallel, function(h) {
         coortestFUN(X, h)
         })
       

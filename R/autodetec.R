@@ -268,7 +268,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     }    
   
       # if parallel was not called 
-    if(parallel == 1 & pb) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
+    if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
       message("Detecting signals in sound files:")}
     
   #create function to detec signals          
@@ -396,7 +396,12 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   } 
     if(Sys.info()[1] == "Linux")  {    # Run parallel in linux
     
-    ad <- parallel::mclapply(1:nrow(X), function (i) {
+      if(pb)
+        ad <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
+          adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
+        }) else
+                
+    ad <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
       adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
     })
     }
@@ -437,7 +442,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   # long spectrograms
   if(ls & img) {  
-   if(parallel == 1 & pb) message("Producing long spectrogram:")
+   if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("Producing long spectrogram:")
     
     #function for long spectrograms (based on lspec function)
     lspeFUN2 <- function(X, z, fl = flim, sl = sxrow, li = rows, fli = fli, pal) {
@@ -544,7 +549,12 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     
     if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
       
-      a1 <- parallel::mclapply(unique(results$sound.files), function(z) {
+      if(pb)
+        a1 <- pbmcapply::pbmclapply(unique(results$sound.files), mc.cores = parallel, function(z) {
+          lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
+        }) else
+        
+      a1 <- parallel::mclapply(unique(results$sound.files), mc.cores = parallel, function(z) {
         lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = seewave::reverse.gray.colors.2)
       })
     }
@@ -574,5 +584,5 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
 
 return(results)
   if(img) on.exit(dev.off())
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
 }

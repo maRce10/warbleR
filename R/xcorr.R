@@ -120,14 +120,15 @@ frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
     parallel <- 1}
   
   if(parallel > 1) 
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else { 
-      if(pb)
-      lapp <- pbapply::pblapply else   lapp <- lapply
+    {
+    if(pb) lapp <- function(X, FUN) pbmcapply::pbmclapply(X, FUN, mc.cores = parallel) else
+    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else { 
+      if(pb) lapp <- pbapply::pblapply else   lapp <- lapply
   }  
           options(warn = 0)
           
 #create templates
-   if(parallel == 1 & pb) message("creating templates:")
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("creating templates:")
 ltemp <- lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
@@ -194,7 +195,7 @@ ltemp <- lapp(1:nrow(X), function(x)
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
 #run cross-correlation
-if(parallel == 1 & pb) message("running cross-correlation:")
+if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("running cross-correlation:")
 
 a<-lapp(1:(nrow(X)-1), function(j)
   {
@@ -320,5 +321,5 @@ names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim")
  
 return(c)
 
-if(!is.null(path)) on.exit(setwd(wd))
+if(!is.null(path)) setwd(wd)
 }

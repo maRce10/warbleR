@@ -66,7 +66,9 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = 
     parallel <- 1}
   
   if(parallel > 1) 
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel) else 
+    {if(pb)   lapp <- function(X, FUN) pbmcapply::pbmclapply(X, FUN, mc.cores = parallel) else
+      lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)
+    } else 
       {if(pb) lapp <- pbapply::pblapply else lapp <- lapply} 
   
           
@@ -78,7 +80,6 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = 
   files <- files[!substr(files, 0, nchar(files) - 4) %in% substr(wavs, 0, nchar(wavs) - 4)]
   if(length(files) == 0) stop("all 'mp3' files have been converted")
   
-  message("Start writing wav files:")
   
 if(!is.null(normalize))  
  suppressWarnings(a<-lapp(files, function(x) tuneR::writeWave(object = tuneR::normalize(tuneR::downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate * 1000), unit = normalize), filename = file.path(from.path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))) else

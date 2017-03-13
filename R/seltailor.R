@@ -261,5 +261,5 @@ abline(v = xy$x, lty = 3, col = "red", lwd = 1.2)
                 break}}   
       }
       }
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
   }

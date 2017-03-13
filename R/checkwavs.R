@@ -90,7 +90,7 @@ checkwavs <- function(X = NULL, path = NULL) {
   
   a <- sapply(files, function(x) {
     r <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
-    if(class(r) == "try-error")return (NA) else
+    if(class(r) == "try-error") return (NA) else
       return(r$sample.rate)  }) 
   
   if(length(files[is.na(a)])>0){
@@ -102,5 +102,5 @@ checkwavs <- function(X = NULL, path = NULL) {
       message("  smallest number of samples: ", floor(min((df$end - df$start)*df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start)*df$f)]),"; selection label: ", df$selec[which.min((df$end - df$start)*df$f)], ")", sep = "")
     }
   }
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
 }

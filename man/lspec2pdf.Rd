@@ -4,7 +4,7 @@
 \alias{lspec2pdf}
 \title{\code{lspec2pdf} combines \code{\link{lspec}} images in .jpeg format to a single pdf file.}
 \usage{
-lspec2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL)
+lspec2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
 \item{keep.jpeg}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
@@ -18,6 +18,9 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
+when parallel = 1.}
 }
 \description{
 \code{lspec2pdf} combines \code{\link{lspec}} images in .jpeg format to a single pdf file.

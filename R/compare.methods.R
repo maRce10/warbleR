@@ -486,7 +486,12 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
         
         if(Sys.info()[1] == "Linux"){    # Run parallel in other operating systems
         
-        a1 <- parallel::mclapply(1:ncol(combs), function(u) {
+          if(pb)
+        a1 <- pbmcapply::pbmclapply(1:ncol(combs), mc.cores = parallel, function(u) {
+          comp.methFUN(X, u, res, disim.mats, m, mar, flim) 
+        }) else
+          
+        a1 <- parallel::mclapply(1:ncol(combs), mc.cores = parallel, function(u) {
           comp.methFUN(X, u, res, disim.mats, m, mar, flim)
         })
         
@@ -518,5 +523,5 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       }
       
       #reset wd
-      if(!is.null(path)) on.exit(setwd(wd)) 
+      if(!is.null(path)) setwd(wd) 
       }

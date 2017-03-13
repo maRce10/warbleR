@@ -99,5 +99,5 @@ clist <- clist[sapply(clist, is.data.frame)]
 b <- do.call("rbind", clist)
 if(!all.data) if(any(is.na(b$start))) warning("NAs found (empty rows)")
 return(b[!duplicated(b), ])
-if(!is.null(path)) on.exit(setwd(wd))
+if(!is.null(path)) setwd(wd)
 }

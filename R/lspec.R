@@ -278,7 +278,11 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
      } 
      if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
        
-       sp <- parallel::mclapply(files, function (z) {
+      if(pb) 
+        sp <- pbmcapply::pbmclapply(files, mc.cores = parallel, function (z) {
+          lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
+        }) else
+        sp <- parallel::mclapply(files, mc.cores = parallel, function (z) {
          lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
        })
      }
@@ -303,6 +307,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
          sp <- lapply(files, function(z) 
            lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X))
    }
-   if(!is.null(path)) on.exit(setwd(wd))       
+   if(!is.null(path)) setwd(wd)       
 }
 

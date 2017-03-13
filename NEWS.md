@@ -5,7 +5,8 @@
 ##### (Release date: XXXXXXX)
 
 ## Changes and additions:
-*Spectrogram creating functions (manualoc, specreator, trackfreqs, dfts, ffts, dfDTW, ffDTW, lspec) can performe faster (4-10 times) using a different image algorithm. This can be called with the argument "fast". Note that not all spectrogram options are available when fast = TRUE 
+* Progress bar is available for parallel computing (when parallel > 1) in Linux and for some funtions also in iOS. It works using the function mcpbapply::pbmclapply
+*Spectrogram creating functions (manualoc, specreator, trackfreqs, dfts, ffts, dfDTW, ffDTW, lspec, catalog) can performe faster (4-10 times) using a different image algorithm. This can be called with the argument "fast.spec". Note that not all spectrogram options are available when fast.spec = TRUE 
 * selections longer than 20 s can be analyzed with specan function (previously it returned an error, this is going to be slow anyways)
 * "clip.edges" argument in compare.methods function to set removing mising values at the start and end of signals when using dfDTW and ffDTW methods  
 * "treshold" argument in compare.methods function to set the amplitude detection threshold for ffDTW, dfDTW and SP methods  
@@ -28,6 +29,7 @@ different individuals) would be subset to A-B-A-B-A-B
 ##### (Release date: 2017-01-19)
 
 ## Changes and additions:
+* "catalog" function to create images with multiple spectrograms in several rows/columns that can be color-labeled
 * "frange" argument in seltailor to define also the frequency range (low.f and high.f)
 * trackfreqs, specan now can use low.f and high.f as bandpass limits
 * trackfreqs and specreator can plot boxes around signals if low.f and high.f are provided

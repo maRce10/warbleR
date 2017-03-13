@@ -82,7 +82,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     if(file.exists(as.character(x))){
       rec <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
       
-      if(is.list(rec) & is.numeric(unlist(rec)) & all(unlist(rec) > 0))
+      if(!class(rec) == "try-error")
       {
         if(check.header)  
         {
@@ -162,7 +162,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     
     if(Sys.info()[1] == "Linux"){    # Run parallel in other operating systems
       
-      a1 <- parallel::mclapply(unique(X$sound.files), function(x) {
+      a1 <- parallel::mclapply(unique(X$sound.files), mc.cores = parallel, function(x) {
         csFUN(x, X)
       })
       
@@ -189,7 +189,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   res <- do.call(rbind, a1)
   res <- res[match(paste(X$sound.files, X$selec), paste(res$sound.files, res$selec)),]
   return(res)  
-  if(!is.null(path)) on.exit(setwd(wd))
+  if(!is.null(path)) setwd(wd)
 }
 
 

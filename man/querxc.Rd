@@ -33,8 +33,8 @@ the recordings to be downloaded based on their attributes.}
 Note that recording id is always used (whether or not is listed by users) to avoid duplicated names.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied when downloading mp3 files.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Might not work 
-in Windows OS.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Currently only applied when downloading files. Might not work 
+improve performance on Windows OS.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
