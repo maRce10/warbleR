@@ -4,7 +4,8 @@
 \alias{imp.raven}
 \title{Import Raven selections}
 \usage{
-imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE, name.from.file = FALSE, ext.case = NULL, freq.cols = FALSE)
+imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE,
+ name.from.file = FALSE, ext.case = NULL, freq.cols = FALSE)
 }
 \arguments{
 \item{path}{A character string indicating the path of the directory in which to look for the text files. 
@@ -39,7 +40,8 @@ columns in selection files are returned.
 \code{imp.raven} imports Raven selection data from many files simultaneously. Files must be in .txt format.
 }
 \details{
-The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that selection files including data from mulitple recordings cannot be imported.
+The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that selection 
+files including data from mulitple recordings cannot be imported.
 }
 \examples{
 \dontrun{

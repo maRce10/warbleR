@@ -8,7 +8,8 @@ catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE,
 collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, 
 pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast = FALSE, 
 res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
-width = NULL, tags = NULL, tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1)
+width = NULL, tags = NULL, tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, 
+img.suffix = NULL)
 }
 \arguments{
 \item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -83,7 +84,8 @@ for vertical orientation.}
 \item{tags}{String vector. Provides the column names that will be used for the color tagging legend above
 spectrograms.}
 
-\item{tag.pal}{Color palette function for tags.}
+\item{tag.pal}{List of color palette function for tags. Should be of length 1 or 2. If \code{NULL} then a pallete 
+emuling the ggplot2 color palette is used for the first tag and the heat.color palette for the second tag (if provided).}
 
 \item{legend}{Logical. Controls if tag legend is plotted at the right side of the catalog. Default is 
 \code{TRUE}. Ignored if no tags are provided.}
@@ -92,6 +94,10 @@ spectrograms.}
 (including labels and axis) should be magnified. Default is 1.}
 
 \item{leg.wd}{Numeric. Controls the width of the legend column. Default is 1.}
+
+\item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of 
+image files. Default is \code{NULL} (no suffix). Can be useful to label catalogs from different individuals, 
+species or sites.}
 }
 \value{
 image files with spectrograms of whole sound files in the working directory. Multiple pages

@@ -114,7 +114,7 @@
 #' @importFrom jpeg readJPEG 
 #' @importFrom doParallel registerDoParallel
 #' @importFrom dtw dtwDist
-#' @importFrom stats cor dist aggregate approx ave princomp time ts    
+#' @importFrom stats cor dist aggregate approx ave princomp time ts predict smooth.spline   
 #' 
 #' @author Marcelo Araya-Salas & Grace Smith Vidaurre
 #'   

@@ -9,7 +9,7 @@ spectro2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0,
                      scalelab = "Amplitude\n(dB)", main = NULL, scalefontlab = 1, 
                      scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
                      trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
-                     heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast = FALSE, 
+                     heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast.spec = FALSE, 
                      rm.zero = FALSE, ...) 
 {
   if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
@@ -87,7 +87,7 @@ spectro2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0,
       contlevels <- seq(0, maxz, length = 3)
   }
   Zlim <- range(Z, finite = TRUE, na.rm = TRUE)
-  if(!fast)
+  if(!fast.spec)
   seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                         nlevels = 20, plot.title = title(main = main, 
                                                          xlab = tlab, ylab = flab), color.palette = palette, 

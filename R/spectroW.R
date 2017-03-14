@@ -1,6 +1,6 @@
 #internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
 # that allows to plot spectrograms using image() which substantially increases speed (although makes some options unavailable)
-spectroW <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast = FALSE,
+spectroW <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast.spec = FALSE,
           complex = FALSE, norm = TRUE, correction = "none", fftw = FALSE, 
           dB = "max0", dBref = NULL, plot = TRUE, flog = FALSE, grid = TRUE, 
           osc = FALSE, scale = TRUE, cont = FALSE, collevels = NULL, 
@@ -14,8 +14,8 @@ spectroW <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast 
           ...) 
 {
  
-  # remove scale if fast
-  if(fast) scale <- FALSE
+  # remove scale if fast.spec
+  if(fast.spec) scale <- FALSE
   
    if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
@@ -140,7 +140,7 @@ spectroW <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast 
                }, ...)
       par(mar = c(0, 4.1, 1, 0), las = 1, cex.lab = cexlab + 
             0.2)
-      if(!fast)
+      if(!fast.spec)
       filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = "", ylab = flab), plot.axes = {
@@ -173,7 +173,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
       par(mar = c(5, 4.1, 1, 0), las = 1, cex = 1, col = colaxis, 
           col.axis = colaxis, col.lab = collab, bg = colbg, 
           cex.lab = cexlab + 0.2)
-      if(!fast)
+      if(!fast.spec)
       filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = tlab, ylab = flab), plot.axes = {
@@ -221,7 +221,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
                  }
                }, ...)
       par(mar = c(0, 4.1, 2.1, 2.1), las = 1, cex.lab = cexlab)
-    if(!fast)
+    if(!fast.spec)
         filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = "", ylab = flab), color.palette = palette, 
@@ -250,7 +250,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
       par(las = 1, col = colaxis, col.axis = colaxis, 
           col.lab = collab, bg = colbg, cex.axis = cexaxis, 
           cex.lab = cexlab, ...)
-      if(!fast)
+      if(!fast.spec)
       filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = tlab, ylab = flab), plot.axes = {

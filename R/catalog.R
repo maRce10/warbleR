@@ -3,9 +3,10 @@
 #' \code{catalog} produces spectrograms of selections (signals) split into multiple rows and columns.
 #' @usage catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
 #' collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, 
-#' pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast = FALSE, 
+#' pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 #' res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
-#' width = NULL, tags = NULL, tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1)
+#' width = NULL, tags = NULL, tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, 
+#' img.suffix = NULL)
 #' @param X Data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -30,18 +31,18 @@
 #'   is 512.
 #' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
-#' \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when fast = T.
+#' \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when fast.spec = T.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
-#' @param fast Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+#' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which are already imported) seem
-#' to work better with 'fast' spectograms. Palette colors  \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast.spec' spectograms. Palette colors  \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. THIS IS STILL BEING TESTED.
 #' @param res Numeric argument of length 1. Controls image resolution.
@@ -56,19 +57,25 @@
 #'  for vertical orientation.
 #' @param tags String vector. Provides the column names that will be used for the color tagging legend above
 #'  spectrograms. 
-#' @param tag.pal Color palette function for tags.
+#' @param tag.pal List of color palette function for tags. Should be of length 1 or 2. If \code{NULL} then a pallete 
+#' emuling the ggplot2 color palette is used for the first tag and the heat.color palette for the second tag (if provided). 
 #' @param legend Logical. Controls if tag legend is plotted at the right side of the catalog. Default is 
 #' \code{TRUE}. Ignored if no tags are provided. 
 #' @param cex A numeric vector of length 1 giving the amount by which text 
 #'   (including labels and axis) should be magnified. Default is 1. 
 #' @param leg.wd Numeric. Controls the width of the legend column. Default is 1.
+#' @param img.suffix A character vector of length 1 with a suffix (label) to add at the end of the names of 
+#' image files. Default is \code{NULL} (no suffix). Can be useful to label catalogs from different individuals, 
+#' species or sites.
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
 #' @name catalog
 #' @details This functions aims to simplify the visual exploration of multiple vocalizations. The function plots a
 #'  matrix of spectrograms from a selection table. Spectrograms can be labeled or color tagged to facilitate
-#'   exploring variation related to a parameter of interest (e.g. location, song type).
+#'   exploring variation related to a parameter of interest (e.g. location, song type). A legend will be added to 
+#'   help match colors with tag levels (if legend is.  Different color palettes can
+#'   be used for each tag. The width and height can also be adjusted to fit more column and/or rows,
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory
@@ -89,13 +96,13 @@
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
-#'  tag.pal = terrain.colors)
+#'  tag.pal = list(terrain.colors))
 #'  #'  
 #'  #adding tags and changing spectro palette
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = reverse.heat.colors,
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
-#'  tag.pal = terrain.colors, tags = "sound.files")
+#'  tag.pal = list(terrain.colors), tags = "sound.files")
 #' 
 #'  #create a bigger selection table
 #'  X <- rbind(selec.table, selec.table, selec.table, selec.table)
@@ -109,21 +116,21 @@
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = F, 
-#'  collev = seq(-65, 0, 5), tag.pal = terrain.colors, tags = c("songtype", "indiv"))
+#'  collev = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
 #' 
 #'
 #' # with legend
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
-#'  width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors,
+#'  width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
 #'   tags = c("songtype", "indiv"))
 #'   
 #'   #' horizontal orientation
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
 #'  orientation = "h",  labels = c("sound.files", "selec"), legend = T, 
-#'  width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors,
+#'  width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
 #'   tags = c("songtype", "indiv"))
 #' check this floder
 #' getwd()
@@ -133,9 +140,9 @@
 
 catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, collev = seq(-40, 0, 1), 
                     ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
-                    it = "jpeg", path = NULL, pb = TRUE, fast = FALSE, res = 160, orientation = "v", 
+                    it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 160, orientation = "v", 
                     labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
-                    tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1)
+                    tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, img.suffix = NULL)
 {
   #check path to working directory
   if(!is.null(path))
@@ -152,7 +159,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #read files
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
 
-
   #stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory")
 
@@ -163,7 +169,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
 
   #tag.pal must be a color function
-  if(!is.function(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a color palette function")
+  if(!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a  list of color palette functions of length 1 or 2")
 
   #pal must be a color function
   if(!is.function(pal)) stop("'pal' must be a color palette function")
@@ -242,23 +248,23 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   if(is.null(height))
   {if(orientation == "h")   height <- 8.5 else height <- 11}
-    
   
-  #box cols
+  #box colors
   if(!is.null(tags))
     {
+    #convert to character
+    Y <- rapply(X, as.character, classes="factor", how="replace")
+    if(is.null(tag.pal))
+    boxcols <- hcl(h = seq(15, 375, length =  length(unique(Y[, tags[1]])) + 1), l = 65, c = 100)[1 : length(unique(Y[, tags[1]]))] else
+      boxcols <- tag.pal[[1]](length(unique(Y[, tags[1]])))
+  
     if(length(tags) == 2)  
     { 
-      #convert to character
-      Y <- rapply(X, as.character, classes="factor", how="replace")
-      n <- length(unique(Y[, tags[1]])) + length(unique(Y[, tags[2]]))
-      } else {
-        n <- length(unique(X[, tags]))
-      }
-    if(is.null(tag.pal))
-      boxcols <- hcl(h = seq(15, 375, length =  n + 1), l = 65, c = 100)[1 : n] else
-      boxcols <- tag.pal(n)
-      
+      if(is.null(tag.pal) | length(tag.pal) == 1)
+        boxcols <- c(boxcols, heat.colors(length(unique(Y[, tags[2]])))) else
+        boxcols <- c(boxcols, tag.pal[[2]](length(unique(Y[, tags[2]]))))
+                     }
+
   #convert characters to factors
   X <- rapply(X, as.factor, classes="character", how="replace")
   X$col1 <- X[,tags[1]] 
@@ -317,21 +323,19 @@ X2 <- lapply(1:nrow(X), function(x)
     }
 return(Y)
 })
-
-
 X <- do.call(rbind, X2)
 } 
-
     
-catalFUN <- function(X, nrow, ncol, page, labels, grid, fast, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex)
+catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex)
 {
 #set layout for screensplit
 #rows
 if(is.null(tags))
   rws <- rep(c(5, nrow / 8), nrow) else   rws <- rep(c(5, nrow / 4), nrow)
 
-#last row thicker
-if(same.time.scale) rws[1] <- 6.5
+#last row thicker ( the first one predicts the height based on ncol and the second one controls for height)
+if(same.time.scale) rws[1] <- stats::predict(object = stats::smooth.spline(c(6.5, 5.7, 8, 9.56) ~ c(4, 2, 8, 16) , df = 4), x = nrow)$y * stats::predict(object = stats::smooth.spline(c(1.5, 1, 0.9, 0.73) ~ c(5, 10, 20, 40), df = 4), x = width)$y
+ 
 rws <- c(nrow / 8, rws)
 
 #make last one thicker to fit axis
@@ -347,7 +351,7 @@ btm <- rep(btm, each = ncol + 1)
 lfcol.width <- 0.1
 if(ncol > 1)
 {
-  spectroclms <- c(lfcol.width, 0.007 * ncol, rep(1, ncol))
+  spectroclms <- c(lfcol.width, 0.014 * ncol, rep(1, ncol))
 csclms <- cumsum(spectroclms)
 cls <- csclms/max(csclms)
 lf <- c(0, cls[-length(cls)])
@@ -396,7 +400,7 @@ X3 <- X[rep(1:nrow(X), each = 2), ]
 X3 <- rapply(X3, as.character, classes="factor", how="replace")
 
 #start graphic device
-imgfun(filename = paste0("Catalog_p", page, ".", it), units = "in", width = width, height = height, res = res)
+imgfun(filename = paste0("Catalog_p", page, "-", img.suffix, ".", it), units = "in", width = width, height = height, res = res)
 invisible(close.screen(all.screens = TRUE))
 split.screen(figs = m)
 
@@ -441,18 +445,9 @@ lapply(1:nrow(m), function(i)
     btm = 0
   } 
   
-  #add y axis to first column
-  # if(i %in% which(m[,1] == minlf)) {
-  #   axisY = TRUE
-  #   lft = 2
-  # } else {
-  #   axisY = FALSE
-  #   lft = 0
-  # }
-  # 
   par(mar = c(btm, 0, 0, 0))
   
-  spectro2(wave = rec, f = rec@samp.rate, flim = fl, wl = wl, ovlp = ovlp, axisX = axisX, axisY = FALSE, tlab = NULL, flab = NULL, palette = pal, fast = fast, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex, collevels = collev)
+  spectro2(wave = rec, f = rec@samp.rate, flim = fl, wl = wl, ovlp = ovlp, axisX = axisX, axisY = FALSE, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex, collevels = collev)
 
 } else { #plot labels
   
@@ -463,21 +458,14 @@ lapply(1:nrow(m), function(i)
   #color boxes
   if(!is.null(tags))
   {
-    # if(i %in% which(m[,1] == minlf)) {
-    #   cutbox1 <- predict(object = smooth.spline(c(0.343, 0.077, 0.205, 0.142, 0.26) - 0.01 ~ c(12, 2, 6, 4, 8), df = 5), x = ncol)$y
-    # 
-    #   cutbox2 <- 0.5 + (cutbox1 / 2)
-    # } else  {
-        cutbox1 <- 0
-        cutbox2 <- 0.5
-        # }
-    
+    cutbox1 <- 0
+    cutbox2 <- 0.5
+  
     lim <- par("usr")
     if(length(tags) == 1)
     rect(xleft = lim[1] + cutbox1, ybottom = lim[3]-1, xright = lim[2], ytop = 0.5, border = "black", col = X3$col1[i]) else {
       rect(xleft = lim[1] + cutbox1, ybottom = lim[3]-1, xright = cutbox2, ytop = 0.5, border = "black", col = X3$col1[i])
       rect(xleft = cutbox2, ybottom = lim[3]-1, xright = lim[2], ytop = 0.5, border = "black", col = X3$col2[i])
-      
     }
     
     #plot labels
@@ -500,7 +488,10 @@ lapply(1:nrow(m), function(i)
     ys <- ylab/flim[2]
     
     usr <- par("usr")
-    if(i %in% which(m[,3] == minbtm) | !same.time.scale) usr[1] <- 0.11
+   if(same.time.scale)
+    {    if(i %in% which(m[,3] == minbtm))
+      usr[1] <- stats::predict(object = stats::smooth.spline(c(-0.01, -0.07, 0.15, 0.37) ~ c(4, 2, 8, 16) , df = 4), x = nrow)$y * 20/height else  
+        usr[1] <- -0.15} else usr[1] <- stats::predict(object = stats::smooth.spline(c(0.03, -0.07, 0.25, 0.75) ~ c(4, 2, 8, 16) , df = 4), x = nrow)$y * 20/height 
 
     ys <- usr[1] + (usr[2] - usr[1]) * ys
   
@@ -539,9 +530,16 @@ lapply(1:nrow(m), function(i)
     y <- y[length(y):1]
     step <-  y[1] - y[2]
     
-    text(x = 0.5, y = max(y) + step, labels = tag.col.df$tag.col[1], cex = cex, font = 2) 
-  
+    #add left right if 2 tags
+    if(length(unique(tag.col.df$tag.col)) == 2)
+    {
+      labtag1 <- paste("left:", unique(tag.col.df$tag.col)[1])
+      labtag2 <- paste("right:", unique(tag.col.df$tag.col)[2])
+    }  else labtag1 <- tag.col.df$tag.col[1]
     
+    
+    text(x = 0.5, y = max(y) + step, labels = labtag1, cex = cex, font = 2) 
+
     out <- lapply(which(tag.col.df$tag.col == unique(tag.col.df$tag.col)[1]), function(w)
     {
       # plot label
@@ -553,7 +551,7 @@ lapply(1:nrow(m), function(i)
     
     if(length(unique(tag.col.df$tag.col)) == 2)
     {
-      text(x = 0.5, y = y[max(which(tag.col.df$tag.col == unique(tag.col.df$tag.col)[1])) + 2], labels = tag.col.df$tag.col[nrow(tag.col.df)], cex = cex, font = 2) 
+      text(x = 0.5, y = y[max(which(tag.col.df$tag.col == unique(tag.col.df$tag.col)[1])) + 2], labels = labtag2, cex = cex, font = 2) 
       
       y <- y - step * 2
 
@@ -599,7 +597,7 @@ if(cel < 1)
      doParallel::registerDoParallel(cl)
 
      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast, flim, wl, ovlp, pal, 
+       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
                 width, height, tag.col.df, legend, cex)
 
      parallel::stopCluster(cl)
@@ -610,11 +608,11 @@ if(cel < 1)
 
      if(pb)
      out <- pbmcapply::pbmclapply(1:length(Xlist), mc.cores = parallel, function (z) {
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast, flim, wl, ovlp, pal, 
+       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
                 width, height, tag.col.df, legend, cex)
      }) else
          out <- parallel::mclapply(1:length(Xlist),  mc.cores = parallel, function (z) {
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast, flim, wl, ovlp, pal,
+       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal,
                 width, height, tag.col.df, legend, cex)
             })
    }
@@ -625,7 +623,7 @@ if(cel < 1)
      doParallel::registerDoParallel(cl)
 
      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast, flim, wl, ovlp, pal, 
+       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
                 width, height, tag.col.df, legend, cex)
      }
 
@@ -636,10 +634,10 @@ if(cel < 1)
  else {
    if(pb)
      out <- pbapply::pblapply(1:length(Xlist), function(z)
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast, flim, wl, ovlp, pal, 
+       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
                 width, height, tag.col.df, legend, cex))  else
          out <- lapply(1:length(Xlist), function(z)
-           catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast, flim, wl, ovlp, pal, 
+           catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
                     width, height, tag.col.df, legend, cex))
  }
 
