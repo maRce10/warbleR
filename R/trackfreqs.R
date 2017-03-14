@@ -9,7 +9,8 @@
 #'   threshold = 15, contour = "both", col = c("skyblue", "red2"),
 #'    pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
 #'    path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
-#'    leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast = FALSE, ...)
+#'    leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
+#'    fast.spec = FALSE, ff.method = "seewave", ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -89,13 +90,16 @@
 #' in the output image.
 #' @param col.alpha A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.
 #' @param line Logical argument to add red lines (or box if low.f and high.f columns are provided) at start and end times of selection. Default is \code{TRUE}.
-#' @param fast Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+#' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-#' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which are already imported) seem
-#' to work better with 'fast' spectograms. Palette colors  \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
+#' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' @param ff.method Character. Selects the method used to calculate the fundamental
+#' frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
+#' \code{\link[seewave]{fund}}). Default is 'seewave'. THIS IS STILL BEING TESTED.
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
@@ -156,7 +160,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
                        bp = c(0, 22), cex = c(0.6, 1), threshold = 15, contour = "both", 
                        col = c("skyblue", "red2"),  pch = c(21, 24), mar = 0.05, lpos = "topright", 
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
-                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast = FALSE, ...){     
+                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", ...){     
   
   #check path to working directory
   if(!is.null(path))
@@ -193,135 +197,144 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     if(any(is.na(c(X$low.f, X$high.f)))) stop("NAs found in low.f and/or high.f") 
     if(any(c(X$low.f, X$high.f) < 0)) stop("Negative values found in low.f and/or high.f") 
     if(any(X$high.f - X$low.f < 0)) stop("high.f should be higher than low.f")
-    }
+  }
   
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  #if ff.method argument  
+  if(!any(ff.method == "seewave", ff.method == "tuneR")) stop(paste("ff.method", ff.method, "is not recognized"))  
   
   #wrap img creating function
   if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   #if type not l b or p
   if(!any(type %in% c("p", "l", "b"))) stop(paste("Type", type, "not allowed"))  
-
+  
   #join img.suffix and it
   if(is.null(img.suffix))
     img.suffix2 <- paste("trackfreqs", it, sep = ".") else   img.suffix2 <- paste(img.suffix, it, sep = ".")
-  
-  #return warning if not all sound files were found
-  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
-           ".wav file(s) not found"))
-  
-  #count number of sound files in working directory and if 0 stop
-  d <- which(X$sound.files %in% recs.wd) 
-  if(length(d) == 0){
-    stop("The .wav files are not in the working directory")
-  }  else X <- X[d, ]
-  
-  # If parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-  
-  # Compare custom.contour to X
-  if(!is.null(custom.contour)){
-    #check if sound.files and selec columns are present and in the right order
-    if(!identical(names(custom.contour)[1:2], c("sound.files", "selec"))) stop("'sound.files' and/or 'selec' columns are not found in custom.contour")
-
+    
+    #return warning if not all sound files were found
+    recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+    if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
+      message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
+                    ".wav file(s) not found"))
+    
+    #count number of sound files in working directory and if 0 stop
+    d <- which(X$sound.files %in% recs.wd) 
+    if(length(d) == 0){
+      stop("The .wav files are not in the working directory")
+    }  else X <- X[d, ]
+    
+    # If parallel is not numeric
+    if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+    if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+    
+    # Compare custom.contour to X
+    if(!is.null(custom.contour)){
+      #check if sound.files and selec columns are present and in the right order
+      if(!identical(names(custom.contour)[1:2], c("sound.files", "selec"))) stop("'sound.files' and/or 'selec' columns are not found in custom.contour")
+      
       #check if the info in sound.files and selec columns is the same for X and custom.contour
       #remove custom.contour selections not in X
       custom.contour <- custom.contour[paste(custom.contour[,c("sound.files")], custom.contour[,c("selec")]) %in% paste(X[,c("sound.files")], X[,c("selec")])]
-
+      
       #stop if not the same number of selections
       if(nrow(X) > nrow(custom.contour)) stop("selection(s) in X but not in custom.contour")
       
       #order custom.contour as in X
       custom.contour <- custom.contour[match(paste(custom.contour[,c("sound.files")], custom.contour[,c("selec")]), paste(X[,c("sound.files")], X[,c("selec")])),]      
     }
-  
-  # adjust if only 1 pch was specfified
-  if(length(pch) == 1) pch <- c(pch, pch)
- 
-  # adjust if only 1 color was specified
-  if(length(col) == 1) col <- c(col, col)
-  
-  # adjust if only 1 leglab was specified
-  if(length(leglab) == 1) leglab <- c(leglab, leglab)
-  
-  #make colors transparent
-  col <- adjustcolor(c(col, "yellow", "black", "white", "red"), alpha.f = col.alpha)
-  
-          trackfreFUN <- function(X, i, mar, flim, xl, picsize, wl, cexlab, inner.mar, outer.mar, res, bp, cex, threshold, pch, custom.contour){
     
-    # Read sound files, initialize frequency and time limits for spectrogram
-    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
-    f <- r$sample.rate
-    t <- c(X$start[i] - mar, X$end[i] + mar)
+    # adjust if only 1 pch was specfified
+    if(length(pch) == 1) pch <- c(pch, pch)
     
-    #adjust margins if signal is close to start or end of sound file
-    mar1 <- mar
+    # adjust if only 1 color was specified
+    if(length(col) == 1) col <- c(col, col)
+    
+    # adjust if only 1 leglab was specified
+    if(length(leglab) == 1) leglab <- c(leglab, leglab)
+    
+    #make colors transparent
+    col <- adjustcolor(c(col, "yellow", "black", "white", "red"), alpha.f = col.alpha)
+    
+    trackfreFUN <- function(X, i, mar, flim, xl, picsize, wl, cexlab, inner.mar, outer.mar, res, bp, cex, threshold, pch, custom.contour){
       
-    if(t[1] < 0) {
-      t[1] <- 0
-    mar1 <- X$start[i]
-    }
-
-    mar2 <- mar1 + X$end[i] - X$start[i]
-    
-    if(t[2] > r$samples/f) t[2] <- r$samples/f
-
-
-    # read rec segment
-    r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
-   
-    #in case bp its higher than can be due to sampling rate
-    if(bp[1] == "frange") bp <- c(X$low.f[i], X$high.f[i])
-    b<- bp 
-
-    if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
-    
-    fl<- flim #in case flim its higher than can be due to sampling rate
-    if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
-    
-    
-    # Spectrogram width can be proportional to signal duration
-    if(propwidth)
-      pwc <- (10.16) * ((t[2]-t[1])/0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
-
-    #call image function
-    imgfun(filename = paste0(X$sound.files[i],"-", X$selec[i], "-", img.suffix2), 
-           width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
-    
-    # Change relative heights of rows for spectrogram when osci = TRUE
-    if(osci == TRUE) hts <- c(3, 2) else hts <- NULL
-    
-    # Change relative widths of columns for spectrogram when sc = TRUE
-    if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
-    
-    # Change inner and outer plot margins
-    par(mar = inner.mar)
-    par(oma = outer.mar)
-    
-    # Generate spectrogram using seewave
-    spectroW(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
-            wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
-            cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
-            flab = "Frequency (kHz)", alab = "", fast = fast, ...)
-    
-    if(title){
-
-      if(is.null(img.suffix))
-        title(paste(X$sound.files[i], X$selec[i], sep = "-"), cex.main = cexlab) else
-          title(paste(X$sound.files[i], X$selec[i], img.suffix, sep = "-"), cex.main = cexlab)  
-    
-    }
-    
-    # Calculate fundamental frequencies at each time point
-if(contour %in% c("both", "ff") & is.null(custom.contour))
-{
-  ffreq1 <- seewave::fund(wave = r, wl = wl, from = mar1, to = mar2,
-              fmax= b[2]*1000, f = f, ovlp = 70, threshold = threshold, plot = FALSE)
+      # Read sound files, initialize frequency and time limits for spectrogram
+      r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
+      f <- r$sample.rate
+      t <- c(X$start[i] - mar, X$end[i] + mar)
+      
+      #adjust margins if signal is close to start or end of sound file
+      mar1 <- mar
+      
+      if(t[1] < 0) {
+        t[1] <- 0
+        mar1 <- X$start[i]
+      }
+      
+      mar2 <- mar1 + X$end[i] - X$start[i]
+      
+      if(t[2] > r$samples/f) t[2] <- r$samples/f
+      
+      
+      # read rec segment
+      r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
+      
+      #in case bp its higher than can be due to sampling rate
+      if(bp[1] == "frange") bp <- c(X$low.f[i], X$high.f[i])
+      b<- bp 
+      
+      if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
+      
+      fl<- flim #in case flim its higher than can be due to sampling rate
+      if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+      
+      
+      # Spectrogram width can be proportional to signal duration
+      if(propwidth)
+        pwc <- (10.16) * ((t[2]-t[1])/0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
+      
+      #call image function
+      imgfun(filename = paste0(X$sound.files[i],"-", X$selec[i], "-", img.suffix2), 
+             width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
+      
+      # Change relative heights of rows for spectrogram when osci = TRUE
+      if(osci == TRUE) hts <- c(3, 2) else hts <- NULL
+      
+      # Change relative widths of columns for spectrogram when sc = TRUE
+      if(sc == TRUE) wts <- c(3, 1) else wts <- NULL
+      
+      # Change inner and outer plot margins
+      par(mar = inner.mar)
+      par(oma = outer.mar)
+      
+      # Generate spectrogram using seewave
+      suppressWarnings(spectroW(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
+                                wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
+                                cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
+                                flab = "Frequency (kHz)", alab = "", fast.spec = fast.spec, ...))
+      
+      if(title){
+        
+        if(is.null(img.suffix))
+          title(paste(X$sound.files[i], X$selec[i], sep = "-"), cex.main = cexlab) else
+            title(paste(X$sound.files[i], X$selec[i], img.suffix, sep = "-"), cex.main = cexlab)  
+        
+      }
+      
+      # Calculate fundamental frequencies at each time point
+      if(contour %in% c("both", "ff") & is.null(custom.contour))
+      {
+        if(ff.method == "seewave")
+          ffreq1 <- seewave::fund(wave = r, wl = wl, from = mar1, to = mar2,
+                                  fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) else
+                                  {ff1 <- FF(periodogram(seewave::cutw(r, f = f, from = mar1, to = mar2, output = "Wave"), width = wl, overlap = wl*ovlp/100), peakheight = threshold / 100)/1000
+                                  ff2 <- seq(0, X$end[i] - X$start[i], length.out = length(ff1))
+                                  
+                                  ffreq1 <- cbind(ff2, ff1)}
+        
+        
   ffreq <- matrix(ffreq1[!is.na(ffreq1[,2]),], ncol = 2)  
   ffreq <- matrix(ffreq[ffreq[,2] > b[1],], ncol = 2)
     

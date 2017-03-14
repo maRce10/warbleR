@@ -65,7 +65,7 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
   
   if(!is.null(ext.case)) 
     {if(!ext.case %in% c("upper", "lower")) stop("'ext.case' should be either 'upper' or 'lower'") else
-    if(ext.case == "upper") ext <- ".WAV" else ext <- ".wav"}
+    if(ext.case == "upper") ext <- "WAV" else ext <- "wav"}
   
   if(is.null(ext.case) & name.from.file) stop("'ext.case' must be provided when name.from.file is TRUE")
   
@@ -82,11 +82,15 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
                                             selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
              start = a[,grep("Begin.Time",colnames(a), ignore.case = TRUE)],
              end = a[, grep("End.Time",colnames(a), ignore.case = TRUE)], selec.file = sel.txt2[i])} else
-           { if(name.from.file)   
-             c<-data.frame(sound.files = gsub(".selections.txt", ext, sel.txt2), selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), 
+           { if(name.from.file) 
+{             sound.files <- gsub("Table\\.([0-9]+)\\.selections.txt$", ext, sel.txt2[i])
+           sound.files <- gsub(".selections.txt$", ext, sound.files)
+           
+           c<-data.frame(sound.files, selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), 
                   ignore.case = TRUE)],selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
                              start = a[, grep("Begin.Time", colnames(a), ignore.case = TRUE)],
-                             end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)]) else
+                             end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)])
+           } else
                                c<-data.frame(selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)],
                                              selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
                                              start = a[, grep("Begin.Time", colnames(a), ignore.case = TRUE)],

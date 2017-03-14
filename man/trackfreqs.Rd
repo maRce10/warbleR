@@ -11,7 +11,7 @@ trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
   threshold = 15, contour = "both", col = c("skyblue", "red2"),
    pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
    path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
-   leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast = FALSE, ...)
+   leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -128,11 +128,11 @@ in the output image.}
 
 \item{line}{Logical argument to add red lines (or box if low.f and high.f columns are provided) at start and end times of selection. Default is \code{TRUE}.}
 
-\item{fast}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which are already imported) seem
-to work better with 'fast' spectograms. Palette colors  \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
+to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels. THIS IS STILL BEING TESTED.}
 

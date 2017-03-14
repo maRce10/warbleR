@@ -5,8 +5,9 @@
 \title{Acoustic dissimilarity using dynamic time warping on fundamental frequency contours}
 \usage{
 ffDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
-bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1, path = NULL, 
-img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE, ...)
+bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1, path = NULL, 
+img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE, window.type = "none", 
+open.end = FALSE, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -28,7 +29,7 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz). Default is c(0, 22).}
 
-\item{threshold}{amplitude threshold (\%) for fundamental frequency detection. Default is 15.}
+\item{threshold}{amplitude threshold (\%) for fundamental frequency detection. Default is 5.}
 
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
@@ -49,6 +50,11 @@ when parallel = 1.}
 which amplitude values above the threshold were not detected will be removed. If 
 \code{TRUE} (default) this edges will be excluded and signal contour will be calculated on the
 remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).}
+
+\item{window.type}{\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).}
+
+\item{open.end}{\code{\link[dtw]{dtw}} control parameter. Performs 
+open-ended alignments (see \code{\link[dtw]{dtw}}).}
 
 \item{...}{Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
 graphical output.}

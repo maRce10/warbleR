@@ -6,7 +6,7 @@
 \usage{
 manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-  NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, fast = FALSE)
+  NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, fast.spec = FALSE)
 }
 \arguments{
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -51,11 +51,11 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.}
 
-\item{fast}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which are already imported) seem
-to work better with 'fast' spectograms. Palette colors  \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
+to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels. THIS IS STILL BEING TESTED.}
 }

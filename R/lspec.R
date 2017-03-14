@@ -5,7 +5,7 @@
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1), 
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 #' cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, 
-#' fast = FALSE) 
+#' fast.spec = FALSE) 
 #' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
@@ -44,11 +44,11 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
-#' @param fast Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+#' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-#' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which are already imported) seem
-#' to work better with 'fast' spectograms. Palette colors  \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
+#' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. THIS IS STILL BEING TESTED.
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
@@ -82,7 +82,7 @@
 #last modification on nov-12-2016 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast = FALSE) {
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE) {
   
   #check path to working directory
   if(!is.null(path))
@@ -207,7 +207,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
         x <- x + 1
         if(all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){  #for rows with complete spectro
           spectroW(rec, f = f, wl = wl, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
-                  ovlp = ovlp, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = TRUE, fast = fast)
+                  ovlp = ovlp, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = TRUE, fast.spec = fast.spec)
           if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
           if(!is.null(malo))  {if(any(!is.na(ml$sel.comment))) {
@@ -221,7 +221,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
                                      spectroW(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
                                                            listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
                                                                                                    to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = wl, flim = frli, 
-                                             tlim = c(0, sl), ovlp = ovlp, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = FALSE, fast = fast)
+                                             tlim = c(0, sl), ovlp = ovlp, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = FALSE, fast.spec = fast.spec)
                                      
         if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
       last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)                             

@@ -6,7 +6,7 @@
 \usage{
 catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
 collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, 
-pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast = FALSE, 
+pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
 width = NULL, tags = NULL, tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, 
 img.suffix = NULL)
@@ -47,7 +47,7 @@ is 512.}
 \item{gr}{Logical argument to add grid to spectrogram. Default is \code{FALSE}.}
 
 \item{pal}{Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
-\code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when fast = T.}
+\code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when fast.spec = T.}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
@@ -58,11 +58,11 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
 
-\item{fast}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which are already imported) seem
-to work better with 'fast' spectograms. Palette colors  \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
+to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels. THIS IS STILL BEING TESTED.}
 
@@ -109,7 +109,9 @@ can be returned, depending on the length of each sound file.
 \details{
 This functions aims to simplify the visual exploration of multiple vocalizations. The function plots a
  matrix of spectrograms from a selection table. Spectrograms can be labeled or color tagged to facilitate
-  exploring variation related to a parameter of interest (e.g. location, song type).
+  exploring variation related to a parameter of interest (e.g. location, song type). A legend will be added to 
+  help match colors with tag levels (if legend is.  Different color palettes can
+  be used for each tag. The width and height can also be adjusted to fit more column and/or rows,
 }
 \examples{
 \dontrun{
@@ -131,13 +133,13 @@ catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = 
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
- tag.pal = terrain.colors)
+ tag.pal = list(terrain.colors))
  #'  
  #adding tags and changing spectro palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = reverse.heat.colors,
  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
- tag.pal = terrain.colors, tags = "sound.files")
+ tag.pal = list(terrain.colors), tags = "sound.files")
 
  #create a bigger selection table
  X <- rbind(selec.table, selec.table, selec.table, selec.table)
@@ -151,21 +153,21 @@ catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = 
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = F, 
- collev = seq(-65, 0, 5), tag.pal = terrain.colors, tags = c("songtype", "indiv"))
+ collev = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
 
 
 # with legend
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
  orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
- width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors,
+ width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
   tags = c("songtype", "indiv"))
   
   #' horizontal orientation
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
  orientation = "h",  labels = c("sound.files", "selec"), legend = T, 
- width = 20, collev = seq(-65, 0, 5), tag.pal = terrain.colors,
+ width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
   tags = c("songtype", "indiv"))
 check this floder
 getwd()

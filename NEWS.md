@@ -4,7 +4,14 @@
 # warbleR 1.1.6 
 ##### (Release date: XXXXXXX)
 
+## New functions:
+
+* "catalog" function to create song catalogs (i.e. images with multiple spectrograms in several rows/columns that can be color-labeled)
+
 ## Changes and additions:
+
+* tuneR package FF function for can be used in trackfreqs function (experimental)
+* More arguments to control dynamic time warping settings in dfDTW and ffDTW
 * Progress bar is available for parallel computing (when parallel > 1) in Linux and for some funtions also in iOS. It works using the function mcpbapply::pbmclapply
 *Spectrogram creating functions (manualoc, specreator, trackfreqs, dfts, ffts, dfDTW, ffDTW, lspec, catalog) can performe faster (4-10 times) using a different image algorithm. This can be called with the argument "fast.spec". Note that not all spectrogram options are available when fast.spec = TRUE 
 * selections longer than 20 s can be analyzed with specan function (previously it returned an error, this is going to be slow anyways)
@@ -29,7 +36,6 @@ different individuals) would be subset to A-B-A-B-A-B
 ##### (Release date: 2017-01-19)
 
 ## Changes and additions:
-* "catalog" function to create images with multiple spectrograms in several rows/columns that can be color-labeled
 * "frange" argument in seltailor to define also the frequency range (low.f and high.f)
 * trackfreqs, specan now can use low.f and high.f as bandpass limits
 * trackfreqs and specreator can plot boxes around signals if low.f and high.f are provided

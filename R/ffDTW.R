@@ -3,8 +3,9 @@
 #' \code{ffDTW} calculates acoustic dissimilarity of fundamental frequency contours using dynamic
 #' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
 #' @usage ffDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
-#' bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1, path = NULL, 
-#' img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE, ...)
+#' bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1, path = NULL, 
+#' img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE, window.type = "none", 
+#' open.end = FALSE, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -18,7 +19,7 @@
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. 
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz). Default is c(0, 22).
-#' @param threshold amplitude threshold (\%) for fundamental frequency detection. Default is 15.
+#' @param threshold amplitude threshold (\%) for fundamental frequency detection. Default is 5.
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -33,6 +34,9 @@
 #' which amplitude values above the threshold were not detected will be removed. If 
 #' \code{TRUE} (default) this edges will be excluded and signal contour will be calculated on the
 #' remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).
+#' @param window.type	\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).
+#' @param open.end \code{\link[dtw]{dtw}} control parameter. Performs 
+#' open-ended alignments (see \code{\link[dtw]{dtw}}).
 #' @param ... Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
 #' graphical output.
 #' @return A matrix with the pairwise dissimilarity values. If img is 
@@ -71,8 +75,9 @@
 #last modification on oct-26-2016 (MAS)
 
 ffDTW <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
-                  bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1, path = NULL, 
-                  img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE, ...){     
+                  bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1, path = NULL, 
+                  img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE,
+                  window.type = "none", open.end = FALSE, ...){     
     
   #stop if only 1 selection
   if(nrow(X) == 1) stop("you need more than one selection for ffDTW")
@@ -88,8 +93,9 @@ ffDTW <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   #stop if NAs in matrix
     if(any(is.na(mat))) stop("missing values in frequency time series (fundamental frequency was not detected at one or both extremes of the signal)")
   
-  dm <- dtw::dtwDist(mat, mat)       
-  rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
+  dm <- dtw::dtwDist(mat, mat, window.type = window.type, open.end = open.end)       
+
+    rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
   return(dm)
 
   }

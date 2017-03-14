@@ -4,7 +4,7 @@
 #' and end times of acoustic signals can be measured.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-#'   NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, fast = FALSE)
+#'   NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, fast.spec = FALSE)
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
@@ -34,11 +34,11 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
-#' @param fast Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+#' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-#' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which are already imported) seem
-#' to work better with 'fast' spectograms. Palette colors  \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
+#' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. THIS IS STILL BEING TESTED.
 #' @return .csv file saved in the working directory with start and end time of 
@@ -106,7 +106,7 @@
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
                      selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2,
-                     path = NULL, flist = NULL, fast = FALSE)
+                     path = NULL, flist = NULL, fast.spec = FALSE)
 {
   
   #check path to working directory
@@ -177,7 +177,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       #create spectrogram
       spectroW(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  pal, 
               main = main, tlim = tlim, axisX = TRUE, grid = FALSE, collab = "black", alab = "", fftw = TRUE, 
-              flim = fl, scale = FALSE, axisY = TRUE, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)", fast = fast)
+              flim = fl, scale = FALSE, axisY = TRUE, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)", fast.spec = fast.spec)
       
       #add the circle and lines of selections on spectrogram
       if(length(start) > 0)
