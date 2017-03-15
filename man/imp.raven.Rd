@@ -5,17 +5,20 @@
 \title{Import Raven selections}
 \usage{
 imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE,
- name.from.file = FALSE, ext.case = NULL, freq.cols = FALSE)
+ name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE)
 }
 \arguments{
 \item{path}{A character string indicating the path of the directory in which to look for the text files. 
 If not provided (default) the function searches into the current working directory. Default is \code{NULL}).}
 
 \item{sound.file.col}{A character string with the name of the column listing the sound files in 
-the selection text files. Default is \code{NULL}).}
+the selection text files. Default is \code{NULL}). If provided, the output data
+frame will contained all columns needed for subsequent analysis in \code{\link{warbleR}}. 
+Duplicated rows, as when "waveform" and "spectrogram" information are included for the same selection, will be removed.
+All selection files must contain "Selection", "Begin.Time" and "End.Time" columns.}
 
-\item{all.data}{Logical. If \code{TRUE}) all columns in text files are returned. Default is \code{FALSE}). Note 
-that all files should contain exactly the same columns in the same order.}
+\item{all.data}{Logical. If \code{TRUE}) all columns in text files are returned, 
+keeping the name columns as in the raven files (not in "warbleR" format). Default is \code{FALSE}). Columns absent in some selection files will be filled with NA's.}
 
 \item{recursive}{Logical. If \code{TRUE}) the listing recurse into sub-directories.}
 
@@ -27,7 +30,7 @@ that the extension file name is ".wav". This can be control using the argumet 'e
 of the .wav files from which the selection were made. It must be either 'upper' or 'lower'. Only needed when 'name.from.file' is \code{TRUE}). 
 Ignored if 'sound.file.col' is provided and/or all.data is \code{TRUE}).}
 
-\item{freq.cols}{Logical. If \code{TRUE}) 'Low Freq' and 'High Freq' columns are also imported. Ignored if ll.data is \code{TRUE}.}
+\item{freq.cols}{Logical. If \code{TRUE}) 'Low Freq' and 'High Freq' columns are also imported. Ignored if all.data is \code{TRUE}.}
 }
 \value{
 A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 
