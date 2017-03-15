@@ -5,7 +5,7 @@
 \title{Measure acoustic parameters in batches of sound files}
 \usage{
 specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL, 
-pb = TRUE)
+pb = TRUE, ovlp = 50, ff.method = "seewave")
 }
 \arguments{
 \item{X}{Data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -14,7 +14,7 @@ end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{auto
 be used as the input data frame.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f 
+frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f
 and high.f columns will be used as bandpass limits. Default is c(0, 22).}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -34,6 +34,15 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
+
+\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
+consecutive windows, used for fundamental frequency (using \code{\link[seewave]{fund}} or \code{\link[tuneR]{FF}}) and dominant frequency (using \code{\link[seewave]{dfreq}}). 
+Default is 50.}
+
+\item{ff.method}{Character. Selects the method used to calculate the fundamental
+frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
+\code{\link[seewave]{fund}}). Default is 'seewave'. Use trackfreqs to decide which method works the best. 
+'tuneR' performs faster (and seems to be more accurate) than 'seewave'.}
 }
 \value{
 Data frame with the following acoustic parameters: 

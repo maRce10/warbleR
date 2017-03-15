@@ -10,7 +10,9 @@
 
 ## Changes and additions:
 
-* tuneR package FF function for can be used in trackfreqs function (experimental)
+*  FF function (from tuneR package) now can be used for measuring fundamental frequency (in trackfreqs, specan, ffts and ffDTW functions). Seems to be more accurate and faster than fund function from seewave 
+* window overlap can now be defined by users for fundamental and dominant frequency 
+measures in specan function
 * More arguments to control dynamic time warping settings in dfDTW and ffDTW
 * Progress bar is available for parallel computing (when parallel > 1) in Linux and for some funtions also in iOS. It works using the function mcpbapply::pbmclapply
 *Spectrogram creating functions (manualoc, specreator, trackfreqs, dfts, ffts, dfDTW, ffDTW, lspec, catalog) can performe faster (4-10 times) using a different image algorithm. This can be called with the argument "fast.spec". Note that not all spectrogram options are available when fast.spec = TRUE 

@@ -3,13 +3,13 @@
 #' \code{specan} measures acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
 #' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL, 
-#' pb = TRUE)
+#' pb = TRUE, ovlp = 50, ff.method = "seewave")
 #' @param X Data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' be used as the input data frame.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f 
+#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f
 #'   and high.f columns will be used as bandpass limits. Default is c(0, 22).
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param threshold amplitude threshold (\%) for fundamental frequency and 
@@ -23,6 +23,13 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
+#' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
+#'   consecutive windows, used for fundamental frequency (using \code{\link[seewave]{fund}} or \code{\link[tuneR]{FF}}) and dominant frequency (using \code{\link[seewave]{dfreq}}). 
+#'   Default is 50. 
+#' @param ff.method Character. Selects the method used to calculate the fundamental
+#' frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
+#' \code{\link[seewave]{fund}}). Default is 'seewave'. Use trackfreqs to decide which method works the best. 
+#' 'tuneR' performs faster (and seems to be more accurate) than 'seewave'.  
 #' @return Data frame with the following acoustic parameters: 
 #' \itemize{
 #'    \item \code{duration}: length of signal
@@ -83,7 +90,7 @@
 #last modification on jul-5-2016 (MAS)
 
 specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, 
-                   path = NULL, pb = TRUE){
+                   path = NULL, pb = TRUE, ovlp = 50, ff.method = "seewave"){
   
   #check path to working directory
   if(!is.null(path))
@@ -110,6 +117,9 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   
   #if any selections longer than 20 secs warning
   if(any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
+  
+  #if ff.method argument  
+  if(!any(ff.method == "seewave", ff.method == "tuneR")) stop(paste("ff.method", ff.method, "is not recognized")) 
   
   # bp checking
   if(bp[1] != "frange")
@@ -174,14 +184,18 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     #Fundamental frequency parameters
-    ff <- seewave::fund(r, f = r@samp.rate, ovlp = 50, threshold = threshold, 
-                        fmax = b[2] * 1000, plot = FALSE)[, 2]
+    if(ff.method == "seewave")
+    ff <- seewave::fund(r, f = r@samp.rate, ovlp = ovlp, threshold = threshold, 
+                        fmax = b[2] * 1000, plot = FALSE)[, 2] else
+          ff <- tuneR::FF(tuneR::periodogram(r, width = wl, 
+                  overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
+    
     meanfun<-mean(ff, na.rm = TRUE)
     minfun<-min(ff, na.rm = TRUE)
     maxfun<-max(ff, na.rm = TRUE)
     
     #Dominant frecuency parameters
-    y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = 0, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
+    y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
     meandom <- mean(y, na.rm = TRUE)
     if(length(y[y > 0 & !is.na(y)]) > 0) mindom <- min(y[y > 0 & !is.na(y)]) else mindom <- NA
     maxdom <- max(y, na.rm = TRUE)

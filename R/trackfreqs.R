@@ -99,7 +99,7 @@
 #' decreasing darkness levels. THIS IS STILL BEING TESTED.
 #' @param ff.method Character. Selects the method used to calculate the fundamental
 #' frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
-#' \code{\link[seewave]{fund}}). Default is 'seewave'. THIS IS STILL BEING TESTED.
+#' \code{\link[seewave]{fund}}). Default is 'seewave'. 'tuneR' performs faster (and seems to be more accurate) than 'seewave'.
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
@@ -329,14 +329,14 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
         if(ff.method == "seewave")
           ffreq1 <- seewave::fund(wave = r, wl = wl, from = mar1, to = mar2,
                                   fmax= b[2]*1000, f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) else
-                                  {ff1 <- FF(periodogram(seewave::cutw(r, f = f, from = mar1, to = mar2, output = "Wave"), width = wl, overlap = wl*ovlp/100), peakheight = threshold / 100)/1000
+                                  {ff1 <- tuneR::FF(tuneR::periodogram(seewave::cutw(r, f = f, from = mar1, to = mar2, output = "Wave"), width = wl, overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
                                   ff2 <- seq(0, X$end[i] - X$start[i], length.out = length(ff1))
                                   
                                   ffreq1 <- cbind(ff2, ff1)}
         
         
-  ffreq <- matrix(ffreq1[!is.na(ffreq1[,2]),], ncol = 2)  
-  ffreq <- matrix(ffreq[ffreq[,2] > b[1],], ncol = 2)
+        ffreq <- matrix(ffreq1[!is.na(ffreq1[,2]),], ncol = 2)  
+        ffreq <- matrix(ffreq[ffreq[,2] > b[1],], ncol = 2)
     
     # Plot extreme values fundamental frequency
       points(c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),1]) + mar1, c(ffreq[c(which.max(ffreq[,2]), 

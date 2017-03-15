@@ -4,7 +4,7 @@
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage ffts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
 #'   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "ffts", pb = TRUE, 
-#'   clip.edges = FALSE, leglab = "ffts", ...)
+#'   clip.edges = FALSE, leglab = "ffts", ff.method = "seewave", ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -37,6 +37,10 @@
 #' in the output image.
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
+#' @param ff.method Character. Selects the method used to calculate the fundamental
+#' frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
+#' \code{\link[seewave]{fund}}). Default is 'seewave'. 'tuneR' performs
+#' faster (and seems to be more accurate) than 'seewave'.  
 #' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}. for customizing
 #' graphical output.
 #' @return A data frame with the fundamental frequency values measured across the signals. If img is 
@@ -73,8 +77,9 @@
 #last modification on oct-26-2016 (MAS)
 
 ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
-                              bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1,
-                 path = NULL, img.suffix = "ffts", pb = TRUE, clip.edges = FALSE, leglab = "ffts", ...){     
+                 bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1,
+                 path = NULL, img.suffix = "ffts", pb = TRUE, clip.edges = FALSE,
+                 leglab = "ffts", ff.method = "seewave", ...){     
   
   #check path to working directory
   if(!is.null(path))
@@ -107,6 +112,9 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   if(!is.null(bp)) {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
   
+  #if ff.method argument  
+  if(!any(ff.method == "seewave", ff.method == "tuneR")) stop(paste("ff.method", ff.method, "is not recognized"))  
+  
   #return warning if not all sound files were found
   recs.wd <- list.files(path = getwd(), pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
@@ -122,124 +130,132 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-
- if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
+  
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
     message("Measuring fundamental frequency:")}
   
-        fftsFUN <- function(X, i, bp, wl, threshold){
+  fftsFUN <- function(X, i, bp, wl, threshold){
     
     # Read sound files to get sample rate and length
     r <- tuneR::readWave(file.path(getwd(), X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
-  
+    
     b<- bp 
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
     
-      r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
+    r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
     
-      # calculate fundamental frequency at each time point     
-      ffreq1 <- seewave::fund(r, fmax= b[2], f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) 
-      ffreq <- ffreq1[!is.na(ffreq1[,2]), ]
-      ffreq <- ffreq[ffreq[,2] > b[1]/1000, ]
-      
-      if(nrow(ffreq) < 2) {
-        apfund <- list()
+    # calculate fundamental frequency at each time point     
+    if(ff.method == "seewave")
+      ffreq1 <- seewave::fund(r, fmax= b[2], f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) else
+      {
+        suppressWarnings(ff1 <- tuneR::FF(tuneR::periodogram(r, width = wl, overlap = wl*ovlp / 100), peakheight = (100 - threshold) / 100)/1000)
+        ff2 <- seq(0, X$end[i] - X$start[i], length.out = length(ff1))
+        
+        ffreq1 <- cbind(ff2, ff1)
+      }
+    
+    ffreq <- matrix(ffreq1[!is.na(ffreq1[,2]),], ncol = 2)  
+    ffreq <- matrix(ffreq[ffreq[,2] > b[1]/1000,], ncol = 2)
+
+    if(nrow(ffreq) < 2) {
+      apfund <- list()
       apfund$x <- ffreq1[, 1]
       apfund$y <- rep(NA, length.out)
       apfund1 <- apfund
+    } else {
+      if(!clip.edges)  {
+        apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],
+                                                          to = ffreq1[nrow(ffreq1), 1], length.out = length.out), 
+                         method = "linear") 
+        apfund1 <- apfund
       } else {
-        if(!clip.edges)  {
-          apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],
-                to = ffreq1[nrow(ffreq1), 1], length.out = length.out), 
-                method = "linear") 
-          apfund1 <- apfund
-          } else {
-            apfund <- approx(ffreq[,1], ffreq[,2], 
-                      xout = seq(from = ffreq[1, 1],  to = ffreq[nrow(ffreq), 1], 
-                                 length.out = length.out), method = "linear")
-          
-          #fix for ploting with trackfreqs
-          #calculate time at start and end with no amplitude detected (duration of clipped edges)
-          durend1 <- suppressWarnings(diff(range(ffreq1[,1][rev(cumsum(rev(ffreq1[,2])) == 0)])))
-          durend <- durend1
-          if(is.infinite(durend) | is.na(durend)) durend <- 0
-
-          durst1 <- suppressWarnings(diff(range(ffreq1[,1][cumsum(ffreq1[,2]) == 0])))   
-          durst <- durst1
-          if(is.infinite(durst) | is.na(durst)) durst <- 0
-          
-          by.dur <- mean(diff(apfund$x))
-          clipst <- length(seq(from = 0, to = durst, by = by.dur))
-          clipend <- length(seq(from = 0, to = durend, by = by.dur))
-          
-          apfund1 <- apfund
-          apfund1$y <- c(rep(NA, clipst) ,apfund$y, rep(NA, clipend))
-          
-          if(is.infinite(durst1) | is.na(durst1)) apfund1$y <- apfund1$y[-1]
-          if(is.infinite(durend1) | is.na(durend1)) apfund1$y <- apfund1$y[-length(apfund1$y)]
-          }
+        apfund <- approx(ffreq[,1], ffreq[,2], 
+                         xout = seq(from = ffreq[1, 1],  to = ffreq[nrow(ffreq), 1], 
+                                    length.out = length.out), method = "linear")
+        
+        #fix for ploting with trackfreqs
+        #calculate time at start and end with no amplitude detected (duration of clipped edges)
+        durend1 <- suppressWarnings(diff(range(ffreq1[,1][rev(cumsum(rev(ffreq1[,2])) == 0)])))
+        durend <- durend1
+        if(is.infinite(durend) | is.na(durend)) durend <- 0
+        
+        durst1 <- suppressWarnings(diff(range(ffreq1[,1][cumsum(ffreq1[,2]) == 0])))   
+        durst <- durst1
+        if(is.infinite(durst) | is.na(durst)) durst <- 0
+        
+        by.dur <- mean(diff(apfund$x))
+        clipst <- length(seq(from = 0, to = durst, by = by.dur))
+        clipend <- length(seq(from = 0, to = durend, by = by.dur))
+        
+        apfund1 <- apfund
+        apfund1$y <- c(rep(NA, clipst) ,apfund$y, rep(NA, clipend))
+        
+        if(is.infinite(durst1) | is.na(durst1)) apfund1$y <- apfund1$y[-1]
+        if(is.infinite(durend1) | is.na(durend1)) apfund1$y <- apfund1$y[-length(apfund1$y)]
       }
-      
+    }
+    
     if(img) 
       trackfreqs(X[i,], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
                  parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
                  custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apfund$y)), ...)
-      
+    
     return(apfund$y)  
   } 
-
-        # Run parallel in windows
-        if(parallel > 1) {
-          if(Sys.info()[1] == "Windows") {
-            
-            i <- NULL #only to avoid non-declared objects
-            
-            cl <- parallel::makeCluster(parallel)
-            
-            doParallel::registerDoParallel(cl)
-            
-            lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-              fftsFUN(X, i, bp, wl, threshold)
-            }
-            
-            parallel::stopCluster(cl)
-            
-          } 
-          if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-
-            if(pb)
-            lst <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-              fftsFUN(X, i, bp, wl, threshold)
-            }) else
-                        
-            lst <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-              fftsFUN(X, i, bp, wl, threshold)
-            })
-          }
-          if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-          {
-            cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-            
-            doParallel::registerDoParallel(cl)
-            
-            lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-              fftsFUN(X, i, bp, wl, threshold)
-            }
-            
-            parallel::stopCluster(cl)
-            
-          }
-        }
-        else {
-          if(pb)
-          lst <- pbapply::pblapply(1:nrow(X), function(i) fftsFUN(X, i, bp, wl, threshold)) else
-            lst <- lapply(1:nrow(X), function(i) fftsFUN(X, i, bp, wl, threshold))
-        }
-        
-  df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
-    colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
-                 return(df)
-    if(!is.null(path)) setwd(wd)
+  
+  # Run parallel in windows
+  if(parallel > 1) {
+    if(Sys.info()[1] == "Windows") {
+      
+      i <- NULL #only to avoid non-declared objects
+      
+      cl <- parallel::makeCluster(parallel)
+      
+      doParallel::registerDoParallel(cl)
+      
+      lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+        fftsFUN(X, i, bp, wl, threshold)
+      }
+      
+      parallel::stopCluster(cl)
+      
+    } 
+    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
+      
+      if(pb)
+        lst <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
+          fftsFUN(X, i, bp, wl, threshold)
+        }) else
+          
+          lst <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
+            fftsFUN(X, i, bp, wl, threshold)
+          })
     }
+    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
+    {
+      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+      
+      doParallel::registerDoParallel(cl)
+      
+      lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+        fftsFUN(X, i, bp, wl, threshold)
+      }
+      
+      parallel::stopCluster(cl)
+      
+    }
+  }
+  else {
+    if(pb)
+      lst <- pbapply::pblapply(1:nrow(X), function(i) fftsFUN(X, i, bp, wl, threshold)) else
+        lst <- lapply(1:nrow(X), function(i) fftsFUN(X, i, bp, wl, threshold))
+  }
+  
+  df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
+  colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
+  return(df)
+  if(!is.null(path)) setwd(wd)
+}

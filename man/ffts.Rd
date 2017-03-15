@@ -6,7 +6,7 @@
 \usage{
 ffts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "ffts", pb = TRUE, 
-  clip.edges = FALSE, leglab = "ffts", ...)
+  clip.edges = FALSE, leglab = "ffts", ff.method = "seewave", ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -54,6 +54,11 @@ in the output image.}
 
 \item{leglab}{A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 in the output image.}
+
+\item{ff.method}{Character. Selects the method used to calculate the fundamental
+frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
+\code{\link[seewave]{fund}}). Default is 'seewave'. 'tuneR' performs
+faster (and seems to be more accurate) than 'seewave'.}
 
 \item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}. for customizing
 graphical output.}
