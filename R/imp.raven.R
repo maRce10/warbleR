@@ -104,7 +104,7 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
                   c$high.f <- a[, grep("High.Freq", colnames(a), ignore.case = TRUE)]
                       }       
            }} else 
-                               c <- data.frame(a, selec.file = sel.txt[i]) 
+                               c <- data.frame(a, selec.file = sel.txt2[i]) 
     return(c)
  })
 

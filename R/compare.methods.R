@@ -72,12 +72,12 @@
 #' standardize, being 0 the distance of a signal to itself and 1 the farthest pairwise 
 #' distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{princomp}}) 
 #' is applied to calculate distances when using spectral parameters (SP). In that case the first 2 PC's are used. Classical 
-#' Multidimensional Scalling (also knwon as Principal Coordinates Analysis, 
+#' Multidimensional Scalling (also known as Principal Coordinates Analysis, 
 #' (\code{\link[stats]{cmdscale}})) is used for all other methods. Note that SP can only be used with at least 22 selections (number of rows in input data frame) as PCA only works with more units than variables. The graphs are return as image files in the 
 #' working directory. The file name contains the methods being compared and the 
 #' rownumber of the selections. This function uses internally a modified version
-#' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms. 
-#'   
+#' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms.
+#' @seealso \url{https://marce10.github.io/2017-02-17-Choosing_the_right_method_for_measuring_acoustic_signal_structure/}
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory

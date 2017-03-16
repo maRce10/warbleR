@@ -10,7 +10,8 @@
 
 ## Changes and additions:
 
-*  FF function (from tuneR package) now can be used for measuring fundamental frequency (in trackfreqs, specan, ffts and ffDTW functions). Seems to be more accurate and faster than fund function from seewave 
+* imp.raven function can import raven selections from files that do not share all the columns and extract the sound file name from the selection table name
+* FF function (from tuneR package) now can be used for measuring fundamental frequency (in trackfreqs, specan, ffts and ffDTW functions). Seems to be more accurate and faster than fund function from seewave 
 * window overlap can now be defined by users for fundamental and dominant frequency 
 measures in specan function
 * More arguments to control dynamic time warping settings in dfDTW and ffDTW
