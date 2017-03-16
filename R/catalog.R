@@ -268,6 +268,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #convert characters to factors
   X <- rapply(X, as.factor, classes="character", how="replace")
   X$col1 <- X[,tags[1]] 
+  X$col1 <- droplevels(X$col1)
   levels(X$col1) <- boxcols[1:length(unique(X$col1))]
   
   #add to df for legend
@@ -279,6 +280,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     {
     X$col2 <- X[,tags[2]] 
     X$col2 <- as.factor(X$col2)
+    X$col2 <- droplevels(X$col2)
     levels(X$col2) <- boxcols[(length(unique(X$col1))+1):length(boxcols)]
   
     #add to df for legend

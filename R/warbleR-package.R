@@ -35,8 +35,12 @@
 #'   \code{\link{mp32wav}}: Convert several .mp3 files in working directory to .wav
 #'   format
 #'   
+#'   \code{\link{checksels}}: checks whether selections can be read by subsequent functions
+#'   
 #'   \code{\link{checkwavs}}: Check whether .wav files can be read by subsequent 
 #'   functions and the minimum windows length ("wl" argument) that can be used
+#'   
+#'   \code{\link{fixwavs}}: Fix .wav files to allow importing them into R
 #'   
 #'   \code{\link{wavdur}}: Determine the duration of sound files
 #'   

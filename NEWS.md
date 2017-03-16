@@ -7,6 +7,7 @@
 ## New functions:
 
 * "catalog" function to create song catalogs (i.e. images with multiple spectrograms in several rows/columns that can be color-labeled)
+* "fixwavs" function to convert corrupted files to a format that can be imported into R
 
 ## Changes and additions:
 
