@@ -9,7 +9,7 @@ collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FAL
 pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
 width = NULL, tags = NULL, tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, 
-img.suffix = NULL)
+img.suffix = NULL, tag.widths = c(1, 1), hatching = 0)
 }
 \arguments{
 \item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -98,6 +98,17 @@ emuling the ggplot2 color palette is used for the first tag and the heat.color p
 \item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of 
 image files. Default is \code{NULL} (no suffix). Can be useful to label catalogs from different individuals, 
 species or sites.}
+
+\item{tag.widths}{A numeric vector of length 2 to control de relative width of the color tags (when 2 tags are provided).}
+
+\item{hatching}{A numeric vector of length 1 controling cross-hatching is used for color tags. Several cross-hatching 
+patterns are used to make tags with similar colors more distinguishable. Four values are allowed: 
+\itemize{
+   \item \code{0}: No cross-hatching
+   \item \code{1}: Cross-hatching the first color tag
+   \item \code{2}: Cross-hatching the second color tag
+   \item \code{4}: Cross-hatching both color tags
+   }}
 }
 \value{
 image files with spectrograms of whole sound files in the working directory. Multiple pages
@@ -110,8 +121,8 @@ can be returned, depending on the length of each sound file.
 This functions aims to simplify the visual exploration of multiple vocalizations. The function plots a
  matrix of spectrograms from a selection table. Spectrograms can be labeled or color tagged to facilitate
   exploring variation related to a parameter of interest (e.g. location, song type). A legend will be added to 
-  help match colors with tag levels (if legend is.  Different color palettes can
-  be used for each tag. The width and height can also be adjusted to fit more column and/or rows,
+  help match colors with tag levels (if legend is \code{TRUE}).  Different color palettes can
+  be used for each tag. The width and height can also be adjusted to fit more column and/or rows.
 }
 \examples{
 \dontrun{

@@ -6,7 +6,7 @@
 #' pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 #' res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
 #' width = NULL, tags = NULL, tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, 
-#' img.suffix = NULL)
+#' img.suffix = NULL, tag.widths = c(1, 1), hatching = 0)
 #' @param X Data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -38,7 +38,7 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
-#' @param fast.spec  Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+#' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
@@ -67,6 +67,15 @@
 #' @param img.suffix A character vector of length 1 with a suffix (label) to add at the end of the names of 
 #' image files. Default is \code{NULL} (no suffix). Can be useful to label catalogs from different individuals, 
 #' species or sites.
+#' @param tag.widths A numeric vector of length 2 to control de relative width of the color tags (when 2 tags are provided).
+#' @param hatching A numeric vector of length 1 controling cross-hatching is used for color tags. Several cross-hatching 
+#' patterns are used to make tags with similar colors more distinguishable. Four values are allowed: 
+#' \itemize{
+#'    \item \code{0}: No cross-hatching
+#'    \item \code{1}: Cross-hatching the first color tag
+#'    \item \code{2}: Cross-hatching the second color tag
+#'    \item \code{4}: Cross-hatching both color tags
+#'    }
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -74,8 +83,8 @@
 #' @details This functions aims to simplify the visual exploration of multiple vocalizations. The function plots a
 #'  matrix of spectrograms from a selection table. Spectrograms can be labeled or color tagged to facilitate
 #'   exploring variation related to a parameter of interest (e.g. location, song type). A legend will be added to 
-#'   help match colors with tag levels (if legend is.  Different color palettes can
-#'   be used for each tag. The width and height can also be adjusted to fit more column and/or rows,
+#'   help match colors with tag levels (if legend is \code{TRUE}).  Different color palettes can
+#'   be used for each tag. The width and height can also be adjusted to fit more column and/or rows.
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory
@@ -142,7 +151,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
                     it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 160, orientation = "v", 
                     labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
-                    tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, img.suffix = NULL)
+                    tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, img.suffix = NULL, 
+                    tag.widths = c(1, 1), hatching = 0)
 {
   #check path to working directory
   if(!is.null(path))
@@ -242,12 +252,20 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     if(!is.vector(ncol)) stop("'ncol' must be a numeric vector of length 1") else{
       if(!length(ncol) == 1) stop("'ncol' must be a numeric vector of length 1")}}
 
+  # if levels are shared between tags
+  if(length(tags) == 2) if(any(unique(X[ ,tags[1]]) %in% unique(X[ ,tags[2]]))) stop("Tags cannot contained levels with the same labels")
+  
   #set dimensions
   if(is.null(width))
   {if(orientation == "v")   width <- 8.5 else width <- 11}
   
   if(is.null(height))
   {if(orientation == "h")   height <- 8.5 else height <- 11}
+  
+  #fix hatching based on tags
+  if(length(tags) == 1 & hatching == 2) hatching <- 0 
+  if(length(tags) == 1 & hatching == 3) hatching <- 1 
+  if(is.null(tags)) hatching <- 0 
   
   #box colors
   if(!is.null(tags))
@@ -264,35 +282,64 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         boxcols <- c(boxcols, heat.colors(length(unique(Y[, tags[2]])))) else
         boxcols <- c(boxcols, tag.pal[[2]](length(unique(Y[, tags[2]]))))
                      }
-
+    
   #convert characters to factors
   X <- rapply(X, as.factor, classes="character", how="replace")
   X$col1 <- X[,tags[1]] 
   X$col1 <- droplevels(X$col1)
   levels(X$col1) <- boxcols[1:length(unique(X$col1))]
   
+ 
   #add to df for legend
   tag.col.df <- X[!duplicated(X[,tags[1]]), c(tags[1], "col1")]
   tag.col.df$tag.col <- tags[1]
   names(tag.col.df) <- c("tag", "col", "tag.col")
-  
-  if(length(tags) == 2) 
+
+if(length(tags) == 2) 
     {
     X$col2 <- X[,tags[2]] 
     X$col2 <- as.factor(X$col2)
     X$col2 <- droplevels(X$col2)
     levels(X$col2) <- boxcols[(length(unique(X$col1))+1):length(boxcols)]
   
-    #add to df for legend
+ 
     W <- X[!duplicated(X[,tags[2]]), c(tags[2], "col2")]
     W$tag.col <- tags[2]
     names(W) <- c("tag", "col", "tag.col")
     W$tag <- as.character(W$tag)
-    
     tag.col.df <- rbind(tag.col.df, W)
-     }
+    }  
+   
+    
+    # add hatching lines for color tags
+    if(hatching == 0 | is.null(tags)) 
+    {   
+      tag.col.df$pattern <- "no.pattern"
+      X$pattern.1 <- "no.pattern"
+      X$pattern.2 <- "no.pattern"
+    }  else {
+      
+      tag.col.df$pattern <- rep(c("diamond", "grid", "forward", "backward", "horizontal", "vertical"), ceiling(nrow(tag.col.df)/6))[1:nrow(tag.col.df)] 
+
+            if(hatching == 1)
+        tag.col.df$pattern[tag.col.df$tag %in% Y[,tags[2]]] <- "no.pattern"
+      
+            if(hatching == 2 & length(tags) == 2)
+              tag.col.df$pattern[tag.col.df$tag %in% Y[,tags[1]]] <- "no.pattern"
+            
+    }
+
+
+      X <- do.call(rbind, lapply(1:nrow(X), function(x) {
+        W <- X[x, ]
+        W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[1]])]
+        if(length(tags) == 2)
+        W$pattern.2 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[2]])] else Y$pattern.2 <- "no.pattern"
+          return(W)
+      }))
+    
+    
   tag.col.df <- rapply(tag.col.df, as.character, classes="factor", how="replace")
-  
   } else legend <- FALSE
   
     #calculate time and freq ranges based on all recs
@@ -461,13 +508,13 @@ lapply(1:nrow(m), function(i)
   if(!is.null(tags))
   {
     cutbox1 <- 0
-    cutbox2 <- 0.5
-  
+    cutbox2 <- tag.widths[1]/(tag.widths[1] + tag.widths[2])
+    
     lim <- par("usr")
     if(length(tags) == 1)
-    rect(xleft = lim[1] + cutbox1, ybottom = lim[3]-1, xright = lim[2], ytop = 0.5, border = "black", col = X3$col1[i]) else {
-      rect(xleft = lim[1] + cutbox1, ybottom = lim[3]-1, xright = cutbox2, ytop = 0.5, border = "black", col = X3$col1[i])
-      rect(xleft = cutbox2, ybottom = lim[3]-1, xright = lim[2], ytop = 0.5, border = "black", col = X3$col2[i])
+    rectw(xl = lim[1] + cutbox1, yb = lim[3]-1, xr = lim[2], yt = 0.5, bor = "black", cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
+      rectw(xl = lim[1] + cutbox1, yb = lim[3]-1, xr = cutbox2, yt = 0.5, bor = "black", cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
+      rectw(xl = cutbox2, yb = lim[3]-1, xr = lim[2], yt = 0.5, bor = "black", cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
     }
     
     #plot labels
@@ -528,7 +575,21 @@ lapply(1:nrow(m), function(i)
     par( mar = rep(0, 4))
     plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
     
-    y <- seq(0.2, 0.8, length.out = nrow(tag.col.df) + length(unique(tag.col.df$tag.col)))
+    # define y limits for legend labels
+    y1 <- 0.2
+    y2 <- 0.8
+    
+       if(nrow(tag.col.df) > 15) 
+ {
+      y1 <- 0.03
+     y2 <- 0.97
+ }     
+      
+      y <- seq(y1, y2, length.out = nrow(tag.col.df) + length(unique(tag.col.df$tag.col)))
+    
+    
+    
+    
     y <- y[length(y):1]
     step <-  y[1] - y[2]
     
@@ -548,7 +609,7 @@ lapply(1:nrow(m), function(i)
       text(x = 0.5, y = y[w], labels = tag.col.df$tag[w], cex = cex) 
       
       #plot color box
-      rect(xleft = 0.3, ybottom = y[w] - (step/2) - (step/6), xright = 0.7, ytop = y[w] - (step/2) + (step/6), border = "black", col = tag.col.df$col[w])
+      rectw(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt =  y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
       })
     
     if(length(unique(tag.col.df$tag.col)) == 2)
@@ -563,14 +624,13 @@ lapply(1:nrow(m), function(i)
         text(x = 0.5, y = y[w], labels = tag.col.df$tag[w], cex = cex) 
         
         #plot color box
-        rect(xleft = 0.3, ybottom = y[w] - (step/2) - (step/6), xright = 0.7, ytop = y[w] - (step/2) + (step/6), border = "black", col = tag.col.df$col[w])
+        rectw(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt = y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
       })
       
     }
     
     
   }
-  i = i + 1
    })
   close.screen(all.screens = TRUE)
 dev.off()
