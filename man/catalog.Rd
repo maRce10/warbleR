@@ -93,7 +93,7 @@ Ignored if no tags are provided. Four values are allowed:
    \item \code{0}: No label
    \item \code{1}: Label for the first color tag
    \item \code{2}: Label for the second color tag
-   \item \code{4}: Labels both color tags
+   \item \code{3}: Labels both color tags
    }
  Default is 3.}
 

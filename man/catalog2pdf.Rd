@@ -31,7 +31,7 @@ images). Default is \code{FALSE} (i.e. no suffix).}
 \code{catalog2pdf} combines \code{\link{catalog}} images in .jpeg format to a single pdf file.
 }
 \details{
-The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs.
+The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution when creating catalogs will decrease the size of pdf files (which could be pretty big).
 }
 \examples{
 \dontrun{
