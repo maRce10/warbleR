@@ -95,8 +95,10 @@
 #'   \code{\link{compare.methods}}: Produce graphs to visually assess performance of acoustic 
 #'   distance measurements 
 #'   
-#'   \code{\link{catalog}}: Produce a vocalization catalog with spectrograms in and array with 
+#'   \code{\link{catalog}}: Produce a vocalization catalog with spectrograms in and array with
 #'   several rows and columns  
+#'   
+#'   \code{\link{catalog2pdf}}: Combine catalog images to single pdf files
 #'   
 #'   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
 #'   

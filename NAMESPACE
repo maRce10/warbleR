@@ -2,6 +2,7 @@
 
 export(autodetec)
 export(catalog)
+export(catalog2pdf)
 export(checksels)
 export(checkwavs)
 export(compare.methods)

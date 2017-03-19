@@ -512,7 +512,8 @@ X3 <- X[rep(1:nrow(X), each = 2), ]
 X3 <- rapply(X3, as.character, classes="factor", how="replace")
 
 #start graphic device
-imgfun(filename = paste0("Catalog_p", page, "-", img.suffix, ".", it), units = "in", width = width, height = height, res = res)
+if(!is.null(img.suffix)) img.suffix <- paste0("-",img.suffix)
+imgfun(filename = paste0("Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
 invisible(close.screen(all.screens = TRUE))
 split.screen(figs = m)
 
