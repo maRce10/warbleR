@@ -8,8 +8,8 @@ catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE,
 collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, 
 pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
-width = NULL, tags = NULL, tag.pal = NULL, legend = TRUE, cex = 1, leg.wd = 1, 
-img.suffix = NULL, tag.widths = c(1, 1), hatching = 0)
+width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors), legend = 3, 
+cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0)
 }
 \arguments{
 \item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -81,14 +81,20 @@ for vertical orientation.}
 \item{width}{Numeric. Single value (in inches) indicating the width of the output image files.  Default is 8.5
 for vertical orientation.}
 
-\item{tags}{String vector. Provides the column names that will be used for the color tagging legend above
+\item{tags}{String vector. Provides the column names that will be used for the color tagging legend above. Tags can also be numeric. Continuous variables would be break down in 10 color classes.
 spectrograms.}
 
-\item{tag.pal}{List of color palette function for tags. Should be of length 1 or 2. If \code{NULL} then a pallete 
-emuling the ggplot2 color palette is used for the first tag and the heat.color palette for the second tag (if provided).}
+\item{tag.pal}{List of color palette function for tags. Should be of length 1 or 2.  Default is list(temp.colors, heat.colors).}
 
-\item{legend}{Logical. Controls if tag legend is plotted at the right side of the catalog. Default is 
-\code{TRUE}. Ignored if no tags are provided.}
+\item{legend}{A numeric vector of length 1 controling a legend for color tags is added.
+Ignored if no tags are provided. Four values are allowed: 
+\itemize{
+   \item \code{0}: No label
+   \item \code{1}: label for the first color tag
+   \item \code{2}: label for the second color tag
+   \item \code{4}: Labels both color tags
+   }
+ Default is 3.}
 
 \item{cex}{A numeric vector of length 1 giving the amount by which text 
 (including labels and axis) should be magnified. Default is 1.}
@@ -121,7 +127,7 @@ can be returned, depending on the length of each sound file.
 This functions aims to simplify the visual exploration of multiple vocalizations. The function plots a
  matrix of spectrograms from a selection table. Spectrograms can be labeled or color tagged to facilitate
   exploring variation related to a parameter of interest (e.g. location, song type). A legend will be added to 
-  help match colors with tag levels (if legend is \code{TRUE}).  Different color palettes can
+  help match colors with tag levels (if legend is > 0).  Different color palettes can
   be used for each tag. The width and height can also be adjusted to fit more column and/or rows.
 }
 \examples{
@@ -138,18 +144,18 @@ writeWave(Phae.long2,"Phae.long2.wav")
 
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
- orientation = "v",  labels = c("sound.files", "selec"), legend = T)
+ orientation = "v",  labels = c("sound.files", "selec"), legend = 0)
  
  #different time scales and tag palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
- orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
+ orientation = "v",  labels = c("sound.files", "selec"), legend = 0, 
  tag.pal = list(terrain.colors))
  #'  
  #adding tags and changing spectro palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = reverse.heat.colors,
- orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
+ orientation = "v",  labels = c("sound.files", "selec"), legend = 1, 
  tag.pal = list(terrain.colors), tags = "sound.files")
 
  #create a bigger selection table
@@ -163,21 +169,21 @@ catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = 
 # 12 columns in 5 rows, 2 tags
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
- orientation = "v",  labels = c("sound.files", "selec"), legend = F, 
+ orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
  collev = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
 
 
 # with legend
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
- orientation = "v",  labels = c("sound.files", "selec"), legend = T, 
+ orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
  width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
   tags = c("songtype", "indiv"))
   
   #' horizontal orientation
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
- orientation = "h",  labels = c("sound.files", "selec"), legend = T, 
+ orientation = "h",  labels = c("sound.files", "selec"), legend = 3, 
  width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
   tags = c("songtype", "indiv"))
 check this floder
