@@ -9,7 +9,8 @@ collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FAL
 pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
 width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors), legend = 3, 
-cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0)
+cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
+breaks = c(5, 5))
 }
 \arguments{
 \item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -90,8 +91,8 @@ spectrograms.}
 Ignored if no tags are provided. Four values are allowed: 
 \itemize{
    \item \code{0}: No label
-   \item \code{1}: label for the first color tag
-   \item \code{2}: label for the second color tag
+   \item \code{1}: Label for the first color tag
+   \item \code{2}: Label for the second color tag
    \item \code{4}: Labels both color tags
    }
  Default is 3.}
@@ -115,6 +116,10 @@ patterns are used to make tags with similar colors more distinguishable. Four va
    \item \code{2}: Cross-hatching the second color tag
    \item \code{4}: Cross-hatching both color tags
    }}
+
+\item{breaks}{Numeric vector of length 1 or 2 controling the number of intervals in which a 
+numeric tag will be divided. The numbers control the first and second tags respectively. 
+Ignored if tags are not numeric. Default is c(5, 5).}
 }
 \value{
 image files with spectrograms of whole sound files in the working directory. Multiple pages
@@ -148,13 +153,13 @@ catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = 
  
  #different time scales and tag palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = 0, 
  tag.pal = list(terrain.colors))
  #'  
  #adding tags and changing spectro palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = reverse.heat.colors,
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, pal = reverse.heat.colors,
  orientation = "v",  labels = c("sound.files", "selec"), legend = 1, 
  tag.pal = list(terrain.colors), tags = "sound.files")
 
@@ -168,7 +173,7 @@ catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = 
 
 # 12 columns in 5 rows, 2 tags
 catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
+ ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
  collev = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
 

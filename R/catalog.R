@@ -6,7 +6,8 @@
 #' pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 #' res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
 #' width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors), legend = 3, 
-#' cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0)
+#' cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
+#' breaks = c(5, 5))
 #' @param X Data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -62,8 +63,8 @@
 #' Ignored if no tags are provided. Four values are allowed: 
 #' \itemize{
 #'    \item \code{0}: No label
-#'    \item \code{1}: label for the first color tag
-#'    \item \code{2}: label for the second color tag
+#'    \item \code{1}: Label for the first color tag
+#'    \item \code{2}: Label for the second color tag
 #'    \item \code{4}: Labels both color tags
 #'    }
 #'  Default is 3.
@@ -82,6 +83,9 @@
 #'    \item \code{2}: Cross-hatching the second color tag
 #'    \item \code{4}: Cross-hatching both color tags
 #'    }
+#' @param breaks Numeric vector of length 1 or 2 controling the number of intervals in which a 
+#' numeric tag will be divided. The numbers control the first and second tags respectively. 
+#' Ignored if tags are not numeric. Default is c(5, 5). 
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -109,13 +113,13 @@
 #'  
 #'  #different time scales and tag palette
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
-#'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
+#'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 0, 
 #'  tag.pal = list(terrain.colors))
 #'  #'  
 #'  #adding tags and changing spectro palette
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
-#'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, pal = reverse.heat.colors,
+#'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, pal = reverse.heat.colors,
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 1, 
 #'  tag.pal = list(terrain.colors), tags = "sound.files")
 #' 
@@ -129,7 +133,7 @@
 #' 
 #' # 12 columns in 5 rows, 2 tags
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
-#'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE, 
+#'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
 #'  collev = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
 #' 
@@ -158,7 +162,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 160, orientation = "v", 
                     labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
                     tag.pal = list(temp.colors, heat.colors), legend = 3, cex = 1, leg.wd = 1, 
-                    img.suffix = NULL, tag.widths = c(1, 1), hatching = 0)
+                    img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5))
 {
   #check path to working directory
   if(!is.null(path))
@@ -188,7 +192,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if(!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a  list of color palette functions of length 1 or 2")
 
   if(length(tag.pal) == 1) tag.pal[[2]] <- tag.pal[[1]]
-  
+
+  if(length(breaks) == 1) breaks[2] <- breaks[1]
+    
   #pal must be a color function
   if(!is.function(pal)) stop("'pal' must be a color palette function")
   
@@ -270,7 +276,11 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #hatching
   if(!is.numeric(hatching) | hatching < 0 | hatching > 3)
     stop("hatching should be be a value between 0 and 3")
-  
+
+  #legend
+  if(!is.numeric(legend) | legend < 0 | legend > 3)
+    stop("legend should be be a value between 0 and 3")
+    
   #set dimensions
   if(is.null(width))
   {if(orientation == "v")   width <- 8.5 else width <- 11}
@@ -297,9 +307,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     {
       if(is.integer(X[, tags[1]]))  
         boxcols <- tag.pal[[1]](length(unique(X[, tags[1]])))[as.numeric(cut(X[, tags[1]],breaks = length(unique(X[, tags[1]]))))]  else  
-          boxcols <- tag.pal[[1]](10)
-    }      
-  else   boxcols <- tag.pal[[1]](length(unique(Y[, tags[1]]))) 
+          boxcols <- tag.pal[[1]](breaks[1])
+    }      else   boxcols <- tag.pal[[1]](length(unique(Y[, tags[1]]))) 
 
     if(length(tags) == 2)  
     { 
@@ -311,8 +320,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   X$col1 <- X[,tags[1]] 
   if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
     {
-    X$col1 <- tag.pal[[1]](10)[as.numeric(cut(X[, tags[1]],breaks = 10))]
-    X$col.numeric1 <- cut(X[, tags[1]],breaks = 10)
+    X$col1 <- tag.pal[[1]](breaks[1])[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))]
+    X$col.numeric1 <- cut(X[, tags[1]],breaks = breaks[1])
       }  else {
         X$col1 <- as.factor(X$col1)
         X$col1 <- droplevels(X$col1)
@@ -332,8 +341,8 @@ if(length(tags) == 2)
     X$col2 <- X[,tags[2]] 
     if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
     {
-      X$col2 <- tag.pal[[2]](10)[as.numeric(cut(X[, tags[2]],breaks = 10))]
-      X$col.numeric2 <- cut(X[, tags[2]],breaks = 10)
+      X$col2 <- tag.pal[[2]](breaks[2])[as.numeric(cut(X[, tags[2]],breaks = breaks[2]))]
+      X$col.numeric2 <- cut(X[, tags[2]],breaks = breaks[2])
     }  else {  
     X$col2 <- as.factor(X$col2)
     X$col2 <- droplevels(X$col2)
@@ -361,7 +370,7 @@ if(length(tags) == 2)
       
       tag.col.df$pattern <- rep(c("diamond", "grid", "forward", "backward", "horizontal", "vertical"), ceiling(nrow(tag.col.df)/6))[1:nrow(tag.col.df)] 
 
-            if(hatching == 1)
+            if(hatching == 1 & length(tags) == 2)
             {if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
          tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric2)] <- "no.pattern"
                    
@@ -520,7 +529,8 @@ split.screen(figs = m)
 #plot 
 lapply(1:nrow(m), function(i)
                   {
-    # i = 1
+    # i <- i + 1
+  # i = 0
     screen(i)           
     if(i <= nrow(X3))
     {  
@@ -655,21 +665,27 @@ lapply(1:nrow(m), function(i)
     step <-  y[1] - y[2]
     
     #add left right if 2 tags
-    if(length(unique(tag.col.df$tag.col)) == 2)
+    if(length(tags) == 2)
     {
-      labtag1 <- paste("left:", unique(tag.col.df$tag.col)[1])
-      labtag2 <- paste("right:", unique(tag.col.df$tag.col)[2])
-    }  else labtag1 <- tag.col.df$tag.col[1]
-    
-    
+      if(legend == 3)
+      {
+      labtag1 <- paste("left:", tags[1])
+      labtag2 <- paste("right:", tags[2])
+    } else {      
+    labtag2 <- tags[2]
+    labtag1 <- tags[1]  
+    }    
+      } else labtag1 <- tags[1] 
+      
+    #adjust if numeric
     if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
     {
       aa <- as.character(sapply(strsplit(as.character(tag.col.df$tag[tag.col.df$tag.col == tags[1]]), ",", fixed = T), "[", 1))
       tag.col.df[tag.col.df$tag.col == tags[1],] <- tag.col.df[order(as.numeric(substr(aa, 2, nchar(aa)))),]
     }
       
-    
-    text(x = 0.5, y = max(y) + step, labels = labtag1, cex = cex, font = 2) 
+if(legend %in% c(1, 3))  
+{    text(x = 0.5, y = max(y) + step, labels = labtag1, cex = cex, font = 2) 
 
     out <- lapply(which(tag.col.df$tag.col == tags[1]), function(w)
     {
@@ -679,14 +695,13 @@ lapply(1:nrow(m), function(i)
       #plot color box
       rectw(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt =  y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
       })
+}
     
     nrowtag1 <- nrow(tag.col.df[tag.col.df$tag.col == tags[1], ])
     
-    
-    if(length(unique(tag.col.df$tag.col)) == 2)
+    if(length(tags) == 2 & legend %in% c(2, 3))
     {
-#order to follow numbers in legend
-      
+
       #remove first tag
       tag.col.df <- tag.col.df[tag.col.df$tag.col == tags[2],]
 
@@ -696,9 +711,11 @@ lapply(1:nrow(m), function(i)
         tag.col.df <- tag.col.df[order(as.numeric(substr(aa, 2, nchar(aa)))),]
         }
 
+      if(legend == 3)
+        text(x = 0.5, y = y[nrowtag1 + 2], labels = labtag2, cex = cex, font = 2) else
+          text(x = 0.5, y = ifelse(max(y) + step < 1, max(y) + step, 0.99), labels = labtag2, cex = cex, font = 2) 
       
-      text(x = 0.5, y = y[nrowtag1 + 2], labels = labtag2, cex = cex, font = 2) 
-      
+      if(legend == 3)
       y <- y - step * 2
 
       out <- lapply(1:nrow(tag.col.df), function(w)
@@ -714,7 +731,8 @@ lapply(1:nrow(m), function(i)
     
     
   }
-   })
+   }
+)
   close.screen(all.screens = TRUE)
 dev.off()
 }  
