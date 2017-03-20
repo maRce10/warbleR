@@ -7,7 +7,7 @@
 catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
 collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, 
 pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
-res = 160, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
+res = 100, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
 width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors), legend = 3, 
 cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
 breaks = c(5, 5))
@@ -68,8 +68,9 @@ to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]
 decreasing darkness levels. THIS IS STILL BEING TESTED.}
 
 \item{res}{Numeric argument of length 1. Controls image resolution.
-Default is 100 (faster) although 300 - 400 is recommended for publication/ 
-presentation quality.}
+Default is 100 (faster) although 300 is recommended for publication/ 
+presentation quality. Note that high resolution produce significantly bigger image files. 
+This could be problematic when creating pdf files using \code{\link{catalog}}.}
 
 \item{orientation}{String. Indicates whether a letter page size image is produced in vertical ('v' option) or
 horizontal orientation ('h' option). Note that width and height can also be specified.}
@@ -114,7 +115,7 @@ patterns are used to make tags with similar colors more distinguishable. Four va
    \item \code{0}: No cross-hatching
    \item \code{1}: Cross-hatching the first color tag
    \item \code{2}: Cross-hatching the second color tag
-   \item \code{4}: Cross-hatching both color tags
+   \item \code{3}: Cross-hatching both color tags
    }}
 
 \item{breaks}{Numeric vector of length 1 or 2 controling the number of intervals in which a 
@@ -132,8 +133,11 @@ can be returned, depending on the length of each sound file.
 This functions aims to simplify the visual exploration of multiple vocalizations. The function plots a
  matrix of spectrograms from a selection table. Spectrograms can be labeled or color tagged to facilitate
   exploring variation related to a parameter of interest (e.g. location, song type). A legend will be added to 
-  help match colors with tag levels (if legend is > 0).  Different color palettes can
+  help match colors with tag levels (if legend is > 0). Different color palettes can
   be used for each tag. The width and height can also be adjusted to fit more column and/or rows.
+  This files can be put together in a single pdf file with \code{\link{catalog2pdf}}.
+  We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if 
+  aiming to generate pdfs.
 }
 \examples{
 \dontrun{
@@ -197,5 +201,8 @@ getwd()
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}
+\seealso{
+\code{\link{catalog2pdf}}
 }
 

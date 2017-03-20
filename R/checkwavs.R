@@ -19,7 +19,7 @@
 #' the selections listed in X (if all files can be read).  The function is intended for a "quick and dirty"
 #' check of the .wav files in a selections data frame. For a more thourough analysis see \code{\link{checksels}}.
 #' @export
-#' @seealso \code{\link{checksels}}
+#' @seealso \code{\link{checksels}} \code{\link{seltailor}}
 #' @name checkwavs
 #' @examples
 #' \dontrun{

@@ -55,6 +55,6 @@ checkwavs(X = selec.table)
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
-\code{\link{checksels}}
+\code{\link{checksels}} \code{\link{seltailor}}
 }
 

@@ -2,10 +2,10 @@
 % Please edit documentation in R/catalog2pdf.R
 \name{catalog2pdf}
 \alias{catalog2pdf}
-\title{\code{catalog2pdf} combines \code{\link{catalog}} images in .jpeg format to a single pdf file.}
+\title{\code{catalog2pdf} combines catalog images into pdfs}
 \usage{
 catalog2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
-pb = TRUE, by.img.suffix = FALSE)
+pb = TRUE, by.img.suffix = FALSE, ...)
 }
 \arguments{
 \item{keep.jpeg}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
@@ -24,14 +24,16 @@ If \code{NULL} (default) then the current working directory is used.}
 when parallel = 1.}
 
 \item{by.img.suffix}{Logical. If \code{TRUE} catalogs with the same image suffix will be 
-put together in a single pdf (so one pdf per image sufix in the catalog 
+put together in a single pdf (so one pdf per image suffix in the catalog 
 images). Default is \code{FALSE} (i.e. no suffix).}
+
+\item{...}{Additional arguments to be passed to the internal pdf creating function \code{\link[grDevices]{pdf}} for customizing output.}
 }
 \description{
-\code{catalog2pdf} combines \code{\link{catalog}} images in .jpeg format to a single pdf file.
+\code{catalog2pdf} combines catalog images into pdfs
 }
 \details{
-The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution when creating catalogs will decrease the size of pdf files (which could be pretty big).
+The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution and smaller dimension (width and height) when creating catalogs will substantially decrease the size of pdf files (which could be pretty big).
 }
 \examples{
 \dontrun{

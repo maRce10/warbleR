@@ -1,4 +1,6 @@
-#internal warbleR function called by compare.methods. Modified from spectro function from seewave  
+#internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
+# that allows to plot spectrograms without resetting the graphic device.It also allow using image() 
+# which substantially increases speed (although makes some options unavailable)
 spectro2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, 
                      complex = FALSE, norm = TRUE, fftw = FALSE, dB = "max0", 
                      dBref = NULL, plot = TRUE, grid = TRUE, 

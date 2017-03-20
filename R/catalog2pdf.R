@@ -1,8 +1,8 @@
 # Combine catalog images to single pdf files
 #' 
-#' \code{catalog2pdf} combines \code{\link{catalog}} images in .jpeg format to a single pdf file. 
+#' \code{catalog2pdf} combines catalog images into pdfs 
 #' @usage catalog2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
-#' pb = TRUE, by.img.suffix = FALSE)
+#' pb = TRUE, by.img.suffix = FALSE, ...)
 #' @param keep.jpeg Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @param overwrite Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
@@ -14,11 +14,12 @@
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
 #' @param by.img.suffix Logical. If \code{TRUE} catalogs with the same image suffix will be 
-#' put together in a single pdf (so one pdf per image sufix in the catalog 
+#' put together in a single pdf (so one pdf per image suffix in the catalog 
 #' images). Default is \code{FALSE} (i.e. no suffix).
+#' @param ... Additional arguments to be passed to the internal pdf creating function \code{\link[grDevices]{pdf}} for customizing output.
 #' @export
 #' @name catalog2pdf
-#' @details The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution when creating catalogs will decrease the size of pdf files (which could be pretty big).
+#' @details The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution and smaller dimension (width and height) when creating catalogs will substantially decrease the size of pdf files (which could be pretty big).
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory
@@ -41,7 +42,7 @@
 #last modification on nov-13-2016 (MAS)
 
 catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
-                        pb = TRUE, by.img.suffix = FALSE)
+                        pb = TRUE, by.img.suffix = FALSE, ...)
 {
   #check path to working directory
   if(!is.null(path))
@@ -60,6 +61,8 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
  if(by.img.suffix)
    or.sf <- gsub("Catalog_p\\d+\\-|\\.jpeg", "" ,imgs) else
   or.sf <- by.img.suffix
+  
+  pdf.options(useDingbats = TRUE)
   
   #loop over each sound file name  
   # no.out <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function(x)
@@ -91,14 +94,15 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
     
     #start graphic device     
    if(!is.logical(i))
-     pdf(file = paste0(i, ".pdf"), width = 10, height = imgdm[1]/imgdm[2] * 10) else pdf(file = "Catalog.pdf", width = 10, height = imgdm[1]/imgdm[2] * 10)     
+     grDevices::pdf(file = paste0(i, ".pdf"), width = 10, height = imgdm[1]/imgdm[2] * 10, ...) else  grDevices::pdf(file = "Catalog.pdf", width = 10, height = imgdm[1]/imgdm[2] * 10, ...)     
 
     #plot
     plot.new()
     img <- jpeg::readJPEG(subimgs[1])
     par(mar = rep(0, 4))
     mr <- par("usr")
-    graphics::rasterImage(img, mr[1]- 0.12, mr[3] - 0.14, mr[2] + 0.07, mr[4] + 0.1)
+    graphics::rasterImage(img, mr[1] - 0.049, mr[3] - 0.1, mr[2] + 0.03, mr[4] + 0.055)
+    # graphics::rasterImage(img, mr[1], mr[3], mr[2], mr[4])
     
     #loop over the following pages if more than 1 page
     if(length(subimgs) > 1)
