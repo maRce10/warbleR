@@ -7,7 +7,7 @@
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
 it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
-clip.edges = FALSE, threshold = 15)
+clip.edges = FALSE, threshold = 15, na.rm = FALSE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
@@ -71,6 +71,10 @@ remainging values. Default is \code{FALSE}.}
 
 \item{threshold}{amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
 and SP methods. Default is 15.}
+
+\item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
+results. This means that all selections with at least 1 cross-correlation that failed are excluded in both methods under
+comparison. Only apply if XCORR is one of the methods being compared.}
 }
 \value{
 Image files with 4 spectrograms of the selection being compared and scatterplots 

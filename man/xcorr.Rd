@@ -9,7 +9,7 @@ cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 }
 \usage{
 xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE)
+cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE)
 }
 \arguments{
 \item{X}{Data frame containing columns for sound files (sound.files), 
@@ -47,6 +47,9 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
+
+\item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
+results. This means that all selections with at least 1 cross-correlation that failed are excluded.}
 }
 \value{
 A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 

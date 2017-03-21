@@ -2,7 +2,7 @@
 #' 
 #' \code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-#' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE)
+#' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE)
 #' @param  X Data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -28,6 +28,8 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
+#' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
+#' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
 #' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.  
 #' @export
@@ -62,8 +64,8 @@
 #' cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 
 
-xcorr <- function(X = NULL, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, 
-                   wn='hanning', cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE)
+xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp = NULL, wn ='hanning', 
+                  cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE)
 {
   
   #check path to working directory
@@ -315,6 +317,22 @@ for(i in 1:nrow(scores))
       colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 1)[i]] <- scores$`b$score`[i]
 }
 
+
+if(na.rm)
+{
+com.case <- intersect(rownames(mat)[stats::complete.cases(mat)], colnames(mat)[stats::complete.cases(t(mat))])
+if(length(which(is.na(mat))) > 0) 
+   warning(paste(length(which(is.na(mat))), "pairwise comparisons failed and were removed"))
+
+   #remove them from mat
+   mat <- mat[rownames(mat) %in% com.case, colnames(mat) %in% com.case]
+if(nrow(mat) == 0) stop("Not selections remained after removing NAs (na.rm = TRUE)")
+
+   #clean correlation data
+b <- b[b$sound.file1 %in% com.case & b$sound.file2 %in% com.case, ]
+
+}  
+  
 #list results
 c <- list(b, mat, frq.lim)
 names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim") 

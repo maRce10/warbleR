@@ -120,7 +120,7 @@
 #' @importFrom jpeg readJPEG 
 #' @importFrom doParallel registerDoParallel
 #' @importFrom dtw dtwDist
-#' @importFrom stats cor dist aggregate approx ave princomp time ts predict smooth.spline   
+#' @importFrom stats cor dist aggregate approx ave princomp time ts predict smooth.spline complete.cases 
 #' 
 #' @author Marcelo Araya-Salas & Grace Smith Vidaurre
 #'   

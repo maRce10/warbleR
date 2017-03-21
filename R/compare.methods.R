@@ -4,7 +4,7 @@
 #' @usage compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 #' res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
 #' it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
-#' clip.edges = FALSE, threshold = 15)
+#' clip.edges = FALSE, threshold = 15, na.rm = FALSE)
 #' @param X Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 #' function, or any data frame with columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
@@ -49,6 +49,9 @@
 #' remainging values. Default is \code{FALSE}. 
 #' @param threshold amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
 #' and SP methods. Default is 15.
+#' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
+#' results. This means that all selections with at least 1 cross-correlation that failed are excluded in both methods under
+#' comparison. Only apply if XCORR is one of the methods being compared.
 #' @return Image files with 4 spectrograms of the selection being compared and scatterplots 
 #' of the acoustic space of all signals in the input data frame 'X'.
 #' @export
@@ -142,7 +145,7 @@
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = c("XCORR","dfDTW", "ffDTW", "SP"),
     it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
-    clip.edges = FALSE, threshold = 15){  
+    clip.edges = FALSE, threshold = 15, na.rm = FALSE){  
  
   #check path to working directory
   if(!is.null(path))
@@ -237,12 +240,15 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   disim.mats <- list()
   
   if("XCORR" %in% methods)
-  {xcmat <- xcorr(X, wl = 512, frange = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb)$max.xcorr.matrix
+  {xcmat <- xcorr(X, wl = 512, frange = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm)$max.xcorr.matrix
 
   MDSxcorr <- stats::cmdscale(1-xcmat)  
   MDSxcorr <- scale(MDSxcorr)
   disim.mats[[1]] <- MDSxcorr
-  }
+  
+  #remove the ones that failed cross-corr
+  if(na.rm) X <- X[paste(X$sound.files, X$selec, sep = "-") %in% rownames(MDSxcorr), ]
+    }
   
   if("dfDTW" %in% methods)
     {dtwmat <- dfts(X, wl = 512, flim = flim, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out,
