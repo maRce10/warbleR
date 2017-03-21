@@ -15,7 +15,7 @@
 #' frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22). Note that
 #' for XCORR this argument sets the frange argument from the \code{\link{xcorr}} function.  
 #' @param mar Numeric vector of length 1. Specifies plot margins around selection in seconds. Default is 0.1.
-#' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
+#' @param wl A numeric vector of length 1 specifying the window length of the spectrogram and cross-correlation, default 
 #'   is 512.
 #' @param ovlp Numeric vector of length 1 specifying the percent overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90.
@@ -72,7 +72,7 @@
 #' to be produced. The acoustic pairwise distance between signals is shown next 
 #' to the arrows linking them. The font color of a distance value correspond to the font 
 #' color of the method that generated it, as shown in the scatterplots. Distances are 
-#' standardize, being 0 the distance of a signal to itself and 1 the farthest pairwise 
+#' standardized, being 0 the distance of a signal to itself and 1 the farthest pairwise 
 #' distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{princomp}}) 
 #' is applied to calculate distances when using spectral parameters (SP). In that case the first 2 PC's are used. Classical 
 #' Multidimensional Scalling (also known as Principal Coordinates Analysis, 
@@ -240,7 +240,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   disim.mats <- list()
   
   if("XCORR" %in% methods)
-  {xcmat <- xcorr(X, wl = 512, frange = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm)$max.xcorr.matrix
+  {xcmat <- xcorr(X, wl = wl, frange = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm)$max.xcorr.matrix
 
   MDSxcorr <- stats::cmdscale(1-xcmat)  
   MDSxcorr <- scale(MDSxcorr)
@@ -251,7 +251,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     }
   
   if("dfDTW" %in% methods)
-    {dtwmat <- dfts(X, wl = 512, flim = flim, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out,
+    {dtwmat <- dfts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                     pb = pb, clip.edges = clip.edges, threshold = threshold)
     
   dm <- dtw::dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)])  
@@ -262,7 +262,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   }
 
   if("ffDTW" %in% methods)
-  {dtwmat <- ffts(X, wl = 512, flim = flim, ovlp = 90, img = FALSE, parallel = parallel, length.out = length.out,
+  {dtwmat <- ffts(X, wl = 512, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                   pb = pb, clip.edges = clip.edges, threshold = threshold)
   
   dm <- dtw::dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)],method="DTW")  

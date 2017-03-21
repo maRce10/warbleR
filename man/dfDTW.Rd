@@ -6,7 +6,7 @@
 \usage{
 dfDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
   threshold = 5, img = TRUE, parallel = 1, path = NULL, img.suffix = "dfDTW", pb = TRUE, 
-  clip.edges = FALSE, window.type = "none", open.end = FALSE, ...)
+  clip.edges = FALSE, window.type = "none", open.end = FALSE, scale = FALSE, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -53,6 +53,9 @@ remainging values. Note that DTW cannot be applied if missing values (e.i. when 
 
 \item{open.end}{\code{\link[dtw]{dtw}} control parameter. Performs 
 open-ended alignments (see \code{\link[dtw]{dtw}}).}
+
+\item{scale}{Logical. If \code{TRUE} dominant frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
+comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
 graphical output.}

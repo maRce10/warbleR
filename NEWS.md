@@ -11,6 +11,7 @@
 
 ## Changes and additions:
 
+* scale argument in dfDTW and ffDTW to allow to focus dynamic time warping comparisons on the frequency contours while ignoring differences in pitch
 * NAs can be removed from xcorr function output. They can also be ignored when using XCORR in compare.methods function 
 * filtersels can return selections with or without image files ("missing"" argument). It can also return a data frame or the row index of the selections ("index" argument)
 * imp.raven function can import raven selections from files that do not share all the columns and extract the sound file name from the selection table name

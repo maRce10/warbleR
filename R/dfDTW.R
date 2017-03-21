@@ -4,7 +4,7 @@
 #' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
 #' @usage dfDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
 #'   threshold = 5, img = TRUE, parallel = 1, path = NULL, img.suffix = "dfDTW", pb = TRUE, 
-#'   clip.edges = FALSE, window.type = "none", open.end = FALSE, ...)
+#'   clip.edges = FALSE, window.type = "none", open.end = FALSE, scale = FALSE, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -35,6 +35,8 @@
 #' @param window.type	\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).
 #' @param open.end \code{\link[dtw]{dtw}} control parameter. Performs 
 #' open-ended alignments (see \code{\link[dtw]{dtw}}).
+#' @param scale Logical. If \code{TRUE} dominant frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
+#' comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
 #' graphical output.
 #' @return A matrix with the pairwise dissimilarity values. If img is 
@@ -72,7 +74,7 @@
 dfDTW <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
            bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1, path = NULL, 
            img.suffix = "dfDTW", pb = TRUE, clip.edges = FALSE, 
-           window.type = "none", open.end = FALSE, ...){     
+           window.type = "none", open.end = FALSE, scale = FALSE, ...){     
  
   #stop if only 1 selection
   if(nrow(X) == 1) stop("you need more than one selection for dfDTW")
@@ -82,9 +84,13 @@ dfDTW <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
               bp = bp, threshold = threshold, img = img, parallel = parallel,
               path = path, img.suffix = img.suffix, pb = pb, clip.edges = clip.edges, ...)
   
+  
     #matrix of dom freq time series
   mat <- res[,3:ncol(res)]
   
+  if(scale)
+  mat <- t(apply(mat, 1, scale))  
+
   #stop if NAs in matrix
   if(any(is.na(mat))) stop("missing values in frequency time series (fundamental frequency was not detected at
                            the start and/or end of the signal)")
