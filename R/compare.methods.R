@@ -3,8 +3,9 @@
 #' @description \code{compare.methods} creates graphs to visually assess performance of acoustic distance measurements 
 #' @usage compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 #' res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
-#' it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
-#' clip.edges = FALSE, threshold = 15, na.rm = FALSE)
+#' it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, gr = TRUE, 
+#' clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
+#'  pal = reverse.gray.colors.2, ...)
 #' @param X Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 #' function, or any data frame with columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
@@ -42,16 +43,23 @@
 #' and "selec' columns and the same selections as in 'X'.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
-#' @param grid Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).
+#' @param gr Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).
 #' @param clip.edges Logical argument to control whether edges (start or end of signal) in
 #' which amplitude values above the threshold were not detected will be removed when using dfDTW and 
 #' ffDTW methods. If \code{TRUE} this edges will be excluded and signal contour will be calculated on the
-#' remainging values. Default is \code{FALSE}. 
+#' remainging values. Default is \code{TRUE}. 
 #' @param threshold amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
 #' and SP methods. Default is 15.
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded in both methods under
 #' comparison. Only apply if XCORR is one of the methods being compared.
+#' @param scale Logical. If \code{TRUE} dominant and/or fundamental frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
+#' comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.
+#' @param pal A color palette function to be used to assign colors in the 
+#'   spectrograms, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. 
+#' @param ... Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
+#' graphical output. This includes fast.spec, an argument that speeds up the plotting of spectrograms (see description in 
+#' \code{\link{specreator}}).
 #' @return Image files with 4 spectrograms of the selection being compared and scatterplots 
 #' of the acoustic space of all signals in the input data frame 'X'.
 #' @export
@@ -144,8 +152,8 @@
 
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = c("XCORR","dfDTW", "ffDTW", "SP"),
-    it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
-    clip.edges = FALSE, threshold = 15, na.rm = FALSE){  
+    it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, gr = TRUE, 
+    clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2, ...){  
  
   #check path to working directory
   if(!is.null(path))
@@ -253,8 +261,13 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if("dfDTW" %in% methods)
     {dtwmat <- dfts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                     pb = pb, clip.edges = clip.edges, threshold = threshold)
+   
+    dtwmat <- dtwmat[,3:ncol(dtwmat)]
     
-  dm <- dtw::dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)])  
+     if(scale)
+       dtwmat <- t(apply(dtwmat, 1, scale))  
+    
+      dm <- dtw::dtwDist(dtwmat, dtwmat, method="DTW")  
   
   MDSdtw <- stats::cmdscale(dm)  
   MDSdtw <- scale(MDSdtw)
@@ -265,7 +278,12 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   {dtwmat <- ffts(X, wl = 512, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                   pb = pb, clip.edges = clip.edges, threshold = threshold)
   
-  dm <- dtw::dtwDist(dtwmat[,3:ncol(dtwmat)],dtwmat[,3:ncol(dtwmat)],method="DTW")  
+  dtwmat <- dtwmat[,3:ncol(dtwmat)]
+ 
+   if(scale)
+    dtwmat <- t(apply(dtwmat, 1, scale))  
+  
+  dm <- dtw::dtwDist(dtwmat,dtwmat, method="DTW")  
   
   MDSdtw <- stats::cmdscale(dm)  
   MDSdtw <- scale(MDSdtw)
@@ -341,8 +359,6 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   col[rs] <- hcl(h = seq(15, 375, length = 4 + 1), l = 65, c = 100)[1:4]
 
   col[rs] <- adjustcolor(col[rs], alpha.f = 0.8)
-  
-  # col[rs] <- grDevices::topo.colors(5)[1:4]
 
   
   invisible(lapply(c(7:9, 1:4, 5:6, 10:11), function(x)
@@ -372,12 +388,12 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       
       r <- tuneR::readWave(as.character(X$sound.files[x]), from = tlim[1], to = tlim[2], units = "seconds")
       
-      spectro2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = reverse.gray.colors.2, grid = grid)
+      spectro2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = pal, grid = gr, ...)
       box(lwd = 2)
       if(x == 1 | x == 3) 
         text(tlim[2] - tlim[1], ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 2) else 
           text(0, ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 4)  
-      if(grid)
+      if(gr)
       abline(v=c(mar1, mar2),lty = 4, col = "gray")
     }
     

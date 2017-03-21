@@ -6,8 +6,8 @@
 \usage{
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
-it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
-clip.edges = FALSE, threshold = 15, na.rm = FALSE)
+it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, gr = TRUE, 
+clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2, ...)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
@@ -62,12 +62,12 @@ and "selec' columns and the same selections as in 'X'.}
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
 
-\item{grid}{Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).}
+\item{gr}{Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).}
 
 \item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed when using dfDTW and 
 ffDTW methods. If \code{TRUE} this edges will be excluded and signal contour will be calculated on the
-remainging values. Default is \code{FALSE}.}
+remainging values. Default is \code{TRUE}.}
 
 \item{threshold}{amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
 and SP methods. Default is 15.}
@@ -75,6 +75,16 @@ and SP methods. Default is 15.}
 \item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded in both methods under
 comparison. Only apply if XCORR is one of the methods being compared.}
+
+\item{scale}{Logical. If \code{TRUE} dominant and/or fundamental frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
+comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.}
+
+\item{pal}{A color palette function to be used to assign colors in the 
+spectrograms, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2.}
+
+\item{...}{Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
+graphical output. This includes fast.spec, an argument that speeds up the plotting of spectrograms (see description in 
+\code{\link{specreator}}).}
 }
 \value{
 Image files with 4 spectrograms of the selection being compared and scatterplots 

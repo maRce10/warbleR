@@ -4,7 +4,7 @@
 #' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
 #' @usage ffDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
 #' bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1, path = NULL, 
-#' img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE, window.type = "none", 
+#' img.suffix = "ffDTW", pb = TRUE, clip.edges = TRUE, window.type = "none", 
 #' open.end = FALSE, scale = FALSE, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
@@ -37,10 +37,10 @@
 #' @param window.type	\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).
 #' @param open.end \code{\link[dtw]{dtw}} control parameter. Performs 
 #' open-ended alignments (see \code{\link[dtw]{dtw}}).
-#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
-#' graphical output.
 #' @param scale Logical. If \code{TRUE} dominant frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
 #' comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.
+#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
+#' graphical output.
 #' @return A matrix with the pairwise dissimilarity values. If img is 
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the fundamental frequencies.
@@ -78,7 +78,7 @@
 
 ffDTW <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
                   bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1, path = NULL, 
-                  img.suffix = "ffDTW", pb = TRUE, clip.edges = FALSE,
+                  img.suffix = "ffDTW", pb = TRUE, clip.edges = TRUE,
                   window.type = "none", open.end = FALSE, scale = FALSE, ...){     
     
   #stop if only 1 selection

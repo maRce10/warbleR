@@ -6,7 +6,7 @@
 \usage{
 dfDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
   threshold = 5, img = TRUE, parallel = 1, path = NULL, img.suffix = "dfDTW", pb = TRUE, 
-  clip.edges = FALSE, window.type = "none", open.end = FALSE, scale = FALSE, ...)
+  clip.edges = TRUE, window.type = "none", open.end = FALSE, scale = FALSE, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
