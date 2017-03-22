@@ -9,7 +9,8 @@ cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 }
 \usage{
 xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE)
+cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
+ dfrange = FALSE, cor.mat = TRUE)
 }
 \arguments{
 \item{X}{Data frame containing columns for sound files (sound.files), 
@@ -19,8 +20,7 @@ selection number (selec), and start and end time of signal (start and end).}
 is 512.}
 
 \item{frange}{A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
-in which to compare the signals. If not provided (\code{NULL}) the \code{\link{dfts}} function is used internally to define
-the higher and lower dominant frequency in the signals to be analyzed. This method is more adequate for pure tone
+in which to compare the signals. Must be provided. The \code{\link{dfts}} function can be used to determine this parameter if \code{dfrange = TRUE}. This method is more adequate for pure tone
 signals. Default is \code{NULL}.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
@@ -50,10 +50,15 @@ when parallel = 1.}
 
 \item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.}
+
+\item{dfrange}{Logical. If \code{TRUE} the \code{\link{dfts}} function can is used to determine the frequency range in which to compare signals.}
+
+\item{cor.mat}{Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.}
 }
 \value{
-A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
-the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.
+If corr.mat is \code{TRUE} the function returns a matrix with 
+the maximum (peak) correlation for each pairwise comparison. Otherwise it will return a list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
+the maximum correlation for each pairwise comparison, and 3) the frequency range.
 }
 \description{
 \code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation

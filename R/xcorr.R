@@ -2,15 +2,16 @@
 #' 
 #' \code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
-#' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE)
+#' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
+#'  dfrange = FALSE, cor.mat = TRUE)
 #' @param  X Data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #' is 512.
 #' @param frange A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
-#' in which to compare the signals. If not provided (\code{NULL}) the \code{\link{dfts}} function is used internally to define
-#' the higher and lower dominant frequency in the signals to be analyzed. This method is more adequate for pure tone
+#' in which to compare the signals. Must be provided. The \code{\link{dfts}} function can be used to determine this parameter if \code{dfrange = TRUE}. This method is more adequate for pure tone
 #' signals. Default is \code{NULL}.
+#' @param dfrange Logical. If \code{TRUE} the \code{\link{dfts}} function can is used to determine the frequency range in which to compare signals. 
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
 #' slow down the function but produce more accurate results.
@@ -30,8 +31,10 @@
 #' when parallel = 1.
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
-#' @return A list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
-#' the maximum (peak) correlation for each pairwise comparison, and 3) the frequency range.  
+#' @param cor.mat Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.
+#' @return If corr.mat is \code{TRUE} the function returns a matrix with 
+#' the maximum (peak) correlation for each pairwise comparison. Otherwise it will return a list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
+#' the maximum correlation for each pairwise comparison, and 3) the frequency range. 
 #' @export
 #' @name xcorr
 #' @details This function calculates the pairwise similarity of multiple signals by means of spectrogram cross-correlation.
@@ -65,7 +68,8 @@
 
 
 xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp = NULL, wn ='hanning', 
-                  cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE)
+                  cor.method = "pearson", parallel = 1, path = NULL,
+                  pb = TRUE, na.rm = FALSE, dfrange = FALSE, cor.mat = TRUE)
 {
   
   #check path to working directory
@@ -87,8 +91,9 @@ xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp =
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
   
   #if flim is not vector or length!=2 stop
-  if(!is.null(frange)) if(!is.vector(frange)) stop("'frange' must be a numeric vector of length 2") else
-      if(!length(frange) == 2) stop("'frange' must be a numeric vector of length 2")
+  if(is.null(frange) & !dfrange) stop("either 'frange' must be provided or 'dfrange' set to TRUE")
+  if(!is.null(frange) & !is.vector(frange)) stop("'frange' must be a numeric vector of length 2") else
+      if(!is.null(frange) & !length(frange) == 2) stop("'frange' must be a numeric vector of length 2")
   
   #if wl is not vector or length!=1 stop
   if(!is.numeric(wl)) stop("'wl' must be a numeric vector of length 1") else {
@@ -106,7 +111,7 @@ xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp =
       if(!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
   
 # if frange was not provided the range is calculated with dominant frequency range  
-if(is.null(frange)) {df <- dfts(X, wl =300, img = FALSE, length.out = 50, parallel = parallel, clip.edges = TRUE)
+if(dfrange) {df <- dfts(X, wl =300, img = FALSE, length.out = 50, parallel = parallel, clip.edges = TRUE)
   df <- df[, 3:ncol(df)]
 frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
 } else frq.lim = frange
@@ -210,7 +215,7 @@ a<-lapp(1:(nrow(X)-1), function(j)
   
   survey<-tuneR::readWave(filename = as.character(X$sound.files[j]), from = start, to = end, units = "seconds")
   
-  FUNXC <- function(i)
+  FUNXC <- function(i, cor.mat)
   {
     template <- ltemp[[i]]
     
@@ -274,7 +279,7 @@ a<-lapp(1:(nrow(X)-1), function(j)
   }
   
   
-  score.L <- lapply((1+j):length(ltemp), function(i) try(FUNXC(i), silent = T))
+  score.L <- lapply((1+j):length(ltemp), function(i) try(FUNXC(i, cor.mat), silent = T))
   
   if(any(!sapply(score.L, is.data.frame))) {
   if(j != (length(ltemp)-1))
@@ -289,7 +294,15 @@ a<-lapp(1:(nrow(X)-1), function(j)
   } else  score.L[[1]] <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j],sep = "-"), sound.file2 = paste(X$sound.files[j + 1], X$selec[j + 1], sep = "-"), time = 0, score = NA, stringsAsFactors = FALSE)
   }
   score.df <- do.call("rbind", score.L)
+
   
+  
+    if(cor.mat)  
+{      score.df <- data.frame(dyad = paste(score.df$sound.file1,score.df$sound.file2,sep = "/"), score.df)
+  
+  # calculate maximum correlation values
+  score.df <- aggregate(as.data.frame(b$score), by = list(b$dyad), FUN = max)}
+      
 return(score.df)
   }
 )
@@ -298,10 +311,13 @@ return(score.df)
 b <- do.call("rbind", a)
 rm(a)
 
-b <- data.frame(dyad = paste(b$sound.file1,b$sound.file2,sep = "/"), b)
+if(!cor.mat)
+{b <- data.frame(dyad = paste(b$sound.file1,b$sound.file2,sep = "/"), b)
 
 # calculate maximum correlation values
 scores <- aggregate(as.data.frame(b$score), by = list(b$dyad), FUN = max)
+} else scores <- b
+
 
 #create a similarity matrix with the max xcorr
 mat <- matrix(nrow = nrow(X), ncol = nrow(X))
@@ -329,15 +345,17 @@ if(length(which(is.na(mat))) > 0)
 if(nrow(mat) == 0) stop("Not selections remained after removing NAs (na.rm = TRUE)")
 
    #clean correlation data
-b <- b[b$sound.file1 %in% com.case & b$sound.file2 %in% com.case, ]
+   if(!cor.mat)
+   b <- b[b$sound.file1 %in% com.case & b$sound.file2 %in% com.case, ]
 
 }  
   
 #list results
-c <- list(b, mat, frq.lim)
+if(cor.mat) return(mat) else
+{c <- list(b, mat, frq.lim)
 names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim") 
  
-return(c)
+return(c)}
 
 if(!is.null(path)) setwd(wd)
 }

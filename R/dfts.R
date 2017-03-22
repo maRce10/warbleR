@@ -134,8 +134,8 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
- if(parallel == 1 & pb) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
-    message("Measuring dominant frequency:")}  
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
+    message("measuring dominant frequency:")}  
   
   dftsFUN <- function(X, i, bp, wl, threshold){
     

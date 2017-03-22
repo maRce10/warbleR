@@ -7,7 +7,8 @@
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
 it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, gr = TRUE, 
-clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2, ...)
+clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
+ pal = reverse.gray.colors.2, img = TRUE, ...)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
@@ -81,6 +82,8 @@ comparison in the frequency contour, regardless of the pitch of signals. Default
 
 \item{pal}{A color palette function to be used to assign colors in the 
 spectrograms, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2.}
+
+\item{img}{A logical argument specifying whether an image files would be produced. Default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
 graphical output. This includes fast.spec, an argument that speeds up the plotting of spectrograms (see description in 

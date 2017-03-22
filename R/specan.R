@@ -221,7 +221,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
                                                    centroid, peakf, meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope))
   }
   
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("Measuring acoustic parameters:")
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("measuring acoustic parameters:")
   
   # Run parallel in windows
   if(parallel > 1) {if(Sys.info()[1] == "Windows") {

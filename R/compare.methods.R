@@ -5,7 +5,7 @@
 #' res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
 #' it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, gr = TRUE, 
 #' clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
-#'  pal = reverse.gray.colors.2, ...)
+#'  pal = reverse.gray.colors.2, img = TRUE, ...)
 #' @param X Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 #' function, or any data frame with columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
@@ -57,6 +57,7 @@
 #' comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.
 #' @param pal A color palette function to be used to assign colors in the 
 #'   spectrograms, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. 
+#' @param img A logical argument specifying whether an image files would be produced. Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
 #' graphical output. This includes fast.spec, an argument that speeds up the plotting of spectrograms (see description in 
 #' \code{\link{specreator}}).
@@ -153,7 +154,8 @@
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = c("XCORR","dfDTW", "ffDTW", "SP"),
     it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, gr = TRUE, 
-    clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2, ...){  
+    clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, 
+    pal = reverse.gray.colors.2, img = TRUE, ...){  
  
   #check path to working directory
   if(!is.null(path))
@@ -204,7 +206,6 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   #if any selections longer than 20 secs stop
   if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
-  options( show.error.messages = TRUE)
 
   # If n is not numeric
   if(!is.numeric(n)) stop("'n' must be a numeric vector of length 1") 
@@ -248,7 +249,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   disim.mats <- list()
   
   if("XCORR" %in% methods)
-  {xcmat <- xcorr(X, wl = wl, frange = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm)$max.xcorr.matrix
+  {xcmat <- xcorr(X, wl = wl, frange = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE)
 
   MDSxcorr <- stats::cmdscale(1-xcmat)  
   MDSxcorr <- scale(MDSxcorr)
@@ -300,7 +301,10 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   disim.mats[[length(disim.mats) + 1]] <- PCsp
   }
   
-  names(disim.mats) <- methods
+  #name mats changing order to match order in whic methods are ran
+  nms <- match(c("XCORR","dfDTW", "ffDTW", "SP"), methods)
+  
+  names(disim.mats) <- c("XCORR","dfDTW", "ffDTW", "SP")[!is.na(nms)] 
   
   maxdist <-lapply(disim.mats, function(x) max(stats::dist(x)))
   
@@ -337,13 +341,14 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   # screen 10:11 method labels
   
   
-  if(parallel == 1 & pb)  message("Saving graphs in image files")
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb)  message("saving graphs as image files:")
   
       comp.methFUN <- function(X, u, res, disim.mats, m, mar, flim)
     {
     rs <- combs[,u]
        X <- X[rs,]
   
+       if(img)
   imgfun(filename = paste("comp.meth-", names(disim.mats)[1],"-",names(disim.mats)[2], "-", paste(X$labels, collapse = "-"), paste0(".", it), sep = ""), width = 16.25, height =  16.25, units = "cm", res = res)
   
   split.screen(m)
@@ -477,6 +482,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     }
   }
   ))
+  if(img)
   invisible(dev.off())
   on.exit(invisible(close.screen(all.screens = TRUE)))
   }

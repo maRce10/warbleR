@@ -29,7 +29,7 @@ against the time sliding.
 }
 \details{
 This function generates pairwise plots of the spectrogram cross-correlation scores
-by sliding step. The function takes the output of \code{\link{xcorr}} as input.  The colors of 
+by sliding step. The function takes the output of \code{\link{xcorr}} (when cor.mat is \code{FALSE} in \code{\link{xcorr}}) as input. The colors of 
 the lines in the lower triangle of the plot matrix represent the strenght of the similarity between
 the two signals. The x axis shows the time difference between the two signals for each sliding step
 (0 means perfectly centered signals). Note that large number of signals may not display well in the 
@@ -47,8 +47,8 @@ writeWave(Phae.long1, "Phae.long1.wav") #save sound files
 writeWave(Phae.long2, "Phae.long2.wav")
 
  #run cross correlation first
- xcor<-xcorr(X = selec.table[1:5,], wl =300, frange= c(2, 9), ovlp=90, dens=0.8, wn='hanning', 
- cor.method = "pearson") 
+ xcor<-xcorr(X = selec.table[1:5,], wl =300, frange= c(2, 9), ovlp=90, dens=0.8, 
+ wn='hanning', cor.method = "pearson", cor.mat = FALSE) 
  
  #plot pairwise scores
   xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
