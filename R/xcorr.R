@@ -301,7 +301,7 @@ a<-lapp(1:(nrow(X)-1), function(j)
 {      score.df <- data.frame(dyad = paste(score.df$sound.file1,score.df$sound.file2,sep = "/"), score.df)
   
   # calculate maximum correlation values
-  score.df <- aggregate(as.data.frame(b$score), by = list(b$dyad), FUN = max)}
+  score.df <- aggregate(as.data.frame(score.df$score), by = list(score.df$dyad), FUN = max)}
       
 return(score.df)
   }
@@ -319,6 +319,8 @@ scores <- aggregate(as.data.frame(b$score), by = list(b$dyad), FUN = max)
 } else scores <- b
 
 
+names(scores)[2] <- "scores"
+
 #create a similarity matrix with the max xcorr
 mat <- matrix(nrow = nrow(X), ncol = nrow(X))
 mat[]<-1
@@ -327,10 +329,10 @@ colnames(mat) <- rownames(mat) <- paste(X$sound.files, X$selec, sep = "-")
 for(i in 1:nrow(scores))
 {
   mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 1)[i], 
-      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 2)[i]] <- scores$`b$score`[i]
+      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 2)[i]] <- scores$scores[i]
   
   mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 2)[i], 
-      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 1)[i]] <- scores$`b$score`[i]
+      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 1)[i]] <- scores$scores[i]
 }
 
 
