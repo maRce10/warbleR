@@ -1,7 +1,8 @@
 #' Measure signal-to-noise ratio
 #' 
 #' \code{sig2noise} measures signal-to-noise ratio across multiple files.
-#' @usage sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE)
+#' @usage sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
+#' in.dB = TRUE, before = FALSE)
 #' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
@@ -19,12 +20,15 @@
 #' \itemize{
 #' \item \code{1}: ratio of S mean amplitude envelope to 
 #'   N mean amplitude envelope (\code{mean(env(S))/mean(env(N))})
-#' \item \code{2}: ratio of S amplitude envelope quadratic mean  to N amplitude envelope quadratic mean
+#' \item \code{2}: ratio of S amplitude envelope quadratic mean to N amplitude envelope quadratic mean
 #'  (\code{rms(env(S))/rms(env(N))})
 #' \item \code{3}: ratio of the difference between S amplitude envelope quadratic mean and N amplitude envelope quadratic mean to N amplitude envelope quadratic mean (\code{(rms(env(S)) - rms(env(N)))/rms(env(N))})
 #' }
 #' @param eq.dur Logical. Controls whether the noise segment that is measured has the same duration 
-#' than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then mar argument is ignored.  
+#' than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then mar argument is ignored.
+#' @param in.dB Logical. Controls whether the signal-to-noise ratio is returned in decibels (20*log10(SNR)). 
+#' Default is \code{TRUE}.
+#' @param before Logical. If \code{TRUE} noise is only measured right before the signal (instead of before and after). Default is \code{FALSE}.
 #' @return Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 
 #' with the signal-to-noise values.
 #' @export
@@ -60,7 +64,8 @@
 #' @source \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 #last modification on jul-5-2016 (MAS)
 
-sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE){
+sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
+                      in.dB = TRUE, before = FALSE){
   
   #check path to working directory
   if(!is.null(path))
@@ -154,7 +159,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
       
       if(type == 1)
   {    # Calculate mean noise amplitude 
-      noisamp <- mean(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
+      if(before)   
+        noisamp <- mean(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
+         noisamp <- mean(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
                         seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
       
       # Calculate mean signal amplitude 
@@ -162,6 +169,8 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
       
       if(type == 2)
       {    # Calculate mean noise amplitude 
+        if(before)   
+          noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
         noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
                           seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
         
@@ -170,7 +179,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
       
       if(type == 3)
       {    # Calculate mean noise amplitude 
-        noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
+        if(before)   
+          noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
+          noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
                          seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
         
         # Calculate mean signal amplitude 
@@ -183,7 +194,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
       # Calculate signal-to-noise ratio
       snr <- sigamp / noisamp
     
-    return(snr)
+      if(in.dB) return(20*log10(snr)) else return(snr)
     
   })
       

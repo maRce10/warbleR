@@ -7,7 +7,8 @@
 \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
 }
 \usage{
-sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE)
+sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
+in.dB = TRUE, before = FALSE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -32,13 +33,18 @@ when parallel = 1.}
 \itemize{
 \item \code{1}: ratio of S mean amplitude envelope to 
   N mean amplitude envelope (\code{mean(env(S))/mean(env(N))})
-\item \code{2}: ratio of S amplitude envelope quadratic mean  to N amplitude envelope quadratic mean
+\item \code{2}: ratio of S amplitude envelope quadratic mean to N amplitude envelope quadratic mean
  (\code{rms(env(S))/rms(env(N))})
 \item \code{3}: ratio of the difference between S amplitude envelope quadratic mean and N amplitude envelope quadratic mean to N amplitude envelope quadratic mean (\code{(rms(env(S)) - rms(env(N)))/rms(env(N))})
 }}
 
 \item{eq.dur}{Logical. Controls whether the noise segment that is measured has the same duration 
 than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then mar argument is ignored.}
+
+\item{in.dB}{Logical. Controls whether the signal-to-noise ratio is returned in decibels (20*log10(SNR)). 
+Default is \code{TRUE}.}
+
+\item{before}{Logical. If \code{TRUE} noise is only measured right before the signal (instead of before and after). Default is \code{FALSE}.}
 }
 \value{
 Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 

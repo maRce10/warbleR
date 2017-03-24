@@ -11,9 +11,10 @@
 
 ## Changes and additions:
 
+* sig2noise function can return signal-to-noise ratio in dB ("in.dB" argument). It can also measure noise at both sides of the signal or just right before ("before" argument)   
 * scale argument in dfDTW and ffDTW to allow to focus dynamic time warping comparisons on the frequency contours while ignoring differences in pitch
 * NAs can be removed from xcorr function output. They can also be ignored when using XCORR in compare.methods function 
-* filtersels can return selections with or without image files ("missing"" argument). It can also return a data frame or the row index of the selections ("index" argument)
+* filtersels can return selections with or without image files ("missing" argument). It can also return a data frame or the row index of the selections ("index" argument)
 * imp.raven function can import raven selections from files that do not share all the columns and extract the sound file name from the selection table name
 * FF function (from tuneR package) now can be used for measuring fundamental frequency (in trackfreqs, specan, ffts and ffDTW functions). Seems to be more accurate and faster than fund function from seewave 
 * window overlap can now be defined by users for fundamental and dominant frequency 
