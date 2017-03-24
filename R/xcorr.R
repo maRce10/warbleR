@@ -326,14 +326,9 @@ mat <- matrix(nrow = nrow(X), ncol = nrow(X))
 mat[]<-1
 colnames(mat) <- rownames(mat) <- paste(X$sound.files, X$selec, sep = "-")
 
-for(i in 1:nrow(scores))
-{
-  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 1)[i], 
-      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 2)[i]] <- scores$scores[i]
-  
-  mat[colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 2)[i], 
-      colnames(mat) == sapply(strsplit(as.character((scores$Group.1)), "/", fixed = TRUE), "[[", 1)[i]] <- scores$scores[i]
-}
+mat[lower.tri(mat, diag=FALSE)] <- scores$scores
+mat <- t(mat)
+mat[lower.tri(mat, diag=FALSE)] <- scores$scores
 
 
 if(na.rm)
