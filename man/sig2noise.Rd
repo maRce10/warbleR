@@ -8,7 +8,7 @@
 }
 \usage{
 sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
-in.dB = TRUE, before = FALSE)
+in.dB = TRUE, before = FALSE, lim.dB = TRUE)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -45,6 +45,9 @@ than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then mar 
 Default is \code{TRUE}.}
 
 \item{before}{Logical. If \code{TRUE} noise is only measured right before the signal (instead of before and after). Default is \code{FALSE}.}
+
+\item{lim.dB}{Logical. If \code{TRUE} the lowest signal-to-noise would be limited to -40 dB (if \code{in.dB = TRUE}). This would remove NA's that can be produced when noise segments have a higher amplitude than the signal 
+itself. Default is \code{TRUE}.}
 }
 \value{
 Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 

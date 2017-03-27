@@ -11,6 +11,8 @@
 
 ## Changes and additions:
 
+* added new acoustic parameters to "specan" function related to distribution of energy in the time axis. Also time entropy ("time.ent") and overall entropy ("entropy") were added
+* "centroid" and "mode" parameters were removed from "specan" function
 * sig2noise function can return signal-to-noise ratio in dB ("in.dB" argument). It can also measure noise at both sides of the signal or just right before ("before" argument)   
 * scale argument in dfDTW and ffDTW to allow to focus dynamic time warping comparisons on the frequency contours while ignoring differences in pitch
 * NAs can be removed from xcorr function output. They can also be ignored when using XCORR in compare.methods function 

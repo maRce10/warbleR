@@ -2,7 +2,7 @@
 #' 
 #' \code{sig2noise} measures signal-to-noise ratio across multiple files.
 #' @usage sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
-#' in.dB = TRUE, before = FALSE)
+#' in.dB = TRUE, before = FALSE, lim.dB = TRUE)
 #' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
@@ -29,6 +29,8 @@
 #' @param in.dB Logical. Controls whether the signal-to-noise ratio is returned in decibels (20*log10(SNR)). 
 #' Default is \code{TRUE}.
 #' @param before Logical. If \code{TRUE} noise is only measured right before the signal (instead of before and after). Default is \code{FALSE}.
+#' @param lim.dB Logical. If \code{TRUE} the lowest signal-to-noise would be limited to -40 dB (if \code{in.dB = TRUE}). This would remove NA's that can be produced when noise segments have a higher amplitude than the signal 
+#' itself. Default is \code{TRUE}.
 #' @return Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 
 #' with the signal-to-noise values.
 #' @export
@@ -65,7 +67,7 @@
 #last modification on jul-5-2016 (MAS)
 
 sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
-                      in.dB = TRUE, before = FALSE){
+                      in.dB = TRUE, before = FALSE, lim.dB = TRUE){
   
   #check path to working directory
   if(!is.null(path))
@@ -194,6 +196,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
       # Calculate signal-to-noise ratio
       snr <- sigamp / noisamp
     
+      #set lowest dB limit
+      if(in.dB & lim.dB) snr[snr <= 0] <- 0.01
+      
       if(in.dB) return(20*log10(snr)) else return(snr)
     
   })
