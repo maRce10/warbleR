@@ -180,7 +180,8 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
     #frequency spectrum analysis
     acust <- seewave::acoustat(wave = r, f = r@samp.rate, wl = wl, ovlp = ovlp, wn = wn, flim = b, plot = FALSE, fraction = 50)
-    analysis <- seewave::specprop(acust$freq.contour, f = r@samp.rate, flim = b, plot = FALSE)
+    songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl, wn = wn, flim = b)
+    analysis <- seewave::specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
 
     #save parameters
     time.ent <- th(acust$time.contour)
@@ -202,8 +203,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
     #Frequency with amplitude peaks 
     if(!fast) #only if fast is TRUE
-      peakf <- seewave::fpeaks(seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl, wn = wn, flim = b),
-                               f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
+      peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     #Fundamental frequency parameters
     if(ff.method == "seewave")
