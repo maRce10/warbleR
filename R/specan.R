@@ -179,22 +179,33 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
     
     #frequency spectrum analysis
-    acust <- seewave::acoustat(wave = r, f = r@samp.rate, wl = wl, ovlp = ovlp, wn = wn, flim = b, plot = FALSE, fraction = 50)
     songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl, wn = wn, flim = b)
     analysis <- seewave::specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
 
+    #acoustat
+    m <- sspectro(r, f = r@samp.rate, wl = wl, ovlp = ovlp, wn = wn)
+    fl <- b * nrow(m) * 2000/r@samp.rate
+    m <- m[(fl[1]:fl[2]) + 1, ]
+    if(is.vector(m)) m <- t(as.matrix(m))
+    time <- seq(0, length(r)/r@samp.rate, length.out = ncol(m))
+    t.cont <- apply(m, MARGIN = 2, FUN = sum)
+    t.cont <- t.cont/sum(t.cont)
+    t.cont.cum <- cumsum(t.cont)
+    t.quantiles <- sapply(c(0.25, 0.5, 0.75), function(x) time[length(t.cont.cum[t.cont.cum <= 
+                                                                                       x]) + 1])
+    
     #save parameters
-    time.ent <- th(acust$time.contour)
     meanfreq <- analysis$mean/1000
     sd <- analysis$sd/1000
     freq.median <- analysis$median/1000
     freq.Q25 <- analysis$Q25/1000
     freq.Q75 <- analysis$Q75/1000
     freq.IQR <- analysis$IQR/1000
-    time.median <- acust$time.M
-    time.Q25 <- acust$time.P1
-    time.Q75 <- acust$time.P2
-    time.IQR <- acust$time.IPR
+    time.ent <- th(cbind(time, t.cont))
+    time.median <- t.quantiles[2]
+    time.Q25 <- t.quantiles[1]
+    time.Q75 <- t.quantiles[3]
+    time.IQR <- t.quantiles[3] - t.quantiles[1]
     skew <- analysis$skewness
     kurt <- analysis$kurtosis
     sp.ent <- analysis$sh
@@ -203,7 +214,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
     #Frequency with amplitude peaks 
     if(!fast) #only if fast is TRUE
-      peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = 512, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
+      peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     #Fundamental frequency parameters
     if(ff.method == "seewave")
