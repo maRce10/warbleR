@@ -39,19 +39,19 @@
 #'    \item \code{sd}: standard deviation of frequency weighted by amplitude
 #'    \item \code{freq.median}: median frequency. The frequency at which the signal is divided in two frequency
 #'    intervals of equal energy (in kHz) 
-#'    \item \code{freq.Q25}: first quantile frequency. The frequency at which the signal is divided in two 
-#'    frequency intervals of 25% and 75% energy respectively (in kHz) 
-#'    \item \code{freq.Q75}: third quantile frequency. The frequency at which the signal is divided in two
-#'    frequency intervals of 75% and 25% energy respectively (in kHz) 
-#'    \item \code{freq.IQR}: interquantile frequency range. Frequency range between 'freq.Q25' and 'freq.Q75' 
+#'    \item \code{freq.Q25}: first quartile frequency. The frequency at which the signal is divided in two 
+#'    frequency intervals of 25\% and 75\% energy respectively (in kHz) 
+#'    \item \code{freq.Q75}: third quartile frequency. The frequency at which the signal is divided in two
+#'    frequency intervals of 75\% and 25\% energy respectively (in kHz) 
+#'    \item \code{freq.IQR}: interquartile frequency range. Frequency range between 'freq.Q25' and 'freq.Q75' 
 #'    (in kHz) 
 #'    \item \code{time.median}: median time. The time at which the signal is divided in two time
 #'    intervals of equal energy (in s) 
-#'    \item \code{time.Q25}: first quantile time. The time at which the signal is divided in two 
-#'    time intervals of 25% and 75% energy respectively (in s). See \code{\link[seewave]{acoustat}}
-#'    \item \code{time.Q75}: third quantile time. The time at which the signal is divided in two
-#'    time intervals of 75% and 25% energy respectively (in s). See \code{\link[seewave]{acoustat}}
-#'    \item \code{time.IQR}: interquantile time range. Time range between 'time.Q25' and 'time.Q75' 
+#'    \item \code{time.Q25}: first quartile time. The time at which the signal is divided in two
+#'time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seewave]{acoustat}}
+#'    \item \code{time.Q75}: third quartile time. The time at which the signal is divided in two
+#'    time intervals of 75\% and 25\% energy respectively (in s). See \code{\link[seewave]{acoustat}}
+#'    \item \code{time.IQR}: interquartile time range. Time range between 'time.Q25' and 'time.Q75' 
 #'    (in s). See \code{\link[seewave]{acoustat}}
 #'    \item \code{skew}: skewness (see note in \code{\link[seewave]{specprop}} description) 
 #'    \item \code{kurt}:  kurtosis (see note in \code{\link[seewave]{specprop}} description)
@@ -191,7 +191,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     t.cont <- apply(m, MARGIN = 2, FUN = sum)
     t.cont <- t.cont/sum(t.cont)
     t.cont.cum <- cumsum(t.cont)
-    t.quantiles <- sapply(c(0.25, 0.5, 0.75), function(x) time[length(t.cont.cum[t.cont.cum <= 
+    t.quartiles <- sapply(c(0.25, 0.5, 0.75), function(x) time[length(t.cont.cum[t.cont.cum <= 
                                                                                        x]) + 1])
     
     #save parameters
@@ -202,10 +202,10 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     freq.Q75 <- analysis$Q75/1000
     freq.IQR <- analysis$IQR/1000
     time.ent <- th(cbind(time, t.cont))
-    time.median <- t.quantiles[2]
-    time.Q25 <- t.quantiles[1]
-    time.Q75 <- t.quantiles[3]
-    time.IQR <- t.quantiles[3] - t.quantiles[1]
+    time.median <- t.quartiles[2]
+    time.Q25 <- t.quartiles[1]
+    time.Q75 <- t.quartiles[3]
+    time.IQR <- t.quartiles[3] - t.quartiles[1]
     skew <- analysis$skewness
     kurt <- analysis$kurtosis
     sp.ent <- analysis$sh

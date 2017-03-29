@@ -13,9 +13,10 @@
 #' @param all.data Logical. If \code{TRUE}) all columns in text files are returned, 
 #' keeping the name columns as in the raven files (not in "warbleR" format). Default is \code{FALSE}). Columns absent in some selection files will be filled with NA's.
 #' @param recursive Logical. If \code{TRUE}) the listing recurse into sub-directories.
-#' @param name.from.file Logical. If \code{TRUE}) the sound file names are extracted from the selection text file name. Note that by default it will assume 
-#' that the extension file name is ".wav". This can be control using the argumet 'ext.wav'. Default is \code{FALSE}). Ignored if
-#' 'sound.file.col' is provided and/or all.data is \code{TRUE}).
+#' @param name.from.file Logical. If \code{TRUE}) the sound file names are extracted from the selection text file name. 
+#' It asssumes that selections files contained the suffix "Table.1.selections.txt" or "selections.txt". 
+#' Note that by default it will assume that the extension file name is ".wav". This can be control using the
+#' argumet 'ext.wav'. Default is \code{FALSE}). Ignored if sound.file.col' is provided and/or all.data is \code{TRUE}).
 #' @param ext.case Character string of length 1 to specify whether sound file extensions are in upper or lower case. This should match the extension of the
 #' of the .wav files from which the selection were made. It must be either 'upper' or 'lower'. Only needed when 'name.from.file' is \code{TRUE}). 
 #' Ignored if 'sound.file.col' is provided and/or all.data is \code{TRUE}).
@@ -26,7 +27,8 @@
 #' both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE} then all 
 #' columns in selection files are returned. 
 #' @details The function import raven selection data from many files simultaneously. Files must be in .txt format. Note that selection 
-#' files including data from mulitple recordings cannot be imported.
+#' files including data from mulitple recordings cannot be imported. Make sure that NO OTHER TEXT FILES are found
+#' in the working directory, only raven generated selections files.
 #' @seealso \code{\link{imp.syrinx}} 
 #' @export
 #' @name imp.raven
