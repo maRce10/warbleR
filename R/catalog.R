@@ -535,8 +535,7 @@ split.screen(figs = m)
 #plot 
 lapply(1:nrow(m), function(i)
                   {
-  i <- i + 1
-  # i = 0
+
     screen(i)           
     if(i <= nrow(X3))
     {  
