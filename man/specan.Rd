@@ -69,8 +69,8 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    time intervals of 75\% and 25\% energy respectively (in s). See \code{\link[seewave]{acoustat}}
    \item \code{time.IQR}: interquartile time range. Time range between 'time.Q25' and 'time.Q75' 
    (in s). See \code{\link[seewave]{acoustat}}
-   \item \code{skew}: skewness (see note in \code{\link[seewave]{specprop}} description) 
-   \item \code{kurt}:  kurtosis (see note in \code{\link[seewave]{specprop}} description)
+   \item \code{skew}: skewness. Asymmetry of the spectrum (see note in \code{\link[seewave]{specprop}} description) 
+   \item \code{kurt}: kurtosis. Peakedness of the spectrum (see note in \code{\link[seewave]{specprop}} description)
    \item \code{sp.ent}: spectral entropy. Energy distribution of the frequency spectrum. Pure tone ~ 0; 
    noisy ~ 1. See \code{\link[seewave]{sh}}
    \item \code{time.ent}: time entropy. Energy distribution on the time envelope. Pure tone ~ 0; 
@@ -79,7 +79,7 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    See \code{\link[seewave]{H}}
    \item \code{sfm}: spectral flatness. Similar to sp.ent (Pure tone ~ 0; 
    noisy ~ 1). See \code{\link[seewave]{sfm}}
-   \item \code{peakf}: peak frequency (frequency with highest energy) 
+   \item \code{peakf}: peak frequency. Frequency with highest energy
    \item \code{meanfun}: average of fundamental frequency measured across the acoustic signal 
    \item \code{minfun}: minimum fundamental frequency measured across the acoustic signal 
    \item \code{maxfun}: maximum fundamental frequency measured across the acoustic signal 
@@ -87,7 +87,7 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    \item \code{mindom}: minimum of dominant frequency measured across the acoustic signal
    \item \code{maxdom}: maximum of dominant frequency measured across the acoustic signal 
    \item \code{dfrange}: range of dominant frequency measured across the acoustic signal 
-   \item \code{modindx}: modulation index. Calculated as the accumulated absolute 
+   \item \code{modindx}: modulation index. Calculated as the cumulative absolute 
      difference between adjacent measurements of dominant frequencies divided
      by the dominant frequency range
    \item \code{startdom}:  dominant frequency measurement at the start of the signal 

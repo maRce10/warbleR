@@ -139,7 +139,7 @@ frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
 ltemp <- lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
-   samp.rate <- clip@samp.rate
+  samp.rate <- clip@samp.rate
    
    # Fourier transform
    t.survey <- length(clip@left)/clip@samp.rate
@@ -148,7 +148,6 @@ ltemp <- lapp(1:nrow(X), function(x)
    # Filter amplitudes 
    t.bins <- fspec$time
    n.t.bins <- length(t.bins)
-   which.t.bins <- 1:n.t.bins
    which.frq.bins <- which(fspec$freq >= frq.lim[1] & fspec$freq <= frq.lim[2])
    frq.bins <- fspec$freq[which.frq.bins]
    n.frq.bins <- length(frq.bins)
@@ -201,85 +200,88 @@ ltemp <- lapp(1:nrow(X), function(x)
 
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
+#correlation function
+FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
+{
+  template <- ltemp[[i]]
+  
+  # Perform Fourier transform on survey
+  survey.spec <- seewave::spectro(wave = survey, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
+  
+  # NTS arbitrary adjustment to eliminate -Inf
+  survey.spec$amp[is.infinite(survey.spec$amp)] <- min(survey.spec$amp[!is.infinite(survey.spec$amp)]) - 10
+  frq.bins <- survey.spec$freq
+  t.bins <- survey.spec$time
+  t.survey <- length(survey@left)/survey@samp.rate
+  t.step <- t.bins[2] - t.bins[1]
+  frq.step <- frq.bins[2] - frq.bins[1]
+  
+  pts <- template$pts[, c(2:1, 3)]
+  
+  # Adjust pts if step sizes differ
+  if(!isTRUE(all.equal(template$t.step, t.step, tolerance=t.step/1E4))) {
+    pts[, 't'] <- round(pts[, 't'] * template$t.step/t.step)
+  }
+  if(!isTRUE(all.equal(template$frq.step, frq.step, tolerance=frq.step/1E6))) {
+    pts[, 'frq'] <- round(pts[, 'frq'] * template$frq.step/frq.step)
+  }
+  
+  # Determine the frequency limits from the template points
+  frq.lim <- frq.bins[range(pts[, 'frq'])] 
+  
+  # Get number of time windows/bins in frequency domain data
+  n.t.survey <- length(survey.spec$time)
+  
+  #  down amplitude matrix based on filter frequencies 
+  which.frq.bins <- which(survey.spec$freq >= frq.lim[1] & survey.spec$freq <= frq.lim[2])
+  amp.survey <- survey.spec$amp[which.frq.bins, ]
+  
+  # Shift frq indices in pts. The t indices already start at 1.
+  pts[, 'frq'] <- pts[, 'frq'] - min(which.frq.bins) + 1
+  n.t.template <- max(pts[, 't'])
+  n.frq.template <- max(pts[, 'frq'])
+  
+  # Translate pts matrix of indices into a vector index so indexing is faster within the lapplyfun call
+  pts.v <- (pts[, 't'] - 1)*n.frq.template + pts[, 'frq']
+  amp.template <- pts[, 'amp']
+  amp.survey.v <- c(amp.survey)  
+  
+  # Perform analysis for each time value (bin) of survey 
+  # Starting time value (bin) of correlation window
+  c.win.start <- as.list(1:(n.t.survey-n.t.template)*n.frq.template) # Starting position of subset of each survey amp matrix  
+  score.survey <- unlist(
+    lapply(X=c.win.start, FUN=function(x) 
+    {
+      # Unpack columns of survey amplitude matrix for correlation analysis
+      cor(amp.template, amp.survey.v[x + pts.v], method=cor.method, use='complete.obs') 
+    }
+    )
+  )
+  
+  # Collect score results and time (center of time bins) in data frame
+  score.L <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j], sep= "-"),sound.file2 = paste(template$sound.files,template$selec, sep= "-"), time=survey.spec$time[1:(n.t.survey-n.t.template)+n.t.template/2], 
+                        score=score.survey)
+  return(score.L)
+}
+
 #run cross-correlation
 if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("running cross-correlation:")
 
 a<-lapp(1:(nrow(X)-1), function(j)
   {
     a <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
-  margin <-(X$end[j] - X$start[j])/2
+ 
+  margin <-(max(with(X, end[j:nrow(X)] - start[j:nrow(X)])))/2
   start <-X$start[j] - margin
-  if(start < 0) start <- 0
+  if(start < 0) {
+    end <-X$end[j] + margin -start[j]
+    start <- 0} else
   end <-X$end[j] + margin
   if(end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate - 0.001
   
   survey<-tuneR::readWave(filename = as.character(X$sound.files[j]), from = start, to = end, units = "seconds")
   
-  FUNXC <- function(i, cor.mat)
-  {
-    template <- ltemp[[i]]
-    
-    # Perform Fourier transform on survey
-    survey.spec <- seewave::spectro(wave = survey, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
-    
-    # NTS arbitrary adjustment to eliminate -Inf
-    survey.spec$amp[is.infinite(survey.spec$amp)] <- min(survey.spec$amp[!is.infinite(survey.spec$amp)]) - 10
-    frq.bins <- survey.spec$freq
-    t.bins <- survey.spec$time
-    t.survey <- length(survey@left)/survey@samp.rate
-    t.step <- t.bins[2] - t.bins[1]
-    frq.step <- frq.bins[2] - frq.bins[1]
-    
-    pts <- template$pts[, c(2:1, 3)]
-    
-    # Adjust pts if step sizes differ
-    if(!isTRUE(all.equal(template$t.step, t.step, tolerance=t.step/1E4))) {
-      pts[, 't'] <- round(pts[, 't'] * template$t.step/t.step)
-    }
-    if(!isTRUE(all.equal(template$frq.step, frq.step, tolerance=frq.step/1E6))) {
-      pts[, 'frq'] <- round(pts[, 'frq'] * template$frq.step/frq.step)
-    }
-    
-    # Determine the frequency limits from the template points
-    frq.lim <- frq.bins[range(pts[, 'frq'])] 
-    
-    # Get number of time windows/bins in frequency domain data
-    n.t.survey <- length(survey.spec$time)
-    
-    #  down amplitude matrix based on filter frequencies 
-    which.frq.bins <- which(survey.spec$freq >= frq.lim[1] & survey.spec$freq <= frq.lim[2])
-    amp.survey <- survey.spec$amp[which.frq.bins, ]
-    
-    # Shift frq indices in pts. The t indices already start at 1.
-    pts[, 'frq'] <- pts[, 'frq'] - min(which.frq.bins) + 1
-    n.t.template <- max(pts[, 't'])
-    n.frq.template <- max(pts[, 'frq'])
-    
-    # Translate pts matrix of indices into a vector index so indexing is faster within the lapplyfun call
-    pts.v <- (pts[, 't'] - 1)*n.frq.template + pts[, 'frq']
-    amp.template <- pts[, 'amp']
-    amp.survey.v <- c(amp.survey)  
-    
-    # Perform analysis for each time value (bin) of survey 
-    # Starting time value (bin) of correlation window
-    c.win.start <- as.list(1:(n.t.survey-n.t.template)*n.frq.template) # Starting position of subset of each survey amp matrix  
-    score.survey <- unlist(
-      lapply(X=c.win.start, FUN=function(x) 
-      {
-        # Unpack columns of survey amplitude matrix for correlation analysis
-        cor(amp.template, amp.survey.v[x + pts.v], method=cor.method, use='complete.obs') 
-      }
-      )
-    )
-    
-    # Collect score results and time (center of time bins) in data frame
-    score.L <- data.frame(sound.file1= paste(X$sound.files[j],X$selec[j], sep= "-"),sound.file2= paste(template$sound.files,template$selec, sep= "-"), time=survey.spec$time[1:(n.t.survey-n.t.template)+n.t.template/2], 
-                          score=score.survey)
-    return(score.L)
-  }
-  
-  
-  score.L <- lapply((1+j):length(ltemp), function(i) try(FUNXC(i, cor.mat), silent = T))
+  score.L <- lapply((1+j):length(ltemp), function(i) try(FUNXC(i, cor.mat, survey, wl, ovlp, wn,  j, X), silent = T))
   
   if(any(!sapply(score.L, is.data.frame))) {
   if(j != (length(ltemp)-1))
@@ -295,7 +297,6 @@ a<-lapp(1:(nrow(X)-1), function(j)
   }
   score.df <- do.call("rbind", score.L)
 
-  
   
     if(cor.mat)  
 {      score.df <- data.frame(dyad = paste(score.df$sound.file1,score.df$sound.file2,sep = "/"), score.df)
@@ -330,6 +331,29 @@ mat[lower.tri(mat, diag=FALSE)] <- scores$scores
 mat <- t(mat)
 mat[lower.tri(mat, diag=FALSE)] <- scores$scores
 
+
+##diagonal
+# diago <- sapply(1:nrow(X), function(j)
+# {
+#   a <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
+#   
+#   margin <-(max(with(X, end[j:nrow(X)] - start[j:nrow(X)])))/2
+#   start <-X$start[j] - margin
+#   if(start < 0) {
+#     end <-X$end[j] + margin -start[j]
+#     start <- 0} else
+#       end <-X$end[j] + margin
+#   if(end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate
+#   
+#   survey<-tuneR::readWave(filename = as.character(X$sound.files[j]), from = start, to = end, units = "seconds")
+#   
+# 
+#   score.diag <- max(FUNXC(i = j, cor.mat = T,survey, wl, ovlp, wn, X =X, j)[,4], na.rm = TRUE)
+#    
+#   return(score.diag)
+# }
+# )
+# diag(mat) <- diago
 
 if(na.rm)
 {

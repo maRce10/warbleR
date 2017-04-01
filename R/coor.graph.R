@@ -134,7 +134,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
       
       df<-rbind(df1, df2)
       
-      #dtermine which ones overlap
+      #determine which ones overlap
       if(ovlp) {
         btc<-max(c(min(y1$start),min(y2$start)))
         z<-y[c((which(y$start==btc)-1):nrow(y)),] 
