@@ -35,7 +35,7 @@
 #'   \code{\link{mp32wav}}: Convert several .mp3 files in working directory to .wav
 #'   format
 #'   
-#'   \code{\link{checksels}}: checks whether selections can be read by subsequent functions
+#'   \code{\link{checksels}}: Check whether selections can be read by subsequent functions
 #'   
 #'   \code{\link{checkwavs}}: Check whether .wav files can be read by subsequent 
 #'   functions and the minimum windows length ("wl" argument) that can be used
@@ -44,7 +44,7 @@
 #'   
 #'   \code{\link{wavdur}}: Determine the duration of sound files
 #'   
-#' @section Streamlining analysis of animal acoustic signal structure in R:
+#' @section Exploring/analyzing signal structure:
 #'   
 #'   \code{\link{autodetec}}: Automatically detect start and 
 #'   end of acoustic signals
@@ -116,7 +116,6 @@
 #' @import utils
 #' @import parallel
 #' @import foreach
-#' @importFrom pbmcapply pbmclapply 
 #' @importFrom jpeg readJPEG 
 #' @importFrom doParallel registerDoParallel
 #' @importFrom dtw dtwDist

@@ -47,7 +47,7 @@ License: GPL (>= 2)
   \code{\link{mp32wav}}: Convert several .mp3 files in working directory to .wav
   format
   
-  \code{\link{checksels}}: checks whether selections can be read by subsequent functions
+  \code{\link{checksels}}: Check whether selections can be read by subsequent functions
   
   \code{\link{checkwavs}}: Check whether .wav files can be read by subsequent 
   functions and the minimum windows length ("wl" argument) that can be used
@@ -57,7 +57,7 @@ License: GPL (>= 2)
   \code{\link{wavdur}}: Determine the duration of sound files
 }
 
-\section{Streamlining analysis of animal acoustic signal structure in R}{
+\section{Exploring/analyzing signal structure}{
 
   
   \code{\link{autodetec}}: Automatically detect start and 

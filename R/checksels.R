@@ -21,7 +21,8 @@
 #' in the working directory, 2) if the sound files can be read and if so, 3) if the start and end time
 #' of the selections are found within the duration of the sound files. Note that the sound files 
 #' should be in the working directory (or the directory provided in 'path').
-#' This is useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}).
+#' This is useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}, \code{\link{xcorr}}, \code{\link{catalog}}, \code{\link{dfDTW}}). Note that corrupt files can be
+#' fixed using \code{\link{fixwavs}}) ('sox' must be installed to be able to run this function).
 #' @seealso \code{\link{checkwavs}}
 #' @export
 #' @name checksels

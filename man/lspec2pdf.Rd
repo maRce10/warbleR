@@ -51,4 +51,8 @@ getwd()
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
+\seealso{
+\code{\link{lspec}}, \code{\link{catalog2pdf}}, 
+https://marce10.github.io/2017-01-07-Create_pdf_files_with_spectrograms_of_full_recordings/
+}
 

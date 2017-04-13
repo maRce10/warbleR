@@ -1,6 +1,5 @@
-# Combine catalog images to single pdf files
 #' 
-#' \code{catalog2pdf} combines catalog images into pdfs 
+#' \code{catalog2pdf} combines \code{\link{catalog}} images into pdfs 
 #' @usage catalog2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
 #' pb = TRUE, by.img.suffix = FALSE, ...)
 #' @param keep.jpeg Logical argument. Indicates whether jpeg files should be kept (default) or remove.
@@ -20,6 +19,8 @@
 #' @export
 #' @name catalog2pdf
 #' @details The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution and smaller dimension (width and height) when creating catalogs will substantially decrease the size of pdf files (which could be pretty big).
+#' @seealso \code{\link{catalog2pdf}}, 
+#' \url{https://marce10.github.io/2017-03-17-Creating_song_catalogs/}
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory

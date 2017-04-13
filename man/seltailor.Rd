@@ -5,13 +5,14 @@
 \title{Interactive view of spectrograms to tailor start and end of selections}
 \usage{
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
- osci = FALSE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
-  comments = TRUE, path = NULL, frange = FALSE)
+ osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
+  comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
+  width = 15, height = 5, ...)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The ouptut of \code{\link{seltailor}} or \code{\link{autodetec}} can 
+end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Required. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -27,7 +28,7 @@ See function \code{\link[seewave]{ftwindow}} for more options.}
 start and end points of the selections to define spectrogram limits. Default is 0.5.}
 
 \item{osci}{Logical argument. If \code{TRUE} adds a oscillogram whenever the spectrograms are produced 
-with higher resolution (see seltime). Default is \code{FALSE}.
+with higher resolution (see seltime). Default is \code{TRUE}.
 The external program must be closed before resuming analysis. Default is \code{NULL}.}
 
 \item{pal}{A color palette function to be used to assign colors in the 
@@ -50,6 +51,25 @@ in the title of the spectrograms. Default is \code{TRUE}.}
 \item{frange}{Logical argument specifying whether limits on frequency range should be
  recorded. 
 If \code{NULL} (default) then only the time limits are recorded.}
+
+\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
+to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+\code{\link[monitoR]{gray.3}} offer 
+decreasing darkness levels. THIS IS STILL BEING TESTED.}
+
+\item{ext.window}{Logical. If \code{TRUE} then and external graphic window is used. Default 
+dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.}
+
+\item{width}{Numeric of length 1 controling the width of the external graphic window. Ignored
+if \code{ext.window = FALSE}. Default is 15.}
+
+\item{height}{Numeric of length 1 controling the height of the external graphic window.
+Ignored if \code{ext.window = FALSE}. Default is 5.}
+
+\item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
 \value{
 .csv file saved in the working directory with start and end time of 

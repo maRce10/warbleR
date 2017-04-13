@@ -16,6 +16,8 @@
 #' @name lspec2pdf
 #' @details The function combines  spectrograms for complete sound files from the \code{\link{lspec}} function into
 #' a single pdf (for each sound file).
+#' @seealso \code{\link{lspec}}, \code{\link{catalog2pdf}}, 
+#' https://marce10.github.io/2017-01-07-Create_pdf_files_with_spectrograms_of_full_recordings/
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory

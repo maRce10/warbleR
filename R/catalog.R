@@ -46,10 +46,10 @@
 #' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. THIS IS STILL BEING TESTED.
-#' @param res Numeric argument of length 1. Controls image resolution.
-#'   Default is 100 (faster) although 300 is recommended for publication/ 
-#'   presentation quality. Note that high resolution produce significantly bigger image files. 
-#'   This could be problematic when creating pdf files using \code{\link{catalog}}. 
+#' @param res Numeric argument of length 1. Controls image resolution. Default is 100 (faster)
+#'  although 300 is recommended for publication/presentation quality. Note that high resolution
+#'   produce significantly bigger image files. This could be problematic when creating pdf files
+#'   using \code{\link{catalog}}. 
 #' @param  orientation String. Indicates whether a letter page size image is produced in vertical ('v' option) or
 #' horizontal orientation ('h' option). Note that width and height can also be specified.
 #' @param labels String vector. Provides the column names that will be used as labels above the corresponding spectrograms. 
@@ -87,7 +87,7 @@
 #' @param breaks Numeric vector of length 1 or 2 controling the number of intervals in which a 
 #' numeric tag will be divided. The numbers control the first and second tags respectively. 
 #' Ignored if tags are not numeric. Default is c(5, 5). 
-#' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
+#' @return Image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
 #' @name catalog
@@ -95,11 +95,13 @@
 #'  matrix of spectrograms from a selection table. Spectrograms can be labeled or color tagged to facilitate
 #'   exploring variation related to a parameter of interest (e.g. location, song type). A legend will be added to 
 #'   help match colors with tag levels (if legend is > 0). Different color palettes can
-#'   be used for each tag. The width and height can also be adjusted to fit more column and/or rows.
+#'   be used for each tag. Numeric tags are split in intervals (the number of intervals can be
+#'    controlled with break argument). The width and height can also be adjusted to fit more column and/or rows.
 #'   This files can be put together in a single pdf file with \code{\link{catalog2pdf}}.
-#'   We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if 
-#'   aiming to generate pdfs.
-#' @seealso \code{\link{catalog2pdf}}
+#'   We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if
+#'   aiming to generate pdfs (otherwise pdfs could be pretty big).
+#' @seealso \url{https://marce10.github.io/2017-03-17-Creating_song_catalogs/}
+#' \code{\link{catalog2pdf}}
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory

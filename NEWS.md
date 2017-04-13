@@ -2,7 +2,7 @@
 
 
 # warbleR 1.1.6 
-##### (Release date: XXXXXXX)
+##### (Release date: 2017-04-05)
 
 ## New functions:
 
@@ -31,7 +31,7 @@ measures in specan function
 * "rm.imcomp" argument in coor.test function to exclude singing events that only have one individual
 * "cutoff" argument in coor.test function to determine the minimum number of signals per individual needed for a singing event to
 be included
-* "rm.solo" argument in coor.test to  control if signals that are not intercalated at the start or end of the 
+* "rm.solo" argument in coor.test to control if signals that are not intercalated at the start or end of the 
 sequence are removed. For instances the sequence of signals A-A-A-B-A-B-A-B-B-B (in which A and B represent 
 different individuals) would be subset to A-B-A-B-A-B
 * "incl.wav" argument in filtersels function to indicate if the sound file extension is included in the image files
@@ -41,6 +41,7 @@ different individuals) would be subset to A-B-A-B-A-B
 # Bug fixes:
 * error produced when calculating frequency limits based on dominant frequency contours in xcorr (when frange is not provided)
 * error for identifying readable sound files in some specific .wav formats in checkwavs function
+* error when comparing signals with a high duration difference in xcorr
 
 # warbleR 1.1.5 
 ##### (Release date: 2017-01-19)

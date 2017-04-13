@@ -29,8 +29,10 @@ If all .wav files are ok, returns message "All files can be read!".
 This function checks if .wav files in the working directory can be read.
 Users must set the working directory where they wish to check .wav files beforehand. 
 If X is provided it also returns the smallest number of samples from
-the selections listed in X (if all files can be read).  The function is intended for a "quick and dirty"
-check of the .wav files in a selections data frame. For a more thourough analysis see \code{\link{checksels}}.
+the selections listed in X (if all files can be read). Note that corrupt files can be
+fixed using \code{\link{fixwavs}}) ('sox' must be installed to be able to run this function).
+The function is intended for a "quick and dirty" check of the .wav files in a selections data
+ frame. For a more thourough analysis see \code{\link{checksels}}.
 }
 \examples{
 \dontrun{

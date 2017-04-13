@@ -19,7 +19,7 @@
 #' a format that can actually be imported. Problematic files can be determined using \code{\link{checksels}}. The  
 #' \code{\link{checksels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
 #' names to be "fixed" can be provided (argument 'files'). Internally the function calls 'sox' through the 
-#' \code{\link[seewave]{sox}} function. sox' must be installed to be able to run this function.
+#' \code{\link[seewave]{sox}} function. 'sox' must be installed to be able to run this function.
 #'   
 #' @examples
 #' \dontrun{

@@ -195,6 +195,13 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  #if parallel and pb in windows
+  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
+      message("parallel with progress bar not available for windows OS")
+      message("running parallel without progress bar")
+      pb <- FALSE
+    } 
+  
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   

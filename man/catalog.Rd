@@ -67,10 +67,10 @@ to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels. THIS IS STILL BEING TESTED.}
 
-\item{res}{Numeric argument of length 1. Controls image resolution.
-Default is 100 (faster) although 300 is recommended for publication/ 
-presentation quality. Note that high resolution produce significantly bigger image files. 
-This could be problematic when creating pdf files using \code{\link{catalog}}.}
+\item{res}{Numeric argument of length 1. Controls image resolution. Default is 100 (faster)
+although 300 is recommended for publication/presentation quality. Note that high resolution
+ produce significantly bigger image files. This could be problematic when creating pdf files
+ using \code{\link{catalog}}.}
 
 \item{orientation}{String. Indicates whether a letter page size image is produced in vertical ('v' option) or
 horizontal orientation ('h' option). Note that width and height can also be specified.}
@@ -123,7 +123,7 @@ numeric tag will be divided. The numbers control the first and second tags respe
 Ignored if tags are not numeric. Default is c(5, 5).}
 }
 \value{
-image files with spectrograms of whole sound files in the working directory. Multiple pages
+Image files with spectrograms of whole sound files in the working directory. Multiple pages
 can be returned, depending on the length of each sound file.
 }
 \description{
@@ -134,10 +134,11 @@ This functions aims to simplify the visual exploration of multiple vocalizations
  matrix of spectrograms from a selection table. Spectrograms can be labeled or color tagged to facilitate
   exploring variation related to a parameter of interest (e.g. location, song type). A legend will be added to 
   help match colors with tag levels (if legend is > 0). Different color palettes can
-  be used for each tag. The width and height can also be adjusted to fit more column and/or rows.
+  be used for each tag. Numeric tags are split in intervals (the number of intervals can be
+   controlled with break argument). The width and height can also be adjusted to fit more column and/or rows.
   This files can be put together in a single pdf file with \code{\link{catalog2pdf}}.
-  We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if 
-  aiming to generate pdfs.
+  We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if
+  aiming to generate pdfs (otherwise pdfs could be pretty big).
 }
 \examples{
 \dontrun{
@@ -203,6 +204,7 @@ getwd()
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
+\url{https://marce10.github.io/2017-03-17-Creating_song_catalogs/}
 \code{\link{catalog2pdf}}
 }
 

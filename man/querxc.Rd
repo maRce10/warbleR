@@ -51,7 +51,8 @@ If X is not provided the function returns a data frame with the following record
 \details{
 This function queries for avian vocalization recordings in the open-access
 online repository Xeno-Canto (\url{http://www.xeno-canto.org/}). It can return recordings metadata
-or download the associated sound files.
+or download the associated sound files. Maps of recording coordinates can be produced using 
+\code{\link{xcmaps}}
 }
 \examples{
 \dontrun{
@@ -86,5 +87,9 @@ femsong <- querxc(qword = 'type:song type:female', download = FALSE)
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}
+\seealso{
+\code{\link{xcmaps}}, 
+\url{https://marce10.github.io/2016-12-22-Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto/}
 }
 
