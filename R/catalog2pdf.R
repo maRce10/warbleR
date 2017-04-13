@@ -63,6 +63,14 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
    or.sf <- gsub("Catalog_p\\d+\\-|\\.jpeg", "" ,imgs) else
   or.sf <- by.img.suffix
   
+  #if parallel and pb in windows
+  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
+    message("parallel with progress bar is currently not available for windows OS")
+    message("running parallel without progress bar")
+    pb <- FALSE
+  } 
+  
+  
   pdf.options(useDingbats = TRUE)
   
   #loop over each sound file name  

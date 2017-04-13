@@ -47,6 +47,13 @@ lspec2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = 
     if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
   setwd(path)} #set working directory
   
+  #if parallel and pb in windows
+  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
+    message("parallel with progress bar is currently not available for windows OS")
+    message("running parallel without progress bar")
+    pb <- FALSE
+  } 
+  
   #list jpeg files
   imgs <- list.files(pattern = "\\.jpeg$", ignore.case = TRUE)
   if(length(imgs) == 0) stop("No .jpeg files were found in the working directory")

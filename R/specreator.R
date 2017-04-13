@@ -155,6 +155,13 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  #if parallel and pb in windows
+  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
+    message("parallel with progress bar is currently not available for windows OS")
+    message("running parallel without progress bar")
+    pb <- FALSE
+  } 
+  
   #create function to run within Xapply functions downstream     
   specreFUN <- function(X, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab){
     

@@ -91,6 +91,13 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  #if parallel and pb in windows
+  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
+    message("parallel with progress bar is currently not available for windows OS")
+    message("running parallel without progress bar")
+    pb <- FALSE
+  } 
+  
   file.name <- gsub(" ", "_", file.name) 
   file.name <- tolower(file.name) 
   

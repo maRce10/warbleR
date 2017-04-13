@@ -173,6 +173,13 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  #if parallel and pb in windows
+  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
+    message("parallel with progress bar is currently not available for windows OS")
+    message("running parallel without progress bar")
+    pb <- FALSE
+  } 
+  
   # methods 
   if(any(!is.character(methods),length(methods) > 2)) stop("'methods' must be a character vector of length 2")
   if(length(methods[!methods %in% c("XCORR", "dfDTW", "ffDTW", "SP")]) > 0) 

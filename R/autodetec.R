@@ -197,7 +197,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-      message("parallel with progress bar not available for windows OS")
+      message("parallel with progress bar is currently not available for windows OS")
       message("running parallel without progress bar")
       pb <- FALSE
     } 

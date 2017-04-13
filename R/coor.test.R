@@ -96,6 +96,13 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  #if parallel and pb in windows
+  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
+    message("parallel with progress bar is currently not available for windows OS")
+    message("running parallel without progress bar")
+    pb <- FALSE
+  } 
+  
     #create function to randomized singing events
       coortestFUN <- function(X, h){
   sub<-X[X$sing.event==h,]
