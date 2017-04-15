@@ -10,7 +10,8 @@
 #' be used as the input data frame.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f
-#'   and high.f columns will be used as bandpass limits. Default is c(0, 22).
+#'   and high.f columns will be used as bandpass limits. Default is c(0, 22). 
+#'   Lower limit of bandpass is not applied to fundamental frequencies. 
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param threshold amplitude threshold (\%) for fundamental frequency and 
 #'   dominant frequency detection. Default is 15.
@@ -73,18 +74,20 @@
 #'    \item \code{dfrange}: range of dominant frequency measured across the acoustic signal 
 #'    \item \code{modindx}: modulation index. Calculated as the cumulative absolute 
 #'      difference between adjacent measurements of dominant frequencies divided
-#'      by the dominant frequency range
+#'      by the dominant frequency range. 1 means the signals is not modulated. 
 #'    \item \code{startdom}:  dominant frequency measurement at the start of the signal 
 #'    \item \code{enddom}: dominant frequency measurement at the end of the signal 
-#'    \item \code{dfslope}: slope of the change in dominant through time ([enddom-startdom]/duration)  
+#'    \item \code{dfslope}: slope of the change in dominant through time ((enddom-startdom)/duration). Units are kHz/s.  
 #' }
 #' @export
 #' @name specan
 #' @details The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used 
-#'  directly without any additional modification. The function measures 29 acoustic parameters (if fast = \code{TRUE}) on 
+#'  directly without any additional modification. The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
 #'  each selection in the data frame. Most parameters are produced internally by 
 #'  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
-#'  and \code{\link[seewave]{dfreq}} from the package seewave. 
+#'  and \code{\link[seewave]{dfreq}} from the package seewave and \code{\link[tuneR]{FF}} 
+#'  from the package tuneR. NAs are produced for fundamental and dominant 
+#'  frequency measures when there are no amplitude values above the threshold.
 
 #' @examples
 #' \dontrun{
@@ -235,30 +238,39 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
                                                                overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
                         }
     
-    meanfun<-mean(ff, na.rm = TRUE)
+  ff <- ff[!is.na(ff)]
+    
+  if(length(ff) > 0)
+   { meanfun<-mean(ff, na.rm = TRUE)
     minfun<-min(ff, na.rm = TRUE)
-    maxfun<-max(ff, na.rm = TRUE)
+    maxfun<-max(ff, na.rm = TRUE)} else meanfun <- minfun <- maxfun <- NA
     
     #Dominant frecuency parameters
     y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
+    
+    #remove NAs
+    y <- y[!is.na(y)]
+    
+    #remove values below and above bandpass
+    y <- y[y >= b[1] & y <= b[2] & y != 0]
+    
+    if(length(y) > 0)
+    {
     meandom <- mean(y, na.rm = TRUE)
-    if(length(y[y > 0 & !is.na(y)]) > 0) mindom <- min(y[y > 0 & !is.na(y)]) else mindom <- NA
+    mindom <- min(y, na.rm = TRUE)
     maxdom <- max(y, na.rm = TRUE)
-    if(is.na(mindom)) dfrange <- NA else dfrange <- maxdom - mindom
+    dfrange <- maxdom - mindom
+    startdom <- y[1]
+    enddom <- y[length(y)]
+    if(length(y) > 1 & dfrange != 0)
+    modindx <- sum(sapply(2:length(y), function(j) abs(y[j] - y[j - 1])))/dfrange else modindx <- 1 
+    } else meandom <- mindom <- maxdom <- dfrange <- startdom <- enddom <- modindx <- NA
+    
     duration <- (X$end[i] - X$start[i])
-    startdom <- y[!is.na(y)][1]
-    enddom <- y[!is.na(y)][length(y[!is.na(y)])]
-    dfslope <- (enddom -startdom)/duration
-    
-    
-    #modulation index calculation
-    changes <- vector()
-    for(j in which(!is.na(y))){
-      change <- abs(y[j] - y[j + 1])
-      changes <- append(changes, change)
-    }
-    if(mindom==maxdom) modindx<-0 else modindx <- mean(changes, na.rm = TRUE)/dfrange
-    
+    if(!is.na(enddom) && !is.na(startdom))
+    dfslope <- (enddom -startdom)/duration else dfslope <- NA
+  
+
     #save results
     if(fast) return(data.frame(sound.files = X$sound.files[i], selec = X$selec[i], duration, meanfreq, sd, freq.median, freq.Q25, freq.Q75, freq.IQR, time.median, time.Q25, time.Q75, time.IQR, skew, kurt, sp.ent, time.ent, entropy, sfm, 
                                meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope)) else

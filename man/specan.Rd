@@ -15,7 +15,8 @@ be used as the input data frame.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f
-and high.f columns will be used as bandpass limits. Default is c(0, 22).}
+and high.f columns will be used as bandpass limits. Default is c(0, 22). 
+Lower limit of bandpass is not applied to fundamental frequencies.}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
 
@@ -89,10 +90,10 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    \item \code{dfrange}: range of dominant frequency measured across the acoustic signal 
    \item \code{modindx}: modulation index. Calculated as the cumulative absolute 
      difference between adjacent measurements of dominant frequencies divided
-     by the dominant frequency range
+     by the dominant frequency range. 1 means the signals is not modulated. 
    \item \code{startdom}:  dominant frequency measurement at the start of the signal 
    \item \code{enddom}: dominant frequency measurement at the end of the signal 
-   \item \code{dfslope}: slope of the change in dominant through time ([enddom-startdom]/duration)  
+   \item \code{dfslope}: slope of the change in dominant through time ((enddom-startdom)/duration). Units are kHz/s.  
 }
 }
 \description{
@@ -101,10 +102,12 @@ are provided.
 }
 \details{
 The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used 
- directly without any additional modification. The function measures 29 acoustic parameters (if fast = \code{TRUE}) on 
+ directly without any additional modification. The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
  each selection in the data frame. Most parameters are produced internally by 
  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
- and \code{\link[seewave]{dfreq}} from the package seewave.
+ and \code{\link[seewave]{dfreq}} from the package seewave and \code{\link[tuneR]{FF}} 
+ from the package tuneR. NAs are produced for fundamental and dominant 
+ frequency measures when there are no amplitude values above the threshold.
 }
 \examples{
 \dontrun{
