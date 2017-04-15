@@ -13,7 +13,7 @@ LazyData: TRUE
 URL: https://github.com/maRce10/warbleR 
 BugReports: https://github.com/maRce10/warbleR/issues
 NeedsCompilation: no
-Suggests: knitr, ggplot2, pbmcapply, signal, proxy 
+Suggests: knitr, ggplot2, pbmcapply
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
 Packaged: 2016-04-18 23:45:31 UTC; m
