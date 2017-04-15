@@ -116,7 +116,9 @@
 #' @import utils
 #' @import parallel
 #' @import foreach
-#' @importFrom jpeg readJPEG 
+#' @import iterators
+#' @import bitops
+#' @import jpeg
 #' @importFrom doParallel registerDoParallel
 #' @importFrom dtw dtwDist
 #' @importFrom stats cor dist aggregate approx ave princomp time ts predict smooth.spline complete.cases 
