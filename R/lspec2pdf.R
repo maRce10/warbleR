@@ -80,11 +80,11 @@ lspec2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = 
     }
     
     #plot
-    plot.new()
     img <- jpeg::readJPEG(subimgs[1])
     par(mar = rep(0, 4))
+    plot.new()
     mr <- par("usr")
-    graphics::rasterImage(img, mr[1]- 0.12, mr[3] - 0.14, mr[2] + 0.07, mr[4] + 0.1)
+    graphics::rasterImage(img, mr[1], mr[3], mr[2], mr[4])
     
     #loop over the following pages if more than 1 page
     if(length(subimgs) > 1)

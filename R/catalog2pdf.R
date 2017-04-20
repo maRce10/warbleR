@@ -70,7 +70,6 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
     pb <- FALSE
   } 
   
-  
   pdf.options(useDingbats = TRUE)
   
   #loop over each sound file name  
@@ -80,7 +79,6 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
       if(!is.logical(i)) filnam <- paste0(i, ".pdf") else filnam <- "Catalog.pdf"
    
        if(any(!overwrite & !file.exists(filnam), overwrite))
-        
 { 
     
     #order imgs so they look order in the pdf
@@ -97,28 +95,25 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
     # get dimensions
     imgdm <- dim(jpeg::readJPEG(subimgs[1], native = T))
          
-    imgdm[1]/imgdm[2] * 15
-    
-    
+    dimprop <- imgdm[1]/imgdm[2]
     
     #start graphic device     
    if(!is.logical(i))
-     grDevices::pdf(file = paste0(i, ".pdf"), width = 10, height = imgdm[1]/imgdm[2] * 10, ...) else  grDevices::pdf(file = "Catalog.pdf", width = 10, height = imgdm[1]/imgdm[2] * 10, ...)     
+     grDevices::pdf(file = paste0(i, ".pdf"), width = 10, height = dimprop * 10, ...) else  grDevices::pdf(file = "Catalog.pdf", width = 10, height = dimprop * 10, ...)     
+
 
     #plot
-    plot.new()
     img <- jpeg::readJPEG(subimgs[1])
-    par(mar = rep(0, 4))
+    par(mar = rep(0, 4), oma = rep(0, 4), pty = "m")
+    plot.new()
     mr <- par("usr")
-    graphics::rasterImage(img, mr[1] - 0.049, mr[3] - 0.1, mr[2] + 0.03, mr[4] + 0.055)
-    # graphics::rasterImage(img, mr[1], mr[3], mr[2], mr[4])
+    graphics::rasterImage(img, mr[1], mr[3], mr[2], mr[4])
     
     #loop over the following pages if more than 1 page
     if(length(subimgs) > 1)
       {
       no.out <- lapply(subimgs[-1], function(y) {
         plot.new()
-        par(mar = rep(0, 4))
         mr <- par("usr")
         img2 <- jpeg::readJPEG(y)
         graphics::rasterImage(img2, mr[1], mr[3], mr[2], mr[4])

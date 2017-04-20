@@ -420,8 +420,6 @@ else
   } else legend <- 0
   
     #calculate time and freq ranges based on all recs
-if(same.time.scale)
-    {
   rangs <- lapply(1:nrow(X), function(i){
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
@@ -439,18 +437,29 @@ if(same.time.scale)
 
 rangs <- do.call(rbind, rangs)
 
-X2 <- lapply(1:nrow(X), function(x)
+flim[2] <- min(rangs$fl2)
+
+# adjust times if same.time.scale = T
+if(same.time.scale)
+{
+  X2 <- lapply(1:nrow(X), function(x)
   {
   Y <- X[x, ]
   dur <- Y$end - Y$start
   if(dur < max(rangs$mardur)) {
     Y$end  <- Y$end + (max(rangs$mardur) - dur)/2
     Y$start  <- Y$start - (max(rangs$mardur) - dur)/2
+    if(Y$start < 0) {
+      Y$end <- Y$end - Y$start  
+      Y$start <- 0
+      }
     }
 return(Y)
 })
 X <- do.call(rbind, X2)
-} 
+}
+
+ 
     
 catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex)
 {
@@ -458,13 +467,11 @@ catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovl
 #rows
 if(is.null(tags))
   rws <- rep(c(5, nrow / 8), nrow) else   rws <- rep(c(5, nrow / 4), nrow)
+  
+if(same.time.scale) rws <- c(nrow / 1.7, rws) else rws <- c(nrow / 8, rws)
 
-#last row thicker ( the first one predicts the height based on ncol and the second one controls for height)
-if(same.time.scale) rws[1] <- stats::predict(object = stats::smooth.spline(c(6.5, 5.7, 8, 9.56) ~ c(4, 2, 8, 16) , df = 4), x = nrow)$y * stats::predict(object = stats::smooth.spline(c(1.5, 1, 0.9, 0.73) ~ c(5, 10, 20, 40), df = 4), x = width)$y
- 
-rws <- c(nrow / 8, rws)
 
-#make last one thicker to fit axis
+#define row width
 csrws <- cumsum(rws)
 rws <- csrws/max(csrws)
 minrws <- min(rws)
@@ -474,10 +481,12 @@ btm <- c(sort(rws[-length(rws)], decreasing = TRUE))
 btm <- rep(btm, each = ncol + 1)
 
 #columns
-lfcol.width <- 0.1
+lfcol.width <- ncol / 27
+faxis.width <- ncol / 37
+if(faxis.width < 0.2) faxis.width <- 0.2
 if(ncol > 1)
 {
-  spectroclms <- c(lfcol.width, 0.014 * ncol, rep(1, ncol))
+  spectroclms <- c(lfcol.width, faxis.width, rep(1, ncol))
 csclms <- cumsum(spectroclms)
 cls <- csclms/max(csclms)
 lf <- c(0, cls[-length(cls)])
@@ -506,7 +515,7 @@ minbtm <- min(m[,3])
 m <- rbind(m, c(0, min(m[,1]), 0, 1))
 
 #add bottom row for time axis
-m <- rbind(m, c(0, 1, 0, minbtm))
+m <- rbind(m, c(minlf, 1, 0, minbtm))
 
 #add legend col
 if(legend > 0)
@@ -542,7 +551,9 @@ split.screen(figs = m)
 # close.screen(all.screens = T)
 
 #plot 
-lapply(1:nrow(m), function(i)
+sqplots <- which(m[,2] != minlf)
+
+lapply(sqplots, function(i)
                   {
 
     screen(i)           
@@ -550,7 +561,7 @@ lapply(1:nrow(m), function(i)
     {  
       if(i %% 2 == 0) #plot spectros
 {     #Read sound files, initialize frequency and time limits for spectrogram
-        r <- tuneR::readWave(as.character(X3$sound.files[i]), header = TRUE)
+      r <- tuneR::readWave(as.character(X3$sound.files[i]), header = TRUE)
       f <- r$sample.rate
       t <- c(X3$start[i] - mar, X3$end[i] + mar)
 
@@ -558,13 +569,10 @@ lapply(1:nrow(m), function(i)
 
   if(t[2] > r$samples/f) t[2] <- r$samples/f
   
-  fl<- flim #in case flim its higher than can be due to sampling rate
-  if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
-  
   rec <- tuneR::readWave(as.character(X3$sound.files[i]), from = t[1], to = t[2], units = "seconds")
 
     #add xaxis to bottom spectros
-  if(i %in% which(m[,3] == minbtm) | !same.time.scale) {
+  if(!same.time.scale) {
     axisX = TRUE
     btm = 2.6
   } else {
@@ -572,9 +580,11 @@ lapply(1:nrow(m), function(i)
     btm = 0
   } 
   
+  axisY <- ifelse(m[i,1] == minlf, TRUE, FALSE) 
+  
   par(mar = c(btm, 0, 0, 0))
   
-  spectro2(wave = rec, f = rec@samp.rate, flim = fl, wl = wl, ovlp = ovlp, axisX = axisX, axisY = FALSE, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex, collevels = collev)
+  spectro2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = 4, collevels = collev, cexaxis = 4)
 
 } else { #plot labels
   
@@ -603,48 +613,51 @@ lapply(1:nrow(m), function(i)
                   cex = (ncol * nrow * 2 * cex)/((ncol * nrow)^1.2))
            }
     }  
-  
-  #add freq ticks
-  if(i %in% ((ncol * nrow * 2) + 1):((ncol * nrow * 2) + (nrow * 2)) & i %% 2 == 0 &  (i - (ncol * nrow *2)) <= nrow(X3))
-  {
-    par( mar = rep(0, 4))
-    plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
-   
-    ylab <- pretty(flim, 5)
-    ylab <- ylab[ylab < flim[2] & ylab > flim[1]]
-    ys <- ylab/flim[2]
-    
-    usr <- par("usr")
-   if(same.time.scale)
-    {    if(i %in% which(m[,3] == minbtm))
-      usr[1] <- stats::predict(object = stats::smooth.spline(c(-0.01, -0.07, 0.15, 0.37) ~ c(4, 2, 8, 16) , df = 4), x = nrow)$y * 20/height else  
-        usr[1] <- -0.15} else usr[1] <- stats::predict(object = stats::smooth.spline(c(0.03, -0.07, 0.25, 0.75) ~ c(4, 2, 8, 16) , df = 4), x = nrow)$y * 20/height 
-
-    ys <- usr[1] + (usr[2] - usr[1]) * ys
-  
-    out <- lapply(1:length(ys), 
-                  function(w) 
-                  {
-                    lines(x = c(0.9, 1.04), y = c(ys[w], ys[w]))
-                    text(x = 0.25, y = ys[w], labels = ylab[w], cex = cex)
-                  }
-    )
-  }
     
   #add Freq axis label
   if(i == nrow(m) - 1)
   {
     par(mar = c(0, 0, 0, 0))
-    plot(1, col = "white", frame.plot = FALSE)
+    plot(1, col = adjustcolor("white", alpha.f = 0), frame.plot = FALSE)
     text(x = 1, y = 1.05, "Frequency (kHz)", srt = 90, cex = 1.2 * cex) 
   }
    
   #add time axis label
   if(i == nrow(m))
   {
-    par(mar = c(0, 0, 0, 0))
-    plot(1, col = "white", frame.plot = FALSE)
-    text(x = 1, y = 1.05, "Time (s)", cex = 1.2 * cex) 
+    par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
+    plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
+    
+    if(same.time.scale)
+    {
+      # add title
+        text(x = 0.5, y = 0.25, "Time (s)", cex = 1.2 * cex) 
+      
+      # max duration
+      maxdur <- max(X$end - X$start)
+      xlab <- pretty(seq(0, maxdur, length.out = 3), min.n = 5)
+      xlab <- xlab[xlab < maxdur & xlab > 0]
+      xs <- xlab/mean(X$end - X$start)   
+      xs <- xs/ncol
+        
+      finncol <- which(nrow(X) >= seq(0, nrow * ncol, nrow)[-1])
+      
+      if(length(finncol) > 0)
+    {  usr <- par("usr")
+      sq <- c(seq(min(usr), max(usr), length.out = ncol + 1))
+      sq <- sq[-length(sq)]
+      sq <- sq[finncol]
+      out <- lapply(sq, function(p)
+        {
+        out <- lapply(1:length(xs), function(w)
+                      {
+                        lines(y = c(0.9, 1.04), x = c(xs[w], xs[w]) + p)
+                        text(y = 0.75, x = xs[w] + p, labels = xlab[w], cex = cex)
+                      })
+        })
+      }
+      } else text(x = 0.5, y = 0.5, "Time (s)", cex = 1.2 * cex) 
+  
   }
 
   #add legend 
