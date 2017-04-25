@@ -799,11 +799,11 @@ if(cel < 1)
      if(pb)
      out <- pbmcapply::pbmclapply(1:length(Xlist), mc.cores = parallel, function (z) {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex)
+                width, height, tag.col.df, legend, cex, img.suffix)
      }) else
          out <- parallel::mclapply(1:length(Xlist),  mc.cores = parallel, function (z) {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal,
-                width, height, tag.col.df, legend, cex)
+                width, height, tag.col.df, legend, cex, img.suffix)
             })
    }
    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
@@ -814,7 +814,7 @@ if(cel < 1)
 
      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex)
+                width, height, tag.col.df, legend, cex, img.suffix)
      }
 
      parallel::stopCluster(cl)
@@ -825,10 +825,10 @@ if(cel < 1)
    if(pb)
      out <- pbapply::pblapply(1:length(Xlist), function(z)
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex))  else
+                width, height, tag.col.df, legend, cex, img.suffix))  else
          out <- lapply(1:length(Xlist), function(z)
            catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                    width, height, tag.col.df, legend, cex))
+                    width, height, tag.col.df, legend, cex, img.suffix))
  }
 
 if(!is.null(path)) setwd(wd)
