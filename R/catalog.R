@@ -461,7 +461,7 @@ X <- do.call(rbind, X2)
 
  
     
-catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex)
+catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex, img.suffix)
 {
 #set layout for screensplit
 #rows
@@ -535,7 +535,7 @@ X3 <- X[rep(1:nrow(X), each = 2), ]
 X3 <- rapply(X3, as.character, classes="factor", how="replace")
 
 #start graphic device
-if(!is.null(img.suffix)) img.suffix <- paste0("-",img.suffix)
+if(!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
 imgfun(filename = paste0("Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
 invisible(close.screen(all.screens = TRUE))
 split.screen(figs = m)
@@ -788,7 +788,7 @@ if(cel < 1)
 
      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex)
+                width, height, tag.col.df, legend, cex, img.suffix)
 
      parallel::stopCluster(cl)
 

@@ -1,5 +1,17 @@
 # NEWS
 
+# warbleR 1.1.7
+##### (Release date: 2017-04-24)
+
+## Changes and additions:
+
+* "seltailor" function now can use external graphic devices (X11 or quartz)
+
+## Bug fixes:
+
+* installation in windows OS fixed (pbmcapply conflict in previous version)
+
+===============================================================================================
 
 # warbleR 1.1.6 
 ##### (Release date: 2017-04-05)
@@ -38,15 +50,19 @@ different individuals) would be subset to A-B-A-B-A-B
 * 3 different options (formulas) for calculating signal-to-noise ratio are now available (sig2noise function). In addition the "eq.dur" argument allows to measure a noise segment of the same duration than the signal
 * grid can be removed from spectrograms in compare.methods function
 
-# Bug fixes:
+## Bug fixes:
+
 * error produced when calculating frequency limits based on dominant frequency contours in xcorr (when frange is not provided)
 * error for identifying readable sound files in some specific .wav formats in checkwavs function
 * error when comparing signals with a high duration difference in xcorr
+
+===============================================================================================
 
 # warbleR 1.1.5 
 ##### (Release date: 2017-01-19)
 
 ## Changes and additions:
+
 * "frange" argument in seltailor to define also the frequency range (low.f and high.f)
 * trackfreqs, specan now can use low.f and high.f as bandpass limits
 * trackfreqs and specreator can plot boxes around signals if low.f and high.f are provided

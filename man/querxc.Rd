@@ -51,8 +51,12 @@ If X is not provided the function returns a data frame with the following record
 \details{
 This function queries for avian vocalization recordings in the open-access
 online repository Xeno-Canto (\url{http://www.xeno-canto.org/}). It can return recordings metadata
-or download the associated sound files. Maps of recording coordinates can be produced using 
-\code{\link{xcmaps}}
+or download the associated sound files. Complex queries can be done by using search terms that follow the 
+ xeno-canto advance query syntax (check "qword" argument description). 
+ Files are double-checked after downloading and "empty" files are re-downloaded. 
+ File downloading process can be interrupted and resume later as long as the working directory is the same.
+ Maps of recording coordinates can be produced using 
+\code{\link{xcmaps}}.
 }
 \examples{
 \dontrun{
