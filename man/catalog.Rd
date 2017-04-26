@@ -173,25 +173,25 @@ catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = 
  X <- rbind(X, X)
  
  #create some simulated labels
- X$songtype <- sample(letters[1:3], nrow(X), replace = T)
+ X$songtype <- sample(letters[13:15], nrow(X), replace = T)
  X$indiv <- sample(letters[1:12], nrow(X), replace = T)
 
 # 12 columns in 5 rows, 2 tags
-catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
+catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
  collev = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
 
 
 # with legend
-catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
+catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
  width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
   tags = c("songtype", "indiv"))
   
-  #' horizontal orientation
-catalog(X = selec.table, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
+  # horizontal orientation
+catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
  orientation = "h",  labels = c("sound.files", "selec"), legend = 3, 
  width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
