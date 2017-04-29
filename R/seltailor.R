@@ -148,10 +148,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   if(any(!is.na(X$tailored))) if(length(which(X$tailored == "y")) > 0) dn = max(which(X$tailored == "y"))
    
   #set external window function
-  platform <- sessionInfo()$platform 
-  
-  if(grepl("linux|pc",platform)) extwin <- grDevices::X11
-  if(grepl("apple",platform)) extwin <- grDevices::quartz
+  if(any(Sys.info()[1] == c("Linux", "Windows"))) extwin <- grDevices::X11 else extwin <- grDevices::quartz
   
   #start external graphic device
   if(ext.window)  extwin(width = width, height = height)

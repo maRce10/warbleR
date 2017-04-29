@@ -358,7 +358,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
        if(img)
   imgfun(filename = paste("comp.meth-", names(disim.mats)[1],"-",names(disim.mats)[2], "-", paste(X$labels, collapse = "-"), paste0(".", it), sep = ""), width = 16.25, height =  16.25, units = "cm", res = res)
   
-  split.screen(m)
+  graphics::split.screen(m)
   
   mxdur<-max(X$end - X$start) + mar*2
   

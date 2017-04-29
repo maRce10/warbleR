@@ -153,7 +153,7 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function provides visualization of frequency measurements as the ones 
-  made by \code{\link{specan}}. Frequency measures can be made by the function or input by the 
+  made by \code{\link{specan}}, \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}} and \code{\link{ffDTW}}. Frequency measures can be made by the function or input by the 
   user (see 'custom.contour' argument)  Arguments that are accepted by xy.coords and can be 
   used for 'lpos' are: "bottomright", "bottom", "bottomleft", "left", 
   "topleft", "top", "topright", "right" and "center". Setting inner.mar to 

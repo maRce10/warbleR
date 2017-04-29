@@ -161,7 +161,7 @@ catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = 
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = 0, 
  tag.pal = list(terrain.colors))
- #'  
+ 
  #adding tags and changing spectro palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, pal = reverse.heat.colors,

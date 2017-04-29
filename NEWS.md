@@ -1,5 +1,18 @@
 # NEWS
 
+# warbleR 1.1.8
+##### (Release date: 2017-04-26)
+
+## New functions:
+
+* frange.detec: detects the frequency range of signals in wave objects
+
+## Bug fixes:
+
+* installation in some linux distributions
+
+===============================================================================================
+
 # warbleR 1.1.7
 ##### (Release date: 2017-04-24)
 
@@ -18,8 +31,8 @@
 
 ## New functions:
 
-* "catalog" function to create song catalogs (i.e. images with multiple spectrograms in several rows/columns that can be color-labeled)
-* "fixwavs" function to convert corrupted files to a format that can be imported into R
+* catalog: create song catalogs (i.e. images with multiple spectrograms in several rows/columns that can be color-labeled)
+* fixwavs: convert corrupted files to a format that can be imported into R
 
 ## Changes and additions:
 
