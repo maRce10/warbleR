@@ -5,7 +5,7 @@
 
 ## Changes and additions:
 
-* "trackfreqs", "dfts", "ffts", "dfDTW" & "ffDTW" functions can use internally "frange.detec" to set bandpass limits 
+* "trackfreqs", "dfts", "ffts", "dfDTW" "ffDTW" and "specan" functions can use "frange.detec" internally to set bandpass limits 
 
 ## New functions:
 

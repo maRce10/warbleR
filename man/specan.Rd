@@ -5,7 +5,8 @@
 \title{Measure acoustic parameters in batches of sound files}
 \usage{
 specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL, 
-pb = TRUE, ovlp = 50, ff.method = "seewave", wn = "hanning")
+pb = TRUE, ovlp = 50, ff.method = "seewave", wn = "hanning", frange.detec = FALSE, 
+fsmooth = 0.1, min.range = NULL)
 }
 \arguments{
 \item{X}{Data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -15,7 +16,8 @@ be used as the input data frame.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f
-and high.f columns will be used as bandpass limits. Default is c(0, 22). 
+and high.f columns will be used as bandpass limits. Default is c(0, 22). Overwritten if
+\code{frange.detec = TRUE}.
 Lower limit of bandpass is not applied to fundamental frequencies.}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -47,6 +49,17 @@ frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using
 
 \item{wn}{Character vector of length 1 specifying window name. Default is hanning'. 
 See function \code{\link[seewave]{ftwindow}} for more options.}
+
+\item{frange.detec}{Logical. Controls whether frequency range of signal is automatically 
+detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
+bandpass filter (overwriting 'bp' argument). Note that it will detect within the bandpass range if 'pb' was provided. Default is \code{FALSE}.}
+
+\item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
+sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
+amplitude modulation. Default is 0.1.}
+
+\item{min.range}{Numeric vector of length 1 specifying the minimum frequency range expected (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This
+is used to find "a higher" high frequency. Default is \code{NULL}.}
 }
 \value{
 Data frame with 'sound.files' and 'selec' as in the input data frame, plus the following acoustic parameters: 
@@ -80,7 +93,6 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    See \code{\link[seewave]{H}}
    \item \code{sfm}: spectral flatness. Similar to sp.ent (Pure tone ~ 0; 
    noisy ~ 1). See \code{\link[seewave]{sfm}}
-   \item \code{peakf}: peak frequency. Frequency with highest energy
    \item \code{meanfun}: average of fundamental frequency measured across the acoustic signal 
    \item \code{minfun}: minimum fundamental frequency measured across the acoustic signal 
    \item \code{maxfun}: maximum fundamental frequency measured across the acoustic signal 
@@ -94,6 +106,9 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    \item \code{startdom}:  dominant frequency measurement at the start of the signal 
    \item \code{enddom}: dominant frequency measurement at the end of the signal 
    \item \code{dfslope}: slope of the change in dominant through time ((enddom-startdom)/duration). Units are kHz/s.  
+   \item \code{peakf}: peak frequency. Frequency with highest energy (only generated if \code{fast = FALSE})
+   \item \code{low.freq}: low frequency. Low limit of frequency range (only generated if \code{frange.detec = TRUE})
+   \item \code{high.freq}: high frequency. High limit of frequency range (only generated if \code{frange.detec = TRUE})
 }
 }
 \description{
