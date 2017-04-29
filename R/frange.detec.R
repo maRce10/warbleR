@@ -72,7 +72,9 @@ frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "ha
   spc <- meanspec(wave, plot = F, wl = wl, f = f, wn = wn, ovlp = ovlp)
   
   # get frequency windows length for smoothing
-  fwl <- fwl/wave@samp.rate/wl/1000
+  step <- wave@samp.rate/wl/1000
+  
+  fsmooth <- fsmooth/step
   
   # number of samples
   n <- nrow(spc)
