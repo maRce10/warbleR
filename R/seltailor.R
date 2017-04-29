@@ -177,7 +177,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       par(mfrow = c(1,1), mar = c(3, 3, 1.8, 0.1))
       
       #create spectrogram
-      spectroW(tuneR::readWave(as.character(X$sound.files[j]),from =  tlim[1], to = tlim[2], units = "seconds"), 
+      spectro.INTFUN(tuneR::readWave(as.character(X$sound.files[j]),from =  tlim[1], to = tlim[2], units = "seconds"), 
                        f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seq(-40, 0, 0.5), heights = c(3, 2), 
                        osc = osci, palette =  pal, main = main, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "blue4",
               flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, ...)

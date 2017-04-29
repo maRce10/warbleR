@@ -10,7 +10,8 @@
 #'    pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
 #'    path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
 #'    leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
-#'    fast.spec = FALSE, ff.method = "seewave", ...)
+#'    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
+#'    fsmooth = 0.1, min.range = NULL, widths = c(2, 1), ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -100,6 +101,15 @@
 #' @param ff.method Character. Selects the method used to calculate the fundamental
 #' frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
 #' \code{\link[seewave]{fund}}). Default is 'seewave'. 'tuneR' performs faster (and seems to be more accurate) than 'seewave'.
+#' @param frange.detec Logical. Controls whether frequency range of signal is automatically 
+#' detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
+#' bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.
+#' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
+#'  sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
+#'  amplitude modulation. Default is 0.1. O
+#' @param min.range Numeric vector of length 1 specifying the minimum frequency range expected (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This
+#' is used to find "a higher" high frequency. Default is \code{NULL}.
+#' @param widths Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element,  (when \code{frange.detec = TRUE})).
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
@@ -111,13 +121,8 @@
 #' @name trackfreqs
 #' @details This function provides visualization of frequency measurements as the ones 
 #'   made by \code{\link{specan}}, \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}} and \code{\link{ffDTW}}. Frequency measures can be made by the function or input by the 
-#'   user (see 'custom.contour' argument)  Arguments that are accepted by xy.coords and can be 
-#'   used for 'lpos' are: "bottomright", "bottom", "bottomleft", "left", 
-#'   "topleft", "top", "topright", "right" and "center". Setting inner.mar to 
-#'   c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
-#'   Title font size, inner.mar and outer.mar (from mar and oma) don't work well
-#'   when osci or sc = TRUE, this may take some optimization by the user. Note that if no amplitude was detected
-#'   for a particular time bin, then the image will show a dark dot at the bottom of the time bin.
+#'   user (see 'custom.contour' argument). If \code{frange = TRUE} the function uses \code{\link{frange.detec}} to detect the frequency range. In this case the graphical output includes a
+#'   frequency spectrum showing the detection threshold.
 #' @examples
 #' \dontrun{
 #' #Set temporary working directory
@@ -131,9 +136,9 @@
 #' ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2,
 #' maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav")
 #' 
-#' #track dominant frequency graphs
+#' #track dominant frequency graphs with freq reange detection
 #' trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
-#' bp = c(1, 3), contour = "df", wl = 300)
+#' bp = c(1, 3), contour = "df", wl = 300, frange = TRUE)
 #'
 #' #using users frequency data (custom.contour argument) 
 #' #first get contours using dfts
@@ -160,7 +165,7 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
                        bp = c(0, 22), cex = c(0.6, 1), threshold = 15, contour = "both", 
                        col = c("skyblue", "red2"),  pch = c(21, 24), mar = 0.05, lpos = "topright", 
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
-                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", ...){     
+                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, min.range = NULL, widths = c(2, 1), ...){     
   
   #check path to working directory
   if(!is.null(path))
@@ -210,6 +215,9 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   #if type not l b or p
   if(!any(type %in% c("p", "l", "b"))) stop(paste("Type", type, "not allowed"))  
   
+  # if frange.detec oscillo false
+  if(frange.detec) osc <- FALSE
+  
   #join img.suffix and it
   if(is.null(img.suffix))
     img.suffix2 <- paste("trackfreqs", it, sep = ".") else   img.suffix2 <- paste(img.suffix, it, sep = ".")
@@ -244,7 +252,9 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       
       #order custom.contour as in X
       custom.contour <- custom.contour[match(paste(custom.contour[,c("sound.files")], custom.contour[,c("selec")]), paste(X[,c("sound.files")], X[,c("selec")])),]      
-    }
+    
+      frange.detec <- FALSE
+      }
     
     # adjust if only 1 pch was specfified
     if(length(pch) == 1) pch <- c(pch, pch)
@@ -309,8 +319,9 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       par(mar = inner.mar)
       par(oma = outer.mar)
       
-      # Generate spectrogram using seewave
-      suppressWarnings(spectroW(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
+      # Generate spectrograms
+if(!frange.detec){
+            suppressWarnings(spectro.INTFUN(r, f = f, wl = wl, ovlp = ovlp, collevels = seq(-40, 0, 0.5), heights = hts,
                                 wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                                 cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
                                 flab = "Frequency (kHz)", alab = "", fast.spec = fast.spec, ...))
@@ -322,6 +333,84 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
             title(paste(X$sound.files[i], X$selec[i], img.suffix, sep = "-"), cex.main = cexlab)  
         
       }
+} else {
+  
+  spc <- meanspec(r, plot = FALSE, wl = wl, f = f, wn = wn, ovlp = ovlp, from = mar1, to = mar2)
+  
+  # get frequency windows length for smoothing
+  step <- r@samp.rate/wl/1000
+  
+  fsmooth <- fsmooth/step
+  
+  # number of samples
+  n <- nrow(spc)
+  
+  # smoothing parameter
+  FWL <- fsmooth - 1
+  
+  # smooth 
+  z <- apply(as.matrix(1:(n - FWL)), 1, function(y) sum(spc[y:(y + FWL), 2]))
+  zf <- seq(min(spc[,1]), max(spc[,1]), length.out = length(z))
+  
+  if(!is.null(bp)) { 
+    #remove range outsde bp
+    z <- z[zf > bp[1] & zf < bp[2]]
+    zf <- zf[zf > bp[1] & zf < bp[2]]
+  }
+  
+  # make minimum amplitude 0
+  z <- z - min(z)
+  z[z < 0] <- 0
+  
+  # normalize amplitude from 0 to 1
+  z <- z/max(z)
+  
+  #get freqs crossing threshold
+  z1 <- rep(0, length(z))
+  z1[z > threshold/100] <- 1 
+  z2 <- z1[2:length(z1)] - z1[1:(length(z1) - 1)]
+  z2 <- c(0, z2)
+  
+  start <- zf[z2 == 1]
+  end <- zf[z2 == -1]
+  
+  # set low and hi f to flim/bp if not detected
+  if(!is.null(bp)) { 
+    min.start <- ifelse(length(start) == 0 || is.infinite(min(start)), yes = bp[1], no = min(start))
+    max.end <- ifelse(length(end) == 0 || is.infinite(min(end)), yes = bp[2], no = max(end))
+    
+    if(!is.null(min.range) && max.end - min.start < min.range) max.end <- bp[2]
+  } else {
+    min.start <- ifelse(length(start) == 0 || is.infinite(min(start)), yes = fl[1], no = min(start))
+    max.end <- ifelse(length(end) == 0 || is.infinite(min(end)), yes = fl[2], no = max(end))
+    
+    if(!is.null(min.range) && max.end - min.start < min.range) max.end <- fl[2]
+  }
+  
+  
+    # split screen
+    m <- rbind(c(0, widths[1]/sum(widths), 0, 0.93), #1
+               c(widths[1]/sum(widths), 1, 0 , 0.93),
+               c(0, 1,  0.93 , 1)) #3 
+    
+    invisible(close.screen(all.screens = TRUE))  
+    split.screen(m)
+    screen(1)
+    par(mar = c(3.4, 3.4, 0.5, 0))
+    
+    # create spectro
+    spectro.INTFUN.2(wave = r, f = f, flim = fl, fast.spec = fast.spec, palette = pal, ovlp = ovlp, wl = wl, grid = F, tlab = "", flab = "")
+    
+    #add line highlighting freq range
+    abline(h = c(min.start, max.end), col = "#80C3FF", lty = 3, lwd = 3.3)
+    
+    # add axis labels
+    mtext(side = 1, text = "Time (s)", line = 2.3)
+    mtext(side = 2, text = "Frequency (kHz)", line = 2.3)
+    
+    b <- c(min.start, max.end)
+}
+  
       
       # Calculate fundamental frequencies at each time point
       if(contour %in% c("both", "ff") & is.null(custom.contour))
@@ -441,6 +530,57 @@ trackfreqs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
 legend(lpos, legend = leglab[1],
              pch = pch[2], col = col[2], bty = "o", cex = cex[2], bg = col[5], pt.bg = col[2], lwd = lwd)}
     
+      if(frange.detec)
+      {
+        #second plot
+        screen(2)
+        par(mar = c(3.4, 0, 0.5, 0.8))
+        
+        plot(z, zf, type = "l", ylim = fl, yaxs = "i", xaxs = "i", yaxt = "n", xlab = "", col = "white", xaxt = "n")
+        
+        # add axis& labels
+        axis(1, at = seq(0.2, 1, by = 0.4))
+        mtext(side = 1, text = "Amplitude (%)", line = 2.3)
+        
+        # fix amplitude values to close polygon (just for ploting)
+        z3 <- c(0, z, 0)
+        
+        if(!is.null(bp)) zf3 <- c(bp[1], zf, bp[2]) else zf3 <- c(fl[1], zf, fl[2])
+        
+        # plot amplitude values curve
+        polygon(cbind(z3, zf3), col= adjustcolor("#4D69FF", 0.9))
+        
+        # add border line
+        points(z3, zf3, type = "l", col = adjustcolor("black", 0.5))
+        
+        # add bacground color
+        rect(xleft = 0, ybottom = fl[1], xright = 1, ytop = fl[2], col = adjustcolor("#4D69FF", 0.05))
+        
+        # add gray boxes in filtered out freq bands
+        if(!is.null(bp))
+        {  rect(xleft = 0, ybottom = bp[2], xright = 1, ytop = fl[2], col = adjustcolor("gray", 0.5)) 
+          rect(xleft = 0, ybottom = fl[1], xright = 1, ytop = bp[1], col = adjustcolor("gray", 0.5))
+        }
+        
+        # add line to highligh freq range
+        abline(v = threshold/100, col = adjustcolor("blue4", 0.7), lty = 3, lwd = 2.3)
+        abline(h = c(min.start, max.end), col = "#80C3FF", lty = 3, lwd = 3.3)
+        
+         if(title)
+         {
+           screen(3)
+           par( mar = rep(0, 4))
+           plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+           
+                      if(is.null(img.suffix))
+             text(x = 0.5, y = 0.35, labels = paste(X$sound.files[i], X$selec[i], sep = "-"), cex = cexlab, font = 2) else
+               text(x = 0.5, y = 0.35, labels = paste(X$sound.files[i], X$selec[i], img.suffix, sep = "-"), cex = cexlab, font = 2)
+         }
+        
+      }
+      
+      
+      
     invisible() 
     dev.off()
     return(NULL)

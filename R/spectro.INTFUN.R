@@ -1,6 +1,6 @@
 #internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
 # that allows to plot spectrograms using image() which substantially increases speed (although makes some options unavailable)
-spectroW <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast.spec = FALSE,
+spectro.INTFUN <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast.spec = FALSE,
           complex = FALSE, norm = TRUE, correction = "none", fftw = FALSE, 
           dB = "max0", dBref = NULL, plot = TRUE, flog = FALSE, grid = TRUE, 
           osc = FALSE, scale = TRUE, cont = FALSE, collevels = NULL, 

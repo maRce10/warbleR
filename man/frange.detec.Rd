@@ -17,7 +17,7 @@ and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{pl
 
 \item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window in kHz. This help to average amplitude "hills" to minimize the effect of
-amplitude modulation.}
+amplitude modulation. Default is 0.1.}
 
 \item{threshold}{Amplitude threshold (\%) for fundamental frequency and 
 dominant frequency detection. Default is 10.}

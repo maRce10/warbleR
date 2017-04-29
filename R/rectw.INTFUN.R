@@ -10,7 +10,7 @@
 # 
 # rect.w(xl = -.04, yb = -1.04, xr = 0.5, yt = 0.5, bor = "black", cl = "red", den = 10, ang = NULL, pattern = "diamond", lw = 2)
 
-rectw <- function(xl, yb, xr, yt, bor, cl, ang = NULL, den = NULL, pattern = "no.pattern", lw = 2.5)
+rectw.INTFUN <- function(xl, yb, xr, yt, bor, cl, ang = NULL, den = NULL, pattern = "no.pattern", lw = 2.5)
   {
  if(pattern == "no.pattern")
    rect(xleft = xl, ybottom = yb, xright = xr, ytop = yt, border = bor, col = cl, angle = ang, density = den, lwd = lw) 

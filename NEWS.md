@@ -1,11 +1,20 @@
 # NEWS
 
-# warbleR 1.1.8
-##### (Release date: 2017-04-26)
+# warbleR 1.1.9
+##### (Release date: XXXXXXXXXXX)
+
+## Changes and additions:
+
+* "trackfreqs", "dfts", "ffts", "dfDTW" & "ffDTW" functions can use internally "frange.detec" to set bandpass limits 
 
 ## New functions:
 
 * frange.detec: detects the frequency range of signals in wave objects
+
+===============================================================================================
+
+# warbleR 1.1.8
+##### (Release date: 2017-04-26)
 
 ## Bug fixes:
 
@@ -32,6 +41,7 @@
 ## New functions:
 
 * catalog: create song catalogs (i.e. images with multiple spectrograms in several rows/columns that can be color-labeled)
+* catalog2pdf: convert several catalog jpeg's images into single pdf files
 * fixwavs: convert corrupted files to a format that can be imported into R
 
 ## Changes and additions:

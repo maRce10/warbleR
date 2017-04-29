@@ -8,7 +8,8 @@ autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL
   power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
-  parallel = 1, path = NULL, pb = TRUE)
+  parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2, 
+  fast.spec = FALSE, ...)
 }
 \arguments{
 \item{X}{Data frame with results from \code{\link{manualoc}} function or any data frame with columns
@@ -107,6 +108,20 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
+
+\item{pal}{Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
+\code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when \code{fast.spec = TRUE}.}
+
+\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
+to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+\code{\link[monitoR]{gray.3}} offer 
+decreasing darkness levels. THIS IS STILL BEING TESTED.}
+
+\item{...}{Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
+graphical output.}
 }
 \value{
 Image files with spectrograms showing the start and end of the detected signals. It 

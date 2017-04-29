@@ -584,7 +584,7 @@ lapply(sqplots, function(i)
   
   par(mar = c(btm, 0, 0, 0))
   
-  spectro2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = 4, collevels = collev, cexaxis = 4)
+  spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = 4, collevels = collev, cexaxis = 4)
 
 } else { #plot labels
   
@@ -600,9 +600,9 @@ lapply(sqplots, function(i)
     
     lim <- par("usr")
     if(length(tags) == 1)
-    rectw(xl = lim[1] + cutbox1, yb = lim[3]-1, xr = lim[2], yt = 0.5, bor = "black", cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
-      rectw(xl = lim[1] + cutbox1, yb = lim[3]-1, xr = cutbox2, yt = 0.5, bor = "black", cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
-      rectw(xl = cutbox2, yb = lim[3]-1, xr = lim[2], yt = 0.5, bor = "black", cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
+    rectw.INTFUN(xl = lim[1] + cutbox1, yb = lim[3]-1, xr = lim[2], yt = 0.5, bor = "black", cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
+      rectw.INTFUN(xl = lim[1] + cutbox1, yb = lim[3]-1, xr = cutbox2, yt = 0.5, bor = "black", cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
+      rectw.INTFUN(xl = cutbox2, yb = lim[3]-1, xr = lim[2], yt = 0.5, bor = "black", cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
     }
     
     #plot labels
@@ -720,7 +720,7 @@ if(legend %in% c(1, 3))
       text(x = 0.5, y = y[w], labels = tag.col.df$tag[w], cex = cex) 
       
       #plot color box
-      rectw(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt =  y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
+      rectw.INTFUN(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt =  y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
       })
 }
     
@@ -751,7 +751,7 @@ if(legend %in% c(1, 3))
         text(x = 0.5, y = y[w + nrowtag1], labels = tag.col.df$tag[w], cex = cex) 
         
         #plot color box
-        rectw(xl = 0.3, yb = y[w + nrowtag1] - (step/2) - (step/6), xr = 0.7, yt = y[w + nrowtag1] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
+        rectw.INTFUN(xl = 0.3, yb = y[w + nrowtag1] - (step/2) - (step/6), xr = 0.7, yt = y[w + nrowtag1] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
       })
       
     }

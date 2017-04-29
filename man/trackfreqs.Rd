@@ -12,7 +12,8 @@ trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
    pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
    path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
    leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
-   fast.spec = FALSE, ff.method = "seewave", ...)
+   fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
+   fsmooth = 0.1, min.range = NULL, widths = c(2, 1), ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -141,6 +142,19 @@ decreasing darkness levels. THIS IS STILL BEING TESTED.}
 frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
 \code{\link[seewave]{fund}}). Default is 'seewave'. 'tuneR' performs faster (and seems to be more accurate) than 'seewave'.}
 
+\item{frange.detec}{Logical. Controls whether frequency range of signal is automatically 
+detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
+bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.}
+
+\item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
+sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
+amplitude modulation. Default is 0.1. O}
+
+\item{min.range}{Numeric vector of length 1 specifying the minimum frequency range expected (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This
+is used to find "a higher" high frequency. Default is \code{NULL}.}
+
+\item{widths}{Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element,  (when \code{frange.detec = TRUE})).}
+
 \item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
 \value{
@@ -154,13 +168,8 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 \details{
 This function provides visualization of frequency measurements as the ones 
   made by \code{\link{specan}}, \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}} and \code{\link{ffDTW}}. Frequency measures can be made by the function or input by the 
-  user (see 'custom.contour' argument)  Arguments that are accepted by xy.coords and can be 
-  used for 'lpos' are: "bottomright", "bottom", "bottomleft", "left", 
-  "topleft", "top", "topright", "right" and "center". Setting inner.mar to 
-  c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
-  Title font size, inner.mar and outer.mar (from mar and oma) don't work well
-  when osci or sc = TRUE, this may take some optimization by the user. Note that if no amplitude was detected
-  for a particular time bin, then the image will show a dark dot at the bottom of the time bin.
+  user (see 'custom.contour' argument). If \code{frange = TRUE} the function uses \code{\link{frange.detec}} to detect the frequency range. In this case the graphical output includes a
+  frequency spectrum showing the detection threshold.
 }
 \examples{
 \dontrun{
@@ -175,9 +184,9 @@ writeWave(Cryp.soui, "Cryp.soui.wav") #save sound files
 ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2,
 maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav")
 
-#track dominant frequency graphs
+#track dominant frequency graphs with freq reange detection
 trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
-bp = c(1, 3), contour = "df", wl = 300)
+bp = c(1, 3), contour = "df", wl = 300, frange = TRUE)
 
 #using users frequency data (custom.contour argument) 
 #first get contours using dfts

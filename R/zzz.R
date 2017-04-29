@@ -1,4 +1,3 @@
-
 # start up message for ggplot2
 # use .onAttach for start up messages
 # use .onLoad for custom options

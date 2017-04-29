@@ -6,7 +6,7 @@
 \usage{
 compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
 res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
-it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, gr = TRUE, 
+it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
 clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
  pal = reverse.gray.colors.2, img = TRUE, ...)
 }
@@ -63,7 +63,7 @@ and "selec' columns and the same selections as in 'X'.}
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 when parallel = 1.}
 
-\item{gr}{Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).}
+\item{grid}{Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).}
 
 \item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed when using dfDTW and 
