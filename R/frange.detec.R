@@ -118,7 +118,7 @@ frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "ha
     min.start <- ifelse(length(start) == 0 || is.infinite(min(start)), yes = flim[1], no = min(start))
     max.end <- ifelse(length(end) == 0 || is.infinite(min(end)), yes = flim[2], no = max(end))
     
-    if(!is.null(min.range) & max.end - min.start < min.range) max.end <- flim[2]
+    if(!is.null(min.range) && max.end - min.start < min.range) max.end <- flim[2]
   }
   
   if(plot)
