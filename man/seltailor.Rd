@@ -7,7 +7,7 @@
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
   comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
-  width = 15, height = 5, ...)
+  width = 15, height = 5, index = NULL, ...)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -68,6 +68,10 @@ if \code{ext.window = FALSE}. Default is 15.}
 
 \item{height}{Numeric of length 1 controling the height of the external graphic window.
 Ignored if \code{ext.window = FALSE}. Default is 5.}
+
+\item{index}{Numeric vector indicating which selections (rows) of 'X' should be tailored. 
+Default is \code{NULL}. Ignored when the process is resumed. This can be useful when combined
+with \code{\link{filtersels}}) output (see 'index' argument in \code{\link{filtersels}}).}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }

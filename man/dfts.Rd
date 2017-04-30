@@ -95,7 +95,7 @@ Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 \seealso{
 \code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 
-Other spectrogram.creators: \code{\link{dfDTW}},
+Other spectrogram creators: \code{\link{dfDTW}},
   \code{\link{ffDTW}}, \code{\link{ffts}},
   \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
   \code{\link{specreator}}, \code{\link{trackfreqs}}

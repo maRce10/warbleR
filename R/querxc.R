@@ -126,7 +126,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     qword <- gsub(" ", "%20", qword)
     
     #initialize search
-    q <- rjson::fromJSON(, paste0("http://www.xeno-canto.org/api/2/recordings?query=", qword))
+    q <- rjson::fromJSON(file = paste0("http://www.xeno-canto.org/api/2/recordings?query=", qword))
     
     if(as.numeric(q$numRecordings) == 0) message("No recordings were found") else {
       
@@ -136,7 +136,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       if(pb) f <- pbapply::pblapply(1:q$numPages, function(y)
       {
         #search for each page
-        a <- rjson::fromJSON(, paste0("http://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
+        a <- rjson::fromJSON(file = paste0("http://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
         
         #put together as data frame
         d <-lapply(1:length(a$recordings), function(z) data.frame(t(unlist(a$recordings[[z]]))))

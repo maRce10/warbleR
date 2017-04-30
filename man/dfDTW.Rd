@@ -101,7 +101,7 @@ Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
   optimize noise margins used in \code{\link{sig2noise}} and \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{ffDTW}} for frequency contour overlaid spectrograms.
  \url{https://marce10.github.io/2016-09-12-Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW)/}
 
-Other spectrogram.creators: \code{\link{dfts}},
+Other spectrogram creators: \code{\link{dfts}},
   \code{\link{ffDTW}}, \code{\link{ffts}},
   \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
   \code{\link{specreator}}, \code{\link{trackfreqs}}

@@ -4,14 +4,14 @@
 \alias{trackfreqs}
 \title{Spectrograms with frequency measurements}
 \usage{
-trackfreqs(X, wl = 512, flim = c(0, 22), wn = "hanning", pal =
+trackfreqs(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
   xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.6, 1), 
-  threshold = 15, contour = "both", col = c("skyblue", "red2"),
-   pch = c(21, 24),  mar = 0.05, lpos = "topright", it = "jpeg", parallel = 1, 
-   path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE, type = "p", 
-   leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
+  threshold = 15, threshold.time = NULL, threshold.freq = NULL, contour = "both", 
+  col = c("skyblue", "red2"), pch = c(21, 24),  mar = 0.05, lpos = "topright", 
+  it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
+  pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
    fsmooth = 0.1, min.range = NULL, widths = c(2, 1), ...)
 }
@@ -22,6 +22,10 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as t
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
+
+\item{wl.freq}{A numeric vector of length 1 specifying the window length of the spectrogram
+for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+more accurate measurements.}
 
 \item{flim}{A numeric vector of length 2 for the frequency limit of 
 the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
@@ -78,8 +82,11 @@ and high.f columns will be used as bandpass limits. Default is c(0, 22).}
 plotted for frequency measurements and legend font/points, respectively. 
 See \code{\link[seewave]{spectro}}.}
 
-\item{threshold}{amplitude threshold (\%) for fundamental frequency and 
-dominant frequency detection. Default is 15.}
+\item{threshold}{amplitude threshold (\%) for fundamental and dominant frequency detection as well as frequency range from the spectrum (see 'frange.detec'). Default is 15. WILL BE DEPRECATED. Use 'threshold.time' and 'threshold.time' instead.}
+
+\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection as well as frequency range from the spectrum (see 'frange.detec'). Default is 15. Default is \code{NULL}.}
+
+\item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). Default is \code{NULL}.}
 
 \item{contour}{Character vector, one of "df", "ff" or "both", specifying whether the
 dominant or fundamental frequencies or both should be plotted. Default is "both".}
@@ -213,7 +220,7 @@ Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
  \code{\link{snrspecs}} for creating spectrograms to 
   optimize noise margins used in \code{\link{sig2noise}}
 
-Other spectrogram.creators: \code{\link{dfDTW}},
+Other spectrogram creators: \code{\link{dfDTW}},
   \code{\link{dfts}}, \code{\link{ffDTW}},
   \code{\link{ffts}}, \code{\link{snrspecs}},
   \code{\link{sp.en.ts}}, \code{\link{specreator}}

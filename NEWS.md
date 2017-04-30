@@ -6,11 +6,12 @@
 ## Changes and additions:
 
 * "trackfreqs", "dfts", "ffts", "dfDTW" "ffDTW" and "specan" functions can use "frange.detec" internally to set bandpass limits 
+* New argument "index" in  "seltailor" function to indicate which selection should be tailored
 
 ## New functions:
 
 * frange.detec: detects the frequency range of signals in wave objects
-
+* move.imgs: copy/cut image files to folders
 ===============================================================================================
 
 # warbleR 1.1.8

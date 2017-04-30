@@ -151,7 +151,7 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     f <- r$sample.rate
 
     #in case bp its higher than can be due to sampling rate
-    b<- bp 
+    b <- bp 
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
