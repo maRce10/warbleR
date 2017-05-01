@@ -4,9 +4,10 @@
 \alias{specan}
 \title{Measure acoustic parameters in batches of sound files}
 \usage{
-specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL, 
-pb = TRUE, ovlp = 50, ff.method = "seewave", wn = "hanning", frange.detec = FALSE, 
-fsmooth = 0.1, min.range = NULL)
+specan(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
+ threshold.time = NULL, threshold.freq = NULL, parallel = 1, 
+fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, ff.method = "seewave", 
+wn = "hanning", frange.detec = FALSE, fsmooth = 0.1, min.range = NULL)
 }
 \arguments{
 \item{X}{Data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -20,10 +21,20 @@ and high.f columns will be used as bandpass limits. Default is c(0, 22). Overwri
 \code{frange.detec = TRUE}.
 Lower limit of bandpass is not applied to fundamental frequencies.}
 
-\item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
+\item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.}
+
+\item{wl.freq}{A numeric vector of length 1 specifying the window length of the spectrogram
+for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+more accurate measurements. Note that this allows to increase measurement precision independently in the time and frequency domain. If \code{NULL} (default) then the 'wl' value is used.}
 
 \item{threshold}{amplitude threshold (\%) for fundamental frequency and 
-dominant frequency detection. Default is 15.}
+dominant frequency detection. Default is 15. WILL BE DEPRECATED. Use 
+'threshold.time' and 'threshold.time' instead.}
+
+\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
+
+\item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+'threshold' value is used.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -52,7 +63,7 @@ See function \code{\link[seewave]{ftwindow}} for more options.}
 
 \item{frange.detec}{Logical. Controls whether frequency range of signal is automatically 
 detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
-bandpass filter (overwriting 'bp' argument). Note that it will detect within the bandpass range if 'pb' was provided. Default is \code{FALSE}.}
+bandpass filter (overwriting 'bp' argument). Note that it will detect within the bandpass range if 'bp' was provided. Default is \code{FALSE}. If one of the range limits is not detected then the function will use the correspondent bandpass ('bp') argument as range limit.}
 
 \item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of

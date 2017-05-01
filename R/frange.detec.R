@@ -1,9 +1,9 @@
 #' Detect frequency range on wave objects
 #' 
-#' \code{frange.detec} Detects the frequency range of acoustic signals in wave objects.
+#' \code{frange.detec} detects the frequency range of acoustic signals in wave objects.
 #' @usage frange.detec(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning",
 #'  flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, 
-#'  widths = c(2, 1), min.range = NULL, main = NULL, plot = TRUE)
+#'  widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 #' @param wave A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) 
@@ -32,18 +32,20 @@
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}). 
 #' @param widths Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element).
-#' @param min.range Numeric vector of length 1 specifying the minimum frequency range expected (in kHz). This
-#' is used to find "a higher" high frequency. Default is \code{NULL}. 
 #' @param main  Character vector of length 1 specifying the plot title. Default is \code{NULL}.
 #' @param plot Logical. Controls whether a plot is produced. Default is \code{TRUE}.
-#' @return A data frame with 2 columns for low and high frequency values. A plot is also produced
-#' in the graphic devide if \code{plot = TRUE} (see details).
+#' @param all.detec Logical. If \code{TRUE} returns the start and end of all detected amplitude
+#' "hills". Otherwise only the range is returned. Default is \code{FALSE}. 
+#' @return A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{plot = TRUE} (see details).
 #' @export
 #' @name frange.detec
-#' @details This functions aims to automatize the detection of frequency ranges. If \code{plot = TRUE} 
-#' a graph including a spectrogram and a frequency spectrum is produced. The graph would include 
-#' gray areas in the frequency ranges exluded by the bandpass ('bp' argument), Dotted lines
-#' highlight the detected range.
+#' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
+#' \itemize{  
+#'  \item low.freq = the start frequency of the first amplitude "hill"  
+#'  \item high.freq = the end frequency of the last amplitude "hill"  
+#'   }
+#'   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
+#'   produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 #' @seealso \code{\link{autodetec}}
 #' @examples
 #' \dontrun{
@@ -58,17 +60,17 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on apr-28-2017 (MAS)
 
-frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), min.range = NULL, main = NULL, plot = TRUE)
+frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 {
   
-  frng <- frd.INTFUN(wave = wave, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp, min.range = min.range)
+  frng <- frd.INTFUN(wave = wave, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
   
   
   if(plot)
-    frd.plot.INTFUN(wave = wave, min.start = frng$frange$low.f, max.end = frng$frange$high.f, af.mat = frng$af.mat, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = main)   
+    frd.plot.INTFUN(wave = wave, detections = frng, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = main, all.detec = all.detec)   
 
     # return low and high freq
-  return(frng$frange)
+ if(all.detec) return(frng$detections) else return(frng$frange)
   
   # close screens
   on.exit(invisible(close.screen(all.screens = TRUE)))

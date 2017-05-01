@@ -6,7 +6,7 @@
 \usage{
 frange.detec(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning",
  flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, 
- widths = c(2, 1), min.range = NULL, main = NULL, plot = TRUE)
+ widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 }
 \arguments{
 \item{wave}{A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.}
@@ -48,25 +48,27 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This i
 
 \item{widths}{Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element).}
 
-\item{min.range}{Numeric vector of length 1 specifying the minimum frequency range expected (in kHz). This
-is used to find "a higher" high frequency. Default is \code{NULL}.}
-
 \item{main}{Character vector of length 1 specifying the plot title. Default is \code{NULL}.}
 
 \item{plot}{Logical. Controls whether a plot is produced. Default is \code{TRUE}.}
+
+\item{all.detec}{Logical. If \code{TRUE} returns the start and end of all detected amplitude
+"hills". Otherwise only the range is returned. Default is \code{FALSE}.}
 }
 \value{
-A data frame with 2 columns for low and high frequency values. A plot is also produced
-in the graphic devide if \code{plot = TRUE} (see details).
+A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{plot = TRUE} (see details).
 }
 \description{
-\code{frange.detec} Detects the frequency range of acoustic signals in wave objects.
+\code{frange.detec} detects the frequency range of acoustic signals in wave objects.
 }
 \details{
-This functions aims to automatize the detection of frequency ranges. If \code{plot = TRUE} 
-a graph including a spectrogram and a frequency spectrum is produced. The graph would include 
-gray areas in the frequency ranges exluded by the bandpass ('bp' argument), Dotted lines
-highlight the detected range.
+This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
+\itemize{  
+ \item low.freq = the start frequency of the first amplitude "hill"  
+ \item high.freq = the end frequency of the last amplitude "hill"  
+  }
+  If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
+  produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 }
 \examples{
 \dontrun{

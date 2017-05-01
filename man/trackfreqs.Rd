@@ -13,7 +13,7 @@ trackfreqs(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
   it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
   pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
-   fsmooth = 0.1, min.range = NULL, widths = c(2, 1), ...)
+   fsmooth = 0.1, widths = c(2, 1), ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -84,9 +84,10 @@ See \code{\link[seewave]{spectro}}.}
 
 \item{threshold}{amplitude threshold (\%) for fundamental and dominant frequency detection as well as frequency range from the spectrum (see 'frange.detec'). Default is 15. WILL BE DEPRECATED. Use 'threshold.time' and 'threshold.time' instead.}
 
-\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection as well as frequency range from the spectrum (see 'frange.detec'). Default is 15. Default is \code{NULL}.}
+\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
 
-\item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). Default is \code{NULL}.}
+\item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+'threshold' value is used.}
 
 \item{contour}{Character vector, one of "df", "ff" or "both", specifying whether the
 dominant or fundamental frequencies or both should be plotted. Default is "both".}
@@ -155,10 +156,7 @@ bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.}
 
 \item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
-amplitude modulation. Default is 0.1. O}
-
-\item{min.range}{Numeric vector of length 1 specifying the minimum frequency range expected (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This
-is used to find "a higher" high frequency. Default is \code{NULL}.}
+amplitude modulation. Default is 0.1.}
 
 \item{widths}{Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element,  (when \code{frange.detec = TRUE})).}
 

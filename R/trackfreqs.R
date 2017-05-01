@@ -11,7 +11,7 @@
 #'   it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
 #'   pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
 #'    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
-#'    fsmooth = 0.1, min.range = NULL, widths = c(2, 1), ...)
+#'    fsmooth = 0.1, widths = c(2, 1), ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -59,8 +59,9 @@
 #'   plotted for frequency measurements and legend font/points, respectively. 
 #'   See \code{\link[seewave]{spectro}}.
 #' @param threshold amplitude threshold (\%) for fundamental and dominant frequency detection as well as frequency range from the spectrum (see 'frange.detec'). Default is 15. WILL BE DEPRECATED. Use 'threshold.time' and 'threshold.time' instead.
-#' @param threshold.time amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection as well as frequency range from the spectrum (see 'frange.detec'). Default is 15. Default is \code{NULL}.
-#' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). Default is \code{NULL}.
+#' @param threshold.time amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.
+#' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+#'  'threshold' value is used.
 #' @param contour Character vector, one of "df", "ff" or "both", specifying whether the
 #'  dominant or fundamental frequencies or both should be plotted. Default is "both". 
 #' @param col Vector of length 1 or 2 specifying colors of points plotted to mark 
@@ -110,9 +111,7 @@
 #' bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.
 #' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
 #'  sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
-#'  amplitude modulation. Default is 0.1. O
-#' @param min.range Numeric vector of length 1 specifying the minimum frequency range expected (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This
-#' is used to find "a higher" high frequency. Default is \code{NULL}.
+#'  amplitude modulation. Default is 0.1. 
 #' @param widths Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element,  (when \code{frange.detec = TRUE})).
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
@@ -170,7 +169,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
                        contour = "both", 
                        col = c("skyblue", "red2"),  pch = c(21, 24), mar = 0.05, lpos = "topright", 
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
-                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, min.range = NULL, widths = c(2, 1), ...){     
+                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), ...){     
   
   #check path to working directory
   if(!is.null(path))
@@ -227,7 +226,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
   if(is.null(img.suffix))
     img.suffix2 <- paste("trackfreqs", it, sep = ".") else   img.suffix2 <- paste(img.suffix, it, sep = ".")
     
-    # trheshold adjustment
+    # threshold adjustment
     if(is.null(threshold.time)) threshold.time <- threshold
     if(is.null(threshold.freq)) threshold.freq <- threshold
     
@@ -343,7 +342,7 @@ if(!frange.detec){
         
       }
 } else {
-  frng <- frd.INTFUN(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = fl, bp = b, ovlp = ovlp, min.range = min.range)
+  frng <- frd.INTFUN(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = fl, bp = b, ovlp = ovlp)
   
   b <- as.numeric(frng$frange)
   

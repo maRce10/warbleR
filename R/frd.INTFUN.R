@@ -1,6 +1,6 @@
 #internal warbleR function, not to be called by users. Detects frequency range.
 
-frd.INTFUN <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, ovlp = 50, min.range = NULL)
+frd.INTFUN <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, ovlp = 50)
 {
   # get sampling rate
   f <-  wave@samp.rate
@@ -45,25 +45,29 @@ frd.INTFUN <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hann
   z1 <- rep(0, length(z))
   z1[z > threshold/100] <- 1 
   z2 <- z1[2:length(z1)] - z1[1:(length(z1) - 1)]
+  
+  # add 0 to get same length than z
   z2 <- c(0, z2)
   
+  #determine start and end of amplitude hills  
   start <- zf[z2 == 1]
   end <- zf[z2 == -1]
-  
-  # set low and hi f to flim/bp if not detected
-  if(!is.null(bp)) { 
-    min.start <- ifelse(length(start) == 0 || is.infinite(min(start)), yes = bp[1], no = min(start))
-    max.end <- ifelse(length(end) == 0 || is.infinite(min(end)), yes = bp[2], no = max(end))
+
+    #add NAs when some ends or starts where not found
+    if(length(start) != length(end))
+    {if(z1[1] == 0) end <- c(end, NA) else start <- c(NA, start)}
     
-    if(!is.null(min.range) && max.end - min.start < min.range) max.end <- bp[2]
-  } else {
-    min.start <- ifelse(length(start) == 0 || is.infinite(min(start)), yes = flim[1], no = min(start))
-    max.end <- ifelse(length(end) == 0 || is.infinite(min(end)), yes = flim[2], no = max(end))
+    # substract half a step to calculate mid point between the 2 freq windows in which the theshold has passed
+    end <- end - (step / 2)
+    start <- start - (step / 2)
     
-    if(!is.null(min.range) && max.end - min.start < min.range) max.end <- flim[2]
-  }
+  meanpeakf <- zf[which.max(z)] + (step / 2)
   
-  rl <- list(frange = data.frame(low.f = min.start, high.f = max.end), af.mat = cbind(z, zf))
+  min.start <- ifelse(length(start) == 1, start, min(start, na.rm = TRUE))
+  max.end <- ifelse(length(end) == 1, end, max(end, na.rm = TRUE))
+  
+  
+  rl <- list(frange = data.frame(low.freq = min.start, high.freq = max.end), af.mat = cbind(z, zf), meanpeakf = meanpeakf, detections = cbind(start.freq = start, end.freq = end))
   # return low and high freq
   return(rl)
 }

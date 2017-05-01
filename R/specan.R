@@ -2,9 +2,10 @@
 #'
 #' \code{specan} measures acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
-#' @usage specan(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, path = NULL, 
-#' pb = TRUE, ovlp = 50, ff.method = "seewave", wn = "hanning", frange.detec = FALSE, 
-#' fsmooth = 0.1, min.range = NULL)
+#' @usage specan(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
+#'  threshold.time = NULL, threshold.freq = NULL, parallel = 1, 
+#' fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, ff.method = "seewave", 
+#' wn = "hanning", frange.detec = FALSE, fsmooth = 0.1, min.range = NULL)
 #' @param X Data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
@@ -14,9 +15,16 @@
 #'   and high.f columns will be used as bandpass limits. Default is c(0, 22). Overwritten if
 #'   \code{frange.detec = TRUE}.
 #'   Lower limit of bandpass is not applied to fundamental frequencies. 
-#' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
+#' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.
+#' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
+#' for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+#' more accurate measurements. Note that this allows to increase measurement precision independently in the time and frequency domain. If \code{NULL} (default) then the 'wl' value is used. 
 #' @param threshold amplitude threshold (\%) for fundamental frequency and 
-#'   dominant frequency detection. Default is 15.
+#'   dominant frequency detection. Default is 15. WILL BE DEPRECATED. Use 
+#'   'threshold.time' and 'threshold.time' instead.
+#' @param threshold.time amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used. 
+#' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+#'  'threshold' value is used.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' For windows OS the \code{parallelsugar} package should be installed. 
@@ -37,7 +45,7 @@
 #' See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param frange.detec Logical. Controls whether frequency range of signal is automatically 
 #' detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
-#' bandpass filter (overwriting 'bp' argument). Note that it will detect within the bandpass range if 'pb' was provided. Default is \code{FALSE}.
+#' bandpass filter (overwriting 'bp' argument). Note that it will detect within the bandpass range if 'bp' was provided. Default is \code{FALSE}. If one of the range limits is not detected then the function will use the correspondent bandpass ('bp') argument as range limit.
 #' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
 #'  sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
 #'  amplitude modulation. Default is 0.1.
@@ -123,8 +131,10 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on jul-5-2016 (MAS)
 
-specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast = TRUE, 
-                   path = NULL, pb = TRUE, ovlp = 50, ff.method = "seewave", wn = "hanning",
+specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
+                   threshold.time = NULL, threshold.freq = NULL,
+                   parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
+                   ff.method = "seewave", wn = "hanning",
                    frange.detec = FALSE, fsmooth = 0.1, min.range = NULL){
   
   #check path to working directory
@@ -181,6 +191,11 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     X <- X[d, ]
   }
   
+  # threshold adjustment
+  if(is.null(threshold.time)) threshold.time <- threshold
+  if(is.null(threshold.freq)) threshold.freq <- threshold
+  if(is.null(wl.freq)) wl.freq <- wl
+  
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -193,7 +208,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   } 
   
   #create function to run within Xapply functions downstream
-  spFUN <- function(i, X, bp, wl, threshold) { 
+  spFUN <- function(i, X, bp, wl, threshold.time, threshold.freq) { 
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds") 
     
     if(bp[1] == "frange") bp <- c(X$low.f[i], X$high.f[i])
@@ -202,13 +217,15 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
     
     if(frange.detec)
-    {frng <- frd.INTFUN(wave = r, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = b, bp = b, ovlp = ovlp, min.range = min.range)
+    {frng <- frd.INTFUN(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = b, bp = b, ovlp = ovlp)
   
     # reset bandpass
-    b <- as.numeric(frng$frange)}
+    if(!is.na(frng$frange[1])) b[1] <- frng$frange[1, 1]
+    if(!is.na(frng$frange[2])) b[2] <- frng$frange[1, 2]
+    }
     
     #frequency spectrum analysis
-    songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl, wn = wn, flim = b)
+    songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl.freq, wn = wn, flim = b)
     analysis <- seewave::specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
 
     #acoustat
@@ -243,29 +260,30 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
     #Frequency with amplitude peaks 
     if(!fast) #only if fast is TRUE
-      peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
+      peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     #Fundamental frequency parameters
     if(ff.method == "seewave")
-    ff <- seewave::fund(r, f = r@samp.rate, ovlp = ovlp, threshold = threshold, 
+    ff <- seewave::fund(r, f = r@samp.rate, ovlp = ovlp, threshold = threshold.time, 
                         fmax = b[2] * 1000, plot = FALSE)[, 2] else {
                           if(!r@stereo)
                             ff <- tuneR::FF(tuneR::periodogram(r, width = wl, 
-                                                               overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
+                                                               overlap = wl*ovlp/100), peakheight = (100 - threshold.time) / 100)/1000
                           else
                             ff <- tuneR::FF(tuneR::periodogram(mono(r, "left"), width = wl, 
-                                                               overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
+                                                               overlap = wl*ovlp/100), peakheight = (100 - threshold.time) / 100)/1000
                         }
     
   ff <- ff[!is.na(ff)]
     
   if(length(ff) > 0)
-   { meanfun<-mean(ff, na.rm = TRUE)
+   { 
+    meanfun<-mean(ff, na.rm = TRUE)
     minfun<-min(ff, na.rm = TRUE)
     maxfun<-max(ff, na.rm = TRUE)} else meanfun <- minfun <- maxfun <- NA
     
     #Dominant frecuency parameters
-    y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
+    y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = ovlp, plot = FALSE, threshold = threshold.time, bandpass = b * 1000, fftw = TRUE)[, 2]
     
     #remove NAs
     y <- y[!is.na(y)]
@@ -298,8 +316,11 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     if(!fast) dfres$peakf <- peakf
     
     # add low high freq
-    if(frange.detec) dfres$low.freq <- b[1]
-    if(frange.detec) dfres$high.freq <- b[2]
+    if(frange.detec) {
+      dfres$low.freq <- b[1]
+     dfres$high.freq <- b[2]
+     dfres$meanpeakf <- frng$meanpeakf 
+     }
     
     return(dfres)
     
@@ -318,7 +339,7 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
     
     sp <- parallel::parLapply(cl, 1:nrow(X), function(i)
     {
-      spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
+      spFUN(X = X, i = i, bp = bp, wl = wl, threshold.time = threshold.time, threshold.freq = threshold.freq)
     })
     
     parallel::stopCluster(cl)
@@ -328,18 +349,18 @@ specan <- function(X, bp = c(0,22), wl = 512, threshold = 15, parallel = 1, fast
   
     if(pb)  
       sp <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function(i) {
-        spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
+        spFUN(X = X, i = i, bp = bp, wl = wl, threshold.time = threshold.time, threshold.freq = threshold.freq)
       }) else    
     sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function(i) {
-      spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
+      spFUN(X = X, i = i, bp = bp, wl = wl, threshold.time = threshold.time, threshold.freq = threshold.freq)
     })
     
   }
   }
   else {
     if(pb) 
-      sp <- pbapply::pblapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold = threshold)) else
-        sp <- lapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold = threshold))        
+      sp <- pbapply::pblapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold.time = threshold.time, threshold.freq = threshold.freq)) else
+        sp <- lapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold.time = threshold.time, threshold.freq = threshold.freq))        
 
   }
   sp <- do.call(rbind, sp)
