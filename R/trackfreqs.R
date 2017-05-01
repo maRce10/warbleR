@@ -346,6 +346,11 @@ if(!frange.detec){
   
   b <- as.numeric(frng$frange)
   
+  
+  # set limits for color rectangles down
+  if(is.null(bp)) lims <- flim else lims <- bp
+  b[is.na(b)] <- lims[is.na(b)]
+  
     # split screen
     m <- rbind(c(0, widths[1]/sum(widths), 0, 0.93), #1
                c(widths[1]/sum(widths), 1, 0 , 0.93),
@@ -359,8 +364,11 @@ if(!frange.detec){
     # create spectro
     spectro.INTFUN.2(wave = r, f = f, flim = fl, fast.spec = fast.spec, palette = pal, ovlp = ovlp, wl = wl, grid = F, tlab = "", flab = "")
 
+    #add green polygon on detected frequency bands
+      rect(xleft = 0, ybottom = b[1], xright = length(r@left)/f, ytop = b[2], col = adjustcolor("green3", 0.1), border = adjustcolor("gray", 0.2)) 
+
     #add line highlighting freq range
-    abline(h = b, col = "#80C3FF", lty = 3, lwd = 3.3)
+    abline(h = b, col = "#80C3FF", lty = 3, lwd = 2) 
 
     # add axis labels
     mtext(side = 1, text = "Time (s)", line = 2.3)
@@ -401,7 +409,6 @@ if(!frange.detec){
     points(c(ffreq1[!ffreq1[,1] %in% ffreq[,1], 1]) + mar1, rep(fl[1] + (fl[2] - fl[1]) * 0.04, nrow(ffreq1) - nrow(ffreq)), col = col[4], cex = cex[1] * 0.7, pch = pch[1])
 }
      
-  
     # Calculate dominant frequency at each time point     
     if(contour %in% c("both", "df") & is.null(custom.contour))
 {    
@@ -489,6 +496,7 @@ legend(lpos, legend = leglab[1],
       {
         #second plot
         screen(2)
+        
         z <- frng$af.mat[,1]
         zf <- frng$af.mat[,2]
         
@@ -503,7 +511,10 @@ legend(lpos, legend = leglab[1],
         # fix amplitude values to close polygon (just for ploting)
         z3 <- c(0, z, 0)
         
-        if(!is.null(bp)) zf3 <- c(bp[1], zf, bp[2]) else zf3 <- c(fl[1], zf, fl[2])
+        if(!is.null(bp)) zf3 <- c(b[1], zf, b[2]) else zf3 <- c(fl[1], zf, fl[2])
+        
+        #addd  extremes to make polygon close fine
+        zf3 <- c(lims[1], zf, lims[2])
         
         # plot amplitude values curve
         polygon(cbind(z3, zf3), col= adjustcolor("#4D69FF", 0.9))
@@ -511,8 +522,11 @@ legend(lpos, legend = leglab[1],
         # add border line
         points(z3, zf3, type = "l", col = adjustcolor("black", 0.5))
         
-        # add bacground color
+        # add background color
         rect(xleft = 0, ybottom = fl[1], xright = 1, ytop = fl[2], col = adjustcolor("#4D69FF", 0.05))
+        
+        #add green polygon on detected frequency bands
+        rect(xleft = 0, ybottom = b[1], xright = 1, ytop = b[2], col = adjustcolor("green3", 0.1), border = adjustcolor("gray", 0.2))
         
         # add gray boxes in filtered out freq bands
         if(!is.null(bp))
