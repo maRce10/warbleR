@@ -144,7 +144,7 @@ if(it != "pdf")
   
   if(!index)
   {
-    if(missing) Y <- X[miss.index, ] else Y <- X[!miss.index, ]
+    if(missing) Y <- droplevels(X[miss.index, ]) else Y <- droplevels(X[!miss.index, ])
     
   } else if(missing)  Y <- which(!miss.index) else  Y <- which(miss.index)
   

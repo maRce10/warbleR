@@ -5,7 +5,7 @@
 #' @usage seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
 #'  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
 #'   comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
-#'   width = 15, height = 5, index = NULL, ...)
+#'   width = 15, height = 5, index = NULL, collevels = NULL, ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
@@ -36,7 +36,7 @@
 #'  recorded. 
 #' If \code{NULL} (default) then only the time limits are recorded.
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
-#' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
+#' increases performance (much faster), although some options become unavailable, as sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
@@ -51,6 +51,8 @@
 #' @param index Numeric vector indicating which selections (rows) of 'X' should be tailored. 
 #'  Default is \code{NULL}. Ignored when the process is resumed. This can be useful when combined
 #'  with \code{\link{filtersels}}) output (see 'index' argument in \code{\link{filtersels}}).
+#' @param collevels Numeric. Set of levels used to partition the amplitude range (see 
+#'  \code{\link[seewave]{spectro}}).
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments. 
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
@@ -78,27 +80,25 @@
 #' }
 #' @details This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) 
 #' in which users can select a new start and end of a vocalization unit (e.g. elements)
-#'  by clicking at the end and at the start of the signal (in any order). In addition, 2
+#'  by clicking at the end and at the start of the signal (in any order). In addition, 3
 #'   "buttons" are provided at the upper right side of the spectrogram that
-#'   allow to stop the analysis ("Stop") or go to the next sound file ("next sel"). When a unit 
-#'   has been selected, the function plots red dotted lines in the start and end of the 
-#'   selection in the spectrogram. The  lines "disappear" when a new selections is made.
-#'   Only the last selection is kept for each selection that is adjusted.
-#'   The function produces a .csv file (seltailor_output.csv) with the same information than the input 
-#'   data frame, except for the new time coordinates, plus a new column (X$tailored) indicating if the selection 
+#'   allow to stop the analysis ("Stop"), go to the next sound file ("next sel") or delete 
+#'   the current selection ("delete). When a unit has been selected, the function plots 
+#'   dotted lines in the start and end of the selection in the spectrogram (or a box if 
+#'   \code{frange = TRUE}). The lines/polygon
+#'    "disappear" when a new selections is made. Only the last selection is kept for each
+#'    selection that is adjusted. The function produces a .csv file (seltailor_output.csv) 
+#'    with the same information than the input data frame, except for the new time 
+#'    coordinates, plus a new column (X$tailored) indicating if the selection 
 #'   has been tailored. The file is saved in the working directory  and is updated every time the user
 #'    moves into the next sound file (next sel "button") or stop the process 
-#'  (Stop "button").  If no selection (by clicking on the 'next' buttom) the 
+#'  (Stop "button").  If no selection (by clicking on the 'next'button) the 
 #'  original time coordinates are kept. When resuming the process (after "stop" and re-running 
 #'  the function in the same working directory), the function will continue working on the
-#'  selections that have not been analyzed.
-#'   
-#'   Windows length (wl) controls the temporal and frequency precision of the spectrogram. 
-#'   A high "wl" value increases the frequency resolution but reduces the temporal resolution, and vice versa. Any
-#'   color palette that comes with the seewave package can be used: temp.colors,
-#'   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
-#'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
-#'   cm.colors. Note that, unlike \code{\link{manualoc}}, you cannot zoom in the spectrogram \code{\link{seltailor}}. 
+#'  selections that have not been analyzed. To be able to redo selections set the "next.sel" 
+#'  argument to \code{FALSE}. The function also displays a progress bar right on
+#'  top of the sepctrogram. The progress bar is reset every time the process is resumed.
+
 #'   The zoom can be adjusted by setting the \code{mar} argument.
 #' @seealso  \code{\link{manualoc}}
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
@@ -107,9 +107,11 @@
 seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
             osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE,
             pause = 1, comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE,
-            ext.window = TRUE, width = 15, height = 5, index = NULL, ...)
+            ext.window = TRUE, width = 15, height = 5, index = NULL,
+            collevels = NULL, ...)
 {
  
+  on.exit(options(show.error.messages = TRUE))
   #X must be provided
   if(is.null(X)) stop("'X' must be provided (a data frame)")
   
@@ -142,12 +144,15 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   {X$tailored <- ""
   X$tailored <- as.character(X$tailored)
   if(!is.null(index))   X$tailored[!1:nrow(X) %in% index] <- "y"
-  write.csv(X, "seltailor_output.csv", row.names =  FALSE)  
+  write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
     } else {X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
   if(any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
-  if(all(any(!is.na(X$tailored)),X$tailored[nrow(X)] == "y")) stop("all selections have been analyzed") 
+  if(all(any(!is.na(X$tailored)),nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X))) {
+    options(show.error.messages=FALSE)
+    cat("all selections have been analyzed")
+    stop() 
+  }
     }
-  
   
   dn <- 1:nrow(X)
   if(any(!is.na(X$tailored))) if(length(which(X$tailored == "y")) > 0) 
@@ -159,9 +164,14 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   #start external graphic device
   if(ext.window)  extwin(width = width, height = height)
   
+  #set original number of sels to tailor
+  org.sel.n <- nrow(X[X$tailored == "", ]) 
+  
+  
   #this first loop runs over selections
   for(j in dn)
     {
+    if(exists("prev.plot")) rm(prev.plot)
     rec <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
     main <- paste(X$sound.files[j], X$selec[j], sep = "-") 
     
@@ -184,31 +194,42 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       
       #create spectrogram
       spectro.INTFUN(tuneR::readWave(as.character(X$sound.files[j]),from =  tlim[1], to = tlim[2], units = "seconds"), 
-                       f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seq(-40, 0, 0.5), heights = c(3, 2), 
-                       osc = osci, palette =  pal, main = main, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "blue4",
+                       f = f, wl = wl, ovlp = ovlp, wn = wn, heights = c(3, 2), 
+                       osc = osci, palette =  pal, main = NULL, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "#07889B", collevels = collevels,
               flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, ...)
      if(!osci)
       {
        mtext("Time (s)", side=1, line= 1.8)
-      mtext("Frequency (kHz)", side = 2, line = 1.7,  xpd = NA, las = 0)
-      }
+      mtext("Frequency (kHz)", side = 2,  xpd = TRUE, las = 0)
+     }
+
+      # title
+      mtext(main, side = 3, line = 0.65,  xpd = NA, las = 0, font = 2, cex = 1.3, col = "#062F4F")
+      
+      #progress bar
+      prct <- 1 - (nrow(X[X$tailored == "", ]) / org.sel.n)
+      x2 <- prct * diff(tlim)
+      y <- fl[2] + diff(fl) *  0.022
+      lines(x = c(0, x2), y = rep(y, 2), lwd = 7, col = adjustcolor("#E37222", alpha.f = 0.6), xpd = TRUE)
+      text(x = x2 + (diff(tlim) * 0.017), y = y, xpd = TRUE, labels = paste0(floor(prct * 100), "%"), col = "#E37222", cex = 0.8)
       
       #add lines of selections on spectrogram
-      abline(v = c(X$start[j], X$end[j]) - tlim[1], lty = 3, col = "blue", lwd = 1.2)
+      abline(v = c(X$start[j], X$end[j]) - tlim[1], lty = 3, col = "#07889B", lwd = 1.2)
       
       #add buttons
       xs <- grconvertX(x = c(0.92, 0.92, 0.99, 0.99), from = "npc", to = "user")
-      #mid position of buttoms in c(0, 1) range
-      cpy <- c(0.72, 0.87)
+     
+      #mid position ofbuttons in c(0, 1) range
+      cpy <- c(0.57, 0.72, 0.87)
       mrg <- 0.05
       ys <- c(-mrg, mrg, mrg, -mrg)
-      labels <- c("stop", "next sel")
+      labels <- c("stop", "next sel", "delete")
       
       ys <- lapply(1:length(cpy), function(x) 
         {
         grY <- grconvertY(y = cpy[x]- ys, from = "npc", to = "user")
-        polygon(x = xs, y = grY, border = "cyan3", col = adjustcolor("white", alpha.f = 0.7), lwd = 2)
-   text(x = mean(xs), y = mean(grY), labels = labels[x], cex = 1, font = 2)
+        polygon(x = xs, y = grY, border = "#4ABDAC", col = adjustcolor("#4ABDAC", alpha.f = 0.22), lwd = 2)
+   text(x = mean(xs), y = mean(grY), labels = labels[x], cex = 1, font = 2, col = "#062F4F")
    return(grY)   
    })
       
@@ -220,47 +241,82 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       xy$y[xy$y < 0] <- 0 
       xy2$x[xy2$x < 0] <- 0  
       xy2$y[xy2$y < 0] <- 0 
-     
+      
+      #if delete
+      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+      {    
+        # delete row
+        X$tailored[j] <- "delete"
+        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
+        if(nrow(X[X$tailored %in% c("y", "delete") ,]) == nrow(X)) {
+          dev.off()
+          options(show.error.messages=FALSE)
+          cat("all selections have been analyzed")
+          stop() 
+        } 
+      }
       
       #if next sel
       if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
       {    
         X$tailored[j] <- "y"
-        write.csv(X, "seltailor_output.csv", row.names =  FALSE)  
+        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
         
-        if(nrow(X[X$tailored== "y",]) == nrow(X)) {
+        if(nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) {
           dev.off()
-          stop("all selections have been analyzed")
+          options(show.error.messages=FALSE)
+          cat("all selections have been analyzed")
+          stop() 
           } 
       }
       
       # stop
       if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
-      {dev.off()
+      {
+        dev.off()
         if(selcount > 0) X$tailored[j] <- "y"
-        write.csv(X, "seltailor_output.csv", row.names =  FALSE)
-        stop("Stopped by user")} 
+        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
+        options(show.error.messages=FALSE)
+        cat("Stopped by user")
+        stop() 
+        } 
           
-      #while not inside buttons
-      while(!all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]])) & !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]])))
+      # while not inside buttons
+      while(!all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]])) & !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]])) & !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]])))
       {
   
       #select second point
       xy <- locator(n = 1, type = "n")
-     
+      
        #if selected is lower than 0 make it 
       xy$x[xy$x < 0] <- 0  
       xy$y[xy$y < 0] <- 0 
+      
+      #if delete
+      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+      {    
+        # delete row
+        X$tailored[j] <- "delete"
+        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
+        if(nrow(X[X$tailored %in% c("y", "delete") ,]) == nrow(X)) {
+          dev.off()
+          options(show.error.messages=FALSE)
+          cat("all selections have been analyzed")
+          stop() 
+        } else break
+      }
       
       #if next sel
       if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
       {    
         X$tailored[j] <- "y"
-        write.csv(X, "seltailor_output.csv", row.names =  FALSE)  
+        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
         
-        if(X$tailored[nrow(X)] == "y") {
+        if(nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) {
           dev.off()
-          stop("all selections have been analyzed")
+          options(show.error.messages=FALSE)
+          cat("all selections have been analyzed")
+          stop() 
           } else  break
       }
       
@@ -268,18 +324,22 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
       {dev.off()
         if(selcount > 0) X$tailored[j] <- "y"
-        write.csv(X, "seltailor_output.csv", row.names =  FALSE)
-        stop("Stopped by user")}
+        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
+        options(show.error.messages=FALSE)
+        cat("Stopped by user")
+        stop()}
+      
+      if(exists("prev.plot")) xy2 <- locator(n = 1, type = "n")
       
       xy3 <- list()
       xy3$x <- c(xy$x, xy2$x)
       xy3$y <- c(xy$y, xy2$y)
       
+      if(exists("prev.plot")) replayPlot(prev.plot) else prev.plot <- recordPlot()   
+        
+      if(frange) polygon(x = rep(sort(xy3$x), each = 2), y = c(sort(xy3$y),sort(xy3$y, decreasing = TRUE)), lty = 3, border = "#E37222", lwd = 1.2, col = adjustcolor("#EFAA7B", alpha.f = 0.15)) else
+        polygon(x = rep(sort(xy3$x), each = 2), y = c(fl,sort(fl, decreasing = TRUE)), lty = 3, border = "#E37222", lwd = 1.2, col = adjustcolor("#EFAA7B", alpha.f = 0.15))
       
-      if(frange) polygon(x = rep(sort(xy3$x), each = 2), y = c(sort(xy3$y),sort(xy3$y, decreasing = TRUE)), lty = 3, border = "red", lwd = 1.2, col = adjustcolor("blue", alpha.f = 0.15)) else
-        abline(v = xy3$x, lty = 3, col = "red", lwd = 1.2)
-      
-      # if(selcount > 0) abline(v = c(X$start[j], X$end[j]), lty = 1, col = "white", lwd = 2.3)
       X$start[j] <-  tlim[1] + min(xy3$x) 
       X$end[j] <-  tlim[1] + max(xy3$x)
       X$tailored[j] <- "y"
@@ -299,10 +359,12 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           if(min(xy3$y) < 0) X$low.f[j] <- 0  
           X$high.f[j] <- max(xy3$y)
         }
-     if(nrow(X[X$tailored== "y",]) == nrow(X)) { dev.off()
-       stop("all selections have been analyzed") 
-       } else
-      {Sys.sleep(pause) 
+     if(nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) { dev.off()
+       options(show.error.messages=FALSE)
+       cat("all selections have been analyzed")
+       stop() 
+       } else {
+        Sys.sleep(pause) 
         break}
         }
       } 

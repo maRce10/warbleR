@@ -59,7 +59,7 @@ move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
   if(is.null(to) & create.folder) {dir.create(folder.name)
     to <- file.path(from, folder.name)}
 
-  if(it == "all") pattern <- "\\.jpeg$|\\.tiff$\\.pdf$"
+  if(it == "all") pattern <- "\\.jpeg$|\\.tiff$|\\.pdf$"
   if(it == "tiff") pattern <- "\\.tiff$"
   if(it == "jpeg") pattern <- "\\.jpeg$"
   if(it == "pdf") pattern <- "\\.pdf$"

@@ -50,24 +50,36 @@ frd.INTFUN <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hann
   z2 <- c(0, z2)
   
   #determine start and end of amplitude hills  
-  start <- zf[z2 == 1]
-  end <- zf[z2 == -1]
+  strt <- zf[z2 == 1]
+  nd <- zf[z2 == -1]
 
     #add NAs when some ends or starts where not found
-    if(length(start) != length(end))
-    {if(z1[1] == 0) end <- c(end, NA) else start <- c(NA, start)}
-    
+    if(length(strt) != length(nd))
+    {if(z1[1] == 0) nd <- c(nd, NA) else strt <- c(NA, strt)}
+  
+  if(z1[1] == 1 & z1[length(z1)] == 1 & length(strt) == 1 & strt > nd){    
+    strt <- c(NA, strt)
+    nd <- c(nd , NA)
+}
+  
     # substract half a step to calculate mid point between the 2 freq windows in which the theshold has passed
-    end <- end - (step / 2)
-    start <- start - (step / 2)
+    nd <- nd - (step / 2)
+    strt <- strt - (step / 2)
     
   meanpeakf <- zf[which.max(z)] + (step / 2)
   
-  min.start <- ifelse(length(start) == 1, start, min(start, na.rm = TRUE))
-  max.end <- ifelse(length(end) == 1, end, max(end, na.rm = TRUE))
+  min.strt <- ifelse(length(strt) == 1, strt, min(strt, na.rm = TRUE))
+  max.nd <- ifelse(length(nd) == 1, nd, max(nd, na.rm = TRUE))
   
+  if(!any(is.na(c(min.strt, max.nd)))) {
+    if(min.strt > max.nd){
+    min.strt <- NA
+    max.nd <- NA
+  }
+    }
+
+  rl <- list(frange = data.frame(low.freq = min.strt, high.freq = max.nd), af.mat = cbind(z, zf), meanpeakf = meanpeakf, detections = cbind(start.freq = strt, end.freq = nd))
   
-  rl <- list(frange = data.frame(low.freq = min.start, high.freq = max.end), af.mat = cbind(z, zf), meanpeakf = meanpeakf, detections = cbind(start.freq = start, end.freq = end))
   # return low and high freq
   return(rl)
 }

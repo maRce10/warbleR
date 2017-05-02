@@ -344,12 +344,12 @@ if(!frange.detec){
 } else {
   frng <- frd.INTFUN(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = fl, bp = b, ovlp = ovlp)
   
-  b <- as.numeric(frng$frange)
-  
+  if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) 
   
   # set limits for color rectangles down
   if(is.null(bp)) lims <- flim else lims <- bp
   b[is.na(b)] <- lims[is.na(b)]
+  b <- sort(b)
   
     # split screen
     m <- rbind(c(0, widths[1]/sum(widths), 0, 0.93), #1
