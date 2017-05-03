@@ -4,14 +4,14 @@
 #' @usage frange(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, 
 #' wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1,
 #' res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1,
-#'  widths = c(2, 1), main = NULL, plot = TRUE, mar = 0.05, path = NULL, pb = TRUE)
+#'  widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE)
 #' @param X Data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' be used as the input data frame.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) 
-#'   and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}). 
+#'   and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}). 
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param line Logical argument to add red lines (or box if low.freq and high.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.
@@ -21,7 +21,7 @@
 #' @param threshold Amplitude threshold (\%) for fundamental frequency and 
 #'   dominant frequency detection. Default is 10.
 #' @param wn Character vector of length 1 specifying window name. Default is 
-#'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}). 
+#'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}). 
 #' @param flim A numeric vector of length 2 for the frequency limit of 
 #'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
@@ -48,17 +48,17 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
-#'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}). 
+#'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}). 
 #' @param widths Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element).
-#' @param main  Character vector of length 1 specifying the plot title. Default is \code{NULL}.
-#' @param plot Logical. Controls whether a plot is produced. Default is \code{TRUE}.
+#' @param main  Character vector of length 1 specifying the img title. Default is \code{NULL}.
+#' @param img Logical. Controls whether a plot is produced. Default is \code{TRUE}.
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the selections
 #'  to set spectrogram limits. Default is 0.05.
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @return A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{plot = TRUE} (see details).
+#' @return A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{img = TRUE} (see details).
 #' @export
 #' @name frange
 #' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
@@ -66,7 +66,7 @@
 #'  \item low.freq = the start frequency of the first amplitude "hill"  
 #'  \item high.freq = the end frequency of the last amplitude "hill"  
 #'   }
-#'   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
+#'   If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
 #'   produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 #' @seealso \code{\link{autodetec}}
 #' @examples
@@ -81,13 +81,13 @@
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
 #' frange(X = selec.table, wl = 112, fsmooth = 1, threshold = 13, widths = c(4, 1), 
-#' plot = T, parallel = 4, pb = T, it = "tiff", line = T, mar = 0.1, bp = c(1,10.5), 
+#' img = TRUE, parallel = 4, pb = TRUE, it = "tiff", line = TRUE, mar = 0.1, bp = c(1,10.5), 
 #' flim = c(0, 11))
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on apr-28-2017 (MAS)
 
-frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, plot = TRUE, mar = 0.05, path = NULL, pb = TRUE)
+frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE)
 {
   
   
@@ -141,7 +141,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     X <- X[d, ]
   }
   
-  frangeFUN <-  function(X, i, plot, bp, wl, fsmooth, threshold, wn, flim, ovlp, fast.spec, pal, widths) {
+  frangeFUN <- function(X, i, img, bp, wl, fsmooth, threshold, wn, flim, ovlp, fast.spec, pal, widths) {
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
@@ -164,7 +164,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     
     frng <- frd.INTFUN(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
     
-    if(plot)
+    if(img)
       {
     # Spectrogram width can be proportional to signal duration
     if(propwidth)
@@ -196,7 +196,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
       doParallel::registerDoParallel(cl)
       
       fr <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        frangeFUN(X = X, i = i, plot = plot, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
+        frangeFUN(X = X, i = i, plot = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
         
       }
       
@@ -206,10 +206,10 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
       if(pb)
         fr <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-          frangeFUN(X = X, i = i, plot = plot, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
+          frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
         }) else
           fr <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-            frangeFUN(X = X, i = i, plot = plot, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
+            frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
           })
     }
     if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
@@ -219,7 +219,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
       doParallel::registerDoParallel(cl)
       
       fr <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        frangeFUN(X = X, i = i, plot = plot, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
+        frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
       }
       
       parallel::stopCluster(cl)
@@ -229,10 +229,10 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   else {
     if(pb)
       fr <- pbapply::pblapply(1:nrow(X), function(i) 
-        frangeFUN(X = X, i = i, plot = plot, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
+        frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
       ) else
                       fr <- lapply(1:nrow(X), function(i) 
-                        frangeFUN(X = X, i = i, plot = plot, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) )
+                        frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) )
               
   }
   
