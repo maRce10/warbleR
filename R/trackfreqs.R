@@ -53,8 +53,8 @@
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   \code{FALSE}.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in low.f 
-#'   and high.f columns will be used as bandpass limits. Default is c(0, 22).
+#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in low.freq 
+#'   and high.freq columns will be used as bandpass limits. Default is c(0, 22).
 #' @param cex Numeric vector of length 2, specifies relative size of points 
 #'   plotted for frequency measurements and legend font/points, respectively. 
 #'   See \code{\link[seewave]{spectro}}.
@@ -95,7 +95,7 @@
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
 #' @param col.alpha A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.
-#' @param line Logical argument to add red lines (or box if low.f and high.f columns are provided) at start and end times of selection. Default is \code{TRUE}.
+#' @param line Logical argument to add red lines (or box if low.freq and high.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
@@ -202,10 +202,10 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
   {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
   } else
-  {if(!any(names(X) == "low.f") & !any(names(X) == "high.f")) stop("'bp' = frange requires low.f and high.f columns in X")
-    if(any(is.na(c(X$low.f, X$high.f)))) stop("NAs found in low.f and/or high.f") 
-    if(any(c(X$low.f, X$high.f) < 0)) stop("Negative values found in low.f and/or high.f") 
-    if(any(X$high.f - X$low.f < 0)) stop("high.f should be higher than low.f")
+  {if(!any(names(X) == "low.freq") & !any(names(X) == "high.freq")) stop("'bp' = frange requires low.freq and high.freq columns in X")
+    if(any(is.na(c(X$low.freq, X$high.freq)))) stop("NAs found in low.freq and/or high.freq") 
+    if(any(c(X$low.freq, X$high.freq) < 0)) stop("Negative values found in low.freq and/or high.freq") 
+    if(any(X$high.freq - X$low.freq < 0)) stop("high.freq should be higher than low.f")
   }
   
   #if it argument is not "jpeg" or "tiff" 
@@ -300,7 +300,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
       
       #in case bp its higher than can be due to sampling rate
-      if(bp[1] == "frange") bp <- c(X$low.f[i], X$high.f[i])
+      if(bp[1] == "frange") bp <- c(X$low.freq[i], X$high.freq[i])
       b <- bp 
       
       if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
@@ -460,9 +460,9 @@ if(!frange.detec){
     }
     
   if(line){  
-    if(any(names(X) == "low.f") & any(names(X) == "high.f"))
-  {   if(!is.na(X$low.f[i]) & !is.na(X$high.f[i]))
-      polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.f[i], X$high.f[i], X$high.f[i], X$low.f[i]), lty = 3, border = "blue", lwd = 1.2) else
+    if(any(names(X) == "low.freq") & any(names(X) == "high.freq"))
+  {   if(!is.na(X$low.freq[i]) & !is.na(X$high.freq[i]))
+      polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.freq[i], X$high.freq[i], X$high.freq[i], X$low.freq[i]), lty = 3, border = "blue", lwd = 1.2) else
           abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     } else abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     }
@@ -579,7 +579,7 @@ legend(lpos, legend = leglab[1],
             } 
             if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
               if(pb)
-                sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
+                sp <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
                   trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
                               custom.contour)
                 }) else

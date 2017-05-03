@@ -9,8 +9,8 @@
  \item{selec}{selection numbers within recording}
  \item{start}{start times of selected signal}
  \item{end}{end times of selected signal}
- \item{low.f}{lower limit of frequency range}
- \item{high.f}{upper limit of frequency range}
+ \item{low.freq}{lower limit of frequency range}
+ \item{high.freq}{upper limit of frequency range}
  \item{sel.comment}{selection comments}
  \item{rec.comment}{recording comments}
 }}

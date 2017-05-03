@@ -57,17 +57,19 @@ frd.INTFUN <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hann
     if(length(strt) != length(nd))
     {if(z1[1] == 0) nd <- c(nd, NA) else strt <- c(NA, strt)}
   
-  if(z1[1] == 1 & z1[length(z1)] == 1 & length(strt) == 1 & strt > nd){    
+  if(length(strt) == 1){
+  if(z1[1] == 1 & z1[length(z1)] == 1  & strt > nd){    
     strt <- c(NA, strt)
     nd <- c(nd , NA)
-}
-  
+  }
+}  
     # substract half a step to calculate mid point between the 2 freq windows in which the theshold has passed
     nd <- nd - (step / 2)
     strt <- strt - (step / 2)
     
   meanpeakf <- zf[which.max(z)] + (step / 2)
   
+  options(warn = -1)
   min.strt <- ifelse(length(strt) == 1, strt, min(strt, na.rm = TRUE))
   max.nd <- ifelse(length(nd) == 1, nd, max(nd, na.rm = TRUE))
   

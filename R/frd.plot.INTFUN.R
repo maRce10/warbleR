@@ -21,7 +21,6 @@ frd.plot.INTFUN <- function(wave, detections, wl = 512, threshold = 10, wn = "ha
   }
   
   # fix flim
-  flim <- c(0, floor(f/2000))
   if(flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1 
   
   # set limits for color rectangles down

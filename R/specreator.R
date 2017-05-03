@@ -44,7 +44,7 @@
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   \code{FALSE}.
 #' @param line Logical argument to add red lines at start and end times of selection 
-#' (or box if low.f and high.f columns are provided). Default is \code{TRUE}.
+#' (or box if low.freq and high.freq columns are provided). Default is \code{TRUE}.
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 #' dealineating spectrogram limits. Default is 0.05.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
@@ -217,9 +217,9 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
     # Plot lines to visualize selections (start and end of signal)
     if(line){  
-      if(any(names(X) == "low.f") & any(names(X) == "high.f"))
-      {   if(!is.na(X$low.f[i]) & !is.na(X$high.f[i]))
-        polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.f[i], X$high.f[i], X$high.f[i], X$low.f[i]), lty = 3, border = "blue", lwd = 1.2) else
+      if(any(names(X) == "low.freq") & any(names(X) == "high.freq"))
+      {   if(!is.na(X$low.freq[i]) & !is.na(X$high.freq[i]))
+        polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.freq[i], X$high.freq[i], X$high.freq[i], X$low.freq[i]), lty = 3, border = "blue", lwd = 1.2) else
           abline(v = c(mar1, mar2), col= "red", lty = "dashed")
       } else abline(v = c(mar1, mar2), col= "red", lty = "dashed")
     }  

@@ -137,8 +137,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     stop(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
 
-    if(frange & !all(any(names(X) == "low.f"), any(names(X) == "high.f")))
-      X$high.f <- X$low.f <- NA
+    if(frange & !all(any(names(X) == "low.freq"), any(names(X) == "high.freq")))
+      X$high.freq <- X$low.freq <- NA
         
   if(!file.exists(file.path(getwd(), "seltailor_output.csv")))
   {X$tailored <- ""
@@ -344,9 +344,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       X$end[j] <-  tlim[1] + max(xy3$x)
       X$tailored[j] <- "y"
       if(frange) {
-        X$low.f[j] <- min(xy3$y)  
-        if(min(xy3$y) < 0) X$low.f[j] <- 0  
-        X$high.f[j] <- max(xy3$y)  
+        X$low.freq[j] <- min(xy3$y)  
+        if(min(xy3$y) < 0) X$low.freq[j] <- 0  
+        X$high.freq[j] <- max(xy3$y)  
       }
       selcount <- selcount + 1
       
@@ -355,9 +355,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         X$start[j] <-  tlim[1] + min(xy3$x) 
         X$end[j] <-  tlim[1] + max(xy3$x)
         if(frange) {
-          X$low.f[j] <- min(xy3$y)  
-          if(min(xy3$y) < 0) X$low.f[j] <- 0  
-          X$high.f[j] <- max(xy3$y)
+          X$low.freq[j] <- min(xy3$y)  
+          if(min(xy3$y) < 0) X$low.freq[j] <- 0  
+          X$high.freq[j] <- max(xy3$y)
         }
      if(nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) { dev.off()
        options(show.error.messages=FALSE)
