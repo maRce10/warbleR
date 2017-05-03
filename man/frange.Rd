@@ -7,7 +7,7 @@
 frange(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, 
 wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1,
 res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1,
- widths = c(2, 1), main = NULL, plot = TRUE, mar = 0.05, path = NULL, pb = TRUE)
+ widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -17,7 +17,7 @@ be used as the input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) 
-and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}).}
+and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}).}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
@@ -32,7 +32,7 @@ amplitude modulation. Default is 0.1.}
 dominant frequency detection. Default is 10.}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 
-"hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}).}
+"hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}).}
 
 \item{flim}{A numeric vector of length 2 for the frequency limit of 
 the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
@@ -63,7 +63,7 @@ to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]
 decreasing darkness levels. THIS IS STILL BEING TESTED.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
-consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}).}
+consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}).}
 
 \item{pal}{Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
 \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when \code{fast.spec = TRUE}.}
@@ -73,9 +73,9 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{widths}{Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element).}
 
-\item{main}{Character vector of length 1 specifying the plot title. Default is \code{NULL}.}
+\item{main}{Character vector of length 1 specifying the img title. Default is \code{NULL}.}
 
-\item{plot}{Logical. Controls whether a plot is produced. Default is \code{TRUE}.}
+\item{img}{Logical. Controls whether a plot is produced. Default is \code{TRUE}.}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the selections
 to set spectrogram limits. Default is 0.05.}
@@ -87,7 +87,7 @@ If \code{NULL} (default) then the current working directory is used.}
 when parallel = 1.}
 }
 \value{
-A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{plot = TRUE} (see details).
+A data frame with 3 columns for sound file name, low and high frequency values. A plot is produced (in the graphic devide) if \code{img = TRUE} (see details).
 }
 \description{
 \code{frange} detect frequency range iteratively from signals in a selection table.
@@ -98,7 +98,7 @@ This functions aims to automatize the detection of frequency ranges. The frequen
  \item low.freq = the start frequency of the first amplitude "hill"  
  \item high.freq = the end frequency of the last amplitude "hill"  
   }
-  If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
+  If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
   produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 }
 \examples{
@@ -113,7 +113,7 @@ writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
 frange(X = selec.table, wl = 112, fsmooth = 1, threshold = 13, widths = c(4, 1), 
-plot = T, parallel = 4, pb = T, it = "tiff", line = T, mar = 0.1, bp = c(1,10.5), 
+img = TRUE, parallel = 4, pb = TRUE, it = "tiff", line = TRUE, mar = 0.1, bp = c(1,10.5), 
 flim = c(0, 11))
 }
 }
