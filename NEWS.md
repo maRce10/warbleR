@@ -5,13 +5,14 @@
 
 ## Changes and additions:
 
-* "trackfreqs", "dfts", "ffts", "dfDTW" "ffDTW" and "specan" functions can use "frange.detec" internally to set bandpass limits (see "frange.detec" argument)
+* "trackfreqs", "dfts", "ffts", "dfDTW" and "ffDTW" functions can use "frange.detec" internally to set bandpass limits (see "frange.detec" argument)
 * New argument "index" in  "seltailor" function to indicate which selection should be tailored
 * New arguments "threshold.freq", "threshold.time" and "wl.freq" in "specan" function to set the amplitude threshold and windows length independently for time and frequency domain measruements
 
 ## New functions:
 
 * frange.detec: detects the frequency range of signals in wave objects
+* frange: applies 'frange.detec' function iteratively on signals listed in a selection table
 * move.imgs: copy/cut image files to folders
 ===============================================================================================
 
