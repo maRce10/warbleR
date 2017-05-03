@@ -103,8 +103,8 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
   
   if (axisX) {
     if (rm.zero)
-      axis(1, at = pretty(X)[-1], labels = pretty(X)[-1], cex.axis = cexlab)  else
-        axis(1, at = pretty(X), labels = pretty(X), cex.axis = cexlab) 
+      axis(1, at = pretty(X)[-1], labels = pretty(X)[-1], cex.axis = cexaxis)  else
+        axis(1, at = pretty(X), labels = pretty(X), cex.axis = cexaxis) 
   }
   
   if (grid) 

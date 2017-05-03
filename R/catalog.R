@@ -32,7 +32,7 @@
 #'   is 512.
 #' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
-#' \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when fast.spec = T.
+#' \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when \code{fast.spec = TRUE}.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param path Character string containing the directory path where the sound files are located. 
@@ -584,7 +584,7 @@ lapply(sqplots, function(i)
   
   par(mar = c(btm, 0, 0, 0))
   
-  spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = 4, collevels = collev, cexaxis = 4)
+  spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2)
 
 } else { #plot labels
   

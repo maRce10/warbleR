@@ -261,7 +261,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       #order custom.contour as in X
       custom.contour <- custom.contour[match(paste(custom.contour[,c("sound.files")], custom.contour[,c("selec")]), paste(X[,c("sound.files")], X[,c("selec")])),]      
     
-      frange.detec <- FALSE
+      # frange.detec <- FALSE
       }
     
     # adjust if only 1 pch was specfified
@@ -462,7 +462,7 @@ if(!frange.detec){
   if(line){  
     if(any(names(X) == "low.freq") & any(names(X) == "high.freq"))
   {   if(!is.na(X$low.freq[i]) & !is.na(X$high.freq[i]))
-      polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.freq[i], X$high.freq[i], X$high.freq[i], X$low.freq[i]), lty = 3, border = "blue", lwd = 1.2) else
+     if(!frange.detec) polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.freq[i], X$high.freq[i], X$high.freq[i], X$low.freq[i]), lty = 3, border = "blue", lwd = 1.2) else
           abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     } else abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     }

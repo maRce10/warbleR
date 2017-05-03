@@ -4,9 +4,11 @@
 \alias{dfDTW}
 \title{Acoustic dissimilarity using dynamic time warping on dominant frequency contours}
 \usage{
-dfDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
-  threshold = 5, img = TRUE, parallel = 1, path = NULL, img.suffix = "dfDTW", pb = TRUE, 
-  clip.edges = TRUE, window.type = "none", open.end = FALSE, scale = FALSE, ...)
+dfDTW(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, img = TRUE, 
+  parallel = 1, path = NULL, img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, 
+  window.type = "none", open.end = FALSE, scale = FALSE, frange.detec = FALSE,
+  fsmooth = 0.1, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -15,6 +17,10 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as t
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
+
+\item{wl.freq}{A numeric vector of length 1 specifying the window length of the spectrogram
+for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+more accurate measurements.}
 
 \item{length.out}{A character vector of length 1 giving the number of measurements of dominant 
 frequency desired (the length of the time series).}
@@ -28,7 +34,12 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz). Default is c(0, 22).}
 
-\item{threshold}{amplitude threshold (\%) for dominant frequency detection. Default is 5.}
+\item{threshold}{amplitude threshold (\%) for dominant frequency detection. Default is 15.}
+
+\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
+
+\item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+'threshold' value is used.}
 
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
@@ -56,6 +67,14 @@ open-ended alignments (see \code{\link[dtw]{dtw}}).}
 
 \item{scale}{Logical. If \code{TRUE} dominant frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
 comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.}
+
+\item{frange.detec}{Logical. Controls whether frequency range of signal is automatically 
+detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
+bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.}
+
+\item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
+sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
+amplitude modulation. Default is 0.1.}
 
 \item{...}{Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
 graphical output.}

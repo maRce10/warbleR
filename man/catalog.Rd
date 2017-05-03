@@ -48,7 +48,7 @@ is 512.}
 \item{gr}{Logical argument to add grid to spectrogram. Default is \code{FALSE}.}
 
 \item{pal}{Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
-\code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when fast.spec = T.}
+\code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when \code{fast.spec = TRUE}.}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}

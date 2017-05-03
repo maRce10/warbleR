@@ -2,14 +2,18 @@
 #' 
 #' \code{dfts} extracts the dominant frequency values as a time series.
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
-#' @usage dfts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
-#'   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE, 
-#'   clip.edges = FALSE, leglab = "dfts", ...)
+#' @usage dfts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+#' bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
+#' img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE, 
+#' clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
+#' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
+#' for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+#' more accurate measurements.
 #' @param length.out A character vector of length 1 giving the number of measurements of dominant 
 #' frequency desired (the length of the time series).
 #' @param wn Character vector of length 1 specifying window name. Default is 
@@ -20,6 +24,9 @@
 #'   frequency bandpass filter (in kHz). Default is c(0, 22).
 #' @param threshold amplitude threshold (\%) for dominant frequency detection. Default is 15.
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
+#' @param threshold.time amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.
+#' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+#'  'threshold' value is used.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #'  Not available in Windows OS.
@@ -34,6 +41,12 @@
 #' remainging values. Default is \code{FALSE}. 
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
+#' @param frange.detec Logical. Controls whether frequency range of signal is automatically 
+#' detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
+#' bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.
+#' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
+#'  sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
+#'  amplitude modulation. Default is 0.1. 
 #' @param ... Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
 #' graphical output.
 #' @return A data frame with the dominant frequency values measured across the signals. If img is 
@@ -69,17 +82,16 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on oct-26-2016 (MAS)
 
-dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
-                  bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1,
-                  path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", ...){     
+dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+                  bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL,
+                  img = TRUE, parallel = 1,
+                  path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, ...){     
 
-  
   #check path to working directory
   if(!is.null(path))
   {wd <- getwd()
   if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
     setwd(path)} #set working directory
-  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -110,6 +122,10 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   # If length.out is not numeric
   if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
   if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
+  
+  # threshold adjustment
+  if(is.null(threshold.time)) threshold.time <- threshold
+  if(is.null(threshold.freq)) threshold.freq <- threshold
   
   #return warning if not all sound files were found
   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
@@ -144,7 +160,7 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
     message("measuring dominant frequency:")}  
   
-  dftsFUN <- function(X, i, bp, wl, threshold){
+  dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec){
     
     # Read sound files to get sample rate and length
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
@@ -157,6 +173,11 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     
       r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
     
+      if(frange.detec)
+      {frng <- frd.INTFUN(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
+      
+      if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
+      
       # calculate dominant frequency at each time point     
       dfreq1 <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
                               threshold = threshold)
@@ -206,9 +227,9 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       
       
   if(img) 
-      trackfreqs(X[i,], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
-                 parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
-                 custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom1$y)), ...)
+      trackfreqs(X[i,], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
+                 parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
+                 custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom1$y)), xl = ifelse(frange.detec, 1.8, 1), fsmooth = fsmooth, frange.detec = frange.detec, ...)
       
       
     return(apdom$y)  
@@ -225,7 +246,7 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       doParallel::registerDoParallel(cl)
       
       lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        dftsFUN(X, i, bp, wl, threshold)
+        dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
       }
       
       parallel::stopCluster(cl)
@@ -235,10 +256,10 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       
      if(pb)
        lst <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-         dftsFUN(X, i, bp, wl, threshold)
+         dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
        }) else
        lst <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-        dftsFUN(X, i, bp, wl, threshold)
+        dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
       })
     }
     if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
@@ -248,7 +269,7 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       doParallel::registerDoParallel(cl)
       
       lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        dftsFUN(X, i, bp, wl, threshold)
+        dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
       }
       
       parallel::stopCluster(cl)
@@ -256,8 +277,8 @@ dfts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     }
   } else {
    if(pb)
-     lst <- pbapply::pblapply(1:nrow(X), function(i) dftsFUN(X, i, bp, wl, threshold)) else
-       lst <- lapply(1:nrow(X), function(i) dftsFUN(X, i, bp, wl, threshold))
+     lst <- pbapply::pblapply(1:nrow(X), function(i) dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)) else
+       lst <- lapply(1:nrow(X), function(i) dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec))
   }
   
   

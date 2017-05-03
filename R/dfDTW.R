@@ -2,9 +2,11 @@
 #' 
 #' \code{dfDTW} calculates acoustic dissimilarity of dominant frequency contours using dynamic
 #' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
-#' @usage dfDTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
-#'   threshold = 5, img = TRUE, parallel = 1, path = NULL, img.suffix = "dfDTW", pb = TRUE, 
-#'   clip.edges = TRUE, window.type = "none", open.end = FALSE, scale = FALSE, ...)
+#' @usage dfDTW(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+#' bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, img = TRUE, 
+#'   parallel = 1, path = NULL, img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, 
+#'   window.type = "none", open.end = FALSE, scale = FALSE, frange.detec = FALSE,
+#'   fsmooth = 0.1, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -14,11 +16,17 @@
 #' frequency desired (the length of the time series).
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
+#' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
+#' for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+#' more accurate measurements.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. 
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz). Default is c(0, 22).
-#' @param threshold amplitude threshold (\%) for dominant frequency detection. Default is 5.
+#' @param threshold amplitude threshold (\%) for dominant frequency detection. Default is 15.
+#' @param threshold.time amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.
+#' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+#'  'threshold' value is used.
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not availble in Windows OS.
@@ -37,6 +45,12 @@
 #' open-ended alignments (see \code{\link[dtw]{dtw}}).
 #' @param scale Logical. If \code{TRUE} dominant frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
 #' comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.
+#' @param frange.detec Logical. Controls whether frequency range of signal is automatically 
+#' detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
+#' bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.
+#' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
+#'  sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
+#'  amplitude modulation. Default is 0.1. 
 #' @param ... Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
 #' graphical output.
 #' @return A matrix with the pairwise dissimilarity values. If img is 
@@ -72,18 +86,25 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on nov-31-2016 (MAS)
 
-dfDTW <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
-           bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1, path = NULL, 
+dfDTW <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+           bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
+           img = TRUE, parallel = 1, path = NULL, 
            img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, 
-           window.type = "none", open.end = FALSE, scale = FALSE, ...){     
+           window.type = "none", open.end = FALSE, scale = FALSE, frange.detec = FALSE,
+           fsmooth = 0.1, ...){     
  
   #stop if only 1 selection
   if(nrow(X) == 1) stop("you need more than one selection for dfDTW")
   
+  # threshold adjustment
+  if(is.null(threshold.time)) threshold.time <- threshold
+  if(is.null(threshold.freq)) threshold.freq <- threshold
+  
   #run dfts function
-  res <- dfts(X, wl = wl, length.out = length.out, wn = wn, ovlp = ovlp, 
-              bp = bp, threshold = threshold, img = img, parallel = parallel,
-              path = path, img.suffix = img.suffix, pb = pb, clip.edges = clip.edges, ...)
+  res <- dfts(X, wl = wl, length.out = length.out, wn = wn, ovlp = ovlp, wl.freq = wl.freq,
+              bp = bp, threshold.time = threshold.time, threshold.freq = threshold.freq, 
+              img = img, parallel = parallel,
+              path = path, img.suffix = img.suffix, pb = pb, clip.edges = clip.edges, fsmooth = fsmooth, frange.detec = frange.detec, ...)
   
   
     #matrix of dom freq time series

@@ -56,7 +56,7 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
   if(length(imgs) == 0) stop("No .jpeg files were found in the working directory")
   
   #remove images that don't have the catalog_pX.jpeg ending
-  imgs <- grep(paste("Catalog_p\\d+\\.jpeg"),imgs, value = TRUE)
+  imgs <- grep("Catalog_p\\d+", imgs, value = TRUE)
     
   #remove page info at the end of file names to get sound file names
  if(by.img.suffix)

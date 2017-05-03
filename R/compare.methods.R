@@ -435,7 +435,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     if(x == 8){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
-      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "#FFFFCC", col = "#FFFFCC")
+      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = adjustcolor("#EFAA7B", alpha.f = 0), col = adjustcolor("#EFAA7B", alpha.f = 0.15))
       arrows(0, 5.5/7, 1, 5.5/7, code = 3, length = 0.09, lwd = 2)
       text(0.5, 5.36/7,labels =round(stats::dist(disim.mats[[1]][rs[c(1,2)],])/maxdist[[1]],2), col = "black", font = 2, pos = 3)
       text(0.5, 5.545/7,labels =round(stats::dist(disim.mats[[2]][rs[c(1,2)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 1)
@@ -454,7 +454,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     if(x == 7){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
-      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "#FFFFCC", col = "#FFFFCC")
+      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = adjustcolor("#EFAA7B", alpha.f = 0.15), col = adjustcolor("#EFAA7B", alpha.f = 0.15))
       arrows(0.5, 0, 0.5, 1, code = 3, length = 0.09, lwd = 2)
       text(0.53, 0.5, labels =round(stats::dist(disim.mats[[1]][rs[c(1,3)],])/maxdist[[1]],2), col = "black", font = 2, pos = 2)
       text(0.47, 0.5, labels =round(stats::dist(disim.mats[[2]][rs[c(1,3)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 4)
@@ -464,7 +464,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     if(x == 9){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
-      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "#FFFFCC", col = "#FFFFCC")
+      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = adjustcolor("#EFAA7B", alpha.f = 0.15), col = adjustcolor("#EFAA7B", alpha.f = 0.15))
       arrows(0.5, 0, 0.5, 1, code = 3, length = 0.09, lwd = 2)
       text(0.53, 0.5,labels =round(stats::dist(disim.mats[[1]][rs[c(2,4)],])/maxdist[[1]],2), col = "black", font = 2, pos = 2)
       text(0.47, 0.5,labels =round(stats::dist(disim.mats[[2]][rs[c(2,4)],])/maxdist[[2]],2), col = "gray50", font = 2, pos = 4)
@@ -475,7 +475,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     if(x == 10){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
-      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "black", col = "#CCFFCC")
+      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "black", col = adjustcolor("#4ABDAC", alpha.f = 0.3))
         text(0.5, 0.5, labels = names(disim.mats)[1], col = 'black', font = 2, cex = 1.2)
         box(lwd = 4)
         }
@@ -483,7 +483,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     if(x == 11){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
-      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "black", col = "#CCFFCC")
+      rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "black", col = adjustcolor("#4ABDAC", alpha.f = 0.3))
       text(0.5, 0.5, labels = names(disim.mats)[2], col = 'gray50', font = 2, cex = 1.2)      
       box(lwd = 4)
     }
