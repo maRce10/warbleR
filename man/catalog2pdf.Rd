@@ -4,11 +4,11 @@
 \alias{catalog2pdf}
 \title{\code{catalog2pdf} combines \code{\link{catalog}} images into pdfs}
 \usage{
-catalog2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
+catalog2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
 pb = TRUE, by.img.suffix = FALSE, ...)
 }
 \arguments{
-\item{keep.jpeg}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
+\item{keep.img}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 (including sound file and page number) should be magnified. Default is 1.}
 
 \item{overwrite}{Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
@@ -48,17 +48,16 @@ writeWave(Phae.long2,"Phae.long2.wav")
 catalog(X = selec.table, nrow = 2, ncol = 4)
 
 #now create single pdf removing jpeg
-catalog2pdf(keep.jpeg = FALSE)
+catalog2pdf(keep.img = FALSE)
 
 check this floder
 getwd()
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{catalog2pdf}}, 
 \url{https://marce10.github.io/2017-03-17-Creating_song_catalogs/}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

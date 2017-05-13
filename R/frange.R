@@ -58,7 +58,7 @@
 #' when parallel = 1.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @return A data frame with 3 columns for sound file name, low and high frequency values. A plot is produced (in the graphic devide) if \code{img = TRUE} (see details).
+#' @return The original data frame with an additional 2 columns for low and high frequency values. A plot is produced in the working directory if \code{img = TRUE} (see details).
 #' @export
 #' @name frange
 #' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
@@ -67,7 +67,7 @@
 #'  \item high.freq = the end frequency of the last amplitude "hill"  
 #'   }
 #'   If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
-#'   produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
+#'   produced in the working directory. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 #' @seealso \code{\link{autodetec}}
 #' @examples
 #' \dontrun{

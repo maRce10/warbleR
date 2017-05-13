@@ -87,7 +87,7 @@ If \code{NULL} (default) then the current working directory is used.}
 when parallel = 1.}
 }
 \value{
-A data frame with 3 columns for sound file name, low and high frequency values. A plot is produced (in the graphic devide) if \code{img = TRUE} (see details).
+The original data frame with an additional 2 columns for low and high frequency values. A plot is produced in the working directory if \code{img = TRUE} (see details).
 }
 \description{
 \code{frange} detect frequency range iteratively from signals in a selection table.
@@ -99,7 +99,7 @@ This functions aims to automatize the detection of frequency ranges. The frequen
  \item high.freq = the end frequency of the last amplitude "hill"  
   }
   If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
-  produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
+  produced in the working directory. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 }
 \examples{
 \dontrun{
@@ -117,10 +117,9 @@ img = TRUE, parallel = 4, pb = TRUE, it = "tiff", line = TRUE, mar = 0.1, bp = c
 flim = c(0, 11))
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{autodetec}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

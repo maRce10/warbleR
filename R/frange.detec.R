@@ -36,7 +36,7 @@
 #' @param plot Logical. Controls whether a plot is produced. Default is \code{TRUE}.
 #' @param all.detec Logical. If \code{TRUE} returns the start and end of all detected amplitude
 #' "hills". Otherwise only the range is returned. Default is \code{FALSE}. 
-#' @return A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{plot = TRUE} (see details).
+#' @return A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic device) if \code{plot = TRUE} (see details).
 #' @export
 #' @name frange.detec
 #' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:

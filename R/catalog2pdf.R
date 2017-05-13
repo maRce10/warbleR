@@ -1,8 +1,8 @@
 #' 
 #' \code{catalog2pdf} combines \code{\link{catalog}} images into pdfs 
-#' @usage catalog2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
+#' @usage catalog2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
 #' pb = TRUE, by.img.suffix = FALSE, ...)
-#' @param keep.jpeg Logical argument. Indicates whether jpeg files should be kept (default) or remove.
+#' @param keep.img Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @param overwrite Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
 #'   when code is rerun. If \code{FALSE} only the ones missing will be produced. Default is \code{FALSE}.
@@ -34,7 +34,7 @@
 #' catalog(X = selec.table, nrow = 2, ncol = 4)
 #' 
 #' #now create single pdf removing jpeg
-#' catalog2pdf(keep.jpeg = FALSE)
+#' catalog2pdf(keep.img = FALSE)
 #' 
 #' check this floder
 #' getwd()
@@ -42,7 +42,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on nov-13-2016 (MAS)
 
-catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
+catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
                         pb = TRUE, by.img.suffix = FALSE, ...)
 {
   #check path to working directory
@@ -74,7 +74,7 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
   
   #loop over each sound file name  
   # no.out <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function(x)
-    cat2pdfFUN <- function(i, overwrite, keep.jpeg)
+    cat2pdfFUN <- function(i, overwrite, keep.img)
     {
       if(!is.logical(i)) filnam <- paste0(i, ".pdf") else filnam <- "Catalog.pdf"
    
@@ -120,7 +120,7 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
       })
     }
     dev.off()
-  if(!keep.jpeg) unlink(subimgs)
+  if(!keep.img) unlink(subimgs)
     }
     }
     # )
@@ -137,7 +137,7 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
       doParallel::registerDoParallel(cl)
       
       lst <- foreach::foreach(i = unique(or.sf)) %dopar% {
-        cat2pdfFUN(i, overwrite, keep.jpeg)
+        cat2pdfFUN(i, overwrite, keep.img)
       }
       
       parallel::stopCluster(cl)
@@ -147,11 +147,11 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
       
       if(pb)
       lst <- pbmcapply::pbmclapply(unique(or.sf), mc.cores = parallel,function (i) {
-        cat2pdfFUN(i, overwrite, keep.jpeg)
+        cat2pdfFUN(i, overwrite, keep.img)
       }) else
       
       lst <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function (i) {
-        cat2pdfFUN(i, overwrite, keep.jpeg)
+        cat2pdfFUN(i, overwrite, keep.img)
       })
     }
     if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
@@ -161,7 +161,7 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
       doParallel::registerDoParallel(cl)
       
       lst <- foreach::foreach(i = unique(or.sf)) %dopar% {
-        cat2pdfFUN(i, overwrite, keep.jpeg)
+        cat2pdfFUN(i, overwrite, keep.img)
       }
       
       parallel::stopCluster(cl)
@@ -169,8 +169,8 @@ catalog2pdf <- function(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path 
     }
   } else 
     if(pb)
-    lst <- pbapply::pblapply(unique(or.sf), function(i) cat2pdfFUN(i, overwrite, keep.jpeg)) else
-      lst <- lapply(unique(or.sf), function(i) cat2pdfFUN(i, overwrite, keep.jpeg))
+    lst <- pbapply::pblapply(unique(or.sf), function(i) cat2pdfFUN(i, overwrite, keep.img)) else
+      lst <- lapply(unique(or.sf), function(i) cat2pdfFUN(i, overwrite, keep.img))
   
   if(!is.null(path)) setwd(wd)
 }

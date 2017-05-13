@@ -48,7 +48,7 @@
 #' #go to the working directory and delete some images
 #' 
 #' #filter selection data frame
-# fmloc <- filtersels(X = selec.table)
+#' fmloc <- filtersels(X = selec.table)
 #' 
 #' #this data frame does not have the selections corresponding to the images that were deleted
 #' fmloc

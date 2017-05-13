@@ -20,9 +20,9 @@ Here we present a case study of how [`warbleR`](https://cran.r-project.org/packa
 
 Please note that most tools in [`warbleR`](https://cran.r-project.org/package=warbleR) use functions from the [`seewave package`](https://cran.r-project.org/package=seewave) internally. [`warbleR`](https://cran.r-project.org/package=warbleR) has been designed to make the analyses more accessible to average R-users. However, acoustic analysis in R would not be possible without the tools provided by [`seewave`](https://cran.r-project.org/package=seewave). Hence, both packages should be given credit when using [`warbleR`](https://cran.r-project.org/package=warbleR) and both should be appropriately cited in publications (try `citation("warbleR")` and `citation("seewave")`). 
 
-This vignette can be run without an advanced understanding of R, as long as you know how to run code in you R console. However, knowing more about data and file manipulation would be very helpful in order to modify the code to fit your own needs.
+This vignette can be run without an advanced understanding of R, as long as you know how to run code in your R console. However, knowing more about data and file manipulation would be very helpful in order to modify the code to fit your own needs.
 
-<center> ![warbleR workflow](workflow2.png)</center> 
+<center> ![warbleR workflow](warbleR_workflow_english_30oct15sm.tif)</center> 
 
 <br>
 To start, we will use [`warbleR`](https://cran.r-project.org/package=warbleR) to download recordings from [Xeno-Canto](http://www.xeno-canto.org/). 
@@ -328,7 +328,7 @@ The image files (in the working directory) should look like this:
 
 Note that the sound file name and page number are placed in the top right corner. Also, the dimensions of the image fit perfectly on letter paper size for printing.
 
-Now we should inspect the spectrograms. Throwing away image files that are poor quality at first glance (e.g. lots of background noise), will help us in later steps. For instance, the spectrogram for the recording with ID _154143_ does not look good, so we will manually delete those image files (yes, go and delete those image files!). Then, we can select only the sound files that have an image file in the folder. This looks strange for just one recording, but it is really useful when working with many recordings.
+Now we should inspect the spectrograms. Throwing away image files that are poor quality at first glance (e.g. lots of background noise), will help us in later steps. For instance, the spectrogram for the recording with ID _154143_ does not look good, so we will manually delete those image files (yes, go and delete those image files!). Then, we can select only the sound files that have an image file in the folder. This looks strange for just one recording, but it is really useful when working with many recordings. Make sure you are working in a directory that only has image files associated with this vignette. 
 
 ```{r, eval=FALSE}
 
@@ -345,7 +345,7 @@ kept <- unique(sapply(imgs, function(x){
   }, USE.NAMES = FALSE))
 
 # Now we can get rid of sound files that do not have image files 
-snds <- list.files(pattern = ".wav", ignore.case = TRUE) 
+snds <- list.files(pattern = ".wav$", ignore.case = TRUE) 
 file.remove(snds[grep(paste(kept, collapse = "|"), snds, invert = TRUE)])
 
 ```
@@ -382,7 +382,7 @@ Finally, although `autodetec` performs automatic signal detection, it doesn't re
 ```{r, eval=FALSE}
 
 # Select a subset of the recordings
-wavs <- list.files(pattern = ".wav", ignore.case = TRUE)
+wavs <- list.files(pattern = ".wav$", ignore.case = TRUE)
 
 # Set a seed so we all have the same results
 set.seed(1)
@@ -400,9 +400,9 @@ The image files (in the working directory) should look like this (shown below is
 
 ![autodetec image example, make it 700 pxls width](154161-autodetec.th10.jpg)
 
-Notice some song were correclty detected but other undersired sounds were also detected. In most cases they have a shorter duration than our target signals.
+Notice some song were correctly detected but other undersired sounds were also detected. In most cases they have a shorter duration than our target signals.
 
-We won't save the `autodetec` ouput in an object until we're satisfied with the detection. To improve our detection we should play around with the arguments values. Below are some detection parameters that work well for these _Phaethornis longirotris _
+We won't save the `autodetec` ouput in an object until we're satisfied with the detection. To improve our detection we should play around with the arguments' values. Below are some detection parameters that work well for these _Phaethornis longirotris _
 recordings:
 
 ```{r, eval=FALSE}
@@ -429,7 +429,7 @@ Phae.ad <- autodetec(bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22,
 str(Phae.ad)
 ```
 
-Let's look at the number of selections per sound file 
+Let's look at the number of selections per sound file:
 
 ```{r, eval=FALSE}
 
@@ -487,7 +487,7 @@ This margin is far too large! It's overlapping the whole previous signal. Let's 
 ```{r, eval=FALSE}
 
 # This smaller margin is better
-snrspecs(X = X, flim = c(2, 11), snrmar = 0.2, mar = 0.7, it = "tiff")
+snrspecs(X = X, flim = c(2, 11), snrmar = 0.04, mar = 0.7, it = "tiff")
 
 ```
 
@@ -497,7 +497,7 @@ These smaller margins seem to work well. Now we can run the function over all th
 
 ```{r, eval=FALSE}
 
-snrspecs(X = Phae.ad, flim = c(2, 11), snrmar = 0.2, mar = 0.7, it = "tiff")
+snrspecs(X = Phae.ad, flim = c(2, 11), snrmar = 0.04, mar = 0.7, it = "tiff")
 
 ```
 
@@ -602,7 +602,7 @@ manualoc_out <- read.csv("manualoc_output.csv", header = TRUE)
 
 ```
 
-The graphic device should display something like this
+The graphic device will look similar to this:
 
 ![manualoc view](manualoc.jpg)
 

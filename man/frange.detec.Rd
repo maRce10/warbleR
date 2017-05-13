@@ -56,7 +56,7 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This i
 "hills". Otherwise only the range is returned. Default is \code{FALSE}.}
 }
 \value{
-A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{plot = TRUE} (see details).
+A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic device) if \code{plot = TRUE} (see details).
 }
 \description{
 \code{frange.detec} detects the frequency range of acoustic signals in wave objects.
@@ -81,10 +81,9 @@ frange.detec(wave = sheep, wl = 512, fsmooth = 0.2, threshold = 50, bp = c(0.3, 
 flim = c(0, 1.5), pal = reverse.heat.colors, main = "sheep")
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{autodetec}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

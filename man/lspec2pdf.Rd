@@ -4,10 +4,10 @@
 \alias{lspec2pdf}
 \title{\code{lspec2pdf} combines \code{\link{lspec}} images in .jpeg format to a single pdf file.}
 \usage{
-lspec2pdf(keep.jpeg = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE)
+lspec2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
-\item{keep.jpeg}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
+\item{keep.img}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 (including sound file and page number) should be magnified. Default is 1.}
 
 \item{overwrite}{Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
@@ -42,17 +42,16 @@ writeWave(Phae.long2,"Phae.long2.wav")
 lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, it = "jpeg")
 
 #now create single pdf removing jpeg
-lspec2pdf(keep.jpeg = FALSE)
+lspec2pdf(keep.img = FALSE)
 
 check this floder
 getwd()
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{lspec}}, \code{\link{catalog2pdf}}, 
 https://marce10.github.io/2017-01-07-Create_pdf_files_with_spectrograms_of_full_recordings/
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}
