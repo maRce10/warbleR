@@ -87,7 +87,7 @@ If \code{NULL} (default) then the current working directory is used.}
 when parallel = 1.}
 }
 \value{
-A data frame with 3 columns for sound file name, low and high frequency values. A plot is produced (in the graphic devide) if \code{img = TRUE} (see details).
+The original data frame with an additional 2 columns for low and high frequency values. A plot is produced in the working directory if \code{img = TRUE} (see details).
 }
 \description{
 \code{frange} detect frequency range iteratively from signals in a selection table.

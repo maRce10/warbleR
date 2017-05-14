@@ -57,7 +57,7 @@ working directory). Default is \code{TRUE}.}
 "hills". Otherwise only the range is returned. Default is \code{FALSE}.}
 }
 \value{
-A data frame with 2 columns for low and high frequency values. A image file in the working directory is generated if \code{plot = TRUE} (see details).
+A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic device) if \code{plot = TRUE} (see details).
 }
 \description{
 \code{frange.detec} detects the frequency range of acoustic signals in wave objects.

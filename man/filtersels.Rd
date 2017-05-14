@@ -66,6 +66,7 @@ picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
 #go to the working directory and delete some images
 
 #filter selection data frame
+fmloc <- filtersels(X = selec.table)
 
 #this data frame does not have the selections corresponding to the images that were deleted
 fmloc

@@ -58,7 +58,7 @@
 #' when parallel = 1.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @return A data frame with 3 columns for sound file name, low and high frequency values. A plot is produced (in the graphic devide) if \code{img = TRUE} (see details).
+#' @return The original data frame with an additional 2 columns for low and high frequency values. A plot is produced in the working directory if \code{img = TRUE} (see details).
 #' @export
 #' @name frange
 #' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
