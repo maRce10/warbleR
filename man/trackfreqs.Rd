@@ -13,7 +13,7 @@ trackfreqs(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
   it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
   pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
-   fsmooth = 0.1, widths = c(2, 1), ...)
+   fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...)
 }
 \arguments{
 \item{X}{Data frame with results containing columns for sound file name (sound.files), 
@@ -159,6 +159,12 @@ sliding window (in kHz) used for frequency range detection (when \code{frange.de
 amplitude modulation. Default is 0.1.}
 
 \item{widths}{Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element,  (when \code{frange.detec = TRUE})).}
+
+\item{freq.continuity}{Numeric vector of length 1 to control whether dominant frequency detections
+outliers(i.e that differ from the frequency of the detections right before and after) would be removed. Should be given in kHz. Default is \code{NULL}.}
+
+\item{clip.edges}{Integer vector of length 1 to control if how many 'frequency-wise discontinuous' detection would be remove at the start and end of signals (see 
+'freq.continuity' argument). Default is 2. Ignored if \code{freq.continuity = NULL}.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }

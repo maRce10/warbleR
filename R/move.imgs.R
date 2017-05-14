@@ -56,8 +56,11 @@ move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
 {
   if(is.null(from)) from <- getwd()
   if(is.null(to) & !create.folder) stop("Either 'to' must be provided or 'create.folder' set to TRUE")
-  if(is.null(to) & create.folder) {dir.create(folder.name)
-    to <- file.path(from, folder.name)}
+  if(is.null(to) & create.folder) {
+    to <- file.path(from, folder.name)
+    if(dir.exists(to)) stop('Directory with folder name provided already exists')
+    dir.create(to)
+    }
 
   if(it == "all") pattern <- "\\.jpeg$|\\.tiff$|\\.pdf$"
   if(it == "tiff") pattern <- "\\.tiff$"
@@ -68,12 +71,12 @@ imgs <- list.files(path = from, pattern = pattern)
 
 if(length(imgs) == 0) stop(paste("No image files were found in", from))
 
-a <- file.copy(from = file.path(from, imgs), to = to, overwrite = overwrite)
+a <- file.copy(from = file.path(from, imgs), to = file.path(to, imgs), overwrite = overwrite)
 
 if(all(!a) & !overwrite) message(paste("All files already existed in", to)) else
 if(any(!a) & !overwrite) message(paste("Some files already existed in 'to'", to))
 
-if(cut) unlink(imgs[a])
+if(cut) unlink(file.path(from, imgs)[a])
 
 }
 

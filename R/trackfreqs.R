@@ -11,7 +11,7 @@
 #'   it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
 #'   pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
 #'    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
-#'    fsmooth = 0.1, widths = c(2, 1), ...)
+#'    fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -113,6 +113,10 @@
 #'  sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
 #'  amplitude modulation. Default is 0.1. 
 #' @param widths Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element,  (when \code{frange.detec = TRUE})).
+#' @param freq.continuity Numeric vector of length 1 to control whether dominant frequency detections
+#'  outliers(i.e that differ from the frequency of the detections right before and after) would be removed. Should be given in kHz. Default is \code{NULL}. 
+#' @param clip.edges Integer vector of length 1 to control if how many 'frequency-wise discontinuous' detection would be remove at the start and end of signals (see 
+#' 'freq.continuity' argument). Default is 2. Ignored if \code{freq.continuity = NULL}. 
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
@@ -169,7 +173,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
                        contour = "both", 
                        col = c("skyblue", "red2"),  pch = c(21, 24), mar = 0.05, lpos = "topright", 
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
-                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), ...){     
+                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...){     
   
   #check path to working directory
   if(!is.null(path))
@@ -391,6 +395,8 @@ if(!frange.detec){
         ffreq <- matrix(ffreq1[!is.na(ffreq1[,2]),], ncol = 2)  
         ffreq <- matrix(ffreq[ffreq[,2] > b[1],], ncol = 2)
     
+        if(!is.null(freq.continuity)) ffreq <- ffreq[c(0,abs(diff(ffreq[,2]))) <= freq.continuity, ]
+        
     # Plot extreme values fundamental frequency
       points(c(ffreq[c(which.max(ffreq[,2]),which.min(ffreq[,2])),1]) + mar1, c(ffreq[c(which.max(ffreq[,2]), 
         which.min(ffreq[,2])),2]), col = col[3], cex = cex[1] * 1.6, pch = pch[1], lwd = 2)  
@@ -415,6 +421,44 @@ if(!frange.detec){
       dfreq1 <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
                    threshold = threshold.time, tlim = c(mar1, mar2)) 
       dfreq <- matrix(dfreq1[!is.na(dfreq1[,2]),], ncol = 2)  
+
+ 
+      #freq continuity
+      if(nrow(dfreq > 2) & !is.null(freq.continuity))
+      {
+        indx <- sapply(1:nrow(dfreq), function(x)
+        {
+        # if first one
+        if(x == 1)
+        {if(abs(dfreq[x, 2] - dfreq[x + 1, 2]) > freq.continuity & abs(dfreq[x + 1, 2] - dfreq[x + 2, 2]) < freq.continuity) return(FALSE) else return(TRUE)
+          
+        } else {
+          # if last one
+          if(x == nrow(dfreq))  
+          {
+            if(abs(dfreq[x, 2] - dfreq[x - 1, 2]) > freq.continuity & abs(dfreq[x - 2, 2] - dfreq[x - 1, 2]) < freq.continuity) return(FALSE) else return(TRUE)
+            
+            } else
+              {
+            if(abs(dfreq[x, 2] - dfreq[x + 1, 2]) > freq.continuity & abs(dfreq[x, 2] - dfreq[x - 1, 2]) > freq.continuity) return(FALSE) else return(TRUE)
+              }
+            }
+          })
+      
+        if(nrow(dfreq) > 3 * clip.edges & any(!indx[2:clip.edges])) indx[1:(which(!indx[2:clip.edges]))] <- FALSE
+      # turn around  
+      indx <- indx[nrow(dfreq):1]
+      
+      if(nrow(dfreq) > 3 * clip.edges & any(!indx[2:clip.edges])) indx[1:(which(!indx[2:clip.edges]))] <- FALSE
+
+      # turn around again
+      indx <- indx[nrow(dfreq):1]
+        
+        dfreq <- dfreq[indx, ]
+        
+        }
+      
+      dfreq <- as.matrix(dfreq, nrow = 2)
 
     # Plot extreme values dominant frequency
         points(c(dfreq[c(which.max(dfreq[,2]),which.min(dfreq[,2])),1])+mar1, c(dfreq[c(which.max(dfreq[,2]),

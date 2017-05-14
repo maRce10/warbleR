@@ -50,13 +50,14 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This i
 
 \item{main}{Character vector of length 1 specifying the plot title. Default is \code{NULL}.}
 
-\item{plot}{Logical. Controls whether a plot is produced. Default is \code{TRUE}.}
+\item{plot}{Logical. Controls whether an image file is produced for each selection (in the 
+working directory). Default is \code{TRUE}.}
 
 \item{all.detec}{Logical. If \code{TRUE} returns the start and end of all detected amplitude
 "hills". Otherwise only the range is returned. Default is \code{FALSE}.}
 }
 \value{
-A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{plot = TRUE} (see details).
+A data frame with 2 columns for low and high frequency values. A image file in the working directory is generated if \code{plot = TRUE} (see details).
 }
 \description{
 \code{frange.detec} detects the frequency range of acoustic signals in wave objects.
@@ -68,7 +69,7 @@ This functions aims to automatize the detection of frequency ranges. The frequen
  \item high.freq = the end frequency of the last amplitude "hill"  
   }
   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
-  produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
+  produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 }
 \examples{
 \dontrun{
@@ -85,6 +86,6 @@ flim = c(0, 1.5), pal = reverse.heat.colors, main = "sheep")
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
-\code{\link{autodetec}}
+\code{\link{frange}}, \code{\link{autodetec}}
 }
 

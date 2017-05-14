@@ -2,7 +2,7 @@
 % Please edit documentation in R/seltailor.R
 \name{seltailor}
 \alias{seltailor}
-\title{Interactive view of spectrograms to tailor start and end of selections}
+\title{Interactive view of spectrograms to tailor selections}
 \usage{
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
@@ -84,7 +84,7 @@ with \code{\link{filtersels}}) output (see 'index' argument in \code{\link{filte
 }
 \description{
 \code{seltailor} produces an interactive spectrographic view (similar to \code{\link{manualoc}}) in 
-which the start and end times of acoustic signals listed in a data frame can be adjusted.
+which the start/end times and frequency range of acoustic signals listed in a data frame can be adjusted.
 }
 \details{
 This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) 

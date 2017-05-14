@@ -67,8 +67,8 @@
 #'  \item high.freq = the end frequency of the last amplitude "hill"  
 #'   }
 #'   If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
-#'   produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
-#' @seealso \code{\link{autodetec}}
+#'   produced for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
+#' @seealso \code{\link{frange.detec}}, \code{\link{autodetec}}
 #' @examples
 #' \dontrun{
 #' # First set temporary folder

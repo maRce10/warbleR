@@ -33,10 +33,11 @@
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}). 
 #' @param widths Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element).
 #' @param main  Character vector of length 1 specifying the plot title. Default is \code{NULL}.
-#' @param plot Logical. Controls whether a plot is produced. Default is \code{TRUE}.
+#' @param plot Logical. Controls whether an image file is produced for each selection (in the 
+#' working directory). Default is \code{TRUE}.
 #' @param all.detec Logical. If \code{TRUE} returns the start and end of all detected amplitude
 #' "hills". Otherwise only the range is returned. Default is \code{FALSE}. 
-#' @return A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic devide) if \code{plot = TRUE} (see details).
+#' @return A data frame with 2 columns for low and high frequency values. A image file in the working directory is generated if \code{plot = TRUE} (see details).
 #' @export
 #' @name frange.detec
 #' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
@@ -45,8 +46,8 @@
 #'  \item high.freq = the end frequency of the last amplitude "hill"  
 #'   }
 #'   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
-#'   produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
-#' @seealso \code{\link{autodetec}}
+#'   produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
+#' @seealso \code{\link{frange}}, \code{\link{autodetec}}
 #' @examples
 #' \dontrun{
 #' data(tico)

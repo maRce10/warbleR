@@ -99,7 +99,7 @@ This functions aims to automatize the detection of frequency ranges. The frequen
  \item high.freq = the end frequency of the last amplitude "hill"  
   }
   If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
-  produced. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
+  produced for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 }
 \examples{
 \dontrun{
@@ -121,6 +121,6 @@ flim = c(0, 11))
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
-\code{\link{autodetec}}
+\code{\link{frange.detec}}, \code{\link{autodetec}}
 }
 
