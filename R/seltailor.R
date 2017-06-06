@@ -5,11 +5,12 @@
 #' @usage seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
 #'  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
 #'   comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
-#'   width = 15, height = 5, index = NULL, collevels = NULL, ...)
+#'   width = 15, height = 5, index = NULL, collevels = NULL, 
+#'   title = c("sound.files", "selec"),...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
-#' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Required. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.
+#' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
@@ -53,6 +54,8 @@
 #'  with \code{\link{filtersels}}) output (see 'index' argument in \code{\link{filtersels}}).
 #' @param collevels Numeric. Set of levels used to partition the amplitude range (see 
 #'  \code{\link[seewave]{spectro}}).
+#' @param title Character vector with the names of the columns to be included in the title for each
+#' selection.
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments. 
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
@@ -82,8 +85,9 @@
 #' in which users can select a new start and end of a vocalization unit (e.g. elements)
 #'  by clicking at the end and at the start of the signal (in any order). In addition, 3
 #'   "buttons" are provided at the upper right side of the spectrogram that
-#'   allow to stop the analysis ("Stop"), go to the next sound file ("next sel") or delete 
-#'   the current selection ("delete). When a unit has been selected, the function plots 
+#'   allow to stop the analysis ("stop"), go to the next sound file ("next"), return to the 
+#'   previous selection ("previous") or delete 
+#'   the current selection ("delete"). When a unit has been selected, the function plots 
 #'   dotted lines in the start and end of the selection in the spectrogram (or a box if 
 #'   \code{frange = TRUE}). The lines/polygon
 #'    "disappear" when a new selections is made. Only the last selection is kept for each
@@ -108,18 +112,19 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
             osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE,
             pause = 1, comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE,
             ext.window = TRUE, width = 15, height = 5, index = NULL,
-            collevels = NULL, ...)
+            collevels = NULL, title = c("sound.files", "selec"), ...)
 {
  
   on.exit(options(show.error.messages = TRUE))
-  #X must be provided
-  if(is.null(X)) stop("'X' must be provided (a data frame)")
   
   #check path to working directory
   if(!is.null(path))
   {wd <- getwd()
   if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
     setwd(path)} #set working directory
+
+  #X must be provided
+  if(is.null(X)) stop("'X' must be provided (a data frame)")
   
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
@@ -130,6 +135,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   #if any start higher than end stop
   if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
   
+  #check title columns
+  if(any(!title %in% names(X))) stop(paste('title column(s)', title[!title %in% names(X)], "not found"))
   
   # stop if not all sound files were found
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
@@ -165,19 +172,19 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   if(ext.window)  extwin(width = width, height = height)
   
   #set original number of sels to tailor
-  org.sel.n <- nrow(X[X$tailored == "", ]) 
-  
+   org.sel.n <- nrow(X)
   
   #this first loop runs over selections
-  for(j in dn)
-    {
+  h <- 1
+  
+  repeat{
+    j <- dn[h]
+    
     if(exists("prev.plot")) rm(prev.plot)
     rec <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
-    main <- paste(X$sound.files[j], X$selec[j], sep = "-") 
+    main <- do.call(paste, as.list(X[j, names(X) %in% title])) 
     
-    if(all(comments, !is.null(X$sel.comment))) {if(!is.na(X$sel.comment[j])) main <- paste(X$sound.files[j],"-", X$selec[j],"   ",
-                                                         "(",X$sel.comment[j], ")", sep = "")}
-    f <- rec$sample.rate #for spectro display
+       f <- rec$sample.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     len <- rec$samples/f  #for spectro display 
@@ -212,18 +219,23 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       y <- fl[2] + diff(fl) *  0.022
       lines(x = c(0, x2), y = rep(y, 2), lwd = 7, col = adjustcolor("#E37222", alpha.f = 0.6), xpd = TRUE)
       text(x = x2 + (diff(tlim) * 0.017), y = y, xpd = TRUE, labels = paste0(floor(prct * 100), "%"), col = "#E37222", cex = 0.8)
-      
+ 
+           
       #add lines of selections on spectrogram
-      abline(v = c(X$start[j], X$end[j]) - tlim[1], lty = 3, col = "#07889B", lwd = 1.2)
+      if(any(is.na(X$low.freq[j]), is.na(X$high.freq[j])))
+        polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(fl, sort(fl, decreasing = TRUE)), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15))  else
+        polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(c(X$low.freq[j], X$high.freq[j]),c(X$high.freq[j], X$low.freq[j])), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15)) 
       
       #add buttons
       xs <- grconvertX(x = c(0.92, 0.92, 0.99, 0.99), from = "npc", to = "user")
-     
-      #mid position ofbuttons in c(0, 1) range
-      cpy <- c(0.57, 0.72, 0.87)
+      
+      labels <- c("stop", "next", "previous", "delete")
       mrg <- 0.05
-      ys <- c(-mrg, mrg, mrg, -mrg)
-      labels <- c("stop", "next sel", "delete")
+      cpy <- sapply(0:(length(labels)- 1), function(x) {0.95 - (x * 3 * mrg)})
+      
+      
+      #mid position ofbuttons in c(0, 1) range
+       ys <- c(-mrg, mrg, mrg, -mrg)
       
       ys <- lapply(1:length(cpy), function(x) 
         {
@@ -242,8 +254,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       xy2$x[xy2$x < 0] <- 0  
       xy2$y[xy2$y < 0] <- 0 
       
+      
       #if delete
-      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[4]]) & xy$y < max(ys[[4]]))
       {    
         # delete row
         X$tailored[j] <- "delete"
@@ -254,9 +267,19 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           cat("all selections have been analyzed")
           stop() 
         } 
+        h <- h + 1
       }
       
-      #if next sel
+      #if previous
+      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+      {    
+        h <- h - 1
+        if(h == 0) {h <- 1
+        cat("These selection was the first one during the selection procedure (can't go further back)")
+        }
+      }
+      
+        #if next sel
       if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
       {    
         X$tailored[j] <- "y"
@@ -268,7 +291,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           cat("all selections have been analyzed")
           stop() 
           } 
-      }
+        h <- h + 1
+        }
       
       # stop
       if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
@@ -280,10 +304,12 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         cat("Stopped by user")
         stop() 
         } 
-          
+        
       # while not inside buttons
-      while(!all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]])) & !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]])) & !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]])))
-      {
+      out <- sapply(1:length(labels), function(w) out  <- !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[w]]) & xy$y < max(ys[[w]])))
+        
+        while(all(out))
+          {
   
       #select second point
       xy <- locator(n = 1, type = "n")
@@ -293,7 +319,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       xy$y[xy$y < 0] <- 0 
       
       #if delete
-      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[4]]) & xy$y < max(ys[[4]]))
       {    
         # delete row
         X$tailored[j] <- "delete"
@@ -303,7 +329,18 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           options(show.error.messages=FALSE)
           cat("all selections have been analyzed")
           stop() 
-        } else break
+        } else {
+          h <- h + 1
+          break}
+      }
+      
+      #if previous
+      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+      {    
+        h <- h - 1
+        if(h == 0) {h <- 1
+        cat("These selection was the first one during the selection procedure (can't go further back)")}
+        break
       }
       
       #if next sel
@@ -317,7 +354,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           options(show.error.messages=FALSE)
           cat("all selections have been analyzed")
           stop() 
-          } else  break
+        } else  {
+          h <- h + 1  
+          break}
       }
       
       # stop
@@ -365,7 +404,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
        stop() 
        } else {
         Sys.sleep(pause) 
-        break}
+         h <- h + 1
+          break}
         }
       } 
            }

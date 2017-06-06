@@ -7,13 +7,14 @@
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
   comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
-  width = 15, height = 5, index = NULL, collevels = NULL, ...)
+  width = 15, height = 5, index = NULL, collevels = NULL, 
+  title = c("sound.files", "selec"),...)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
-be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Required. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.}
+be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
 
@@ -76,6 +77,9 @@ with \code{\link{filtersels}}) output (see 'index' argument in \code{\link{filte
 \item{collevels}{Numeric. Set of levels used to partition the amplitude range (see 
 \code{\link[seewave]{spectro}}).}
 
+\item{title}{Character vector with the names of the columns to be included in the title for each
+selection.}
+
 \item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
 \value{
@@ -91,8 +95,9 @@ This function produces an interactive spectrographic view (similar to \code{\lin
 in which users can select a new start and end of a vocalization unit (e.g. elements)
  by clicking at the end and at the start of the signal (in any order). In addition, 3
   "buttons" are provided at the upper right side of the spectrogram that
-  allow to stop the analysis ("Stop"), go to the next sound file ("next sel") or delete 
-  the current selection ("delete). When a unit has been selected, the function plots 
+  allow to stop the analysis ("stop"), go to the next sound file ("next"), return to the 
+  previous selection ("previous") or delete 
+  the current selection ("delete"). When a unit has been selected, the function plots 
   dotted lines in the start and end of the selection in the spectrogram (or a box if 
   \code{frange = TRUE}). The lines/polygon
    "disappear" when a new selections is made. Only the last selection is kept for each

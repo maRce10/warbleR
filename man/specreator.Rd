@@ -119,7 +119,7 @@ writeWave(Phae.long2, "Phae.long2.wav")
 
 specreator(selec.table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
  
- #' #check this folder!!
+ #check this folder
 getwd()
 }
 

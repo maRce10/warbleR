@@ -86,7 +86,6 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
   if(any(!is.vector(iterations),!is.numeric(iterations))) stop("'interations' must be a numeric vector of length 1") else{
     if(!length(iterations) == 1) stop("'interations' must be a numeric vector of length 1")}
   
-   
   iterations <- round(iterations)
   
   #interations should be positive
