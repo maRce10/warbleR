@@ -224,9 +224,10 @@ Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
  \code{\link{snrspecs}} for creating spectrograms to 
   optimize noise margins used in \code{\link{sig2noise}}
 
-Other spectrogram creators: \code{\link{dfDTW}},
-  \code{\link{dfts}}, \code{\link{ffDTW}},
-  \code{\link{ffts}}, \code{\link{snrspecs}},
-  \code{\link{sp.en.ts}}, \code{\link{specreator}}
+Other spectrogram creators: \code{\link{color.spectro}},
+  \code{\link{dfDTW}}, \code{\link{dfts}},
+  \code{\link{ffDTW}}, \code{\link{ffts}},
+  \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
+  \code{\link{specreator}}
 }
 

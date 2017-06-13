@@ -11,8 +11,9 @@ specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, ...)
 }
 \arguments{
-\item{X}{Data frame with results containing columns for sound file name (sound.files), 
-selection number (selec), and start and end time of signals (start and end).
+\item{X}{Data frame containing columns for sound file name (sound.files), 
+selection number (selec), and start and end time of signals (start and end). 
+Low and high frequency columns are optional.
 The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -132,9 +133,10 @@ Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
   frequency measurements by \code{\link{specan}}, \code{\link{snrspecs}} for 
   creating spectrograms to optimize noise margins used in \code{\link{sig2noise}}
 
-Other spectrogram creators: \code{\link{dfDTW}},
-  \code{\link{dfts}}, \code{\link{ffDTW}},
-  \code{\link{ffts}}, \code{\link{snrspecs}},
-  \code{\link{sp.en.ts}}, \code{\link{trackfreqs}}
+Other spectrogram creators: \code{\link{color.spectro}},
+  \code{\link{dfDTW}}, \code{\link{dfts}},
+  \code{\link{ffDTW}}, \code{\link{ffts}},
+  \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
+  \code{\link{trackfreqs}}
 }
 

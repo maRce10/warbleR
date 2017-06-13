@@ -15,8 +15,8 @@
 * frange.detec: detects the frequency range of signals in wave objects
 * frange: applies 'frange.detec' function iteratively on signals listed in a selection table
 * move.imgs: copy/cut image files to folders
-* ovlp.sels: find overlapping/duplicated selections
-* cut.sels: generates individual sound files (.wav) for each selection in a selection table
+* ovlp_sels: find overlapping/duplicated selections
+* cut_sels: generates individual sound files (.wav) for each selection in a selection table
 
 ===============================================================================================
 

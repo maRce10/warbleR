@@ -68,17 +68,19 @@ clist<-lapply(1:length(sel.txt), function(i)
   {    
   if(field)  {
     
-    a <- try(read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE), silent = TRUE) 
+    a <- try(read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE, stringsAsFactors = FALSE), silent = TRUE) 
     if(!exclude & class(a) == "try-error") stop(paste("The selection file",sel.txt[i], "cannot be read"))
     
   if(!class(a) == "try-error" & !all.data) { c <- data.frame(selec.file = sel.txt2[i], sound.files = a[, grep("soundfile",colnames(a))],
                                 selec = 1,
-                                start = a[,grep("lefttimesec",colnames(a))],
-                                end = a[,grep("righttimesec",colnames(a))])
+                                start = a[, grep("lefttimesec",colnames(a))],
+                                end = a[, grep("righttimesec",colnames(a))],
+                                low.freq = a[, grep("bottomfreq",colnames(a))],
+                                high.freq = a[, grep("topfreq",colnames(a))])
   for(i in 2:nrow(c)) if(c$selec.file[i] == c$selec.file[i-1]) c$selec[i]<-c$selec[i-1] + 1
   } else c<-a 
                                 } else {
-            a <- try(read.table(sel.txt[i], header = FALSE, sep = "\t", fill = TRUE), silent = TRUE) 
+            a <- try(read.table(sel.txt[i], header = FALSE, sep = "\t", fill = TRUE, stringsAsFactors = FALSE), silent = TRUE) 
             if(!exclude & class(a) == "try-error") stop(paste("The selection file",sel.txt[i], "cannot be read"))
             
             if(!class(a) == "try-error") 
@@ -88,7 +90,9 @@ clist<-lapply(1:length(sel.txt), function(i)
            if(!all.data) {c<-data.frame(sound.files = c[, grep("selected",colnames(c), ignore.case = TRUE)],
                                        selec = 1,
                                        start = c[, grep("lefttime",colnames(c), ignore.case = TRUE)],
-                                       end = c[, grep("righttime",colnames(c), ignore.case = TRUE)])
+                                       end = c[, grep("righttime",colnames(c), ignore.case = TRUE)],
+                                       low.freq = c[, grep("bottomfreq",colnames(c), ignore.case = TRUE)],
+                                       high.freq = c[, grep("topfreq",colnames(c), ignore.case = TRUE)])
            for(i in 2:nrow(c)) if(c$sound.files[i] == c$sound.files[i-1]) c$selec[i] <- c$selec[i-1] + 1} 
            } else c <- a         
                                 }

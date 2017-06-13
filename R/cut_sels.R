@@ -133,12 +133,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     mar1 <- mar
     mar2 <- mar1 + X$end[i] - X$start[i]
     
-    if (t[1] < 0) { 
-      mar1 <- mar1  + t[1]
-      mar2 <- mar2  + t[1]
-      t[1] <- 0
-    }
-    
+    if (t[1] < 0)  t[1] <- 0
     if(t[2] > r$samples/f) t[2] <- r$samples/f
     
     # Cut wave
@@ -163,7 +158,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
       
       doParallel::registerDoParallel(cl)
       
-      sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+      out <- foreach::foreach(i = 1:nrow(X)) %dopar% {
         cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
       }
       
@@ -173,10 +168,10 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
       
       if(pb)       
-        sp <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
+        out <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
           cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
         }) else
-          sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
+          out <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
             cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
             
           })
@@ -187,7 +182,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
       
       doParallel::registerDoParallel(cl)
       
-      sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
+      out <- foreach::foreach(i = 1:nrow(X)) %dopar% {
         cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
       }
       
@@ -197,8 +192,8 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   }
   else {
     if(pb)
-      sp <- pbapply::pblapply(1:nrow(X), function(i) cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)) else 
-        sp <- lapply(1:nrow(X), function(i) cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path))
+      out <- pbapply::pblapply(1:nrow(X), function(i) cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)) else 
+        out <- lapply(1:nrow(X), function(i) cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path))
   }
   
   if(!is.null(path)) setwd(wd)

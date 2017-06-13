@@ -6,8 +6,9 @@
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 #'   mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, ...)
-#' @param  X Data frame with results containing columns for sound file name (sound.files), 
-#' selection number (selec), and start and end time of signals (start and end).
+#' @param  X Data frame containing columns for sound file name (sound.files), 
+#' selection number (selec), and start and end time of signals (start and end). 
+#' Low and high frequency columns are optional.
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.

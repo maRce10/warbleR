@@ -12,10 +12,13 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
                      scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
                      trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
                      heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast.spec = FALSE, 
-                     rm.zero = FALSE, ...) 
+                     rm.zero = FALSE, amp.cutoff = NULL, X = NULL, pallete.2 = reverse.topo.colors, ...) 
 {
   if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
+  sel.tab <- X
+  if(!is.null(sel.tab)) fast.spec <- TRUE 
+  
   if (complex & norm) {
     norm <- FALSE
     warning("\n'norm' was turned to 'FALSE'")
@@ -89,6 +92,9 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
       contlevels <- seq(0, maxz, length = 3)
   }
   Zlim <- range(Z, finite = TRUE, na.rm = TRUE)
+  
+  if(!is.null(amp.cutoff)) Z[Z >= (diff(range(Z)) * amp.cutoff) + min(Z)] <- 0 
+  
   if(!fast.spec)
   seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                         nlevels = 20, plot.title = title(main = main, 
@@ -96,6 +102,12 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
                         axisX = FALSE, axisY = axisY, col.lab = collab, 
                         colaxis = colaxis) else {
                           image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
+                      if(!is.null(sel.tab))    
+                         out <- lapply(1:nrow(sel.tab), function(i)
+                            image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], col = pallete.2(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)      
+                            )
+                           
+                          
                           if (axisY) axis(2, at = pretty(Y), labels = pretty(Y), cex.axis = cexlab)
                                 box()
                           if(!is.null(main)) title(main)       
