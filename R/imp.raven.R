@@ -79,14 +79,14 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
   sel.txt2 <- list.files(pattern = ".txt$", full.names = FALSE, recursive = recursive, ignore.case = TRUE)
   if(length(sel.txt) == 0) stop("No selection .txt files in working directory/'path' provided")
   
-    clist<-lapply(1:length(sel.txt), function(i)
-      {    a<-read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE)
+    clist<-lapply(seq_len(length(sel.txt)), function(i)
+      {    a<-read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE, stringsAsFactors = FALSE)
     if(!all.data) { if(!is.null(sound.file.col)) 
     {  if(length(grep(sound.file.col, colnames(a))) == 0) stop(paste0("'",sound.file.col , "' column provided in 'sound.file.col' not found")) 
     c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a), ignore.case = TRUE)], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)],
                                             selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
              start = a[,grep("Begin.Time",colnames(a), ignore.case = TRUE)],
-             end = a[, grep("End.Time",colnames(a), ignore.case = TRUE)], selec.file = sel.txt2[i])} else
+             end = a[, grep("End.Time",colnames(a), ignore.case = TRUE)], selec.file = sel.txt2[i], stringsAsFactors = FALSE)} else
            { if(name.from.file) 
 {             sound.files <- gsub("Table\\.([0-9]+)\\.selections.txt$", ext, sel.txt2[i])
            sound.files <- gsub(".selections.txt$", ext, sound.files)
@@ -94,20 +94,23 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
            c<-data.frame(sound.files, selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), 
                   ignore.case = TRUE)],selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
                              start = a[, grep("Begin.Time", colnames(a), ignore.case = TRUE)],
-                             end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)])
+                             end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)], stringsAsFactors = FALSE)
            } else
-                               c<-data.frame(selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)],
-                                             selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
-                                             start = a[, grep("Begin.Time", colnames(a), ignore.case = TRUE)],
-                                             end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)])
+                c <- data.frame(selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)], selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)], start = a[, grep("Begin.Time", colnames(a), ignore.case = TRUE)], end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)], stringsAsFactors = FALSE)
                              
-                if(freq.cols)    { 
-                  c$low.freq <- a[, grep("Low.Freq", colnames(a), ignore.case = TRUE)]
-                  c$high.freq <- a[, grep("High.Freq", colnames(a), ignore.case = TRUE)]
-                      }       
-           }} else 
-                               c <- data.frame(a, selec.file = sel.txt2[i]) 
-    return(c)
+                       
+           }
+      if(freq.cols)    { 
+        c$low.freq <- a[, grep("Low.Freq", colnames(a), ignore.case = TRUE)]/ 1000
+        c$high.freq <- a[, grep("High.Freq", colnames(a), ignore.case = TRUE)]/ 1000
+      c <- c[c(1:(ncol(c) - 3), ncol(c):(ncol(c)-1), ncol(c) -2 )]
+      
+        }
+      
+      } else 
+                               c <- data.frame(a, selec.file = sel.txt2[i], stringsAsFactors = FALSE) 
+
+      return(c)
  })
 
 cnms <- unique(unlist(sapply(clist, names)))    
@@ -117,7 +120,7 @@ clist <- lapply(clist, function(X)
 nms <- names(X)
 if(length(nms) != length(cnms))  
 for(i in cnms[!cnms %in% nms]) {
-  X <- data.frame(X,  NA)
+  X <- data.frame(X,  NA, stringsAsFactors = FALSE)
   names(X)[ncol(X)] <- i
   }
 
@@ -126,7 +129,11 @@ return(X)
     
 b <- do.call("rbind", clist)
 
-return(b[!duplicated(b), ])
+b <- b[!duplicated(b), ]
+
+rownames(b) <- 1:nrow(b)
+
+return(b)
 if(!is.null(path)) setwd(wd)
 }
 

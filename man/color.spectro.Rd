@@ -6,7 +6,7 @@
 \usage{
 color.spectro(wave, wl = 512, wn = "hanning", ovlp = 70,
 dB = "max0", collevels = NULL, selec.col = "red2", col.clm = NULL, 
-base.col = "black", cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
+base.col = "black", bg.col = "white", cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
 flab = "Frequency (kHz)", title = NULL, axisX = TRUE, axisY = TRUE,
 flim = NULL, rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, f.mar = NULL,
 interactive = NULL)
@@ -38,6 +38,9 @@ color names for each selection. Ignored if \code{X == NULL} or \code{interactive
 
 \item{base.col}{Character vector of length 1 specifying the color of the bacground spectrogram. 
 Default is 'black'.}
+
+\item{bg.col}{Character vector of length 1 specifying the background color for both base
+and hlighlighted spectrograms. Default is 'white'.}
 
 \item{cexlab}{Numeric vector of length 1 specifying the relative size of axis 
 labels. See \code{\link[seewave]{spectro}}. Default is 1.}

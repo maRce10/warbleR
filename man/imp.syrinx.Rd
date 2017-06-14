@@ -4,7 +4,8 @@
 \alias{imp.syrinx}
 \title{Import Syrinx selections}
 \usage{
-imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE, exclude = FALSE)
+imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE, 
+exclude = FALSE, hz.to.khz = TRUE)
 }
 \arguments{
 \item{path}{A character string indicating the path of the directory in which to look for the text files. 
@@ -16,6 +17,8 @@ that all files should contain exactly the same columns in the same order.}
 \item{recursive}{Logical. If \code{TRUE}) the listing recurse into sub-directories.}
 
 \item{exclude}{Logical. Controls whether files that cannot be read are ignored (\code{TRUE}). Default is \code{FALSE}.}
+
+\item{hz.to.khz}{Logical. Controls if frequency variables should be converted from  Hz (the unit used by Syrinx) to kHz (the unit used by warbleR). Default if \code{TRUE}. Ignored if all.data is \code{TRUE}.}
 }
 \value{
 A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 

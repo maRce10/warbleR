@@ -2,13 +2,15 @@
 #' 
 #' \code{imp.syrinx} imports Syrinx selection data from many files simultaneously. 
 #' All files must be have the same columns.
-#' @usage imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE, exclude = FALSE)  
+#' @usage imp.syrinx(path = NULL, all.data = FALSE, recursive = FALSE, 
+#' exclude = FALSE, hz.to.khz = TRUE)  
 #' @param path A character string indicating the path of the directory in which to look for the text files. 
 #' If not provided (default) the function searches into the current working directory. Default is \code{NULL}).
 #' @param all.data Logical. If \code{TRUE}) all columns in text files are returned. Default is \code{FALSE}). Note 
 #' that all files should contain exactly the same columns in the same order. 
 #' @param recursive Logical. If \code{TRUE}) the listing recurse into sub-directories.
 #' @param exclude Logical. Controls whether files that cannot be read are ignored (\code{TRUE}). Default is \code{FALSE}.
+#' @param hz.to.khz Logical. Controls if frequency variables should be converted from  Hz (the unit used by Syrinx) to kHz (the unit used by warbleR). Default if \code{TRUE}. Ignored if all.data is \code{TRUE}.
 #' @return A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 
 #' frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
 #' will also contain a 'sound.files' column. In addition, all rows with duplicated data are removed. This is useful when 
@@ -43,7 +45,8 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-5-2016 (MAS)
 
-imp.syrinx <- function(path = NULL, all.data = FALSE, recursive = FALSE, exclude = FALSE) 
+imp.syrinx <- function(path = NULL, all.data = FALSE, recursive = FALSE,
+                       exclude = FALSE, hz.to.khz = TRUE) 
 { 
   
   #check path to working directory
@@ -102,6 +105,27 @@ clist<-lapply(1:length(sel.txt), function(i)
 clist <- clist[sapply(clist, is.data.frame)]
 b <- do.call("rbind", clist)
 if(!all.data) if(any(is.na(b$start))) warning("NAs found (empty rows)")
-return(b[!duplicated(b), ])
+
+b <- b[!duplicated(b), ]
+
+
+options(warn = -1)
+if(!all.data)
+{
+  b$start <- as.numeric(b$start)
+  b$end <- as.numeric(b$end)
+
+  #remove NA rows
+  b <- b[!is.na(b$start), ]
+  } else b <-b[b[,2] != names(b)[2],]
+
+
+# convert to hz
+if(hz.to.khz & !all.data & all(c("low.freq", "high.freq") %in% names(b)))
+  {b$low.freq <- as.numeric(b$low.freq) / 1000 
+  b$high.freq <- as.numeric(b$high.freq) / 1000 
+}
+
+  return(b[!duplicated(b), ])
 if(!is.null(path)) setwd(wd)
 }

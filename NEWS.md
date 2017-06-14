@@ -9,6 +9,7 @@
 * New argument "index" in "seltailor" function to indicate which selection should be tailored
 * New argument "wl.freq" in "specan" function to set windows length independently for time and frequency domain measurements
 * New measurement "meanpeakf" in specan
+* "imp.raven" and "imp.syrinx" now import low and high frequency in kHz (if all.data == FALSE)
 
 ## New functions:
 
@@ -17,6 +18,8 @@
 * move.imgs: copy/cut image files to folders
 * ovlp_sels: find overlapping/duplicated selections
 * cut_sels: generates individual sound files (.wav) for each selection in a selection table
+* color_spectro: produces spectrograms in which signals are highlighted with colors
+* exp.raven: exports selection tables to a .txt file that can be opened in Raven
 
 ===============================================================================================
 
