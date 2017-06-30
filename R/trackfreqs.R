@@ -369,7 +369,7 @@ if(!frange.detec){
     spectro.INTFUN.2(wave = r, f = f, flim = fl, fast.spec = fast.spec, palette = pal, ovlp = ovlp, wl = wl, grid = F, tlab = "", flab = "")
 
     #add green polygon on detected frequency bands
-      rect(xleft = 0, ybottom = b[1], xright = length(r@left)/f, ytop = b[2], col = adjustcolor("green3", 0.1), border = adjustcolor("gray", 0.2)) 
+      rect(xleft = 0, ybottom = b[1], xright = seewave::duration(r), ytop = b[2], col = adjustcolor("green3", 0.1), border = adjustcolor("gray", 0.2)) 
 
     #add line highlighting freq range
     abline(h = b, col = "#80C3FF", lty = 3, lwd = 2) 

@@ -148,8 +148,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
       
       if(enn > r$samples/f) enn <- r$samples/f
       
-      r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), from = stn, to = enn, units = "seconds")
+      r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), from = stn, to = enn, units = "seconds", toWaveMC = TRUE)
       
+    
       # Identify the signal
       signal <- seewave::cutw(r, from =  mar1, to = mar2, f = f)
       
@@ -157,7 +158,8 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
       noise1 <- seewave::cutw(r, from =  0, 
                      to = mar1, f = f)
       
-      noise2 <- seewave::cutw(r, from = mar2, to = length(r@left)/r@samp.rate, f = f)
+
+      noise2 <- seewave::cutw(r, from = mar2, to = seewave::duration(r), f = f)
       
       if(type == 1)
   {    # Calculate mean noise amplitude 

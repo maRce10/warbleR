@@ -192,11 +192,11 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
     f <- rec@samp.rate #set sampling rate
     frli<- fl #in case flim is higher than can be due to sampling rate
     if(frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
-    dur <- length(rec@left)/rec@samp.rate #set duration    
+    dur <- seewave::duration(rec) #set duration    
     
     if(!length(grep("[^[:digit:]]", as.character(dur/sl))))  #if duration is multiple of sl
       rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
-    dur <- length(rec@left)/rec@samp.rate #set duration    
+    dur <- seewave::duration(rec) #set duration    
     
     if(!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset X data
     

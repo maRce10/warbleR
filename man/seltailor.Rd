@@ -83,7 +83,7 @@ selection.}
 \item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
 \value{
-.csv file saved in the working directory with start and end time of 
+data frame similar to X with the and a .csv file saved in the working directory with start and end time of 
   selections.
 }
 \description{
@@ -106,7 +106,8 @@ in which users can select a new start and end of a vocalization unit (e.g. eleme
    coordinates, plus a new column (X$tailored) indicating if the selection 
   has been tailored. The file is saved in the working directory  and is updated every time the user
    moves into the next sound file (next sel "button") or stop the process 
- (Stop "button").  If no selection (by clicking on the 'next'button) the 
+ (Stop "button"). It also return the same data frame as and object in the R environment.
+   If no selection (by clicking on the 'next'button) the 
  original time coordinates are kept. When resuming the process (after "stop" and re-running 
  the function in the same working directory), the function will continue working on the
  selections that have not been analyzed. To be able to redo selections set the "next.sel" 

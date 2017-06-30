@@ -10,9 +10,9 @@ fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.rate = NULL,
 \arguments{
 \item{checksels}{Data frame with results from \code{\link{checksels}}.}
 
-\item{files}{Character vector with the names of the wav files to fix. Default is \code{NULL}. Default is \code{NULL}.}
+\item{files}{Character vector with the names of the wav files to fix. Default is \code{NULL}.}
 
-\item{samp.rate}{Numeric vector of length 1 with the sampling rate (in khz) for output files. Default is \code{NULL}.}
+\item{samp.rate}{Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.}
 
 \item{bit.rate}{Numeric vector of length 1 with the dynamic interval (i.e. bit rate) for output files.
 Default is \code{NULL}.}

@@ -89,7 +89,6 @@ checkwavs <- function(X = NULL, path = NULL) {
     files <- files[files %in% X$sound.files]
   }
   
-  
   a <- sapply(files, function(x) {
     r <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
     if(class(r) == "try-error") return (NA) else

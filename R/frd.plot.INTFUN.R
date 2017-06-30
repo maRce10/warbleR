@@ -8,7 +8,7 @@ frd.plot.INTFUN <- function(wave, detections, wl = 512, threshold = 10, wn = "ha
   
   #sampling rate
   f <-  wave@samp.rate
-  dur <- length(wave@left)/f
+  dur <- seewave::duration(wave)
   
   # detection limits
   if(!all.detec)

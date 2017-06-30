@@ -490,11 +490,10 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
       f <- rec@samp.rate #set sampling rate
       frli<- fl #in case flim is higher than can be due to sampling rate
       if(frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
-      dur <- length(rec@left)/rec@samp.rate #set duration    
       
       if(!length(grep("[^[:digit:]]", as.character(dur/sl))))  #if duration is multiple of sl
         rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec
-      dur <- length(rec@left)/rec@samp.rate #set duration    
+      dur <- seewave::duration(rec) #set duration    
       
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){

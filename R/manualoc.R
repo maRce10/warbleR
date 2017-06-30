@@ -154,7 +154,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
     f <- rec@samp.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
-    len <- length(rec@left)/rec@samp.rate  #for spectro display 
+    len <- seewave::duration(rec) #for spectro display 
     if(!is.null(tdisp) && len > tdisp) len <- tdisp #to decide when to create hi resolution spectro
     tlim <- c(0, len) 
     start <- numeric() #save results

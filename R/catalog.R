@@ -320,7 +320,10 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     if(is.numeric(X[, tags[1]])) 
     {
       if(is.integer(X[, tags[1]]))  
-        boxcols <- tag.pal[[1]](length(unique(X[, tags[1]])))[as.numeric(cut(X[, tags[1]],breaks = length(unique(X[, tags[1]]))))]  else  
+{
+        if( length(unique(X[, tags[1]])) > 1)
+        boxcols <- tag.pal[[1]](length(unique(X[, tags[1]])))[as.numeric(cut(X[, tags[1]],breaks = length(unique(X[, tags[1]]))))] else boxcols <- tag.pal[[1]](1)
+} else  
           boxcols <- tag.pal[[1]](breaks[1])
     }      else   boxcols <- tag.pal[[1]](length(unique(Y[, tags[1]]))) 
 

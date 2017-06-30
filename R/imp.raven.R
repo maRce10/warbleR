@@ -57,7 +57,7 @@
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jul-5-2016 (MAS)
+#last modification on jul-5-2017 (MAS)
 
 imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE, 
                     name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE) 
@@ -86,7 +86,12 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
     c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a), ignore.case = TRUE)], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)],
                                             selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
              start = a[,grep("Begin.Time",colnames(a), ignore.case = TRUE)],
-             end = a[, grep("End.Time",colnames(a), ignore.case = TRUE)], selec.file = sel.txt2[i], stringsAsFactors = FALSE)} else
+             end = a[, grep("End.Time",colnames(a), ignore.case = TRUE)], selec.file = sel.txt2[i], stringsAsFactors = FALSE)
+    
+    c$low.freq <- a[, grep("Low.Freq", colnames(a), ignore.case = TRUE)]/ 1000
+    c$high.freq <- a[, grep("High.Freq", colnames(a), ignore.case = TRUE)]/ 1000
+    c <- c[c(1:(ncol(c) - 3), ncol(c):(ncol(c)-1), ncol(c) -2 )]
+    } else
            { if(name.from.file) 
 {             sound.files <- gsub("Table\\.([0-9]+)\\.selections.txt$", ext, sel.txt2[i])
            sound.files <- gsub(".selections.txt$", ext, sound.files)
@@ -132,6 +137,10 @@ b <- do.call("rbind", clist)
 b <- b[!duplicated(b), ]
 
 rownames(b) <- 1:nrow(b)
+
+clm <- match(names(b), c("sound.files", "selec", "start", "end", "low.freq", "high.freq"))
+clm <- clm[!is.na(clm)]
+b <- b[, c(clm, setdiff(1:ncol(b), clm))]
 
 return(b)
 if(!is.null(path)) setwd(wd)

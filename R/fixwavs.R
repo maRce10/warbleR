@@ -4,8 +4,8 @@
 #' @usage fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.rate = NULL,
 #'  path = NULL, ...)
 #' @param checksels Data frame with results from \code{\link{checksels}}. 
-#' @param files Character vector with the names of the wav files to fix. Default is \code{NULL}. Default is \code{NULL}.
-#' @param samp.rate Numeric vector of length 1 with the sampling rate (in khz) for output files. Default is \code{NULL}.
+#' @param files Character vector with the names of the wav files to fix. Default is \code{NULL}.
+#' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
 #' @param bit.rate Numeric vector of length 1 with the dynamic interval (i.e. bit rate) for output files.
 #' Default is \code{NULL}.
 #' @param path Character string containing the directory path where the sound files are located. 
@@ -56,8 +56,7 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.rate =
   
   if(!all(c("sound.files", "check.res") %in% colnames(checksels))) 
     stop(paste(paste(c("sound.files", "check.res")[!(c("sound.files", "check.res") %in% colnames(checksels))], collapse=", "), "column(s) not found in data frame (does not seem to be the output of checksels)"))
-  }
-  else fls <- unique(files)
+  } else fls <- unique(files)
 
   #check path to working directory
   if(!is.null(path))
@@ -88,9 +87,11 @@ dir.create(file.path(getwd(), "converted sound files"))
     
     #name  and path of converted file
     filout <- file.path(getwd(), "converted sound files", x)
+
+    # seewave::sox(paste(paste0(" -r ", samp.rate, "k ", "-b ", bit.rate), ' "', filin,'" ','"', filout,'"', sep = ""), ...)
     
     if(!is.null(samp.rate))
-seewave::sox(paste(paste0(" -r ", samp.rate, "k ", "-b ", bit.rate), ' "', filin,'" ','"', filout,'"', sep = ""), ...) else
+seewave::sox(paste("-S ", ' "', filin,'" ', '"', filout,'"', sep = "", paste0(" rate -v -s ", samp.rate*1000)), ...) else
     seewave::sox((paste(' "', filin,'" ','"', filout,'"', sep = "")), ...)
   })
   if(!is.null(path)) setwd(wd)
