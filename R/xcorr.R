@@ -142,7 +142,7 @@ ltemp <- lapp(1:nrow(X), function(x)
   samp.rate <- clip@samp.rate
    
    # Fourier transform
-   t.survey <- length(clip@left)/clip@samp.rate
+   t.survey <- seewave::duration(clip)
    fspec <- seewave::spectro(wave = clip, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
    
    # Filter amplitudes 
@@ -212,7 +212,7 @@ FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
   survey.spec$amp[is.infinite(survey.spec$amp)] <- min(survey.spec$amp[!is.infinite(survey.spec$amp)]) - 10
   frq.bins <- survey.spec$freq
   t.bins <- survey.spec$time
-  t.survey <- length(survey@left)/survey@samp.rate
+  t.survey <- seewave::duration(survey)
   t.step <- t.bins[2] - t.bins[1]
   frq.step <- frq.bins[2] - frq.bins[1]
   
@@ -274,7 +274,7 @@ a<-lapp(1:(nrow(X)-1), function(j)
   margin <-(max(with(X, end[j:nrow(X)] - start[j:nrow(X)])))/2
   start <-X$start[j] - margin
   if(start < 0) {
-    end <-X$end[j] + margin -start[j]
+    end <-X$end[j] + margin -start
     start <- 0} else
   end <-X$end[j] + margin
   if(end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate - 0.001
