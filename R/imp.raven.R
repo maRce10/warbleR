@@ -62,6 +62,7 @@
 imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE, 
                     name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE) 
   {
+  
   #check path to working directory
   if(!is.null(path))
   {wd <- getwd()
@@ -74,26 +75,34 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
   
   if(is.null(ext.case) & name.from.file) stop("'ext.case' must be provided when name.from.file is TRUE")
   
+   sel.txt <- list.files(pattern = ".txt$", full.names = TRUE, recursive = recursive, ignore.case = TRUE)
   
-  sel.txt <- list.files(pattern = ".txt$", full.names = TRUE, recursive = recursive, ignore.case = TRUE)
-  sel.txt2 <- list.files(pattern = ".txt$", full.names = FALSE, recursive = recursive, ignore.case = TRUE)
-  if(length(sel.txt) == 0) stop("No selection .txt files in working directory/'path' provided")
+   sel.txt2 <- list.files(pattern = ".txt$", full.names = FALSE, recursive = recursive, ignore.case = TRUE)
+  
+   if(length(sel.txt) == 0) stop("No selection .txt files in working directory/'path' provided")
   
     clist<-lapply(seq_len(length(sel.txt)), function(i)
-      {    a<-read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE, stringsAsFactors = FALSE)
-    if(!all.data) { if(!is.null(sound.file.col)) 
-    {  if(length(grep(sound.file.col, colnames(a))) == 0) stop(paste0("'",sound.file.col , "' column provided in 'sound.file.col' not found")) 
+      {  
+      a <- try(read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE, stringsAsFactors = FALSE), silent = TRUE)
+      if(class(a) != "try-error")
+ {   if(!all.data) { 
+      if(!is.null(sound.file.col)) 
+    {  
+      if(length(grep(sound.file.col, colnames(a))) == 0) stop(paste0("'",sound.file.col , "' column provided in 'sound.file.col' not found")) 
     c <- data.frame(sound.files = a[, grep(sound.file.col, colnames(a), ignore.case = TRUE)], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)],
                                             selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)],
              start = a[,grep("Begin.Time",colnames(a), ignore.case = TRUE)],
              end = a[, grep("End.Time",colnames(a), ignore.case = TRUE)], selec.file = sel.txt2[i], stringsAsFactors = FALSE)
     
-    c$low.freq <- a[, grep("Low.Freq", colnames(a), ignore.case = TRUE)]/ 1000
-    c$high.freq <- a[, grep("High.Freq", colnames(a), ignore.case = TRUE)]/ 1000
+    try(c$low.freq <- a[, grep("Low.Freq", colnames(a), ignore.case = TRUE)]/ 1000, silent = TRUE)
+    try(c$high.freq <- a[, grep("High.Freq", colnames(a), ignore.case = TRUE)]/ 1000, silent = TRUE)
+    if(all(c("High.Freq", "Low.Freq") %in% names(c)))
     c <- c[c(1:(ncol(c) - 3), ncol(c):(ncol(c)-1), ncol(c) -2 )]
     } else
-           { if(name.from.file) 
-{             sound.files <- gsub("Table\\.([0-9]+)\\.selections.txt$", ext, sel.txt2[i])
+           { 
+             if(name.from.file) 
+              {
+               sound.files <- gsub("Table\\.([0-9]+)\\.selections.txt$", ext, sel.txt2[i])
            sound.files <- gsub(".selections.txt$", ext, sound.files)
            
            c<-data.frame(sound.files, selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), 
@@ -102,24 +111,33 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
                              end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)], stringsAsFactors = FALSE)
            } else
                 c <- data.frame(selec.file = sel.txt2[i], channel = a[, grep("channel", colnames(a), ignore.case = TRUE)], selec = a[,grep("Selection",colnames(a), ignore.case = TRUE)], start = a[, grep("Begin.Time", colnames(a), ignore.case = TRUE)], end = a[, grep("End.Time", colnames(a), ignore.case = TRUE)], stringsAsFactors = FALSE)
-                             
-                       
            }
-      if(freq.cols)    { 
-        c$low.freq <- a[, grep("Low.Freq", colnames(a), ignore.case = TRUE)]/ 1000
-        c$high.freq <- a[, grep("High.Freq", colnames(a), ignore.case = TRUE)]/ 1000
-      c <- c[c(1:(ncol(c) - 3), ncol(c):(ncol(c)-1), ncol(c) -2 )]
+      if(freq.cols)    {    
+    try(c$low.freq <- a[, grep("Low.Freq", colnames(a), ignore.case = TRUE)]/ 1000, silent = TRUE)
+        try(c$high.freq <- a[, grep("High.Freq", colnames(a), ignore.case = TRUE)]/ 1000, silent = TRUE)
+    
+        if(all(c("High.Freq", "Low.Freq") %in% names(c)))
+          c <- c[c(1:(ncol(c) - 3), ncol(c):(ncol(c)-1), ncol(c) -2 )]
       
         }
       
       } else 
-                               c <- data.frame(a, selec.file = sel.txt2[i], stringsAsFactors = FALSE) 
-
+      c <- try(data.frame(a, selec.file = sel.txt2[i], stringsAsFactors = FALSE), silent = TRUE) 
+      if(class(c) == "try-error") c <- NA
+      } else c <- NA
       return(c)
  })
 
+# determine files that could not be read
+error.files <- sel.txt2[!sapply(clist, is.data.frame)]    
+    
+# remove NAs    
+clist <- clist[sapply(clist , is.data.frame)]
+
+# determine all column names in all selection tables    
 cnms <- unique(unlist(sapply(clist, names)))    
 
+# add columns that are missing to each selection table
 clist <- lapply(clist, function(X)
   {
 nms <- names(X)
@@ -142,7 +160,10 @@ clm <- match(names(b), c("sound.files", "selec", "start", "end", "low.freq", "hi
 clm <- clm[!is.na(clm)]
 b <- b[, c(clm, setdiff(1:ncol(b), clm))]
 
+if(length(error.files) > 0) cat(paste("some files could not be read:",paste(error.files, collapse = "/")))
+
 return(b)
+
 if(!is.null(path)) setwd(wd)
 }
 
