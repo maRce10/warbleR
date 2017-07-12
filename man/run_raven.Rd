@@ -16,7 +16,10 @@ import = FALSE, ...)
 the sound files. If not provided (default) the function searches into the current working 
 directory. Default is \code{NULL}.}
 
-\item{at.the.time}{Numeric vector of length 1 controling how many files will be open in Raven at the same time. Note that opening too many files at once could make Raven run out of memory.}
+\item{at.the.time}{Numeric vector of length 1 controling how many files will be open in
+Raven at the same time. Note that opening too many files at once could make Raven run out
+of memory. You need to close Raven every time the batch of files is analyzed, so the next
+batch is opened.}
 
 \item{import}{Logical. Controls if the selection tables generated should be return as a 
 data frame into the R environment. This only works if the selections are saved in the 
@@ -45,7 +48,7 @@ data(list = c("Phae.long1", "Phae.long2"))
 writeWave(Phae.long1, "Phae.long1.wav", extensible = FALSE)
 writeWave(Phae.long2, "Phae.long2.wav", extensible = FALSE)
 
-raven.path <- "PUT THE PATH TO THE RAVEN DIRECTORY HERE" 
+raven.path <- "PATH_TO_RAVEN_DIRECTORY_HERE" 
 
 # run function 
 run_raven(raven.path = raven.path, sound.files = c("Phae.long1.wav", "Phae.long2.wav"),
@@ -54,6 +57,11 @@ run_raven(raven.path = raven.path, sound.files = c("Phae.long1.wav", "Phae.long2
 #getting all the data
 rav.dat<-run_raven(all.data = TRUE)
 View(rav.dat)
+
+# run function on all the wav files in the working directory 
+run_raven(raven.path = raven.path, sound.files = list.files(pattern = "\\.wav$", 
+ignore.case = TRUE), at.the.time = 4, import = FALSE)
+  
 }
 
 }
