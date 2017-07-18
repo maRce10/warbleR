@@ -321,6 +321,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     
     cl <- parallel::makeCluster(parallel)
     
+    parallel::clusterExport(cl=cl, varlist=c("FFT")) 
     doParallel::registerDoParallel(cl)
     
     sp <- parallel::parLapply(cl, 1:nrow(X), function(i)
