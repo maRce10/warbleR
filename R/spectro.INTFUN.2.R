@@ -12,7 +12,7 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
                      scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
                      trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
                      heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast.spec = FALSE, 
-                     rm.zero = FALSE, amp.cutoff = NULL, X = NULL, pallete.2 = reverse.topo.colors, bx = TRUE, ...) 
+                     rm.zero = FALSE, amp.cutoff = NULL, X = NULL, pallete.2 = reverse.topo.colors, bx = TRUE, add = FALSE,...) 
 {
   if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
@@ -96,11 +96,11 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
   if(!is.null(amp.cutoff)) Z[Z >= (diff(range(Z)) * amp.cutoff) + min(Z)] <- 0 
   
   if(!fast.spec)
-  seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
+  filled.contour.FUN(x = X, y = Y, z = Z, levels = collevels, 
                         nlevels = 20, plot.title = title(main = main, 
                                                          xlab = tlab, ylab = flab), color.palette = palette, 
                         axisX = FALSE, axisY = axisY, col.lab = collab, 
-                        colaxis = colaxis) else {
+                        colaxis = colaxis, add = add) else {
                           image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
                       if(!is.null(sel.tab))    
                          out <- lapply(1:nrow(sel.tab), function(i)

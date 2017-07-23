@@ -16,6 +16,8 @@ rectw.INTFUN <- function(xl, yb, xr, yt, bor, cl, ang = NULL, den = NULL, patter
    rect(xleft = xl, ybottom = yb, xright = xr, ytop = yt, border = bor, col = cl, angle = ang, density = den, lwd = lw) 
   else {
 
+    rect(xleft = xl, ybottom = yb, xright = xr, ytop = yt, border = bor, col = "white", angle = ang, density = den, lwd = lw) 
+    
        if(pattern == "diamond")
     {      rect(xleft = xl, ybottom = yb, xright = xr, ytop = yt , border = bor , col = cl, density = den, angle = 45, lwd = lw)
       rect(xleft = xl, ybottom = yb, xright = xr, ytop = yt ,border = bor , col = cl, density = den, angle = 135, lwd = lw)

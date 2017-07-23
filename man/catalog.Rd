@@ -8,9 +8,10 @@ catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE,
 collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, 
 pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 res = 100, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
-width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors), legend = 3, 
-cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
-breaks = c(5, 5))
+width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors, topo.colors), 
+legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
+breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
+max.group.cols = NULL)
 }
 \arguments{
 \item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -86,7 +87,7 @@ for vertical orientation.}
 \item{tags}{String vector. Provides the column names that will be used for the color tagging legend above. Tags can also be numeric. Continuous variables would be break down in 10 color classes.
 spectrograms.}
 
-\item{tag.pal}{List of color palette function for tags. Should be of length 1 or 2.  Default is list(temp.colors, heat.colors).}
+\item{tag.pal}{List of color palette function for tags. Should be of length 1, 2.  Default is \code{list(temp.colors, heat.colors, topo.colors)}.}
 
 \item{legend}{A numeric vector of length 1 controling a legend for color tags is added.
 Ignored if no tags are provided. Four values are allowed: 
@@ -121,6 +122,22 @@ patterns are used to make tags with similar colors more distinguishable. Four va
 \item{breaks}{Numeric vector of length 1 or 2 controling the number of intervals in which a 
 numeric tag will be divided. The numbers control the first and second tags respectively. 
 Ignored if tags are not numeric. Default is c(5, 5).}
+
+\item{group.tag}{Character vector of length 1 indicating the column name to be used to color
+the empty plot areas around the spectrograms. If provided selections that belong to the same
+tag level are clumped together in the catalog (the 'X' data frame is sorted by that column).}
+
+\item{spec.mar}{Numeric vector of length 1 to add space at the top, left and right sides of
+the spectrogram. Useful to better display the grouping of selections when 'group.tag' is 
+provided. Internally applied for setting 'mar' using \code{\link[graphics]{par}}.}
+
+\item{spec.bg}{Character vector of length 1 to control the background color of the spectrogram. Default is "white. Ignored if \code{group.tag = NULL}.}
+
+\item{max.group.cols}{Numeric vector of length 1 indicating the number of different colors 
+that will be used for group tags (see 'group.tag' argument). If provided (and the number is 
+smaller than the number of levels in the 'group.tag' column) the colors would be recycled, 
+athough ensuring that adjacent groups do not share the same color. Useful when the 
+'group.tag' has many levels and the colors assigned become very similar. Default is \code{NULL}.}
 }
 \value{
 Image files with spectrograms of whole sound files in the working directory. Multiple pages

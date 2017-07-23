@@ -5,9 +5,10 @@
 #' collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, 
 #' pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
 #' res = 100, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
-#' width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors), legend = 3, 
-#' cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
-#' breaks = c(5, 5))
+#' width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors, topo.colors), 
+#' legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
+#' breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
+#' max.group.cols = NULL)
 #' @param X Data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -59,7 +60,7 @@
 #'  for vertical orientation.
 #' @param tags String vector. Provides the column names that will be used for the color tagging legend above. Tags can also be numeric. Continuous variables would be break down in 10 color classes.
 #'  spectrograms. 
-#' @param tag.pal List of color palette function for tags. Should be of length 1 or 2.  Default is list(temp.colors, heat.colors).
+#' @param tag.pal List of color palette function for tags. Should be of length 1, 2.  Default is \code{list(temp.colors, heat.colors, topo.colors)}.
 #' @param legend A numeric vector of length 1 controling a legend for color tags is added.
 #' Ignored if no tags are provided. Four values are allowed: 
 #' \itemize{
@@ -87,6 +88,18 @@
 #' @param breaks Numeric vector of length 1 or 2 controling the number of intervals in which a 
 #' numeric tag will be divided. The numbers control the first and second tags respectively. 
 #' Ignored if tags are not numeric. Default is c(5, 5). 
+#' @param group.tag Character vector of length 1 indicating the column name to be used to color
+#' the empty plot areas around the spectrograms. If provided selections that belong to the same
+#' tag level are clumped together in the catalog (the 'X' data frame is sorted by that column).
+#' @param spec.mar Numeric vector of length 1 to add space at the top, left and right sides of
+#'  the spectrogram. Useful to better display the grouping of selections when 'group.tag' is 
+#'  provided. Internally applied for setting 'mar' using \code{\link[graphics]{par}}.
+#' @param spec.bg Character vector of length 1 to control the background color of the spectrogram. Default is "white. Ignored if \code{group.tag = NULL}. 
+#' @param max.group.cols Numeric vector of length 1 indicating the number of different colors 
+#' that will be used for group tags (see 'group.tag' argument). If provided (and the number is 
+#' smaller than the number of levels in the 'group.tag' column) the colors would be recycled, 
+#' athough ensuring that adjacent groups do not share the same color. Useful when the 
+#' 'group.tag' has many levels and the colors assigned become very similar. Default is \code{NULL}.
 #' @return Image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -168,8 +181,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
                     it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
                     labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
-                    tag.pal = list(temp.colors, heat.colors), legend = 3, cex = 1, leg.wd = 1, 
-                    img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5))
+                    tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, cex = 1, leg.wd = 1, 
+                    img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5), 
+                    group.tag = NULL, spec.mar = 0, spec.bg = "white", max.group.cols = NULL)
 {
   #check path to working directory
   if(!is.null(path))
@@ -196,10 +210,14 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
 
   #tag.pal must be a color function
-  if(!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a  list of color palette functions of length 1 or 2")
+  if(!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a list of color palette functions of length 1 or 2")
 
   if(length(tag.pal) == 1) tag.pal[[2]] <- tag.pal[[1]]
-
+  if(length(tag.pal) == 2 & !is.null(group.tag)) tag.pal[[3]] <- tag.pal[[1]]
+  
+  if(!is.null(max.group.cols) & length(tag.pal) == 3) {fc <- tag.pal[[3]]
+  tag.pal[[3]] <- function(n) rep(fc(max.group.cols), ceiling(10/3))[1:n]}
+  
   if(length(breaks) == 1) breaks[2] <- breaks[1]
     
   #pal must be a color function
@@ -220,6 +238,15 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if(!all(tags %in% colnames(X)))
     stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
 
+  #missing tag columns
+  if(!all(tags %in% colnames(X)))
+    stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
+  
+  if(!is.null(group.tag))
+    if(!group.tag %in% colnames(X))
+      stop("group.tag column not found in data frame") else
+        X <- X[order(X[, group.tag]),]
+  
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X <- data.frame(X,sel.comment="")
 
@@ -376,7 +403,7 @@ if(length(tags) == 2)
     tag.col.df <- rbind(tag.col.df, W)
     }  
    
-    
+      
     # add hatching lines for color tags
     if(hatching == 0 | is.null(tags)) 
     {   
@@ -422,6 +449,77 @@ else
   tag.col.df <- rapply(tag.col.df, as.character, classes="factor", how="replace")
   } else legend <- 0
   
+  
+  # grouping color
+  if(!is.null(group.tag))
+  {
+    # if(length(tags) == 1 & legend == 2) legend <- 0
+    
+    #convert to character
+    Y <- as.data.frame(rapply(X, as.character, classes="factor", how="replace"))
+    
+    #if tag is numeric
+   grcl <- tag.pal[[3]](length(unique(Y[, group.tag]))) 
+    
+    #convert characters to factors
+    X <- rapply(X, as.factor, classes="character", how="replace")
+    X$colgroup <- X[,group.tag] 
+    X$colgroup <- droplevels(as.factor(X$colgroup))
+    levels(X$colgroup) <- grcl[1:length(unique(X$colgroup))]
+  
+    #add to df for legend
+    # if(!exists("tag.col.df"))
+    # tag.col.df <- X[!duplicated(X[,group.tag]), c(group.tag, "colgroup")]
+    # 
+    # tag.col.df$group.tag <- group.tag
+    # names(tag.col.df) <- c("tag", "col", "tag.col")
+
+    
+    # add hatching lines for color tags
+    # if(hatching == 0 | is.null(tags)) 
+    # {   
+    #   tag.col.df$pattern <- "no.pattern"
+    #   X$pattern.1 <- "no.pattern"
+    #   X$pattern.2 <- "no.pattern"
+    # }  else {
+      
+      # tag.col.df$pattern <- rep(c("diamond", "grid", "forward", "backward", "horizontal", "vertical"), ceiling(nrow(tag.col.df)/6))[1:nrow(tag.col.df)] 
+      # 
+      # if(hatching == 1 & length(tags) == 2)
+      # {if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
+      #   tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric2)] <- "no.pattern"
+      # 
+      # else
+      #   tag.col.df$pattern[tag.col.df$tag %in% X[,tags[2]]] <- "no.pattern"
+      # }
+      # 
+      # if(hatching == 2 & length(tags) == 2)
+      #   if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+      #     tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric1)] <- "no.pattern" else
+      #       tag.col.df$pattern[tag.col.df$tag %in% X[,tags[1]]] <- "no.pattern"
+          
+    # }
+    
+    
+  #   X <- do.call(rbind, lapply(1:nrow(X), function(x) {
+  #     W <- X[x, ]
+  #     if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+  #       W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric1)]
+  #     else  
+  #       W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[1]])]
+  #     
+  #     if(length(tags) == 2)
+  #     {   if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
+  #       W$pattern.2 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric2)] else 
+  #         W$pattern.2 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[2]])]
+  #     } else Y$pattern.2 <- "no.pattern"
+  #     return(W)
+  #   }))
+  #   
+  #   
+  #   tag.col.df <- rapply(tag.col.df, as.character, classes="factor", how="replace")
+  }
+  
     #calculate time and freq ranges based on all recs
   rangs <- lapply(1:nrow(X), function(i){
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
@@ -463,7 +561,7 @@ X <- do.call(rbind, X2)
 }
 
  
-    
+# function to run on data frame subset   
 catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex, img.suffix)
 {
 #set layout for screensplit
@@ -540,6 +638,8 @@ X3 <- rapply(X3, as.character, classes="factor", how="replace")
 #start graphic device
 if(!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
 imgfun(filename = paste0("Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
+
+# split graphic window
 invisible(close.screen(all.screens = TRUE))
 split.screen(figs = m)
 
@@ -559,6 +659,7 @@ sqplots <- which(m[,2] != minlf)
 lapply(sqplots, function(i)
                   {
 
+    if(i <= nrow(X3) & !is.null(group.tag)) par(bg = X3$colgroup[i], new = TRUE) else par(bg = "white", new = TRUE)
     screen(i)           
     if(i <= nrow(X3))
     {  
@@ -585,13 +686,22 @@ lapply(sqplots, function(i)
   
   axisY <- ifelse(m[i,1] == minlf, TRUE, FALSE) 
   
-  par(mar = c(btm, 0, 0, 0))
   
-  spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2)
+  par(mar = c(btm, rep(spec.mar, 3)))
+  
+  if(!is.null(group.tag))
+    {
+    plot(x=-1, y=-1, axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n",
+         panel.first={points(0, 0, pch=16, cex=1e6, col = spec.bg)})
+    
+      }  
+  
+  # draw spectro
+  spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2, add = TRUE)
 
 } else { #plot labels
   
-  par( mar = rep(0, 4))
+  par(mar = rep(0, 4))
 
     plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
   
@@ -620,8 +730,8 @@ lapply(sqplots, function(i)
   #add Freq axis label
   if(i == nrow(m) - 1)
   {
-    par(mar = c(0, 0, 0, 0))
-    plot(1, col = adjustcolor("white", alpha.f = 0), frame.plot = FALSE)
+    par(mar = c(0, 0, 0, 0), bg = "white", new = T)
+    plot(1, frame.plot = FALSE)
     text(x = 1, y = 1.05, "Frequency (kHz)", srt = 90, cex = 1.2 * cex) 
   }
    
@@ -767,7 +877,7 @@ if(legend %in% c(1, 3))
 dev.off()
 }  
 
-#run function over X
+#run function over X to split it in subset data frames
 cel <- ceiling((nrow(X)/(ncol * nrow)))
 if(cel < 1)
   Xlist <- list(X) else
@@ -823,8 +933,7 @@ if(cel < 1)
      parallel::stopCluster(cl)
 
    }
- }
- else {
+ } else {
    if(pb)
      out <- pbapply::pblapply(1:length(Xlist), function(z)
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
