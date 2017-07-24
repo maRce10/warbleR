@@ -21,7 +21,7 @@ Raven at the same time. Note that opening too many files at once could make Rave
 of memory. You need to close Raven every time the batch of files is analyzed, so the next
 batch is opened.}
 
-\item{import}{Logical. Controls if the selection tables generated should be return as a 
+\item{import}{Logical. Controls if the selection tables generated should be returned as a 
 data frame into the R environment. This only works if the selections are saved in the 
 "Selections" folder in the Raven directory. This argument calls the \code{\link{imp.raven}}
 internally. Additional arguments can be passed to \code{\link{imp.raven}} to control the way the data is imported.}

@@ -125,13 +125,14 @@ Ignored if tags are not numeric. Default is c(5, 5).}
 
 \item{group.tag}{Character vector of length 1 indicating the column name to be used to color
 the empty plot areas around the spectrograms. If provided selections that belong to the same
-tag level are clumped together in the catalog (the 'X' data frame is sorted by that column).}
+tag level are clumped together in the catalog (the 'X' data frame is sorted by that column).
+This tags cannot be included in the legend so it would be better to use the label field to identify the different levels.}
 
 \item{spec.mar}{Numeric vector of length 1 to add space at the top, left and right sides of
 the spectrogram. Useful to better display the grouping of selections when 'group.tag' is 
 provided. Internally applied for setting 'mar' using \code{\link[graphics]{par}}.}
 
-\item{spec.bg}{Character vector of length 1 to control the background color of the spectrogram. Default is "white. Ignored if \code{group.tag = NULL}.}
+\item{spec.bg}{Character vector of length 1 to control the background color of the spectrogram. Default is 'white'. Ignored if \code{group.tag = NULL}.}
 
 \item{max.group.cols}{Numeric vector of length 1 indicating the number of different colors 
 that will be used for group tags (see 'group.tag' argument). If provided (and the number is 

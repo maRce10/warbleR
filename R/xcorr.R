@@ -28,7 +28,8 @@
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' when parallel = 1. Note that progress bar is not completely accurate as the number of pairwise comparisons decreases on each iteration 
+#' decreases. The first iteration runs n-1 comparisons while the last one only 1 (\code{n = nrow(X)}).
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
 #' @param cor.mat Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.

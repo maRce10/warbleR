@@ -91,10 +91,11 @@
 #' @param group.tag Character vector of length 1 indicating the column name to be used to color
 #' the empty plot areas around the spectrograms. If provided selections that belong to the same
 #' tag level are clumped together in the catalog (the 'X' data frame is sorted by that column).
+#' This tags cannot be included in the legend so it would be better to use the label field to identify the different levels.
 #' @param spec.mar Numeric vector of length 1 to add space at the top, left and right sides of
 #'  the spectrogram. Useful to better display the grouping of selections when 'group.tag' is 
 #'  provided. Internally applied for setting 'mar' using \code{\link[graphics]{par}}.
-#' @param spec.bg Character vector of length 1 to control the background color of the spectrogram. Default is "white. Ignored if \code{group.tag = NULL}. 
+#' @param spec.bg Character vector of length 1 to control the background color of the spectrogram. Default is 'white'. Ignored if \code{group.tag = NULL}. 
 #' @param max.group.cols Numeric vector of length 1 indicating the number of different colors 
 #' that will be used for group tags (see 'group.tag' argument). If provided (and the number is 
 #' smaller than the number of levels in the 'group.tag' column) the colors would be recycled, 
@@ -243,9 +244,13 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
   
   if(!is.null(group.tag))
-    if(!group.tag %in% colnames(X))
+    {if(!group.tag %in% colnames(X))
       stop("group.tag column not found in data frame") else
         X <- X[order(X[, group.tag]),]
+      
+      if(is.numeric(X[, group.tag]))
+        stop("group tag should cannot be numeric")
+        }
   
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X <- data.frame(X,sel.comment="")
@@ -453,8 +458,6 @@ else
   # grouping color
   if(!is.null(group.tag))
   {
-    # if(length(tags) == 1 & legend == 2) legend <- 0
-    
     #convert to character
     Y <- as.data.frame(rapply(X, as.character, classes="factor", how="replace"))
     
@@ -468,57 +471,14 @@ else
     levels(X$colgroup) <- grcl[1:length(unique(X$colgroup))]
   
     #add to df for legend
-    # if(!exists("tag.col.df"))
-    # tag.col.df <- X[!duplicated(X[,group.tag]), c(group.tag, "colgroup")]
-    # 
-    # tag.col.df$group.tag <- group.tag
-    # names(tag.col.df) <- c("tag", "col", "tag.col")
-
-    
-    # add hatching lines for color tags
-    # if(hatching == 0 | is.null(tags)) 
-    # {   
-    #   tag.col.df$pattern <- "no.pattern"
-    #   X$pattern.1 <- "no.pattern"
-    #   X$pattern.2 <- "no.pattern"
-    # }  else {
-      
-      # tag.col.df$pattern <- rep(c("diamond", "grid", "forward", "backward", "horizontal", "vertical"), ceiling(nrow(tag.col.df)/6))[1:nrow(tag.col.df)] 
-      # 
-      # if(hatching == 1 & length(tags) == 2)
-      # {if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
-      #   tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric2)] <- "no.pattern"
-      # 
-      # else
-      #   tag.col.df$pattern[tag.col.df$tag %in% X[,tags[2]]] <- "no.pattern"
-      # }
-      # 
-      # if(hatching == 2 & length(tags) == 2)
-      #   if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
-      #     tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric1)] <- "no.pattern" else
-      #       tag.col.df$pattern[tag.col.df$tag %in% X[,tags[1]]] <- "no.pattern"
-          
-    # }
-    
-    
-  #   X <- do.call(rbind, lapply(1:nrow(X), function(x) {
-  #     W <- X[x, ]
-  #     if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
-  #       W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric1)]
-  #     else  
-  #       W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[1]])]
-  #     
-  #     if(length(tags) == 2)
-  #     {   if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
-  #       W$pattern.2 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric2)] else 
-  #         W$pattern.2 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[2]])]
-  #     } else Y$pattern.2 <- "no.pattern"
-  #     return(W)
-  #   }))
+  #   tag.col.df2 <- X[!duplicated(X[,group.tag]), c(group.tag, "colgroup")]
+  #   names(tag.col.df2) <- c("tag", "col")
+  #   tag.col.df2$tag.col <- paste(group.tag, "(group.tag)")
+  #   tag.col.df2$pattern <- "no.pattern"
   #   
-  #   
-  #   tag.col.df <- rapply(tag.col.df, as.character, classes="factor", how="replace")
-  }
+  # if(!exists("tag.col.df"))
+  #     tag.col.df <- tag.col.df2 else tag.col.df <- rbind(tag.col.df, tag.col.df2)
+   }
   
     #calculate time and freq ranges based on all recs
   rangs <- lapply(1:nrow(X), function(i){

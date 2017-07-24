@@ -205,7 +205,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   {   # seewave spectro 
     #plot background spectro
     
-    filled.contour.FUN(x = X, y = Y, z = Z, levels = collevels, 
+    filled.contour.color.FUN(x = X, y = Y, z = Z, levels = collevels, 
                        nlevels = 20, plot.title = title(main = title, 
                                                         xlab = tlab, ylab = flab), color.palette = basepal, 
                        axisX = FALSE, axisY = axisY, col.lab = "black", 
@@ -227,7 +227,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     #plot colored signals  
     if(!is.null(sel.tab))    
       out <- lapply(1:nrow(sel.tab), function(i)
-        filled.contour.FUN(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 2), colors[i]), alpha = TRUE), levels = collevels,
+        filled.contour.color.FUN(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 2), colors[i]), alpha = TRUE), levels = collevels,
                            axisX = FALSE, axisY = FALSE, col.lab = "black", 
                            colaxis = "black", add = TRUE)   
       )
