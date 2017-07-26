@@ -97,7 +97,7 @@
 #'   has been tailored. The file is saved in the working directory  and is updated every time the user
 #'    moves into the next sound file (next sel "button") or stop the process 
 #'  (Stop "button"). It also return the same data frame as and object in the R environment.
-#'    If no selection (by clicking on the 'next'button) the 
+#'    If no selection is made (by clicking on the 'next' button) the 
 #'  original time coordinates are kept. When resuming the process (after "stop" and re-running 
 #'  the function in the same working directory), the function will continue working on the
 #'  selections that have not been analyzed. To be able to redo selections set the "next.sel" 

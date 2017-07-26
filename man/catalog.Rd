@@ -5,13 +5,14 @@
 \title{Create catalog of vocal signals}
 \usage{
 catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
-collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, wl = 512, gr = FALSE, 
-pal = reverse.gray.colors.2, it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, 
-res = 100, orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
-width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors, topo.colors), 
+collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
+lab.mar = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", path = NULL, 
+pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
+labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
+tag.pal = list(temp.colors, heat.colors, topo.colors), 
 legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
 breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
-max.group.cols = NULL)
+max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL)
 }
 \arguments{
 \item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -42,6 +43,13 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 dealineating spectrogram limits. Default is 0.05.}
+
+\item{prop.mar}{Numeric vector of length 1. Specifies the margins adjacent to the 
+start and end points of selections as a proportion of the duration of the signal. If
+provided 'mar' argument is ignored. Default is \code{NULL}. Useful when having high 
+variation in signal duration.}
+
+\item{lab.mar}{Numeric vector of length 1. Specifies the space allocated to labels and tags (the upper margin). Default is 1.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
@@ -97,7 +105,7 @@ Ignored if no tags are provided. Four values are allowed:
    \item \code{2}: Label for the second color tag
    \item \code{3}: Labels both color tags
    }
- Default is 3.}
+ Default is 3. Currently no legend can be set for group tags. Use labels instead.}
 
 \item{cex}{A numeric vector of length 1 giving the amount by which text 
 (including labels and axis) should be magnified. Default is 1.}
@@ -136,9 +144,16 @@ provided. Internally applied for setting 'mar' using \code{\link[graphics]{par}}
 
 \item{max.group.cols}{Numeric vector of length 1 indicating the number of different colors 
 that will be used for group tags (see 'group.tag' argument). If provided (and the number is 
-smaller than the number of levels in the 'group.tag' column) the colors would be recycled, 
+smaller than the number of levels in the 'group.tag' column) the colors will be recycled, 
 athough ensuring that adjacent groups do not share the same color. Useful when the 
 'group.tag' has many levels and the colors assigned become very similar. Default is \code{NULL}.}
+
+\item{sub.legend}{Logical. If \code{TRUE} then only the levels present on each
+page are shown in the legend.}
+
+\item{rm.axes}{Logical. If \code{TRUE} frequency and time axes are excluded.}
+
+\item{title}{Character vector of length 1 to set the tile of catalogs.}
 }
 \value{
 Image files with spectrograms of whole sound files in the working directory. Multiple pages
