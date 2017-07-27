@@ -73,8 +73,8 @@ if(length(imgs) == 0) stop(paste("No image files were found in", from))
 
 a <- file.copy(from = file.path(from, imgs), to = file.path(to, imgs), overwrite = overwrite)
 
-if(all(!a) & !overwrite) message(paste("All files already existed in", to)) else
-if(any(!a) & !overwrite) message(paste("Some files already existed in 'to'", to))
+if(all(!a) & !overwrite) cat(paste("All files already existed in", to)) else
+if(any(!a) & !overwrite) cat(paste("Some files already existed in 'to'", to))
 
 if(cut) unlink(file.path(from, imgs)[a])
 

@@ -96,7 +96,7 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
   if(!is.null(amp.cutoff)) Z[Z >= (diff(range(Z)) * amp.cutoff) + min(Z)] <- 0 
   
   if(!fast.spec)
-  filled.contour.FUN(x = X, y = Y, z = Z, levels = collevels, 
+  filled.contour.INTFUN(x = X, y = Y, z = Z, levels = collevels, 
                         nlevels = 20, plot.title = title(main = main, 
                                                          xlab = tlab, ylab = flab), color.palette = palette, 
                         axisX = FALSE, axisY = axisY, col.lab = collab, 

@@ -1,6 +1,6 @@
 #internal warbleR function, not to be called by users. It is a modified version of seewave::filled.contour.modif2
 # that allows to plot spectrograms on top of each other. 
-filled.contour.color.FUN <- function (x = seq(0, 1, len = nrow(z)), y = seq(0, 1, len = ncol(z)), 
+filled.contour.color.INTFUN <- function (x = seq(0, 1, len = nrow(z)), y = seq(0, 1, len = ncol(z)), 
           z, xlim = range(x, finite = TRUE), ylim = range(y, finite = TRUE), col.lab, colaxis,
           zlim = range(z, finite = TRUE), levels = pretty(zlim, nlevels), add = FALSE,
           nlevels = 20, color.palette = cm.colors, col = color.palette(length(levels) - 

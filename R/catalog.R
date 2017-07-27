@@ -237,8 +237,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if(!is.function(pal)) stop("'pal' must be a color palette function")
   
     # orientation
-  if(!orientation %in% c("v", "h")) stop("orientation should be either
-                                                         'v' or 'h'")
+  if(!orientation %in% c("v", "h")) stop("orientation should be either 'v' or 'h'")
   
   #missing label columns
   if(!all(labels %in% colnames(X)))
@@ -255,18 +254,28 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if(!all(tags %in% colnames(X)))
     stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
   
+  #if NAs in tags
+  if(anyNA(X[,tags]))
+    stop("NAs are not allowed in tag columns")
+  
+  
+  
   if(!is.null(group.tag))
     {if(!group.tag %in% colnames(X))
       stop("group.tag column not found in data frame") else
         X <- X[order(X[, group.tag]),]
       
       if(is.numeric(X[, group.tag]))
-        stop("group tag should cannot be numeric")
-        }
+        stop("group tag cannot be numeric")
+      
+      if(anyNA(X[,group.tag]))
+        stop("NAs are not allowed in 'group.tag' column")
+      
+      
+      }
   
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X <- data.frame(X,sel.comment="")
-
 
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")
@@ -333,10 +342,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
 
   #lab.mar
   if(!is.numeric(lab.mar) | lab.mar < 0)
-    stop("lab.mar should be be a positive value")
-
-  #lab.mar
-  if(!is.numeric(lab.mar) | lab.mar < 0)
     stop("lab.mar should be <= 0")
   
   #prop.mar
@@ -393,6 +398,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #convert characters to factors
   X <- rapply(X, as.factor, classes="character", how="replace")
   X$col1 <- X[,tags[1]] 
+  
   if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
     {
     X$col1 <- tag.pal[[1]](breaks[1])[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))]
@@ -463,9 +469,8 @@ else
       X <- do.call(rbind, lapply(1:nrow(X), function(x) {
         W <- X[x, ]
         if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
-          W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric1)]
-          else  
-        W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[1]])]
+          W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric1)] else  
+        W$pattern.1 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[1]])]
         
         if(length(tags) == 2)
         {   if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 

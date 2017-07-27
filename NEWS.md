@@ -5,6 +5,8 @@
 
 ## Changes and additions:
 
+* New arguments "title" and "rm.axes" in "catalog" function
+* New arguments "spec.mar", "lab.mar" and "group.tag" in "catalog" function to color groups of selections
 * "trackfreqs", "dfts", and "dfDTW"  functions can use "frange.detec" internally to set bandpass limits (see "frange.detec" argument)
 * New argument "index" in "seltailor" function to indicate which selection should be tailored
 * New argument "wl.freq" in "specan" function to set windows length independently for time and frequency domain measurements
