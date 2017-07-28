@@ -9,9 +9,9 @@ collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL,
 lab.mar = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", path = NULL, 
 pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
 labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
-tag.pal = list(temp.colors, heat.colors, topo.colors), 
-legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
-breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
+tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, 
+cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), 
+hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
 max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL)
 }
 \arguments{
@@ -113,8 +113,12 @@ Ignored if no tags are provided. Four values are allowed:
 \item{leg.wd}{Numeric. Controls the width of the legend column. Default is 1.}
 
 \item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of 
-image files. Default is \code{NULL} (no suffix). Can be useful to label catalogs from different individuals, 
+image files. Default is \code{NULL} (no suffix). Useful to label catalogs from different individuals, 
 species or sites.}
+
+\item{img.prefix}{A character vector of length 1 with a prefix (label) to add at the beginning of the names of 
+image files. Default is \code{NULL} (no prefix). Useful to label catalogs from different individuals, 
+species or sites and ensure they will be grouped together when sorted by file name.}
 
 \item{tag.widths}{A numeric vector of length 2 to control de relative width of the color tags (when 2 tags are provided).}
 

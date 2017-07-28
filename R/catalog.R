@@ -6,9 +6,9 @@
 #' lab.mar = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", path = NULL, 
 #' pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
 #' labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
-#' tag.pal = list(temp.colors, heat.colors, topo.colors), 
-#' legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
-#' breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
+#' tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, 
+#' cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), 
+#' hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
 #' max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL)
 #' @param X Data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
@@ -80,8 +80,11 @@
 #'   (including labels and axis) should be magnified. Default is 1. 
 #' @param leg.wd Numeric. Controls the width of the legend column. Default is 1.
 #' @param img.suffix A character vector of length 1 with a suffix (label) to add at the end of the names of 
-#' image files. Default is \code{NULL} (no suffix). Can be useful to label catalogs from different individuals, 
+#' image files. Default is \code{NULL} (no suffix). Useful to label catalogs from different individuals, 
 #' species or sites.
+#' @param img.prefix A character vector of length 1 with a prefix (label) to add at the beginning of the names of 
+#' image files. Default is \code{NULL} (no prefix). Useful to label catalogs from different individuals, 
+#' species or sites and ensure they will be grouped together when sorted by file name.
 #' @param tag.widths A numeric vector of length 2 to control de relative width of the color tags (when 2 tags are provided).
 #' @param hatching A numeric vector of length 1 controling cross-hatching is used for color tags. Several cross-hatching 
 #' patterns are used to make tags with similar colors more distinguishable. Four values are allowed: 
@@ -194,7 +197,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
                     labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
                     tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, cex = 1, 
-                    leg.wd = 1, img.suffix = NULL, tag.widths = c(1, 1), hatching = 0, 
+                    leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), hatching = 0, 
                     breaks = c(5, 5),group.tag = NULL, spec.mar = 0, spec.bg = "white", 
                     max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL)
 {
@@ -557,7 +560,8 @@ X <- do.call(rbind, X2)
 
  
 # function to run on data frame subset   
-catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex, img.suffix, title)
+catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex, 
+                     img.suffix, img.prefix, title)
 {
 #set layout for screensplit
 #rows
@@ -665,7 +669,8 @@ X3 <- rapply(X3, as.character, classes="factor", how="replace")
 
 #start graphic device
 if(!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
-imgfun(filename = paste0("Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
+if(!is.null(img.prefix)) img.prefix <- paste0(img.prefix, "-")
+imgfun(filename = paste0(img.prefix, "Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
 
 # split graphic window
 invisible(close.screen(all.screens = TRUE))
@@ -963,7 +968,7 @@ if(cel < 1)
 
      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex, img.suffix, title)
+                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
 
      parallel::stopCluster(cl)
 
@@ -974,11 +979,11 @@ if(cel < 1)
      if(pb)
      out <- pbmcapply::pbmclapply(1:length(Xlist), mc.cores = parallel, function (z) {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex, img.suffix, title)
+                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
      }) else
          out <- parallel::mclapply(1:length(Xlist),  mc.cores = parallel, function (z) {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal,
-                width, height, tag.col.df, legend, cex, img.suffix, title)
+                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
             })
    }
    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
@@ -989,7 +994,7 @@ if(cel < 1)
 
      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex, img.suffix, title)
+                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
      }
 
      parallel::stopCluster(cl)
@@ -999,10 +1004,10 @@ if(cel < 1)
    if(pb)
      out <- pbapply::pblapply(1:length(Xlist), function(z)
        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex, img.suffix, title))  else
+                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))  else
          out <- lapply(1:length(Xlist), function(z)
            catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                    width, height, tag.col.df, legend, cex, img.suffix, title))
+                    width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))
  }
 
 if(!is.null(path)) setwd(wd)
