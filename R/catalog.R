@@ -9,7 +9,8 @@
 #' tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, 
 #' cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), 
 #' hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
-#' max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL)
+#' max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
+#' by.row = TRUE)
 #' @param X Data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -114,6 +115,7 @@
 #' page are shown in the legend.
 #' @param rm.axes Logical. If \code{TRUE} frequency and time axes are excluded.
 #' @param title Character vector of length 1 to set the tile of catalogs.
+#' @param by.row Logical. If \code{TRUE} (default) catalogs are filled by rows.
 #' @return Image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -199,7 +201,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, cex = 1, 
                     leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), hatching = 0, 
                     breaks = c(5, 5),group.tag = NULL, spec.mar = 0, spec.bg = "white", 
-                    max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL)
+                    max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
+                    by.row = TRUE)
 {
   #check path to working directory
   if(!is.null(path))
@@ -404,7 +407,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
     {
-    X$col1 <- tag.pal[[1]](breaks[1])[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))]
+    X$col1 <- rev(tag.pal[[1]](breaks[1])[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))])
     X$col.numeric1 <- cut(X[, tags[1]],breaks = breaks[1])
       }  else {
         X$col1 <- as.factor(X$col1)
@@ -425,7 +428,7 @@ if(length(tags) == 2)
     X$col2 <- X[,tags[2]] 
     if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
     {
-      X$col2 <- tag.pal[[2]](breaks[2])[as.numeric(cut(X[, tags[2]],breaks = breaks[2]))]
+      X$col2 <- rev(tag.pal[[2]](breaks[2])[as.numeric(cut(X[, tags[2]],breaks = breaks[2]))])
       X$col.numeric2 <- cut(X[, tags[2]],breaks = breaks[2])
     }  else {  
     X$col2 <- as.factor(X$col2)
@@ -661,7 +664,6 @@ if(!is.null(title))
 }
 
 
-
 X3 <- X[rep(1:nrow(X), each = 2), ]
   
 #convert factors to character
@@ -671,6 +673,23 @@ X3 <- rapply(X3, as.character, classes="factor", how="replace")
 if(!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
 if(!is.null(img.prefix)) img.prefix <- paste0(img.prefix, "-")
 imgfun(filename = paste0(img.prefix, "Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
+
+
+# sort by row
+if(by.row)
+{
+  c1 <- seq(1, nrow * ncol * 2, by = nrow * 2)
+  neor2 <- neor <- sort(c(c1, c1 + 1))
+  
+  for(i in 1:nrow)
+    neor2 <- c(neor2, neor + i * 2)
+  
+  neor2 <- neor2[!duplicated(neor2)]
+  neor2 <- neor2[1:(nrow * ncol * 2)]
+  
+  m <- m[c(neor2, which(!1:nrow(m) %in% neor2)),]
+}
+
 
 # split graphic window
 invisible(close.screen(all.screens = TRUE))

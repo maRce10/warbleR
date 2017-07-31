@@ -12,7 +12,8 @@ labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL,
 tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, 
 cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), 
 hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
-max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL)
+max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
+by.row = TRUE)
 }
 \arguments{
 \item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -158,6 +159,8 @@ page are shown in the legend.}
 \item{rm.axes}{Logical. If \code{TRUE} frequency and time axes are excluded.}
 
 \item{title}{Character vector of length 1 to set the tile of catalogs.}
+
+\item{by.row}{Logical. If \code{TRUE} (default) catalogs are filled by rows.}
 }
 \value{
 Image files with spectrograms of whole sound files in the working directory. Multiple pages
