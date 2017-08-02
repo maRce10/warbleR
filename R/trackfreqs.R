@@ -175,11 +175,14 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
                        type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...){     
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -657,7 +660,5 @@ legend(lpos, legend = leglab[1],
                       custom.contour))
             
           }
-          
-  if(!is.null(path)) setwd(wd)
           
 }

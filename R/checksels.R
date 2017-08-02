@@ -44,11 +44,14 @@
 
 checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE){
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -190,7 +193,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   res <- do.call(rbind, a1)
   res <- res[match(paste(X$sound.files, X$selec), paste(res$sound.files, res$selec)),]
   return(res)  
-  if(!is.null(path)) setwd(wd)
+
 }
 
 

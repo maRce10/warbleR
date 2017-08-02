@@ -11,8 +11,9 @@ vignette: >
 <center>![warbleR logo](Logo_Warble-azul_small_margin.png)</center>
 
 <center> <h1><b>Streamlining acoustic analysis</h1></b> </center>
-<center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center>
+<center> <i><font size="4"><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> and <a href="http://gsmithvi.github.io/">Grace Smith Vidaurre</a></font></i> </center>
 <center> `r Sys.Date()` </center>
+
 <br>
 
 
@@ -22,9 +23,10 @@ Please note that most tools in [`warbleR`](https://cran.r-project.org/package=wa
 
 This vignette can be run without an advanced understanding of R, as long as you know how to run code in your R console. However, knowing more about data and file manipulation would be very helpful in order to modify the code to fit your own needs.
 
-<center> ![warbleR workflow](warbleR_workflow_english_30oct15sm.tif)</center> 
+<center> ![warbleR workflow](warbleR_workflow_v2.jpg)</center> 
 
 <br>
+
 To start, we will use [`warbleR`](https://cran.r-project.org/package=warbleR) to download recordings from [Xeno-Canto](http://www.xeno-canto.org/). 
 <br>
 
@@ -122,7 +124,7 @@ xcmaps(X = Phae.lon, img = FALSE)
 
 ```
 
-```{r, eval=TRUE, echo=FALSE, message=FALSE}
+```{r, eval=TRUE, echo=FALSE, message=FALSE, fig.align='center'}
 
 xcmaps(X = Phae.lon, img = FALSE) 
 
@@ -200,7 +202,7 @@ Phae.lon.LS <- Phae.lon.LS[Phae.lon.LS$Quality == "A", ]
 
 We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using `xcmaps` 
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, fig.align='center'}
 # map in the graphic device (img = FALSE)
 xcmaps(Phae.lon.LS, img = FALSE)
 
@@ -324,7 +326,9 @@ lspec(flim = c(1.5, 11), ovlp = 10, sxrow = 6, rows = 15, it = "tiff")
 
 The image files (in the working directory) should look like this:
 
-![lspec example, make it 700 pxls width](Phaethornis-longirostris-154072-p1.jpg)
+<center>![lspec example, make it 700 pxls width](Phaethornis-longirostris-154072-p1.jpg)</center>
+
+<br>
 
 Note that the sound file name and page number are placed in the top right corner. Also, the dimensions of the image fit perfectly on letter paper size for printing.
 
@@ -398,9 +402,11 @@ autodetec(flist = sub, bp = c(1, 10), threshold = 10, mindur = 0.05, maxdur = 0.
 
 The image files (in the working directory) should look like this (shown below is recording ID 154161):
 
-![autodetec image example, make it 700 pxls width](154161-autodetec.th10.jpg)
+<center>![autodetec example 1](154161-autodetec.th10.jpg)</center>
 
-Notice some song were correctly detected but other undersired sounds were also detected. In most cases they have a shorter duration than our target signals.
+<br>
+
+Notice that some song were correctly detected but other undersired sounds were also detected. In most cases they have a shorter duration than our target signals.
 
 We won't save the `autodetec` ouput in an object until we're satisfied with the detection. To improve our detection we should play around with the arguments' values. Below are some detection parameters that work well for these _Phaethornis longirotris _
 recordings:
@@ -415,7 +421,9 @@ autodetec(flist = sub, bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.2
 
 This seems to provide a good detection for most recordings (recording ID 154161):
 
-![autodetec image example, make it 700 pxls width](154161-autodetec.th15.jpg)
+<center>![autodetec image example, make it 700 pxls width](154161-autodetec.th15.jpg)</center>
+
+<br>
 
 Once we're satisfied with the detection, we can run the `autodetec` on all the recordings, removing the argument `flist`(so it runs over all files in the working directory). We also need to save the temporal output at this point.
 
@@ -440,7 +448,7 @@ table(Phae.ad$sound.files)
 
 ```{r, eval=TRUE, echo=FALSE}
 
-Phae.snr <- Phae.ad <- read.csv("Phae.snr.csv")
+Phae.snr <- Phae.ad <- read.csv("Phae_snr.csv")
 
 
 # Look at the number of selections per sound file 
@@ -479,7 +487,7 @@ snrspecs(X = X, flim = c(2, 110), snrmar = 0.5, mar = 0.7, it = "tiff")
 
 The image files should look like this:
 
-![snrpecs](Phaethornis-longirostris-154072.wav-8-snr.jpeg)
+<center>![snrpecs](Phaethornis-longirostris-154072.wav-8-snr.jpeg)</center>
 
 
 This margin is far too large! It's overlapping the whole previous signal. Let's try with smaller margins.
@@ -491,7 +499,7 @@ snrspecs(X = X, flim = c(2, 11), snrmar = 0.04, mar = 0.7, it = "tiff")
 
 ```
 
-![snrpecs](Phaethornis-longirostris-154072.wav-8-snr2.jpeg)
+<center>![snrpecs](Phaethornis-longirostris-154072.wav-8-snr2.jpeg)</center>
 
 These smaller margins seem to work well. Now we can run the function over all the selections and inspect all spectrograms to be sure that the margin(s) still hold. 
 
@@ -604,7 +612,7 @@ manualoc_out <- read.csv("manualoc_output.csv", header = TRUE)
 
 The graphic device will look similar to this:
 
-![manualoc view](manualoc.jpg)
+<center>![manualoc view](manualoc.jpg)</center>
 
 <br>
 
@@ -645,7 +653,7 @@ specreator(Phae.hisnr, flim = c(1, 11), osci = TRUE, line = TRUE, wl = 300,
 ```
 
 
-![specreator example](Phaethornis-longirostris-154072.wav-104-.jpeg)
+<center>![specreator example](Phaethornis-longirostris-154072.wav-104-.jpeg)</center>
 
 ## **Measure acoustic parameters**
 
@@ -673,7 +681,7 @@ trackfreqs(Phae.hisnr, flim = c(1, 11), bp = c(2, 12), col = c("purple", "orange
 
 ```
 
-![trackfreqs image](Phaethornis-longirostris-154161.wav-139-trackfreqs.jpeg)
+<center>![trackfreqs image](Phaethornis-longirostris-154161.wav-139-trackfreqs.jpeg)</center>
 
 As fundamental frequency does not seem to be adequately tracked, we will remove it from the acoustic parameters measured in the next step.
 
@@ -753,7 +761,9 @@ text(x, y, labs, cex=0.5)
 
 It seems like the songs are grouped by sound file. As each sound files represent a single individual, this suggests that songs have individual signatures. Let's look at the song type level. First, we need to classify the songs by song type. We can check the spectrograms we previously created to do this.
 
-![song types, make it 700 pxl width](song_types_spectros.jpg)
+<center>![song types, make it 700 pxl width](song_types_spectros.jpg)</center>
+
+<br>
 
 Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 represent a different song type. Finally, the songs from each of the other 2 sound files have a unique structure, so each one represents a different song type. We can add this information to the plot by using symbols to represent song types.
 
@@ -787,6 +797,7 @@ text(x, y, unique(songtype), cex = 1)
 
 Songs of the same song type are more similar (they cluster together). This PCA confirms that the visually obvious differences in the song structures are well described by the acoustic parameters measured in [`warbleR`](https://cran.r-project.org/package=warbleR). Likewise, it also confirms that we can detect biologically relevant differences from sound files that have undergone _mp3_ compression and conversion back to _wav_ format (see also <a href='#References'> <sup>[2]</sup></a>). 
 
+*R* code to make a much prettier scatterplot can be found in [this blog post](https://marce10.github.io/2017/04/23/Acoustic_space_scatter_plot.html).
 
 <br>
 

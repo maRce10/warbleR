@@ -103,11 +103,14 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
                         gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg", parallel = 1, 
                        path = NULL, pb = TRUE, fast.spec = FALSE, ...){
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -274,5 +277,4 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
       sp <- lapply(1:nrow(X), function(i) specreFUN(X = X, i = i, mar = mar, wl = wl, flim = flim, xl = xl, picsize = picsize, res = res, ovlp = ovlp, cexlab = cexlab))
   }
   
-  if(!is.null(path)) setwd(wd)
 }

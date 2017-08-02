@@ -91,11 +91,14 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
 {
   
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -242,6 +245,4 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   
   return(fr)
   
-  # close screens
-  if(!is.null(path)) setwd(wd)
   }

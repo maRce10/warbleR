@@ -69,11 +69,14 @@ filtersels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "j
                        incl.wav = TRUE, missing = FALSE, index = FALSE)
   {
 
-    #check path to working directory
-  if(!is.null(path))
-  {if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    {wd <- getwd()
-      setwd(path)}} #set working directory
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
+  #check path to working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
 
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -157,5 +160,5 @@ if(!index)
     if(length(Y) == 0) message("Index vector is of length 0")
  return(Y)
     }
-  if(!is.null(path)) setwd(wd)
+
 }

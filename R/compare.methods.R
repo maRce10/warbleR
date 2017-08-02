@@ -157,11 +157,14 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, 
     pal = reverse.gray.colors.2, img = TRUE, ...){  
  
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-  setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #check basic columns in X
   if(!all(c("sound.files", "selec", 
@@ -556,7 +559,5 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       })
       
       }
-      
-      #reset wd
-      if(!is.null(path)) setwd(wd) 
+
       }

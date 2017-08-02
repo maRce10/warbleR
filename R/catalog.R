@@ -34,7 +34,7 @@
 #' @param prop.mar Numeric vector of length 1. Specifies the margins adjacent to the 
 #' start and end points of selections as a proportion of the duration of the signal. If
 #' provided 'mar' argument is ignored. Default is \code{NULL}. Useful when having high 
-#' variation in signal duration.
+#' variation in signal duration. Ignored if \code{same.time.scale = FALSE}.
 #' @param lab.mar Numeric vector of length 1. Specifies the space allocated to labels and tags (the upper margin). Default is 1.   
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
@@ -129,7 +129,8 @@
 #'   This files can be put together in a single pdf file with \code{\link{catalog2pdf}}.
 #'   We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if
 #'   aiming to generate pdfs (otherwise pdfs could be pretty big).
-#' @seealso \url{https://marce10.github.io/2017-03-17-Creating_song_catalogs/}
+#' @seealso \url{https://marce10.github.io/2017-03-17-Creating_song_catalogs}
+#' \url{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}
 #' \code{\link{catalog2pdf}}
 #' @examples
 #' \dontrun{
@@ -204,11 +205,15 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
                     by.row = TRUE)
 {
+
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
 
   #nrow must be equal or higher than 2
   if(nrow < 2) stop("number of rows must be equal or higher than 2")
@@ -229,7 +234,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
 
   #tag.pal must be a color function
-  if(!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a list of color palette functions of length 1 or 2")
+  if(!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a list of color palette functions of length 1, 2 or 3")
 
   if(length(tag.pal) == 1) tag.pal[[2]] <- tag.pal[[1]]
   if(length(tag.pal) == 2 & !is.null(group.tag)) tag.pal[[3]] <- tag.pal[[2]]
@@ -352,8 +357,13 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   #prop.mar
   if(!is.null(prop.mar))
-  if(!is.numeric(prop.mar) | prop.mar < 0)
+  {
+    if(!is.numeric(prop.mar) | prop.mar < 0)
     stop("prop.mar should be <= 0")
+    if(!same.time.scale) prop.mar <- NULL
+    cat("'prop.mar' ignored as same.time.scale = FALSE")
+    }
+  
   
   #spec.mar
     if(!is.numeric(spec.mar) | spec.mar < 0)
@@ -752,7 +762,7 @@ out <- lapply(sqplots, function(i)
   
   if(!is.null(group.tag))
     {
-    plot(x=-1, y=-1, axes = FALSE,col = spec.bg, xlab = "", ylab = "", xaxt = "n", yaxt = "n",
+    plot(x=-1, y=-1, axes = FALSE,col = spec.bg, xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n",
          panel.first={points(0, 0, pch=16, cex=1e6, col = spec.bg)})
     
       }  
@@ -795,7 +805,7 @@ out <- lapply(sqplots, function(i)
   if(fig.type[i] == "flab")
   {
     par(mar = c(0, 0, 0, 0), bg = "white", new = T)
-    plot(1, frame.plot = FALSE)
+    plot(1, frame.plot = FALSE, type = "n")
     text(x = 1, y = 1.05, "Frequency (kHz)", srt = 90, cex = 1.2 * cex) 
   }
    

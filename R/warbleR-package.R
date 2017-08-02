@@ -24,8 +24,6 @@
 #'   
 #'   \code{\link{querxc}}: Download recordings and metadata from Xeno-Canto
 #'   
-#'   \code{\link{xcmaps}}: Create maps to visualize the geographic spread of Xeno-Canto recordings
-#'   
 #'   \code{\link{imp.syrinx}}: Importing Syrinx selections
 #'   
 #'   \code{\link{imp.raven}}: Importing Raven selections
@@ -44,6 +42,8 @@
 #'   
 #'   \code{\link{wavdur}}: Determine the duration of sound files
 #'   
+#' \code{\link{cut_sels}}: Cut selections from a selection table into individual sound files.
+#'   
 #' @section Exploring/analyzing signal structure:
 #'   
 #'   \code{\link{autodetec}}: Automatically detect start and 
@@ -56,16 +56,6 @@
 #'
 #'   \code{\link{seltailor}}: Interactive view of spectrograms to tailor start and end of selections
 #'   
-#'   \code{\link{lspec}}: Produce spectrograms of whole recordings split into 
-#'   multiple rows
-#'   
-#'   \code{\link{lspec2pdf}}: Combine lspec images to single pdf files
-#'   
-#'   \code{\link{specreator}}: Create spectrograms of manualoc selections
-#'   
-#'   \code{\link{snrspecs}}: Create spectrograms to visualize margins over which 
-#'   noise will be measured by sig2noise
-#'   
 #'   \code{\link{sig2noise}}: Measure signal-to-noise ratio across multiple files
 #'   
 #'   \code{\link{trackfreqs}}: Create spectrograms to visualize frequency 
@@ -73,12 +63,14 @@
 #'   
 #'   \code{\link{filtersels}}: Filter selection data frames based on filtered image files
 #'      
+#'   \code{\link{frange}}: Detect frequency range iteratively from signals in a selection table
+#'   
+#'   \code{\link{frange.detec}}: Detect frequency range in a Wave object   
+#'      
 #'   \code{\link{specan}}: Measure acoustic parameters on selected acoustic 
 #'   signals
 #'   
 #'   \code{\link{xcorr}}: Pairwise cross-correlation of multiple signals  
-#'   
-#'   \code{\link{xcorr.graph}}: Pairwise cross-correlation of multiple signals
 #'   
 #'   \code{\link{dfts}}: Extract the dominant frequency values across the signal as a time series
 #'   
@@ -95,6 +87,15 @@
 #'   \code{\link{compare.methods}}: Produce graphs to visually assess performance of acoustic 
 #'   distance measurements 
 #'   
+#'   \code{\link{coor.test}}: Assess statistical significance of singing coordination 
+#'   
+#'   \code{\link{ovlp_sels}}: Find selections that overlap in time within a given sound file
+
+#'   
+#'   @section Graphical outputs:
+#'   
+#'   \code{\link{xcmaps}}: Create maps to visualize the geographic spread of Xeno-Canto recordings
+#'   
 #'   \code{\link{catalog}}: Produce a vocalization catalog with spectrograms in and array with
 #'   several rows and columns  
 #'   
@@ -102,8 +103,21 @@
 #'   
 #'   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
 #'   
-#'   \code{\link{coor.test}}: Assess statistical significance of singing coordination 
+#'   \code{\link{color.spectro}}: Highlight spectrogram regions
 #'   
+#'   \code{\link{xcorr.graph}}: Pairwise cross-correlation of multiple signals
+#'   
+#'   \code{\link{lspec}}: Produce spectrograms of whole recordings split into 
+#'   multiple rows
+#'   
+#'   \code{\link{lspec2pdf}}: Combine lspec images to single pdf files
+#'   
+#'   \code{\link{specreator}}: Create spectrograms of manualoc selections
+#'   
+#'   \code{\link{snrspecs}}: Create spectrograms to visualize margins over which 
+#'   noise will be measured by sig2noise
+
+#'      
 #' @import maps
 #' @import rjson
 #' @import RCurl

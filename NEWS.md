@@ -5,14 +5,14 @@
 
 ## Changes and additions:
 
-* New arguments "title", "by.row" and "rm.axes" in "catalog" function to further customize catalog setup
+* New arguments "title", "by.row", "prop.mar" and "rm.axes" in "catalog" function to further customize catalog setup
 * New arguments "spec.mar", "lab.mar" and "group.tag" in "catalog" function to color groups of selections
 * "trackfreqs", "dfts", and "dfDTW"  functions can use "frange.detec" internally to set bandpass limits (see "frange.detec" argument)
 * New argument "index" in "seltailor" function to indicate which selection should be tailored
 * New argument "wl.freq" in "specan" function to set windows length independently for time and frequency domain measurements
 * New measurement "meanpeakf" in specan
 * "imp.raven" and "imp.syrinx" now import low and high frequency in kHz (if all.data == FALSE)
-
+* Mew argument "bp" (bandpass) and "wl" in "sig2noise" function to calculate signal-to-noise ratio within a frequency range
 ## New functions:
 
 * frange.detec: detects the frequency range of signals in wave objects

@@ -49,11 +49,14 @@ imp.syrinx <- function(path = NULL, all.data = FALSE, recursive = FALSE,
                        exclude = FALSE, hz.to.khz = TRUE) 
 { 
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
 
 sel.txt <- list.files(full.names = TRUE)
 sel.txt2 <- list.files(full.names = FALSE)
@@ -127,5 +130,5 @@ if(hz.to.khz & !all.data & all(c("low.freq", "high.freq") %in% names(b)))
 }
 
   return(b[!duplicated(b), ])
-if(!is.null(path)) setwd(wd)
+
 }

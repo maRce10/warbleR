@@ -116,17 +116,15 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
             collevels = NULL, title = c("sound.files", "selec"), ...)
 {
  
-  on.exit(
-    {options(show.error.messages = TRUE)
-      
-      })
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
   
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
-
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
+  
   #X must be provided
   if(is.null(X)) stop("'X' must be provided (a data frame)")
   
@@ -445,6 +443,5 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         }
       } 
            }
-  if(!is.null(path)) setwd(wd)
 
   }

@@ -87,11 +87,14 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
                   img = TRUE, parallel = 1,
                   path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, ...){     
 
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -286,5 +289,4 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
                  return(df)
 
-    if(!is.null(path)) setwd(wd)
     }

@@ -79,11 +79,14 @@
 querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
                    parallel = 1, path = NULL, pb = TRUE) {
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #check internet connection
   a <- try(RCurl::getURL("www.xeno-canto.org"), silent = TRUE)
@@ -358,5 +361,5 @@ if(pb)
     
   }
  if(is.null(X)) if(as.numeric(q$numRecordings) > 0) return(droplevels(results))
-    if(!is.null(path)) setwd(wd)
+  
    }

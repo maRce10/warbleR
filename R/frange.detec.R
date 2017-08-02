@@ -63,6 +63,8 @@
 
 frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 {
+  # close screens
+  on.exit(invisible(close.screen(all.screens = TRUE)))
   
   frng <- frd.INTFUN(wave = wave, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
   
@@ -73,6 +75,5 @@ frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "ha
     # return low and high freq
  if(all.detec) return(frng$detections) else return(frng$frange)
   
-  # close screens
-  on.exit(invisible(close.screen(all.screens = TRUE)))
+ 
 }

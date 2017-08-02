@@ -81,11 +81,14 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
                  path = NULL, img.suffix = "ffts", pb = TRUE, clip.edges = FALSE,
                  leglab = "ffts", ff.method = "seewave", ...){     
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -264,5 +267,5 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
   colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
   return(df)
-  if(!is.null(path)) setwd(wd)
+  
 }

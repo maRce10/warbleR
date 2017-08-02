@@ -1,15 +1,15 @@
 #' Convert .mp3 files to .wav
 #' 
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
-#' @usage mp32wav(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = NULL, 
+#' @usage mp32wav(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, 
 #' normalize = NULL, pb = TRUE)  
 #' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #'  Not availble in Windows OS.
-#' @param from.path Character string containing the directory path where the .mp3 files are located. 
+#' @param from Character string containing the directory path where the .mp3 files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param to.path Character string containing the directory path where the .wav files will be saved. 
+#' @param to Character string containing the directory path where the .wav files will be saved. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param normalize Character string containing the units to be used for amplitude normalization. Check 
 #' (\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.
@@ -36,16 +36,22 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on jul-5-2016 (MAS)
 
-mp32wav <- function(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = NULL, normalize = NULL, 
+mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, normalize = NULL, 
                     pb = TRUE) {
   
-  if(!is.null(from.path))
-  {if(class(try(setwd(from.path), silent = TRUE)) == "try-error") stop("'path' provided does not exist")} else
-    from.path <- getwd() #set working directory
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
+  if(!is.null(from))
+  {if(!file.exists(from)) stop("'path' provided does not exist")} else
+    from <- wd #set working directory
 
-  if(!is.null(to.path))
-  {if(class(try(setwd(to.path), silent = TRUE)) == "try-error") stop("'path' provided does not exist")} else
-    to.path <- getwd() #set working directory
+  setwd(from)
+  
+  if(!is.null(to))
+  {if(!file.exists(to)) stop("'path' provided does not exist")} else
+    to <- wd #set working directory
   
   #normalize
   if(!is.null(normalize))
@@ -89,9 +95,9 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from.path = NULL, to.path = 
   
   
 if(!is.null(normalize))  
- suppressWarnings(a<-lapp(files, function(x) tuneR::writeWave(object = tuneR::normalize(tuneR::downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate * 1000), unit = normalize), filename = file.path(from.path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))) else
+ suppressWarnings(a<-lapp(files, function(x) tuneR::writeWave(object = tuneR::normalize(tuneR::downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate * 1000), unit = normalize), filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))) else
   suppressWarnings( 
-    a<-lapp(files, function(x) tuneR::writeWave(object = tuneR::readMP3(filename =  x), filename = file.path(from.path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))
+    a<-lapp(files, function(x) tuneR::writeWave(object = tuneR::readMP3(filename =  x), filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))
     ) 
   
      }

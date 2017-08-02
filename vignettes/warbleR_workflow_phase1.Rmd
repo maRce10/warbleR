@@ -22,7 +22,7 @@ Please note that most tools in [`warbleR`](https://cran.r-project.org/package=wa
 
 This vignette can be run without an advanced understanding of R, as long as you know how to run code in your R console. However, knowing more about basic R coding would be very helpful in order to modify code to fit your research questions.
 
-<center> ![warbleR workflow](warbleR_workflow_english_30oct15sm.tif)</center> 
+<center> ![warbleR workflow](warbleR_workflow_v2.jpg)</center> 
 
 <br>
 To start, we will use [`warbleR`](https://cran.r-project.org/package=warbleR) to download recordings from [xeno-canto](http://www.xeno-canto.org/). 

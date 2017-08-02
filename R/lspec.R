@@ -61,6 +61,8 @@
 #'   supplied (or an equivalent data frame), the function delimits and labels the selections. 
 #'   This function aims to facilitate visual inspection of multiple files as well as visual classification 
 #'   of vocalization units and the analysis of animal vocal sequences.
+#' @seealso \code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, 
+#' https://marce10.github.io/2017-01-07-Create_pdf_files_with_spectrograms_of_full_recordings/
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory
@@ -84,11 +86,14 @@
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
                   wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE) {
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
@@ -314,6 +319,5 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
          sp <- lapply(files, function(z) 
            lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X))
    }
-   if(!is.null(path)) setwd(wd)       
 }
 

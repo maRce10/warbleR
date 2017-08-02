@@ -1,6 +1,6 @@
 #' Cut selections into individual sound files
 #' 
-#' \code{cut_sels} cut selections from a selection table into individual sound files.
+#' \code{cut_sels} cuts selections from a selection table into individual sound files.
 #' @export cut_sels
 #' @usage cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
 #' labels = c("sound.files", "selec"), overwrite = FALSE, ...)
@@ -26,6 +26,7 @@
 #' @return Sound files of the signals listed in the input data frame.
 #' @family selection manipulation, sound file manipulation
 #' @seealso \code{\link{seltailor}} for tailoring selections 
+#'  \url{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}
 #' @name cut_sels
 #' @details This function allow users to produce individual sound files from the selections
 #' listed in a selection table as in \code{\link{selec.table}}.
@@ -57,11 +58,14 @@
 cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
                      labels = c("sound.files", "selec"), overwrite = FALSE, ...){
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #check path to working directory
   if(!is.null(dest.path))
@@ -104,7 +108,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   }
   
   #convert factors to characters
-  X[,sapply(X, is.factor)] <- apply(matrix(X[,sapply(X, is.factor)]), 2, as.character)
+  X[,sapply(X, is.factor)] <- apply(X[,sapply(X, is.factor)], 2, as.character)
   
   #remove .wav from sound file names
   X2 <- X
@@ -196,5 +200,4 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
         out <- lapply(1:nrow(X), function(i) cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path))
   }
   
-  if(!is.null(path)) setwd(wd)
 }

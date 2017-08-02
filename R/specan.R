@@ -125,11 +125,14 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
                    parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
                    ff.method = "seewave", wn = "hanning", fsmooth = 0.1){
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -355,5 +358,4 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   row.names(sp) <- 1:nrow(sp)
   
   return(sp)
-  if(!is.null(path)) setwd(wd)
   }

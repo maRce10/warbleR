@@ -56,16 +56,21 @@ run_raven <- function(raven.path = NULL, sound.files = NULL, path = NULL, at.the
                       import = FALSE, ...)
   {
   
+  wd <- getwd()
+  
+  # reset working directory 
+  on.exit(setwd(wd))
+  
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)}  else path <- getwd() #set working directory
+  if(is.null(path)) path <- getwd() else if(!file.exists(path)) stop("'path' provided does not exist") 
+  
   
   if(is.null(raven.path))
     stop("Path to 'Raven' folder must be provided")  else
-      if(class(try(setwd(raven.path), silent = TRUE)) == "try-error") stop("'raven.path' provided does not exist")
+      if(!file.exists(raven.path)) stop("'raven.path' provided does not exist")
     
+  setwd(raven.path)
     
 if(is.null(sound.files))
 {
@@ -124,18 +129,23 @@ if(is.null(sound.files))
     sels <- imp.raven(path = file.path(raven.path, "Selections"), ...)
     
     # extract recording names from selec.file column
-    rec.nms <- paste(sapply(1:nrow(sels), function(x){
+    # rec.nms <- paste(sapply(1:nrow(sels), function(x){
+    #   strsplit(sels$selec.file, split = ".Table")[[x]][1]
+    # }), ".wav", sep = "")
+    rec.nms <- sapply(1:nrow(sels), function(x){
       strsplit(sels$selec.file, split = ".Table")[[x]][1]
-    }), ".wav", sep = "")
+    })
     
     # find selection tables for only target recordings among Raven selection tables in Selections directory
-    if(any(rec.nms %in% sf) & !is.null(sf)) sels <- sels[grep(paste(sf, collapse = "|"), rec.nms), ]
+    if(!is.null(sf)){
+    sf <- gsub("\\.wav", "", sf, ignore.case = TRUE)
+    
+     if(any(rec.nms %in% sf)) sels <- sels[grep(paste(sf, collapse = "|"), rec.nms), ]
+     }
    
   return(sels)
 
   }
     
-  # reset working directory 
-  setwd(wd)
   
 }

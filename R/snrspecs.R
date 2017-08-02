@@ -105,11 +105,14 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
                      gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg", parallel = 1,
                      path = NULL, pb = TRUE){
  
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -306,6 +309,5 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
         a1 <- lapply(1:nrow(X), function(i) snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar))
     }
     
-    if(!is.null(path)) setwd(wd)
     }
 

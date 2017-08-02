@@ -88,13 +88,14 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
                   path = NULL, img.suffix = "sp.en.ts", pb = TRUE, clip.edges = FALSE,
                   leglab = "sp.en.ts", sp.en.range = c(2, 10), ...){     
 
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
   
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
-  
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #if X is not a data frame
   if(!class(X) == "data.frame") stop("X is not a data frame")
@@ -267,5 +268,4 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
                  return(df)
 
-    if(!is.null(path)) setwd(wd)
     }

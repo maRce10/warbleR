@@ -73,11 +73,14 @@ xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp =
                   pb = TRUE, na.rm = FALSE, dfrange = FALSE, cor.mat = TRUE)
 {
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   if(!is.data.frame(X))  stop("X is not a data frame")
   
@@ -379,5 +382,4 @@ names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim")
  
 return(c)}
 
-if(!is.null(path)) setwd(wd)
 }

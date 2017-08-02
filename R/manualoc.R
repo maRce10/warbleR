@@ -109,11 +109,14 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
                      path = NULL, flist = NULL, fast.spec = FALSE)
 {
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   options(show.error.messages = TRUE) 
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director
@@ -372,5 +375,5 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
      message("This was the last sound file")
      break}
   }
-  if(!is.null(path)) setwd(wd)
-  }
+  
+    }

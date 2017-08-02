@@ -63,11 +63,14 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
                     name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE) 
   {
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   if(!is.null(ext.case)) 
     {if(!ext.case %in% c("upper", "lower")) stop("'ext.case' should be either 'upper' or 'lower'") else
@@ -165,6 +168,5 @@ if(length(error.files) > 0) cat(paste("some files could not be read:",paste(erro
 
 return(b)
 
-if(!is.null(path)) setwd(wd)
 }
 

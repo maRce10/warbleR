@@ -137,14 +137,18 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
                     path = NULL, pb = TRUE, pal = reverse.gray.colors.2,
                     fast.spec = FALSE, ...){
   
-  #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-  if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-    setwd(path)} #set working directory
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
+  #check path to working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+}  
+
   #if files not found
-  if(length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if(is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
+  if(length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if(is.null(path)) stop("No .wav files in working directory") else stop("No .wav files found") 
   
   #if bp is not vector or length!=2 stop
   if(!is.null(bp))
@@ -627,6 +631,4 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   }
 
 return(results1)
-  if(img) on.exit(dev.off())
-  if(!is.null(path)) setwd(wd)
 }

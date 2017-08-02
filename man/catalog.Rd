@@ -48,7 +48,7 @@ dealineating spectrogram limits. Default is 0.05.}
 \item{prop.mar}{Numeric vector of length 1. Specifies the margins adjacent to the 
 start and end points of selections as a proportion of the duration of the signal. If
 provided 'mar' argument is ignored. Default is \code{NULL}. Useful when having high 
-variation in signal duration.}
+variation in signal duration. Ignored if \code{same.time.scale = FALSE}.}
 
 \item{lab.mar}{Numeric vector of length 1. Specifies the space allocated to labels and tags (the upper margin). Default is 1.}
 
@@ -244,7 +244,8 @@ getwd()
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
-\url{https://marce10.github.io/2017-03-17-Creating_song_catalogs/}
+\url{https://marce10.github.io/2017-03-17-Creating_song_catalogs}
+\url{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}
 \code{\link{catalog2pdf}}
 }
 

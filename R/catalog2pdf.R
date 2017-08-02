@@ -45,11 +45,14 @@
 catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
                         pb = TRUE, by.img.suffix = FALSE, ...)
 {
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
   #check path to working directory
-  if(!is.null(path))
-  {wd <- getwd()
-    if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-  setwd(path)} #set working directory
+  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #list jpeg files
   imgs <- list.files(pattern = "\\.jpeg$", ignore.case = TRUE)
@@ -172,5 +175,4 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
     lst <- pbapply::pblapply(unique(or.sf), function(i) cat2pdfFUN(i, overwrite, keep.img)) else
       lst <- lapply(unique(or.sf), function(i) cat2pdfFUN(i, overwrite, keep.img))
   
-  if(!is.null(path)) setwd(wd)
 }

@@ -40,7 +40,7 @@ overwritten. Default is \code{FALSE}.}
 Sound files of the signals listed in the input data frame.
 }
 \description{
-\code{cut_sels} cut selections from a selection table into individual sound files.
+\code{cut_sels} cuts selections from a selection table into individual sound files.
 }
 \details{
 This function allow users to produce individual sound files from the selections
@@ -73,6 +73,7 @@ getwd()
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
 }
 \seealso{
-\code{\link{seltailor}} for tailoring selections
+\code{\link{seltailor}} for tailoring selections 
+ \url{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}
 }
 
