@@ -67,7 +67,7 @@ exp_raven <- function(X, path = NULL, file.name = NULL, khz.to.hz = TRUE){
   
  mtch <- match(c( "Selection", "View", "Channel", "Begin Time (s)", "End Time (s)", "Low Freq (Hz)", "High Freq (Hz)"), names(X))
   
- X <- X[,c(mtch, setdiff(1:ncol(X), mtch))]
+ X <- X[,c(mtch[!is.na(mtch)], setdiff(1:ncol(X), mtch))]
 
   write.table(x = X, sep = "\t", file = file.name, row.names = FALSE, quote = FALSE)
   

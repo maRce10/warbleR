@@ -104,7 +104,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   }
   
   #convert factors to characters
-  X[,sapply(X, is.factor)] <- apply(X[,sapply(X, is.factor)], 2, as.character)
+  X[,sapply(X, is.factor)] <- apply(matrix(X[,sapply(X, is.factor)]), 2, as.character)
   
   #remove .wav from sound file names
   X2 <- X

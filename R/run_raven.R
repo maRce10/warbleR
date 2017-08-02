@@ -51,6 +51,7 @@
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-30-2017 (MAS)
+
 run_raven <- function(raven.path = NULL, sound.files = NULL, path = NULL, at.the.time = 5,
                       import = FALSE, ...)
   {
@@ -100,6 +101,7 @@ if(is.null(sound.files))
   # run loop over files
   out <- pbapply::pblapply(sq, function(x)
     {
+ 
     fls <- sound.files[x:(x + at.the.time - 1)]
     fls <- fls[!is.na(fls)]
     
@@ -110,7 +112,7 @@ if(is.null(sound.files))
         comnd <- paste(file.path(raven.path, "Raven"), fls)
   
     # set working directory in Linux
-    if(Sys.info()[1] == "Linux")     system(command = paste("cd", raven.path), ignore.stderr = TRUE)
+    if(Sys.info()[1] == "Linux")    system(command = paste("cd", raven.path), ignore.stderr = TRUE)
   
     # run raven
     system(command = comnd, ignore.stderr = TRUE)
@@ -121,12 +123,19 @@ if(is.null(sound.files))
   if(import){
     sels <- imp.raven(path = file.path(raven.path, "Selections"), ...)
     
-  if(any(names(sels) %in% "sound.files") & !is.null(sound.files)) sels <- sels[sels$sound.files %in% basename(sound.files), ]
-
-  return(sels)
-  }  
-
-  # reset working directory   
-   try(setwd(wd), silent = TRUE) 
+    # extract recording names from selec.file column
+    rec.nms <- paste(sapply(1:nrow(sels), function(x){
+      strsplit(sels$selec.file, split = ".Table")[[x]][1]
+    }), ".wav", sep = "")
+    
+    # find selection tables for only target recordings among Raven selection tables in Selections directory
+    if(any(rec.nms %in% sf) & !is.null(sf)) sels <- sels[grep(paste(sf, collapse = "|"), rec.nms), ]
    
+  return(sels)
+
+  }
+    
+  # reset working directory 
+  setwd(wd)
+  
 }
