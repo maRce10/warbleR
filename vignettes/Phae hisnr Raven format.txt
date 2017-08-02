@@ -1,0 +1,6 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	End File
+11	Spectrogram 1	1	6.95828117877183	7.11455773317161	Phaethornis-longirostris-154070.wav
+13	Spectrogram 1	1	8.0841322526362	8.25383285206575	Phaethornis-longirostris-154070.wav
+15	Spectrogram 1	1	9.22966587901043	9.39728030927994	Phaethornis-longirostris-154070.wav
+19	Spectrogram 1	1	11.6143839864429	11.7824065802437	Phaethornis-longirostris-154070.wav
+29	Spectrogram 1	1	17.7321657512397	17.8883516026326	Phaethornis-longirostris-154070.wav
