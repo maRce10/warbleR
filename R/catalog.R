@@ -10,7 +10,7 @@
 #' cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), 
 #' hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
 #' max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
-#' by.row = TRUE)
+#' by.row = TRUE, box = TRUE)
 #' @param X Data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -112,10 +112,13 @@
 #' athough ensuring that adjacent groups do not share the same color. Useful when the 
 #' 'group.tag' has many levels and the colors assigned become very similar. Default is \code{NULL}.
 #' @param sub.legend Logical. If \code{TRUE} then only the levels present on each
-#' page are shown in the legend.
-#' @param rm.axes Logical. If \code{TRUE} frequency and time axes are excluded.
-#' @param title Character vector of length 1 to set the tile of catalogs.
-#' @param by.row Logical. If \code{TRUE} (default) catalogs are filled by rows.
+#' page are shown in the legend. Default is \code{FALSE}.
+#' @param rm.axes Logical. If \code{TRUE} frequency and time axes are excluded. Default is \code{FALSE}.
+#' @param title Character vector of length 1 to set the tile of catalogs. 
+#' @param by.row Logical. If \code{TRUE} (default) catalogs are filled by rows. 
+#' @param box Logical. If \code{TRUE} (default) a box is drawn around spectrograms and 
+#' corresponding labels and tags. 
+#' are 
 #' @return Image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -203,9 +206,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), hatching = 0, 
                     breaks = c(5, 5),group.tag = NULL, spec.mar = 0, spec.bg = "white", 
                     max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
-                    by.row = TRUE)
+                    by.row = TRUE, box = TRUE)
 {
-
+  
   # reset working directory 
   wd <- getwd()
   on.exit(setwd(wd))
@@ -214,28 +217,28 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
-
+  
   #nrow must be equal or higher than 2
   if(nrow < 2) stop("number of rows must be equal or higher than 2")
-
+  
   #rows must be equal or higher than 2
   if(ncol < 1) stop("number of columns (ncol) must be equal or higher than 1")
-
+  
   #read files
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-
+  
   #stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory")
-
+  
   #missing columns
   if(!all(c("sound.files", "selec",
             "start", "end") %in% colnames(X)))
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec",
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
-
+  
   #tag.pal must be a color function
   if(!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a list of color palette functions of length 1, 2 or 3")
-
+  
   if(length(tag.pal) == 1) tag.pal[[2]] <- tag.pal[[1]]
   if(length(tag.pal) == 2 & !is.null(group.tag)) tag.pal[[3]] <- tag.pal[[2]]
   
@@ -243,11 +246,11 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   tag.pal[[3]] <- function(n) rep(fc, ceiling(10/3))[1:n]}
   
   if(length(breaks) == 1) breaks[2] <- breaks[1]
-    
+  
   #pal must be a color function
   if(!is.function(pal)) stop("'pal' must be a color palette function")
   
-    # orientation
+  # orientation
   if(!orientation %in% c("v", "h")) stop("orientation should be either 'v' or 'h'")
   
   #missing label columns
@@ -257,10 +260,10 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #if tags> 2
   if(length(tags) > 2) stop("No more than 2 tags can be used at a time")
   
-    #missing tag columns
+  #missing tag columns
   if(!all(tags %in% colnames(X)))
     stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
-
+  
   #missing tag columns
   if(!all(tags %in% colnames(X)))
     stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
@@ -272,34 +275,34 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   
   if(!is.null(group.tag))
-    {if(!group.tag %in% colnames(X))
-      stop("group.tag column not found in data frame") else
-        X <- X[order(X[, group.tag]),]
-      
-      if(is.numeric(X[, group.tag]))
-        stop("group tag cannot be numeric")
-      
-      if(anyNA(X[,group.tag]))
-        stop("NAs are not allowed in 'group.tag' column")
-      
-      
-      }
+  {if(!group.tag %in% colnames(X))
+    stop("group.tag column not found in data frame") else
+      X <- X[order(X[, group.tag]),]
+    
+    if(is.numeric(X[, group.tag]))
+      stop("group tag cannot be numeric")
+    
+    if(anyNA(X[,group.tag]))
+      stop("NAs are not allowed in 'group.tag' column")
+    
+    
+  }
   
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X <- data.frame(X,sel.comment="")
-
+  
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")
-
+  
   #if end or start are not numeric stop
   if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
-
+  
   #if any start higher than end stop
   if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
-
+  
   #if it argument is not "jpeg" or "tiff"
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
-
+  
   #wrap img creating function
   if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
@@ -309,13 +312,13 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     message("running parallel without progress bar")
     pb <- FALSE
   } 
-
+  
   #return warning if not all sound files were found
   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)))
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
            ".wav file(s) not found"))
-
+  
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd)
   if(length(d) == 0){
@@ -323,34 +326,34 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   }  else {
     X <- X[d, ]
   }
-
+  
   #if flim is not vector or length!=2 stop
   if(is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
     if(!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
       if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}
-
+  
   #if wl is not vector or length!=1 stop
   if(is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
     if(!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
       if(!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}
-
+  
   #if rows is not vector or length!=1 stop
   if(is.null(nrow)) stop("'nrow' must be a numeric vector of length 1") else {
     if(!is.vector(nrow)) stop("'nrow' must be a numeric vector of length 1") else{
       if(!length(nrow) == 1) stop("'nrow' must be a numeric vector of length 1")}}
-
+  
   #if ncol is not vector or length!=1 stop
   if(is.null(ncol)) stop("'ncol' must be a numeric vector of length 1") else {
     if(!is.vector(ncol)) stop("'ncol' must be a numeric vector of length 1") else{
       if(!length(ncol) == 1) stop("'ncol' must be a numeric vector of length 1")}}
-
+  
   # if levels are shared between tags
   if(length(tags) == 2) if(any(unique(X[ ,tags[1]]) %in% unique(X[ ,tags[2]]))) stop("Tags cannot contained levels with the same labels")
   
   #legend
   if(!is.numeric(legend) | legend < 0 | legend > 3)
     stop("legend should be be a value between 0 and 3")
-
+  
   #lab.mar
   if(!is.numeric(lab.mar) | lab.mar < 0)
     stop("lab.mar should be <= 0")
@@ -359,21 +362,21 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if(!is.null(prop.mar))
   {
     if(!is.numeric(prop.mar) | prop.mar < 0)
-    stop("prop.mar should be <= 0")
+      stop("prop.mar should be <= 0")
     if(!same.time.scale) prop.mar <- NULL
     cat("'prop.mar' ignored as same.time.scale = FALSE")
-    }
+  }
   
   
   #spec.mar
-    if(!is.numeric(spec.mar) | spec.mar < 0)
-      stop("spec.mar should be <= 0")
-
+  if(!is.numeric(spec.mar) | spec.mar < 0)
+    stop("spec.mar should be <= 0")
+  
   
   #hatching
   if(!is.numeric(hatching) | hatching < 0 | hatching > 3)
     stop("hatching should be be a value between 0 and 3")
-
+  
   #set dimensions
   if(is.null(width))
   {if(orientation == "v")   width <- 8.5 else width <- 11}
@@ -388,74 +391,74 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   #box colors
   if(!is.null(tags))
-    {
-   
+  {
+    
     if(length(tags) == 1 & legend == 2) legend <- 0
     
-     #convert to character
+    #convert to character
     Y <- as.data.frame(rapply(X, as.character, classes="factor", how="replace"))
     
     #if tag is numeric
     if(is.numeric(X[, tags[1]])) 
     {
       if(is.integer(X[, tags[1]]))  
-{
+      {
         if( length(unique(X[, tags[1]])) > 1)
-        boxcols <- tag.pal[[1]](length(unique(X[, tags[1]])))[as.numeric(cut(X[, tags[1]],breaks = length(unique(X[, tags[1]]))))] else boxcols <- tag.pal[[1]](1)
-} else  
-          boxcols <- tag.pal[[1]](breaks[1])
+          boxcols <- tag.pal[[1]](length(unique(X[, tags[1]])))[as.numeric(cut(X[, tags[1]],breaks = length(unique(X[, tags[1]]))))] else boxcols <- tag.pal[[1]](1)
+      } else  
+        boxcols <- tag.pal[[1]](breaks[1])
     }      else   boxcols <- tag.pal[[1]](length(unique(Y[, tags[1]]))) 
-
+    
     if(length(tags) == 2)  
     { 
-        boxcols <- c(boxcols, tag.pal[[2]](length(unique(Y[, tags[2]]))))
-                     }
+      boxcols <- c(boxcols, tag.pal[[2]](length(unique(Y[, tags[2]]))))
+    }
     
-  #convert characters to factors
-  X <- rapply(X, as.factor, classes="character", how="replace")
-  X$col1 <- X[,tags[1]] 
-  
-  if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+    #convert characters to factors
+    X <- rapply(X, as.factor, classes="character", how="replace")
+    X$col1 <- X[,tags[1]] 
+    
+    if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
     {
-    X$col1 <- rev(tag.pal[[1]](breaks[1])[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))])
-    X$col.numeric1 <- cut(X[, tags[1]],breaks = breaks[1])
-      }  else {
-        X$col1 <- as.factor(X$col1)
-        X$col1 <- droplevels(X$col1)
-        levels(X$col1) <- boxcols[1:length(unique(X$col1))]
-        }
- 
-  #add to df for legend
-  if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
-    tag.col.df <- X[!duplicated(X[,"col.numeric1"]), c("col.numeric1", "col1")] else
-      tag.col.df <- X[!duplicated(X[,tags[1]]), c(tags[1], "col1")]
-      
+      X$col1 <- rev(tag.pal[[1]](breaks[1])[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))])
+      X$col.numeric1 <- cut(X[, tags[1]],breaks = breaks[1])
+    }  else {
+      X$col1 <- as.factor(X$col1)
+      X$col1 <- droplevels(X$col1)
+      levels(X$col1) <- boxcols[1:length(unique(X$col1))]
+    }
+    
+    #add to df for legend
+    if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+      tag.col.df <- X[!duplicated(X[,"col.numeric1"]), c("col.numeric1", "col1")] else
+        tag.col.df <- X[!duplicated(X[,tags[1]]), c(tags[1], "col1")]
+    
     tag.col.df$tag.col <- tags[1]
-  names(tag.col.df) <- c("tag", "col", "tag.col")
-
-if(length(tags) == 2) 
-    {
-    X$col2 <- X[,tags[2]] 
-    if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
-    {
-      X$col2 <- rev(tag.pal[[2]](breaks[2])[as.numeric(cut(X[, tags[2]],breaks = breaks[2]))])
-      X$col.numeric2 <- cut(X[, tags[2]],breaks = breaks[2])
-    }  else {  
-    X$col2 <- as.factor(X$col2)
-    X$col2 <- droplevels(X$col2)
-    levels(X$col2) <- boxcols[(length(unique(X$col1))+1):length(boxcols)]
-}
- 
-    if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
-      W <- X[!duplicated(X[ ,"col.numeric2"]), c("col.numeric2", "col2")] else    
-    W <- X[!duplicated(X[,tags[2]]), c(tags[2], "col2")]
+    names(tag.col.df) <- c("tag", "col", "tag.col")
     
-    W$tag.col <- tags[2]
-    names(W) <- c("tag", "col", "tag.col")
-    W$tag <- as.character(W$tag)
-    tag.col.df <- rbind(tag.col.df, W)
+    if(length(tags) == 2) 
+    {
+      X$col2 <- X[,tags[2]] 
+      if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
+      {
+        X$col2 <- rev(tag.pal[[2]](breaks[2])[as.numeric(cut(X[, tags[2]],breaks = breaks[2]))])
+        X$col.numeric2 <- cut(X[, tags[2]],breaks = breaks[2])
+      }  else {  
+        X$col2 <- as.factor(X$col2)
+        X$col2 <- droplevels(X$col2)
+        levels(X$col2) <- boxcols[(length(unique(X$col1))+1):length(boxcols)]
+      }
+      
+      if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
+        W <- X[!duplicated(X[ ,"col.numeric2"]), c("col.numeric2", "col2")] else    
+          W <- X[!duplicated(X[,tags[2]]), c(tags[2], "col2")]
+        
+        W$tag.col <- tags[2]
+        names(W) <- c("tag", "col", "tag.col")
+        W$tag <- as.character(W$tag)
+        tag.col.df <- rbind(tag.col.df, W)
     }  
-   
+    
     # add hatching lines for color tags
     if(hatching == 0 | is.null(tags)) 
     {   
@@ -465,39 +468,39 @@ if(length(tags) == 2)
     }  else {
       
       tag.col.df$pattern <- rep(c("diamond", "grid", "forward", "backward", "horizontal", "vertical"), ceiling(nrow(tag.col.df)/6))[1:nrow(tag.col.df)] 
-
-            if(hatching == 1 & length(tags) == 2)
-            {if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
-         tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric2)] <- "no.pattern"
-                   
-else
-  tag.col.df$pattern[tag.col.df$tag %in% X[,tags[2]]] <- "no.pattern"
-            }
       
-            if(hatching == 2 & length(tags) == 2)
-              if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
-                tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric1)] <- "no.pattern" else
-                tag.col.df$pattern[tag.col.df$tag %in% X[,tags[1]]] <- "no.pattern"
-            
-    }
-
-
-      X <- do.call(rbind, lapply(1:nrow(X), function(x) {
-        W <- X[x, ]
+      if(hatching == 1 & length(tags) == 2)
+      {if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
+        tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric2)] <- "no.pattern"
+      
+      else
+        tag.col.df$pattern[tag.col.df$tag %in% X[,tags[2]]] <- "no.pattern"
+      }
+      
+      if(hatching == 2 & length(tags) == 2)
         if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
-          W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric1)] else  
-        W$pattern.1 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[1]])]
+          tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric1)] <- "no.pattern" else
+            tag.col.df$pattern[tag.col.df$tag %in% X[,tags[1]]] <- "no.pattern"
+          
+    }
+    
+    
+    X <- do.call(rbind, lapply(1:nrow(X), function(x) {
+      W <- X[x, ]
+      if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+        W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric1)] else  
+          W$pattern.1 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[1]])]
         
         if(length(tags) == 2)
         {   if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
           W$pattern.2 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric2)] else 
             W$pattern.2 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[2]])]
         } else Y$pattern.2 <- "no.pattern"
-          return(W)
-      }))
+        return(W)
+    }))
     
     
-  tag.col.df <- rapply(tag.col.df, as.character, classes="factor", how="replace")
+    tag.col.df <- rapply(tag.col.df, as.character, classes="factor", how="replace")
   } else legend <- 0
   
   
@@ -508,25 +511,25 @@ else
     Y <- as.data.frame(rapply(X, as.character, classes="factor", how="replace"))
     
     #if tag is numeric
-   grcl <- tag.pal[[3]](length(unique(Y[, group.tag]))) 
+    grcl <- tag.pal[[3]](length(unique(Y[, group.tag]))) 
     
     #convert characters to factors
     X <- rapply(X, as.factor, classes="character", how="replace")
     X$colgroup <- X[,group.tag] 
     X$colgroup <- droplevels(as.factor(X$colgroup))
     levels(X$colgroup) <- grcl[1:length(unique(X$colgroup))]
-  
+    
     #add to df for legend
-  #   tag.col.df2 <- X[!duplicated(X[,group.tag]), c(group.tag, "colgroup")]
-  #   names(tag.col.df2) <- c("tag", "col")
-  #   tag.col.df2$tag.col <- paste(group.tag, "(group.tag)")
-  #   tag.col.df2$pattern <- "no.pattern"
-  #   
-  # if(!exists("tag.col.df"))
-  #     tag.col.df <- tag.col.df2 else tag.col.df <- rbind(tag.col.df, tag.col.df2)
-   }
+    #   tag.col.df2 <- X[!duplicated(X[,group.tag]), c(group.tag, "colgroup")]
+    #   names(tag.col.df2) <- c("tag", "col")
+    #   tag.col.df2$tag.col <- paste(group.tag, "(group.tag)")
+    #   tag.col.df2$pattern <- "no.pattern"
+    #   
+    # if(!exists("tag.col.df"))
+    #     tag.col.df <- tag.col.df2 else tag.col.df <- rbind(tag.col.df, tag.col.df2)
+  }
   
-    #calculate time and freq ranges based on all recs
+  #calculate time and freq ranges based on all recs
   rangs <- lapply(1:nrow(X), function(i){
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
@@ -534,272 +537,274 @@ else
     # change mar to prop.mar (if provided)
     if(!is.null(prop.mar)) adj.mar <- (X$end[i] - X$start[i]) * prop.mar else
       adj.mar <- mar
-
-          t <- c(X$start[i] - adj.mar, X$end[i] + adj.mar) 
-
+    
+    t <- c(X$start[i] - adj.mar, X$end[i] + adj.mar) 
+    
     if (t[1] < 0) t[1] <- 0
-
+    
     if(t[2] > r$samples/f) t[2] <- r$samples/f
-
+    
     #in case flim its higher than can be due to sampling rate
     fl<- flim
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1
-      return(data.frame(fl1 = fl[1], fl2 = fl[2], mardur = t[2] - t[1]))
+    return(data.frame(fl1 = fl[1], fl2 = fl[2], mardur = t[2] - t[1]))
   })
-
-rangs <- do.call(rbind, rangs)
-
-flim[2] <- min(rangs$fl2)
-
-# adjust times if same.time.scale = T
-if(same.time.scale)
-{
-  X2 <- lapply(1:nrow(X), function(x)
+  
+  rangs <- do.call(rbind, rangs)
+  
+  flim[2] <- min(rangs$fl2)
+  
+  # adjust times if same.time.scale = T
+  if(same.time.scale)
   {
-  Y <- X[x, ]
-  dur <- Y$end - Y$start
-  if(dur < max(rangs$mardur)) {
-    Y$end  <- Y$end + (max(rangs$mardur) - dur)/2
-    Y$start  <- Y$start - (max(rangs$mardur) - dur)/2
-    if(Y$start < 0) {
-      Y$end <- Y$end - Y$start  
-      Y$start <- 0
-      }
-    }
-return(Y)
-})
-X <- do.call(rbind, X2)
-}
-
- 
-# function to run on data frame subset   
-catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex, 
-                     img.suffix, img.prefix, title)
-{
-#set layout for screensplit
-#rows
-if(is.null(tags))
-  rws <- rep(c(5, (nrow / 8) * lab.mar), nrow) else   rws <- rep(c(5, (nrow / 4) * lab.mar), nrow)
-  
-if(same.time.scale) rws <- c((nrow / 1.7) * lab.mar, rws) else rws <- c((nrow / 8) * lab.mar, rws)
-
-
-#define row width
-csrws <- cumsum(rws)
-rws <- csrws/max(csrws)
-minrws <- min(rws)
-tp <- sort(rws[-1], decreasing = TRUE)
-tp <- rep(tp, each = ncol + 1)
-btm <- c(sort(rws[-length(rws)], decreasing = TRUE))
-btm <- rep(btm, each = ncol + 1)
-
-#columns
-lfcol.width <- ncol / 27
-faxis.width <- ncol / 37
-if(faxis.width < 0.2) faxis.width <- 0.2
-if(ncol > 1)
-{
-  spectroclms <- c(lfcol.width, faxis.width, rep(1, ncol))
-csclms <- cumsum(spectroclms)
-cls <- csclms/max(csclms)
-lf <- c(0, cls[-length(cls)])
-rgh <- cls
-} else { 
-  lf <- c(0, lfcol.width, 0.014 + lfcol.width)
-  rgh <- c(lfcol.width, 0.014 + lfcol.width, 1)
-}
-
-lf <- lf[-1]
-rgh <- rgh[-1]
-
-#duplicate for label box and spectro
-lf <- rep(lf, length(btm)/(ncol + 1))
-rgh <- rep(rgh, length(btm)/(ncol + 1))
-
-#put them together
-m <- cbind(lf, rgh,  btm, tp)
-m <- m[order(m[,1], -m[,4]),]
-m <- m[c(((nrow * 2) + 1):((ncol + 1) * nrow * 2), 1:(nrow * 2)), ]
-  
-#set parameters used to pick up spectros with freq axis
-minlf <- sort(unique(m[,1]))[2]
-minbtm <- min(m[,3])
-
-#add  freq col for freq axis
- m <- rbind(m, c(0, min(m[,1]), 0, 1))
-
-#add bottom row for time axis
-m <- rbind(m, c(minlf, 1, 0, minbtm))
-
-fig.type <- c(rep(c("lab", "spec"), nrow * ncol), rep("freq.ax", nrow * 2), c("flab", "tlab"))
-
-  #remove axis space
-  if(rm.axes)  {
-    m <- m[!fig.type %in% c("flab", "tlab", "freq.ax"),]
-    
-    m[,2] <- m[,2] - min(m[,1])
-    m[,1] <- m[,1] - min(m[,1])
-    m[,1] <- m[,1]/max(m[,2])
-    m[,2] <- m[,2]/max(m[,2])
-    
-    m[,4] <- m[,4] - min(m[,3])
-    m[,3] <- m[,3] - min(m[,3])
-    m[,3] <- m[,3]/max(m[,4])
-    m[,4] <- m[,4]/max(m[,4])
-    # minlf <- min(m[,1])
-    
-    fig.type <- fig.type[!fig.type %in% c("flab", "tlab", "freq.ax")]
-    
-  }    
-  
-
-#add legend col
-if(legend > 0)
-{
-  leg.wd <- 1.08 + leg.wd/100
-  m <- rbind(m, c(1, leg.wd, 0, 1))
-  m[,1] <- m[,1]/leg.wd
-  m[,2] <- m[,2]/leg.wd
-  
-  fig.type <- c(fig.type, "legend")
-}
-
-if(!is.null(title))
-{
-  m <- rbind(m, c(0, 1, 1, 1.05))
-  m[,3] <- m[,3]/1.05
-  m[,4] <- m[,4]/1.05
-  
-  fig.type <- c(fig.type, "title")
-}
-
-
-X3 <- X[rep(1:nrow(X), each = 2), ]
-  
-#convert factors to character
-X3 <- rapply(X3, as.character, classes="factor", how="replace")
-
-#start graphic device
-if(!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
-if(!is.null(img.prefix)) img.prefix <- paste0(img.prefix, "-")
-imgfun(filename = paste0(img.prefix, "Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
-
-
-# sort by row
-if(by.row)
-{
-  c1 <- seq(1, nrow * ncol * 2, by = nrow * 2)
-  neor2 <- neor <- sort(c(c1, c1 + 1))
-  
-  for(i in 1:nrow)
-    neor2 <- c(neor2, neor + i * 2)
-  
-  neor2 <- neor2[!duplicated(neor2)]
-  neor2 <- neor2[1:(nrow * ncol * 2)]
-  
-  m <- m[c(neor2, which(!1:nrow(m) %in% neor2)),]
-}
-
-
-# split graphic window
-invisible(close.screen(all.screens = TRUE))
-split.screen(figs = m)
-
-#testing layout screens
-# for(i in 1:nrow(m))
-# {screen(i)
-#   par( mar = rep(0, 4))
-#   plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
-#   box()
-#   text(x = 0.5, y = 0.5, labels = i)
-# }
-# close.screen(all.screens = T)
-
-
-#selec which screens will be plot if X has less signals than the maximum in the plot
-if(nrow(X) < nrow * ncol) sqplots <- c(1:(nrow(X) * 2), which(!fig.type %in% c("spec", "lab", "freq.ax"))) else 
-  sqplots <- which(!fig.type %in% "freq.ax")
-
-  
-out <- lapply(sqplots, function(i)
-                  {
-
-    if(fig.type[i] %in% c("lab", "spec") & !is.null(group.tag)) par(bg = X3$colgroup[i], new = TRUE) else par(bg = "white", new = TRUE)
-    
-  screen(i)           
- 
-  if(fig.type[i] == "spec")  #plot spectros
-{     #Read sound files, initialize frequency and time limits for spectrogram
-      r <- tuneR::readWave(as.character(X3$sound.files[i]), header = TRUE)
-      f <- r$sample.rate
-      
-      # change mar to prop.mar (if provided)
-      if(!is.null(prop.mar)) adj.mar <- (X3$end[i] - X3$start[i]) * prop.mar else
-        adj.mar <- mar
-      
-      
-      t <- c(X3$start[i] - adj.mar, X3$end[i] + adj.mar)
-
-  if (t[1] < 0) t[1] <- 0
-
-  if(t[2] > r$samples/f) t[2] <- r$samples/f
-  
-  rec <- tuneR::readWave(as.character(X3$sound.files[i]), from = t[1], to = t[2], units = "seconds")
-
-    #add xaxis to bottom spectros
-  if(!same.time.scale & !rm.axes) {
-    axisX = TRUE
-    btm = 2.6
-  } else {
-    axisX = FALSE
-    btm = 0
-  } 
-  
-  #add f axis ticks 
-  if(m[i,1] == min(m[fig.type == "spec",1]) & !rm.axes) axisY <- TRUE else axisY <- FALSE
-  
-  par(mar = c(btm, rep(spec.mar, 3)))
-  
-  if(!is.null(group.tag))
+    X2 <- lapply(1:nrow(X), function(x)
     {
-    plot(x=-1, y=-1, axes = FALSE,col = spec.bg, xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n",
-         panel.first={points(0, 0, pch=16, cex=1e6, col = spec.bg)})
-    
-      }  
+      Y <- X[x, ]
+      dur <- Y$end - Y$start
+      if(dur < max(rangs$mardur)) {
+        Y$end  <- Y$end + (max(rangs$mardur) - dur)/2
+        Y$start  <- Y$start - (max(rangs$mardur) - dur)/2
+        if(Y$start < 0) {
+          Y$end <- Y$end - Y$start  
+          Y$start <- 0
+        }
+      }
+      return(Y)
+    })
+    X <- do.call(rbind, X2)
+  }
   
-  # draw spectro
-  spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2, add = TRUE)
-
-  } 
   
-  if(fig.type[i] == "lab") #plot labels
-  { 
-  
-  par(mar = rep(0, 4))
-
-    plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
-  
-  #color boxes
-  if(!is.null(tags))
+  # function to run on data frame subset   
+  catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex, 
+                       img.suffix, img.prefix, title)
   {
+    #set layout for screensplit
+    #rows
+    if(is.null(tags))
+      rws <- rep(c(5, (nrow / 8) * lab.mar), nrow) else   rws <- rep(c(5, (nrow / 4) * lab.mar), nrow)
+      
+      if(same.time.scale) rws <- c((nrow / 1.7) * lab.mar, rws) else rws <- c((nrow / 8) * lab.mar, rws)
+      
+      
+      #define row width
+      csrws <- cumsum(rws)
+      rws <- csrws/max(csrws)
+      minrws <- min(rws)
+      tp <- sort(rws[-1], decreasing = TRUE)
+      tp <- rep(tp, each = ncol + 1)
+      btm <- c(sort(rws[-length(rws)], decreasing = TRUE))
+      btm <- rep(btm, each = ncol + 1)
+      
+      #columns
+      lfcol.width <- ncol / 27
+      faxis.width <- ncol / 37
+      if(faxis.width < 0.2) faxis.width <- 0.2
+      if(ncol > 1)
+      {
+        spectroclms <- c(lfcol.width, faxis.width, rep(1, ncol))
+        csclms <- cumsum(spectroclms)
+        cls <- csclms/max(csclms)
+        lf <- c(0, cls[-length(cls)])
+        rgh <- cls
+      } else { 
+        lf <- c(0, lfcol.width, 0.014 + lfcol.width)
+        rgh <- c(lfcol.width, 0.014 + lfcol.width, 1)
+      }
+      
+      lf <- lf[-1]
+      rgh <- rgh[-1]
+      
+      #duplicate for label box and spectro
+      lf <- rep(lf, length(btm)/(ncol + 1))
+      rgh <- rep(rgh, length(btm)/(ncol + 1))
+      
+      #put them together
+      m <- cbind(lf, rgh,  btm, tp)
+      m <- m[order(m[,1], -m[,4]),]
+      m <- m[c(((nrow * 2) + 1):((ncol + 1) * nrow * 2), 1:(nrow * 2)), ]
+      
+      #set parameters used to pick up spectros with freq axis
+      minlf <- sort(unique(m[,1]))[2]
+      minbtm <- min(m[,3])
+      
+      #add  freq col for freq axis
+      m <- rbind(m, c(0, min(m[,1]), 0, 1))
+      
+      #add bottom row for time axis
+      m <- rbind(m, c(minlf, 1, 0, minbtm))
+      
+      fig.type <- c(rep(c("lab", "spec"), nrow * ncol), rep("freq.ax", nrow * 2), c("flab", "tlab"))
+      
+      #remove axis space
+      if(rm.axes)  {
+        m <- m[!fig.type %in% c("flab", "tlab", "freq.ax"),]
+        
+        m[,2] <- m[,2] - min(m[,1])
+        m[,1] <- m[,1] - min(m[,1])
+        m[,1] <- m[,1]/max(m[,2])
+        m[,2] <- m[,2]/max(m[,2])
+        
+        m[,4] <- m[,4] - min(m[,3])
+        m[,3] <- m[,3] - min(m[,3])
+        m[,3] <- m[,3]/max(m[,4])
+        m[,4] <- m[,4]/max(m[,4])
+        # minlf <- min(m[,1])
+        
+        fig.type <- fig.type[!fig.type %in% c("flab", "tlab", "freq.ax")]
+        
+      }    
+      
+      
+      #add legend col
+      if(legend > 0)
+      {
+        leg.wd <- 1.08 + leg.wd/100
+        m <- rbind(m, c(1, leg.wd, 0, 1))
+        m[,1] <- m[,1]/leg.wd
+        m[,2] <- m[,2]/leg.wd
+        
+        fig.type <- c(fig.type, "legend")
+      }
+      
+      if(!is.null(title))
+      {
+        m <- rbind(m, c(0, 1, 1, 1.05))
+        m[,3] <- m[,3]/1.05
+        m[,4] <- m[,4]/1.05
+        
+        fig.type <- c(fig.type, "title")
+      }
+      
+      
+      X3 <- X[rep(1:nrow(X), each = 2), ]
+      
+      #convert factors to character
+      X3 <- rapply(X3, as.character, classes="factor", how="replace")
+      
+      #start graphic device
+      if(!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
+      if(!is.null(img.prefix)) img.prefix <- paste0(img.prefix, "-")
+      imgfun(filename = paste0(img.prefix, "Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
+      
+      
+      # sort by row
+      if(by.row)
+      {
+        c1 <- seq(1, nrow * ncol * 2, by = nrow * 2)
+        neor2 <- neor <- sort(c(c1, c1 + 1))
+        
+        for(i in 1:nrow)
+          neor2 <- c(neor2, neor + i * 2)
+        
+        neor2 <- neor2[!duplicated(neor2)]
+        neor2 <- neor2[1:(nrow * ncol * 2)]
+        
+        m <- m[c(neor2, which(!1:nrow(m) %in% neor2)),]
+      }
+      
+      
+      # split graphic window
+      invisible(close.screen(all.screens = TRUE))
+      split.screen(figs = m)
+      
+      #testing layout screens
+      # for(i in 1:nrow(m))
+      # {screen(i)
+      #   par( mar = rep(0, 4))
+      #   plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+      #   box()
+      #   text(x = 0.5, y = 0.5, labels = i)
+      # }
+      # close.screen(all.screens = T)
+      
+      
+      #selec which screens will be plot if X has less signals than the maximum in the plot
+      if(nrow(X) < nrow * ncol) sqplots <- c(1:(nrow(X) * 2), which(!fig.type %in% c("spec", "lab", "freq.ax"))) else 
+        sqplots <- which(!fig.type %in% "freq.ax")
+      
+      out <- lapply(sqplots, function(i) {
+        
+        if(fig.type[i] %in% c("lab", "spec") & !is.null(group.tag)) par(bg = X3$colgroup[i], new = TRUE) else par(bg = "white", new = TRUE)
+        
+        screen(i)           
+        
+        if(fig.type[i] == "spec")  #plot spectros
+        {     #Read sound files, initialize frequency and time limits for spectrogram
+          r <- tuneR::readWave(as.character(X3$sound.files[i]), header = TRUE)
+          f <- r$sample.rate
+          
+          # change mar to prop.mar (if provided)
+          if(!is.null(prop.mar)) adj.mar <- (X3$end[i] - X3$start[i]) * prop.mar else
+            adj.mar <- mar
+          
+          
+          t <- c(X3$start[i] - adj.mar, X3$end[i] + adj.mar)
+          
+          if (t[1] < 0) t[1] <- 0
+          
+          if(t[2] > r$samples/f) t[2] <- r$samples/f
+          
+          rec <- tuneR::readWave(as.character(X3$sound.files[i]), from = t[1], to = t[2], units = "seconds")
+          
+          #add xaxis to bottom spectros
+          if(!same.time.scale & !rm.axes) {
+            axisX = TRUE
+            btm = 2.6
+          } else {
+            axisX = FALSE
+            btm = 0
+          } 
+          
+          #add f axis ticks 
+          if(m[i,1] == min(m[fig.type == "spec",1]) & !rm.axes) axisY <- TRUE else axisY <- FALSE
+          
+          par(mar = c(btm, rep(spec.mar, 3)))
+          
+          if(!is.null(group.tag))
+            plot(x=-1, y=-1, axes = FALSE,col = spec.bg, xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n",
+                 panel.first={points(0, 0, pch=16, cex=1e6, col = spec.bg)})
+          
+          
+          # draw spectro
+          if(fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)
+          
+          spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2, add = TRUE)
+          
+          #add box
+         if(box) boxw.INTFUN(xys = m[i,], bty = "u", lwd = 1.5)
+        } 
+        
+        if(fig.type[i] == "lab") #plot labels
+        { 
+          
+          par(mar = rep(0, 4))
+          
+          plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+          
+          #color boxes
+          if(!is.null(tags))
+  {
+    #plot labels
+    text(x = 0.5, y = 0.8, labels = paste(X3[i, labels], collapse = " "), 
+         cex = (ncol * nrow * 1.5 * cex)/((ncol * nrow)^1.2))
+    
     cutbox1 <- 0
     cutbox2 <- tag.widths[1]/(tag.widths[1] + tag.widths[2])
     
     lim <- par("usr")
     if(length(tags) == 1)
-    rectw.INTFUN(xl = lim[1] + cutbox1, yb = lim[3]-1, xr = lim[2], yt = 0.5, bor = "black", cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
-      rectw.INTFUN(xl = lim[1] + cutbox1, yb = lim[3]-1, xr = cutbox2, yt = 0.5, bor = "black", cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
-      rectw.INTFUN(xl = cutbox2, yb = lim[3]-1, xr = lim[2], yt = 0.5, bor = "black", cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
+    rectw.INTFUN(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
+      rectw.INTFUN(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = cutbox2, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
+      rectw.INTFUN(xl = cutbox2, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
     }
     
-    #plot labels
-    text(x = 0.5, y = 0.8, labels = paste(X3[i, labels], collapse = " "), 
-         cex = (ncol * nrow * 1.5 * cex)/((ncol * nrow)^1.2))
     } else
-             text(x = 0.5, y = 0.5, labels = paste(X3[i, labels], collapse = " "), 
+             text(x = 0.5, y = 0.33, labels = paste(X3[i, labels], collapse = " "), 
                   cex = (ncol * nrow * 2 * cex)/((ncol * nrow)^1.2))
-           }
-    # }  
+           
+          if(box) boxw.INTFUN(xys = m[i,], bty = "^", lwd = 1.5)
+          }
     
   #add Freq axis label
   if(fig.type[i] == "flab")

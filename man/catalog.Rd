@@ -13,7 +13,7 @@ tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3,
 cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), 
 hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
 max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
-by.row = TRUE)
+by.row = TRUE, box = TRUE)
 }
 \arguments{
 \item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -154,13 +154,17 @@ athough ensuring that adjacent groups do not share the same color. Useful when t
 'group.tag' has many levels and the colors assigned become very similar. Default is \code{NULL}.}
 
 \item{sub.legend}{Logical. If \code{TRUE} then only the levels present on each
-page are shown in the legend.}
+page are shown in the legend. Default is \code{FALSE}.}
 
-\item{rm.axes}{Logical. If \code{TRUE} frequency and time axes are excluded.}
+\item{rm.axes}{Logical. If \code{TRUE} frequency and time axes are excluded. Default is \code{FALSE}.}
 
 \item{title}{Character vector of length 1 to set the tile of catalogs.}
 
 \item{by.row}{Logical. If \code{TRUE} (default) catalogs are filled by rows.}
+
+\item{box}{Logical. If \code{TRUE} (default) a box is drawn around spectrograms and 
+corresponding labels and tags. 
+are}
 }
 \value{
 Image files with spectrograms of whole sound files in the working directory. Multiple pages

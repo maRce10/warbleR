@@ -2,17 +2,17 @@
 # that allows to plot spectrograms without resetting the graphic device.It also allow using image() 
 # which substantially increases speed (although makes some options unavailable)
 spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, 
-                     complex = FALSE, norm = TRUE, fftw = FALSE, dB = "max0", 
-                     dBref = NULL, plot = TRUE, grid = TRUE, 
-                     cont = FALSE, collevels = NULL, palette = spectro.colors, 
-                     contlevels = NULL, colcont = "black", colbg = "white", colgrid = "gray", 
-                     colaxis = "black", collab = "black", cexlab = 1, cexaxis = 1, 
-                     tlab = "Time (s)", flab = "Frequency (kHz)", alab = "Amplitude", 
-                     scalelab = "Amplitude\n(dB)", main = NULL, scalefontlab = 1, 
-                     scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
-                     trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
-                     heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast.spec = FALSE, 
-                     rm.zero = FALSE, amp.cutoff = NULL, X = NULL, pallete.2 = reverse.topo.colors, bx = TRUE, add = FALSE,...) 
+                             complex = FALSE, norm = TRUE, fftw = FALSE, dB = "max0", 
+                             dBref = NULL, plot = TRUE, grid = TRUE, 
+                             cont = FALSE, collevels = NULL, palette = spectro.colors, 
+                             contlevels = NULL, colcont = "black", colbg = "white", colgrid = "gray", 
+                             colaxis = "black", collab = "black", cexlab = 1, cexaxis = 1, 
+                             tlab = "Time (s)", flab = "Frequency (kHz)", alab = "Amplitude", 
+                             scalelab = "Amplitude\n(dB)", main = NULL, scalefontlab = 1, 
+                             scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
+                             trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
+                             heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast.spec = FALSE, 
+                             rm.zero = FALSE, amp.cutoff = NULL, X = NULL, pallete.2 = reverse.topo.colors, bx = TRUE, add = FALSE,...) 
 {
   if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
@@ -96,21 +96,21 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
   if(!is.null(amp.cutoff)) Z[Z >= (diff(range(Z)) * amp.cutoff) + min(Z)] <- 0 
   
   if(!fast.spec)
-  filled.contour.INTFUN(x = X, y = Y, z = Z, levels = collevels, 
-                        nlevels = 20, plot.title = title(main = main, 
-                                                         xlab = tlab, ylab = flab), color.palette = palette, 
-                        axisX = FALSE, axisY = axisY, col.lab = collab, 
-                        colaxis = colaxis, add = add) else {
-                          image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
-                      if(!is.null(sel.tab))    
-                         out <- lapply(1:nrow(sel.tab), function(i)
-                            image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], col = pallete.2(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)      
-                            )
-                           
-                          
-                          if (axisY) axis(2, at = pretty(Y), labels = pretty(Y), cex.axis = cexlab)
-                              if(bx)  box()
-                          if(!is.null(main)) title(main)       
+    filled.contour.INTFUN(x = X, y = Y, z = Z, levels = collevels, 
+                          nlevels = 20, plot.title = title(main = main, 
+                                                           xlab = tlab, ylab = flab), color.palette = palette, 
+                          axisX = FALSE, axisY = axisY, col.lab = collab, 
+                          colaxis = colaxis, add = add) else {
+                            image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
+                            if(!is.null(sel.tab))    
+                              out <- lapply(1:nrow(sel.tab), function(i)
+                                image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], col = pallete.2(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)      
+                              )
+                            
+                            
+                            if (axisY) axis(2, at = pretty(Y), labels = pretty(Y), cex.axis = cexlab)
+                            if(bx)  box()
+                            if(!is.null(main)) title(main)       
                         }
   
   if (axisX) {
