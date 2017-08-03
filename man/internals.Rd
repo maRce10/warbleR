@@ -5,6 +5,7 @@
 \alias{frd.plot.INTFUN}
 \alias{spectro.rectw.INTFUN.2}
 \alias{spectro.rectw.INTFUN}
+\alias{boxw.INTFUN}
 \title{
 \code{warbleR} Internal Functions
 }
@@ -22,6 +23,7 @@ The functions are:
 \code{filled.contour.color.INTFUN}
 \code{filled.contour.INTFUN}
 
+\code{boxw.INTFUN} to create boxes around spectrograms in \code{\link[warbleR]{catalog}}
 
 \code{rectw} is a modified version of \code{\link[graphics]{rect}} to add density (cross-hatching lines)
 

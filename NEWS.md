@@ -5,7 +5,7 @@
 
 ## Changes and additions:
 
-* New arguments "title", "by.row", "prop.mar" and "rm.axes" in "catalog" function to further customize catalog setup
+* New arguments "title", "by.row", "prop.mar", "box" and "rm.axes" in "catalog" function to further customize catalog setup
 * New arguments "spec.mar", "lab.mar" and "group.tag" in "catalog" function to color groups of selections
 * "trackfreqs", "dfts", and "dfDTW"  functions can use "frange.detec" internally to set bandpass limits (see "frange.detec" argument)
 * New argument "index" in "seltailor" function to indicate which selection should be tailored
