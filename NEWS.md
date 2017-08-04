@@ -5,6 +5,7 @@
 
 ## Changes and additions:
 
+# Split vignette into a series of three with new functions as of 04 August 2017
 * New arguments "title", "by.row", "prop.mar", "box" and "rm.axes" in "catalog" function to further customize catalog setup
 * New arguments "spec.mar", "lab.mar" and "group.tag" in "catalog" function to color groups of selections
 * "trackfreqs", "dfts", and "dfDTW"  functions can use "frange.detec" internally to set bandpass limits (see "frange.detec" argument)
