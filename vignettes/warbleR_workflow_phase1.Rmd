@@ -15,32 +15,28 @@ vignette: >
 <center> `r Sys.Date()` </center>
 <br>
 
+Here we present examples regarding how to begin the `warbleR` workflow by downloading recordings from _xeno-canto_, importing your own recordings, making spectrograms of whole recordings, selecting signals within recordings or importing selections already made in _Raven_ and _Syrinx_. For more details about function arguments, input or output, read the documentation for the function in question (e.g. `?querxc`). `warbleR` is available on both [`CRAN`](https://cran.r-project.org/package=warbleR) and [`GitHub`](https://github.com/maRce10/warbleR). The GitHub repository will always contain the latest functions and updates. We also published an article on `warbleR` documenting the package workflow <a href='#References'><sup>[1]</sup></a>. 
 
-Here we present examples regarding how to begin the [`warbleR`](https://cran.r-project.org/package=warbleR) workflow by downloading recordings from _xeno-canto_, importing your own recordings, making spectrograms of whole recordings, selecting signals within recordings or importing selections already made in _Raven_ and _Syrinx_. For more details about function arguments, input or output, read the documentation for the function in question (e.g. `?querxc`). 
+Please note that most tools in `warbleR` use functions from the [`seewave`](https://cran.r-project.org/package=seewave), [`monitoR`](https://cran.r-project.org/package=monitoR), [`tuneR`](https://cran.r-project.org/package=tuneR) and [`dtw`](https://cran.r-project.org/package=dtw]) packages internally. `warbleR` has been designed to make the analyses more accessible to average R-users. However, acoustic analysis with `warbleR` would not be possible without the tools provided by these additional packages. These packages should be given credit when using `warbleR` by including the appropriate citations in publications (e.g. `citation("seewave")`).
 
-Please note that most tools in [`warbleR`](https://cran.r-project.org/package=warbleR) use functions from the [`seewave package`](https://cran.r-project.org/package=seewave) internally. [`warbleR`](https://cran.r-project.org/package=warbleR) has been designed to make the analyses more accessible to average R-users. However, acoustic analysis in R would not be possible without the tools provided by [`seewave`](https://cran.r-project.org/package=seewave). Both packages should be given credit when using [`warbleR`](https://cran.r-project.org/package=warbleR) by including the appropriate citations in publications (`citation("warbleR")` and `citation("seewave")`). 
+Nearly all `warbleR` functions contain options for parallel processing, which can greatly speed up analyses. See <a href='#References'><sup>[1]</sup></a> for more details about parallel processing performance. Use parallel processing with caution, particularly if you use a Windows operating system. `warbleR` dependencies for parallel processing have not yet been optimized for Windows.
 
-This vignette can be run without an advanced understanding of R, as long as you know how to run code in your R console. However, knowing more about basic R coding would be very helpful in order to modify code to fit your research questions.
-
-<center> ![warbleR workflow](warbleR_workflow_v2.jpg)</center> 
+This vignette can be run without an advanced understanding of R, as long as you know how to run code in your R console. However, knowing more about basic R coding would be very helpful to modify the code for your research questions.
 
 <br>
-To start, we will use [`warbleR`](https://cran.r-project.org/package=warbleR) to download recordings from [xeno-canto](http://www.xeno-canto.org/). 
-<br>
-
 
 ## **Prepare for acoustic analysis**
 
 -----
 
-First, we need to install and load [`warbleR`](https://cran.r-project.org/package=warbleR). You will need an R version ≥ 2.10 and seewave package version ≥ 2.0.1. Also, users using UNIX machines (Mac OSX or Linux), will need to install `fftw3`, `pkg-config` and `libsndfile` on their machines prior to installing `warbleR`. These external packages will need to be installed through a UNIX terminal. Installing these packages lies outside the scope of this vignette, but more details can be found using Google.
+First, we need to install and load `warbleR`. Install the package from its GitHub repository to access the latest functions presented in this vignette series. You will need an R version ≥ 2.10 and seewave package version ≥ 2.0.1. Also, users using UNIX machines (Mac OSX or Linux), will need to install `fftw3`, `pkg-config` and `libsndfile` on their machines prior to installing `warbleR`. These external packages will need to be installed through a UNIX terminal. Installing these packages lies outside the scope of this vignette, but more details can be found using Google.
 
 ```{r, eval=FALSE}
 
 # install warbleR from CRAN
-install.packages("warbleR")
+# install.packages("warbleR")
 
-# or install warbleR from its GitHub repository, which contains the latest updates
+# install warbleR from GitHub repository, which contains the latest updates
 # install.packages("devtools") # run this if devtools is not already installed
 library(devtools)
 install_github("maRce10/warbleR")
@@ -55,11 +51,11 @@ Set up a working directory
 
 ```{r, eval=FALSE}
 
-# Create a new directory
+# Create a new directory and set your working directory
 dir.create(file.path(getwd(),"warbleR_example"))
 setwd(file.path(getwd(),"warbleR_example"))
 
-# Check the location of the directory
+# Check your location
 getwd()
 
 ```
@@ -82,7 +78,7 @@ Bioacoustics research encompasses a wide range of questions, species, geographic
 
   2. **Selections:** Selections are temporal coordinates (start and end points) of selected acoustic signals within recordings, often organized within a data frame called a selection table
 
-We will give different examples of how to obtain recordings from the open-access database [xeno-canto](http://www.xeno-canto.org/), import recordings or selections other bioacoustics software, such as _Raven_ and _Syrinx_, as well as how to make selections using _warbleR_ functions. 
+Below we will give different examples of how to obtain recordings from the open-access database [xeno-canto](http://www.xeno-canto.org/), import recordings or selections other bioacoustics software, such as _Raven_ and _Syrinx_, as well as how to make selections using _warbleR_ functions. 
 
 
 ## Obtain metadata and recordings from [xeno-canto](http://www.xeno-canto.org/)
@@ -96,6 +92,7 @@ The open-access [xeno-canto](http://www.xeno-canto.org/) database is an excellen
 We recommend downloading metadata first from _xeno-canto_, as this data can be filtered in R to more efficiently download only the recordings important for your question.
 
 <br>
+
 **You can query [xeno-canto](http://www.xeno-canto.org/) by genus:**
 
 ```{r, eval=TRUE}
@@ -134,6 +131,7 @@ Phae.lon <- querxc(qword = "Phaethornis longirostris", download = FALSE)
 ```
 
 <br>
+
 If you're interested in the geographic spread of the recording locations, you can use the function `xcmaps` to visualize locations. `xcmaps` will create an image file of a map per species in your current directory if `img = TRUE`. If `img = FALSE`, maps will be displayed in the graphic device. 
 
 ```{r, eval=FALSE}
@@ -160,7 +158,7 @@ In most cases, you will need to filter the _xeno-canto_ metadata by type of sign
 
 Some of the metadata is not quite consistent across recordings, such as signal type or recording quality. These are characteristics of the recordings that you will need to explore with downstream functions before proceeding with signal selection and analysis. However, if you are working with many recordings, we advise removing the lowest quality recordings (D quality) or selecting specific vocalization types.
 
-For example, we are interested in assessing the microgeographic variation of long-billed hermit songs, _Phaethornis longirostris_. Variation at small geographic scales has been already described in this species <a href='#References'><sup>[1]</sup></a>. We should proceed by looking for a site with the highest number of songs. Our goal is to search for visible differences in song structure within a site, and then determine whether underlying differences in acoustic parameters are representative of spectrographic distinctiveness. 
+For example, we are interested in assessing the microgeographic variation of long-billed hermit songs, _Phaethornis longirostris_. Variation at small geographic scales has been already described in this species <a href='#References'><sup>[2]</sup></a>. We should proceed by looking for a site with the highest number of songs. Our goal is to search for visible differences in song structure within a site, and then determine whether underlying differences in acoustic parameters are representative of spectrographic distinctiveness. 
 
 <br>
 ```{r, eval=TRUE}
@@ -221,7 +219,7 @@ Phae.lon.LS <- Phae.lon.LS[Phae.lon.LS$Quality == "A", ]
 
 ```
 
-We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using `xcmaps` 
+We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using `xcmaps`.
 
 ```{r, eval=TRUE}
 
@@ -264,9 +262,9 @@ write.csv(Phae.lon.LS, "Phae_lon.LS.csv", row.names = FALSE)
 
 ### Convert [xeno-canto](http://www.xeno-canto.org/) _mp3_ recordings to _wav_ format
 
-[xeno-canto](http://www.xeno-canto.org/) maintains recordings in _mp3_ format due to file size restrictions. However, we require _wav_ format for all downstream analyses. Compression from _wav_ to _mp3_ and back involves information losses, but recordings that have undergone this transformation have been successfully used in research <a href='#References'> <sup>[2]</sup></a>.
+[xeno-canto](http://www.xeno-canto.org/) maintains recordings in _mp3_ format due to file size restrictions. However, we require _wav_ format for all downstream analyses. Compression from _wav_ to _mp3_ and back involves information losses, but recordings that have undergone this transformation have been successfully used in research <a href='#References'> <sup>[3]</sup></a>.
 
-To convert _mp3_ to _wav_, we can use the warbleR function `mp32wav`, which relies on a underlying function from the [`tuneR package`](https://cran.r-project.org/package=tuneR). This function does not always work (and it remains unclear as to why!). This bug should be fixed in future versions of tuneR. If RStudio aborts when running `mp32wav`, use an _mp3_ to _wav_ converter online, or download the open source software `Audacity` (available for Mac, Linux and Windows users). We have made the selected _wav_ files available for download (see next section).
+To convert _mp3_ to _wav_, we can use the warbleR function `mp32wav`, which relies on a underlying function from the [`tuneR`](https://cran.r-project.org/package=tuneR) package. This function does not always work (and it remains unclear as to why!). This bug should be fixed in future versions of `tuneR`. If RStudio aborts when running `mp32wav`, use an _mp3_ to _wav_ converter online, or download the open source software `Audacity` (available for Mac, Linux and Windows users). We have made the selected _wav_ files available for download (see next section).
 
 After _mp3_ files have been converted, we need to check that the _wav_ files are not corrupted and can be read into RStudio (some _wav_ files can't be read due to format or permission issues).
 
@@ -284,8 +282,8 @@ checkwavs()
 wavs <- list.files(pattern = "wav$")
 
 # Downsample the wav files and speed up downstream analyses
-lapply(wavs, function(x) writeWave(downsample(readWave(x), samp.rate = 22500),
-                                  filename = x))
+invisible(lapply(wavs, function(x) writeWave(downsample(readWave(x), samp.rate = 22050),
+                                  filename = x)))
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -334,16 +332,15 @@ lspec(flist = sub, ovlp = 10, it = "tiff")
 
 # We can zoom in on the frequency axis by changing flim, 
 # the number of seconds per row, and number of rows
-lspec(flist = sub, flim = c(2, 11), sxrow = 6, rows = 15, ovlp = 10, it = "tiff")
+lspec(flist = sub, flim = c(2, 10), sxrow = 6, rows = 15, ovlp = 10, it = "tiff")
 
 ```
 
-Once satisfied with the argument settings we can run all files
+Once satisfied with the argument settings we can run all files.
 
 ```{r, eval=FALSE}
 
-# highlight selected signals
-lspec(flim = c(2, 11), ovlp = 10, sxrow = 6, rows = 15, it = "jpeg")
+lspec(flim = c(2, 10), ovlp = 10, sxrow = 6, rows = 15, it = "jpeg")
 
 # concatenate lspec image files into a single PDF per recording
 # lspec images must be jpegs 
@@ -358,7 +355,8 @@ The pdf image file (in the working directory) should look like this:
 # make all page-size images 700 pxls width
 ```
 
-![lspec image example](Phaethornis-longirostris-154072-p1.jpg)
+<center> ![lspec image example](Phaethornis-longirostris-154072-p1.jpg)</center> 
+<br>
 
 Note that the sound file name and page number are placed in the top right corner. Also, the dimensions of the image are made to letter paper size for printing and subsequent visual inspection.
 
@@ -367,8 +365,8 @@ Recording _154123_ has a lot of background noise. Delete the _wav_ file for this
 ## **Select signals in _warbleR_**
 
 _warbleR_ has two main functions for selecting acoustic signals within recordings:
-  *`autodetec` - automatically detects the start and end of signals in sound files based on amplitude, duration, and frequency range attributes
-  *`manualoc` - provides an interactive interface in the RStudio graphics device to manually select signals
+  + `autodetec` - automatically detects the start and end of signals in sound files based on amplitude, duration, and frequency range attributes
+  + `manualoc` - provides an interactive interface in the RStudio graphics device to manually select signals
   
 Both functions work fastest with shorter recordings, but there are ways to deal with larger recordings (an hour long or more). In this section we have expanded on some important function arguments, but check out the function documentation for more information.
 
@@ -414,7 +412,8 @@ autodetec(flist = sub, bp = c(1, 10), threshold = 10, mindur = 0.05, maxdur = 0.
 
 The image files (in the working directory) should look like this (shown below is recording ID 154161):
 
-![autodetec image example](154161-autodetec.th10.jpg)
+<center> ![autodetec image example](154161-autodetec.th10.jpg)</center> 
+<br>
 
 Note that some songs were correctly detected but other undersired sounds were also detected. In most cases, the undesired selections have a shorter duration than our target signals.
 
@@ -422,7 +421,7 @@ We won't save the `autodetec` ouput in an object until we're satisfied with the 
 
 ```{r, eval=FALSE}
 
-autodetec(flist = sub, bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22, 
+autodetec(flist = sub, bp = c(2, 10), threshold = 20, mindur = 0.09, maxdur = 0.22, 
                      envt = "abs", ssmooth = 900, ls = TRUE, res = 100, 
                      flim= c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
                      redo = TRUE, it = "tiff", img = TRUE, smadj = "end")
@@ -430,15 +429,16 @@ autodetec(flist = sub, bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.2
 
 This seems to provide a good detection for most recordings (recording ID 154161):
 
-![autodetec image example](154161-autodetec.th15.jpg)
+<center> ![autodetec image example](154161-autodetec.th15.jpg)</center>
+<br>
 
 Once we're satisfied with the detection, we can run the `autodetec` on all the recordings, removing the argument `flist` (so `autodetec` runs over all _wav_ files in the working directory). We will also save the temporal output in an object.
 
 ```{r, eval=FALSE}
 
-Phae.ad <- autodetec(bp = c(2, 9), threshold = 20, mindur = 0.09, maxdur = 0.22, 
+Phae.ad <- autodetec(bp = c(2, 10), threshold = 20, mindur = 0.09, maxdur = 0.22, 
                      envt = "abs", ssmooth = 900, ls = TRUE, res = 100, 
-                     flim= c(1, 12), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
+                     flim = c(2, 10), wl = 300, set =TRUE, sxrow = 6, rows = 15, 
                      redo = TRUE, it = "tiff", img = TRUE, smadj = "end")
 
 ```
@@ -447,16 +447,6 @@ Let's look at the number of selections per sound file:
 
 ```{r, eval=FALSE}
 
-table(Phae.ad$sound.files)
-
-```
-
-
-```{r, eval=TRUE, echo=FALSE}
-
-Phae.snr <- Phae.ad <- read.csv("Phae_snr.csv")
-
-# Look at the number of selections per sound file 
 table(Phae.ad$sound.files)
 
 ```
@@ -473,6 +463,7 @@ Signal-to-noise ratio (SNR) can be a useful filter for automated signal detectio
 
 `snrspecs` is another function in the family of spectrogram creators that allows you to pick a margin for measuring noise. These margins are very important for calculating SNR, especially when working with signals separated by short gaps (e.g. duets).
 
+
 ```{r, eval=FALSE}
 
 # A margin that's too large causes other signals to be included in the noise measurement
@@ -484,26 +475,25 @@ set.seed(5)
 
 X <- Phae.ad[sample(1:nrow(Phae.ad),(nrow(Phae.ad)*0.1)), ]
 
-snrspecs(X = X, flim = c(2, 11), snrmar = 0.5, mar = 0.7, it = "tiff")
+snrspecs(X = X, flim = c(2, 10), snrmar = 0.5, mar = 0.7, it = "tiff")
 
 ```
 
 The image files should look like this:
 
-![snrpecs image example](Phaethornis-longirostris-154072.wav-8-snr.jpeg)
-
+<center> ![snrpecs image example](Phaethornis-longirostris-154072.wav-8-snr.jpeg)</center>
+<br>
 
 This margin overlaps signals, a smaller margin would be better.
 
 ```{r, eval=FALSE}
 
 # This smaller margin is better
-snrspecs(X = X, flim = c(2, 11), snrmar = 0.04, mar = 0.7, it = "tiff")
+snrspecs(X = X, flim = c(2, 10), snrmar = 0.04, mar = 0.7, it = "tiff")
 
 ```
 
-![snrpecs image example](Phaethornis-longirostris-154072.wav-8-snr2.jpeg)
-
+<center> ![snrpecs image example](Phaethornis-longirostris-154072.wav-8-snr2.jpeg) </center>
 <br>
 
 #### Calculate signal to noise ratio for recordings
@@ -517,20 +507,22 @@ Phae.snr <- sig2noise(X = Phae.ad[seq(1, nrow(Phae.ad), 2), ], mar = 0.04)
 
 As we just need a few songs to characterize each sound file and individual, we can choose selections with the highest SNR per sound file. In this example, we will choose 5 selections per recording with the highest SNRs.  
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 
 Phae.hisnr <- Phae.snr[ave(-Phae.snr$SNR, Phae.snr$sound.files, FUN = rank) <= 5, ]
+
+# save the selections as a physical file
+write.csv(Phae.hisnr, "Phae_hisnr.csv", row.names = FALSE)
 
 # Double check the number of selection per sound files 
 table(Phae.hisnr$sound.files)
 
 ```
 
-At this point would be a good idea to save the selections as a file
+```{r, eval=TRUE, echo=FALSE}
 
-```{r, eval=FALSE}
-
-write.csv(Phae.hisnr, "Phae_hisnr.csv", row.names = FALSE)
+Phae.hisnr <- read.csv("Phae_hisnr.csv", header = TRUE)
+table(Phae.hisnr$sound.files)
 
 ```
 
@@ -586,27 +578,26 @@ You can stop the function at any point by clicking twice on the `stop` button.
 # Run manualoc() with frequency range set for Phaethornis longirostris
 # Recording comments are enabled to mark recording quality
 # Selection comments enabled to include visual classifications
-manualoc(flim = c(1, 11), reccomm = TRUE, selcomm = TRUE, osci = TRUE, seltime = 2)
+manualoc(flim = c(2, 10), reccomm = TRUE, selcomm = TRUE, osci = TRUE, seltime = 2)
 
 # Read manualoc() output back into RStudio as an object
-# This data frame object can be used as input for the functions that follow
+# This data frame object can be used as input for later functions
 manualoc_out <- read.csv("manualoc_output.csv", header = TRUE)
 
 ```
 
-The graphic device will look similar to this:
+The graphics device will look similar to this:
 
-![manualoc view](manualoc.jpg)
-
+<center> ![manualoc view](manualoc.jpg)</center>
 <br>
 
 ## **_warbleR_ interface with other bioacoustics software**
 
-_warbleR_ is compatible with _Raven_ and _Syrinx_. You may already work with these bioacoustics programs, and they are a valuable subset of the software available to a wide user base. One of the most difficult part of any biological analysis is transitioning between software, as this often involves writing customized code to change file formats accordingly. _warbleR_ now contains functions that allow you to start an analysis outside of _R_, or take the analysis outside of _R_ when necessary. Check out the following functions:
+_warbleR_ is compatible with _Raven_ and _Syrinx_. You may already work with these bioacoustics programs, and they are a valuable subset of the software available to a wide user base. One of the most difficult part of any biological analysis is transitioning between software, as this often involves writing customized code, or relying on yet other programs, to translate file formats. _warbleR_ now contains functions that allow you to start an analysis outside of _R_, or take the analysis outside of _R_ when necessary. Check out the following functions:
 
   * `exp_raven` - export selections made in _warbleR_ to _Raven_ 
   * `imp.raven` - import selection tables from _Raven_ 
-  * `imp.syinx` - import selection tables from _Syrinx_
+  * `imp.syrinx` - import selection tables from _Syrinx_
   * `run_raven` - open sound files in Raven from the R interface
   
 The function `exp_raven` lets you take the analysis outside of _R_ after making selections in _warbleR_. 
@@ -617,10 +608,14 @@ The function `exp_raven` lets you take the analysis outside of _R_ after making 
 
 Phae.hisnr <- read.csv("Phae_hisnr.csv", header = TRUE)
 
-# remove SNR column
-Phae.hisnr <- Phae.hisnr[, -grep("SNR", names(Phae.hisnr))]
+# remove SNR column and select the first sound file
+sub <- droplevels(Phae.hisnr[Phae.hisnr$sound.files == levels(Phae.hisnr$sound.files)[1], -grep("SNR", names(Phae.hisnr))])
 
-exp_raven(Phae.hisnr[Phae.hisnr$sound.files == levels(Phae.hisnr$sound.files)[1], ], file.name = "Phae hisnr Raven format")
+str(sub)
+
+# extract recording name without ".wav" extension
+# save filtered autodetec output as a Raven selection file
+exp_raven(X = sub, file.name = paste(strsplit(unique(as.character(sub$sound.files)), split = ".w")[[1]][1], "hisnr", sep = "_"))
 
 ``` 
 
@@ -630,44 +625,59 @@ The function `run_raven` is particularly useful. It allows you to call _Raven_ f
 
 ```{r, eval=FALSE}
 
-# xeno-canto mp3 files must be remade into wav files with the correct atrributes to work in Raven 
-mp3 <- lapply(list.files(pattern = "mp3$"), readMP3)
+# xeno-canto wav files must be remade into wav files with the argument extensible = FALSE in order to work in Raven 
+wavs <- list.files(pattern = ".wav$")
 
-invisible(lapply(1:length(mp3), function(x){
-  writeWave(mp3[[x]], filename = paste(strsplit(list.files(pattern = "mp3$")[x], split = ".m")[[1]][1], ".wav", sep = ""), extensible = FALSE)
+invisible(lapply(1:length(wavs), function(x){
+  writeWave(readWave(wavs[[x]]), filename = wavs[[x]], extensible = FALSE)
 }))
 
 # the object sels will contain selections you made in the target recordings
-sels <- run_raven(raven.path = "~/opt/Raven-1.5.0.0035/", sound.files = c("Phaethornis-longirostris-154072.wav", "Phaethornis-longirostris-154070.wav"), at.the.time = 2, import = TRUE)
-sels
+# use arguments from imp.raven to return selection table in correct format for warbleR functions
+sels <- run_raven(raven.path = "~/opt/Raven-1.5.0.0035/", sound.files = c("Phaethornis-longirostris-154072.wav", "Phaethornis-longirostris-154070.wav"), at.the.time = 2, import = TRUE, all.data = FALSE, name.from.file = TRUE, ext.case = "lower", freq.cols = FALSE)
+str(sels)
 
-# set working directory back if necessary
+# write the imported selections as a .csv for later use
+write.csv(sels, "Raven_sels.csv", row.names = FALSE)
+
 ``` 
 
 
 ```{r, eval=TRUE, echo=FALSE}
 
-# write.csv(sels, "Raven_sels.csv", row.names = FALSE)
-
 # xeno-canto mp3 files must be remade into wav files with the correct atrributes to work in Raven 
-sels <- read.csv("./Raven_sels.csv", header = TRUE)
+sels <- read.csv("Raven_sels.csv", header = TRUE)
 
-sels
+str(sels)
 
 ``` 
 
 
 ###**Next vignette: Visual inspection and classification of signals**
 
-Here we have given examples of how to obtain recordings from the _xeno-canto_ open-access database, how to perform automated or manual signal selections in _warbleR_ and how to make selections in programs outside of _R_, namely _Raven_ and _Syrinx_. After running the code in this first vignette, you should now have an idea of:
+Here we have given examples of how to begin the `warbleR` workflow. Note that there are many different ways to begin the workflow, depending on your question and source of data. After running the code in this first vignette, you should now have an idea of:
 
-  * data used in _warbleR_ 
-  * how to obtain publicly accessible recordings
+  * the data used in _warbleR_ 
+  * how to obtain open-access _xeno-canto_ recordings
   * how to select signals for analysis in either:
     * recordings downloaded from _xeno-canto_ 
     * your own sound files
+  * how to use the `warbleR` interface with other bioacoustics programs, _Raven_ and _Syrinx_
 
 The next vignette will cover the second phase of the _warbleR_ workflow, which includes methods to visualize signals for quality control and classification. 
 
+
+<br>
+
+<font size="5"><a name="References">References</a></font> 
+
+1. Araya-Salas, M. and G. Smith-Vidaurre. 2016. warbleR: an R package to streamline analysis of animal
+acoustic signals. _Methods in Ecology and Evolution_. doi: 10.1111/2041-210X.12624
+
+2. Araya-Salas, M. and T. Wright. 2013. Open-ended song learning in a hummingbird. _Biology Letters_. 9 (5). doi: 10.1098/rsbl.2013.0625 
+
+3. Medina‐García, Angela, M. Araya‐Salas, and T. Wright. 2015. Does vocal learning accelerate acoustic diversification? Evolution of contact calls in Neotropical parrots. _Journal of Evolutionary Biology_. doi: 10.1111/jeb.12694
+
+<br>
 
 
