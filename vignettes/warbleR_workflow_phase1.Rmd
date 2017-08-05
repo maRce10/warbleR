@@ -62,7 +62,10 @@ getwd()
 
 ```{r, eval=TRUE, echo=FALSE, message=FALSE}
 
-# this sets my working directory
+# this sets my working directory if necessary
+# knitted output will be saved to a temp dir instead of warbleR local repo
+# setwd(tempdir())
+
 library(warbleR)
 library(knitr)
 
@@ -624,13 +627,6 @@ exp_raven(X = sub, file.name = paste(strsplit(unique(as.character(sub$sound.file
 The function `run_raven` is particularly useful. It allows you to call _Raven_ from _warbleR_ and import selections you make in _Raven_ directly back to _warbleR_ as a data frame.
 
 ```{r, eval=FALSE}
-
-# xeno-canto wav files must be remade into wav files with the argument extensible = FALSE in order to work in Raven 
-wavs <- list.files(pattern = ".wav$")
-
-invisible(lapply(1:length(wavs), function(x){
-  writeWave(readWave(wavs[[x]]), filename = wavs[[x]], extensible = FALSE)
-}))
 
 # the object sels will contain selections you made in the target recordings
 # use arguments from imp.raven to return selection table in correct format for warbleR functions
