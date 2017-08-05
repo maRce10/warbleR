@@ -11,7 +11,7 @@
 #' base.col = "black", bg.col = "white", cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
 #' flab = "Frequency (kHz)", title = NULL, axisX = TRUE, axisY = TRUE,
 #' flim = NULL, rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, f.mar = NULL,
-#' interactive = NULL) 
+#' interactive = NULL, add = FALSE) 
 #' @param wave A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram. Default 
 #'   is 512.
@@ -58,6 +58,8 @@
 #' @param interactive Numeric. Allow user to interactively select the signals to be highlighted by cliking 
 #' on the graphic device. Users must select the opposite corners of a square delimiting the spectrogram region
 #' to be highlighted. Controls the number of signals that users would be able to select (2 clicks per signal).   
+#' @param add Logical. If \code{TRUE} new highlighting can be applied to the current plot (which means
+#'  that the function with \code{add = FALSE} should be run first). Default is \code{FALSE}.
 #' @return A plot is produced in the graphic device.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
@@ -102,7 +104,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
                           base.col = "black", bg.col = "white", cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
                           flab = "Frequency (kHz)", title = NULL, axisX = TRUE, axisY = TRUE, 
                           flim = NULL, rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, f.mar = NULL,
-                          interactive = NULL) 
+                          interactive = NULL, add = FALSE) 
 {
   
   # error if dB wrong
@@ -204,11 +206,11 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   if(!fast.spec)
   {   # seewave spectro 
     #plot background spectro
-    
+    if(!add)
     filled.contour.color.INTFUN(x = X, y = Y, z = Z, levels = collevels, 
                        nlevels = 20, plot.title = title(main = title, 
                                                         xlab = tlab, ylab = flab), color.palette = basepal, 
-                       axisX = FALSE, axisY = axisY, col.lab = "black", 
+                       axisX = axisX, axisY = axisY, col.lab = "black", 
                        colaxis = "black")
     
     if(!is.null(interactive))
@@ -233,6 +235,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
       )
   } else {  #fast spectro image
     #plot background spectro
+    if(!add)
     image(x = X, y = Y, z = Z, col = basepal(length(collevels) - 1), xlab = tlab, ylab = flab, axes = FALSE)
     
     if(!is.null(interactive))

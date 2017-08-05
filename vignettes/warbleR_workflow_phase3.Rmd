@@ -23,6 +23,7 @@ Nearly all `warbleR` functions contain options for parallel processing, which ca
 
 This vignette can be run without an advanced understanding of R, as long as you know how to run code in your R console. However, knowing more about basic R coding would be very helpful to modify the code for your research questions.
 
+
 ```{r, eval=FALSE}
 
 library(warbleR)
@@ -56,7 +57,7 @@ The function `frange.detec` can also help you figure out the frequency range in 
 Although we have been using _Phaethornis longirostris_ vocalizations throughout these vignettes, these signals are harmonically structured. The functions for detecting frequency ranges, `frange` and `frange.detec` work best on tonal signals, so for this example we will use Great Tinamou ( _Tinamus major_) songs. We will download a tinamou recording from _xeno-canto_, make selections and visualize/detect frequency ranges.
 
 
-```{r, eval=FALSE}
+```{r, eval = TRUE}
 
 tin <- querxc(qword = 'Tinamus', download = FALSE)
 
@@ -66,11 +67,10 @@ tin <- tin[tin$Recordist == "Marcelo Araya-Salas", ]
 # download this recording
 querxc(X = tin, download = TRUE)
 mp32wav()
+```
 
-# convert wav format for Raven
-writeWave(readWave("Tinamus-major-154191.wav"), extensible = FALSE, filename = "Tinamus-major-154191.wav")
-
-# use Raven to make selections
+Use Raven to make selections
+```{r, eval=F}
 # make sure to include arguments from imp.raven to ensure selection table is imported with the correct columns for downstream functions
 Tin.sels <- run_raven(raven.path = "/home/gsvidaurre/opt/Raven-1.5.0.0035/", sound.files = "Tinamus-major-154191.wav", import = TRUE, all.data = FALSE, name.from.file = TRUE, ext.case = "lower", freq.cols = FALSE)
 str(Tin.sels)

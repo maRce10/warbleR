@@ -9,7 +9,7 @@ dB = "max0", collevels = NULL, selec.col = "red2", col.clm = NULL,
 base.col = "black", bg.col = "white", cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
 flab = "Frequency (kHz)", title = NULL, axisX = TRUE, axisY = TRUE,
 flim = NULL, rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, f.mar = NULL,
-interactive = NULL)
+interactive = NULL, add = FALSE)
 }
 \arguments{
 \item{wave}{A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.}
@@ -81,6 +81,9 @@ decreasing darkness levels. THIS IS STILL BEING TESTED.}
 \item{interactive}{Numeric. Allow user to interactively select the signals to be highlighted by cliking 
 on the graphic device. Users must select the opposite corners of a square delimiting the spectrogram region
 to be highlighted. Controls the number of signals that users would be able to select (2 clicks per signal).}
+
+\item{add}{Logical. If \code{TRUE} new highlighting can be applied to the current plot (which means
+that the function with \code{add = FALSE} should be run first). Default is \code{FALSE}.}
 }
 \value{
 A plot is produced in the graphic device.

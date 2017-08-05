@@ -95,9 +95,9 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, norm
   
   
 if(!is.null(normalize))  
- suppressWarnings(a<-lapp(files, function(x) tuneR::writeWave(object = tuneR::normalize(tuneR::downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate * 1000), unit = normalize), filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))) else
+ suppressWarnings(a<-lapp(files, function(x) tuneR::writeWave(extensible = FALSE, object = tuneR::normalize(tuneR::downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate * 1000), unit = normalize), filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))) else
   suppressWarnings( 
-    a<-lapp(files, function(x) tuneR::writeWave(object = tuneR::readMP3(filename =  x), filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))
+    a<-lapp(files, function(x) tuneR::writeWave(extensible = FALSE, object = tuneR::readMP3(filename =  x), filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))
     ) 
   
      }

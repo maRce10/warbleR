@@ -91,16 +91,14 @@ data frame similar to X with the and a .csv file saved in the working directory 
 which the start/end times and frequency range of acoustic signals listed in a data frame can be adjusted.
 }
 \details{
-This function produces an interactive spectrographic view (similar to \code{\link{manualoc}}) 
-in which users can select a new start and end of a vocalization unit (e.g. elements)
- by clicking at the end and at the start of the signal (in any order). In addition, 3
-  "buttons" are provided at the upper right side of the spectrogram that
+This function produces an interactive spectrographic
+ view in which users can select new time/frequency 
+ coordinates the selections. 4 "buttons" are provided at the upper right side of the spectrogram that
   allow to stop the analysis ("stop"), go to the next sound file ("next"), return to the 
   previous selection ("previous") or delete 
   the current selection ("delete"). When a unit has been selected, the function plots 
   dotted lines in the start and end of the selection in the spectrogram (or a box if 
-  \code{frange = TRUE}). The lines/polygon
-   "disappear" when a new selections is made. Only the last selection is kept for each
+  \code{frange = TRUE}). Only the last selection is kept for each
    selection that is adjusted. The function produces a .csv file (seltailor_output.csv) 
    with the same information than the input data frame, except for the new time 
    coordinates, plus a new column (X$tailored) indicating if the selection 
@@ -108,11 +106,10 @@ in which users can select a new start and end of a vocalization unit (e.g. eleme
    moves into the next sound file (next sel "button") or stop the process 
  (Stop "button"). It also return the same data frame as and object in the R environment.
    If no selection is made (by clicking on the 'next' button) the 
- original time coordinates are kept. When resuming the process (after "stop" and re-running 
+ original time/frequency coordinates are kept. When resuming the process (after "stop" and re-running 
  the function in the same working directory), the function will continue working on the
- selections that have not been analyzed. To be able to redo selections set the "next.sel" 
- argument to \code{FALSE}. The function also displays a progress bar right on
- top of the sepctrogram. The progress bar is reset every time the process is resumed.
+ selections that have not been analyzed. The function also displays a progress bar right on
+ top of the sepctrogram.
   The zoom can be adjusted by setting the \code{mar} argument.
 }
 \examples{
