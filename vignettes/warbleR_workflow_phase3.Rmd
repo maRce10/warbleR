@@ -15,7 +15,7 @@ vignette: >
 <center> `r Sys.Date()` </center>
 <br>
 
-The [`warbleR`](https://cran.r-project.org/package=warbleR) workflow ends with performing automated measurements of acoustic parameters, analyzing acoustic (dis)similarity of selected signals, and analysis of coordinated singing bouts. For more details about function arguments, input or output, please read the documentation for the function in question (e.g. `?xcorr`). `warbleR` is available on both [`CRAN`](https://cran.r-project.org/package=warbleR) and [`GitHub`](https://github.com/maRce10/warbleR). The GitHub repository will always contain the latest functions and updates. We also published an article on `warbleR` documenting the package workflow <a href='#References'><sup>[1]</sup></a>.
+The [`warbleR`](https://cran.r-project.org/package=warbleR) workflow ends with performing automated measurements of meters, analyzing acoustic (dis)similarity of selected signals, and analysis of coordinated singing bouts. For more details about function arguments, input or output, please read the documentation for the function in question (e.g. `?xcorr`). `warbleR` is available on both [`CRAN`](https://cran.r-project.org/package=warbleR) and [`GitHub`](https://github.com/maRce10/warbleR). The GitHub repository will always contain the latest functions and updates. We also published an article on `warbleR` documenting the package workflow <a href='#References'><sup>[1]</sup></a>.
 
 Please note that most tools in `warbleR` use functions from the [`seewave`](https://cran.r-project.org/package=seewave), [`monitoR`](https://cran.r-project.org/package=monitoR), [`tuneR`](https://cran.r-project.org/package=tuneR) and [`dtw`](https://cran.r-project.org/package=dtw]) packages internally. `warbleR` has been designed to make the analyses more accessible to average R-users. However, acoustic analysis with `warbleR` would not be possible without the tools provided by these additional packages. These packages should be given credit when using `warbleR` by including the appropriate citations in publications (e.g. `citation("seewave")`).
 
@@ -41,7 +41,10 @@ getwd()
 
 ```{r, eval=TRUE, echo=FALSE, message=FALSE}
 
-# this sets my working directory
+# this sets my working directory if necessary
+# knitted output will be saved to a temp dir instead of warbleR local repo
+# setwd(tempdir())
+
 library(warbleR)
 library(knitr)
 
@@ -67,15 +70,17 @@ tin <- tin[tin$Recordist == "Marcelo Araya-Salas", ]
 querxc(X = tin, download = TRUE)
 mp32wav()
 
-# convert wav format for Raven
-writeWave(readWave("Tinamus-major-154191.wav"), extensible = FALSE, filename = "Tinamus-major-154191.wav")
+```
 
-# use Raven to make selections
-# make sure to include arguments from imp.raven to ensure selection table is imported with the correct columns for downstream functions
+Now use _Raven_ to make selections. Make sure to include arguments from imp.raven to ensure selection table is imported with the correct columns for downstream functions
+
+```{r, eval=FALSE}
+
 Tin.sels <- run_raven(raven.path = "/home/gsvidaurre/opt/Raven-1.5.0.0035/", sound.files = "Tinamus-major-154191.wav", import = TRUE, all.data = FALSE, name.from.file = TRUE, ext.case = "lower", freq.cols = FALSE)
 str(Tin.sels)
 
-# you can read the .csv file back in at any time
+# write selections as a physical file you you can read them back in at any time
+# good way to save all your work
 write.csv(Tin.sels, "Tinamus-major-154191_sels.csv", row.names = FALSE)
 
 # generate individual cuts for freqeuency range measurements below
@@ -83,24 +88,34 @@ cut_sels(Tin.sels, mar = 0.05, labels = c("sound.files", "selec"))
 
 ```
 
+```{r, eval=TRUE, echo=FALSE}
+
+# Tin.sels <- read.csv("Tinamus-major-154191_sels.csv", header = TRUE)
+
+```
+
 _Raven_ selection tables can return low and high frequencies in your selections (e.g. if `all.data` or `freq.cols` in `run_raven` or `imp.raven` is TRUE), but the accuracy of these frequency selections depends on how the signals themselves were selected. Below we demonstrate how to visualize and detect the frequency range in your selected signals using the new functions `frange.detec` and `frange`, which have options for setting bandpass filters to exclude background noise or other non-target acoustic signals. 
 
 `frange.detec` creates a plot that will print to your graphics device, and also outputs a data frame per recording with the frequency range. This data frame can be used in subsequent analyses if saved as an object. `frange.detect` works best with single signals.
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 
 # note that changing the threshold argument in combination with the bandpass argument can improve the detection
 frange.detec(readWave("Tinamus-major-154191-6.wav"), flim = c(0, 2.5), bp = c(0, 3), threshold = 15)
 
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 
 # here, giving a strict bandpass with very low threshold improves frange detection
 # since the curving end of the tinamou signal is lower amplitude than the rest of the signal
 frange.detec(readWave("Tinamus-major-154191-6.wav"), flim = c(0, 2.5), bp = c(0, 3), threshold = 1)
 
 ```
+
+<center> ![Frange low bandpass example](Tinamus-major-154191.wav-6-frange.jpeg)</center>
+<br>
+
 
 The function `frange` allows you to simultaneously return the frequency ranges for all signals in a selection table, including the graphical output as `frange.detec`. In addition to image files, this function returns the original selection table, as a data frame with the newly calculated low and high frequency measurements. 
 
@@ -114,7 +129,7 @@ str(fr)
 
 ## Extract spectral entropy as a time series 
 
-Spectral entropy can be calculated as time series in selected signals and plotted onto image files. Previously, spectral entropy was only available as a sole measurement across a selection, as an acoustic parameter measured by `specan`.
+Spectral entropy can be calculated as time series in selected signals and plotted onto image files. Previously, spectral entropy was only available as a sole measurement across a selection, as an meter measured by `specan`.
 
 ```{r, eval=FALSE}
 
@@ -188,9 +203,9 @@ We will move on to explaining each of the acoustic (dis)similarity methods in tu
 
 ### Visualizing frequency parameters with`trackfreqs`
 
-Prior to measuring acoustic parameters, it's good practice to visualize the accuracy of some important parameters. The function `trackfreqs` allows you to create spectrograms with dominant frequency and fundamental frequency measurements plotted on top of each selected signal. 
+Prior to measuring meters, it's good practice to visualize the accuracy of some important parameters. The function `trackfreqs` allows you to create spectrograms with dominant frequency and fundamental frequency measurements plotted on top of each selected signal. 
 
-Use `trackfreqs` on all the recordings for which you want to measure acoustic parameters. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.
+Use `trackfreqs` on all the recordings for which you want to measure meters. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.
 
 Running `trackfreqs` can allow you to decide which frequency parameters to use in subsequent analyses, namely `specan` and dynamic time warping methods. Also, ff the frequency measurements look acceptable with the bandpass setting used in `trackfreqs`, use that same bandpass while running `specan`.
 
@@ -210,32 +225,34 @@ trackfreqs(Phae.hisnrt, wl = 300, flim = c(1, 10), bp = c(2, 12), col = c("purpl
 
 Note that the fundamental frequency measurements are not always very accurate. We will remove fundamental frequency measurements from subsequent analyses.
 
-### Measuring acoustic parameters with `specan`
+### Measuring meters with `specan`
 
-We can now perform acoustic measurements with the function `specan`. This function relies on the temporal coordinates in selection tables to measure 29 acoustic parameters acoustic parameters across selections. `specan` is a batch process that is faster than calculating measurements manually, e.g. one selection and recording at a time. `specan` uses and customizes several functions available in the [`seewave package`](https://cran.r-project.org/package=seewave). 
+We can now perform acoustic measurements with the function `specan`. This function relies on the temporal coordinates in selection tables to measure 29 meters meters across selections. `specan` is a batch process that is faster than calculating measurements manually, e.g. one selection and recording at a time. `specan` uses and customizes several functions available in the [`seewave package`](https://cran.r-project.org/package=seewave). 
 
 Use the bandpass filter to your advantage here, to filter out low or high background noise before performing measurements. Also note that changing the amplitude threshold will change the amplitude at which noises (including non-target signals) are detected for measurements.
+
+```{r, eval=TRUE, echo=FALSE}
+
+Phae.hisnrt <- read.csv("seltailor_output.csv")
+params <- read.csv("acoustic_parameters.csv")
+
+```
 
 ```{r, eval=FALSE}
 
 params <- specan(Phae.hisnrt, bp = c(2, 10), threshold = 15)
+
+```
+
+```{r, eval=FALSE}
 
 # As always, it's a good idea to write .csv files to your working directory
 write.csv(params, "acoustic_parameters.csv", row.names = FALSE)
 
 ```
 
-```{r, eval=TRUE, echo=FALSE}
-
-params <- read.csv("acoustic_parameters.csv")
-
-str(params)
-
-```
-
-
 Make sure to remove parameters derived from fundamental frequency (based on `trackfreqs` results).
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 
 params <- params[, grep("fun|peakf", colnames(params), invert = TRUE)]
 
@@ -315,7 +332,7 @@ In this image, red values in the upper triangle indicate high peak correlations 
 
 -----
 
-We can evaluate whether or not the observed variation in song structure is reflected by the acoustic parameters we just measured. For this we will conduct a Principal Component Analysis on scaled (z-transformed) acoustic parameters and look at the grouping of songs (data points) in the scatter plot.
+We can evaluate whether or not the observed variation in song structure is reflected by the meters we just measured. For this we will conduct a Principal Component Analysis on scaled (z-transformed) meters and look at the grouping of songs (data points) in the scatter plot.
 
 ```{r, eval=TRUE, dpi=220}
 
@@ -378,7 +395,7 @@ text(x, y, unique(songtype), cex = 1)
 
 ```
 
-Songs of the same song type are more similar (they cluster together). This PCA confirms that the visually obvious differences in the song structures are well described by the acoustic parameters measured in [`warbleR`](https://cran.r-project.org/package=warbleR). Likewise, it also confirms that we can detect biologically relevant differences from sound files that have undergone _mp3_ compression and conversion back to _wav_ format (see also <a href='#References'> <sup>[2]</sup></a>). 
+Songs of the same song type are more similar (they cluster together). This PCA confirms that the visually obvious differences in the song structures are well described by the meters measured in [`warbleR`](https://cran.r-project.org/package=warbleR). Likewise, it also confirms that we can detect biologically relevant differences from sound files that have undergone _mp3_ compression and conversion back to _wav_ format (see also <a href='#References'> <sup>[2]</sup></a>). Importantly, if this analysis were for publication we would have to run other filtering steps on the acoustic parameters generated by `specan`, including removing any collinear variables. 
 
 ## Coordinated singing analysis 
 
@@ -420,13 +437,15 @@ This concludes the `warbleR` vignette series. After running the code in this thi
   * measure spectral entropy in different signals 
   * compare and choose methods for acoustic (dis)similarity analysis
   * use different methods for acoustic (dis)similarity analysis
-    * `specan`- 29 acoustic parameters 
+    * `specan`- 29 meters 
     * `dfDTW`and `ffDTW` - dynamic time warping
     * `xcorr`- spectrographic cross-corrrelation
   * carry out steps for an analysis of geographic variation in vocalizations
   * use functions for coordinated singing analysis
 
-In these vignettes we have done our best to demonstrate how the `warbleR` functions can be used in a streamlined workflow for flexible and rigorous bioacoustics analysis. In keeping with the nature of writing code, we have attempted to make our code (in particular the code used between functions) as general as possible. In keeping with the open-source nature of R, we welcome all users to provide feedback, updates to functions, comments about bugs or contribute new functions to [`warbleR's GitHub repository`](https://github.com/maRce10/warbleR).
+In these vignettes we have done our best to demonstrate how the `warbleR` functions can be used in a streamlined workflow for flexible and rigorous bioacoustics analysis. The output of `warbleR` functions can be used in other packages for statistical analyses, such as machine learning functions that can be applied to bioacoustics. 
+
+In keeping with the nature of writing code, we have attempted to make our code (in particular the code used between functions) as general as possible. In keeping with the open-source nature of R, we welcome all users to provide feedback, updates to functions, comments about bugs or contribute new functions to [`warbleR's GitHub repository`](https://github.com/maRce10/warbleR).
 
 <font size="5"><a name="References">References</a></font> 
 
