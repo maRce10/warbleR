@@ -243,7 +243,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if(length(tag.pal) == 2 & !is.null(group.tag)) tag.pal[[3]] <- tag.pal[[2]]
   
   if(!is.null(max.group.cols) & length(tag.pal) == 3) {fc <- tag.pal[[3]](max.group.cols)
-  tag.pal[[3]] <- function(n) rep(fc, ceiling(10/3))[1:n]}
+  tag.pal[[3]] <- function(n) rep(fc, ceiling(n/max.group.cols))[1:n]}
   
   if(length(breaks) == 1) breaks[2] <- breaks[1]
   
@@ -420,7 +420,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     
     if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
     {
-      X$col1 <- rev(tag.pal[[1]](breaks[1])[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))])
+      X$col1 <- rev(tag.pal[[1]](breaks[1]))[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))]
       X$col.numeric1 <- cut(X[, tags[1]],breaks = breaks[1])
     }  else {
       X$col1 <- as.factor(X$col1)
@@ -441,7 +441,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       X$col2 <- X[,tags[2]] 
       if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
       {
-        X$col2 <- rev(tag.pal[[2]](breaks[2])[as.numeric(cut(X[, tags[2]],breaks = breaks[2]))])
+        X$col2 <- rev(tag.pal[[2]](breaks[2]))[as.numeric(cut(X[, tags[2]],breaks = breaks[2]))]
         X$col.numeric2 <- cut(X[, tags[2]],breaks = breaks[2])
       }  else {  
         X$col2 <- as.factor(X$col2)

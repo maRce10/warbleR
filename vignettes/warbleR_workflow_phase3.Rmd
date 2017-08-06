@@ -434,3 +434,10 @@ In these vignettes we have done our best to demonstrate how the `warbleR` functi
 acoustic signals. _Methods in Ecology and Evolution_. doi: 10.1111/2041-210X.12624
 
 <br>
+
+
+```{r, eval= T, echo=F}
+unlink("Tinamus-major-154191.mp3")
+unlink("Tinamus-major-154191.wav")
+```
+
