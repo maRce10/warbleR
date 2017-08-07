@@ -184,7 +184,7 @@ lspec2pdf(keep.img = FALSE, overwrite = TRUE)
 
 The image file (in the working directory) should look like this:
 
-<center> ![lspec image example with selections](Phaethornis-longirostris-154072-p1.jpeg)</center>
+<center> ![lspec image example with selections](Phaethornis-longirostris-154072-p1.jpg)</center>
 <br>
 
 ### Highlight spectrogram regions with `color.spectro`
