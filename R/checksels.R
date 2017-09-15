@@ -91,8 +91,19 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
         if(check.header)  
         {
           recfull <- try(suppressWarnings(tuneR::readWave(as.character(x), header = FALSE)), silent = TRUE)
-          if(any(rec$sample.rate != recfull@samp.rate, !all.equal(rec$channels == 2, 
-            recfull@stereo), rec$bits != recfull@bit, rec$samples != length(recfull@left)))
+          if(any(methods::slotNames(recfull) == "stereo")) 
+          {
+            if(rec$channels == 2) channel.check <- ifelse(recfull@stereo, FALSE, TRUE) else
+              channel.check <- ifelse(!recfull@stereo, FALSE, TRUE)
+            
+            samples.check <- ifelse(rec$samples == length(recfull@left), FALSE, TRUE) 
+          } else {
+            channel.check <- FALSE
+            samples.check <- ifelse(rec$samples == length(recfull@.Data), FALSE, TRUE)
+          }
+          
+            
+          if(any(rec$sample.rate != recfull@samp.rate, rec$bits != recfull@bit, channel.check, samples.check))
           {
           Y$check.res <- "file header corrupted"
           Y$duration <- NA

@@ -1,8 +1,8 @@
 #' Open sound files in Raven sound analysis software 
 #' 
 #' \code{run_raven} opens several sound files in Raven sound analysis software
-#' @usage run_raven(raven.path = NULL, sound.files = NULL, path = NULL, at.the.time = 5,
-#' import = FALSE, ...)  
+#' @usage run_raven(raven.path = NULL, sound.files = NULL, path = NULL, at.the.time = 10,
+#' import = FALSE, redo = FALSE, ...)  
 #' @param raven.path A character string indicating the path of the directory in which to look for the raven executable file (where Raven was installed). 
 #' @param sound.files character vector indicating the files that will be analyzed. If  \code{NULL} (default) then Raven will be run without opening any file.
 #' @param path A character string indicating the path of the directory in which to look for
@@ -11,11 +11,13 @@
 #' @param at.the.time Numeric vector of length 1 controling how many files will be open in
 #'  Raven at the same time. Note that opening too many files at once could make Raven run out
 #'  of memory. You need to close Raven every time the batch of files is analyzed, so the next
-#'  batch is opened.
+#'  batch is opened. Default is 10.
 #' @param import Logical. Controls if the selection tables generated should be returned as a 
 #' data frame into the R environment. This only works if the selections are saved in the 
 #' "Selections" folder in the Raven directory. This argument calls the \code{\link{imp.raven}}
 #' internally. Additional arguments can be passed to \code{\link{imp.raven}} to control the way the data is imported.
+#' @param redo Logical. Controls whether only the subset of files with no Raven selections (.txt file) in the Raven 'selections' folder
+#' are analyzed. Useful when resuming the analysis. Default is \code{FALSE}.
 #' @param ... Additional arguments to be passed to \code{\link{imp.raven}} for customizing
 #' how selections are imported (ignored if \code{import = FALSE}).
 #' @return If \code{import = TRUE} a data frame with the selections produced during the analysis will be return as an data frame. See \code{\link{imp.raven}} for more details on how selections are imported.
@@ -52,8 +54,8 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-30-2017 (MAS)
 
-run_raven <- function(raven.path = NULL, sound.files = NULL, path = NULL, at.the.time = 5,
-                      import = FALSE, ...)
+run_raven <- function(raven.path = NULL, sound.files = NULL, path = NULL, at.the.time = 10,
+                      import = FALSE, redo = FALSE, ...)
   {
   
   wd <- getwd()
@@ -95,6 +97,22 @@ if(is.null(sound.files))
   # remove sound files not found
   if(length(sound.files) != length(sf)) 
    cat(paste(length(sf) - length(sound.files), ".wav file(s) not found"))
+  
+  
+  if(!redo) {
+    # get names of files from selections
+    sls <- NULL
+    try(sls <- imp.raven(path = file.path(raven.path, "Selections"), all.data = TRUE), silent = TRUE)
+    
+    # remove those that have a selection table
+    if(!is.null(sls))
+    sound.files <- sound.files[!gsub("\\.wav", "", basename(sound.files), ignore.case = TRUE) %in% sapply(strsplit(unique(sls[,names(sls) == "selec.file"]), ".Table"), "[", 1)]
+  
+    if(length(sound.files) == 0) 
+    {
+      cat("All sound files have a selection table in Raven's selection folder")
+      stop("")}
+    }
    
     # check if sound file names contains directory and fix
     if(basename(sound.files[1]) == sound.files[1])
@@ -129,9 +147,6 @@ if(is.null(sound.files))
     sels <- imp.raven(path = file.path(raven.path, "Selections"), ...)
     
     # extract recording names from selec.file column
-    # rec.nms <- paste(sapply(1:nrow(sels), function(x){
-    #   strsplit(sels$selec.file, split = ".Table")[[x]][1]
-    # }), ".wav", sep = "")
     rec.nms <- sapply(1:nrow(sels), function(x){
       strsplit(sels$selec.file, split = ".Table")[[x]][1]
     })

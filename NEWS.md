@@ -5,7 +5,7 @@
 
 ## Changes and additions:
 
-# Split vignette into a series of three with new functions as of 04 August 2017
+* Split vignette into a series of three with new functions added to the workflow
 * New arguments "title", "by.row", "prop.mar", "box" and "rm.axes" in "catalog" function to further customize catalog setup
 * New arguments "spec.mar", "lab.mar" and "group.tag" in "catalog" function to color groups of selections
 * "trackfreqs", "dfts", and "dfDTW"  functions can use "frange.detec" internally to set bandpass limits (see "frange.detec" argument)
@@ -14,6 +14,7 @@
 * New measurement "meanpeakf" in specan
 * "imp.raven" and "imp.syrinx" now import low and high frequency in kHz (if all.data == FALSE)
 * Mew argument "bp" (bandpass) and "wl" in "sig2noise" function to calculate signal-to-noise ratio within a frequency range
+
 ## New functions:
 
 * frange.detec: detects the frequency range of signals in wave objects
@@ -23,6 +24,10 @@
 * cut_sels: generates individual sound files (.wav) for each selection in a selection table
 * color_spectro: produces spectrograms in which signals are highlighted with colors
 * exp.raven: exports selection tables to a .txt file that can be opened in Raven
+
+## Bug fixes:
+
+* Reading wave files with no stereo slot in "specan" and "checksels"
 
 ===============================================================================================
 

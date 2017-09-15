@@ -8,6 +8,6 @@
    packageStartupMessage("\nNOTE: install ggplot2 to run coor.graph()")
 }
 
-.onLoad <- function(libname, pkgname) {
-if(!Sys.info()[1] == "Windows" & !requireNamespace("pbmcapply",quietly = TRUE)) install.packages("pbmcapply", repos = "http://cran.us.r-project.org")
-  }
+# .onLoad <- function(libname, pkgname) {
+# if(!Sys.info()[1] == "Windows" & !requireNamespace("pbmcapply",quietly = TRUE)) install.packages("pbmcapply", repos = "http://cran.us.r-project.org")
+#   }

@@ -10,7 +10,8 @@ spectro.INTFUN <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0,
           alab = "Amplitude", scalelab = "Amplitude\n(dB)", main = NULL, 
           scalefontlab = 1, scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, 
           tlim = NULL, trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 
-                                                                          1), heights = c(3, 1), oma = rep(0, 4),
+                                                                          1), 
+          heights = c(3, 1), oma = rep(0, 4), rnd = NULL, rm.lwst = FALSE,
           ...) 
 {
  
@@ -62,6 +63,7 @@ spectro.INTFUN <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0,
     X <- seq(0, n/f, length.out = length(step))
   }
   xat <- xlabel <- pretty(X)
+  if(!is.null(rnd)) xlabel <- round(xlabel, rnd)
   if (is.null(flim)) {
     Y <- seq(0, (f/2) - (f/(wl + zp)), by = f/(wl + zp))/1000
   } else {
@@ -71,7 +73,8 @@ spectro.INTFUN <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0,
     Y <- seq(flim[1], flim[2], length.out = nrow(z))
   }
   yat <- ylabel <- pretty(Y)
-  if (flog) {
+if(rm.lwst) ylabel[1] <- ""
+    if (flog) {
     Y <- log(Y + 1)
     yat <- log(yat + 1)
   }

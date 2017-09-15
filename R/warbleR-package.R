@@ -134,6 +134,7 @@
 #' @import bitops
 #' @import jpeg
 #' @importFrom doParallel registerDoParallel
+#' @importFrom methods slotNames
 #' @importFrom dtw dtwDist
 #' @importFrom stats cor dist aggregate approx ave princomp time ts predict smooth.spline complete.cases 
 #' 

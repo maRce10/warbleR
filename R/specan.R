@@ -198,7 +198,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   
   #create function to run within Xapply functions downstream
   spFUN <- function(i, X, bp, wl, threshold) { 
-    r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds") 
+    r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds", toWaveMC = TRUE) 
     
     if(bp[1] == "frange") b <- c(X$low.freq[i], X$high.freq[i]) else b <- bp
 
@@ -255,13 +255,10 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     if(ff.method == "seewave")
     ff <- seewave::fund(r, f = r@samp.rate, ovlp = ovlp, threshold = threshold, 
                         fmax = b[2] * 1000, plot = FALSE)[, 2] else {
-                          if(!r@stereo)
-                            ff <- tuneR::FF(tuneR::periodogram(r, width = wl, 
-                                                               overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
-                          else
-                            ff <- tuneR::FF(tuneR::periodogram(mono(r, "left"), width = wl, 
-                                                               overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
-                        }
+                        if(!any(methods::slotNames(r) == "stereo")) r <- Wave(r) 
+      ff <- tuneR::FF(tuneR::periodogram(mono(r, "left"), width = wl, 
+        overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
+                                     }
     
   ff <- ff[!is.na(ff)]
     
