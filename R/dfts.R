@@ -22,9 +22,11 @@
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. 
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz). Default is c(0, 22).
-#' @param threshold amplitude threshold (\%) for dominant frequency detection. Default is 15.
+#' @param threshold amplitude threshold (\%) for dominant frequency detection. Default is 15. Note that amplitude 
+#' threshold for time and frequency domains can be defined independently. See "threshold.time" and "threshold.freq" 
+#' arguments. 
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
-#' @param threshold.time amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.
+#' @param threshold.time amplitude threshold (\%) for the time domain. Use for dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.
 #' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
 #'  'threshold' value is used.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -54,7 +56,7 @@
 #' input data frame showing the location of the dominant frequencies 
 #' (see \code{\link{trackfreqs}} description for more details).
 #' @family spectrogram creators
-#' @seealso \code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
+#' @seealso \code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{sp.en.ts}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 #' @export
 #' @name dfts
 #' @details This function extracts the dominant frequency values as a time series. 
@@ -287,6 +289,8 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
-                 return(df)
+            
+    df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)
+         return(df)
 
     }

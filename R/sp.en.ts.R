@@ -159,8 +159,8 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   {message("parallel computing not availabe in Windows OS for this function")
     parallel <- 1}
 
- if(parallel == 1 & pb) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
-    message("Measuring dominant frequency:")}  
+ if(pb) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
+    message("Measuring spectral entropy:")}  
   
   sp.en.tsFUN <- function(X, i, bp, wl, threshold, sp.en.range){
     
@@ -265,7 +265,8 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   
   
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
-    colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
-                 return(df)
+    colnames(df)[3:ncol(df)]<-paste("sp.en",1:(ncol(df)-2),sep = "-")
+    df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)   
+              return(df)
 
     }

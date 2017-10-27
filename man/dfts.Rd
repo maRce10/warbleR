@@ -33,9 +33,11 @@ consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz). Default is c(0, 22).}
 
-\item{threshold}{amplitude threshold (\%) for dominant frequency detection. Default is 15.}
+\item{threshold}{amplitude threshold (\%) for dominant frequency detection. Default is 15. Note that amplitude 
+threshold for time and frequency domains can be defined independently. See "threshold.time" and "threshold.freq" 
+arguments.}
 
-\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
+\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
 
 \item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
 'threshold' value is used.}
@@ -111,7 +113,7 @@ dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
-\code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
+\code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{sp.en.ts}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 
 Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{dfDTW}}, \code{\link{ffDTW}},

@@ -161,6 +161,7 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     if(ff.method == "seewave")
       ffreq1 <- seewave::fund(r, fmax= b[2], f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) else
       {
+        if(any(slotNames(r) == "stereo")) if(r@stereo) r <- mono(r, which = "both")
         suppressWarnings(ff1 <- tuneR::FF(tuneR::periodogram(r, width = wl, overlap = wl*ovlp / 100), peakheight = (100 - threshold) / 100)/1000)
         ff2 <- seq(0, X$end[i] - X$start[i], length.out = length(ff1))
         
@@ -266,6 +267,7 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
   colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
-  return(df)
+  df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)
+   return(df)
   
 }

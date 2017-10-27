@@ -45,6 +45,9 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
   }
   n <- nrow(wave)
   step <- seq(1, n - wl, wl - (ovlp * wl/100))
+  
+  # to fix function name change in after version 2.0.5
+  if(exists("stdft")) stft <- seewave::stdft()
   z <- stft(wave = wave, f = f, wl = wl, zp = zp, step = step, 
             wn = wn, fftw = fftw, scale = norm, complex = complex)
   if (!is.null(tlim) && trel) {

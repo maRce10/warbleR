@@ -2,11 +2,11 @@
 #' 
 #' \code{dfDTW} calculates acoustic dissimilarity of dominant frequency contours using dynamic
 #' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
-#' @usage dfDTW(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+#' @usage dfDTW(X = NULL, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
 #' bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, img = TRUE, 
-#'   parallel = 1, path = NULL, img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, 
-#'   window.type = "none", open.end = FALSE, scale = FALSE, frange.detec = FALSE,
-#'   fsmooth = 0.1, ...)
+#' parallel = 1, path = NULL, ts.df = NULL, img.suffix = "dfDTW", pb = TRUE, 
+#' clip.edges = TRUE, window.type = "none", open.end = FALSE, scale = FALSE, 
+#' frange.detec = FALSE,  fsmooth = 0.1, ...)
 #' @param  X Data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -32,6 +32,7 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not availble in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param ts.df Optional. Data frame with time series of signals to be compared. If provided "X" is ignored.  
 #' @param img.suffix A character vector of length 1 with a suffix (label) to add at the end of the names of 
 #' image files. Default is \code{NULL}.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
@@ -86,15 +87,19 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on nov-31-2016 (MAS)
 
-dfDTW <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+dfDTW <-  function(X = NULL, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
            bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
-           img = TRUE, parallel = 1, path = NULL, 
+           img = TRUE, parallel = 1, path = NULL, ts.df = NULL,
            img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, 
            window.type = "none", open.end = FALSE, scale = FALSE, frange.detec = FALSE,
            fsmooth = 0.1, ...){     
  
+  
+  if(is.null(X) & is.null(ts.df)) stop("either 'X' or 'ts.df' should be provided")
+
+  
   #stop if only 1 selection
-  if(nrow(X) == 1) stop("you need more than one selection for dfDTW")
+  if(is.null(ts.df)) {if(nrow(X) == 1) stop("you need more than one selection for dfDTW")
   
   # threshold adjustment
   if(is.null(threshold.time)) threshold.time <- threshold
@@ -105,7 +110,15 @@ dfDTW <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", 
               bp = bp, threshold.time = threshold.time, threshold.freq = threshold.freq, 
               img = img, parallel = parallel,
               path = path, img.suffix = img.suffix, pb = pb, clip.edges = clip.edges, fsmooth = fsmooth, frange.detec = frange.detec, ...)
+  } else {
+    
+    if(!all(c("sound.files", "selec") %in% names(ts.df))) 
+      stop(paste(paste(c("sound.files", "selec")[!(c("sound.files", "selec") %in% names(ts.df))], collapse=", "), "column(s) not found in ts.df"))
+    
+    res <- ts.df
+  }
   
+
   
     #matrix of dom freq time series
   mat <- res[,3:ncol(res)]
@@ -114,7 +127,7 @@ dfDTW <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", 
   mat <- t(apply(mat, 1, scale))  
 
   #stop if NAs in matrix
-  if(any(is.na(mat))) stop("missing values in frequency time series (fundamental frequency was not detected at
+  if(any(is.na(mat))) stop("missing values in time series (frequency was not detected at
                            the start and/or end of the signal)")
   
   dm <- dtw::dtwDist(mat, mat, window.type = window.type, open.end = open.end)    

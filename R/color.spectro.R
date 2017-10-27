@@ -167,6 +167,9 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   
   n <- nrow(wave)
   step <- seq(1, n - wl, wl - (ovlp * wl/100))
+  
+  # to fix function name change in after version 2.0.5
+  if(exists("stdft")) stft <- seewave::stdft()
   z <- stft(wave = wave, f = f, wl = wl, zp = 0, step = step, 
             wn = wn, fftw = FALSE, scale = TRUE, complex = FALSE)
   
