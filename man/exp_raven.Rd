@@ -4,30 +4,46 @@
 \alias{exp_raven}
 \title{Export raven selections}
 \usage{
-exp_raven(X, path = NULL, file.name = NULL, khz.to.hz = TRUE)
+exp_raven(X, path = NULL, file.name = NULL, khz.to.hz = TRUE, 
+sound.file.path = NULL, single.file = TRUE)
 }
 \arguments{
 \item{X}{Data frame with containing columns for sound file (sound.files), selection (selec), start and end time of signals ('start' and 'end') and low and high frequency ('low.freq' and 'high.freq', optional). See example data 'selec.table'.}
 
-\item{path}{A character string indicating the path of the directory in which to look for the text files. 
-If not provided (default) the function saves the file into the current working directory. Default is \code{NULL}).}
+\item{path}{A character string indicating the path of the directory in which to save the selection files. 
+If not provided (default) the function saves the file into the current working directory.}
 
-\item{file.name}{Name of the output .txt file.}
+\item{file.name}{Name of the output .txt file. If \code{NULL} then the sound file names are used instead.}
 
-\item{khz.to.hz}{Logical. Controls if frequency variables should be converted from kHz (the unit used by warbleR) to Hz (the unit used by Raven). Default if \code{TRUE}.}
+\item{khz.to.hz}{Logical. Controls if frequency variables should be converted from kHz (the unit used by warbleR) to Hz (the unit used by Raven). Default is \code{TRUE}.}
+
+\item{sound.file.path}{A character string indicating the path of the 
+directory containing the sound file(s). Providing this information allows
+ to open both sound file and selection table simultaneously. This can be
+ done by using the "File > Open selection table" option in Raven (or drag/drop the 
+selection file into Raven). Default is \code{NULL}. This argument is required when
+exporting selections from multiple sound files. Note that sound files must be found in that directory.}
+
+\item{single.file}{Logical. Controls whether a single selection file (\code{TRUE})
+or multiple selection files for each sound files (\code{FALSE}, hence, only applicable
+when several sound files are included in 'X'). Default is \code{TRUE}. Note that
+'sound.file.path' must be provided when exporting several sound files into a single selection file. If \code{FALSE} then the sound file name is used as the selection file name.}
 }
 \value{
-A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 
-frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
-will also contain a 'sound.files' column. In addition, all rows with duplicated data are removed. This is useful when 
-both spectrogram and waveform views are included in the Raven selection files. If all.data is set to \code{TRUE} then all 
-columns in selection files are returned.
+The function saves a selection table in '.txt' format that can be 
+directly opened in Raven. If several sound files are available users can either 
+export them as a single selection file or as multiple selection files (one for each sound file). 
+No objects are returned in the R environment.
 }
 \description{
 \code{exp_raven} exports selection tables as Raven selection data in .txt format.
 }
 \details{
-The function exports selection tables used by warbleR to raven selection data in .txt format.
+The function exports selection tables used by warbleR to Raven selection files in '.txt' format. This can be useful to obtain additional Raven
+measurements on existing selections by adding new measurements to the 
+selection table once in Raven. Note that selection labels must be numeric and unduplicated 
+when exporting them to Raven. If that is not the case the function will
+relabeled the selections and the previous selection labels will be retained in a new ('old.selec') column.
 }
 \examples{
 \dontrun{
@@ -40,7 +56,7 @@ data("selec.table")
 # Select data for a single sound file
 st1 <- selec.table[selec.table$sound.files == "Phae.long1.wav",]
 
-# Export data
+# Export data of a single sound file
 exp_raven(st1, file.name = "Phaethornis warbleR examples")
 }
 

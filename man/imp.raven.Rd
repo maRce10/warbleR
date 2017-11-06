@@ -5,7 +5,7 @@
 \title{Import Raven selections}
 \usage{
 imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE,
- name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE)
+ name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE, waveform = FALSE)
 }
 \arguments{
 \item{path}{A character string indicating the path of the directory in which to look for the text files. 
@@ -32,6 +32,8 @@ of the .wav files from which the selection were made. It must be either 'upper' 
 Ignored if 'sound.file.col' is provided and/or all.data is \code{TRUE}).}
 
 \item{freq.cols}{Logical. If \code{TRUE}) 'Low Freq' and 'High Freq' columns are also imported. Ignored if all.data is \code{TRUE}.}
+
+\item{waveform}{Logical to control if 'waveform' related data should be included (this data is typically duplicated in 'spectrogram' data).  Default is \code{FALSE} (not to include it).}
 }
 \value{
 A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 

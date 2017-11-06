@@ -2,7 +2,7 @@
 #' 
 #' \code{imp.raven} imports Raven selection data from many files simultaneously. Files must be in .txt format.
 #' @usage imp.raven(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE,
-#'  name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE)  
+#'  name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE, waveform = FALSE)  
 #' @param path A character string indicating the path of the directory in which to look for the text files. 
 #' If not provided (default) the function searches into the current working directory. Default is \code{NULL}).
 #' @param sound.file.col A character string with the name of the column listing the sound files in 
@@ -21,6 +21,7 @@
 #' of the .wav files from which the selection were made. It must be either 'upper' or 'lower'. Only needed when 'name.from.file' is \code{TRUE}). 
 #' Ignored if 'sound.file.col' is provided and/or all.data is \code{TRUE}).
 #' @param freq.cols Logical. If \code{TRUE}) 'Low Freq' and 'High Freq' columns are also imported. Ignored if all.data is \code{TRUE}.
+#' @param waveform Logical to control if 'waveform' related data should be included (this data is typically duplicated in 'spectrogram' data).  Default is \code{FALSE} (not to include it).
 #' @return A single data frame with information of the selection files. If all.data argument is set to \code{FALSE}) the data 
 #' frame contains the following columns: selec, start, end, and selec.file. If sound.file.col is provided the data frame
 #' will also contain a 'sound.files' column. In addition, all rows with duplicated data are removed. This is useful when 
@@ -59,8 +60,9 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-5-2017 (MAS)
 
-imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recursive = FALSE, 
-                    name.from.file = FALSE, ext.case = NULL, freq.cols = TRUE) 
+imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, 
+                    recursive = FALSE, name.from.file = FALSE, ext.case = NULL, 
+                    freq.cols = TRUE, waveform = FALSE) 
   {
   
   # reset working directory 
@@ -85,7 +87,9 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
    if(length(sel.txt) == 0) stop("No selection .txt files in working directory/'path' provided")
   
    options(warn = -1)
-    clist<-lapply(seq_len(length(sel.txt)), function(i)
+
+#run loop for getting data of each selection file  
+clist <- lapply(seq_len(length(sel.txt)), function(i)
       {  
       a <- try(read.table(sel.txt[i], header = TRUE, sep = "\t", fill = TRUE, stringsAsFactors = FALSE), silent = TRUE)
       if(class(a) != "try-error")
@@ -136,7 +140,31 @@ imp.raven<-function(path = NULL, sound.file.col = NULL, all.data = FALSE, recurs
 error.files <- sel.txt2[!sapply(clist, is.data.frame)]    
     
 # remove NAs    
-clist <- clist[sapply(clist , is.data.frame)]
+clist <- clist[sapply(clist, is.data.frame)]
+
+## loop to fix start end when mutliple sound files are in a single selection file
+clist <- lapply(clist, function(X){
+  
+  if(!all.data)
+  sfcol <- "sound.files" else sfcol <- grep("\\.File$", names(X), value = TRUE)[1]
+  
+  if(length(unique(X[,sfcol])) > 1) 
+  {
+    if(!all.data) 
+    {
+      X$end <- X$end - X$start
+      X$start <- X[ ,grep("Offset", names(X))]
+      X$end <- X$end + X$start
+      } else {
+        X[ ,grep("^End.Time", names(X))] <- X[ ,grep("^End.Time", names(X))] - X[ ,grep("^Begin.Time", names(X))]
+        X[ ,grep("^Begin.Time", names(X))] <- X[ ,grep("Offset", names(X))]
+        X[ ,grep("^End.Time", names(X))] <- X[ ,grep("^End.Time", names(X))] + X[ ,grep("^Begin.Time", names(X))]
+      }
+  }
+
+  return(X)
+  })
+
 
 # determine all column names in all selection tables    
 cnms <- unique(unlist(sapply(clist, names)))    
@@ -163,6 +191,9 @@ rownames(b) <- 1:nrow(b)
 clm <- match(names(b), c("sound.files", "selec", "start", "end", "low.freq", "high.freq"))
 clm <- clm[!is.na(clm)]
 b <- b[, c(clm, setdiff(1:ncol(b), clm))]
+
+if(!waveform & all.data)
+  b <- b[grep("Waveform", b$View, ignore.case = TRUE, invert = TRUE), ]
 
 if(length(error.files) > 0) cat(paste("some files could not be read:",paste(error.files, collapse = "/")))
 
