@@ -14,7 +14,7 @@
 #' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
 #' for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
 #' more accurate measurements.
-#' @param length.out A character vector of length 1 giving the number of measurements of dominant 
+#' @param length.out A numeric vector of length 1 giving the number of measurements of dominant 
 #' frequency desired (the length of the time series).
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.

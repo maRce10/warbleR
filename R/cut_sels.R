@@ -64,7 +64,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
+  setwd(path)
   }  
   
   #check path to working directory
@@ -90,7 +90,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #return warning if not all sound files were found
-  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
            ".wav file(s) not found"))
@@ -129,7 +129,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   cutFUN <- function(X, i, mar, labels, dest.path){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
+    r <- tuneR::readWave(file.path(path, as.character(X$sound.files[i])), header = TRUE)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -141,7 +141,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     if(t[2] > r$samples/f) t[2] <- r$samples/f
     
     # Cut wave
-    wvcut <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
+    wvcut <- tuneR::readWave(file.path(path, as.character(X$sound.files[i])), from = t[1], to = t[2], units = "seconds")
 
     
     # save cut

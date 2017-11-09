@@ -24,10 +24,6 @@
 #'   
 #'   \code{\link{querxc}}: Download recordings and metadata from Xeno-Canto
 #'   
-#'   \code{\link{imp.syrinx}}: Importing Syrinx selections
-#'   
-#'   \code{\link{imp.raven}}: Importing Raven selections
-#'   
 #' @section Managing sound files:
 #'   
 #'   \code{\link{mp32wav}}: Convert several .mp3 files in working directory to .wav

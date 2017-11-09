@@ -5,7 +5,8 @@
 
 .onAttach <- function(libname, pkgname) {
  if(!requireNamespace("ggplot2",quietly = TRUE))
-   packageStartupMessage("\nNOTE: install ggplot2 to run coor.graph()")
+   packageStartupMessage("\nNOTEs: 1) install ggplot2 to run coor.graph() \n
+                         2) functions 'imp.raven' and 'imp.syrinx' were moved to the Rraven pacakge")
 }
 
 # .onLoad <- function(libname, pkgname) {

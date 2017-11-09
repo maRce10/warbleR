@@ -12,7 +12,7 @@
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
-#' @param length.out A character vector of length 1 giving the number of measurements of dominant 
+#' @param length.out A numeric vector of length 1 giving the number of measurements of dominant 
 #' frequency desired (the length of the time series).
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
