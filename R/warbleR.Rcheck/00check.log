@@ -1,0 +1,142 @@
+* using log directory ‘/home/m/Dropbox/warbleR/R/warbleR.Rcheck’
+* using R version 3.3.3 (2017-03-06)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--as-cran’
+* checking for file ‘warbleR/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘warbleR’ version ‘1.1.8’
+* checking CRAN incoming feasibility ... WARNING
+Maintainer: ‘Marcelo Araya-Salas <araya-salas@cornell.edu>’
+
+Insufficient package version (submitted: 1.1.8, existing: 1.1.8)
+
+Package has a VignetteBuilder field but no prebuilt vignette index.
+
+Found the following (possibly) invalid URLs:
+  URL: https://marce10.github.io/2016-09-12-Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW)/
+    From: man/dfDTW.Rd
+    Status: 404
+    Message: Not Found
+  URL: https://marce10.github.io/2016-12-22-Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto/
+    From: man/querxc.Rd
+    Status: 404
+    Message: Not Found
+  URL: https://marce10.github.io/2017-02-17-Choosing_the_right_method_for_measuring_acoustic_signal_structure/
+    From: man/compare.methods.Rd
+    Status: 404
+    Message: Not Found
+  URL: https://marce10.github.io/2017-03-17-Creating_song_catalogs
+    From: man/catalog.Rd
+    Status: 404
+    Message: Not Found
+  URL: https://marce10.github.io/2017-03-17-Creating_song_catalogs/
+    From: man/catalog2pdf.Rd
+    Status: 404
+    Message: Not Found
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... NOTE
+Found the following hidden files and directories:
+  .RData
+  .Rhistory
+  .gitignore
+  R/.Rhistory
+  .Rd2pdf14288
+  .Rproj.user
+  .git
+These were most likely included in error. See section ‘Package
+structure’ in the ‘Writing R Extensions’ manual.
+
+CRAN-pack does not know about
+  .RData
+  .Rd2pdf14288
+  .git
+* checking for portable file names ... NOTE
+Found the following non-portable file paths:
+  warbleR/.Rproj.user/shared/notebooks/D732FBB8-testing-checking warbleR function nov-16/1/6ED36D4B/chunks.json
+  warbleR/.Rproj.user/shared/notebooks/D732FBB8-testing-checking warbleR function nov-16/1/s/chunks.json
+
+Tarballs are only required to store paths of up to 100 bytes and cannot
+store those of more than 256 bytes, with restrictions including to 100
+bytes for the final component.
+See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘warbleR’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... NOTE
+Non-standard file/directory found at top level:
+  ‘warbleR.Rproj’
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... WARNING
+Found the following directory with the name of a check directory:
+  ./R/warbleR.Rcheck
+Most likely, these were included erroneously.
+Found the following directory with the name of a Rd2pdf directory:
+  ./.Rd2pdf14288
+Most likely, these were included erroneously.
+Found the following directory with the name of a version control directory:
+  ./.git
+These should not be in a package tarball.
+Found the following CITATION file in a non-standard place:
+  R/warbleR.Rcheck/warbleR/CITATION
+Most likely ‘inst/CITATION’ should be used instead.
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking use of S3 registration ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+color.spectro: no visible binding for global variable ‘stdft’
+spectro.INTFUN: no visible binding for global variable ‘stdft’
+spectro.INTFUN.2: no visible binding for global variable ‘stdft’
+Undefined global functions or variables:
+  stdft
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking data for ASCII and uncompressed saves ... WARNING
+  
+  Note: significantly better compression could be obtained
+        by using R CMD build --resave-data
+                 old_size new_size compress
+  Cryp.soui.rda     172Kb    123Kb       xz
+  Phae.long1.rda    124Kb     90Kb       xz
+  Phae.long2.rda     76Kb     53Kb       xz
+  Phae.long3.rda     94Kb     63Kb       xz
+  Phae.long4.rda    149Kb    105Kb       xz
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... WARNING
+Package vignettes without corresponding PDF/HTML:
+   ‘warbleR_workflow_phase1.Rmd’
+   ‘warbleR_workflow_phase2.Rmd’
+   ‘warbleR_workflow_phase3.Rmd’
+
+* checking re-building of vignette outputs ... OK
+* checking PDF version of manual ... OK
+* DONE
+Status: 4 WARNINGs, 4 NOTEs

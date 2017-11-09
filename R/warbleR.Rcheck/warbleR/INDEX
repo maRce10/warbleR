@@ -1,0 +1,65 @@
+Cryp.soui               Acoustic recording of _Crypturellus soui_
+                        (Little Tinamou).
+Phae.long1              Audio recording #1 of _Phaethornis
+                        longirostris_
+Phae.long2              Audio recording #2 of _Phaethornis
+                        longirostris_
+Phae.long3              Audio recording #3 of _Phaethornis
+                        longirostris_
+Phae.long4              Audio recording #1 of _Phaethornis
+                        longirostris_
+autodetec               Automatically detect vocalizations in sound
+                        files
+catalog                 Create catalog of vocal signals
+catalog2pdf             'catalog2pdf' combines 'catalog' images into
+                        pdfs
+checksels               Check selection data frames
+checkwavs               Check .wav files
+color.spectro           Highlight spectrogram regions
+compare.methods         Assessing the performance of acoustic distance
+                        measurements
+coor.graph              Coordinated singing graphs
+coor.test               Randomization test for singing coordination
+cut_sels                Cut selections into individual sound files
+dfDTW                   Acoustic dissimilarity using dynamic time
+                        warping on dominant frequency contours
+dfts                    Extract the dominant frequency values as a time
+                        series
+ffDTW                   Acoustic dissimilarity using dynamic time
+                        warping on fundamental frequency contours
+ffts                    Extract the fundamental frequency values as a
+                        time series
+filtersels              Subset selection data frames based on manually
+                        filtered image files
+fixwavs                 Fix .wav files to allow importing them into R
+frange                  Detect frequency range iteratively
+frange.detec            Detect frequency range on wave objects
+lspec                   Create long spectrograms of whole sound files
+lspec2pdf               'lspec2pdf' combines 'lspec' images in .jpeg
+                        format to a single pdf file.
+manualoc                Interactive view of spectrograms
+move.imgs               Move/copy image files between directories
+mp32wav                 Convert .mp3 files to .wav
+ovlp_sels               Find overlapping selections
+querxc                  Access Xeno-Canto recordings and metadata
+selec.table             Data frame of selections (i.e. selection
+                        table).
+selection.files         Selections files from Raven and Syrinx.
+seltailor               Interactive view of spectrograms to tailor
+                        selections
+sig2noise               Measure signal-to-noise ratio
+sim.coor.sing           Simulated coordinated singing events.
+snrspecs                Spectrograms with background noise margins
+sp.en.ts                Extract the spectral entropy across signals as
+                        a time series
+specan                  Measure acoustic parameters in batches of sound
+                        files
+specreator              Spectrograms of selected signals
+trackfreqs              Spectrograms with frequency measurements
+warbleR                 warbleR: A package to streamline bioacoustic
+                        analysis
+wavdur                  Measure the duration of sound files
+xcmaps                  Maps of Xeno-Canto recordings by species
+xcorr                   Spectrogram cross-correlation
+xcorr.graph             Pairwise plots of spectrogram cross-correlation
+                        scores

@@ -16,7 +16,7 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as t
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
 
-\item{length.out}{A character vector of length 1 giving the number of measurements of fundamental 
+\item{length.out}{A numeric vector of length 1 giving the number of measurements of fundamental 
 frequency desired (the length of the time series).}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 

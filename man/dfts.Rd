@@ -21,7 +21,7 @@ is 512.}
 for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
 more accurate measurements.}
 
-\item{length.out}{A character vector of length 1 giving the number of measurements of dominant 
+\item{length.out}{A numeric vector of length 1 giving the number of measurements of dominant 
 frequency desired (the length of the time series).}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 

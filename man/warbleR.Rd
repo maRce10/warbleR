@@ -33,10 +33,6 @@ License: GPL (>= 2)
 
   
   \code{\link{querxc}}: Download recordings and metadata from Xeno-Canto
-  
-  \code{\link{imp.syrinx}}: Importing Syrinx selections
-  
-  \code{\link{imp.raven}}: Importing Raven selections
 }
 
 \section{Managing sound files}{
