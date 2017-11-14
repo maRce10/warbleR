@@ -6,7 +6,7 @@
 #' it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
 #' clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
 #'  pal = reverse.gray.colors.2, img = TRUE, ...)
-#' @param X Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
+#' @param X 'selection.table' object or data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 #' function, or any data frame with columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' Default \code{NULL}. 
@@ -165,6 +165,10 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
+  
+  #if X is not a data frame
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+
   
   #check basic columns in X
   if(!all(c("sound.files", "selec", 

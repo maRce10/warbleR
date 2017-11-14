@@ -3,7 +3,7 @@
 #' \code{ovlp_sels} finds which selections overlap in time within a given sound file.
 #' @usage ovlp_sels(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, 
 #' drop = FALSE, priority = NULL, priority.col = NULL)
-#' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above.
@@ -55,7 +55,13 @@ ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE
   
   #X must be provided
   if(is.null(X)) stop("'X' must be provided (a data frame)")
-
+  
+  #if X is not a data frame
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
+  
+  
   # check column names
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 

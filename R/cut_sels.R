@@ -4,7 +4,7 @@
 #' @export cut_sels
 #' @usage cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
 #' labels = c("sound.files", "selec"), overwrite = FALSE, ...)
-#' @param X Data frame with results containing columns for sound file name (sound.files), 
+#' @param X 'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
@@ -73,7 +73,9 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
      #set working directory
   
   #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 

@@ -13,8 +13,8 @@ frd.plot.INTFUN <- function(wave, detections, wl = 512, threshold = 10, wn = "ha
   # detection limits
   if(!all.detec)
   {
-    min.start <- detections$frange$low.freq
-    max.end <- detections$frange$high.freq
+    min.start <- detections$frange$bottom.freq
+    max.end <- detections$frange$top.freq
   } else {
     min.start <- detections$detections[,1]
     max.end <- detections$detections[,2]

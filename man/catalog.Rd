@@ -16,7 +16,7 @@ max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
 by.row = TRUE, box = TRUE)
 }
 \arguments{
-\item{X}{Data frame with columns for sound file name (sound.files), selection number (selec), 
+\item{X}{'selection.table' object or data frame with columns for sound file name (sound.files), selection number (selec), 
 and start and end time of signal (start and end). Default is \code{NULL}.}
 
 \item{flim}{A numeric vector of length 2 indicating the highest and lowest 

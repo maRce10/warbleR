@@ -26,6 +26,8 @@
 #'   
 #' @section Managing sound files:
 #'   
+#'   \code{\link{make.selection.table}}: Create 'selection.table' class objects
+#'   
 #'   \code{\link{mp32wav}}: Convert several .mp3 files in working directory to .wav
 #'   format
 #'   
@@ -113,7 +115,7 @@
 #'   \code{\link{snrspecs}}: Create spectrograms to visualize margins over which 
 #'   noise will be measured by sig2noise
 
-#'      
+#' @exportClass selection.table      
 #' @import maps
 #' @import rjson
 #' @import RCurl

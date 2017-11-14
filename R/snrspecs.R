@@ -7,7 +7,7 @@
 #' res = 100, cexlab = 1, title = TRUE, 
 #'   propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
 #'    snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
-#' @param  X Data frame with results from \code{\link{manualoc}} or any data frame with columns
+#' @param  X 'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -115,7 +115,9 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   }  
   
   #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 

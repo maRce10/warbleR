@@ -7,7 +7,7 @@
 #'   comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
 #'   width = 15, height = 5, index = NULL, collevels = NULL, 
 #'   title = c("sound.files", "selec"),...)
-#' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.
@@ -122,8 +122,10 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     setwd(path)
   }  
   
-  #X must be provided
-  if(is.null(X)) stop("'X' must be provided (a data frame)")
+  #if X is not a data frame
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
   
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
@@ -143,8 +145,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     stop(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
 
-    if(frange & !all(any(names(X) == "low.freq"), any(names(X) == "high.freq")))
-      X$high.freq <- X$low.freq <- NA
+    if(frange & !all(any(names(X) == "bottom.freq"), any(names(X) == "top.freq")))
+      X$top.freq <- X$bottom.freq <- NA
         
   if(!file.exists(file.path(getwd(), "seltailor_output.csv")))
   {X$tailored <- ""
@@ -222,9 +224,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
  
            
       #add lines of selections on spectrogram
-      if(any(is.na(X$low.freq[j]), is.na(X$high.freq[j])))
+      if(any(is.na(X$bottom.freq[j]), is.na(X$top.freq[j])))
         polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(fl, sort(fl, decreasing = TRUE)), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15))  else
-        polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(c(X$low.freq[j], X$high.freq[j]),c(X$high.freq[j], X$low.freq[j])), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15)) 
+        polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(c(X$bottom.freq[j], X$top.freq[j]),c(X$top.freq[j], X$bottom.freq[j])), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15)) 
       
       #add buttons
       xs <- grconvertX(x = c(0.92, 0.92, 0.99, 0.99), from = "npc", to = "user")
@@ -404,9 +406,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       X$end[j] <-  tlim[1] + max(xy3$x)
       X$tailored[j] <- "y"
       if(frange) {
-        X$low.freq[j] <- min(xy3$y)  
-        if(min(xy3$y) < 0) X$low.freq[j] <- 0  
-        X$high.freq[j] <- max(xy3$y)  
+        X$bottom.freq[j] <- min(xy3$y)  
+        if(min(xy3$y) < 0) X$bottom.freq[j] <- 0  
+        X$top.freq[j] <- max(xy3$y)  
       }
       selcount <- selcount + 1
       
@@ -416,9 +418,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         X$start[j] <-  tlim[1] + min(xy3$x) 
         X$end[j] <-  tlim[1] + max(xy3$x)
         if(frange) {
-          X$low.freq[j] <- min(xy3$y)  
-          if(min(xy3$y) < 0) X$low.freq[j] <- 0  
-          X$high.freq[j] <- max(xy3$y)
+          X$bottom.freq[j] <- min(xy3$y)  
+          if(min(xy3$y) < 0) X$bottom.freq[j] <- 0  
+          X$top.freq[j] <- max(xy3$y)
         }
         
       # save selections

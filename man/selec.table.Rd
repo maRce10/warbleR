@@ -6,11 +6,12 @@
 \title{Data frame of selections (i.e. selection table).}
 \format{A data frame with 11 rows and 6 variables: \describe{ 
  \item{sound.files}{recording names}
+ \item{channel}{channel in which signal is found}
  \item{selec}{selection numbers within recording}
  \item{start}{start times of selected signal}
  \item{end}{end times of selected signal}
- \item{low.freq}{lower limit of frequency range}
- \item{high.freq}{upper limit of frequency range}
+ \item{bottom.freq}{lower limit of frequency range}
+ \item{top.freq}{upper limit of frequency range}
  \item{sel.comment}{selection comments}
  \item{rec.comment}{recording comments}
 }}

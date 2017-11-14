@@ -64,7 +64,7 @@ the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
 \item{rm.zero}{Logical indicated if the 0 at the start of the time axis should be removed. Default is \code{FALSE}.}
 
-\item{X}{Optional. Data frame with containing columns for start and end time of signals ('start' and 'end') and low and high frequency ('low.freq' and 'high.freq').}
+\item{X}{Optional. Data frame with containing columns for start and end time of signals ('start' and 'end') and low and high frequency ('bottom.freq' and 'top.freq').}
 
 \item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).

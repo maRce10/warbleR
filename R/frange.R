@@ -5,7 +5,7 @@
 #' wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1,
 #' res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1,
 #'  widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE)
-#' @param X Data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection.table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' be used as the input data frame.
@@ -14,7 +14,7 @@
 #'   and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}). 
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @param line Logical argument to add red lines (or box if low.freq and high.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.
+#' @param line Logical argument to add red lines (or box if bottom.freq and top.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.
 #' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
 #'  sliding window in kHz. This help to average amplitude "hills" to minimize the effect of
 #'  amplitude modulation. Default is 0.1.
@@ -25,8 +25,8 @@
 #' @param flim A numeric vector of length 2 for the frequency limit of 
 #'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in 'low.freq' 
-#'   and 'high.freq' columns will be used as bandpass limits. Default is c(0, 22).
+#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in 'bottom.freq' 
+#'   and 'top.freq' columns will be used as bandpass limits. Default is c(0, 22).
 #' @param propwidth Logical argument to scale the width of spectrogram 
 #'   proportionally to duration of the selected call. Default is \code{FALSE}.
 #' @param xl Numeric vector of length 1. A constant by which to scale 
@@ -63,8 +63,8 @@
 #' @name frange
 #' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
 #' \itemize{  
-#'  \item low.freq = the start frequency of the first amplitude "hill"  
-#'  \item high.freq = the end frequency of the last amplitude "hill"  
+#'  \item bottom.freq = the start frequency of the first amplitude "hill"  
+#'  \item top.freq = the end frequency of the last amplitude "hill"  
 #'   }
 #'   If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
 #'   produced for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
@@ -101,7 +101,9 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   }  
   
   #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -183,7 +185,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     dev.off()
 }    
     # return low and high freq
-    return(data.frame(X[i, grep("low.freq|high.freq", names(X), invert = TRUE)], low.freq = frng$frange$low.freq, high.freq = frng$frange$high.freq))
+    return(data.frame(X[i, grep("bottom.freq|top.freq", names(X), invert = TRUE)], bottom.freq = frng$frange$bottom.freq, top.freq = frng$frange$top.freq))
     
   }
 

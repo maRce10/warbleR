@@ -80,7 +80,7 @@ frd.INTFUN <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hann
   }
     }
 
-  rl <- list(frange = data.frame(low.freq = min.strt, high.freq = max.nd), af.mat = cbind(z, zf), meanpeakf = meanpeakf, detections = cbind(start.freq = strt, end.freq = nd))
+  rl <- list(frange = data.frame(bottom.freq = min.strt, top.freq = max.nd), af.mat = cbind(z, zf), meanpeakf = meanpeakf, detections = cbind(start.freq = strt, end.freq = nd))
   
   # return low and high freq
   return(rl)

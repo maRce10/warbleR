@@ -5,6 +5,9 @@
 
 ## Changes and additions:
 
+* "low.freq" and "high.freq" column names in default table format are now "bottom.freq" and "top.freq" respectively
+* Moved 'imp.syrinx' and 'imp.raven' functions to new R package Rraven
+* Added a new object class 'selection.table' 
 * Split vignette into a series of three with new functions added to the workflow
 * New arguments "title", "by.row", "prop.mar", "box" and "rm.axes" in "catalog" function to further customize catalog setup
 * New arguments "spec.mar", "lab.mar" and "group.tag" in "catalog" function to color groups of selections
@@ -17,6 +20,8 @@
 
 ## New functions:
 
+* is.selection.table: checks if an object is of class 'selection.table'
+* make.selection.table: creates an object of class 'selection.table'
 * frange.detec: detects the frequency range of signals in wave objects
 * frange: applies 'frange.detec' function iteratively on signals listed in a selection table
 * move.imgs: copy/cut image files to folders

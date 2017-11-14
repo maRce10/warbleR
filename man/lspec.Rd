@@ -10,7 +10,7 @@ cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE,
 fast.spec = FALSE)
 }
 \arguments{
-\item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
+\item{X}{'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end). If given, two red dotted lines are plotted at the 
 start and end of a selection and the selections are labeled with the selection number 

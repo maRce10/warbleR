@@ -38,6 +38,8 @@ License: GPL (>= 2)
 \section{Managing sound files}{
 
   
+  \code{\link{make.selection.table}}: Create 'selection.table' class objects
+  
   \code{\link{mp32wav}}: Convert several .mp3 files in working directory to .wav
   format
   

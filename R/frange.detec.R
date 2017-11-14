@@ -18,8 +18,8 @@
 #' @param flim A numeric vector of length 2 for the frequency limit of 
 #'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in 'low.freq' 
-#'   and 'high.freq' columns will be used as bandpass limits. Default is c(0, 22).
+#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in 'bottom.freq' 
+#'   and 'top.freq' columns will be used as bandpass limits. Default is c(0, 22).
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
@@ -42,8 +42,8 @@
 #' @name frange.detec
 #' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
 #' \itemize{  
-#'  \item low.freq = the start frequency of the first amplitude "hill"  
-#'  \item high.freq = the end frequency of the last amplitude "hill"  
+#'  \item bottom.freq = the start frequency of the first amplitude "hill"  
+#'  \item top.freq = the end frequency of the last amplitude "hill"  
 #'   }
 #'   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
 #'   produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.

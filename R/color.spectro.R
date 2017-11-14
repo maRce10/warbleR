@@ -45,7 +45,7 @@
 #' @param flim A numeric vector of length 2 for the frequency limit (in kHz) of 
 #'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}. 
 #' @param rm.zero Logical indicated if the 0 at the start of the time axis should be removed. Default is \code{FALSE}.
-#' @param  X Optional. Data frame with containing columns for start and end time of signals ('start' and 'end') and low and high frequency ('low.freq' and 'high.freq'). 
+#' @param  X Optional. Data frame with containing columns for start and end time of signals ('start' and 'end') and low and high frequency ('bottom.freq' and 'top.freq'). 
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
@@ -142,20 +142,20 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   # set background spectro color
   basepal <- colorRampPalette(c(rep(bg.col, 2), base.col), alpha = TRUE) 
   
-  #adjust flim if lower than higher high.freq
+  #adjust flim if lower than higher top.freq
   if(!is.null(flim) & !is.null(sel.tab)) {
-    if(flim[1] > min(sel.tab$low.freq)) flim[1] <- min(sel.tab$low.freq)  
-    if(flim[2] < max(sel.tab$high.freq)) flim[2] <- max(sel.tab$high.freq)  
+    if(flim[1] > min(sel.tab$bottom.freq)) flim[1] <- min(sel.tab$bottom.freq)  
+    if(flim[2] < max(sel.tab$top.freq)) flim[2] <- max(sel.tab$top.freq)  
   }
   
   # add frequency margins
   if(!is.null(f.mar))
-  {sel.tab$low.freq <- sel.tab$low.freq - f.mar
-  sel.tab$high.freq <- sel.tab$high.freq + f.mar
+  {sel.tab$bottom.freq <- sel.tab$bottom.freq - f.mar
+  sel.tab$top.freq <- sel.tab$top.freq + f.mar
   
   # fix the ones lower than 0 or longer than duration
-  sel.tab$low.freq[sel.tab$low.freq < flim[1]] <- flim[1]  
-  sel.tab$high.freq[sel.tab$high.freq > flim[2]] <- flim[2]
+  sel.tab$bottom.freq[sel.tab$bottom.freq < flim[1]] <- flim[1]  
+  sel.tab$top.freq[sel.tab$top.freq > flim[2]] <- flim[2]
   }
   
   # read wave object  
@@ -222,7 +222,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
       xy <- as.data.frame(xy)
       xy$selec <- rep(1:interactive, each = 2) 
       
-      out <- lapply(unique(xy$selec), function(i) data.frame(start = min(xy$x[xy$selec == i]), end = max(xy$x[xy$selec == i]), low.freq = min(xy$y[xy$selec == i]), high.freq = max(xy$y[xy$selec == i])))
+      out <- lapply(unique(xy$selec), function(i) data.frame(start = min(xy$x[xy$selec == i]), end = max(xy$x[xy$selec == i]), bottom.freq = min(xy$y[xy$selec == i]), top.freq = max(xy$y[xy$selec == i])))
       
       sel.tab <- do.call(rbind, out)
       
@@ -232,7 +232,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     #plot colored signals  
     if(!is.null(sel.tab))    
       out <- lapply(1:nrow(sel.tab), function(i)
-        filled.contour.color.INTFUN(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 2), colors[i]), alpha = TRUE), levels = collevels,
+        filled.contour.color.INTFUN(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 2), colors[i]), alpha = TRUE), levels = collevels,
                            axisX = FALSE, axisY = FALSE, col.lab = "black", 
                            colaxis = "black", add = TRUE)   
       )
@@ -248,7 +248,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
       xy$selec <- rep(1:interactive, each = 2) 
     
     
-    out <- lapply(unique(xy$selec), function(i) data.frame(start = min(xy$x[xy$selec == i]), end = max(xy$x[xy$selec == i]), low.freq = min(xy$y[xy$selec == i]), high.freq = max(xy$y[xy$selec == i])))
+    out <- lapply(unique(xy$selec), function(i) data.frame(start = min(xy$x[xy$selec == i]), end = max(xy$x[xy$selec == i]), bottom.freq = min(xy$y[xy$selec == i]), top.freq = max(xy$y[xy$selec == i])))
     
     sel.tab <- do.call(rbind, out)
     
@@ -259,7 +259,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   #plot colored signals
   if(!is.null(sel.tab))
         out <- lapply(1:nrow(sel.tab), function(i)
-                                       image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], col = colorRampPalette(c( rep(bg.col, 2), colors[i]), alpha = TRUE)(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)
+                                       image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], col = colorRampPalette(c( rep(bg.col, 2), colors[i]), alpha = TRUE)(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)
                                      )
 
 

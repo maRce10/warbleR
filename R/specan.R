@@ -5,13 +5,13 @@
 #' @usage specan(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
 #'  parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, ff.method = "seewave", 
 #' wn = "hanning", fsmooth = 0.1)
-#' @param X Data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' be used as the input data frame.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in low.freq
-#'   and high.freq columns will be used as bandpass limits. Default is c(0, 22).Lower limit of
+#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq
+#'   and top.freq columns will be used as bandpass limits. Default is c(0, 22).Lower limit of
 #'    bandpass is not applied to fundamental frequencies. 
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.
 #' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
@@ -86,8 +86,8 @@
 #'    \item \code{peakf}: peak frequency. Frequency with highest energy (only generated if \code{fast = FALSE})
 #'    \item \code{meanpeakf}: Mean peak frequency. Frequency with highest energy from the 
 #'    mean spectrum (see \code{\link[seewave]{meanspec}}). Typically more consistent than peakf.
-#'    \item \code{low.freq}: low frequency. Low limit of frequency range (only generated if \code{frange.detec = TRUE})
-#'    \item \code{high.freq}: high frequency. High limit of frequency range (only generated if \code{frange.detec = TRUE})
+#'    \item \code{bottom.freq}: low frequency. Low limit of frequency range (only generated if \code{frange.detec = TRUE})
+#'    \item \code{top.freq}: high frequency. High limit of frequency range (only generated if \code{frange.detec = TRUE})
 
 #' }
 #' @export
@@ -135,7 +135,9 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   }  
   
   #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -162,10 +164,10 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
   } else
-  {if(!any(names(X) == "low.freq") & !any(names(X) == "high.freq")) stop("'bp' = frange requires low.freq and high.freq columns in X")
-    if(any(is.na(c(X$low.freq, X$high.freq)))) stop("NAs found in low.freq and/or high.freq") 
-    if(any(c(X$low.freq, X$high.freq) < 0)) stop("Negative values found in low.freq and/or high.freq") 
-    if(any(X$high.freq - X$low.freq < 0)) stop("high.freq should be higher than low.freq")
+  {if(!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
+    if(any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
+    if(any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
+    if(any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than bottom.freq")
   }
   
   #return warning if not all sound files were found
@@ -200,7 +202,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   spFUN <- function(i, X, bp, wl, threshold) { 
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds", toWaveMC = TRUE) 
     
-    if(bp[1] == "frange") b <- c(X$low.freq[i], X$high.freq[i]) else b <- bp
+    if(bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
 
      #in case bp its higher than can be due to sampling rate
     if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
@@ -304,8 +306,8 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     
     # add low high freq
     if(bp[1] == "frange") {
-      dfres$low.freq <- b[1]
-     dfres$high.freq <- b[2]
+      dfres$bottom.freq <- b[1]
+     dfres$top.freq <- b[2]
      }
     
     return(dfres)

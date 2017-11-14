@@ -8,7 +8,7 @@
 #'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
 #'   parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2, 
 #'   fast.spec = FALSE, ...)
-#' @param X Data frame with results from \code{\link{manualoc}} function or any data frame with columns
+#' @param X 'selection.table' object or data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting 
@@ -245,12 +245,15 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   if(!is.null(X)){
     
+    #if X is not a data frame
+    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+    
+    
+    
     #check if all columns are found
     if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
       stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
         "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
-      
-    if(!class(X) == "data.frame") stop("X is not a data frame")
     
     #if there are NAs in start or end stop
     if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  

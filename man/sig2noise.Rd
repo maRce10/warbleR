@@ -11,7 +11,7 @@ sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE
 in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10)
 }
 \arguments{
-\item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
+\item{X}{'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end).}
 

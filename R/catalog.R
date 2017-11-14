@@ -11,7 +11,7 @@
 #' hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
 #' max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
 #' by.row = TRUE, box = TRUE)
-#' @param X Data frame with columns for sound file name (sound.files), selection number (selec), 
+#' @param X 'selection.table' object or data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
@@ -217,6 +217,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
+  
+  #if X is not a data frame
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
   
   #nrow must be equal or higher than 2
   if(nrow < 2) stop("number of rows must be equal or higher than 2")

@@ -107,7 +107,7 @@ spectro.INTFUN.2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0
                             image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
                             if(!is.null(sel.tab))    
                               out <- lapply(1:nrow(sel.tab), function(i)
-                                image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$low.freq[i] & Y < sel.tab$high.freq[i]], col = pallete.2(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)      
+                                image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], col = pallete.2(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)      
                               )
                             
                             

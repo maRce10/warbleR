@@ -6,7 +6,7 @@
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 #' cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, 
 #' fast.spec = FALSE) 
-#' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
+#' @param X 'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
 #' start and end of a selection and the selections are labeled with the selection number 
@@ -95,6 +95,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
     setwd(path)
   }  
   
+  
+  
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
   
@@ -116,15 +118,18 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   
   if(!is.null(X)) {
   
+    #if X is not a data frame
+    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+    
+    
+    
+    
   #stop if files are not in working directory
   if(length(files) == 0) stop(".wav files in X are not in working directory")
   
   
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
-  
-  #Check class of X
-  if(!class(X) == "data.frame" & !is.null(X)) stop("X is not a data frame")
   
   #check if all columns are found
   if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 

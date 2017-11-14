@@ -14,7 +14,7 @@ res = 100, cexlab = 1, title = TRUE,
    snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
-\item{X}{Data frame with results from \code{\link{manualoc}} or any data frame with columns
+\item{X}{'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end).}
 

@@ -16,7 +16,7 @@ trackfreqs(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
    fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...)
 }
 \arguments{
-\item{X}{Data frame with results containing columns for sound file name (sound.files), 
+\item{X}{'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
 The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
 
@@ -75,8 +75,8 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 \code{FALSE}.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz) or "frange" to indicate that values in low.freq 
-and high.freq columns will be used as bandpass limits. Default is c(0, 22).}
+frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq 
+and top.freq columns will be used as bandpass limits. Default is c(0, 22).}
 
 \item{cex}{Numeric vector of length 2, specifies relative size of points 
 plotted for frequency measurements and legend font/points, respectively. 
@@ -136,7 +136,7 @@ in the output image.}
 
 \item{col.alpha}{A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.}
 
-\item{line}{Logical argument to add red lines (or box if low.freq and high.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.}
+\item{line}{Logical argument to add red lines (or box if bottom.freq and top.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.}
 
 \item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).

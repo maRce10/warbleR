@@ -3,7 +3,7 @@
 #' \code{filtersels} subsets selection data frames based on image files that have been manually filtered.
 #' @usage filtersels(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "jpeg",
 #'  incl.wav = TRUE, missing = FALSE, index = FALSE)
-#' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame.
 #' @param path Character string containing the directory path where the sound files are located. 
@@ -78,8 +78,11 @@ filtersels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "j
     setwd(path)
   }  
 
-  #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+    #if X is not a data frame
+    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+    
+    
+
 
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff", it == "pdf")) stop(paste("Image type", it, "not allowed"))  

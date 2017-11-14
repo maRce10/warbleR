@@ -11,7 +11,7 @@ clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
  pal = reverse.gray.colors.2, img = TRUE, ...)
 }
 \arguments{
-\item{X}{Data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
+\item{X}{'selection.table' object or data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 function, or any data frame with columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
 Default \code{NULL}.}

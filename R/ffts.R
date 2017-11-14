@@ -5,7 +5,7 @@
 #' @usage ffts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
 #'   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "ffts", pb = TRUE, 
 #'   clip.edges = FALSE, leglab = "ffts", ff.method = "seewave", ...)
-#' @param  X Data frame with results containing columns for sound file name (sound.files), 
+#' @param  X 'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -90,8 +90,10 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     setwd(path)
   }  
   
-  #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+    #if X is not a data frame
+    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+    
+    
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 

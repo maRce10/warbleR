@@ -3,7 +3,7 @@
 #' \code{sig2noise} measures signal-to-noise ratio across multiple files.
 #' @usage sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
 #' in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10)
-#' @param X Data frame with results from \code{\link{manualoc}} or any data frame with columns
+#' @param X 'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param mar numeric vector of length 1. Specifies the margins adjacent to
@@ -82,7 +82,10 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   } 
   
   #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
+  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 

@@ -9,14 +9,14 @@ specan(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
 wn = "hanning", fsmooth = 0.1)
 }
 \arguments{
-\item{X}{Data frame with the following columns: 1) "sound.files": name of the .wav 
+\item{X}{'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 be used as the input data frame.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz) or "frange" to indicate that values in low.freq
-and high.freq columns will be used as bandpass limits. Default is c(0, 22).Lower limit of
+frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq
+and top.freq columns will be used as bandpass limits. Default is c(0, 22).Lower limit of
  bandpass is not applied to fundamental frequencies.}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.}
@@ -104,8 +104,8 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    \item \code{peakf}: peak frequency. Frequency with highest energy (only generated if \code{fast = FALSE})
    \item \code{meanpeakf}: Mean peak frequency. Frequency with highest energy from the 
    mean spectrum (see \code{\link[seewave]{meanspec}}). Typically more consistent than peakf.
-   \item \code{low.freq}: low frequency. Low limit of frequency range (only generated if \code{frange.detec = TRUE})
-   \item \code{high.freq}: high frequency. High limit of frequency range (only generated if \code{frange.detec = TRUE})
+   \item \code{bottom.freq}: low frequency. Low limit of frequency range (only generated if \code{frange.detec = TRUE})
+   \item \code{top.freq}: high frequency. High limit of frequency range (only generated if \code{frange.detec = TRUE})
 }
 }
 \description{

@@ -13,7 +13,7 @@ cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
  dfrange = FALSE, cor.mat = TRUE)
 }
 \arguments{
-\item{X}{Data frame containing columns for sound files (sound.files), 
+\item{X}{'selection.table' object or data frame containing columns for sound files (sound.files), 
 selection number (selec), and start and end time of signal (start and end).}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 

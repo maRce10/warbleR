@@ -12,7 +12,7 @@
 #'   pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
 #'    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
 #'    fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...)
-#' @param  X Data frame with results containing columns for sound file name (sound.files), 
+#' @param  X 'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -53,8 +53,8 @@
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   \code{FALSE}.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in low.freq 
-#'   and high.freq columns will be used as bandpass limits. Default is c(0, 22).
+#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq 
+#'   and top.freq columns will be used as bandpass limits. Default is c(0, 22).
 #' @param cex Numeric vector of length 2, specifies relative size of points 
 #'   plotted for frequency measurements and legend font/points, respectively. 
 #'   See \code{\link[seewave]{spectro}}.
@@ -95,7 +95,7 @@
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
 #' @param col.alpha A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.
-#' @param line Logical argument to add red lines (or box if low.freq and high.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.
+#' @param line Logical argument to add red lines (or box if bottom.freq and top.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
@@ -185,7 +185,9 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
   }  
   
   #if X is not a data frame
-  if(!class(X) == "data.frame") stop("X is not a data frame")
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -209,10 +211,10 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
   {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
   } else
-  {if(!any(names(X) == "low.freq") & !any(names(X) == "high.freq")) stop("'bp' = frange requires low.freq and high.freq columns in X")
-    if(any(is.na(c(X$low.freq, X$high.freq)))) stop("NAs found in low.freq and/or high.freq") 
-    if(any(c(X$low.freq, X$high.freq) < 0)) stop("Negative values found in low.freq and/or high.freq") 
-    if(any(X$high.freq - X$low.freq < 0)) stop("high.freq should be higher than low.f")
+  {if(!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
+    if(any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
+    if(any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
+    if(any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than low.f")
   }
   
   #if it argument is not "jpeg" or "tiff" 
@@ -307,7 +309,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
       
       #in case bp its higher than can be due to sampling rate
-      if(bp[1] == "frange") bp <- c(X$low.freq[i], X$high.freq[i])
+      if(bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])
       b <- bp 
       
       if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
@@ -507,9 +509,9 @@ if(!frange.detec){
     }
     
   if(line){  
-    if(any(names(X) == "low.freq") & any(names(X) == "high.freq"))
-  {   if(!is.na(X$low.freq[i]) & !is.na(X$high.freq[i]))
-     if(!frange.detec) polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$low.freq[i], X$high.freq[i], X$high.freq[i], X$low.freq[i]), lty = 3, border = "blue", lwd = 1.2) else
+    if(any(names(X) == "bottom.freq") & any(names(X) == "top.freq"))
+  {   if(!is.na(X$bottom.freq[i]) & !is.na(X$top.freq[i]))
+     if(!frange.detec) polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$bottom.freq[i], X$top.freq[i], X$top.freq[i], X$bottom.freq[i]), lty = 3, border = "blue", lwd = 1.2) else
           abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     } else abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     }

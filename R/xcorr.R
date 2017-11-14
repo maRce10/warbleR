@@ -4,7 +4,7 @@
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
 #'  dfrange = FALSE, cor.mat = TRUE)
-#' @param  X Data frame containing columns for sound files (sound.files), 
+#' @param  X 'selection.table' object or data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #' is 512.
@@ -82,7 +82,10 @@ xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp =
     setwd(path)
   }  
   
-  if(!is.data.frame(X))  stop("X is not a data frame")
+  #if X is not a data frame
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
   
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
