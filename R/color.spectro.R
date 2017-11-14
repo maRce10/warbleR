@@ -45,7 +45,7 @@
 #' @param flim A numeric vector of length 2 for the frequency limit (in kHz) of 
 #'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}. 
 #' @param rm.zero Logical indicated if the 0 at the start of the time axis should be removed. Default is \code{FALSE}.
-#' @param  X Optional. Data frame with containing columns for start and end time of signals ('start' and 'end') and low and high frequency ('bottom.freq' and 'top.freq'). 
+#' @param  X Optional. Data frame containing columns for start and end time of signals ('start' and 'end') and low and high frequency ('bottom.freq' and 'top.freq'). 
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
