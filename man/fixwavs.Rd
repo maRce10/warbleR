@@ -15,7 +15,7 @@ fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.rate = NULL,
 \item{samp.rate}{Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.}
 
 \item{bit.rate}{Numeric vector of length 1 with the dynamic interval (i.e. bit rate) for output files.
-Default is \code{NULL}.}
+Default is \code{NULL}. Currently not available.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
@@ -23,7 +23,7 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{...}{Additional arguments to be passed to \code{\link[seewave]{sox}}.}
 }
 \value{
-A folder inside the working directory (or path provided) all 'converted sound files', containing 
+A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
 sound files in a format that can be imported in R.
 }
 \description{

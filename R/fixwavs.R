@@ -7,11 +7,11 @@
 #' @param files Character vector with the names of the wav files to fix. Default is \code{NULL}.
 #' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
 #' @param bit.rate Numeric vector of length 1 with the dynamic interval (i.e. bit rate) for output files.
-#' Default is \code{NULL}.
+#' Default is \code{NULL}. Currently not available.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param ... Additional arguments to be passed to \code{\link[seewave]{sox}}.
-#' @return  A folder inside the working directory (or path provided) all 'converted sound files', containing 
+#' @return  A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
 #' sound files in a format that can be imported in R. 
 #' @export
 #' @name fixwavs
@@ -81,22 +81,20 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.rate =
     
 if(!is.null(samp.rate) & is.null(bit.rate)) bit.rate <- 16
 
-dir.create(file.path(getwd(), "converted sound files"))
+dir.create(file.path(getwd(), "converted_sound_files"))
   
   out <- pbapply::pblapply(fls, function(x)
     {
    
     #name  and path of original file
-    filin <- file.path(getwd(), x)
+    # filin <- file.path(getwd(), x)
     
     #name  and path of converted file
-    filout <- file.path(getwd(), "converted sound files", x)
+    filout <- file.path("converted_sound_files", x)
 
-    # seewave::sox(paste(paste0(" -r ", samp.rate, "k ", "-b ", bit.rate), ' "', filin,'" ','"', filout,'"', sep = ""), ...)
-    
     if(!is.null(samp.rate))
-seewave::sox(paste("-S ", ' "', filin,'" ', '"', filout,'"', sep = "", paste0(" rate -v -s ", samp.rate*1000)), ...) else
-    seewave::sox((paste(' "', filin,'" ','"', filout,'"', sep = "")), ...)
-  })
+       out <- system(paste("sox", x, " -t wavpcm", filout, "rate", samp.rate * 1000), ignore.stdout = FALSE, intern = TRUE) else
+        out <- system(paste("sox", x, "-t wavpcm", filout), ignore.stdout = FALSE, intern = TRUE) 
+     })
 
   }
