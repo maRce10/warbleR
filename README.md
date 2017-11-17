@@ -24,9 +24,8 @@ To install the latest developmental version from [github](http://github.com/) yo
 # From github
 devtools::install_github("maRce10/warbleR")
 
-
 #load package
-library(Rraven)
+library(warbleR)
 
 ```
 
