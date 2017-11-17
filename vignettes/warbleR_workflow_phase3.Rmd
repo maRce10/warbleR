@@ -1,9 +1,10 @@
 ---
 output:  rmarkdown::html_document
 vignette: >
+   \usepackage[utf8]{inputenc}
   %\VignetteIndexEntry{Acoustic (dis)similarity and coordinated singing}  
   %\VignetteEngine{knitr::rmarkdown} 
-  \usepackage[utf8]{inputenc}
+ 
 ---
 
 <br>
