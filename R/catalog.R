@@ -97,7 +97,7 @@
 #'    }
 #' @param breaks Numeric vector of length 1 or 2 controling the number of intervals in which a 
 #' numeric tag will be divided. The numbers control the first and second tags respectively. 
-#' Ignored if tags are not numeric. Default is c(5, 5). 
+#' Ignored if tags are not numeric. Default is \code{c(5, 5)}. 
 #' @param group.tag Character vector of length 1 indicating the column name to be used to color
 #' the empty plot areas around the spectrograms. If provided selections that belong to the same
 #' tag level are clumped together in the catalog (the 'X' data frame is sorted by that column).
@@ -132,7 +132,7 @@
 #'   This files can be put together in a single pdf file with \code{\link{catalog2pdf}}.
 #'   We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if
 #'   aiming to generate pdfs (otherwise pdfs could be pretty big).
-#' @seealso \url{https://marce10.github.io/2017-03-17-Creating_song_catalogs}
+#' @seealso \url{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}
 #' \url{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}
 #' \code{\link{catalog2pdf}}
 #' @examples

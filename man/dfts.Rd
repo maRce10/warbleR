@@ -95,7 +95,7 @@ measures. If there are no frequencies above the amplitude theshold at the begini
  to fill out the missing values (e.g. no NAs in between detected amplitude segments).
 }
 \examples{
-\dontrun{
+{
 # set the temp directory
 setwd(tempdir())
 

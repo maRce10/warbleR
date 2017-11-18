@@ -82,7 +82,7 @@ The function uses the \code{\link[stats]{approx}} function to interpolate values
  segments in which amplitude was detected then the values of this adjacent segments will be interpolated to fill out the missing values (e.g. no NAs in between detected amplitude segments).
 }
 \examples{
-\dontrun{
+{
 # set the temp directory
 setwd(tempdir())
 
@@ -92,8 +92,7 @@ writeWave(Phae.long2, "Phae.long2.wav") #save sound files
 writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-ffDTW(selec.table, length.out = 30, flim = c(1, 12), img = T, bp = c(1, 9), wl = 300)
-
+ffDTW(selec.table[1:4,], length.out = 30, flim = c(1, 12), img = TRUE, bp = c(1, 9), wl = 300)
 }
 }
 \author{

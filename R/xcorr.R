@@ -47,7 +47,7 @@
 #' This function is a modified version of the \code{\link[monitoR]{corMatch}} and \code{\link[monitoR]{makeTemplate}} 
 #' from the awesome R package `monitoR`.   
 #' @examples
-#' \dontrun{
+#' {
 #' #First set temporary working directory
 #' setwd(tempdir())
 #' 

@@ -82,7 +82,7 @@ The function uses the \code{\link[stats]{approx}} function to interpolate values
  to fill out the missing values (e.g. no NAs in between detected amplitude segments).
 }
 \examples{
-\dontrun{
+{
 # set the temp directory
 setwd(tempdir())
 
@@ -94,7 +94,7 @@ writeWave(Phae.long2, "Phae.long2.wav") #save sound files
 # run function 
 ffts(selec.table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300)
 
-Note that fundamental frequency is not accurate for noisy signals, works better with pure tones
+# Fundamental frequency is not accurate for noisy signals, works better with pure tones
 
 }
 }

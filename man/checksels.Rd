@@ -40,7 +40,7 @@ This is useful for avoiding errors in dowstream functions (e.g. \code{\link{spec
 fixed using \code{\link{fixwavs}}) ('sox' must be installed to be able to run this function).
 }
 \examples{
-\dontrun{
+{
 # First set temporary folder
 setwd(tempdir())
 

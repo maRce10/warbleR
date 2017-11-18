@@ -122,7 +122,7 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used
  frequency measures when there are no amplitude values above the threshold.
 }
 \examples{
-\dontrun{
+{
 # First set temporary folder
 setwd(tempdir())
 

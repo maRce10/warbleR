@@ -23,8 +23,7 @@
 #' @export
 #' @seealso \code{\link{checksels}} \code{\link{seltailor}}
 #' @name checkwavs
-#' @examples
-#' \dontrun{
+#' @examples{
 #' # First set temporary folder
 #' setwd(tempdir())
 #' 

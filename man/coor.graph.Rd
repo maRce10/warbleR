@@ -46,13 +46,13 @@ highlights the individual responsible for the overlap using a color code. The wi
 depicting the time of overlap.
 }
 \examples{
-\dontrun{
+{
 
 # First set temporary folder
 setwd(tempdir())
 
 # load simulate singing events  (see data documentation)
-, data(sim.coor.sing)
+data(sim.coor.sing)
 
 # make coor.graphs in tiff format
 coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, 

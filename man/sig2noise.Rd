@@ -75,7 +75,7 @@ Signal-to-noise ratio (SNR) is a measure of the level of a desired signal compar
   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
 }
 \examples{
-\dontrun{
+{
 # First set temporary folder
 setwd(tempdir())
 

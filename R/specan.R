@@ -101,7 +101,7 @@
 #'  frequency measures when there are no amplitude values above the threshold.
 
 #' @examples
-#' \dontrun{
+#' {
 #' # First set temporary folder
 #' setwd(tempdir())
 #' 

@@ -26,7 +26,7 @@
 #' @export
 #' @name make.selection.table
 #' @examples
-#' \dontrun{
+#' {
 #' # First set temporary folder
 #' setwd(tempdir())
 #' 

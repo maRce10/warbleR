@@ -52,9 +52,9 @@ than the observed value. The function runs one test for each singing event in th
 is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
 }
 \examples{
-\dontrun{
+{
 #load  simulated singing data (see data documentation)
-, data(sim.coor.sing)
+data(sim.coor.sing)
 
 # testing if coordination happens less than expected by chance
 coor.test(sim.coor.sing, iterations = 100, less.than.chance = TRUE)

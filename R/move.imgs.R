@@ -24,7 +24,7 @@
 #' @details This function aims to simplify the manipulation of the image files produce by many 
 #' of the \code{\link{warbleR}} function. It copies/cuts files between directories.
 #' @examples
-#' \dontrun{
+#' {
 #' #Set temporary working directory
 #' setwd(tempdir())
 #' 
@@ -44,7 +44,7 @@
 #' move.imgs(cut = FALSE)
 #'
 #' #cut files
-#' move.imgs(cut = TRUE)
+#' move.imgs(cut = TRUE, to = "image_files")
 #' 
 #'# Check this folder
 #' getwd()

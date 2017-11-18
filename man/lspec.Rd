@@ -89,9 +89,10 @@ The function creates spectrograms for complete sound files, printing
   of vocalization units and the analysis of animal vocal sequences.
 }
 \examples{
-\dontrun{
+{
 # Set temporary working directory
 setwd(tempdir())
+
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav") 
@@ -102,7 +103,7 @@ lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
 # including selections
 lspec(sxrow = 2, rows = 8, X = selec.table, pal = reverse.heat.colors, redo = TRUE, wl = 300)
 
-check this floder
+#check this floder
 getwd()
 }
 }

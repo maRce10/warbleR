@@ -44,7 +44,7 @@ lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, it = "jpeg")
 #now create single pdf removing jpeg
 lspec2pdf(keep.img = FALSE)
 
-check this floder
+# check this floder
 getwd()
 }
 }

@@ -78,7 +78,7 @@
 #' some options become unavailable, as collevels, and sc (amplitude scale). This option is indicated for signals with 
 #' high background noise levels. 
 #' @examples
-#' \dontrun{ 
+#' { 
 #' # First set empty folder
 #' setwd(tempdir())
 

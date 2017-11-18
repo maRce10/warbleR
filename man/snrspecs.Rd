@@ -102,7 +102,7 @@ This function can be used to test different margins to facilitate
   when osci or sc = \code{TRUE}, this may take some optimization by the user.
 }
 \examples{
-\dontrun{
+{
 # Set temporary working directory
 setwd(tempdir())
  

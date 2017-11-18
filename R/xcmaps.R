@@ -1,6 +1,6 @@
-#' Maps of Xeno-Canto recordings by species
+#' Maps of 'Xeno-Canto' recordings by species
 #' 
-#' \code{xcmaps} creates maps to visualize the geographic spread of Xeno-Canto
+#' \code{xcmaps} creates maps to visualize the geographic spread of 'Xeno-Canto'
 #'   recordings.
 #' @usage xcmaps(X, img = TRUE, it = "jpeg", res = 100, labels = F)   
 #' @param X Data frame output from \code{\link{querxc}}.
@@ -13,12 +13,12 @@
 #'   presentation quality.
 #' @param labels A logical argument defining whether dots depicting recording locations are labeled.
 #' If \code{TRUE} then the Recording_ID is used as label.
-#' @return A map of Xeno-Canto recordings per species (image file), or a faceted
+#' @return A map of 'Xeno-Canto' recordings per species (image file), or a faceted
 #'   plot of species map(s) in the active graphic device.
 #' @export
 #' @name xcmaps
 #' @details This function creates maps for visualizing the geographic spread of recordings from the open-access
-#' online repository Xeno-Canto (\url{http://www.xeno-canto.org/}). The function takes the output of 
+#' online repository 'Xeno-Canto' (\url{http://www.xeno-canto.org/}). The function takes the output of 
 #' \code{\link{querxc}} as input. Maps can be displayed in the graphic devide or saved as images in the
 #' working directory.
 #' @examples

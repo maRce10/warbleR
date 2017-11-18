@@ -71,7 +71,7 @@
 #'   Title font size, inner.mar and outer.mar (from \code{mar} and \code{oma} in \code{par}) don't work well
 #'   when osci or sc = \code{TRUE}, this may take some optimization by the user.
 #' @examples
-#' \dontrun{
+#' {
 #' # Set temporary working directory
 #' setwd(tempdir())
 #'  

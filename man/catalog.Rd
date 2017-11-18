@@ -134,7 +134,7 @@ patterns are used to make tags with similar colors more distinguishable. Four va
 
 \item{breaks}{Numeric vector of length 1 or 2 controling the number of intervals in which a 
 numeric tag will be divided. The numbers control the first and second tags respectively. 
-Ignored if tags are not numeric. Default is c(5, 5).}
+Ignored if tags are not numeric. Default is \code{c(5, 5)}.}
 
 \item{group.tag}{Character vector of length 1 indicating the column name to be used to color
 the empty plot areas around the spectrograms. If provided selections that belong to the same
@@ -248,7 +248,7 @@ getwd()
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
-\url{https://marce10.github.io/2017-03-17-Creating_song_catalogs}
+\url{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}
 \url{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}
 \code{\link{catalog2pdf}}
 }

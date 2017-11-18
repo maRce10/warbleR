@@ -72,7 +72,7 @@ This functions aims to automatize the detection of frequency ranges. The frequen
   produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 }
 \examples{
-\dontrun{
+{
 data(tico)
 frange.detec(wave = tico, wl = 512, fsmooth = 0.01, threshold = 1, bp = c(2, 8),
  widths = c(4, 2))

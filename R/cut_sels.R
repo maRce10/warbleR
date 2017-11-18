@@ -30,8 +30,7 @@
 #' @name cut_sels
 #' @details This function allow users to produce individual sound files from the selections
 #' listed in a selection table as in \code{\link{selec.table}}.
-#' @examples
-#' \dontrun{ 
+#' @examples{ 
 #' # First set empty folder
 #' setwd(tempdir())
 #' 

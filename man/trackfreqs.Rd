@@ -183,7 +183,7 @@ This function provides visualization of frequency measurements as the ones
   frequency spectrum showing the detection threshold.
 }
 \examples{
-\dontrun{
+{
 #Set temporary working directory
 setwd(tempdir())
 

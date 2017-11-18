@@ -34,10 +34,9 @@
 #' than the observed value. The function runs one test for each singing event in the input data frame. The function 
 #' is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
 #' @references Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song Overlap Null model Generator (SONG): a new tool for distinguishing between random and non-random song overlap. Bioacoustics. 1-12. 
-#' @examples
-#' \dontrun{
+#' @examples{
 #' #load  simulated singing data (see data documentation)
-#' , data(sim.coor.sing)
+#' data(sim.coor.sing)
 #' 
 #' # testing if coordination happens less than expected by chance
 #' coor.test(sim.coor.sing, iterations = 100, less.than.chance = TRUE)

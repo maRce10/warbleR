@@ -109,7 +109,7 @@ some options become unavailable, as collevels, and sc (amplitude scale). This op
 high background noise levels.
 }
 \examples{
-\dontrun{ 
+{ 
 # First set empty folder
 setwd(tempdir())
 data(list = c("Phae.long1", "Phae.long2","selec.table"))

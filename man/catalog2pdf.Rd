@@ -47,10 +47,10 @@ writeWave(Phae.long2,"Phae.long2.wav")
 
 catalog(X = selec.table, nrow = 2, ncol = 4)
 
-#now create single pdf removing jpeg
+# now create single pdf removing jpeg
 catalog2pdf(keep.img = FALSE)
 
-check this floder
+# check this floder
 getwd()
 }
 }
@@ -59,6 +59,6 @@ Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
 \seealso{
 \code{\link{catalog2pdf}}, 
-\url{https://marce10.github.io/2017-03-17-Creating_song_catalogs/}
+\url{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}
 }
 

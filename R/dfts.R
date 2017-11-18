@@ -67,8 +67,7 @@
 #'  detected then the values of this adjacent segments will be interpolated 
 #'  to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
 #' 
-#' @examples
-#' \dontrun{
+#' @examples{
 #' # set the temp directory
 #' setwd(tempdir())
 #' 

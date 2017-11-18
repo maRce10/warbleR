@@ -26,8 +26,7 @@
 #' @seealso \code{\link{checkwavs}}
 #' @export
 #' @name checksels
-#' @examples
-#' \dontrun{
+#' @examples{
 #' # First set temporary folder
 #' setwd(tempdir())
 #' 

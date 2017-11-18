@@ -1,10 +1,10 @@
-#' Access Xeno-Canto recordings and metadata
+#' Access 'Xeno-Canto' recordings and metadata
 #' 
-#' \code{querxc} downloads recordings and metadata from Xeno-Canto (\url{http://www.xeno-canto.org/}).
+#' \code{querxc} downloads recordings and metadata from 'Xeno-Canto' (\url{http://www.xeno-canto.org/}).
 #' @usage querxc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
 #' parallel = 1, path = NULL, pb = TRUE)  
 #' @param qword Character vector of length one indicating the genus, or genus and
-#'  species, to query Xeno-Canto database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
+#'  species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
 #'  (\url{http://www.xeno-canto.org/}). More complex queries can be done by using search terms that follow the 
 #'  xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings 
 #'  (e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song' 
@@ -21,7 +21,7 @@
 #' @param X Data frame with a 'Recording_ID' column and any other column listed in the file.name argument. Only the recordings listed in the data frame 
 #' will be download (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 #' the recordings to be downloaded based on their attributes.  
-#' @param file.name Character vector indicating the tags (or column names) to be included in the sound file names (if download = \code{TRUE}). Several tags can be included. If \code{NULL} only the Xeno-Canto recording identification number ("Recording_ID") is used. Default is c("Genus", "Specific_epithet").
+#' @param file.name Character vector indicating the tags (or column names) to be included in the sound file names (if download = \code{TRUE}). Several tags can be included. If \code{NULL} only the 'Xeno-Canto' recording identification number ("Recording_ID") is used. Default is c("Genus", "Specific_epithet").
 #' Note that recording id is always used (whether or not is listed by users) to avoid duplicated names.
 #' @param parallel Numeric. Controls whether parallel computing is applied when downloading mp3 files.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Currently only applied when downloading files. Might not work 
@@ -34,7 +34,7 @@
 #' @export
 #' @name querxc
 #' @details This function queries for avian vocalization recordings in the open-access
-#' online repository Xeno-Canto (\url{http://www.xeno-canto.org/}). It can return recordings metadata
+#' online repository 'Xeno-Canto' (\url{http://www.xeno-canto.org/}). It can return recordings metadata
 #' or download the associated sound files. Complex queries can be done by using search terms that follow the 
 #'  xeno-canto advance query syntax (check "qword" argument description). 
 #'  Files are double-checked after downloading and "empty" files are re-downloaded. 
@@ -42,7 +42,7 @@
 #'  Maps of recording coordinates can be produced using 
 #' \code{\link{xcmaps}}.
 #' @seealso \code{\link{xcmaps}}, 
-#' \url{https://marce10.github.io/2016-12-22-Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto/} 
+#' \url{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html} 
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory

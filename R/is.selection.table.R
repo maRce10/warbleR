@@ -7,8 +7,7 @@
 #' @seealso \code{\link{make.selection.table}}
 #' @export
 #' @name is.selection.table
-#' @examples
-#' \dontrun{
+#' @examples{
 #' # First set temporary folder
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 #' 

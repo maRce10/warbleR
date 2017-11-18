@@ -16,7 +16,7 @@ A logical argument indicating whether the object class is 'selection.table'
 \code{is.selection.table} Check if the object belongs to the class "selection.table"
 }
 \examples{
-\dontrun{
+{
 # First set temporary folder
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 

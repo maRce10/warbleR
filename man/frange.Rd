@@ -102,7 +102,7 @@ This functions aims to automatize the detection of frequency ranges. The frequen
   produced for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 }
 \examples{
-\dontrun{
+{
 # First set temporary folder
 setwd(tempdir())
 
@@ -113,7 +113,7 @@ writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
 frange(X = selec.table, wl = 112, fsmooth = 1, threshold = 13, widths = c(4, 1), 
-img = TRUE, parallel = 4, pb = TRUE, it = "tiff", line = TRUE, mar = 0.1, bp = c(1,10.5), 
+img = TRUE, pb = TRUE, it = "tiff", line = TRUE, mar = 0.1, bp = c(1,10.5), 
 flim = c(0, 11))
 }
 }

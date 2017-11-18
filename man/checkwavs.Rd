@@ -35,7 +35,7 @@ The function is intended for a "quick and dirty" check of the .wav files in a se
  frame. For a more thourough analysis see \code{\link{checksels}}.
 }
 \examples{
-\dontrun{
+{
 # First set temporary folder
 setwd(tempdir())
 

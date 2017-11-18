@@ -39,7 +39,7 @@ fixed using \code{\link{fixwavs}}) ('sox' must be installed to be able to run th
 The 'selection.table' class can be input in subsequent functions.
 }
 \examples{
-\dontrun{
+{
 # First set temporary folder
 setwd(tempdir())
 

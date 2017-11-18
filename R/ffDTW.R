@@ -60,7 +60,7 @@
 #'  segments in which amplitude was detected then the values of this adjacent segments will be interpolated to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
 #' @seealso dfDTW \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}}
 #' @examples
-#' \dontrun{
+#' {
 #' # set the temp directory
 #' setwd(tempdir())
 #' 
@@ -70,8 +70,7 @@
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # run function 
-#' ffDTW(selec.table, length.out = 30, flim = c(1, 12), img = T, bp = c(1, 9), wl = 300)
-#' 
+#' ffDTW(selec.table[1:4,], length.out = 30, flim = c(1, 12), img = TRUE, bp = c(1, 9), wl = 300)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on oct-26-2016 (MAS)

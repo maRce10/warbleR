@@ -36,7 +36,7 @@ the two signals. The x axis shows the time difference between the two signals fo
 default graphic device. In such cases saving the plot as and image file is adviced.
 }
 \examples{
-\dontrun{
+{
 #load data
 #First set temporary working directory]
 setwd(tempdir())

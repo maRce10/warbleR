@@ -63,10 +63,10 @@
 #'   of vocalization units and the analysis of animal vocal sequences.
 #' @seealso \code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, 
 #' https://marce10.github.io/2017-01-07-Create_pdf_files_with_spectrograms_of_full_recordings/
-#' @examples
-#' \dontrun{
+#' @examples{
 #' # Set temporary working directory
 #' setwd(tempdir())
+#' 
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","selec.table"))
 #' writeWave(Phae.long1,"Phae.long1.wav") 
@@ -77,7 +77,7 @@
 #' # including selections
 #' lspec(sxrow = 2, rows = 8, X = selec.table, pal = reverse.heat.colors, redo = TRUE, wl = 300)
 #' 
-#' check this floder
+#' #check this floder
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})

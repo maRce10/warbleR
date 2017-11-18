@@ -49,7 +49,7 @@
 #'   produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 #' @seealso \code{\link{frange}}, \code{\link{autodetec}}
 #' @examples
-#' \dontrun{
+#' {
 #' data(tico)
 #' frange.detec(wave = tico, wl = 512, fsmooth = 0.01, threshold = 1, bp = c(2, 8),
 #'  widths = c(4, 2))

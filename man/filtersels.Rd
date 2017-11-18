@@ -50,7 +50,7 @@ This function subsets selections (or sound files if \code{lspec} is \code{TRUE})
  image files should be in the working directory (or the directory provided in 'path').
 }
 \examples{
-\dontrun{ 
+{ 
 # First set temporary folder
 setwd(tempdir())
 

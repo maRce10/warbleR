@@ -57,8 +57,7 @@
 #'  above the amplitude theshold in between signal segments in which amplitude was 
 #'  detected then the values of this adjacent segments will be interpolated 
 #'  to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
-#' @examples
-#' \dontrun{
+#' @examples{
 #' # set the temp directory
 #' setwd(tempdir())
 #' 
@@ -70,7 +69,7 @@
 #' # run function 
 #' ffts(selec.table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300)
 #' 
-#' Note that fundamental frequency is not accurate for noisy signals, works better with pure tones
+#' # Fundamental frequency is not accurate for noisy signals, works better with pure tones
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})

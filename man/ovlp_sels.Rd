@@ -48,13 +48,13 @@ This function detects selections within a selection table that overlap in time. 
 listed in a data frame similar to \code{\link{selec.table}}.
 }
 \examples{
-\dontrun{
+{
 #no overlap
 ovlp_sels(X =  selec.table)
 
 # modified selec.table to make the first and second selection overlap
 Y <- selec.table
-Y$end[4] <- 1.5 S
+Y$end[4] <- 1.5
   
  ovlp_sels(X =  Y)
 

@@ -22,7 +22,7 @@
 #' (0 means perfectly centered signals). Note that large number of signals may not display well in the 
 #' default graphic device. In such cases saving the plot as and image file is adviced.   
 #' @examples
-#' \dontrun{
+#' {
 #' #load data
 #' #First set temporary working directory]
 #' setwd(tempdir())

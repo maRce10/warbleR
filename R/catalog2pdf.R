@@ -20,7 +20,7 @@
 #' @name catalog2pdf
 #' @details The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution and smaller dimension (width and height) when creating catalogs will substantially decrease the size of pdf files (which could be pretty big).
 #' @seealso \code{\link{catalog2pdf}}, 
-#' \url{https://marce10.github.io/2017-03-17-Creating_song_catalogs/}
+#' \url{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory
@@ -33,10 +33,10 @@
 #' 
 #' catalog(X = selec.table, nrow = 2, ncol = 4)
 #' 
-#' #now create single pdf removing jpeg
+#' # now create single pdf removing jpeg
 #' catalog2pdf(keep.img = FALSE)
 #' 
-#' check this floder
+#' # check this floder
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})

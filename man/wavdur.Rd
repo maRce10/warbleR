@@ -22,7 +22,7 @@ A data frame with the duration (in seconds) of the sound files.
 This function returns the duration (in seconds) of sound files.
 }
 \examples{
-\dontrun{
+{
 # Set temporary working directory
 setwd(tempdir())
 

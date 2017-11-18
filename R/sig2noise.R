@@ -50,7 +50,7 @@
 #'   background noise is equal to or overpowering the acoustic signal.
 #'   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
 #' @examples
-#' \dontrun{
+#' {
 #' # First set temporary folder
 #' setwd(tempdir())
 #' 

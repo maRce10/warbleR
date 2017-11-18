@@ -33,7 +33,7 @@
 #' #now create single pdf removing jpeg
 #' lspec2pdf(keep.img = FALSE)
 #' 
-#' check this floder
+#' # check this floder
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})

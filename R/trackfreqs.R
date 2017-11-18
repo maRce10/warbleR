@@ -131,7 +131,7 @@
 #'   user (see 'custom.contour' argument). If \code{frange = TRUE} the function uses \code{\link{frange.detec}} to detect the frequency range. In this case the graphical output includes a
 #'   frequency spectrum showing the detection threshold.
 #' @examples
-#' \dontrun{
+#' {
 #' #Set temporary working directory
 #' setwd(tempdir())
 #' 

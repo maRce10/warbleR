@@ -12,8 +12,8 @@ own data into a workflow that facilitates spectrographic visualization
 and measurement of acoustic parameters. warbleR makes fundamental sound 
 analysis tools from the R package seewave, as well as new tools not yet 
 offered in the R environment, readily available for batch process analysis. The functions 
-facilitate searching and downloading avian vocalizations from Xeno-Canto 
-\url{http://www.xeno-canto.org/}, creating maps of Xeno-Canto recordings, 
+facilitate searching and downloading avian vocalizations from 'Xeno-Canto' 
+\url{http://www.xeno-canto.org/}, creating maps of 'Xeno-Canto' recordings, 
 converting .mp3 files to .wav files, checking .wav files, automatically detecting acoustic signals, selecting 
 them manually, printing spectrograms of whole recordings or individual signals, measuring signal 
 to noise ratio, cross-correlation and performing acoustic measurements.
@@ -32,7 +32,7 @@ License: GPL (>= 2)
 \section{Obtaining avian vocalization data}{
 
   
-  \code{\link{querxc}}: Download recordings and metadata from Xeno-Canto
+  \code{\link{querxc}}: Download recordings and metadata from 'Xeno-Canto'
 }
 
 \section{Managing sound files}{
@@ -105,7 +105,7 @@ License: GPL (>= 2)
   
   @section Graphical outputs:
   
-  \code{\link{xcmaps}}: Create maps to visualize the geographic spread of Xeno-Canto recordings
+  \code{\link{xcmaps}}: Create maps to visualize the geographic spread of 'Xeno-Canto' recordings
   
   \code{\link{catalog}}: Produce a vocalization catalog with spectrograms in and array with
   several rows and columns  
