@@ -109,9 +109,6 @@ dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
 
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{sp.en.ts}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 
@@ -121,4 +118,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{sp.en.ts}}, \code{\link{specreator}},
   \code{\link{trackfreqs}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

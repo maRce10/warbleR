@@ -96,7 +96,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   }  
   
   
-  
   #if sel.comment column not found create it
   if(is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
   
@@ -121,12 +120,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
     #if X is not a data frame
     if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
     
-    
-    
-    
   #stop if files are not in working directory
   if(length(files) == 0) stop(".wav files in X are not in working directory")
-  
   
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
@@ -190,6 +185,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
     files <- files[!gsub(".wav$","", list.files(pattern = "\\.wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
       unlist(sapply(strsplit(as.character(list.files(pattern = paste(it, "$", 
                                                                      sep = ""), ignore.case = TRUE)), "-p",fixed = TRUE), "[",1))]
+  
+  files <- files[!is.na(files)]
   
   #stop if files are not in working directory
   if(length(files) == 0) stop("all .wav files have been processed")

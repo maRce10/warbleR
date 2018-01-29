@@ -143,4 +143,3 @@ a <- specan(X = selec.table, bp = c(0, 22), threshold = 20)
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
 }
-

@@ -38,4 +38,3 @@ wavdur()
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
-

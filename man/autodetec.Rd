@@ -170,4 +170,3 @@ getwd()
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}). Implements a
 modified version of the timer function from seewave.
 }
-

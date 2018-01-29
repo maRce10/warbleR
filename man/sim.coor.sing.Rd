@@ -20,4 +20,3 @@ Hermit hummingbird) songs and intervals between songs (e.i gaps). Three events a
 alternating signals (altern) and non-synchronized signals (uncoor).
 }
 \keyword{datasets}
-

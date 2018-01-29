@@ -54,10 +54,9 @@ st <- make.selection.table(X = selec.table)
 class(st)
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{checkwavs}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

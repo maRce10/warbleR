@@ -216,9 +216,6 @@ bp = c(1, 3), contour = "both", wl = 300)
 
 }
 }
-\author{
-Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{specreator}} for creating spectrograms from selections,
  \code{\link{snrspecs}} for creating spectrograms to 
@@ -230,4 +227,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
   \code{\link{specreator}}
 }
-
+\author{
+Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

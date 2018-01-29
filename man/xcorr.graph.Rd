@@ -54,10 +54,9 @@ writeWave(Phae.long2, "Phae.long2.wav")
   xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{xcorr}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

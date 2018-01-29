@@ -107,11 +107,10 @@ lspec(sxrow = 2, rows = 8, X = selec.table, pal = reverse.heat.colors, redo = TR
 getwd()
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, 
 https://marce10.github.io/2017-01-07-Create_pdf_files_with_spectrograms_of_full_recordings/
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

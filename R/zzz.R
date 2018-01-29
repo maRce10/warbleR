@@ -5,9 +5,7 @@
 
 .onAttach <- function(libname, pkgname) {
  if(!requireNamespace("ggplot2",quietly = TRUE))
-   packageStartupMessage("\nNOTEs: 1) install ggplot2 to run coor.graph() \n
-                         2) functions 'imp.raven' and 'imp.syrinx' were moved to the Rraven pacakge \n
-                         3) 'low.freq' and 'high.freq' columns names are now expected to be 'bottom.freq' and 'top.freq'")
+   packageStartupMessage("\nNOTEs: \n 1) install ggplot2 to run coor.graph() \n 2) functions 'imp.raven' and 'imp.syrinx' were moved to the Rraven package \n 3) 'low.freq' and 'high.freq' columns names are now expected to be 'bottom.freq' and 'top.freq'")
 }
 
 # .onLoad <- function(libname, pkgname) {

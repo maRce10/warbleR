@@ -65,10 +65,9 @@ Y$end[4] <- 1.5
  ovlp_sels(X =  Y, index = TRUE)
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{filtersels}} \code{\link{selec.table}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

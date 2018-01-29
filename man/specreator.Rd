@@ -125,9 +125,6 @@ getwd()
 }
 
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
-}
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize 
   frequency measurements by \code{\link{specan}}, \code{\link{snrspecs}} for 
@@ -139,4 +136,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
   \code{\link{trackfreqs}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+}

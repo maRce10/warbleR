@@ -127,9 +127,6 @@ mar = 0.2, snrmar = 0.01, wl = 300)
 getwd()
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
-}
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize 
   frequency measurements by \code{\link{specan}}, \code{\link{specreator}} for 
@@ -141,4 +138,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{sp.en.ts}}, \code{\link{specreator}},
   \code{\link{trackfreqs}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+}

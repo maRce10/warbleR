@@ -102,9 +102,6 @@ sp.en.ts(X = selec.table, threshold = 10, bp = c(2, 12), clip.edges = TRUE, leng
 
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{specreator}} for creating spectrograms from selections,
  \code{\link{snrspecs}} for creating spectrograms to 
@@ -116,4 +113,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{snrspecs}}, \code{\link{specreator}},
   \code{\link{trackfreqs}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

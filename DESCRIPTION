@@ -1,8 +1,8 @@
 Package: warbleR
 Type: Package
 Title: Streamline Bioacoustic Analysis
-Version: 1.1.9
-Date: 2017-11-17
+Version: 1.1.10
+Date: 2018-01-28
 Author: Marcelo Araya-Salas & Grace Smith Vidaurre
 Maintainer: Marcelo Araya-Salas <araya-salas@cornell.edu>
 Description: A tool to streamline the analysis of animal acoustic signal structure. The package offers functions for downloading avian vocalizations from the open-access online repository 'Xeno-Canto' <http://xeno-canto.org/>, displaying the geographic extent of the recordings, manipulating sound files, detecting acoustic signals, assessing performance of methods that measure acoustic similarity, conducting cross-correlations, dynamic time warping, measuring acoustic parameters and analysing interactive vocal signals, among others. Most functions working iteratively allow parallelization to improve computational efficiency.
@@ -15,7 +15,7 @@ BugReports: https://github.com/maRce10/warbleR/issues
 NeedsCompilation: no
 Suggests: knitr, ggplot2
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Packaged: 2016-04-18 23:45:31 UTC; m
 Repository: CRAN
 Date/Publication: 2016-04-19 08:12:11

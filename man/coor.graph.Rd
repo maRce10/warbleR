@@ -5,7 +5,7 @@
 \title{Coordinated singing graphs}
 \usage{
 coor.graph(X, only.coor = FALSE, ovlp = TRUE, xl = 1, res= 80, it = "jpeg", img = TRUE, 
-tlim = NULL)
+tlim = NULL, pb = TRUE)
 }
 \arguments{
 \item{X}{Data frame containing columns for singing event (sing.event), 
@@ -25,11 +25,14 @@ spectrogram width. Default is 1.}
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
-\item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}. Note that 
-images are return}
+\item{img}{Logical argument. If \code{FALSE}, image files are not produced and
+the graphs are shown in the current graphic device. Default is \code{TRUE}.}
 
 \item{tlim}{Numeric vector of length 2 indicating the start and end time of the coordinated singing events
 to be displayed in the graphs.}
+
+\item{pb}{Logical argument to control progress bar and messages. Default is 
+\code{TRUE}.}
 }
 \value{
 The function returns a list of graphs, one for each singing event in the input data frame. The graphs can be plotted by simply calling the list. If 'img' is \code{TRUE} then the graphs are also saved in the working 
@@ -68,4 +71,3 @@ cgs
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
-

@@ -94,4 +94,3 @@ sig2noise(selec.table[grep("Phae.long1", selec.table$sound.files), ], mar = 0.1)
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
 }
-

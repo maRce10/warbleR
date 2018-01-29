@@ -244,12 +244,11 @@ check this floder
 getwd()
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \url{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}
 \url{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}
 \code{\link{catalog2pdf}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

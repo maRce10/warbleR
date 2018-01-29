@@ -52,7 +52,11 @@ License: GPL (>= 2)
   
   \code{\link{wavdur}}: Determine the duration of sound files
   
-\code{\link{cut_sels}}: Cut selections from a selection table into individual sound files.
+  \code{\link{cut_sels}}: Cut selections from a selection table into individual sound files
+ 
+  \code{\link{rm_sil}}: Remove silence segments from wave files
+  
+  \code{\link{consolidate}}: Consolidate sound files into a single folder
 }
 
 \section{Exploring/analyzing signal structure}{
@@ -128,9 +132,9 @@ License: GPL (>= 2)
   \code{\link{snrspecs}}: Create spectrograms to visualize margins over which 
   noise will be measured by sig2noise
 }
+
 \author{
 Marcelo Araya-Salas & Grace Smith Vidaurre
   
   Maintainer: Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
-

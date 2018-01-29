@@ -27,4 +27,3 @@ A data frame containing the start, end, low and hig frequency of
 example sound files included in this package.
 }
 \keyword{datasets}
-

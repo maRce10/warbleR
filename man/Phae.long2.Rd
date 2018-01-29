@@ -19,4 +19,3 @@ data(Phae.long2)
 Audio recording #2 of \emph{Phaethornis longirostris}  (Long-billed Hermit).
 }
 \keyword{datasets}
-

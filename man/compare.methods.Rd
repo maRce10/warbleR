@@ -179,12 +179,11 @@ methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
 }
 
 }
+\seealso{
+\url{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}
+}
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}). It uses 
 internally a modified version of the \code{\link[seewave]{spectro}} function from 
 seewave package to create spectrograms.
 }
-\seealso{
-\url{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}
-}
-

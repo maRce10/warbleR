@@ -82,10 +82,9 @@ frange.detec(wave = sheep, wl = 512, fsmooth = 0.2, threshold = 50, bp = c(0.3, 
 flim = c(0, 1.5), pal = reverse.heat.colors, main = "sheep")
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{frange}}, \code{\link{autodetec}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

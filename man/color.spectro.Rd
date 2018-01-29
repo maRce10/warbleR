@@ -122,9 +122,6 @@ writeWave(Phae.long1, "Phae.long1.wav") #save sound files
 }
 
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
-}
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize 
   frequency measurements by \code{\link{specan}}, \code{\link{snrspecs}} for 
@@ -136,4 +133,6 @@ Other spectrogram creators: \code{\link{dfDTW}},
   \code{\link{sp.en.ts}}, \code{\link{specreator}},
   \code{\link{trackfreqs}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+}

@@ -53,4 +53,3 @@ getwd()
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
 }
-

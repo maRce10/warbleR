@@ -53,10 +53,9 @@ checkwavs()
 checkwavs(X = selec.table)
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{checksels}} \code{\link{seltailor}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

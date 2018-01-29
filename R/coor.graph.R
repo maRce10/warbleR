@@ -3,7 +3,7 @@
 #' \code{coor.graph} creates graphs of coordinated singing and highlights the signals that overlap 
 #' in time. The signals are represented by polygons of different colors.
 #' @usage coor.graph(X, only.coor = FALSE, ovlp = TRUE, xl = 1, res= 80, it = "jpeg", img = TRUE, 
-#' tlim = NULL)
+#' tlim = NULL, pb = TRUE)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param only.coor Logical. If \code{TRUE} only the segment in which both individuals are singing is 
@@ -15,10 +15,12 @@
 #' @param res Numeric argument of length 1. Controls image resolution. Default is 80.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}. Note that 
-#' images are return 
+#' @param img Logical argument. If \code{FALSE}, image files are not produced and
+#'  the graphs are shown in the current graphic device. Default is \code{TRUE}.
 #' @param tlim Numeric vector of length 2 indicating the start and end time of the coordinated singing events
-#' to be displayed in the graphs.  
+#' to be displayed in the graphs.
+#' @param pb Logical argument to control progress bar and messages. Default is 
+#' \code{TRUE}.  
 #' @return The function returns a list of graphs, one for each singing event in the input data frame. The graphs can be plotted by simply calling the list. If 'img' is \code{TRUE} then the graphs are also saved in the working 
 #' directory as files.
 #' 
@@ -50,7 +52,7 @@
 #last modification on aug-13-2016 (MAS)
 
 coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg",
-                        img = TRUE, tlim = NULL) { 
+                        img = TRUE, tlim = NULL, pb = TRUE) { 
   
   # warning message if ggplot2 is not installed
   if(!requireNamespace("ggplot2",quietly = TRUE))
@@ -98,7 +100,9 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
   # to avoid "notes" when submitting to CRAN
   xmin <- xmax <- ymin <- ymax <- NULL
   
-  invisible(ggs <- pbapply::pblapply(unique(X$sing.event), function(x)
+  if(pb) lpply <- pbapply::pblapply else lpply <- lapply
+  
+  invisible(ggs <- lpply(unique(X$sing.event), function(x)
   {
     
     y <- X[X$sing.event == x, ]

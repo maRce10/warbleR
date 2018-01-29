@@ -40,7 +40,11 @@
 #'   
 #'   \code{\link{wavdur}}: Determine the duration of sound files
 #'   
-#' \code{\link{cut_sels}}: Cut selections from a selection table into individual sound files.
+#'   \code{\link{cut_sels}}: Cut selections from a selection table into individual sound files
+#'  
+#'   \code{\link{rm_sil}}: Remove silence segments from wave files
+#'   
+#'   \code{\link{consolidate}}: Consolidate sound files into a single folder
 #'   
 #' @section Exploring/analyzing signal structure:
 #'   

@@ -53,10 +53,9 @@ writeWave(Phae.long3,"Phae.long3.wav")
 checksels(X = selec.table)
 }
 }
-\author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{checkwavs}}
 }
-
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+}

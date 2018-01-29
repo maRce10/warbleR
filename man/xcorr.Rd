@@ -91,10 +91,9 @@ dens = 1, wn = 'hanning', cor.method = "pearson")
 
 }
 }
-\author{
-Marcelo Araya-Salas \email{araya-salas@cornell.edu})
-}
 \seealso{
 \code{\link{xcorr.graph}}
 }
-
+\author{
+Marcelo Araya-Salas \email{araya-salas@cornell.edu})
+}

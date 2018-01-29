@@ -19,4 +19,3 @@ data(Cryp.soui)
 Acoustic recording of \emph{Crypturellus soui} (Little Tinamou).
 }
 \keyword{datasets}
-

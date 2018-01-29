@@ -83,4 +83,3 @@ lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, ovlp = 10)
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
-

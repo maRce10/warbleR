@@ -1,0 +1,134 @@
+* using log directory ‘/home/m/Dropbox/warbleR/warbleR.Rcheck’
+* using R version 3.4.3 (2017-11-30)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* using option ‘--as-cran’
+* checking for file ‘warbleR/DESCRIPTION’ ... OK
+* checking extension type ... Package
+* this is package ‘warbleR’ version ‘1.1.10’
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Marcelo Araya-Salas <araya-salas@cornell.edu>’
+
+New submission
+
+Package was archived on CRAN
+
+CRAN repository db overrides:
+  X-CRAN-Comment: Archived on 2018-01-27 as check problems were not
+    corrected despite reminders.
+
+Package has a VignetteBuilder field but no prebuilt vignette index.
+
+This build time stamp is over a month old.
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... NOTE
+Found the following hidden files and directories:
+  .RData
+  .Rhistory
+  .gitignore
+  R/.Rhistory
+  .Rd2pdf14288
+  .Rproj.user
+  .git
+These were most likely included in error. See section ‘Package
+structure’ in the ‘Writing R Extensions’ manual.
+
+CRAN-pack does not know about
+  .RData
+  .Rd2pdf14288
+  .git
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘warbleR’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... NOTE
+Non-standard files/directories found at top level:
+  ‘warbleR.Rcheck’ ‘warbleR.Rproj’
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... WARNING
+Found the following directory with the name of a check directory:
+  ./warbleR.Rcheck
+Most likely, these were included erroneously.
+Found the following directory with the name of a Rd2pdf directory:
+  ./.Rd2pdf14288
+Most likely, these were included erroneously.
+Found the following directory with the name of a version control directory:
+  ./.git
+These should not be in a package tarball.
+Found the following CITATION file in a non-standard place:
+  warbleR.Rcheck/warbleR/CITATION
+Most likely ‘inst/CITATION’ should be used instead.
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking use of S3 registration ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking data for ASCII and uncompressed saves ... WARNING
+  
+  Note: significantly better compression could be obtained
+        by using R CMD build --resave-data
+                 old_size new_size compress
+  Cryp.soui.rda     172Kb    123Kb       xz
+  Phae.long1.rda    124Kb     90Kb       xz
+  Phae.long2.rda     76Kb     53Kb       xz
+  Phae.long3.rda     94Kb     63Kb       xz
+  Phae.long4.rda    149Kb    105Kb       xz
+* checking files in ‘vignettes’ ... WARNING
+Files in the 'vignettes' directory but no files in 'inst/doc':
+  ‘154161-autodetec.th10.jpg’, ‘154161-autodetec.th15.jpg’,
+    ‘Catalog_p1_labels.jpeg’, ‘Catalog_p1_nolabels.jpeg’,
+    ‘Logo_Warble-azul_small_margin.png’, ‘Phae_hisnr.csv’,
+    ‘Phaethornis-longirostris-154070.wav-13_badend.jpeg’,
+    ‘Phaethornis-longirostris-154072-p1.jpg’,
+    ‘Phaethornis-longirostris-154072.wav-104-.jpeg’,
+    ‘Phaethornis-longirostris-154072.wav-104-trackfreqs.jpeg’,
+    ‘Phaethornis-longirostris-154072.wav-148-dfDTW.jpeg’,
+    ‘Phaethornis-longirostris-154072.wav-8-snr.jpeg’,
+    ‘Phaethornis-longirostris-154072.wav-8-snr2.jpeg’,
+    ‘Phaethornis-longirostris-154138.wav-33-sp.en.ts.jpeg’,
+    ‘Phaethornis-longirostris-154161.wav-131_badstart.jpeg’,
+    ‘Raven_sels.csv’, ‘Tinamus-major-154191.wav-6-dfDTW.jpeg’,
+    ‘Tinamus-major-154191.wav-6-frange.jpeg’,
+    ‘acoustic_parameters.csv’, ‘comp.meth-XCORR-dfDTW-5-12-15-17.jpeg’,
+    ‘manualoc.jpg’, ‘seltailor_output.csv’, ‘song_types_spectros.jpg’,
+    ‘warbleR_workflow_phase1.Rmd’, ‘warbleR_workflow_phase2.Rmd’,
+    ‘warbleR_workflow_phase3.Rmd’, ‘xcorr_graph.jpeg’
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... WARNING
+Package vignettes without corresponding PDF/HTML:
+   ‘warbleR_workflow_phase1.Rmd’
+   ‘warbleR_workflow_phase2.Rmd’
+   ‘warbleR_workflow_phase3.Rmd’
+
+* checking re-building of vignette outputs ... OK
+* checking PDF version of manual ... OK
+* DONE
+Status: 4 WARNINGs, 3 NOTEs
