@@ -2,10 +2,12 @@
 #' 
 #' \code{consolidate} copies (sound) files scattered in several directories to a single folder.
 #' @export consolidate
-#' @usage consolidate(path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", parallel = 1, 
+#' @usage consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", parallel = 1, 
 #' save.csv = TRUE, ...)
+#' @param files character vector or factor indicating the subset of files that will be analyzed. The files names
+#' should include the full file path. Optional.
 #' @param path Character string containing the directory path where the sound files are located. 
-#' If \code{NULL} (default) then the current working directory is used.
+#' If \code{NULL} (default) then the current working directory is used. 
 #' @param dest.path Character string containing the directory path where the cut sound files will be saved.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
@@ -45,7 +47,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jan-29-2018 (MAS)
 
-consolidate <- function(path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", parallel = 1, save.csv = TRUE, ...){
+consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", parallel = 1, save.csv = TRUE, ...){
   
   # reset working directory 
   wd <- getwd()
@@ -62,7 +64,18 @@ consolidate <- function(path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".w
     dir.create(dest.path <- file.path(getwd(), "consolidated_folder"), showWarnings = FALSE)
   
   # list files
-  files <- list.files(path = path, pattern = file.ext, ignore.case = TRUE, recursive = TRUE, full.names = TRUE)  
+  if(!is.null(files)){
+    
+    fe <- file.exists(files)
+    
+    # stop if files are not in working directory
+    if(length(fe) == 0) stop("files were not found") 
+    
+    if(length(fe) < length(files)) cat("some files were not found")
+
+    files <- files[fe]
+  } else 
+    files <- list.files(path = path, pattern = file.ext, ignore.case = TRUE, recursive = TRUE, full.names = TRUE) 
   
   # stop if files are not in working directory
   if(length(files) == 0) stop("no .wav files in working directory and/or subdirectories")
