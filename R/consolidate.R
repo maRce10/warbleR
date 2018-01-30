@@ -2,8 +2,8 @@
 #' 
 #' \code{consolidate} copies (sound) files scattered in several directories to a single folder.
 #' @export consolidate
-#' @usage consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", parallel = 1, 
-#' save.csv = TRUE, ...)
+#' @usage consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", 
+#' parallel = 1, save.csv = TRUE, ...)
 #' @param files character vector or factor indicating the subset of files that will be analyzed. The files names
 #' should include the full file path. Optional.
 #' @param path Character string containing the directory path where the sound files are located. 
@@ -47,7 +47,8 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jan-29-2018 (MAS)
 
-consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", parallel = 1, save.csv = TRUE, ...){
+consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", 
+                        parallel = 1, save.csv = TRUE, ...){
   
   # reset working directory 
   wd <- getwd()

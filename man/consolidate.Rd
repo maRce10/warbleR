@@ -4,10 +4,13 @@
 \alias{consolidate}
 \title{Consolidate sound files into a single folder}
 \usage{
-consolidate(path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", parallel = 1, 
+consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", parallel = 1, 
 save.csv = TRUE, ...)
 }
 \arguments{
+\item{files}{character vector or factor indicating the subset of files that will be analyzed. The files names
+should include the full file path. Optional.}
+
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
