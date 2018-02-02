@@ -1,6 +1,6 @@
 #' Move/copy image files between directories
 #' 
-#' \code{move.imgs} Move/copy image files created by \code{\link{warbleR}} between 
+#' \code{move.imgs} moves/copies image files created by \code{\link{warbleR}} between 
 #' directories (folders).
 #' @usage move.imgs(from = NULL, to = NULL, it = "all", cut = TRUE, 
 #' overwrite = FALSE, create.folder = TRUE, folder.name = "image_files")

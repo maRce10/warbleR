@@ -67,7 +67,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   # list files
   if(!is.null(files)){
     
-    fe <- file.exists(files)
+    fe <- file.exists(as.character(files))
     
     # stop if files are not in working directory
     if(length(fe) == 0) stop("files were not found") 
