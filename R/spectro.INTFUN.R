@@ -1,5 +1,6 @@
 #internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
 # that allows to plot spectrograms using image() which substantially increases speed (although makes some options unavailable)
+#last modification on feb-09-2017 (MAS)
 spectro.INTFUN <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast.spec = FALSE,
           complex = FALSE, norm = TRUE, correction = "none", fftw = FALSE, 
           dB = "max0", dBref = NULL, plot = TRUE, flog = FALSE, grid = TRUE, 
@@ -57,7 +58,7 @@ spectro.INTFUN <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0,
   
   # to fix function name change in after version 2.0.5
   # if(exists("stdft")) stft <- stdft
-  z <- stft(wave = wave, f = f, wl = wl, zp = zp, step = step, 
+  z <- seewave::stft(wave = wave, f = f, wl = wl, zp = zp, step = step, 
             wn = wn, fftw = fftw, scale = norm, complex = complex, 
             correction = correction)
   if (!is.null(tlim) && trel) {
@@ -122,7 +123,7 @@ if(rm.lwst) ylabel[1] <- ""
           col.lab = collab, cex.lab = cexlab, cex.axis = cexaxis, 
           bg = colbg)
       par(mar = c(0, 1, 4.5, 3))
-      dBscale(collevels = collevels, palette = palette, 
+      seewave::dBscale(collevels = collevels, palette = palette, 
               fontlab = scalefontlab, cexlab = scalecexlab, 
               collab = collab, textlab = scalelab, colaxis = colaxis)
       par(mar = c(5, 4.1, 0, 0))
@@ -134,7 +135,7 @@ if(rm.lwst) ylabel[1] <- ""
         from <- FALSE
         to <- FALSE
       }
-      soscillo(wave = wave, f = f, bty = "u", from = from, 
+      seewave::soscillo(wave = wave, f = f, bty = "u", from = from, 
                to = to, collab = collab, colaxis = colaxis, 
                colline = colaxis, ylim = c(-max(abs(wave)), 
                                            max(abs(wave))), tickup = max(abs(wave), na.rm = TRUE), 
@@ -147,7 +148,7 @@ if(rm.lwst) ylabel[1] <- ""
       par(mar = c(0, 4.1, 1, 0), las = 1, cex.lab = cexlab + 
             0.2)
       if(!fast.spec)
-      filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
+        seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = "", ylab = flab), plot.axes = {
                                                                if (axisY) {
@@ -173,14 +174,14 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
       layout(matrix(c(2, 1), ncol = 2, byrow = TRUE), 
              widths = widths)
       par(mar = c(5, 1, 4.5, 3), oma = oma, las = 0, bg = colbg)
-      dBscale(collevels = collevels, palette = palette, 
+      seewave::dBscale(collevels = collevels, palette = palette, 
               fontlab = scalefontlab, cexlab = scalecexlab, 
               collab = collab, textlab = scalelab, colaxis = colaxis)
       par(mar = c(5, 4.1, 1, 0), las = 1, cex = 1, col = colaxis, 
           col.axis = colaxis, col.lab = collab, bg = colbg, 
           cex.lab = cexlab + 0.2)
       if(!fast.spec)
-      filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
+        seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = tlab, ylab = flab), plot.axes = {
                                                                if (axisX) {
@@ -257,7 +258,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
           col.lab = collab, bg = colbg, cex.axis = cexaxis, 
           cex.lab = cexlab, ...)
       if(!fast.spec)
-      filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
+        seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = tlab, ylab = flab), plot.axes = {
                                                                if (axisX) {

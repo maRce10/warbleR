@@ -29,7 +29,7 @@ should be overwritten. Default is \code{FALSE}.}
 copied to. Ignored if 'to' is provided. Default is \code{"image_files"}.}
 }
 \description{
-\code{move.imgs} Move/copy image files created by \code{\link{warbleR}} between 
+\code{move.imgs} moves/copies image files created by \code{\link{warbleR}} between 
 directories (folders).
 }
 \details{

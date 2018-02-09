@@ -1,0 +1,12 @@
+citHeader("Please cite 'warbleR' as follows:")
+
+citEntry(entry = "MISC",
+        title = "warbleR: an r package to streamline analysis of animal acoustic signals",
+        author = personList(as.person("M. Araya-Salas"),as.person("G. Smith-Vidaurre")),
+        year = "2017",
+        journal = "Methods in Ecology and Evolution",
+        url = "http://dx.doi.org/10.1111/2041-210X.12624", 
+        textVersion = "Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an r package to streamline analysis of animal acoustic signals. Methods Ecol Evol. 8, 184-191. 
+
+NOTE: please also cite the 'tuneR' and 'seewave' packages if you use any spectrogram-creating or acoustic-measuring function"
+)

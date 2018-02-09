@@ -101,7 +101,7 @@ Image files containing spectrograms of the signals listed in the input data fram
 \code{specreator} creates spectrograms of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
-This function provides access to bath process of (a modified version of) the \code{\link[seewave]{spectro}} function from the 'seewave' package. The function creates spectrograms for visualization of vocalizations. 
+This function provides access to batch process of (a modified version of) the \code{\link[seewave]{spectro}} function from the 'seewave' package. The function creates spectrograms for visualization of vocalizations. 
 Setting inner.mar to c(4,4.5,2,1) and outer.mar to c(4,2,2,1) works well when picsize = 2 or 3. 
 Title font size, inner.mar and outer.mar (from mar and oma) don't work well when osci or sc = TRUE,
 this may take some optimization by the user. Setting 'fast' argument to TRUE significantly increases speed, although 

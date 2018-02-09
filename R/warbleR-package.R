@@ -120,6 +120,7 @@
 #'   noise will be measured by sig2noise
 
 #' @exportClass selection.table      
+#' @import NatureSounds
 #' @import maps
 #' @import rjson
 #' @import RCurl

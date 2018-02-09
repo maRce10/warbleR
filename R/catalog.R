@@ -195,16 +195,16 @@
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on mar-12-2017 (MAS)
+#last modification on feb-09-2017 (MAS)
 
 catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, collev = seq(-40, 0, 1), 
                     ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, lab.mar = 1,
-                    wl = 512, gr = FALSE,  pal = reverse.gray.colors.2, it = "jpeg", 
+                    wl = 512, gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", 
                     path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
                     labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
                     tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, cex = 1, 
                     leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), hatching = 0, 
-                    breaks = c(5, 5),group.tag = NULL, spec.mar = 0, spec.bg = "white", 
+                    breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
                     max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
                     by.row = TRUE, box = TRUE)
 {
@@ -274,8 +274,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #if NAs in tags
   if(anyNA(X[,tags]))
     stop("NAs are not allowed in tag columns")
-  
-  
   
   if(!is.null(group.tag))
   {if(!group.tag %in% colnames(X))
@@ -399,7 +397,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     if(length(tags) == 1 & legend == 2) legend <- 0
     
     #convert to character
-    Y <- as.data.frame(rapply(X, as.character, classes="factor", how="replace"))
+    Y <- as.data.frame(rapply(X, as.character, classes="factor", how="replace"), stringsAsFactors = FALSE)
     
     #if tag is numeric
     if(is.numeric(X[, tags[1]])) 
@@ -418,7 +416,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     }
     
     #convert characters to factors
-    X <- rapply(X, as.factor, classes="character", how="replace")
+    X <- as.data.frame(rapply(X, as.factor, classes="character", how="replace"))
     X$col1 <- X[,tags[1]] 
     
     if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
@@ -503,7 +501,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     }))
     
     
-    tag.col.df <- rapply(tag.col.df, as.character, classes="factor", how="replace")
+    tag.col.df <- as.data.frame(rapply(tag.col.df, as.character, classes="factor", how="replace"), stringsAsFactors = FALSE)
   } else legend <- 0
   
   
@@ -683,7 +681,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       X3 <- X[rep(1:nrow(X), each = 2), ]
       
       #convert factors to character
-      X3 <- rapply(X3, as.character, classes="factor", how="replace")
+      X3 <- data.frame(rapply(X3, as.character, classes="factor", how="replace"), stringsAsFactors = FALSE)
       
       #start graphic device
       if(!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
@@ -775,7 +773,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2, add = TRUE)
           
           #add box
-         if(box) boxw.INTFUN(xys = m[i,], bty = "u", lwd = 1.5)
+          if(box) boxw.INTFUN(xys = m[i,], bty = "u", lwd = 1.5)
         } 
         
         if(fig.type[i] == "lab") #plot labels
@@ -787,267 +785,265 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
           #color boxes
           if(!is.null(tags))
-  {
-    #plot labels
-    text(x = 0.5, y = 0.8, labels = paste(X3[i, labels], collapse = " "), 
-         cex = (ncol * nrow * 1.5 * cex)/((ncol * nrow)^1.2))
-    
-    cutbox1 <- 0
-    cutbox2 <- tag.widths[1]/(tag.widths[1] + tag.widths[2])
-    
-    lim <- par("usr")
-    if(length(tags) == 1)
-    rectw.INTFUN(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
-      rectw.INTFUN(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = cutbox2, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
-      rectw.INTFUN(xl = cutbox2, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
-    }
-    
-    } else
-             text(x = 0.5, y = 0.33, labels = paste(X3[i, labels], collapse = " "), 
-                  cex = (ncol * nrow * 2 * cex)/((ncol * nrow)^1.2))
-           
+          {
+            #plot labels
+            text(x = 0.5, y = 0.8, labels = paste(X3[i, labels], collapse = " "), 
+                 cex = (ncol * nrow * 1.5 * cex)/((ncol * nrow)^1.2))
+            
+            cutbox1 <- 0
+            cutbox2 <- tag.widths[1]/(tag.widths[1] + tag.widths[2])
+            
+            lim <- par("usr")
+            if(length(tags) == 1)
+              rectw.INTFUN(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
+                rectw.INTFUN(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = cutbox2, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
+                rectw.INTFUN(xl = cutbox2, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
+              }
+            
+          } else
+            text(x = 0.5, y = 0.33, labels = paste(X3[i, labels], collapse = " "), 
+                 cex = (ncol * nrow * 2 * cex)/((ncol * nrow)^1.2))
+          
           if(box) boxw.INTFUN(xys = m[i,], bty = "^", lwd = 1.5)
-          }
-    
-  #add Freq axis label
-  if(fig.type[i] == "flab")
-  {
-    par(mar = c(0, 0, 0, 0), bg = "white", new = T)
-    plot(1, frame.plot = FALSE, type = "n")
-    text(x = 1, y = 1.05, "Frequency (kHz)", srt = 90, cex = 1.2 * cex) 
-  }
-   
-  #add time axis label
-  if(fig.type[i] == "tlab")
-  {
-    par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
-    plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
-    
-    if(same.time.scale)
-    {
-      # add title
-        text(x = 0.5, y = 0.25, "Time (s)", cex = 1.2 * cex) 
-      
-      # max duration
-      maxdur <- max(X$end - X$start)
-      xlab <- pretty(seq(0, maxdur, length.out = 3), min.n = 5)
-      xlab <- xlab[xlab < maxdur & xlab > 0]
-      xs <- xlab/mean(X$end - X$start)   
-      xs <- xs/ncol
-        
-      finncol <- which(nrow(X) >= seq(0, nrow * ncol, nrow)[-1])
-      
-      if(length(finncol) > 0)
-    {  usr <- par("usr")
-      sq <- c(seq(min(usr), max(usr), length.out = ncol + 1))
-      sq <- sq[-length(sq)]
-      sq <- sq[finncol]
-      out <- lapply(sq, function(p)
-        {
-        out <- lapply(1:length(xs), function(w)
-                      {
-                        lines(y = c(0.9, 1.04), x = c(xs[w], xs[w]) + p)
-                        text(y = 0.75, x = xs[w] + p, labels = xlab[w], cex = cex)
-                      })
-        })
-      }
-      } else text(x = 0.5, y = 0.5, "Time (s)", cex = 1.2 * cex) 
-  
-  }
-
-  #add legend 
-  if(fig.type[i] == "legend")
-  {
-    par( mar = rep(0, 4))
-    plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
-    
-    # define y limits for legend labels
-    y1 <- 0.2
-    y2 <- 0.8
-    
-    #remove rows if legend != 3
-    if(legend == 1)
-      tag.col.df <- droplevels(tag.col.df[tag.col.df$tag.col == tags[1], ])
-    
-    if(legend == 2)
-      tag.col.df <- droplevels(tag.col.df[tag.col.df$tag.col == tags[2], ])
-    
-    
-    #add left right if 2 tags
-    if(length(tags) == 2)
-    {
-      if(legend == 3)
-      {
-      labtag1 <- paste("left:", tags[1])
-      labtag2 <- paste("right:", tags[2])
-    } else {      
-    labtag2 <- tags[2]
-    labtag1 <- tags[1]  
-    }    
-      } else labtag1 <- tags[1] 
-      
-    
-    #adjust if numeric
-    if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
-    {
-      aa <- as.character(sapply(strsplit(as.character(tag.col.df$tag[tag.col.df$tag.col == tags[1]]), ",", fixed = T), "[", 1))
-      tag.col.df[tag.col.df$tag.col == tags[1],] <- tag.col.df[order(as.numeric(substr(aa, 2, nchar(aa)))),]
-      }
-    
-    # subset legend
-    if(sub.legend)
-    {
-      if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]])) levs <- as.character(unique(X$col.numeric1)) else
-      levs <- as.character(unique(X[,tags[1]]))
-    if(legend > 1 & length(tags) == 2){
-      if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) levs <- c(levs, as.character(unique(X$col.numeric2))) else
-        levs <- c(levs, as.character(unique(X[,tags[2]])))
-    }  
-      
-      tag.col.df <- droplevels(tag.col.df[tag.col.df$tag %in% levs,])  
-    }
-    
-    
-    if(nrow(tag.col.df) > 15) 
-    {
-      y1 <- 0.03
-      y2 <- 0.97
-    }     
-    
-    y <- seq(y1, y2, length.out = nrow(tag.col.df) + length(unique(tag.col.df$tag.col)))
-    
-    y <- y[length(y):1]
-    step <-  y[1] - y[2]
-    
-      
-if(legend %in% c(1, 3))  
-{    text(x = 0.5, y = max(y) + step, labels = labtag1, cex = cex, font = 2) 
-
-    out <- lapply(which(tag.col.df$tag.col == tags[1]), function(w)
-    {
-      # plot label
-      text(x = 0.5, y = y[w], labels = tag.col.df$tag[w], cex = cex) 
-      
-      #plot color box
-      rectw.INTFUN(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt =  y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
-      })
-}
-    
-    nrowtag1 <- nrow(tag.col.df[tag.col.df$tag.col == tags[1], ])
-    
-    if(length(tags) == 2 & legend %in% c(2, 3))
-    {
-
-      #remove first tag
-      tag.col.df <- tag.col.df[tag.col.df$tag.col == tags[2],]
-
-            if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
-        {       
-        aa <- as.character(sapply(strsplit(as.character(tag.col.df$tag), ",", fixed = T), "[", 1))
-        tag.col.df <- tag.col.df[order(as.numeric(substr(aa, 2, nchar(aa)))),]
         }
-
-      if(legend == 3)
-        text(x = 0.5, y = y[nrowtag1 + 2], labels = labtag2, cex = cex, font = 2) else
-          text(x = 0.5, y = ifelse(max(y) + step < 1, max(y) + step, 0.99), labels = labtag2, cex = cex, font = 2) 
-      
-      if(legend == 3)
-      y <- y - step * 2
-
-      out <- lapply(1:nrow(tag.col.df), function(w)
-      {
-        # plot label
-        text(x = 0.5, y = y[w + nrowtag1], labels = tag.col.df$tag[w], cex = cex) 
         
-        #plot color box
-        rectw.INTFUN(xl = 0.3, yb = y[w + nrowtag1] - (step/2) - (step/6), xr = 0.7, yt = y[w + nrowtag1] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
+        #add Freq axis label
+        if(fig.type[i] == "flab")
+        {
+          par(mar = c(0, 0, 0, 0), bg = "white", new = T)
+          plot(1, frame.plot = FALSE, type = "n")
+          text(x = 1, y = 1.05, "Frequency (kHz)", srt = 90, cex = 1.2 * cex) 
+        }
+        
+        #add time axis label
+        if(fig.type[i] == "tlab")
+        {
+          par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
+          plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
+          
+          if(same.time.scale)
+          {
+            # add title
+            text(x = 0.5, y = 0.25, "Time (s)", cex = 1.2 * cex) 
+            
+            # max duration
+            maxdur <- max(X$end - X$start)
+            xlab <- pretty(seq(0, maxdur, length.out = 3), min.n = 5)
+            xlab <- xlab[xlab < maxdur & xlab > 0]
+            xs <- xlab/mean(X$end - X$start)   
+            xs <- xs/ncol
+            
+            finncol <- which(nrow(X) >= seq(0, nrow * ncol, nrow)[-1])
+            
+            if(length(finncol) > 0)
+            {  usr <- par("usr")
+            sq <- c(seq(min(usr), max(usr), length.out = ncol + 1))
+            sq <- sq[-length(sq)]
+            sq <- sq[finncol]
+            out <- lapply(sq, function(p)
+            {
+              out <- lapply(1:length(xs), function(w)
+              {
+                lines(y = c(0.9, 1.04), x = c(xs[w], xs[w]) + p)
+                text(y = 0.75, x = xs[w] + p, labels = xlab[w], cex = cex)
+              })
+            })
+            }
+          } else text(x = 0.5, y = 0.5, "Time (s)", cex = 1.2 * cex) 
+          
+        }
+        
+        #add legend 
+        if(fig.type[i] == "legend")
+        {
+          par( mar = rep(0, 4))
+          plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
+          
+          # define y limits for legend labels
+          y1 <- 0.2
+          y2 <- 0.8
+          
+          #remove rows if legend != 3
+          if(legend == 1)
+            tag.col.df <- droplevels(tag.col.df[tag.col.df$tag.col == tags[1], ])
+          
+          if(legend == 2)
+            tag.col.df <- droplevels(tag.col.df[tag.col.df$tag.col == tags[2], ])
+          
+          
+          #add left right if 2 tags
+          if(length(tags) == 2)
+          {
+            if(legend == 3)
+            {
+              labtag1 <- paste("left:", tags[1])
+              labtag2 <- paste("right:", tags[2])
+            } else {      
+              labtag2 <- tags[2]
+              labtag1 <- tags[1]  
+            }    
+          } else labtag1 <- tags[1] 
+          
+          
+          #adjust if numeric
+          if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+          {
+            aa <- as.character(sapply(strsplit(as.character(tag.col.df$tag[tag.col.df$tag.col == tags[1]]), ",", fixed = T), "[", 1))
+            tag.col.df[tag.col.df$tag.col == tags[1],] <- tag.col.df[order(as.numeric(substr(aa, 2, nchar(aa)))),]
+          }
+          
+          # subset legend
+          if(sub.legend)
+          {
+            if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]])) levs <- as.character(unique(X$col.numeric1)) else
+              levs <- as.character(unique(X[,tags[1]]))
+            if(legend > 1 & length(tags) == 2){
+              if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) levs <- c(levs, as.character(unique(X$col.numeric2))) else
+                levs <- c(levs, as.character(unique(X[,tags[2]])))
+            }  
+            
+            tag.col.df <- droplevels(tag.col.df[tag.col.df$tag %in% levs,])  
+          }
+          
+          
+          if(nrow(tag.col.df) > 15) 
+          {
+            y1 <- 0.03
+            y2 <- 0.97
+          }     
+          
+          y <- seq(y1, y2, length.out = nrow(tag.col.df) + length(unique(tag.col.df$tag.col)))
+          
+          y <- y[length(y):1]
+          step <-  y[1] - y[2]
+          
+          
+          if(legend %in% c(1, 3))  
+          {    text(x = 0.5, y = max(y) + step, labels = labtag1, cex = cex, font = 2) 
+            
+            out <- lapply(which(tag.col.df$tag.col == tags[1]), function(w)
+            {
+              # plot label
+              text(x = 0.5, y = y[w], labels = tag.col.df$tag[w], cex = cex) 
+              
+              #plot color box
+              rectw.INTFUN(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt =  y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
+            })
+          }
+          
+          nrowtag1 <- nrow(tag.col.df[tag.col.df$tag.col == tags[1], ])
+          
+          if(length(tags) == 2 & legend %in% c(2, 3))
+          {
+            
+            #remove first tag
+            tag.col.df <- tag.col.df[tag.col.df$tag.col == tags[2],]
+            
+            if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
+            {       
+              aa <- as.character(sapply(strsplit(as.character(tag.col.df$tag), ",", fixed = T), "[", 1))
+              tag.col.df <- tag.col.df[order(as.numeric(substr(aa, 2, nchar(aa)))),]
+            }
+            
+            if(legend == 3)
+              text(x = 0.5, y = y[nrowtag1 + 2], labels = labtag2, cex = cex, font = 2) else
+                text(x = 0.5, y = ifelse(max(y) + step < 1, max(y) + step, 0.99), labels = labtag2, cex = cex, font = 2) 
+            
+            if(legend == 3)
+              y <- y - step * 2
+            
+            out <- lapply(1:nrow(tag.col.df), function(w)
+            {
+              # plot label
+              text(x = 0.5, y = y[w + nrowtag1], labels = tag.col.df$tag[w], cex = cex) 
+              
+              #plot color box
+              rectw.INTFUN(xl = 0.3, yb = y[w + nrowtag1] - (step/2) - (step/6), xr = 0.7, yt = y[w + nrowtag1] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
+            })
+            
+          }
+          
+          
+        }
+        
+        if(fig.type[i] == "title")
+        {
+          par(mar = rep(0, 4))
+          plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
+          
+          text(x = 0.5, y = 0.5, title, cex = 1.5 * cex) 
+        }
+      }
+      )
+      close.screen(all.screens = TRUE)
+      dev.off()
+  }  
+  
+  #run function over X to split it in subset data frames
+  cel <- ceiling((nrow(X)/(ncol * nrow)))
+  if(cel < 1)
+    Xlist <- list(X) else
+      Xlist <- lapply(1:cel, function(x) 
+      {
+        if(x < cel)
+          X[((((ncol * nrow) * (x - 1)) + 1):((ncol * nrow) * (x))), ] else
+            X[((((ncol * nrow) * (x - 1)) + 1):nrow(X)), ]
       })
+  
+  #Apply over each sound file
+  # Run parallel in windows
+  if(parallel > 1) {
+    if(Sys.info()[1] == "Windows") {
+      
+      z <- NULL
+      
+      cl <- parallel::makeCluster(parallel)
+      
+      doParallel::registerDoParallel(cl)
+      
+      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
+        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+                 width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
+        
+        parallel::stopCluster(cl)
+        
+      }
+    }
+    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
+      
+      if(pb)
+        out <- pbmcapply::pbmclapply(1:length(Xlist), mc.cores = parallel, function (z) {
+          catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+                   width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
+        }) else
+          out <- parallel::mclapply(1:length(Xlist),  mc.cores = parallel, function (z) {
+            catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal,
+                     width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
+          })
+    }
+    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
+    {
+      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
+      
+      doParallel::registerDoParallel(cl)
+      
+      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
+        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+                 width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
+      }
+      
+      parallel::stopCluster(cl)
       
     }
-    
-    
+  } else {
+    if(pb)
+      out <- pbapply::pblapply(1:length(Xlist), function(z)
+        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+                 width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))  else
+                   out <- lapply(1:length(Xlist), function(z)
+                     catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+                              width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))
   }
-   
-  if(fig.type[i] == "title")
-  {
-    par(mar = rep(0, 4))
-    plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
-    
-    text(x = 0.5, y = 0.5, title, cex = 1.5 * cex) 
-  }
-}
-  )
-  close.screen(all.screens = TRUE)
-dev.off()
-}  
-
-#run function over X to split it in subset data frames
-cel <- ceiling((nrow(X)/(ncol * nrow)))
-if(cel < 1)
-  Xlist <- list(X) else
-    Xlist <- lapply(1:cel, function(x) 
-      {
-      if(x < cel)
-      X[((((ncol * nrow) * (x - 1)) + 1):((ncol * nrow) * (x))), ] else
-        X[((((ncol * nrow) * (x - 1)) + 1):nrow(X)), ]
-      })
-
- #Apply over each sound file
- # Run parallel in windows
- if(parallel > 1) {
-   if(Sys.info()[1] == "Windows") {
-
-     z <- NULL
-
-     cl <- parallel::makeCluster(parallel)
-
-     doParallel::registerDoParallel(cl)
-
-     out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
-
-     parallel::stopCluster(cl)
-
-     }
-   }
-   if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-
-     if(pb)
-     out <- pbmcapply::pbmclapply(1:length(Xlist), mc.cores = parallel, function (z) {
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
-     }) else
-         out <- parallel::mclapply(1:length(Xlist),  mc.cores = parallel, function (z) {
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal,
-                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
-            })
-   }
-   if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-   {
-     cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-
-     doParallel::registerDoParallel(cl)
-
-     out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
-     }
-
-     parallel::stopCluster(cl)
-
-   }
- } else {
-   if(pb)
-     out <- pbapply::pblapply(1:length(Xlist), function(z)
-       catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))  else
-         out <- lapply(1:length(Xlist), function(z)
-           catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                    width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))
- }
-
-if(!is.null(path)) setwd(wd)
-}
   
-  
+  if(!is.null(path)) setwd(wd)
+}

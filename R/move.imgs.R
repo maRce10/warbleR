@@ -50,7 +50,7 @@
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on apr-29-2017 (MAS)
+#last modification on feb-09-2017 (MAS)
 
 move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite = FALSE, create.folder = TRUE, folder.name = "image_files")
 {
@@ -60,24 +60,22 @@ move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
     to <- file.path(from, folder.name)
     if(dir.exists(to)) stop('Directory with folder name provided already exists')
     dir.create(to)
-    }
-
+  }
+  
   if(it == "all") pattern <- "\\.jpeg$|\\.tiff$|\\.pdf$"
   if(it == "tiff") pattern <- "\\.tiff$"
   if(it == "jpeg") pattern <- "\\.jpeg$"
   if(it == "pdf") pattern <- "\\.pdf$"
   
-imgs <- list.files(path = from, pattern = pattern)
-
-if(length(imgs) == 0) stop(paste("No image files were found in", from))
-
-a <- file.copy(from = file.path(from, imgs), to = file.path(to, imgs), overwrite = overwrite)
-
-if(all(!a) & !overwrite) cat(paste("All files already existed in", to)) else
-if(any(!a) & !overwrite) cat(paste("Some files already existed in 'to'", to))
-
-if(cut) unlink(file.path(from, imgs)[a])
-
+  imgs <- list.files(path = from, pattern = pattern)
+  
+  if(length(imgs) == 0) stop(paste("No image files were found in", from))
+  
+  a <- file.copy(from = file.path(from, imgs), to = to, overwrite = overwrite)
+  
+  if(all(!a) & !overwrite) cat(paste("All files already existed in", to)) else
+    if(any(!a) & !overwrite) cat(paste("Some files already existed in 'to'", to))
+  
+  if(cut) unlink(file.path(from, imgs)[a])
+  
 }
-
-
