@@ -92,7 +92,7 @@
 #' @seealso \url{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}
 #' @examples{
 #' # Set temporary working directory
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")

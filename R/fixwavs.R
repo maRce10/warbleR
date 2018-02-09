@@ -24,7 +24,7 @@
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")

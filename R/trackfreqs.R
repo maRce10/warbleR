@@ -133,7 +133,7 @@
 #' @examples
 #' {
 #' #Set temporary working directory
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' #load data
 #' data("Cryp.soui")

@@ -33,7 +33,7 @@
 #' @name filtersels
 #' @examples{ 
 #' # First set temporary folder
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))

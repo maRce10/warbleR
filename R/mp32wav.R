@@ -21,7 +21,7 @@
 #' @examples
 #' \dontrun{
 #' # First set temporary folder
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #'  
 #' #Then download mp3 files from xeno-canto
 #' querxc(qword = "Phaethornis aethopygus", download = TRUE)

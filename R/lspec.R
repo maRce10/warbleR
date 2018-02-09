@@ -65,7 +65,7 @@
 #' https://marce10.github.io/2017-01-07-Create_pdf_files_with_spectrograms_of_full_recordings/
 #' @examples{
 #' # Set temporary working directory
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","selec.table"))

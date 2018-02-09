@@ -46,7 +46,7 @@
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' # search without downloading
 #' df1 <- querxc(qword = 'Phaethornis anthophilus', download = FALSE)

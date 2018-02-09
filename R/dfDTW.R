@@ -72,7 +72,7 @@
 #'  location of the dominant frequencies.
 #' @examples{
 #' # set the temp directory
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2","selec.table"))

@@ -63,7 +63,7 @@
 #' @examples
 #' {
 #' # set the temp directory
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2",  "Phae.long3",  "Phae.long4","selec.table"))

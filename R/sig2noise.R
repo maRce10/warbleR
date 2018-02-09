@@ -52,7 +52,7 @@
 #' @examples
 #' {
 #' # First set temporary folder
-#' setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' data(list = c("Phae.long1","selec.table"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
