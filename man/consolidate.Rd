@@ -34,7 +34,7 @@ All (sound) files are consolidated (copied) to a single folder ("consolidated_fi
 a '.csv' file with the information about file location, old and new names (if any renaming happen) is also saved in the same folder. This data frame is also return as an object in the R environment.
 }
 \description{
-\code{consolidate} copies (sound) files scattered in several directories to a single folder.
+\code{consolidate} copies (sound) files scattered in several directories into a single folder.
 }
 \details{
 This function allow users to put files scattered in several folders in a single folder.
@@ -42,7 +42,7 @@ This function allow users to put files scattered in several folders in a single 
 \examples{
 { 
 # First set empty folder
-setwd(tempdir())
+# setwd(tempdir())
 
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
@@ -58,7 +58,10 @@ writeWave(Phae.long3, file.path("folder2","Phae.long3.wav"))
 writeWave(Phae.long4, file.path("folder2","Phae.long4.wav"))
 
 # consolidate in a single folder
-consolidate(path = tempdir())
+consolidate()
+
+# or if tempdir wa used
+# consolidate(path = tempdir())
 }
 
 }

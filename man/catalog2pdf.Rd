@@ -38,7 +38,7 @@ The function combines catalog images in .jpeg format from the \code{\link{catalo
 \examples{
 \dontrun{
 # Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2"))

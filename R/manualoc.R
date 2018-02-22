@@ -40,7 +40,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
@@ -178,7 +178,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       if(mean(par("mfrow")) != 1) par(mfrow = c(1, 1))
       
       #create spectrogram
-      spectro.INTFUN(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  pal, 
+      spectro_wrblr_int(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  pal, 
               main = main, tlim = tlim, axisX = TRUE, grid = FALSE, collab = "black", alab = "", fftw = TRUE, 
               flim = fl, scale = FALSE, axisY = TRUE, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)", fast.spec = fast.spec)
       

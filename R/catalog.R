@@ -53,7 +53,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @param res Numeric argument of length 1. Controls image resolution. Default is 100 (faster)
 #'  although 300 is recommended for publication/presentation quality. Note that high resolution
 #'   produce significantly bigger image files. This could be problematic when creating pdf files
@@ -770,10 +770,10 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           # draw spectro
           if(fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)
           
-          spectro.INTFUN.2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2, add = TRUE)
+          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2, add = TRUE)
           
           #add box
-          if(box) boxw.INTFUN(xys = m[i,], bty = "u", lwd = 1.5)
+          if(box) boxw_wrblr_int(xys = m[i,], bty = "u", lwd = 1.5)
         } 
         
         if(fig.type[i] == "lab") #plot labels
@@ -795,16 +795,16 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
             
             lim <- par("usr")
             if(length(tags) == 1)
-              rectw.INTFUN(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
-                rectw.INTFUN(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = cutbox2, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
-                rectw.INTFUN(xl = cutbox2, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
+              rectw_wrblr_int(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
+                rectw_wrblr_int(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = cutbox2, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
+                rectw_wrblr_int(xl = cutbox2, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
               }
             
           } else
             text(x = 0.5, y = 0.33, labels = paste(X3[i, labels], collapse = " "), 
                  cex = (ncol * nrow * 2 * cex)/((ncol * nrow)^1.2))
           
-          if(box) boxw.INTFUN(xys = m[i,], bty = "^", lwd = 1.5)
+          if(box) boxw_wrblr_int(xys = m[i,], bty = "^", lwd = 1.5)
         }
         
         #add Freq axis label
@@ -927,7 +927,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
               text(x = 0.5, y = y[w], labels = tag.col.df$tag[w], cex = cex) 
               
               #plot color box
-              rectw.INTFUN(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt =  y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
+              rectw_wrblr_int(xl = 0.3, yb = y[w] - (step/2) - (step/6), xr = 0.7, yt =  y[w] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
             })
           }
           
@@ -958,7 +958,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
               text(x = 0.5, y = y[w + nrowtag1], labels = tag.col.df$tag[w], cex = cex) 
               
               #plot color box
-              rectw.INTFUN(xl = 0.3, yb = y[w + nrowtag1] - (step/2) - (step/6), xr = 0.7, yt = y[w + nrowtag1] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
+              rectw_wrblr_int(xl = 0.3, yb = y[w + nrowtag1] - (step/2) - (step/6), xr = 0.7, yt = y[w + nrowtag1] - (step/2) + (step/6), bor = "black", cl = tag.col.df$col[w],  den = 10, ang = NULL, pattern = tag.col.df$pattern[w])
             })
             
           }

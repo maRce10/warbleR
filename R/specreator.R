@@ -62,7 +62,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments. 
 #' @return Image files containing spectrograms of the signals listed in the input data frame.
 #' @family spectrogram creators
@@ -211,7 +211,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     par(oma = outer.mar)
     
     # Generate spectrogram using seewave 
-  spectro.INTFUN(tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds") , f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning", 
+  spectro_wrblr_int(tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds") , f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning", 
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)

@@ -22,7 +22,7 @@ data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.tab
 
 is.selection.table(selec.table)
 
-setwd(tempdir())
+# setwd(tempdir())
 
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")

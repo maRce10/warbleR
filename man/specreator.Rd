@@ -90,7 +90,7 @@ This option is indicated for signals with high background noise levels. Palette 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
-decreasing darkness levels. THIS IS STILL BEING TESTED.}
+decreasing darkness levels.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
@@ -111,7 +111,7 @@ high background noise levels.
 \examples{
 { 
 # First set empty folder
-setwd(tempdir())
+# setwd(tempdir())
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 writeWave(Phae.long2, "Phae.long2.wav")

@@ -31,7 +31,8 @@
 #'  image files should be in the working directory (or the directory provided in 'path').
 #' @export
 #' @name filtersels
-#' @examples{ 
+#' @examples
+#' \dontrun{ 
 #' # First set temporary folder
 #' # setwd(tempdir())
 #' 

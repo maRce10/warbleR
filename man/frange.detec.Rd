@@ -38,7 +38,7 @@ This option is indicated for signals with high background noise levels. Palette 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
-decreasing darkness levels. THIS IS STILL BEING TESTED.}
+decreasing darkness levels.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}).}

@@ -52,7 +52,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @param t.mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points to be added when highlighting selection. Default is \code{NULL}.
 #' @param f.mar Numeric vector of length 1. Specifies the margins adjacent to the low and high frequencies to be added when highlighting selection. Default is \code{NULL}.
 #' @param interactive Numeric. Allow user to interactively select the signals to be highlighted by cliking 
@@ -170,7 +170,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   
   # to fix function name change in after version 2.0.5
   # if(exists("stdft")) stft <- stdft
-  z <- stft(wave = wave, f = f, wl = wl, zp = 0, step = step, 
+  z <- stft_wrblr_int(wave = wave, f = f, wl = wl, zp = 0, step = step, 
             wn = wn, fftw = FALSE, scale = TRUE, complex = FALSE)
   
   X <- seq(0, n/f, length.out = length(step))
@@ -210,7 +210,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   {   # seewave spectro 
     #plot background spectro
     if(!add)
-    filled.contour.color.INTFUN(x = X, y = Y, z = Z, levels = collevels, 
+    filled_contour_color_wrblr_int(x = X, y = Y, z = Z, levels = collevels, 
                        nlevels = 20, plot.title = title(main = title, 
                                                         xlab = tlab, ylab = flab), color.palette = basepal, 
                        axisX = axisX, axisY = axisY, col.lab = "black", 
@@ -232,7 +232,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     #plot colored signals  
     if(!is.null(sel.tab))    
       out <- lapply(1:nrow(sel.tab), function(i)
-        filled.contour.color.INTFUN(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 2), colors[i]), alpha = TRUE), levels = collevels,
+        filled_contour_color_wrblr_int(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 2), colors[i]), alpha = TRUE), levels = collevels,
                            axisX = FALSE, axisY = FALSE, col.lab = "black", 
                            colaxis = "black", add = TRUE)   
       )

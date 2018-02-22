@@ -1,7 +1,15 @@
 # NEWS
 
+# warbleR 1.1.12
+##### (Release date: XXX-XX-XX)
+
+## New functions:
+
+* track_harm: track harmonic frequency contour
+* sim_song: simulate songs 
+
 # warbleR 1.1.10
-##### (Release date: 2018-01-28)
+##### (Release date: 2018-08-28)
 
 ## Changes and additions:
 
@@ -11,10 +19,10 @@
 
 * Problem with multiple tags in 'catalog'
 
-
 ## New functions:
 
 * rm_sil: removes silence segments (i.e. segments with very low amplitude values) from wave files
+* consolidate: copies (sound) files scattered in several directories into a single folder
 
 # warbleR 1.1.9
 ##### (Release date: 2017-11-18)

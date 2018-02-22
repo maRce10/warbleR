@@ -97,7 +97,7 @@ measures. If there are no frequencies above the amplitude theshold at the begini
 \examples{
 {
 # set the temp directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2","selec.table"))

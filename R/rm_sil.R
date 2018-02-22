@@ -42,7 +42,10 @@
 #'  writeWave(object = wv1, filename = "wv1.wav", extensible = FALSE)
 #' 
 #' #remove silence
-#' rm_sil(path = tempdir(), flist = "wv1.wav")
+#' rm_sil(flist = "wv1.wav")
+#' 
+#' # OR this is tempdir was used instead
+#' # rm_sil(path = tempdir(), flist = "wv1.wav")
 #' 
 #' #check this floder
 #' getwd()
@@ -126,7 +129,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
       imgfun(filename = file.path(getwd(), "removed_silence_files", paste0(fl, ".rm.silence.", it)),  res = 160, units = "in", width = 8.5, height = 4) 
     
       par(mar = c(4, 4, 1, 1))
-      spectro.INTFUN(wv, ovlp = 0, grid = FALSE, scale = FALSE, palette = monitoR::gray.3, axisX = TRUE, fast.spec = TRUE, flim = flm)
+      spectro_wrblr_int(wv, ovlp = 0, grid = FALSE, scale = FALSE, palette = monitoR::gray.3, axisX = TRUE, fast.spec = TRUE, flim = flm)
     
       # label silence in spectro
       if(nrow(ad) > 1) lapply(1:(nrow(ad) - 1), function(z)

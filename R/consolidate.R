@@ -1,6 +1,6 @@
 #' Consolidate sound files into a single folder
 #' 
-#' \code{consolidate} copies (sound) files scattered in several directories to a single folder.
+#' \code{consolidate} copies (sound) files scattered in several directories into a single folder.
 #' @export consolidate
 #' @usage consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", 
 #' parallel = 1, save.csv = TRUE, ...)
@@ -41,7 +41,10 @@
 #' writeWave(Phae.long4, file.path("folder2","Phae.long4.wav"))
 #' 
 #' # consolidate in a single folder
-#' consolidate(path = tempdir())
+#' consolidate()
+#' 
+#' # or if tempdir wa used
+#' # consolidate(path = tempdir())
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})

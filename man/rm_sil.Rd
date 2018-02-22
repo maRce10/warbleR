@@ -44,7 +44,7 @@ The function removes silence segments (i.e. segments with very low amplitude val
 \examples{
 {
 # Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
@@ -60,7 +60,10 @@ env(wv1)
  writeWave(object = wv1, filename = "wv1.wav", extensible = FALSE)
 
 #remove silence
-rm_sil(path = tempdir(), flist = "wv1.wav")
+rm_sil(flist = "wv1.wav")
+
+# OR this is tempdir was used instead
+# rm_sil(path = tempdir(), flist = "wv1.wav")
 
 #check this floder
 getwd()

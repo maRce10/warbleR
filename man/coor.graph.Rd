@@ -52,7 +52,7 @@ depicting the time of overlap.
 {
 
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 # load simulate singing events  (see data documentation)
 data(sim.coor.sing)

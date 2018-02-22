@@ -50,7 +50,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -63,7 +63,8 @@
 #'   of vocalization units and the analysis of animal vocal sequences.
 #' @seealso \code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, 
 #' https://marce10.github.io/2017-01-07-Create_pdf_files_with_spectrograms_of_full_recordings/
-#' @examples{
+#' @examples
+#' \dontrun{
 #' # Set temporary working directory
 #' # setwd(tempdir())
 #' 
@@ -220,7 +221,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
       while(x <= li-1){
         x <- x + 1
         if(all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){  #for rows with complete spectro
-          spectro.INTFUN(rec, f = f, wl = wl, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
+          spectro_wrblr_int(rec, f = f, wl = wl, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
                   ovlp = ovlp, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = TRUE, fast.spec = fast.spec)
           if(x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
@@ -232,7 +233,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
                                  text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = labels, font = 4)},
                                  s = ml$start, e = ml$end,labels = l)} } else {
                                    if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){ #for rows with incomplete spectro (final row)
-                                     spectro.INTFUN(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
+                                     spectro_wrblr_int(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
                                                            listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
                                                                                                    to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = wl, flim = frli, 
                                              tlim = c(0, sl), ovlp = ovlp, collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = FALSE, fast.spec = fast.spec)

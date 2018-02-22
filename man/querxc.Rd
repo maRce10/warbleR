@@ -61,7 +61,7 @@ or download the associated sound files. Complex queries can be done by using sea
 \examples{
 \dontrun{
 # Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 # search without downloading
 df1 <- querxc(qword = 'Phaethornis anthophilus', download = FALSE)

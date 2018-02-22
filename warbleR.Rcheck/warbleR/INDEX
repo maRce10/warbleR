@@ -42,12 +42,14 @@ seltailor               Interactive view of spectrograms to tailor
                         selections
 sig2noise               Measure signal-to-noise ratio
 sim.coor.sing           Simulated coordinated singing events.
+sim_songs               Simulate animal vocalizations
 snrspecs                Spectrograms with background noise margins
 sp.en.ts                Extract the spectral entropy across signals as
                         a time series
 specan                  Measure acoustic parameters in batches of sound
                         files
 specreator              Spectrograms of selected signals
+track_harm              Track harmonic frequency contour
 trackfreqs              Spectrograms with frequency measurements
 warbleR                 warbleR: A package to streamline bioacoustic
                         analysis

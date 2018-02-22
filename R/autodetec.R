@@ -86,7 +86,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @param ... Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
 #' graphical output.
 #' @return Image files with spectrograms showing the start and end of the detected signals. It 
@@ -383,7 +383,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
         imgfun(filename = paste(fna, paste0(".", it), sep = "-"), 
         width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
         
-     spectro.INTFUN(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,  colwave = "blue4", fast.spec = fast.spec,
+     spectro_wrblr_int(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,  colwave = "blue4", fast.spec = fast.spec,
               scale = FALSE, palette = pal, flim = fl, ...)
       rm(song)
       if(nrow(time.song)>0)
@@ -522,7 +522,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
         while(x <= li-1){
           x <- x + 1
           if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1) < dur)){  #for rows with complete spectro
-            spectro.INTFUN(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = TRUE,
+            spectro_wrblr_int(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = TRUE,
                     fast.spec = fast.spec, ...)
             if(x == 1)  text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
        last = nchar(as.character(z))-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
@@ -535,7 +535,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
             } else 
               { #for rows with incomplete spectro (final row)
   if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1) > dur)){ 
-    spectro.INTFUN(seewave::pastew(seewave::noisew(f = f, d = (x)*sl+li*(sl)*(j-1)-dur+1, type = "unif",   
+    spectro_wrblr_int(seewave::pastew(seewave::noisew(f = f, d = (x)*sl+li*(sl)*(j-1)-dur+1, type = "unif",   
     listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
      to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = 512, flim = frli, 
      tlim = c(0, sl), collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = FALSE, fast.spec = fast.spec, ...)

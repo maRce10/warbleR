@@ -84,7 +84,7 @@ The function uses the \code{\link[stats]{approx}} function to interpolate values
 \examples{
 {
 # set the temp directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2","selec.table"))

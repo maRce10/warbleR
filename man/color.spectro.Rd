@@ -72,7 +72,7 @@ This option is indicated for signals with high background noise levels. Palette 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
-decreasing darkness levels. THIS IS STILL BEING TESTED.}
+decreasing darkness levels.}
 
 \item{t.mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points to be added when highlighting selection. Default is \code{NULL}.}
 
@@ -98,7 +98,7 @@ highlighted can be provided in a selection table (as the example data 'selec.tab
 \examples{
 \dontrun{ 
 # First set empty folder
-setwd(tempdir())
+# setwd(tempdir())
 data(list = c("Phae.long1", "selec.table"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 

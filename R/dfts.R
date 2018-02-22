@@ -180,7 +180,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
       r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
     
       if(frange.detec)
-      {frng <- frd.INTFUN(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
+      {frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
       
       if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
       

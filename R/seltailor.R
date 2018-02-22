@@ -42,7 +42,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @param ext.window Logical. If \code{TRUE} then and external graphic window is used. Default 
 #' dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.
 #' @param width Numeric of length 1 controling the width of the external graphic window. Ignored
@@ -202,7 +202,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       par(mfrow = c(1,1), mar = c(3, 3, 1.8, 0.1))
       
       #create spectrogram
-      spectro.INTFUN(tuneR::readWave(as.character(X$sound.files[j]),from =  tlim[1], to = tlim[2], units = "seconds"), 
+      spectro_wrblr_int(tuneR::readWave(as.character(X$sound.files[j]),from =  tlim[1], to = tlim[2], units = "seconds"), 
                        f = f, wl = wl, ovlp = ovlp, wn = wn, heights = c(3, 2), 
                        osc = osci, palette =  pal, main = NULL, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "#07889B", collevels = collevels,
               flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, ...)

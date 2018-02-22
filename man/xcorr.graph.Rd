@@ -39,7 +39,7 @@ default graphic device. In such cases saving the plot as and image file is advic
 {
 #load data
 #First set temporary working directory]
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2", "selec.table"))

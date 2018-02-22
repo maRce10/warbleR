@@ -102,7 +102,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @param ff.method Character. Selects the method used to calculate the fundamental
 #' frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
 #' \code{\link[seewave]{fund}}). Default is 'seewave'. 'tuneR' performs faster (and seems to be more accurate) than 'seewave'.
@@ -338,7 +338,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       
       # Generate spectrograms
 if(!frange.detec){
-            suppressWarnings(spectro.INTFUN(r, f = f, wl = wl, ovlp = ovlp, heights = hts,
+            suppressWarnings(spectro_wrblr_int(r, f = f, wl = wl, ovlp = ovlp, heights = hts,
                                 wn = "hanning", widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black",
                                 cexlab = cexlab, cex.axis = 0.5*picsize, flim = fl, tlab = "Time (s)", 
                                 flab = "Frequency (kHz)", alab = "", fast.spec = fast.spec, ...))
@@ -351,7 +351,7 @@ if(!frange.detec){
         
       }
 } else {
-  frng <- frd.INTFUN(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = fl, bp = b, ovlp = ovlp)
+  frng <- frd_wrblr_int(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = fl, bp = b, ovlp = ovlp)
   
   if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) 
   
@@ -371,7 +371,7 @@ if(!frange.detec){
     par(mar = c(3.4, 3.4, 0.5, 0))
 
     # create spectro
-    spectro.INTFUN.2(wave = r, f = f, flim = fl, fast.spec = fast.spec, palette = pal, ovlp = ovlp, wl = wl, grid = F, tlab = "", flab = "")
+    spectro_wrblr_int2(wave = r, f = f, flim = fl, fast.spec = fast.spec, palette = pal, ovlp = ovlp, wl = wl, grid = F, tlab = "", flab = "")
 
     #add green polygon on detected frequency bands
       rect(xleft = 0, ybottom = b[1], xright = seewave::duration(r), ytop = b[2], col = adjustcolor("green3", 0.1), border = adjustcolor("gray", 0.2)) 

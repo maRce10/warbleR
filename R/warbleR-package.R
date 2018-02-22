@@ -24,6 +24,8 @@
 #'   
 #'   \code{\link{querxc}}: Download recordings and metadata from 'Xeno-Canto'
 #'   
+#'   \code{\link{sim_songs}}: Simulate animal vocalizations
+#'   
 #' @section Managing sound files:
 #'   
 #'   \code{\link{make.selection.table}}: Create 'selection.table' class objects
@@ -92,7 +94,8 @@
 #'   \code{\link{coor.test}}: Assess statistical significance of singing coordination 
 #'   
 #'   \code{\link{ovlp_sels}}: Find selections that overlap in time within a given sound file
-
+#'   
+#'   \code{\link{track_harm}}:  Track harmonic frequency contour
 #'   
 #'   @section Graphical outputs:
 #'   
@@ -136,10 +139,12 @@
 #' @import iterators
 #' @import bitops
 #' @import jpeg
+#' @importFrom pracma findpeaks
+#' @importFrom Sim.DiffProc BB GBM
 #' @importFrom doParallel registerDoParallel
 #' @importFrom methods slotNames
 #' @importFrom dtw dtwDist
-#' @importFrom stats cor dist aggregate approx ave princomp time ts predict smooth.spline complete.cases 
+#' @importFrom stats cor dist aggregate approx ave princomp time ts predict smooth.spline complete.cases spline
 #' 
 #' @author Marcelo Araya-Salas & Grace Smith Vidaurre
 #'   

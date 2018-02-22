@@ -5,19 +5,18 @@
 * using option ‘--as-cran’
 * checking for file ‘warbleR/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘warbleR’ version ‘1.1.10’
+* this is package ‘warbleR’ version ‘1.1.11’
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Marcelo Araya-Salas <araya-salas@cornell.edu>’
 
-New submission
-
-Package was archived on CRAN
-
-CRAN repository db overrides:
-  X-CRAN-Comment: Archived on 2018-01-27 as check problems were not
-    corrected despite reminders.
-
 Package has a VignetteBuilder field but no prebuilt vignette index.
+
+Found the following (possibly) invalid URLs:
+  URL: http://dx.doi.org/10.1111/2041-210X.12624
+    From: inst/CITATION
+    Status: Error
+    Message: libcurl error code 56:
+    	Recv failure: Connection reset by peer
 
 This build time stamp is over a month old.
 * checking package namespace information ... OK
@@ -44,7 +43,6 @@ CRAN-pack does not know about
   .git
 * checking for portable file names ... NOTE
 Found the following non-portable file paths:
-  warbleR/.Rproj.user/shared/notebooks/86DA069B-plots juvenile code learning wrens/1/6ED36D4B/chunks.json
   warbleR/.Rproj.user/shared/notebooks/C4345B27-testing-checking warbleR function nov-16/1/6ED36D4B/chunks.json
   warbleR/.Rproj.user/shared/notebooks/C4345B27-testing-checking warbleR function nov-16/1/s/chunks.json
 

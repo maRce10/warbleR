@@ -31,7 +31,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D # Set temporary working directory
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D 
 ##D data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 ##D writeWave(Phae.long1,"Phae.long1.wav")
@@ -72,7 +72,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D # Set temporary working directory
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D # save sound file examples
 ##D data(list = c("Phae.long1", "Phae.long2","selec.table"))
 ##D writeWave(Phae.long1,"Phae.long1.wav") 
@@ -148,7 +148,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D # Set temporary working directory
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D 
 ##D # save sound file examples
 ##D data(list = c("Phae.long1", "Phae.long2"))
@@ -183,7 +183,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
@@ -213,7 +213,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
@@ -249,7 +249,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ## Not run: 
 ##D  
 ##D # First set empty folder
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D data(list = c("Phae.long1", "selec.table"))
 ##D writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 ##D 
@@ -290,60 +290,60 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-{
-# Set temporary working directory
-setwd(tempdir())
-
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav")
-
-compare.methods(X = selec.table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg")
-
-#remove progress bar
-compare.methods(X = selec.table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE)
-
-#check this folder!
-getwd()
-
-
-#compare SP and XCORR
-#first we need to create a larger data set as the PCA that summarizes the spectral parameters
-#needs more units (rows) that variables (columns)
-#so I just create a new selection table repeating 3 times selec.table
-st2 <- rbind(selec.table, selec.table, selec.table)
-
-#note that the selection labels should be also changed
-st2$selec <- 1:nrow(st2)
-#now we can compare SP method against XCORR
-compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
-
-#compare SP method against dfDTW
-compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg")
-
-#alternatively we can provide our own SP matrix
-sp <- specan(selec.table, bp = c(0, 10))
-
-#and selec just a few variables to avoid the problem of # observations vs # parameters in PCA
-sp <- sp[, 1:7]
-
-compare.methods(X = selec.table, flim = c(0, 10), sp = sp, bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
-
-#note that "SP" should also be included as a method in 'methods'
-#again, all images are saved in the working directory
-}
+## Not run: 
+##D # Set temporary working directory
+##D # setwd(tempdir())
+##D 
+##D data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+##D writeWave(Phae.long1,"Phae.long1.wav")
+##D writeWave(Phae.long2,"Phae.long2.wav")
+##D writeWave(Phae.long3,"Phae.long3.wav")
+##D writeWave(Phae.long4,"Phae.long4.wav")
+##D 
+##D compare.methods(X = selec.table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+##D ovlp = 90, res = 200, n = 10, length.out = 30,
+##D methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg")
+##D 
+##D #remove progress bar
+##D compare.methods(X = selec.table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+##D ovlp = 90, res = 200, n = 10, length.out = 30,
+##D methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE)
+##D 
+##D #check this folder!
+##D getwd()
+##D 
+##D 
+##D #compare SP and XCORR
+##D #first we need to create a larger data set as the PCA that summarizes the spectral parameters
+##D #needs more units (rows) that variables (columns)
+##D #so I just create a new selection table repeating 3 times selec.table
+##D st2 <- rbind(selec.table, selec.table, selec.table)
+##D 
+##D #note that the selection labels should be also changed
+##D st2$selec <- 1:nrow(st2)
+##D #now we can compare SP method against XCORR
+##D compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+##D ovlp = 90, res = 200, n = 10, length.out = 30,
+##D methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
+##D 
+##D #compare SP method against dfDTW
+##D compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+##D ovlp = 90, res = 200, n = 10, length.out = 30,
+##D methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg")
+##D 
+##D #alternatively we can provide our own SP matrix
+##D sp <- specan(selec.table, bp = c(0, 10))
+##D 
+##D #and selec just a few variables to avoid the problem of # observations vs # parameters in PCA
+##D sp <- sp[, 1:7]
+##D 
+##D compare.methods(X = selec.table, flim = c(0, 10), sp = sp, bp = c(0, 10), mar = 0.1, wl = 300,
+##D ovlp = 90, res = 200, n = 10, length.out = 30,
+##D methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
+##D 
+##D #note that "SP" should also be included as a method in 'methods'
+##D #again, all images are saved in the working directory
+## End(Not run)
 
 
 
@@ -365,7 +365,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 { 
 # First set empty folder
-setwd(tempdir())
+# setwd(tempdir())
 
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
@@ -381,7 +381,10 @@ writeWave(Phae.long3, file.path("folder2","Phae.long3.wav"))
 writeWave(Phae.long4, file.path("folder2","Phae.long4.wav"))
 
 # consolidate in a single folder
-consolidate(path = tempdir())
+consolidate()
+
+# or if tempdir wa used
+# consolidate(path = tempdir())
 }
 
 
@@ -405,7 +408,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 {
 
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 # load simulate singing events  (see data documentation)
 data(sim.coor.sing)
@@ -468,7 +471,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 { 
 # First set empty folder
-setwd(tempdir())
+# setwd(tempdir())
 
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
@@ -508,7 +511,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # set the temp directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
@@ -539,7 +542,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # set the temp directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
@@ -571,7 +574,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # set the temp directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
@@ -601,7 +604,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # set the temp directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
@@ -633,35 +636,36 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-{ 
-# First set temporary folder
-setwd(tempdir())
-
-# save wav file examples
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-
-specreator(selec.table, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
-picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
-
-#go to the working directory and delete some images
-
-#filter selection data frame
-fmloc <- filtersels(X = selec.table)
-
-#this data frame does not have the selections corresponding to the images that were deleted
-fmloc
-
-#now using lspec images
-lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, ovlp = 10)
-
-#go to the working directory and delete lspec images (the ones with several rows of spectrograms)
-
-#filter selection data frame
-
-}
+## Not run: 
+##D  
+##D # First set temporary folder
+##D # setwd(tempdir())
+##D 
+##D # save wav file examples
+##D data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
+##D writeWave(Phae.long1,"Phae.long1.wav")
+##D writeWave(Phae.long2,"Phae.long2.wav")
+##D writeWave(Phae.long3,"Phae.long3.wav")
+##D 
+##D specreator(selec.table, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
+##D picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
+##D 
+##D #go to the working directory and delete some images
+##D 
+##D #filter selection data frame
+##D fmloc <- filtersels(X = selec.table)
+##D 
+##D #this data frame does not have the selections corresponding to the images that were deleted
+##D fmloc
+##D 
+##D #now using lspec images
+##D lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, ovlp = 10)
+##D 
+##D #go to the working directory and delete lspec images (the ones with several rows of spectrograms)
+##D 
+##D #filter selection data frame
+##D 
+## End(Not run)
 
 
 
@@ -682,7 +686,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D # Set temporary working directory
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D 
 ##D data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 ##D writeWave(Phae.long1,"Phae.long1.wav")
@@ -716,7 +720,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")
@@ -779,7 +783,7 @@ data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.tab
 
 is.selection.table(selec.table)
 
-setwd(tempdir())
+# setwd(tempdir())
 
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
@@ -810,23 +814,23 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-{
-# Set temporary working directory
-setwd(tempdir())
-
-# save sound file examples
-data(list = c("Phae.long1", "Phae.long2","selec.table"))
-writeWave(Phae.long1,"Phae.long1.wav") 
-writeWave(Phae.long2,"Phae.long2.wav")
-
-lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
-
-# including selections
-lspec(sxrow = 2, rows = 8, X = selec.table, pal = reverse.heat.colors, redo = TRUE, wl = 300)
-
-#check this floder
-getwd()
-}
+## Not run: 
+##D # Set temporary working directory
+##D # setwd(tempdir())
+##D 
+##D # save sound file examples
+##D data(list = c("Phae.long1", "Phae.long2","selec.table"))
+##D writeWave(Phae.long1,"Phae.long1.wav") 
+##D writeWave(Phae.long2,"Phae.long2.wav")
+##D 
+##D lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
+##D 
+##D # including selections
+##D lspec(sxrow = 2, rows = 8, X = selec.table, pal = reverse.heat.colors, redo = TRUE, wl = 300)
+##D 
+##D #check this floder
+##D getwd()
+## End(Not run)
 
 
 
@@ -848,7 +852,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D # Set temporary working directory
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D 
 ##D # save sound file examples
 ##D data(list = c("Phae.long1", "Phae.long2"))
@@ -883,7 +887,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")
@@ -915,7 +919,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D #Set temporary working directory
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D 
 ##D # save wav file examples
 ##D data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
@@ -950,7 +954,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 #Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data("Cryp.soui")
@@ -993,7 +997,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D # First set temporary folder
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D  
 ##D #Then download mp3 files from xeno-canto
 ##D querxc(qword = "Phaethornis aethopygus", download = TRUE)
@@ -1058,7 +1062,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D # Set temporary working directory
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D 
 ##D # search without downloading
 ##D df1 <- querxc(qword = 'Phaethornis anthophilus', download = FALSE)
@@ -1105,7 +1109,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
@@ -1121,7 +1125,10 @@ env(wv1)
  writeWave(object = wv1, filename = "wv1.wav", extensible = FALSE)
 
 #remove silence
-rm_sil(path = tempdir(), flist = "wv1.wav")
+rm_sil(flist = "wv1.wav")
+
+# OR this is tempdir was used instead
+# rm_sil(path = tempdir(), flist = "wv1.wav")
 
 #check this floder
 getwd()
@@ -1146,7 +1153,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ## Not run: 
 ##D #Set temporary working directory
-##D setwd(tempdir())
+##D # setwd(tempdir())
 ##D 
 ##D data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 ##D writeWave(Phae.long1,"Phae.long1.wav")
@@ -1183,7 +1190,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1","selec.table"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
@@ -1202,6 +1209,37 @@ sig2noise(selec.table[grep("Phae.long1", selec.table$sound.files), ], mar = 0.1)
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("sig2noise", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
+nameEx("sim_songs")
+### * sim_songs
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: sim_songs
+### Title: Simulate animal vocalizations
+### Aliases: sim_songs
+
+### ** Examples
+
+{
+ # simulate a song with 3 elements and no harmonics
+ sm_sng <- sim_songs(n = 3, harms = 1)
+ 
+ # plot spectro
+ seewave::spectro(sm_sng)
+ 
+ # simulate a song with 5 elements and 2 extra harmonics
+sm_sng2 <- sim_songs(n = 5, harms = 3)
+
+ # plot spectro
+ seewave::spectro(sm_sng2)
+}
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("sim_songs", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
 nameEx("snrspecs")
 ### * snrspecs
 
@@ -1214,30 +1252,30 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-{
-# Set temporary working directory
-setwd(tempdir())
- 
-data(list = c("Phae.long1", "Phae.long2", "selec.table"))
-writeWave(Phae.long1, "Phae.long1.wav") #save sound.files
-writeWave(Phae.long2, "Phae.long2.wav") 
-
-# make Phae.long1 and Phae.long2 spectrograms
-# snrmar needs to be smaller before moving on to sig2noise()
-
-snrspecs(selec.table, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
-picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg", wl = 300)
-
-# make only Phae.long1 spectrograms
-# snrmar now doesn't overlap neighboring signals
-
-snrspecs(selec.table[grepl(c("Phae.long1"), selec.table$sound.files), ], flim = c(3, 14),
-inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2,
-mar = 0.2, snrmar = 0.01, wl = 300)
-
-#check this folder!!
-getwd()
-}
+## Not run: 
+##D # Set temporary working directory
+##D # setwd(tempdir())
+##D  
+##D data(list = c("Phae.long1", "Phae.long2", "selec.table"))
+##D writeWave(Phae.long1, "Phae.long1.wav") #save sound.files
+##D writeWave(Phae.long2, "Phae.long2.wav") 
+##D 
+##D # make Phae.long1 and Phae.long2 spectrograms
+##D # snrmar needs to be smaller before moving on to sig2noise()
+##D 
+##D snrspecs(selec.table, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
+##D picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg", wl = 300)
+##D 
+##D # make only Phae.long1 spectrograms
+##D # snrmar now doesn't overlap neighboring signals
+##D 
+##D snrspecs(selec.table[grepl(c("Phae.long1"), selec.table$sound.files), ], flim = c(3, 14),
+##D inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2,
+##D mar = 0.2, snrmar = 0.01, wl = 300)
+##D 
+##D #check this folder!!
+##D getwd()
+## End(Not run)
 
 
 
@@ -1258,7 +1296,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # set the temp directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2",  "Phae.long3",  "Phae.long4","selec.table"))
@@ -1295,7 +1333,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")
@@ -1330,7 +1368,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 { 
 # First set empty folder
-setwd(tempdir())
+# setwd(tempdir())
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 writeWave(Phae.long2, "Phae.long2.wav")
@@ -1349,6 +1387,36 @@ getwd()
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("specreator", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
+nameEx("track_harm")
+### * track_harm
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: track_harm
+### Title: Track harmonic frequency contour
+### Aliases: track_harm
+
+### ** Examples
+
+{
+#Set temporary working directory
+# setwd(tempdir())
+
+#load data
+
+# Check this folder
+getwd()
+
+#track both frequencies 
+
+}
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("track_harm", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
 nameEx("trackfreqs")
 ### * trackfreqs
 
@@ -1363,7 +1431,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 #Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data("Cryp.soui")
@@ -1413,7 +1481,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 # Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
 writeWave(Phae.long1,"Phae.long1.wav")
@@ -1472,7 +1540,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 {
 #First set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","selec.table"))
@@ -1506,7 +1574,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 {
 #load data
 #First set temporary working directory]
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data(list = c("Phae.long1", "Phae.long2", "selec.table"))

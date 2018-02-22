@@ -118,7 +118,7 @@ This option is indicated for signals with high background noise levels. Palette 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
-decreasing darkness levels. THIS IS STILL BEING TESTED.}
+decreasing darkness levels.}
 
 \item{...}{Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
 graphical output.}
@@ -144,7 +144,7 @@ This function determines the start and end of signals in the segments of the sou
 \examples{
 \dontrun{
 # Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1,"Phae.long1.wav")

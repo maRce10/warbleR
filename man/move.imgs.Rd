@@ -39,7 +39,7 @@ of the \code{\link{warbleR}} function. It copies/cuts files between directories.
 \examples{
 {
 #Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 #load data
 data("Cryp.soui")

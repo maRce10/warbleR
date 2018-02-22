@@ -42,7 +42,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
 #' \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when \code{fast.spec = TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -167,7 +167,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     # read rec segment
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
     
-    frng <- frd.INTFUN(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
+    frng <- frd_wrblr_int(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
     
     if(img)
       {
@@ -180,7 +180,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
            width = pwc, height = (10.16), units = "cm", res = res) 
     
     
-      frd.plot.INTFUN(wave = r, detections = frng, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = paste(X$sound.files[i], X$selec[i], sep = "-"), all.detec = F)   
+      frd_plot_wrblr_int(wave = r, detections = frng, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = paste(X$sound.files[i], X$selec[i], sep = "-"), all.detec = F)   
     
     dev.off()
 }    

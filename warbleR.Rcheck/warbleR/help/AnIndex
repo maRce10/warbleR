@@ -37,6 +37,7 @@ selec.table	selec.table
 seltailor	seltailor
 sig2noise	sig2noise
 sim.coor.sing	sim.coor.sing
+sim_songs	sim_songs
 snrspecs	snrspecs
 sp.en.ts	sp.en.ts
 specan	specan
@@ -44,6 +45,7 @@ specreator	specreator
 spectro.rectw.INTFUN	internals
 spectro.rectw.INTFUN.2	internals
 trackfreqs	trackfreqs
+track_harm	track_harm
 warbleR	warbleR
 wavdur	wavdur
 xcmaps	xcmaps

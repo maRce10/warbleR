@@ -57,7 +57,7 @@ This option is indicated for signals with high background noise levels. Palette 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
-decreasing darkness levels. THIS IS STILL BEING TESTED.}
+decreasing darkness levels.}
 }
 \value{
 .csv file saved in the working directory with start and end time of 
@@ -107,7 +107,7 @@ Users can zoom-in a specific sound file segment by clicking at the
 \examples{
 \dontrun{
 #Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))

@@ -123,9 +123,9 @@ rownumber of the selections. This function uses internally a modified version
 of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms.
 }
 \examples{
-{
+\dontrun{
 # Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")

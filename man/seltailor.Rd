@@ -59,7 +59,7 @@ This option is indicated for signals with high background noise levels. Palette 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
-decreasing darkness levels. THIS IS STILL BEING TESTED.}
+decreasing darkness levels.}
 
 \item{ext.window}{Logical. If \code{TRUE} then and external graphic window is used. Default 
 dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.}
@@ -115,7 +115,7 @@ This function produces an interactive spectrographic
 \examples{
 \dontrun{
 #Set temporary working directory
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")

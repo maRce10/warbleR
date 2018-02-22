@@ -41,7 +41,7 @@ The 'selection.table' class can be input in subsequent functions.
 \examples{
 {
 # First set temporary folder
-setwd(tempdir())
+# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")

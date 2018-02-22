@@ -212,7 +212,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     if(bpfr[1] < 0) bpfr[1] <- 0
     if(bpfr[2] > ceiling(r@samp.rate/2000) - 1) bpfr[2] <- ceiling(r@samp.rate/2000) - 1 
     
-  frng <- frd.INTFUN(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = b, bp = bpfr, ovlp = ovlp)
+  frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = b, bp = bpfr, ovlp = ovlp)
   
     #frequency spectrum analysis
     songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl.freq, wn = wn, flim = b)

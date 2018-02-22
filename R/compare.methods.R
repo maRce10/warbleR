@@ -90,7 +90,8 @@
 #' rownumber of the selections. This function uses internally a modified version
 #' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms.
 #' @seealso \url{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}
-#' @examples{
+#' @examples
+#' \dontrun{
 #' # Set temporary working directory
 #' # setwd(tempdir())
 #' 
@@ -406,7 +407,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       
       r <- tuneR::readWave(as.character(X$sound.files[x]), from = tlim[1], to = tlim[2], units = "seconds")
       
-      spectro.INTFUN.2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = pal, grid = grid, ...)
+      spectro_wrblr_int2(wave = r, f = r@samp.rate,flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = pal, grid = grid, ...)
       box(lwd = 2)
       if(x == 1 | x == 3) 
         text(tlim[2] - tlim[1], ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 2) else 

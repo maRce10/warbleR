@@ -26,7 +26,7 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. THIS IS STILL BEING TESTED.
+#' decreasing darkness levels. 
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
 #' \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when \code{fast.spec = TRUE}.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
@@ -66,11 +66,11 @@ frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "ha
   # close screens
   on.exit(invisible(close.screen(all.screens = TRUE)))
   
-  frng <- frd.INTFUN(wave = wave, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
+  frng <- frd_wrblr_int(wave = wave, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
   
   
   if(plot)
-    frd.plot.INTFUN(wave = wave, detections = frng, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = main, all.detec = all.detec)   
+    frd_plot_wrblr_int(wave = wave, detections = frng, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = main, all.detec = all.detec)   
 
     # return low and high freq
  if(all.detec) return(frng$detections) else return(frng$frange)
