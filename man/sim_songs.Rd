@@ -5,7 +5,8 @@
 \title{Simulate animal vocalizations}
 \usage{
 sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
-samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM")
+samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", fin = 0.1,
+fout = 0.2, shape = "linear")
 }
 \arguments{
 \item{n}{Number of song subunits (e.g. elements). Default is 1.}
@@ -42,6 +43,15 @@ noise at the same amplitude than the song subunits. Default is 0.5.}
 \item{diff_fun}{Character vector of length 1 controlling the function used to simulate the brownian motion process of 
 frequency drift across time. Only "BB" and "GBM" are accepted at this time.Check the \code{\link[Sim.DiffProc]{BB}} 
 for more details.}
+
+\item{fin}{Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1). 
+Default is 0.1. Note that 'fin' + 'fout' cannot be higher than 1.}
+
+\item{fout}{Numeric vector of length 1 setting the proportion of the sub-unit to fade-out amplitude (value between 0 and 1).
+Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.}
+
+\item{shape}{Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
+('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.}
 }
 \description{
 \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.

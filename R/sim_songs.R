@@ -2,7 +2,8 @@
 #' 
 #' \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
 #' @usage sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
-#' samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM") 
+#' samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", 
+#' fin = 0.1, fout = 0.2, shape = "linear") 
 #' @param n Number of song subunits (e.g. elements). Default is 1.
 #' @param durs Numeric vector with the duration of subunits in seconds. It should either be a single value (which would 
 #' be used for all subunits) or a vector of length \code{n}. 
@@ -25,7 +26,13 @@
 #' @param seed Numeric vector of length 1. This allows users to get the same results in different runs (using  \code{\link[base]{set.seed}} internally). Default is \code{NULL}.
 #' @param diff_fun Character vector of length 1 controlling the function used to simulate the brownian motion process of 
 #' frequency drift across time. Only "BB" and "GBM" are accepted at this time.Check the \code{\link[Sim.DiffProc]{BB}} 
-#' for more details. 
+#' for more details.
+#' @param fin Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1). 
+#' Default is 0.1. Note that 'fin' + 'fout' cannot be higher than 1.   
+#' @param fout Numeric vector of length 1 setting the proportion of the sub-unit to fade-out amplitude (value between 0 and 1).
+#' Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.  
+#' @param shape Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
+#' ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.
 #' @seealso \code{\link{querxc}} for for downloading bird vocalizations from an online repository.
 #' @export
 #' @name sim_songs
@@ -49,7 +56,8 @@
 #last modification on feb-22-2018 (MAS)
 
 sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, samp.rate = 44.1, 
-                      sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM") {
+                      sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", fin = 0.1,
+                      fout = 0.2, shape = "linear") {
   
   if (length(durs) != n & length(durs) != 1) stop("length of 'durs' should be 1 or equal to 'n'")
   if (length(amps) != harms  & harms > 1) stop("length of 'amps' should be equal to 'harms'")
@@ -61,13 +69,13 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   if (harms > 10) harms <- 10
   if (harms > 1) amps <- amps / max(amps)
   
-  
   # set diffusion function 
   if (diff_fun == "GBM") df_fn <- Sim.DiffProc::GBM else df_fn <- Sim.DiffProc::BB
   
   if (!is.null(seed))
     seeds <- 1:(3 * n) + seed  
   
+  # harmonics frequencies relative to fundamental
   hrm_freqs <- c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10)
   hrm_freqs <- sort(1 / hrm_freqs)
   
@@ -84,6 +92,9 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
     sng_frq <- stats::spline(x = sng_frq, n = ifelse(app_n < 2, 2, app_n))$y
     
     sng_amp <- rep(amps[1], length(sng_frq))
+    
+    if (fin != 0 & fout != 0)
+    sng_amp <- fade_env_wrblr_int(nvlp = sng_amp, fin = fin, fout = fout, shape = shape)
     
     # add starting gap
     if (x == 1) {
