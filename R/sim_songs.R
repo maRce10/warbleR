@@ -2,7 +2,7 @@
 #' 
 #' \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
 #' @usage sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
-#' samp.rate = 44.1, sig2 = 0.5, steps = 50, bgn = 0.5, seed = NULL, diff_fun = "GBM") 
+#' samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM") 
 #' @param n Number of song subunits (e.g. elements). Default is 1.
 #' @param durs Numeric vector with the duration of subunits in seconds. It should either be a single value (which would 
 #' be used for all subunits) or a vector of length \code{n}. 
@@ -19,7 +19,7 @@
 #' for more details. 
 #' @param steps Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during 
 #' the brownian motion process. If not all subunits have the same duration, longer units will be split in more steps (although 
-#' the average duration subunit will have the predefined number of steps). Default is 50.
+#' the average duration subunit will have the predefined number of steps). Default is 10.
 #' @param bgn Numeric vector of length 1 indicating the background noise level. 0 means no additional noise will 1 means 
 #' noise at the same amplitude than the song subunits. Default is 0.5.
 #' @param seed Numeric vector of length 1. This allows users to get the same results in different runs (using  \code{\link[base]{set.seed}} internally). Default is \code{NULL}.
@@ -49,7 +49,7 @@
 #last modification on feb-22-2018 (MAS)
 
 sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, samp.rate = 44.1, 
-                      sig2 = 0.5, steps = 50, bgn = 0.5, seed = NULL, diff_fun = "GBM") {
+                      sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM") {
   
   if (length(durs) != n & length(durs) != 1) stop("length of 'durs' should be 1 or equal to 'n'")
   if (length(amps) != harms  & harms > 1) stop("length of 'amps' should be equal to 'harms'")
