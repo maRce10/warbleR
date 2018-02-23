@@ -28,7 +28,7 @@
 
 #' @param ... Additional arguments to be passed to the plotting function.
 #' @seealso \code{\link{trackfreqs}} for tracking frequencies iteratively on selections tables.
-#' #' @export
+#' @export
 #' @name track_harm
 #' @details This is a modified version of seewave's \code{\link[seewave]{dfreq}} function that allows to track the frequency 
 #' contour of a dominant harmonic even when the highest amplitude jumps between harmonics. The arguments and default values of the

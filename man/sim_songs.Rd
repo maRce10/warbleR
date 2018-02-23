@@ -5,7 +5,7 @@
 \title{Simulate animal vocalizations}
 \usage{
 sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
-samp.rate = 44.1, sig2 = 0.5, steps = 50, bgn = 0.5, seed = NULL, diff_fun = "GBM")
+samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM")
 }
 \arguments{
 \item{n}{Number of song subunits (e.g. elements). Default is 1.}
@@ -32,7 +32,7 @@ for more details.}
 
 \item{steps}{Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during 
 the brownian motion process. If not all subunits have the same duration, longer units will be split in more steps (although 
-the average duration subunit will have the predefined number of steps). Default is 50.}
+the average duration subunit will have the predefined number of steps). Default is 10.}
 
 \item{bgn}{Numeric vector of length 1 indicating the background noise level. 0 means no additional noise will 1 means 
 noise at the same amplitude than the song subunits. Default is 0.5.}

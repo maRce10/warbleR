@@ -71,7 +71,6 @@ getwd()
 }
 \seealso{
 \code{\link{trackfreqs}} for tracking frequencies iteratively on selections tables.
-#' @export
 }
 \author{
 Jerome Sueur, modified by Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
