@@ -26,6 +26,8 @@
 #' @seealso \code{\link{checkwavs}}
 #' @export
 #' @name checksels
+#' @export
+#' @rdname checksels
 #' @examples{
 #' # First set temporary folder
 #' # setwd(tempdir())
@@ -243,3 +245,4 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
 }
 
 
+check_sels <- checksels

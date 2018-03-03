@@ -19,12 +19,12 @@
 #' @param priority Character vector. Controls the priority criteria used for removing overlapped selections. It
 #' must list the levels of the column used to determine priority (argument priority.col) in the desired 
 #' priority order. Default is \code{NULL}.
-#' @param priority.col Character vector of length with the name of the column use to determine the priority of
+#' @param priority.col Character vector of length 1 with the name of the column use to determine the priority of
 #' overlapped selections. Default is \code{NULL}.
 #' @return A data frame with the columns in X plus an additional column ('ovlp_sels') indicating 
 #' which selections overlap. The ones with the same number overlap with each other. If 
 #' \code{drop = TRUE} only the non-overlapping selections are return. If 2 or more selections 
-#' overlap only the first is kept.  
+#' overlap only the first one is kept.  
 #' @export
 #' @name ovlp_sels
 #' @examples

@@ -87,7 +87,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
                   bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL,
                   img = TRUE, parallel = 1,
                   path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, ...){     
-
+  
   # reset working directory 
   wd <- getwd()
   on.exit(setwd(wd))
@@ -97,17 +97,17 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     setwd(path)
   }  
   
-    #if X is not a data frame
-    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-    
-    
+  #if X is not a data frame
+  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  
+  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
-
+  
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
@@ -144,7 +144,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   if(length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else 
-  X <- X[d, ]
+    X <- X[d, ]
   
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -171,68 +171,68 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     # Read sound files to get sample rate and length
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
-
+    
     #in case bp its higher than can be due to sampling rate
     b <- bp 
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
-      r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
+    r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
     
-      if(frange.detec)
-      {frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
-      
-      if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
-      
-      # calculate dominant frequency at each time point     
-      dfreq1 <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
-                              threshold = threshold)
-      
-      dfreq <- dfreq1[!is.na(dfreq1[,2]), ]
-      dfreq <- dfreq[dfreq[,2] > b[1]/1000, ]
-      
-      if(nrow(dfreq) < 2) {apdom <- list()
-      apdom$x <- dfreq1[, 1]
-      apdom$y <- rep(NA, length.out)
+    if(frange.detec)
+    {frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
+    
+    if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
+    
+    # calculate dominant frequency at each time point     
+    dfreq1 <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
+                             threshold = threshold)
+    
+    dfreq <- dfreq1[!is.na(dfreq1[,2]), ]
+    dfreq <- dfreq[dfreq[,2] > b[1]/1000, ]
+    
+    if(nrow(dfreq) < 2) {apdom <- list()
+    apdom$x <- dfreq1[, 1]
+    apdom$y <- rep(NA, length.out)
+    apdom1 <- apdom
+    
+    } else {
+      if(!clip.edges)
+      {        apdom <- approx(dfreq[,1], dfreq[,2], xout = seq(from = dfreq1[1, 1], 
+                                                                to = dfreq1[nrow(dfreq1), 1], length.out = length.out),
+                               method = "linear")
       apdom1 <- apdom
-      
-       } else {
-        if(!clip.edges)
-{        apdom <- approx(dfreq[,1], dfreq[,2], xout = seq(from = dfreq1[1, 1], 
-            to = dfreq1[nrow(dfreq1), 1], length.out = length.out),
-            method = "linear")
-      apdom1 <- apdom
-          } else {
-              apdom <- approx(dfreq[,1], dfreq[,2], 
-              xout = seq(from = dfreq[1, 1],  to = dfreq[nrow(dfreq), 1], 
-              length.out = length.out), method = "linear")
-            
-      #fix for ploting with trackfreqs
-      dfreq1[,2][is.na(dfreq1[,2])] <- 0
-      
-      #calculate time at start and end with no amplitude detected (duration of clipped edges)
-      durend1 <- suppressWarnings(diff(range(dfreq1[,1][rev(cumsum(rev(dfreq1[,2])) == 0)])))
-      durend <- durend1
-      if(is.infinite(durend) | is.na(durend)) durend <- 0
-      
-      durst1 <- suppressWarnings(diff(range(dfreq1[,1][cumsum(dfreq1[,2]) == 0])))   
-      durst <- durst1
-      if(is.infinite(durst) | is.na(durst)) durst <- 0
-      
-      by.dur <- mean(diff(apdom$x))
-      clipst <- length(seq(from = 0, to = durst, by = by.dur))
-      clipend <- length(seq(from = 0, to = durend, by = by.dur))
-      
-      apdom1 <- apdom
-      apdom1$y <- c(rep(NA, clipst) ,apdom$y, rep(NA, clipend))
-      
-      if(is.infinite(durst1) | is.na(durst1)) apdom1$y <- apdom1$y[-1]
-      if(is.infinite(durend1) | is.na(durend1)) apdom1$y <- apdom1$y[-length(apdom1$y)]
-               } 
-          }
-      
-      
-  if(img) 
+      } else {
+        apdom <- approx(dfreq[,1], dfreq[,2], 
+                        xout = seq(from = dfreq[1, 1],  to = dfreq[nrow(dfreq), 1], 
+                                   length.out = length.out), method = "linear")
+        
+        #fix for ploting with trackfreqs
+        dfreq1[,2][is.na(dfreq1[,2])] <- 0
+        
+        #calculate time at start and end with no amplitude detected (duration of clipped edges)
+        durend1 <- suppressWarnings(diff(range(dfreq1[,1][rev(cumsum(rev(dfreq1[,2])) == 0)])))
+        durend <- durend1
+        if(is.infinite(durend) | is.na(durend)) durend <- 0
+        
+        durst1 <- suppressWarnings(diff(range(dfreq1[,1][cumsum(dfreq1[,2]) == 0])))   
+        durst <- durst1
+        if(is.infinite(durst) | is.na(durst)) durst <- 0
+        
+        by.dur <- mean(diff(apdom$x))
+        clipst <- length(seq(from = 0, to = durst, by = by.dur))
+        clipend <- length(seq(from = 0, to = durend, by = by.dur))
+        
+        apdom1 <- apdom
+        apdom1$y <- c(rep(NA, clipst) ,apdom$y, rep(NA, clipend))
+        
+        if(is.infinite(durst1) | is.na(durst1)) apdom1$y <- apdom1$y[-1]
+        if(is.infinite(durend1) | is.na(durend1)) apdom1$y <- apdom1$y[-length(apdom1$y)]
+      } 
+    }
+    
+    
+    if(img) 
       trackfreqs(X[i,], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
                  parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
                  custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom1$y)), xl = ifelse(frange.detec, 1.8, 1), fsmooth = fsmooth, frange.detec = frange.detec, ...)

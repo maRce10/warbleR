@@ -5,8 +5,8 @@
 \title{Simulate animal vocalizations}
 \usage{
 sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
-samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", fin = 0.1,
-fout = 0.2, shape = "linear")
+samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", 
+fin = 0.1, fout = 0.2, shape = "linear")
 }
 \arguments{
 \item{n}{Number of song subunits (e.g. elements). Default is 1.}
