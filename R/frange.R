@@ -135,7 +135,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   #return warning if not all sound files were found
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop

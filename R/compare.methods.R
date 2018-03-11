@@ -182,8 +182,8 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
@@ -232,7 +232,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   #return warning if not all sound files were found
   fs <- list.files(path = getwd(), pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -328,9 +328,9 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if(nrow(X) == 4)  {n <- 1
   combs <- as.matrix(1:4)
-  message("Only 1 possible combination of signals")
+  cat("Only 1 possible combination of signals")
   } else if(n > ncol(combs)) {n <- ncol(combs)
-  message(paste("Only",n, "possible combinations of signals"))
+  cat(paste("Only",n, "possible combinations of signals"))
   }
   
   if(nrow(X) > 4)  combs <- as.data.frame(combs[,sample(1:ncol(combs), n)])
@@ -355,7 +355,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   # screen 10:11 method labels
   
   
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb)  message("saving graphs as image files:")
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb)  cat("saving graphs as image files:")
   
       comp.methFUN <- function(X, u, res, disim.mats, m, mar, flim)
     {
@@ -506,7 +506,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       
       #parallel not available on windows
       if(parallel > 1 & Sys.info()[1] == "Windows")
-      {message("parallel computing not availabe in Windows OS for this function")
+      {cat("parallel computing not availabe in Windows OS for this function")
         parallel <- 1}
       
       if(parallel > 1) {

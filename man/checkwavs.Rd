@@ -19,7 +19,7 @@ This could be useful for avoiding errors in dowstream functions (e.g. \code{\lin
 If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
-If all .wav files are ok, returns message "All files can be read!".
+If all .wav files are ok, returns message "All files can be read".
   Otherwise returns the names of the corrupted .wav files.
 }
 \description{

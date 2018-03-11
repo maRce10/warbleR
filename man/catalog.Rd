@@ -6,14 +6,14 @@
 \usage{
 catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
 collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
-lab.mar = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", path = NULL, 
-pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
-labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
-tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, 
-cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), 
-hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
-max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
-by.row = TRUE, box = TRUE)
+lab.mar = 1, wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, 
+it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, 
+orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
+width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors, topo.colors),
+legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, 
+tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5), group.tag = NULL, 
+spec.mar = 0, spec.bg = "white", max.group.cols = NULL, sub.legend = FALSE, 
+rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE)
 }
 \arguments{
 \item{X}{'selection.table' object or data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -54,6 +54,9 @@ variation in signal duration. Ignored if \code{same.time.scale = FALSE}.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
+
+\item{wn}{Character vector of length 1 specifying the window function name. See \code{\link[seewave]{ftwindow}}
+for name options. Default is "hanning".}
 
 \item{gr}{Logical argument to add grid to spectrogram. Default is \code{FALSE}.}
 

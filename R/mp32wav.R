@@ -68,14 +68,14 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, norm
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
   #parallel not available on windows
   if(parallel > 1 & Sys.info()[1] == "Windows")
-  {message("parallel computing not availabe in Windows OS for this function")
+  {cat("parallel computing not availabe in Windows OS for this function")
     parallel <- 1}
   
   if(parallel > 1) 

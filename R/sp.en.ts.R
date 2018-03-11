@@ -136,7 +136,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   #return warning if not all sound files were found
   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
+    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -153,16 +153,16 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   #if parallel
   if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
     parallel <- 1
-    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
   #parallel not available on windows
   if(parallel > 1 & Sys.info()[1] == "Windows")
-  {message("parallel computing not availabe in Windows OS for this function")
+  {cat("parallel computing not availabe in Windows OS for this function")
     parallel <- 1}
 
- if(pb) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
-    message("Measuring spectral entropy:")}  
+ if(pb) {if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
+    cat("Measuring spectral entropy:")}  
   
   sp.en.tsFUN <- function(X, i, bp, wl, threshold, sp.en.range){
     

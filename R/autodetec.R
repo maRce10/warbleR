@@ -214,8 +214,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-      message("parallel with progress bar is currently not available for windows OS")
-      message("running parallel without progress bar")
+      cat("parallel with progress bar is currently not available for windows OS")
+      cat("running parallel without progress bar")
       pb <- FALSE
     } 
   
@@ -267,7 +267,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     #return warning if not all sound files were found
     fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
     if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-      message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+      cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                     ".wav file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
@@ -295,8 +295,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     }    
   
       # if parallel was not called 
-    if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(!ls & img) message("Detecting signals in sound files and producing spectrogram:") else 
-      message("Detecting signals in sound files:")}
+    if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
+      cat("Detecting signals in sound files:")}
     
   #create function to detec signals          
   adFUN <- function(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
@@ -480,7 +480,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   
   # long spectrograms
   if(ls & img) {  
-   if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("Producing long spectrogram:")
+   if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("Producing long spectrogram:")
     
     #function for long spectrograms (based on lspec function)
     lspeFUN2 <- function(X, z, fl = flim, sl = sxrow, li = rows, fli = fli, pal, fast.spec) {

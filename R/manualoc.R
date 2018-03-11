@@ -332,7 +332,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
          && all(xy$y > (fl[2] - fl[1])/marg1 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]))
       {if(length(setdiff(files, unique(results$sound.files))) == 0)
       {try(dev.off(), silent = TRUE)
-       message("all .wav files in working directory have been analyzed")
+       cat("all .wav files in working directory have been analyzed")
        options( show.error.messages = FALSE)
        stop("")}
       if(reccomm) rec.comment <- edit(rec.comment) else rec.comment <- ""   
@@ -372,7 +372,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
     
     if(!file.exists(file.path(getwd(), files[wavs + 1])))
     {try(dev.off(), silent = TRUE)
-     message("This was the last sound file")
+     cat("This was the last sound file")
      break}
   }
   

@@ -89,7 +89,7 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
   }
   
   step <- round(step)
-  y1 <- stft(wave = wave, f = f, wl = wl, zp = 0, step = step, 
+  y1 <- seewave::stft(wave = wave, f = f, wl = wl, zp = 0, step = step, 
              wn = wn, fftw = fftw)
   if (!is.null(bandpass)) {
     if (length(bandpass) != 2) 

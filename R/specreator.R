@@ -5,7 +5,8 @@
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-#'   mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, ...)
+#'   col = adjustcolor("red2", 0.6), lty = 3, mar = 0.05, it = "jpeg", 
+#'   parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, ...)
 #' @param  X 'selection.table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
 #' Low and high frequency columns are optional.
@@ -46,6 +47,8 @@
 #'   \code{FALSE}.
 #' @param line Logical argument to add red lines at start and end times of selection 
 #' (or box if bottom.freq and top.freq columns are provided). Default is \code{TRUE}.
+#' @param col Color of 'line'. Default is `adjustcolor("red2", alpha.f = 0.7)`.`
+#' @param lty Type of 'line' as in \code{\link[graphics]{par}}. Default is 1. 
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 #' dealineating spectrogram limits. Default is 0.05.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
@@ -99,9 +102,9 @@
 
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                         inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100, 
-                        cexlab = 1, title = TRUE, propwidth = FALSE, xl=1, osci = FALSE, 
-                        gr = FALSE, sc = FALSE, line = TRUE, mar = 0.05, it = "jpeg", parallel = 1, 
-                       path = NULL, pb = TRUE, fast.spec = FALSE, ...){
+                        cexlab = 1, title = TRUE, propwidth = FALSE, xl=1, osci = FALSE,  gr = FALSE,
+                       sc = FALSE, line = TRUE, col = adjustcolor("red2", 0.6), lty = 3, mar = 0.05, 
+                       it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, ...){
   
   # reset working directory 
   wd <- getwd()
@@ -163,8 +166,8 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
@@ -225,9 +228,9 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     if(line){  
       if(any(names(X) == "bottom.freq") & any(names(X) == "top.freq"))
       {   if(!is.na(X$bottom.freq[i]) & !is.na(X$top.freq[i]))
-        polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$bottom.freq[i], X$top.freq[i], X$top.freq[i], X$bottom.freq[i]), lty = 3, border = "blue", lwd = 1.2) else
-          abline(v = c(mar1, mar2), col= "red", lty = "dashed")
-      } else abline(v = c(mar1, mar2), col= "red", lty = "dashed")
+        polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$bottom.freq[i], X$top.freq[i], X$top.freq[i], X$bottom.freq[i]), lty = lty, border = col, lwd = 1.2) else
+          abline(v = c(mar1, mar2), col= col, lty = lty)
+      } else abline(v = c(mar1, mar2), col= col, lty = lty)
     }  
     dev.off()
   }

@@ -173,7 +173,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   #return warning if not all sound files were found
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -193,8 +193,8 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
@@ -314,7 +314,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     
   }
   
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("measuring acoustic parameters:")
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("measuring acoustic parameters:")
   
   # Run parallel in windows
   if(parallel > 1) {if(Sys.info()[1] == "Windows") {

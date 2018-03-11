@@ -10,13 +10,13 @@ parallel = 1, path = NULL, pb = TRUE)
 \arguments{
 \item{qword}{Character vector of length one indicating the genus, or genus and
 species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
-(\url{http://www.xeno-canto.org/}). More complex queries can be done by using search terms that follow the 
+(\url{https://www.xeno-canto.org/}). More complex queries can be done by using search terms that follow the 
 xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings 
 (e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song' 
 will search for all recordings in which the sound type description contains the word 'song'. 
 Several tags can be included in the same query. The query "phaethornis cnt:belize' will only return 
 results for birds in the genus \emph{Phaethornis} that were recorded in  Belize. 
-See \url{http://www.xeno-canto.org/help/search} for a full description and see examples below 
+See \url{https://www.xeno-canto.org/help/search} for a full description and see examples below 
 for queries using terms with more than one word.}
 
 \item{download}{Logical argument. If \code{FALSE} only the recording file names and
@@ -46,11 +46,11 @@ when parallel = 1.}
 If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.
 }
 \description{
-\code{querxc} downloads recordings and metadata from 'Xeno-Canto' (\url{http://www.xeno-canto.org/}).
+\code{querxc} downloads recordings and metadata from 'Xeno-Canto' (\url{https://www.xeno-canto.org/}).
 }
 \details{
 This function queries for avian vocalization recordings in the open-access
-online repository 'Xeno-Canto' (\url{http://www.xeno-canto.org/}). It can return recordings metadata
+online repository 'Xeno-Canto' (\url{https://www.xeno-canto.org/}). It can return recordings metadata
 or download the associated sound files. Complex queries can be done by using search terms that follow the 
  xeno-canto advance query syntax (check "qword" argument description). 
  Files are double-checked after downloading and "empty" files are re-downloaded. 

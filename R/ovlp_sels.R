@@ -2,7 +2,7 @@
 #' 
 #' \code{ovlp_sels} finds which selections overlap in time within a given sound file.
 #' @usage ovlp_sels(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, 
-#' drop = FALSE, priority = NULL, priority.col = NULL)
+#' drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = TRUE, indx.row = FALSE)
 #' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
@@ -21,6 +21,11 @@
 #' priority order. Default is \code{NULL}.
 #' @param priority.col Character vector of length 1 with the name of the column use to determine the priority of
 #' overlapped selections. Default is \code{NULL}.
+#' @param unique.labs Logical to control if labels are reused across different sound files (if \code{TRUE}, default).
+#' @param indx.row Logical. If \code{TRUE} then a character column with the indices of all selections that overlapped with
+#' each selection is added to the ouput data frame (if \code{index = TRUE}). For instance, if the selections in rows 1,2 
+#' and 3 all overlapped with each other, the 'indx.row' value would be "1/2/3" for all. However, if selection 3 only overlaps
+#'  with 2 but not with 1, then it returns, "1/2" for row 1, "1/2/3" for row 2, and "2/3" for row 3. Default is \code{FALSE}. 
 #' @return A data frame with the columns in X plus an additional column ('ovlp_sels') indicating 
 #' which selections overlap. The ones with the same number overlap with each other. If 
 #' \code{drop = TRUE} only the non-overlapping selections are return. If 2 or more selections 
@@ -50,7 +55,8 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on may-22-2017 (MAS)
 
-ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, drop = FALSE, priority = NULL, priority.col = NULL) 
+ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, drop = FALSE,                       
+                      priority = NULL, priority.col = NULL, unique.labs = TRUE, indx.row = FALSE) 
   {
   
   #X must be provided
@@ -58,9 +64,6 @@ ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-  
-  
-  
   
   # check column names
   if(!all(c("sound.files", "selec", 
@@ -89,7 +92,7 @@ ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE
 
   
  # function that runs on a data frame for a single sound file 
-  ovlpFUN <- function(X) {
+  ovlpFUN <- function(X, ndx.rw = indx.row) {
     #only if there is more than 1 selection for that sound file
     if(nrow(X) > 1)
     {
@@ -116,42 +119,47 @@ ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE
     # put it in a triangular matrix
     out2 <- as.data.frame(lapply(out1, function(x) c(rep(0, nrow(X) - length(x)), x)), col.names = 1:length(out1))
 
-  # determine unique overlap tag  
-out3 <- apply(out2, 1, function(x) unique(x[x != 0]))
+
+lbls <- rep(NA, nrow(out2))
+
+###### using loop
+for(w in 1:nrow(out2)){
   
-# put own tag to non-overlapping  
-out4 <- lapply(seq_len(length(out3)), function(x) {
-  if(length(out3[[x]]) == 0) y <- x else y <- out3[[x]]
-return(y)
-})
+  if (w == 1) lbls[w] <- max(out2) + 1 else
+    if(length(which(out2[ w, ] != 0)) >= 2) {
+      wh.mn <- which(out2[ w, ] != 0)
+  lbls[w] <- lbls[wh.mn[- length(wh.mn)]]
+      }  else   lbls[w] <- max(lbls, na.rm = TRUE) + 1 
+}
+
 
 # determine unique tags
-unq <- unique(unlist(out4))
-unq <- unq[unq != 0]
+unq <- table(lbls)
 
-# if more than 1 tag
-if(length(unq) > 1)
-{
-# put a single tag to all the ones that overlap
-  out5 <- sapply(seq_len(length(out4)), function(x) {
-  sub <- out4[sapply(lapply(out4, function(y) y == x), any)]
-  
-  #if not share with any other selection have its own
-  tab <- table(unlist(sub))
-  if(length(tab) > 0)
-    res <- min(as.numeric(names(tab)[tab == length(sub)])) else res <- x
-return(res)
-  })
+# add NAs to single tags
+lbls[lbls == names(unq)[unq == 1]] <- NA
 
-  # add NA to not overlapping    
-tab <- table(out5)
-out5[out5 %in% as.numeric(names(tab)[tab == 1])] <- NA
+if(length(lbls[!is.na(lbls)]) > 0)
+lbls2 <- lbls <- lbls - min(lbls, na.rm = TRUE) + 1
 
-X$ovlp.sels <- out5
-} else X$ovlp.sels <- NA # 1 if only 1 tag for all
+lbls.lvls <- unique(lbls)
 
+lbls.lvls <- lbls.lvls[!is.na(lbls.lvls)]
+
+if(length(lbls.lvls) > 0)
+for(e in seq_len(length(lbls.lvls)))
+  if (lbls.lvls[e] != lbls.lvls[1]) lbls[lbls2 == lbls.lvls[e]] <- max(lbls2[1:max(which(lbls2 == lbls.lvls[e - 1]), na.rm = TRUE)], na.rm = TRUE) + 1
+
+# add index row
+if(ndx.rw)
+{  if(length(lbls.lvls) > 0)
+  X$indx.row <- sapply(1:nrow(out2), function(z) paste(unique(c(which(out2[z, ] != 0), which(out2[ , z] != 0))), collapse = "/")) else X$indx.row <- NA
+}
+                       
+    X$ovlp.sels <- lbls
   } else X$ovlp.sels <- NA # NA if only 1 row
- 
+
+  
    return(X)  
     }
   
@@ -160,40 +168,22 @@ sX <- split(X, X$sound.files, drop = TRUE)
 
 # run ovlpFUN over the whole X data frame
   if(pb) 
-    Z <- pbapply::pblapply(seq_len(length(sX)), function(x) {
-
-            # run function for finding overlaps
-      ovlp <- ovlpFUN(sX[[x]])
-      
-      #create unique tags for each sound file
-      ovlp$ovlp.sels[!is.na(ovlp$ovlp.sels)] <-paste(ovlp$ovlp.sels[!is.na(ovlp$ovlp.sels)], x)
-      ovlp$ovlp.sels <- as.factor(ovlp$ovlp.sels)
-      
-      return(ovlp)
-    
-      }) else
-      Z <- lapply(seq_len(length(sX)), function(x) {
-      
-        # run function for finding overlaps
-        ovlp <- ovlpFUN(sX[[x]])
+    Z <- pbapply::pblapply(sX, ovlpFUN) else
+      Z <- lapply(sX, ovlpFUN)
         
-        #create unique tags for each sound file
-        ovlp$ovlp.sels[!is.na(ovlp$ovlp.sels)] <-paste(ovlp$ovlp.sels[!is.na(ovlp$ovlp.sels)], x)
-        ovlp$ovlp.sels <- as.factor(ovlp$ovlp.sels)
         
-        return(ovlp)
-        
-      })        
-  
 out <- do.call(rbind, Z)    
  
 rownames(out) <- 1:nrow(out)
 
-# order factors
+#unique labels
+if (unique.labs)
+{  # order factors
 out$ovlp.sels <- factor(out$ovlp.sels, levels = as.character(stats::na.exclude(out$ovlp.sels[!duplicated(out$ovlp.sels)])))
 
 # convert to numeric
 ovlp <- out$ovlp.sels <- as.numeric(out$ovlp.sels)
+}
 
 if(index) return(which(duplicated(out$ovlp.sels, incomparables = NA))) else{
 
@@ -227,10 +217,10 @@ if(index) return(which(duplicated(out$ovlp.sels, incomparables = NA))) else{
   if(length(ovlp[!is.na(ovlp)]) > 0) 
     {
     if(drop)
-      cat(paste(length(ovlp[!is.na(ovlp)]),"selections overlapped,", length(which(duplicated(ovlp,  incomparables = NA))), "were removed")) else
-  cat(paste(length(ovlp[!is.na(ovlp)]),"selections overlapped"))
+      cat(paste(length(ovlp[!is.na(ovlp)]),"selections overlapped,", length(which(duplicated(ovlp,  incomparables = NA))), "were removed \nSelection table has been ordered by 'sound.files' and 'start'")) else
+  cat(paste(length(ovlp[!is.na(ovlp)]),"selections overlapped \nSelection table has been ordered by 'sound.files' and 'start'"))
   
-    } else cat("No overlapping selections were found")
+    } else cat("No overlapping selections were found \nSelection table has been ordered by 'sound.files' and 'start'")
   return(out)   
 }
   

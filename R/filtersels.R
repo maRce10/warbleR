@@ -160,7 +160,7 @@ if(!index)
   return(Y)
   } else 
   {
-    if(length(Y) == 0) message("Index vector is of length 0")
+    if(length(Y) == 0) cat("Index vector is of length 0")
  return(Y)
     }
 

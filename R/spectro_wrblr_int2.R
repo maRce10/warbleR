@@ -13,12 +13,24 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
                              scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
                              trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
                              heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast.spec = FALSE, 
-                             rm.zero = FALSE, amp.cutoff = NULL, X = NULL, pallete.2 = reverse.topo.colors, bx = TRUE, add = FALSE,...) 
+                             rm.zero = FALSE, amp.cutoff = NULL, X = NULL, pallete.2 = reverse.topo.colors, bx = TRUE, add = FALSE, collev.min = NULL, ...) 
 {
   if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
   sel.tab <- X
-  if(!is.null(sel.tab)) fast.spec <- TRUE 
+  
+  
+  if(is.list(palette)) palette <- unlist(palette[[1]])
+  if(is.null(palette)) palette <- spectro.colors  
+  if (!is.function(palette)) palette <- get(palette)
+    
+  if (is.null(collevels) & !is.null(collev.min))
+    collevels <- seq(collev.min, 0, 1)
+  
+  if (!is.null(collevels) & !is.null(collev.min))
+    collevels <- seq(collev.min, 0, 1)
+
+    if(!is.null(sel.tab)) fast.spec <- TRUE 
   
   if (complex & norm) {
     norm <- FALSE

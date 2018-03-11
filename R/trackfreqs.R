@@ -242,7 +242,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
     #return warning if not all sound files were found
     recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
     if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
-      message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
+      cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                     ".wav file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop

@@ -3,14 +3,14 @@
 #' \code{catalog} produces spectrograms of selections (signals) split into multiple rows and columns.
 #' @usage catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
 #' collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
-#' lab.mar = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", path = NULL, 
-#' pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
-#' labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
-#' tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, 
-#' cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), 
-#' hatching = 0, breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
-#' max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
-#' by.row = TRUE, box = TRUE)
+#' lab.mar = 1, wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, 
+#' it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, 
+#' orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
+#' width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors, topo.colors),
+#' legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, 
+#' tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5), group.tag = NULL, 
+#' spec.mar = 0, spec.bg = "white", max.group.cols = NULL, sub.legend = FALSE, 
+#' rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE)
 #' @param X 'selection.table' object or data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -38,6 +38,8 @@
 #' @param lab.mar Numeric vector of length 1. Specifies the space allocated to labels and tags (the upper margin). Default is 1.   
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
+#' @param wn Character vector of length 1 specifying the window function name. See \code{\link[seewave]{ftwindow}}
+#' for name options. Default is "hanning".
 #' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
 #' \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when \code{fast.spec = TRUE}.
@@ -199,7 +201,7 @@
 
 catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, collev = seq(-40, 0, 1), 
                     ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, lab.mar = 1,
-                    wl = 512, gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", 
+                    wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", 
                     path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
                     labels = c("sound.files", "selec"), height = NULL, width = NULL, tags = NULL, 
                     tag.pal = list(temp.colors, heat.colors, topo.colors), legend = 3, cex = 1, 
@@ -208,209 +210,216 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
                     by.row = TRUE, box = TRUE)
 {
-  
   # reset working directory 
   wd <- getwd()
   on.exit(setwd(wd))
+
+  # expand arguments for spec_param
+  if (is.null(X$ovlp)) X$ovlp <- ovlp
+  if (is.null(X$wl)) X$wl <- wl
+  if (is.null(X$wn)) X$wn <- wn
+  
+  #set collevels for spec_param
+  if (collev[1] != "collev.min") 
+    X$collev.min <- collev[1] else collev <- seq(-40, 0, 1)
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if (!any(class(X) %in% c("data.frame", "selection.table"))) stop("X is not of a class 'data.frame' or 'selection table")
   
   #nrow must be equal or higher than 2
-  if(nrow < 2) stop("number of rows must be equal or higher than 2")
+  if (nrow < 2) stop("number of rows must be equal or higher than 2")
   
   #rows must be equal or higher than 2
-  if(ncol < 1) stop("number of columns (ncol) must be equal or higher than 1")
+  if (ncol < 1) stop("number of columns (ncol) must be equal or higher than 1")
   
   #read files
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   
   #stop if files are not in working directory
-  if(length(files) == 0) stop("no .wav files in working directory")
+  if (length(files) == 0) stop("no .wav files in working directory")
   
   #missing columns
-  if(!all(c("sound.files", "selec",
+  if (!all(c("sound.files", "selec",
             "start", "end") %in% colnames(X)))
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec",
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #tag.pal must be a color function
-  if(!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a list of color palette functions of length 1, 2 or 3")
+  if (!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a list of color palette functions of length 1, 2 or 3")
   
-  if(length(tag.pal) == 1) tag.pal[[2]] <- tag.pal[[1]]
-  if(length(tag.pal) == 2 & !is.null(group.tag)) tag.pal[[3]] <- tag.pal[[2]]
+  if (length(tag.pal) == 1) tag.pal[[2]] <- tag.pal[[1]]
+  if (length(tag.pal) == 2 & !is.null(group.tag)) tag.pal[[3]] <- tag.pal[[2]]
   
-  if(!is.null(max.group.cols) & length(tag.pal) == 3) {fc <- tag.pal[[3]](max.group.cols)
+  if (!is.null(max.group.cols) & length(tag.pal) == 3) {fc <- tag.pal[[3]](max.group.cols)
   tag.pal[[3]] <- function(n) rep(fc, ceiling(n/max.group.cols))[1:n]}
   
-  if(length(breaks) == 1) breaks[2] <- breaks[1]
+  if (length(breaks) == 1) breaks[2] <- breaks[1]
   
   #pal must be a color function
-  if(!is.function(pal)) stop("'pal' must be a color palette function")
+  if (is.function(unlist(pal))) X$pal <- list(pal)
   
   # orientation
-  if(!orientation %in% c("v", "h")) stop("orientation should be either 'v' or 'h'")
+  if (!orientation %in% c("v", "h")) stop("orientation should be either 'v' or 'h'")
   
   #missing label columns
-  if(!all(labels %in% colnames(X)))
+  if (!all(labels %in% colnames(X)))
     stop(paste(paste(labels[!(labels %in% colnames(X))], collapse=", "), "label column(s) not found in data frame"))
   
   #if tags> 2
-  if(length(tags) > 2) stop("No more than 2 tags can be used at a time")
+  if (length(tags) > 2) stop("No more than 2 tags can be used at a time")
   
   #missing tag columns
-  if(!all(tags %in% colnames(X)))
+  if (!all(tags %in% colnames(X)))
     stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
   
   #missing tag columns
-  if(!all(tags %in% colnames(X)))
+  if (!all(tags %in% colnames(X)))
     stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
   
   #if NAs in tags
-  if(anyNA(X[,tags]))
+  if (anyNA(X[,tags]))
     stop("NAs are not allowed in tag columns")
   
-  if(!is.null(group.tag))
-  {if(!group.tag %in% colnames(X))
+  if (!is.null(group.tag))
+  {if (!group.tag %in% colnames(X))
     stop("group.tag column not found in data frame") else
       X <- X[order(X[, group.tag]),]
     
-    if(is.numeric(X[, group.tag]))
+    if (is.numeric(X[, group.tag]))
       stop("group tag cannot be numeric")
     
-    if(anyNA(X[,group.tag]))
+    if (anyNA(X[,group.tag]))
       stop("NAs are not allowed in 'group.tag' column")
     
     
   }
   
   #if sel.comment column not found create it
-  if(is.null(X$sel.comment) & !is.null(X)) X <- data.frame(X,sel.comment="")
+  if (is.null(X$sel.comment) & !is.null(X)) X <- data.frame(X,sel.comment="")
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
   
   #if it argument is not "jpeg" or "tiff"
-  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
+  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
   
   #wrap img creating function
-  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  
   
   #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+  if (parallel > 1 &  pb & Sys.info()[1] == "Windows") {
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
   #return warning if not all sound files were found
   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)))
+  if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)))
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
            ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd)
-  if(length(d) == 0){
+  if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else {
     X <- X[d, ]
   }
   
   #if flim is not vector or length!=2 stop
-  if(is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
-    if(!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
-      if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}
+  if (is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
+    if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
+      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}
   
   #if wl is not vector or length!=1 stop
-  if(is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
-    if(!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
-      if(!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}
+  if (is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
+    if (!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
+      if (!length(wl) > 2) wl <- wl[1]}}
   
   #if rows is not vector or length!=1 stop
-  if(is.null(nrow)) stop("'nrow' must be a numeric vector of length 1") else {
-    if(!is.vector(nrow)) stop("'nrow' must be a numeric vector of length 1") else{
-      if(!length(nrow) == 1) stop("'nrow' must be a numeric vector of length 1")}}
+  if (is.null(nrow)) stop("'nrow' must be a numeric vector of length 1") else {
+    if (!is.vector(nrow)) stop("'nrow' must be a numeric vector of length 1") else{
+      if (!length(nrow) == 1) stop("'nrow' must be a numeric vector of length 1")}}
   
   #if ncol is not vector or length!=1 stop
-  if(is.null(ncol)) stop("'ncol' must be a numeric vector of length 1") else {
-    if(!is.vector(ncol)) stop("'ncol' must be a numeric vector of length 1") else{
-      if(!length(ncol) == 1) stop("'ncol' must be a numeric vector of length 1")}}
+  if (is.null(ncol)) stop("'ncol' must be a numeric vector of length 1") else {
+    if (!is.vector(ncol)) stop("'ncol' must be a numeric vector of length 1") else{
+      if (!length(ncol) == 1) stop("'ncol' must be a numeric vector of length 1")}}
   
   # if levels are shared between tags
-  if(length(tags) == 2) if(any(unique(X[ ,tags[1]]) %in% unique(X[ ,tags[2]]))) stop("Tags cannot contained levels with the same labels")
+  if (length(tags) == 2) if (any(unique(X[ ,tags[1]]) %in% unique(X[ ,tags[2]]))) stop("Tags cannot contained levels with the same labels")
   
   #legend
-  if(!is.numeric(legend) | legend < 0 | legend > 3)
+  if (!is.numeric(legend) | legend < 0 | legend > 3)
     stop("legend should be be a value between 0 and 3")
   
   #lab.mar
-  if(!is.numeric(lab.mar) | lab.mar < 0)
+  if (!is.numeric(lab.mar) | lab.mar < 0)
     stop("lab.mar should be <= 0")
   
   #prop.mar
-  if(!is.null(prop.mar))
+  if (!is.null(prop.mar))
   {
-    if(!is.numeric(prop.mar) | prop.mar < 0)
+    if (!is.numeric(prop.mar) | prop.mar < 0)
       stop("prop.mar should be <= 0")
-    if(!same.time.scale) prop.mar <- NULL
+    if (!same.time.scale) prop.mar <- NULL
     cat("'prop.mar' ignored as same.time.scale = FALSE")
   }
   
-  
   #spec.mar
-  if(!is.numeric(spec.mar) | spec.mar < 0)
+  if (!is.numeric(spec.mar) | spec.mar < 0)
     stop("spec.mar should be <= 0")
   
-  
   #hatching
-  if(!is.numeric(hatching) | hatching < 0 | hatching > 3)
+  if (!is.numeric(hatching) | hatching < 0 | hatching > 3)
     stop("hatching should be be a value between 0 and 3")
   
   #set dimensions
-  if(is.null(width))
-  {if(orientation == "v")   width <- 8.5 else width <- 11}
+  if (is.null(width))
+  {if (orientation == "v")   width <- 8.5 else width <- 11}
   
-  if(is.null(height))
-  {if(orientation == "h")   height <- 8.5 else height <- 11}
+  if (is.null(height))
+  {if (orientation == "h")   height <- 8.5 else height <- 11}
   
   #fix hatching based on tags
-  if(length(tags) == 1 & hatching == 2) hatching <- 0 
-  if(length(tags) == 1 & hatching == 3) hatching <- 1 
-  if(is.null(tags)) hatching <- 0 
+  if (length(tags) == 1 & hatching == 2) hatching <- 0 
+  if (length(tags) == 1 & hatching == 3) hatching <- 1 
+  if (is.null(tags)) hatching <- 0 
   
   #box colors
-  if(!is.null(tags))
+  if (!is.null(tags))
   {
     
-    if(length(tags) == 1 & legend == 2) legend <- 0
+    if (length(tags) == 1 & legend == 2) legend <- 0
     
     #convert to character
     Y <- as.data.frame(rapply(X, as.character, classes="factor", how="replace"), stringsAsFactors = FALSE)
     
     #if tag is numeric
-    if(is.numeric(X[, tags[1]])) 
+    if (is.numeric(X[, tags[1]])) 
     {
-      if(is.integer(X[, tags[1]]))  
+      if (is.integer(X[, tags[1]]))  
       {
-        if( length(unique(X[, tags[1]])) > 1)
+        if ( length(unique(X[, tags[1]])) > 1)
           boxcols <- tag.pal[[1]](length(unique(X[, tags[1]])))[as.numeric(cut(X[, tags[1]],breaks = length(unique(X[, tags[1]]))))] else boxcols <- tag.pal[[1]](1)
       } else  
         boxcols <- tag.pal[[1]](breaks[1])
     }      else   boxcols <- tag.pal[[1]](length(unique(Y[, tags[1]]))) 
     
-    if(length(tags) == 2)  
+    if (length(tags) == 2)  
     { 
       boxcols <- c(boxcols, tag.pal[[2]](length(unique(Y[, tags[2]]))))
     }
@@ -419,7 +428,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     X <- as.data.frame(rapply(X, as.factor, classes="character", how="replace"))
     X$col1 <- X[,tags[1]] 
     
-    if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+    if (is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
     {
       X$col1 <- rev(tag.pal[[1]](breaks[1]))[as.numeric(cut(X[, tags[1]],breaks = breaks[1]))]
       X$col.numeric1 <- cut(X[, tags[1]],breaks = breaks[1])
@@ -430,17 +439,17 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     }
     
     #add to df for legend
-    if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+    if (is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
       tag.col.df <- X[!duplicated(X[,"col.numeric1"]), c("col.numeric1", "col1")] else
         tag.col.df <- X[!duplicated(X[,tags[1]]), c(tags[1], "col1")]
     
     tag.col.df$tag.col <- tags[1]
     names(tag.col.df) <- c("tag", "col", "tag.col")
     
-    if(length(tags) == 2) 
+    if (length(tags) == 2) 
     {
       X$col2 <- X[,tags[2]] 
-      if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
+      if (is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
       {
         X$col2 <- rev(tag.pal[[2]](breaks[2]))[as.numeric(cut(X[, tags[2]],breaks = breaks[2]))]
         X$col.numeric2 <- cut(X[, tags[2]],breaks = breaks[2])
@@ -450,7 +459,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         levels(X$col2) <- boxcols[(length(unique(X$col1))+1):length(boxcols)]
       }
       
-      if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
+      if (is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
         W <- X[!duplicated(X[ ,"col.numeric2"]), c("col.numeric2", "col2")] else    
           W <- X[!duplicated(X[,tags[2]]), c(tags[2], "col2")]
         
@@ -461,7 +470,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     }  
     
     # add hatching lines for color tags
-    if(hatching == 0 | is.null(tags)) 
+    if (hatching == 0 | is.null(tags)) 
     {   
       tag.col.df$pattern <- "no.pattern"
       X$pattern.1 <- "no.pattern"
@@ -470,16 +479,16 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       
       tag.col.df$pattern <- rep(c("diamond", "grid", "forward", "backward", "horizontal", "vertical"), ceiling(nrow(tag.col.df)/6))[1:nrow(tag.col.df)] 
       
-      if(hatching == 1 & length(tags) == 2)
-      {if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
+      if (hatching == 1 & length(tags) == 2)
+      {if (is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
         tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric2)] <- "no.pattern"
       
       else
         tag.col.df$pattern[tag.col.df$tag %in% X[,tags[2]]] <- "no.pattern"
       }
       
-      if(hatching == 2 & length(tags) == 2)
-        if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+      if (hatching == 2 & length(tags) == 2)
+        if (is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
           tag.col.df$pattern[tag.col.df$tag %in% as.character(X$col.numeric1)] <- "no.pattern" else
             tag.col.df$pattern[tag.col.df$tag %in% X[,tags[1]]] <- "no.pattern"
           
@@ -488,12 +497,12 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     
     X <- do.call(rbind, lapply(1:nrow(X), function(x) {
       W <- X[x, ]
-      if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+      if (is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
         W$pattern.1 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric1)] else  
           W$pattern.1 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[1]])]
         
-        if(length(tags) == 2)
-        {   if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
+        if (length(tags) == 2)
+        {   if (is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) 
           W$pattern.2 <-tag.col.df$pattern[tag.col.df$tag == as.character(W$col.numeric2)] else 
             W$pattern.2 <- tag.col.df$pattern[tag.col.df$tag == as.character(W[,tags[2]])]
         } else Y$pattern.2 <- "no.pattern"
@@ -506,7 +515,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   
   # grouping color
-  if(!is.null(group.tag))
+  if (!is.null(group.tag))
   {
     #convert to character
     Y <- as.data.frame(rapply(X, as.character, classes="factor", how="replace"))
@@ -526,7 +535,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     #   tag.col.df2$tag.col <- paste(group.tag, "(group.tag)")
     #   tag.col.df2$pattern <- "no.pattern"
     #   
-    # if(!exists("tag.col.df"))
+    # if (!exists("tag.col.df"))
     #     tag.col.df <- tag.col.df2 else tag.col.df <- rbind(tag.col.df, tag.col.df2)
   }
   
@@ -536,18 +545,18 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     f <- r$sample.rate
     
     # change mar to prop.mar (if provided)
-    if(!is.null(prop.mar)) adj.mar <- (X$end[i] - X$start[i]) * prop.mar else
+    if (!is.null(prop.mar)) adj.mar <- (X$end[i] - X$start[i]) * prop.mar else
       adj.mar <- mar
     
     t <- c(X$start[i] - adj.mar, X$end[i] + adj.mar) 
     
     if (t[1] < 0) t[1] <- 0
     
-    if(t[2] > r$samples/f) t[2] <- r$samples/f
+    if (t[2] > r$samples/f) t[2] <- r$samples/f
     
     #in case flim its higher than can be due to sampling rate
     fl<- flim
-    if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1
+    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1
     return(data.frame(fl1 = fl[1], fl2 = fl[2], mardur = t[2] - t[1]))
   })
   
@@ -556,16 +565,16 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   flim[2] <- min(rangs$fl2)
   
   # adjust times if same.time.scale = T
-  if(same.time.scale)
+  if (same.time.scale)
   {
     X2 <- lapply(1:nrow(X), function(x)
     {
       Y <- X[x, ]
       dur <- Y$end - Y$start
-      if(dur < max(rangs$mardur)) {
+      if (dur < max(rangs$mardur)) {
         Y$end  <- Y$end + (max(rangs$mardur) - dur)/2
         Y$start  <- Y$start - (max(rangs$mardur) - dur)/2
-        if(Y$start < 0) {
+        if (Y$start < 0) {
           Y$end <- Y$end - Y$start  
           Y$start <- 0
         }
@@ -577,15 +586,15 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   
   # function to run on data frame subset   
-  catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim, wl, ovlp, pal, width, height, tag.col.df, legend, cex, 
+  catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim,pal, width, height, tag.col.df, legend, cex, 
                        img.suffix, img.prefix, title)
   {
     #set layout for screensplit
     #rows
-    if(is.null(tags))
+    if (is.null(tags))
       rws <- rep(c(5, (nrow / 8) * lab.mar), nrow) else   rws <- rep(c(5, (nrow / 4) * lab.mar), nrow)
       
-      if(same.time.scale) rws <- c((nrow / 1.7) * lab.mar, rws) else rws <- c((nrow / 8) * lab.mar, rws)
+      if (same.time.scale) rws <- c((nrow / 1.7) * lab.mar, rws) else rws <- c((nrow / 8) * lab.mar, rws)
       
       
       #define row width
@@ -600,8 +609,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       #columns
       lfcol.width <- ncol / 27
       faxis.width <- ncol / 37
-      if(faxis.width < 0.2) faxis.width <- 0.2
-      if(ncol > 1)
+      if (faxis.width < 0.2) faxis.width <- 0.2
+      if (ncol > 1)
       {
         spectroclms <- c(lfcol.width, faxis.width, rep(1, ncol))
         csclms <- cumsum(spectroclms)
@@ -638,7 +647,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       fig.type <- c(rep(c("lab", "spec"), nrow * ncol), rep("freq.ax", nrow * 2), c("flab", "tlab"))
       
       #remove axis space
-      if(rm.axes)  {
+      if (rm.axes)  {
         m <- m[!fig.type %in% c("flab", "tlab", "freq.ax"),]
         
         m[,2] <- m[,2] - min(m[,1])
@@ -658,7 +667,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       
       
       #add legend col
-      if(legend > 0)
+      if (legend > 0)
       {
         leg.wd <- 1.08 + leg.wd/100
         m <- rbind(m, c(1, leg.wd, 0, 1))
@@ -668,7 +677,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         fig.type <- c(fig.type, "legend")
       }
       
-      if(!is.null(title))
+      if (!is.null(title))
       {
         m <- rbind(m, c(0, 1, 1, 1.05))
         m[,3] <- m[,3]/1.05
@@ -684,13 +693,13 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       X3 <- data.frame(rapply(X3, as.character, classes="factor", how="replace"), stringsAsFactors = FALSE)
       
       #start graphic device
-      if(!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
-      if(!is.null(img.prefix)) img.prefix <- paste0(img.prefix, "-")
+      if (!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
+      if (!is.null(img.prefix)) img.prefix <- paste0(img.prefix, "-")
       imgfun(filename = paste0(img.prefix, "Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
       
       
       # sort by row
-      if(by.row)
+      if (by.row)
       {
         c1 <- seq(1, nrow * ncol * 2, by = nrow * 2)
         neor2 <- neor <- sort(c(c1, c1 + 1))
@@ -721,22 +730,22 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       
       
       #selec which screens will be plot if X has less signals than the maximum in the plot
-      if(nrow(X) < nrow * ncol) sqplots <- c(1:(nrow(X) * 2), which(!fig.type %in% c("spec", "lab", "freq.ax"))) else 
+      if (nrow(X) < nrow * ncol) sqplots <- c(1:(nrow(X) * 2), which(!fig.type %in% c("spec", "lab", "freq.ax"))) else 
         sqplots <- which(!fig.type %in% "freq.ax")
       
       out <- lapply(sqplots, function(i) {
         
-        if(fig.type[i] %in% c("lab", "spec") & !is.null(group.tag)) par(bg = X3$colgroup[i], new = TRUE) else par(bg = "white", new = TRUE)
+        if (fig.type[i] %in% c("lab", "spec") & !is.null(group.tag)) par(bg = X3$colgroup[i], new = TRUE) else par(bg = "white", new = TRUE)
         
         screen(i)           
         
-        if(fig.type[i] == "spec")  #plot spectros
+        if (fig.type[i] == "spec")  #plot spectros
         {     #Read sound files, initialize frequency and time limits for spectrogram
           r <- tuneR::readWave(as.character(X3$sound.files[i]), header = TRUE)
           f <- r$sample.rate
           
           # change mar to prop.mar (if provided)
-          if(!is.null(prop.mar)) adj.mar <- (X3$end[i] - X3$start[i]) * prop.mar else
+          if (!is.null(prop.mar)) adj.mar <- (X3$end[i] - X3$start[i]) * prop.mar else
             adj.mar <- mar
           
           
@@ -744,12 +753,12 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
           if (t[1] < 0) t[1] <- 0
           
-          if(t[2] > r$samples/f) t[2] <- r$samples/f
+          if (t[2] > r$samples/f) t[2] <- r$samples/f
           
           rec <- tuneR::readWave(as.character(X3$sound.files[i]), from = t[1], to = t[2], units = "seconds")
           
           #add xaxis to bottom spectros
-          if(!same.time.scale & !rm.axes) {
+          if (!same.time.scale & !rm.axes) {
             axisX = TRUE
             btm = 2.6
           } else {
@@ -758,25 +767,25 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           } 
           
           #add f axis ticks 
-          if(m[i,1] == min(m[fig.type == "spec",1]) & !rm.axes) axisY <- TRUE else axisY <- FALSE
+          if (m[i,1] == min(m[fig.type == "spec",1]) & !rm.axes) axisY <- TRUE else axisY <- FALSE
           
           par(mar = c(btm, rep(spec.mar, 3)))
           
-          if(!is.null(group.tag))
+          if (!is.null(group.tag))
             plot(x=-1, y=-1, axes = FALSE,col = spec.bg, xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n",
                  panel.first={points(0, 0, pch=16, cex=1e6, col = spec.bg)})
           
           
           # draw spectro
-          if(fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)
+          if (fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)
           
-          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = pal, fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, cexaxis = cex * 1.2, add = TRUE)
+          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = X3$wl[i], wn = X3$wn[i], ovlp = X3$ovlp[i], axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = X3$pal[i], fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, collev.min = X3$collev.min[i], cexaxis = cex * 1.2, add = TRUE)
           
           #add box
-          if(box) boxw_wrblr_int(xys = m[i,], bty = "u", lwd = 1.5)
+          if (box) boxw_wrblr_int(xys = m[i,], bty = "u", lwd = 1.5)
         } 
         
-        if(fig.type[i] == "lab") #plot labels
+        if (fig.type[i] == "lab") #plot labels
         { 
           
           par(mar = rep(0, 4))
@@ -784,7 +793,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
           
           #color boxes
-          if(!is.null(tags))
+          if (!is.null(tags))
           {
             #plot labels
             text(x = 0.5, y = 0.8, labels = paste(X3[i, labels], collapse = " "), 
@@ -794,7 +803,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
             cutbox2 <- tag.widths[1]/(tag.widths[1] + tag.widths[2])
             
             lim <- par("usr")
-            if(length(tags) == 1)
+            if (length(tags) == 1)
               rectw_wrblr_int(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i]) else {
                 rectw_wrblr_int(xl = lim[1] + cutbox1 + spec.mar/20, yb = lim[3], xr = cutbox2, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col1[i], den = 10, ang = NULL, pattern = X3$pattern.1[i])
                 rectw_wrblr_int(xl = cutbox2, yb = lim[3], xr = lim[2] - spec.mar/20, yt = 0.5, bor = "black", lw = 0.7, cl = X3$col2[i], den = 10, ang = NULL, pattern = X3$pattern.2[i])
@@ -804,11 +813,11 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
             text(x = 0.5, y = 0.33, labels = paste(X3[i, labels], collapse = " "), 
                  cex = (ncol * nrow * 2 * cex)/((ncol * nrow)^1.2))
           
-          if(box) boxw_wrblr_int(xys = m[i,], bty = "^", lwd = 1.5)
+          if (box) boxw_wrblr_int(xys = m[i,], bty = "^", lwd = 1.5)
         }
         
         #add Freq axis label
-        if(fig.type[i] == "flab")
+        if (fig.type[i] == "flab")
         {
           par(mar = c(0, 0, 0, 0), bg = "white", new = T)
           plot(1, frame.plot = FALSE, type = "n")
@@ -816,12 +825,12 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         }
         
         #add time axis label
-        if(fig.type[i] == "tlab")
+        if (fig.type[i] == "tlab")
         {
           par(mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
           plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
           
-          if(same.time.scale)
+          if (same.time.scale)
           {
             # add title
             text(x = 0.5, y = 0.25, "Time (s)", cex = 1.2 * cex) 
@@ -835,7 +844,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
             
             finncol <- which(nrow(X) >= seq(0, nrow * ncol, nrow)[-1])
             
-            if(length(finncol) > 0)
+            if (length(finncol) > 0)
             {  usr <- par("usr")
             sq <- c(seq(min(usr), max(usr), length.out = ncol + 1))
             sq <- sq[-length(sq)]
@@ -854,7 +863,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         }
         
         #add legend 
-        if(fig.type[i] == "legend")
+        if (fig.type[i] == "legend")
         {
           par( mar = rep(0, 4))
           plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
@@ -864,17 +873,17 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           y2 <- 0.8
           
           #remove rows if legend != 3
-          if(legend == 1)
+          if (legend == 1)
             tag.col.df <- droplevels(tag.col.df[tag.col.df$tag.col == tags[1], ])
           
-          if(legend == 2)
+          if (legend == 2)
             tag.col.df <- droplevels(tag.col.df[tag.col.df$tag.col == tags[2], ])
           
           
           #add left right if 2 tags
-          if(length(tags) == 2)
+          if (length(tags) == 2)
           {
-            if(legend == 3)
+            if (legend == 3)
             {
               labtag1 <- paste("left:", tags[1])
               labtag2 <- paste("right:", tags[2])
@@ -886,19 +895,19 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
           
           #adjust if numeric
-          if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
+          if (is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
           {
             aa <- as.character(sapply(strsplit(as.character(tag.col.df$tag[tag.col.df$tag.col == tags[1]]), ",", fixed = T), "[", 1))
             tag.col.df[tag.col.df$tag.col == tags[1],] <- tag.col.df[order(as.numeric(substr(aa, 2, nchar(aa)))),]
           }
           
           # subset legend
-          if(sub.legend)
+          if (sub.legend)
           {
-            if(is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]])) levs <- as.character(unique(X$col.numeric1)) else
+            if (is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]])) levs <- as.character(unique(X$col.numeric1)) else
               levs <- as.character(unique(X[,tags[1]]))
-            if(legend > 1 & length(tags) == 2){
-              if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) levs <- c(levs, as.character(unique(X$col.numeric2))) else
+            if (legend > 1 & length(tags) == 2){
+              if (is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]])) levs <- c(levs, as.character(unique(X$col.numeric2))) else
                 levs <- c(levs, as.character(unique(X[,tags[2]])))
             }  
             
@@ -906,7 +915,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           }
           
           
-          if(nrow(tag.col.df) > 15) 
+          if (nrow(tag.col.df) > 15) 
           {
             y1 <- 0.03
             y2 <- 0.97
@@ -918,7 +927,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           step <-  y[1] - y[2]
           
           
-          if(legend %in% c(1, 3))  
+          if (legend %in% c(1, 3))  
           {    text(x = 0.5, y = max(y) + step, labels = labtag1, cex = cex, font = 2) 
             
             out <- lapply(which(tag.col.df$tag.col == tags[1]), function(w)
@@ -933,23 +942,23 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
           nrowtag1 <- nrow(tag.col.df[tag.col.df$tag.col == tags[1], ])
           
-          if(length(tags) == 2 & legend %in% c(2, 3))
+          if (length(tags) == 2 & legend %in% c(2, 3))
           {
             
             #remove first tag
             tag.col.df <- tag.col.df[tag.col.df$tag.col == tags[2],]
             
-            if(is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
+            if (is.numeric(X[,tags[2]]) & !is.integer(X[,tags[2]]))
             {       
               aa <- as.character(sapply(strsplit(as.character(tag.col.df$tag), ",", fixed = T), "[", 1))
               tag.col.df <- tag.col.df[order(as.numeric(substr(aa, 2, nchar(aa)))),]
             }
             
-            if(legend == 3)
+            if (legend == 3)
               text(x = 0.5, y = y[nrowtag1 + 2], labels = labtag2, cex = cex, font = 2) else
                 text(x = 0.5, y = ifelse(max(y) + step < 1, max(y) + step, 0.99), labels = labtag2, cex = cex, font = 2) 
             
-            if(legend == 3)
+            if (legend == 3)
               y <- y - step * 2
             
             out <- lapply(1:nrow(tag.col.df), function(w)
@@ -966,7 +975,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
         }
         
-        if(fig.type[i] == "title")
+        if (fig.type[i] == "title")
         {
           par(mar = rep(0, 4))
           plot(0.5, xlim = c(0, 1), ylim = c(0, 1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")  
@@ -981,19 +990,19 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   #run function over X to split it in subset data frames
   cel <- ceiling((nrow(X)/(ncol * nrow)))
-  if(cel < 1)
+  if (cel < 1)
     Xlist <- list(X) else
       Xlist <- lapply(1:cel, function(x) 
       {
-        if(x < cel)
+        if (x < cel)
           X[((((ncol * nrow) * (x - 1)) + 1):((ncol * nrow) * (x))), ] else
             X[((((ncol * nrow) * (x - 1)) + 1):nrow(X)), ]
       })
   
   #Apply over each sound file
   # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
+  if (parallel > 1) {
+    if (Sys.info()[1] == "Windows") {
       
       z <- NULL
       
@@ -1002,33 +1011,33 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       doParallel::registerDoParallel(cl)
       
       out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
-        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
                  width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
         
         parallel::stopCluster(cl)
         
       }
     }
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
+    if (Sys.info()[1] == "Linux") {    # Run parallel in Linux
       
-      if(pb)
+      if (pb)
         out <- pbmcapply::pbmclapply(1:length(Xlist), mc.cores = parallel, function (z) {
-          catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+          catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
                    width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
         }) else
           out <- parallel::mclapply(1:length(Xlist),  mc.cores = parallel, function (z) {
-            catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal,
+            catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal,
                      width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
           })
     }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
+    if (!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
     {
       cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
       
       doParallel::registerDoParallel(cl)
       
       out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
-        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
                  width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
       }
       
@@ -1036,14 +1045,14 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       
     }
   } else {
-    if(pb)
+    if (pb)
       out <- pbapply::pblapply(1:length(Xlist), function(z)
-        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
-                 width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))  else
+        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
+                 width, height, tag.col.df, legend, cex, img.suffix = img.suffix, img.prefix = img.prefix, title = title))  else
                    out <- lapply(1:length(Xlist), function(z)
-                     catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim, wl, ovlp, pal, 
+                     catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
                               width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))
   }
   
-  if(!is.null(path)) setwd(wd)
+  if (!is.null(path)) setwd(wd)
 }

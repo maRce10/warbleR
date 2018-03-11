@@ -136,7 +136,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   #return warning if not all sound files were found
   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
+    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -152,19 +152,19 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
   #if parallel
   if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
     parallel <- 1
-    message("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
+    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
   }
   
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) message("Creating spectrograms overlaid with dominant frequency measurements:") else
-    message("measuring dominant frequency:")}  
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
+    cat("measuring dominant frequency:")}  
   
   dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec){
     

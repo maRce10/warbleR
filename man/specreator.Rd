@@ -8,7 +8,8 @@ specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-  mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, ...)
+  col = adjustcolor("red2", 0.6), lty = 3, mar = 0.05, it = "jpeg", 
+  parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, ...)
 }
 \arguments{
 \item{X}{'selection.table' or data frame containing columns for sound file name (sound.files), 
@@ -68,6 +69,10 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 
 \item{line}{Logical argument to add red lines at start and end times of selection 
 (or box if bottom.freq and top.freq columns are provided). Default is \code{TRUE}.}
+
+\item{col}{Color of 'line'. Default is `adjustcolor("red2", alpha.f = 0.7)`.`}
+
+\item{lty}{Type of 'line' as in \code{\link[graphics]{par}}. Default is 1.}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 dealineating spectrogram limits. Default is 0.05.}

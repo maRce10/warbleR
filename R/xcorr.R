@@ -130,7 +130,7 @@ frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
   
   #parallel not available on windows
   if(parallel > 1 & Sys.info()[1] == "Windows")
-  {  if(pb) message("parallel computing not availabe in Windows OS for this function")
+  {  if(pb) cat("parallel computing not availabe in Windows OS for this function")
     parallel <- 1}
   
   if(parallel > 1) 
@@ -142,7 +142,7 @@ frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
           options(warn = 0)
           
 #create templates
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("creating templates:")
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("creating templates:")
 ltemp <- lapp(1:nrow(X), function(x)
 {
    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
@@ -272,7 +272,7 @@ FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
 }
 
 #run cross-correlation
-if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("running cross-correlation:")
+if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("running cross-correlation:")
 
 a<-lapp(1:(nrow(X)-1), function(j)
   {

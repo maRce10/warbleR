@@ -1,17 +1,17 @@
 #' Access 'Xeno-Canto' recordings and metadata
 #' 
-#' \code{querxc} downloads recordings and metadata from 'Xeno-Canto' (\url{http://www.xeno-canto.org/}).
+#' \code{querxc} downloads recordings and metadata from 'Xeno-Canto' (\url{https://www.xeno-canto.org/}).
 #' @usage querxc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
 #' parallel = 1, path = NULL, pb = TRUE)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'  species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
-#'  (\url{http://www.xeno-canto.org/}). More complex queries can be done by using search terms that follow the 
+#'  (\url{https://www.xeno-canto.org/}). More complex queries can be done by using search terms that follow the 
 #'  xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings 
 #'  (e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song' 
 #'  will search for all recordings in which the sound type description contains the word 'song'. 
 #'  Several tags can be included in the same query. The query "phaethornis cnt:belize' will only return 
 #'  results for birds in the genus \emph{Phaethornis} that were recorded in  Belize. 
-#'  See \url{http://www.xeno-canto.org/help/search} for a full description and see examples below 
+#'  See \url{https://www.xeno-canto.org/help/search} for a full description and see examples below 
 #'  for queries using terms with more than one word.
 #' @param download Logical argument. If \code{FALSE} only the recording file names and
 #'   associated metadata are downloaded. If \code{TRUE}, recordings are also downloaded to the working
@@ -34,7 +34,7 @@
 #' @export
 #' @name querxc
 #' @details This function queries for avian vocalization recordings in the open-access
-#' online repository 'Xeno-Canto' (\url{http://www.xeno-canto.org/}). It can return recordings metadata
+#' online repository 'Xeno-Canto' (\url{https://www.xeno-canto.org/}). It can return recordings metadata
 #' or download the associated sound files. Complex queries can be done by using search terms that follow the 
 #'  xeno-canto advance query syntax (check "qword" argument description). 
 #'  Files are double-checked after downloading and "empty" files are re-downloaded. 
@@ -100,8 +100,8 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
@@ -123,15 +123,15 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     
     #search recs in xeno-canto (results are returned in pages with 500 recordings each)
     if(any(parallel == 1, Sys.info()[1] == "Linux") & pb)
-      message("Obtaining recording list...")
+      cat("Obtaining recording list...")
     
     #format JSON
     qword <- gsub(" ", "%20", qword)
     
     #initialize search
-    q <- rjson::fromJSON(file = paste0("http://www.xeno-canto.org/api/2/recordings?query=", qword))
+    q <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword))
     
-    if(as.numeric(q$numRecordings) == 0) message("No recordings were found") else {
+    if(as.numeric(q$numRecordings) == 0) cat("No recordings were found") else {
       
       nms <- c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "type", "file", "lic", "url", "q", "time", "date")
       
@@ -139,7 +139,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       if(pb) f <- pbapply::pblapply(1:q$numPages, function(y)
       {
         #search for each page
-        a <- rjson::fromJSON(file = paste0("http://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
+        a <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
         
         #put together as data frame
         d <-lapply(1:length(a$recordings), function(z) data.frame(t(unlist(a$recordings[[z]]))))
@@ -162,7 +162,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       ) else f <- lapply(1:q$numPages, function(y)
       {
         #search for each page
-        a <- rjson::fromJSON(, paste0("http://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
+        a <- rjson::fromJSON(, paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
         
         #put together as data frame
         d <-lapply(1:length(a$recordings), function(z) data.frame(t(unlist(a$recordings[[z]]))))
@@ -198,7 +198,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     results <- results[!duplicated(results$Recording_ID), ]
     
     if(pb)
-      message(paste( nrow(results), " recordings found!", sep=""))  
+      cat(paste( nrow(results), " recordings found!", sep=""))  
     } 
   } else { 
     #stop if X is not a data frame
@@ -229,13 +229,13 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     
     xcFUN <-  function(results, x){
       if(!file.exists(results$sound.files[x]))
-        download.file(url = paste("http://xeno-canto.org/download.php?XC=", results$Recording_ID[x], sep=""), destfile = results$sound.files[x],
+        download.file(url = paste("https://xeno-canto.org/download.php?XC=", results$Recording_ID[x], sep=""), destfile = results$sound.files[x],
                       quiet = TRUE,  mode = "wb", cacheOK = TRUE,
                       extra = getOption("download.file.extra"))
       return (NULL)
     }
     if(any(parallel == 1, Sys.info()[1] == "Linux") & pb)
-      message("Downloading sound files...")
+      cat("Downloading sound files...")
 
       
   if(parallel > 1) {if(Sys.info()[1] == "Windows") 
@@ -290,7 +290,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   }
   
 if(pb)
-   message("double-checking downloaded files")
+   cat("double-checking downloaded files")
    
    #check if some files have no data
     fl <- list.files(pattern = ".mp3$")

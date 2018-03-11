@@ -13,7 +13,7 @@
 #' being copied (cut) or not (just copied). Default is \code{TRUE}.
 #' @param overwrite Logical. Determines if files that already exist in the destination directory 
 #' should be overwritten. Default is \code{FALSE}.
-#' @param create.folder Logical. Determines if are moved to a new folder (which is named with the
+#' @param create.folder Logical. Determines if files are moved to a new folder (which is named with the
 #' "folder.name" argument). Ignored if 'to' is provided. Default is \code{TRUE}.
 #' @param folder.name Character string with the name of the new folder where the files will be 
 #' copied to. Ignored if 'to' is provided. Default is \code{"image_files"}.

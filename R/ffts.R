@@ -122,7 +122,7 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   #return warning if not all sound files were found
   recs.wd <- list.files(path = getwd(), pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
+    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -137,13 +137,13 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) message("Creating spectrograms overlaid with fundamental frequency measurements:") else
-    message("Measuring fundamental frequency:")}
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) cat("Creating spectrograms overlaid with fundamental frequency measurements:") else
+    cat("Measuring fundamental frequency:")}
   
   fftsFUN <- function(X, i, bp, wl, threshold){
     

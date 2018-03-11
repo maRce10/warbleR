@@ -88,8 +88,8 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
   
   #if parallel and pb in windows
   if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    message("parallel with progress bar is currently not available for windows OS")
-    message("running parallel without progress bar")
+    cat("parallel with progress bar is currently not available for windows OS")
+    cat("running parallel without progress bar")
     pb <- FALSE
   } 
   
@@ -154,7 +154,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     }
   
   
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) message("searching for silence segments in wave files:")
+  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("searching for silence segments in wave files:")
   
   # Run parallel in windows
   if(parallel > 1) {if(Sys.info()[1] == "Windows") {

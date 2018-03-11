@@ -1,7 +1,15 @@
 # NEWS
 
 # warbleR 1.1.12
-##### (Release date: XXX-XX-XX)
+## (Release date: XXX-XX-XX)
+
+## Changes and additions:
+
+* New arguments in 'specreator' to customize control lines/box around selections 
+* Replace internal "message" functions by "cat" (so warnings are printed in black, no red)
+
+## Bug fixes:
+* Change "http" to "https" protocol for accessing Xeno-Canto recordings in "querxc" 
 
 ## New functions:
 
@@ -9,7 +17,7 @@
 * sim_song: simulate songs 
 
 # warbleR 1.1.10
-##### (Release date: 2018-08-28)
+### (Release date: 2018-08-28)
 
 ## Changes and additions:
 
@@ -25,7 +33,7 @@
 * consolidate: copies (sound) files scattered in several directories into a single folder
 
 # warbleR 1.1.9
-##### (Release date: 2017-11-18)
+### (Release date: 2017-11-18)
 
 ## Changes and additions:
 
@@ -61,7 +69,7 @@
 ===============================================================================================
 
 # warbleR 1.1.8
-##### (Release date: 2017-04-26)
+### (Release date: 2017-04-26)
 
 ## Bug fixes:
 
@@ -70,7 +78,7 @@
 ===============================================================================================
 
 # warbleR 1.1.7
-##### (Release date: 2017-04-24)
+### (Release date: 2017-04-24)
 
 ## Changes and additions:
 
@@ -83,7 +91,7 @@
 ===============================================================================================
 
 # warbleR 1.1.6 
-##### (Release date: 2017-04-05)
+### (Release date: 2017-04-05)
 
 ## New functions:
 
@@ -129,7 +137,7 @@ different individuals) would be subset to A-B-A-B-A-B
 ===============================================================================================
 
 # warbleR 1.1.5 
-##### (Release date: 2017-01-19)
+### (Release date: 2017-01-19)
 
 ## Changes and additions:
 
@@ -149,7 +157,7 @@ different individuals) would be subset to A-B-A-B-A-B
 ===============================================================================================
 
 # warbleR 1.1.4 
-##### (Release date: 2016-11-14)
+### (Release date: 2016-11-14)
 
 ## Changes and additions:
 

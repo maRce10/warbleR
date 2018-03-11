@@ -11,7 +11,7 @@
 #' This could be useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.  
-#' @return If all .wav files are ok, returns message "All files can be read!".
+#' @return If all .wav files are ok, returns message "All files can be read".
 #'   Otherwise returns the names of the corrupted .wav files.
 #' @details This function checks if .wav files in the working directory can be read.
 #' Users must set the working directory where they wish to check .wav files beforehand. 
@@ -79,7 +79,7 @@ checkwavs <- function(X = NULL, path = NULL) {
     if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
     
     if(length(unique(X$sound.files[(X$sound.files %in% files)])) != length(unique(X$sound.files))) 
-      message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% files)])), 
+      cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% files)])), 
                     ".wav file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
@@ -97,12 +97,14 @@ checkwavs <- function(X = NULL, path = NULL) {
       return(r$sample.rate)  }) 
   
   if(length(files[is.na(a)])>0){
-    message("Some file(s) cannot be read ")
+    cat("Some file(s) cannot be read")
     return(files[is.na(a)])
-  } else {message("All files can be read!") 
+  } else {
+    cat("All files can be read") 
     if(!is.null(X)) {
       df <- merge(X, data.frame(f = a, sound.files = names(a)), by = "sound.files")
-      message("  smallest number of samples: ", floor(min((df$end - df$start)*df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start)*df$f)]),"; selection label: ", df$selec[which.min((df$end - df$start)*df$f)], ")", sep = "")
+      
+      cat("smallest number of samples: ", floor(min((df$end - df$start)*df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start)*df$f)]),"; selection label: ", df$selec[which.min((df$end - df$start)*df$f)], ")", sep = "")
     }
   }
 }

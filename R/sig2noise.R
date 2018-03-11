@@ -109,7 +109,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   #return warning if not all sound files were found
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-    message(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+    cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
@@ -124,7 +124,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   
   #parallel not available on windows
   if(parallel > 1 & Sys.info()[1] == "Windows")
-  {message("parallel computing not availabe in Windows OS for this function")
+  {cat("parallel computing not availabe in Windows OS for this function")
     parallel <- 1}
   
   if(parallel > 1) 
