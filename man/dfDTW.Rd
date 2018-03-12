@@ -49,7 +49,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{ts.df}{Optional. Data frame with time series of signals to be compared. If provided "X" is ignored.}
+\item{ts.df}{Optional. Data frame with frequency contour time series of signals to be compared. If provided "X" is ignored.}
 
 \item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of 
 image files. Default is \code{NULL}.}

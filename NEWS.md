@@ -5,7 +5,8 @@
 
 ## Changes and additions:
 
-* Parallel computing in windows OS with progress bar 
+* New arguments in 'seltailor' to allow tailoring frequency contours 
+* Parallel computing in windows OS with progress bar in querxc
 * New arguments in 'specreator' to customize control lines/box around selections 
 * Replace internal "message" functions by "cat" (so warnings are printed in black, no red)
 

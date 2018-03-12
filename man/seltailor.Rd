@@ -8,7 +8,7 @@ seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
   comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
   width = 15, height = 5, index = NULL, collevels = NULL, 
-  title = c("sound.files", "selec"),...)
+  title = c("sound.files", "selec"), ts.df = NULL, col = "#E37222", alpha = 0.7, ...)
 }
 \arguments{
 \item{X}{'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -80,6 +80,14 @@ with \code{\link{filtersels}}) output (see 'index' argument in \code{\link{filte
 \item{title}{Character vector with the names of the columns to be included in the title for each
 selection.}
 
+\item{ts.df}{Optional. Data frame with frequency contour time series of signals to be tailored. If provided then 
+'autonext' is set to \code{FALSE}. Default is \code{NULL}. The data frame must include the 'sound.files' and 'selec' 
+columns for the same selections included in 'X'.}
+
+\item{col}{Character vector defining the color of the points when 'ts.df' is provided. Default is "#E37222" (orange).}
+
+\item{alpha}{Numeric of length one to adjust transparency of points when adjusting frequency contours.}
+
 \item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
 \value{
@@ -96,7 +104,8 @@ This function produces an interactive spectrographic
  coordinates the selections. 4 "buttons" are provided at the upper right side of the spectrogram that
   allow to stop the analysis ("stop"), go to the next sound file ("next"), return to the 
   previous selection ("previous") or delete 
-  the current selection ("delete"). When a unit has been selected, the function plots 
+  the current selection ("delete"). An additional "button" ("contour") to tailored frequency contour is shown
+  when 'ts.df' is provided. When a unit has been selected, the function plots 
   dotted lines in the start and end of the selection in the spectrogram (or a box if 
   \code{frange = TRUE}). Only the last selection is kept for each
    selection that is adjusted. The function produces a .csv file (seltailor_output.csv) 
@@ -109,8 +118,12 @@ This function produces an interactive spectrographic
  original time/frequency coordinates are kept. When resuming the process (after "stop" and re-running 
  the function in the same working directory), the function will continue working on the
  selections that have not been analyzed. The function also displays a progress bar right on
- top of the sepctrogram.
-  The zoom can be adjusted by setting the \code{mar} argument.
+ top of the sepctrogram. The zoom can be adjusted by setting the \code{mar} argument.
+ To fix contours a data.frame containing the 'sound.files' and 'selec' columns as in 'X' as well 
+ as the frequency values at each contour step must be provided. The function plots points correponding to the 
+ time/frequency coordinates of each element of the contour. Cliking on the spectrogram will substitute the 
+ frequency value of the points. The contour point closest in time to the "click" will be replaced by the 
+ frequency value of the "click".
 }
 \examples{
 \dontrun{
