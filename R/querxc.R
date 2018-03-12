@@ -97,13 +97,13 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+
+  # set pb options 
+  pboptions(type = ifelse(pb, "timer", "none"))
   
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   file.name <- gsub(" ", "_", file.name) 
   file.name <- tolower(file.name) 
@@ -113,9 +113,11 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     
     if(any(!(file.name %in%
              c("recording_id", "genus", "specific_epithet", "subspecies", "english_name", "recordist"   , 
-               "country", "locality", "latitude", "longitude", "vocalization_type", "audio_file",        "license",
+               "country", "locality", "latitude", "longitude", "vocalization_type", "audio_file", "license",
                "url", "quality", "time", "date")))) stop("File name tags don't match column names in the output of this function (see documentation)")
   }
+  
+  
   
   
   if(is.null(X))
@@ -135,8 +137,12 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       
       nms <- c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "type", "file", "lic", "url", "q", "time", "date")
       
-      #loop over pages
-      if(pb) f <- pbapply::pblapply(1:q$numPages, function(y)
+      ### loop over pages
+      # set clusters for windows OS
+      if (Sys.info()[1] == "Windows" & parallel > 1)
+        cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+        
+        f <- pbapply::pblapply(X = 1:q$numPages, cl = cl, FUN = function(y)
       {
         #search for each page
         a <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
@@ -159,41 +165,18 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
         
         return(e)
       }
-      ) else f <- lapply(1:q$numPages, function(y)
-      {
-        #search for each page
-        a <- rjson::fromJSON(, paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
+      ) 
         
-        #put together as data frame
-        d <-lapply(1:length(a$recordings), function(z) data.frame(t(unlist(a$recordings[[z]]))))
-        
-        d2 <- lapply(d,  function(x) 
-        {
-          if(!all(nms %in% names(x))){ 
-            dif <- setdiff(nms, names(x))
-            mis <- rep(NA, length(dif))
-            names(mis) <- dif
-            return(cbind(x, t(mis)))
-          }
-          return(x)
-        })
-        
-        e <- do.call(rbind, d2)
-        
-        return(e)
-      }
-      )
-      
+      # save results in a single data frame  
       results <- do.call(rbind, f)
       
       #order columns
     results <- results[ ,order(match(names(results), nms))]
     
     names(results) <- c("Recording_ID", "Genus", "Specific_epithet", "Subspecies", "English_name", "Recordist", 
-                        "Country", "Locality", "Latitude", "Longitude", "Vocalization_type", "Audio_file",        "License",
+                        "Country", "Locality", "Latitude", "Longitude", "Vocalization_type", "Audio_file", "License",
                         "Url", "Quality", "Time", "Date")[1:ncol(results)]
   
-    
     #remove duplicates
     results <- results[!duplicated(results$Recording_ID), ]
     
@@ -229,65 +212,20 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     
     xcFUN <-  function(results, x){
       if(!file.exists(results$sound.files[x]))
-        download.file(url = paste("https://xeno-canto.org/download.php?XC=", results$Recording_ID[x], sep=""), destfile = results$sound.files[x],
+        download.file(url = paste("https://www.xeno-canto.org/download.php?XC=", results$Recording_ID[x], sep=""), destfile = results$sound.files[x],
                       quiet = TRUE,  mode = "wb", cacheOK = TRUE,
                       extra = getOption("download.file.extra"))
       return (NULL)
     }
-    if(any(parallel == 1, Sys.info()[1] == "Linux") & pb)
-      cat("Downloading sound files...")
 
-      
-  if(parallel > 1) {if(Sys.info()[1] == "Windows") 
-    {
+    # set clusters for windows OS
+    if (Sys.info()[1] == "Windows" & parallel > 1)
+      cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
     
-    x <- NULL #only to avoid non-declared objects
-    
-    cl <- parallel::makeCluster(parallel)
-    
-    doParallel::registerDoParallel(cl)
-    
-    a1 <- parallel::parLapply(cl, 1:nrow(results), function(x)
-    {
-      xcFUN(results, x) 
-    })
-    
-    parallel::stopCluster(cl)
-    
-  } 
-    
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-     if(pb) 
-       a1 <- pbmcapply::pbmclapply(1:nrow(results), mc.cores = parallel, function(x) {
-         xcFUN(results, x)  })  else
-       a1 <- parallel::mclapply(1:nrow(results), mc.cores = parallel, function(x) {
-      xcFUN(results, x) })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
-      
-       doParallel::registerDoParallel(cl)
- 
-      a1 <- foreach::foreach(x = 1:nrow(results)) %dopar% {
-            xcFUN(results, x)
-      }
-      
-      parallel::stopCluster(cl)
-    }
-    
-  } else {
-    if(pb)
-       a1 <- pbapply::pblapply(1:nrow(results), function(x) 
+       a1 <- pbapply::pblapply(X = 1:nrow(results), cl = cl, FUN = function(x) 
   { 
       xcFUN(results, x) 
-  }) else
-    a1 <- lapply(1:nrow(results), function(x) 
-    { 
-      xcFUN(results, x) 
-    })
-  }
+  }) 
   
 if(pb)
    cat("double-checking downloaded files")
@@ -301,60 +239,15 @@ if(pb)
   {  Y <- results[results$sound.files %in% size0, ]
      unlink(size0)
      
-    
+     # set clusters for windows OS
+     if (Sys.info()[1] == "Windows" & parallel > 1)
+       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
      
-       if(parallel > 1) {if(Sys.info()[1] == "Windows") 
-    {
-    
-    x <- NULL #only to avoid non-declared objects
-    
-    cl <- parallel::makeCluster(parallel)
-    
-    doParallel::registerDoParallel(cl)
-    
-    a1 <- parallel::parLapply(cl, 1:nrow(Y), function(x)
-    {
-      xcFUN(Y, x) 
-    })
-    
-    parallel::stopCluster(cl)
-    
-  } 
-    
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-    if(pb)
-      a1 <- pbmcapply::pbmclapply(1:nrow(Y), mc.cores = parallel, function(x) {
-        xcFUN(Y, x) }) else      
-        a1 <- parallel::mclapply(1:nrow(Y), mc.cores = parallel, function(x) {
-      xcFUN(Y, x) })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
-      
-       doParallel::registerDoParallel(cl)
- 
-      a1 <- foreach::foreach(x = 1:nrow(Y)) %dopar% {
-            xcFUN(Y, x)
-      }
-      
-      parallel::stopCluster(cl)
-    }
-    
-  } else {
-    if(pb)
-    a1 <- pbapply::pblapply(1:nrow(Y), function(x) 
+     
+    a1 <- pbapply::pblapply(X = 1:nrow(Y), cl = cl, FUN = function(x) 
   { 
       xcFUN(Y, x) 
-  }) else
-    a1 <- lapply(1:nrow(Y), function(x) 
-    { 
-      xcFUN(Y, x) 
-    })
-  
-  }
-     
+  }) 
      
      }
     

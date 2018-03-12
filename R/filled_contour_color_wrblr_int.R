@@ -1,4 +1,4 @@
-#internal warbleR function, not to be called by users. It is a modified version of seewave::filled.contour.modif2
+# internal warbleR function, not to be called by users. It is a modified version of seewave::filled.contour.modif2
 # that allows to plot spectrograms on top of each other. 
 filled_contour_color_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = seq(0, 1, len = ncol(z)), 
           z, xlim = range(x, finite = TRUE), ylim = range(y, finite = TRUE), col.lab, colaxis,

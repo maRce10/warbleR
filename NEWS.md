@@ -1,10 +1,11 @@
 # NEWS
 
 # warbleR 1.1.12
-## (Release date: XXX-XX-XX)
+## (CRAN release date: XXX-XX-XX)
 
 ## Changes and additions:
 
+* Parallel computing in windows OS with progress bar 
 * New arguments in 'specreator' to customize control lines/box around selections 
 * Replace internal "message" functions by "cat" (so warnings are printed in black, no red)
 
@@ -17,7 +18,7 @@
 * sim_song: simulate songs 
 
 # warbleR 1.1.10
-### (Release date: 2018-08-28)
+### (CRAN release date: 2018-08-28)
 
 ## Changes and additions:
 
@@ -33,7 +34,7 @@
 * consolidate: copies (sound) files scattered in several directories into a single folder
 
 # warbleR 1.1.9
-### (Release date: 2017-11-18)
+### (CRAN release date: 2017-11-18)
 
 ## Changes and additions:
 
@@ -69,7 +70,7 @@
 ===============================================================================================
 
 # warbleR 1.1.8
-### (Release date: 2017-04-26)
+### (CRAN release date: 2017-04-26)
 
 ## Bug fixes:
 
@@ -78,7 +79,7 @@
 ===============================================================================================
 
 # warbleR 1.1.7
-### (Release date: 2017-04-24)
+### (CRAN release date: 2017-04-24)
 
 ## Changes and additions:
 
@@ -91,7 +92,7 @@
 ===============================================================================================
 
 # warbleR 1.1.6 
-### (Release date: 2017-04-05)
+### (CRAN release date: 2017-04-05)
 
 ## New functions:
 
@@ -137,7 +138,7 @@ different individuals) would be subset to A-B-A-B-A-B
 ===============================================================================================
 
 # warbleR 1.1.5 
-### (Release date: 2017-01-19)
+### (CRAN release date: 2017-01-19)
 
 ## Changes and additions:
 
@@ -157,7 +158,7 @@ different individuals) would be subset to A-B-A-B-A-B
 ===============================================================================================
 
 # warbleR 1.1.4 
-### (Release date: 2016-11-14)
+### (CRAN release date: 2016-11-14)
 
 ## Changes and additions:
 

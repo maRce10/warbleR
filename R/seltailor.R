@@ -125,8 +125,6 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
   
-  
-  
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
