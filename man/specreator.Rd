@@ -86,8 +86,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).

@@ -3,7 +3,8 @@
 #' \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
 #' @usage sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
 #' samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", 
-#' fin = 0.1, fout = 0.2, shape = "linear") 
+#' fin = 0.1, fout = 0.2, shape = "linear", selec_table = FALSE, file_name = NULL,
+#' path = NULL) 
 #' @param n Number of song subunits (e.g. elements). Default is 1.
 #' @param durs Numeric vector with the duration of subunits in seconds. It should either be a single value (which would 
 #' be used for all subunits) or a vector of length \code{n}. 
@@ -33,6 +34,13 @@
 #' Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.  
 #' @param shape Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
 #' ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.
+#' @param selec_table Logical. If \code{TRUE} a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
+#' is saved as a ".wav" file in the working directory. Defaul is \code{FALSE}.
+#' @param file_name Character string for naming the ".wav" file. Ignored if 
+#' 'selec_table' is \code{FALSE}. If not provided the date-time stamp will be used.
+#' @param path Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is \code{FALSE}.
+#' If \code{NULL} (default) then the current working directory is used.
+#' @return A wave object containing the simulated songs. If 'selec_table' is \code{TRUE} the function returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) a wave object. 
 #' @seealso \code{\link{querxc}} for for downloading bird vocalizations from an online repository.
 #' @export
 #' @name sim_songs
@@ -57,7 +65,21 @@
 
 sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, samp.rate = 44.1, 
                       sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", fin = 0.1,
-                      fout = 0.2, shape = "linear") {
+                      fout = 0.2, shape = "linear", selec_table = FALSE, 
+                      file_name = NULL, path = NULL) {
+  
+  # reset working directory 
+  if(selec_table)
+    {
+    wd <- getwd()
+  on.exit(setwd(wd))
+  
+  #check path to working directory
+  if (is.null(path))  path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
+  
+  }
   
   if (length(durs) != n & length(durs) != 1) stop("length of 'durs' should be 1 or equal to 'n'")
   if (length(amps) != harms  & harms > 1) stop("length of 'amps' should be equal to 'harms'")
@@ -87,9 +109,15 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
     if (!is.null(seed)) set.seed(seeds[x])
     sng_frq <- as.vector((df_fn(N = ifelse(N < 2, 2, N), sigma = sig2) * sample(c(-1, 1), 1)) + freqs[x]) 
     
+    # patch to avoid negative numbers
+    sng_frq <- abs(sng_frq)
+    sng_frq[sng_frq == 0] <- 0.01
+    
     app_n <- round(durs[x] * (samp.rate * 1000), 0)
     
     sng_frq <- stats::spline(x = sng_frq, n = ifelse(app_n < 2, 2, app_n))$y
+    
+    frng <- range(sng_frq)
     
     sng_amp <- rep(amps[1], length(sng_frq))
     
@@ -98,7 +126,6 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
     
     # add starting gap
     if (x == 1) {
-      
       
       if (!is.null(seed)) set.seed(seeds[x + n])
       gp_frq1 <- sample(1:((samp.rate * 1000) / 2),  round(gaps[1] * (samp.rate * 1000), 0))
@@ -119,7 +146,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
     
     amp <- c(sng_amp, gp_amp)
     
-    return(data.frame(frq, amp))
+    return(data.frame(frq, amp, bottom.freq = round(frng[1], 3), top.freq = round(frng[2], 3), subunit = x))
   })
   
   frq_amp <- do.call(rbind, frq_amp)
@@ -146,5 +173,29 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   
   wv <- tuneR::Wave(left = wv, samp.rate = (samp.rate * 1000), bit = 16)
   
+  # create selection table and save sound file
+  if (selec_table)
+  {
+    if (is.null(file_name)) file_name <- gsub(" ", "_", paste0(format(Sys.time()), ".wav")) else
+      file_name <- paste0(file_name, ".wav")
+    
+    # fix name if file already exists
+    nchr <- nchar(file_name) - 4
+    x <- 1
+    
+    while(file.exists(file.path(path, file_name))){
+      file_name <- paste0(substr(file_name, 0, nchr),"_", x, ".wav")
+    x <- x + 1
+        }
+
+    writeWave(object = wv, filename = file.path(path, file_name), extensible = FALSE)
+    
+    start <- cumsum(c(gaps[1], durs[- length(durs)] + gaps[-c(1, length(gaps))]))
+
+    st <- data.frame(sound.files = file_name, selec = 1:n, start, end = c(start + durs), stringsAsFactors = FALSE, bottom.freq = tapply(frq_amp$bottom.freq, frq_amp$subunit, mean), top.freq = tapply(frq_amp$top.freq, frq_amp$subunit, mean))
+    
+  }
+  
+  if(selec_table) return(list(selec_table = st, wave = wv)) else
   return(wv)
 }

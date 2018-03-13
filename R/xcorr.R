@@ -24,12 +24,11 @@
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#'  Not available in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1. Note that progress bar is not completely accurate as the number of pairwise comparisons decreases on each iteration 
-#' decreases. The first iteration runs n-1 comparisons while the last one only 1 (\code{n = nrow(X)}).
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is not accurate as the number of pairwise comparisons decreases on 
+#' each iteration. The first iteration runs n-1 comparisons while the last one 
+#' only 1 (\code{n = nrow(X)}).
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
 #' @param cor.mat Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.
@@ -66,6 +65,7 @@
 #' @author Marcelo Araya-Salas \email{araya-salas@@cornell.edu})
 #' @source H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
 #' cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
+# last modification on mar-13-2018 (MAS)
 
 
 xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp = NULL, wn ='hanning', 
@@ -128,83 +128,85 @@ frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #parallel not available on windows
-  if(parallel > 1 & Sys.info()[1] == "Windows")
-  {  if(pb) cat("parallel computing not availabe in Windows OS for this function")
-    parallel <- 1}
-  
-  if(parallel > 1) 
-    {
-    if(pb) lapp <- function(X, FUN) pbmcapply::pbmclapply(X, FUN, mc.cores = parallel) else
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else { 
-      if(pb) lapp <- pbapply::pblapply else   lapp <- lapply
-  }  
-          options(warn = 0)
-          
 #create templates
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("creating templates:")
-ltemp <- lapp(1:nrow(X), function(x)
-{
-   clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
-  samp.rate <- clip@samp.rate
-   
-   # Fourier transform
-   t.survey <- seewave::duration(clip)
-   fspec <- seewave::spectro(wave = clip, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
-   
-   # Filter amplitudes 
-   t.bins <- fspec$time
-   n.t.bins <- length(t.bins)
-   which.frq.bins <- which(fspec$freq >= frq.lim[1] & fspec$freq <= frq.lim[2])
-   frq.bins <- fspec$freq[which.frq.bins]
-   n.frq.bins <- length(frq.bins)
-   amp <- round(fspec$amp[which.frq.bins, ],2)
+  if(pb) cat("creating templates:")
 
-   # Create empty matrix for identifying selected cells
-   on.mat <- matrix(0, nrow=n.frq.bins, ncol=n.t.bins)
-   
-   # Bin steps
-   t.step <- t.bins[2]-t.bins[1]
-   frq.step <- frq.bins[2]-frq.bins[1]
-   
-      # Set cells that meet criteria to 1 in bin.amp
-      on.mat <- on.mat + sample(c(1, 0), length(on.mat), TRUE, c(dens, 1-dens))
-
-      # Then find locations of 
-      pts <- which(on.mat == 1, arr.ind = TRUE)
-      pts <- pts[, 2:1]
-      colnames(pts) <- c('t', 'frq')
-      pts[, 'frq'] <- pts[, 'frq'] + min(which.frq.bins) - 1
-      pt.on <- pts
-
-      # Get amplitudes
-      pts <- pt.on
-      pts.trimmed <- pts
-      pts.trimmed[, 'frq'] <- pts.trimmed[, 'frq'] - min(which.frq.bins) + 1
-      pt.amp <- amp[pts.trimmed[, 2:1, drop=FALSE]]
-      pts <- cbind(pts, pt.amp)
-      colnames(pts) <- c('t', 'frq', 'amp')
+  tempFUN <- function(X, x, wl, ovlp, wn, frq.lim)
+  {
+    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
     
-
-   t.shift <- min(pts[, 1])
-   first.t.bin <- t.shift*t.step - t.step
-   pts[, 't'] <- pts[, 't'] - t.shift + 1
-
-   n.t.bins <- diff(range(pts[, 't']))
-   n.frq.bins <- diff(range(pts[, 'frq']))
-   duration <- n.t.bins*t.step
-   frq.lim <- range(pts[, 'frq'])*frq.step
-
-   template <- list(X$sound.files[x], X$selec[x], samp.rate = as.integer(samp.rate), 
-                        pts = pts, t.step = t.step, frq.step = frq.step, n.t.bins = as.integer(n.t.bins), 
-                        first.t.bin = first.t.bin, n.frq.bins = as.integer(n.frq.bins), duration = duration)
-   names(template)<-c("sound.files", "selec", "samp.rate", "pts", "t.step", "frq.step", "n.t.bins","first.t.bin",
-                      "n.frq.bins", "duration")
+    samp.rate <- clip@samp.rate
+    
+    # Fourier transform
+    t.survey <- seewave::duration(clip)
+    fspec <- seewave::spectro(wave = clip, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
+    
+    # Filter amplitudes 
+    t.bins <- fspec$time
+    n.t.bins <- length(t.bins)
+    which.frq.bins <- which(fspec$freq >= frq.lim[1] & fspec$freq <= frq.lim[2])
+    frq.bins <- fspec$freq[which.frq.bins]
+    n.frq.bins <- length(frq.bins)
+    amp <- round(fspec$amp[which.frq.bins, ],2)
+    
+    # Create empty matrix for identifying selected cells
+    on.mat <- matrix(0, nrow=n.frq.bins, ncol=n.t.bins)
+    
+    # Bin steps
+    t.step <- t.bins[2] - t.bins[1]
+    frq.step <- frq.bins[2] - frq.bins[1]
+    
+    # Set cells that meet criteria to 1 in bin.amp
+    on.mat <- on.mat + sample(c(1, 0), length(on.mat), TRUE, c(dens, 1-dens))
+    
+    # Then find locations of 
+    pts <- which(on.mat == 1, arr.ind = TRUE)
+    pts <- pts[, 2:1]
+    colnames(pts) <- c('t', 'frq')
+    pts[, 'frq'] <- pts[, 'frq'] + min(which.frq.bins) - 1
+    pt.on <- pts
+    
+    # Get amplitudes
+    pts <- pt.on
+    pts.trimmed <- pts
+    pts.trimmed[, 'frq'] <- pts.trimmed[, 'frq'] - min(which.frq.bins) + 1
+    pt.amp <- amp[pts.trimmed[, 2:1, drop=FALSE]]
+    pts <- cbind(pts, pt.amp)
+    colnames(pts) <- c('t', 'frq', 'amp')
+    
+    
+    t.shift <- min(pts[, 1])
+    first.t.bin <- t.shift*t.step - t.step
+    pts[, 't'] <- pts[, 't'] - t.shift + 1
+    
+    n.t.bins <- diff(range(pts[, 't']))
+    n.frq.bins <- diff(range(pts[, 'frq']))
+    duration <- n.t.bins * t.step
+    frq.lim <- range(pts[, 'frq']) * frq.step
+    
+    template <- list(X$sound.files[x], X$selec[x], samp.rate = as.integer(samp.rate), 
+                     pts = pts, t.step = t.step, frq.step = frq.step, n.t.bins = as.integer(n.t.bins), 
+                     first.t.bin = first.t.bin, n.frq.bins = as.integer(n.frq.bins), duration = duration)
+    names(template)<-c("sound.files", "selec", "samp.rate", "pts", "t.step", "frq.step", "n.t.bins","first.t.bin",
+                       "n.frq.bins", "duration")
+    
+    return(template)
+  }
   
-   return(template)
-}
-)
-
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function for templates
+  ltemp <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(x) 
+  { 
+    tempFUN(X, x, wl, ovlp, wn, frq.lim)
+    
+  })   
+  
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
 #correlation function
@@ -272,10 +274,13 @@ FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
 }
 
 #run cross-correlation
-if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("running cross-correlation:")
+if(pb) cat("running cross-correlation:")
 
-a<-lapp(1:(nrow(X)-1), function(j)
-  {
+if (Sys.info()[1] == "Windows" & parallel > 1)
+  cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+
+a <- pbapply::pblapply(X = 1:(nrow(X)-1), cl = cl, FUN = function(j) 
+ {
     a <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
  
   margin <-(max(with(X, end[j:nrow(X)] - start[j:nrow(X)])))/2
@@ -326,7 +331,6 @@ if(!cor.mat)
 scores <- aggregate(as.data.frame(b$score), by = list(b$dyad), FUN = max)
 } else scores <- b
 
-
 names(scores)[2] <- "scores"
 
 #create a similarity matrix with the max xcorr
@@ -337,30 +341,6 @@ colnames(mat) <- rownames(mat) <- paste(X$sound.files, X$selec, sep = "-")
 mat[lower.tri(mat, diag=FALSE)] <- scores$scores
 mat <- t(mat)
 mat[lower.tri(mat, diag=FALSE)] <- scores$scores
-
-
-##diagonal
-# diago <- sapply(1:nrow(X), function(j)
-# {
-#   a <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
-#   
-#   margin <-(max(with(X, end[j:nrow(X)] - start[j:nrow(X)])))/2
-#   start <-X$start[j] - margin
-#   if(start < 0) {
-#     end <-X$end[j] + margin -start[j]
-#     start <- 0} else
-#       end <-X$end[j] + margin
-#   if(end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate
-#   
-#   survey<-tuneR::readWave(filename = as.character(X$sound.files[j]), from = start, to = end, units = "seconds")
-#   
-# 
-#   score.diag <- max(FUNXC(i = j, cor.mat = T,survey, wl, ovlp, wn, X =X, j)[,4], na.rm = TRUE)
-#    
-#   return(score.diag)
-# }
-# )
-# diag(mat) <- diago
 
 if(na.rm)
 {

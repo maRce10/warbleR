@@ -1,19 +1,19 @@
 #' Check selection data frames
 #' 
 #' \code{checksels} checks whether selections can be read by subsequent functions.
-#' @usage checksels(X, parallel =  1, path = NULL, check.header = FALSE)
+#' @usage checksels(X, parallel =  1, path = NULL, check.header = FALSE, pb = TRUE)
 #' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. Alternatively, a 'selection.table' class object can be input to double check selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#'  Not available in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param check.header Logical. Controls whether sound file headers correspond to the actual file properties 
 #' (i.e. if is corrupted). This could significantly affect the performance of the function (much slower) particularly 
-#' with long sound files.  
+#' with long sound files.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @return A data frame including the columns in the input data frame (X) and 2 additional columns:
 #' "check.res" (check selections), and "min.n.samples" (the smallest number of samples). Note the number of samples available
 #' in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses.
@@ -43,7 +43,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on jul-5-2016 (MAS)
 
-checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE){
+checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE, pb = TRUE){
   
   # reset working directory 
   wd <- getwd()
@@ -91,7 +91,6 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   #if any selection labels are repeated within a sound file
   if(length(unique(paste(X$sound.files, X$selec))) != nrow(X))
  stop("Repeated selection labels within (a) sound file(s)")  
-  
   
   # update to new frequency range column names
   if(any(grepl("low.freq|high.freq", names(X)))) { 
@@ -181,55 +180,21 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     return(Y)
   }
   
-  #parallel not available on windows
-  if(parallel > 1 & Sys.info()[1] == "Windows")
-  {cat("parallel computing not availabe in Windows OS for this function")
-    parallel <- 1}
   
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-      
-      x <- NULL #only to avoid non-declared objects
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      a1 <- foreach::foreach(x = unique(X$sound.files)) %dopar% {
-        csFUN(x, X)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    } 
-    
-    if(Sys.info()[1] == "Linux"){    # Run parallel in other operating systems
-      
-      a1 <- parallel::mclapply(unique(X$sound.files), mc.cores = parallel, function(x) {
-        csFUN(x, X)
-      })
-      
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      a1 <- foreach::foreach(x = unique(X$sound.files)) %dopar% {
-        csFUN(x, X)
-      }
-      parallel::stopCluster(cl)
-    }
-    
-    
-  } else {a1 <- pbapply::pblapply(unique(X$sound.files), function(x) 
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  out <- pbapply::pblapply(X = unique(X$sound.files), cl = cl, FUN = function(x) 
   { 
     csFUN(x, X)
-  })
+  }) 
   
-  }    
-  res <- do.call(rbind, a1)
+  res <- do.call(rbind, out)
   res <- res[match(paste(X$sound.files, X$selec), paste(res$sound.files, res$selec)),]
   
   if("top.freq" %in% names(res))
@@ -243,8 +208,4 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   }
   
     return(res)  
-
 }
-
-# second function name
-check_sels <- checksels

@@ -25,8 +25,7 @@
 #' substantially increases performance (~9 times faster).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, used for fundamental frequency (using \code{\link[seewave]{fund}} or \code{\link[tuneR]{FF}}) and dominant frequency (using \code{\link[seewave]{dfreq}}). 
 #'   Default is 50. 
@@ -119,7 +118,7 @@
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
-#last modification on jul-5-2016 (MAS)
+#last modification on mar-13-2018 (MAS)
 
 specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
                    parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
@@ -136,8 +135,6 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-  
-  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -190,14 +187,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-  
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
-  
+
   #create function to run within Xapply functions downstream
   spFUN <- function(i, X, bp, wl, threshold) { 
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds", toWaveMC = TRUE) 
@@ -314,44 +304,22 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     
   }
   
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("measuring acoustic parameters:")
+  if(pb) cat("measuring acoustic parameters:")
   
-  # Run parallel in windows
-  if(parallel > 1) {if(Sys.info()[1] == "Windows") {
-    
-    # i <- NULL #only to avoid non-declared objects
-    
-    cl <- parallel::makeCluster(parallel)
-    
-    parallel::clusterExport(cl=cl, varlist=c("FFT")) 
-    doParallel::registerDoParallel(cl)
-    
-    sp <- parallel::parLapply(cl, 1:nrow(X), function(i)
-    {
-      spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
-    })
-    
-    parallel::stopCluster(cl)
-    
-    
-  } else {    # Run parallel in other operating systems
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
-    if(pb)  
-      sp <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function(i) {
-        spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
-      }) else    
-    sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function(i) {
-      spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
-    })
-    
-  }
-  }
-  else {
-    if(pb) 
-      sp <- pbapply::pblapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold = threshold)) else
-        sp <- lapply(1:nrow(X), function(i) spFUN(X, i = i, bp = bp, wl = wl, threshold = threshold))        
-
-  }
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  sp <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  { 
+    spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
+  }) 
+  
+  # put results in a single data frame
   sp <- do.call(rbind, sp)
   
   row.names(sp) <- 1:nrow(sp)

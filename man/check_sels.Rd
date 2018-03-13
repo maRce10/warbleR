@@ -4,7 +4,7 @@
 \alias{checksels}
 \title{Check selection data frames}
 \usage{
-checksels(X, parallel =  1, path = NULL, check.header = FALSE)
+checksels(X, parallel =  1, path = NULL, check.header = FALSE, pb = TRUE)
 }
 \arguments{
 \item{X}{'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -13,8 +13,7 @@ end time of selections. Alternatively, a 'selection.table' class object can be i
 be used as the input data frame.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-Not available in Windows OS.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
@@ -22,6 +21,8 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{check.header}{Logical. Controls whether sound file headers correspond to the actual file properties 
 (i.e. if is corrupted). This could significantly affect the performance of the function (much slower) particularly 
 with long sound files.}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 }
 \value{
 A data frame including the columns in the input data frame (X) and 2 additional columns:

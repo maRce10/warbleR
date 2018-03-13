@@ -88,8 +88,7 @@
 #' The frequency values are assumed to be equally spaced in between the start and end of the signal. The 
 #' first 2 colums of the data frame should contain the 'sound.files' and 'selec' columns and should be 
 #' identical to the corresponding columns in X (same order). 
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param type A character vector of length 1 indicating the type of frequency contour plot to be drawn. 
 #' Possible types are "p" for points, "l" for lines and "b" for both.
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
@@ -164,7 +163,7 @@
 #' 
 #' }
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jul-25-2016 (MAS)
+#last modification on mar-13-2018 (MAS)
 
 trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                        inner.mar = c(5,4,4,2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1,
@@ -608,59 +607,17 @@ legend(lpos, legend = leglab[1],
     
   }
 
-          # Run parallel in windows
-          if(parallel > 1) {
-            if(Sys.info()[1] == "Windows") {
-              
-              i <- NULL #only to avoid non-declared objects
-              
-              cl <- parallel::makeCluster(parallel)
-              
-              doParallel::registerDoParallel(cl)
-              
-              sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-                trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
-                            custom.contour)
-              }
-              
-              parallel::stopCluster(cl)
-              
-            } 
-            if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-              if(pb)
-                sp <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-                  trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
-                              custom.contour)
-                }) else
-              sp <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-                trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
-                            custom.contour)
-              })
-            }
-            if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-            {
-              cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-              
-              doParallel::registerDoParallel(cl)
-              
-              sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-                trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
-                            custom.contour)
-              }
-              
-              parallel::stopCluster(cl)
-              
-            }
-          }
-          else {
-            if(pb)
-            sp <- pbapply::pblapply(1:nrow(X), function(i) 
-              trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
-                          custom.contour)) else
-                  sp <- lapply(1:nrow(X), function(i) 
-                    trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
-                      custom.contour))
-            
-          }
-          
+    # set pb options 
+    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+    
+    # set clusters for windows OS
+    if (Sys.info()[1] == "Windows" & parallel > 1)
+      cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+    
+    # run loop apply function
+    out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+    { 
+      trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
+                  custom.contour)
+    }) 
 }

@@ -47,8 +47,7 @@
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. 
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
@@ -295,8 +294,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     
     if (anyNA(X[,group.tag]))
       stop("NAs are not allowed in 'group.tag' column")
-    
-    
   }
   
   #if sel.comment column not found create it
@@ -317,13 +314,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #wrap img creating function
   if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
-  
-  #if parallel and pb in windows
-  if (parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
   #return warning if not all sound files were found
   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
@@ -583,7 +575,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     })
     X <- do.call(rbind, X2)
   }
-  
   
   # function to run on data frame subset   
   catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim,pal, width, height, tag.col.df, legend, cex, 
@@ -1000,59 +991,15 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       })
   
   #Apply over each sound file
-  # Run parallel in windows
-  if (parallel > 1) {
-    if (Sys.info()[1] == "Windows") {
-      
-      z <- NULL
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
-        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
-                 width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
-        
-        parallel::stopCluster(cl)
-        
-      }
-    }
-    if (Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      if (pb)
-        out <- pbmcapply::pbmclapply(1:length(Xlist), mc.cores = parallel, function (z) {
-          catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
-                   width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
-        }) else
-          out <- parallel::mclapply(1:length(Xlist),  mc.cores = parallel, function (z) {
-            catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal,
-                     width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
-          })
-    }
-    if (!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      out <- foreach::foreach(z = 1:length(Xlist)) %dopar% {
-        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
-                 width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    }
-  } else {
-    if (pb)
-      out <- pbapply::pblapply(1:length(Xlist), function(z)
-        catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
-                 width, height, tag.col.df, legend, cex, img.suffix = img.suffix, img.prefix = img.prefix, title = title))  else
-                   out <- lapply(1:length(Xlist), function(z)
-                     catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
-                              width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title))
-  }
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  out <- pbapply::pblapply(X = 1:length(Xlist), cl = cl, FUN = function(z) 
+   
+    catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
+             width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
+  )   
   
   if (!is.null(path)) setwd(wd)
 }

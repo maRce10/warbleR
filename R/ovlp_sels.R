@@ -2,7 +2,8 @@
 #' 
 #' \code{ovlp_sels} finds which selections overlap in time within a given sound file.
 #' @usage ovlp_sels(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, 
-#' drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = TRUE, indx.row = FALSE)
+#' drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = TRUE, 
+#' indx.row = FALSE, parallel = 1)
 #' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
@@ -26,6 +27,8 @@
 #' each selection is added to the ouput data frame (if \code{index = TRUE}). For instance, if the selections in rows 1,2 
 #' and 3 all overlapped with each other, the 'indx.row' value would be "1/2/3" for all. However, if selection 3 only overlaps
 #'  with 2 but not with 1, then it returns, "1/2" for row 1, "1/2/3" for row 2, and "2/3" for row 3. Default is \code{FALSE}. 
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @return A data frame with the columns in X plus an additional column ('ovlp_sels') indicating 
 #' which selections overlap. The ones with the same number overlap with each other. If 
 #' \code{drop = TRUE} only the non-overlapping selections are return. If 2 or more selections 
@@ -53,10 +56,10 @@
 #' listed in a data frame similar to \code{\link{selec.table}}.
 #' @seealso  \code{\link{filtersels}} \code{\link{selec.table}}
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on may-22-2017 (MAS)
+#last modification on mar-13-2018 (MAS)
 
 ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, drop = FALSE,                       
-                      priority = NULL, priority.col = NULL, unique.labs = TRUE, indx.row = FALSE) 
+                      priority = NULL, priority.col = NULL, unique.labs = TRUE, indx.row = FALSE, parallel = 1) 
   {
   
   #X must be provided
@@ -166,13 +169,18 @@ if(ndx.rw)
   # split data into a data.frame per sound file  
 sX <- split(X, X$sound.files, drop = TRUE)
 
-# run ovlpFUN over the whole X data frame
-  if(pb) 
-    Z <- pbapply::pblapply(sX, ovlpFUN) else
-      Z <- lapply(sX, ovlpFUN)
-        
-        
-out <- do.call(rbind, Z)    
+
+# set pb options 
+pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+
+# set clusters for windows OS
+if (Sys.info()[1] == "Windows" & parallel > 1)
+  cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+
+# run loop apply function
+out <- pbapply::pblapply(X = sX, cl = cl, FUN = ovlpFUN) 
+
+out <- do.call(rbind, out)    
  
 rownames(out) <- 1:nrow(out)
 

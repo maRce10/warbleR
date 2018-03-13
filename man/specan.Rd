@@ -37,8 +37,7 @@ substantially increases performance (~9 times faster).}
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows, used for fundamental frequency (using \code{\link[seewave]{fund}} or \code{\link[tuneR]{FF}}) and dominant frequency (using \code{\link[seewave]{dfreq}}). 

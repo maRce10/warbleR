@@ -44,7 +44,7 @@ frequency bandpass filter (in kHz). Default is c(0, 22).}
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not availble in Windows OS.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
@@ -54,8 +54,7 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of 
 image files. Default is \code{NULL}.}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed. If 

@@ -1,12 +1,15 @@
 # NEWS
 
 # warbleR 1.1.12
-## (CRAN release date: XXX-XX-XX)
+## (CRAN release date: 2018-03-13)
 
 ## Changes and additions:
 
+* Parallel computing available in 'querxc' funtion when getting metadata
+* Parallel computing available in 'checksels' funtion 
 * New arguments in 'seltailor' to allow tailoring frequency contours 
-* Parallel computing in windows OS with progress bar in querxc
+* Parallel computing with and without progress bar in all iterative functions
+* Parallel computing in windows OS with and without progress bar
 * New arguments in 'specreator' to customize control lines/box around selections 
 * Replace internal "message" functions by "cat" (so warnings are printed in black, no red)
 

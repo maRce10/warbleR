@@ -4,7 +4,7 @@
 \alias{dfts}
 \title{Extract the dominant frequency values as a time series}
 \usage{
-dfts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+dfts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70,
 bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
 img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE, 
 clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, ...)
@@ -45,16 +45,14 @@ arguments.}
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-Not available in Windows OS.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{path}{Character string containing the directory path where the sound files are located.}
 
 \item{img.suffix}{A character vector of length 1 with a sufix (label) to add at the end of the names of 
 image files.}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed. If 

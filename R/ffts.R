@@ -22,13 +22,11 @@
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#'  Not available in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used. 
 #' @param img.suffix A character vector of length 1 with a suffix (label) to add at the end of the names of 
 #' image files.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param clip.edges Logical argument to control whether edges (start or end of signal) in
 #' which amplitude values above the threshold were not detected will be removed. If 
 #' \code{TRUE} this edges will be excluded and signal contour will be calculated on the
@@ -92,8 +90,6 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     #if X is not a data frame
     if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
     
-    
-  
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
@@ -135,14 +131,7 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
-  
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) cat("Creating spectrograms overlaid with fundamental frequency measurements:") else
+  if(pb) {if(img) cat("Creating spectrograms overlaid with fundamental frequency measurements:") else
     cat("Measuring fundamental frequency:")}
   
   fftsFUN <- function(X, i, bp, wl, threshold){
@@ -218,57 +207,23 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     return(apfund$y)  
   } 
   
-  # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-      
-      i <- NULL #only to avoid non-declared objects
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        fftsFUN(X, i, bp, wl, threshold)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    } 
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      if(pb)
-        lst <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-          fftsFUN(X, i, bp, wl, threshold)
-        }) else
-          
-          lst <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-            fftsFUN(X, i, bp, wl, threshold)
-          })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        fftsFUN(X, i, bp, wl, threshold)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    }
-  }
-  else {
-    if(pb)
-      lst <- pbapply::pblapply(1:nrow(X), function(i) fftsFUN(X, i, bp, wl, threshold)) else
-        lst <- lapply(1:nrow(X), function(i) fftsFUN(X, i, bp, wl, threshold))
-  }
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  lst <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  { 
+    fftsFUN(X, i, bp, wl, threshold)
+  })
   
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
   colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
   df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)
-   return(df)
+   
+  return(df)
   
 }

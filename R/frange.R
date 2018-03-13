@@ -54,8 +54,7 @@
 #' @param img Logical. Controls whether a plot is produced. Default is \code{TRUE}.
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the selections
 #'  to set spectrogram limits. Default is 0.05.
-#' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @return The original data frame with an additional 2 columns for low and high frequency values. A plot is produced in the working directory if \code{img = TRUE} (see details).
@@ -85,12 +84,10 @@
 #' flim = c(0, 11))
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on apr-28-2017 (MAS)
+#last modification on mar-12-2018 (MAS)
 
 frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE)
 {
-  
-  
   # reset working directory 
   wd <- getwd()
   on.exit(setwd(wd))
@@ -102,8 +99,6 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-  
-  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -146,6 +141,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     X <- X[d, ]
   }
   
+  # internal function to detect freq range
   frangeFUN <- function(X, i, img, bp, wl, fsmooth, threshold, wn, flim, ovlp, fast.spec, pal, widths) {
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
     f <- r$sample.rate
@@ -189,57 +185,18 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     
   }
 
-
-  # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-      
-      i <- NULL #only to avoid non-declared objects
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      fr <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        frangeFUN(X = X, i = i, plot = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
-        
-      }
-      
-      parallel::stopCluster(cl)
-      
-    } 
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      if(pb)
-        fr <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-          frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
-        }) else
-          fr <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-            frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
-          })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      fr <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
-      }
-      
-      parallel::stopCluster(cl)
-      
-    }
-  }
-  else {
-    if(pb)
-      fr <- pbapply::pblapply(1:nrow(X), function(i) 
-        frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) 
-      ) else
-                      fr <- lapply(1:nrow(X), function(i) 
-                        frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths) )
-              
-  }
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  fr <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  { 
+    frangeFUN(X = X, i = i, img = img, bp = bp, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths)
+  }) 
   
   fr <- do.call(rbind, fr)
   

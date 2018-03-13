@@ -6,15 +6,13 @@
 #' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#'  Not availble in Windows OS.
 #' @param from Character string containing the directory path where the .mp3 files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param to Character string containing the directory path where the .wav files will be saved. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param normalize Character string containing the units to be used for amplitude normalization. Check 
 #' (\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @return .wav files saved in the working directory with same name as original mp3 files.
 #' @export
 #' @name mp32wav
@@ -34,7 +32,7 @@
 #' }
 #' @details convert all .mp3 files in working directory to .wav format. Function used internally to read .mp3 files (\code{\link[tuneR]{readMP3}}) sometimes crashes.
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
-#last modification on jul-5-2016 (MAS)
+#last modification on mar-13-2018 (MAS)
 
 mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, normalize = NULL, 
                     pb = TRUE) {
@@ -72,18 +70,6 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, norm
     cat("running parallel without progress bar")
     pb <- FALSE
   } 
-  
-  #parallel not available on windows
-  if(parallel > 1 & Sys.info()[1] == "Windows")
-  {cat("parallel computing not availabe in Windows OS for this function")
-    parallel <- 1}
-  
-  if(parallel > 1) 
-    {if(pb)   lapp <- function(X, FUN) pbmcapply::pbmclapply(X, FUN, mc.cores = parallel) else
-      lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)
-    } else 
-      {if(pb) lapp <- pbapply::pblapply else lapp <- lapply} 
-  
           
   files <- list.files(path=getwd(), pattern = ".mp3$", ignore.case = TRUE) #list .mp3 files in working directory
   if(length(files) == 0) stop("no 'mp3' files in working directory")
@@ -93,11 +79,30 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, norm
   files <- files[!substr(files, 0, nchar(files) - 4) %in% substr(wavs, 0, nchar(wavs) - 4)]
   if(length(files) == 0) stop("all 'mp3' files have been converted")
   
-  
-if(!is.null(normalize))  
- suppressWarnings(a<-lapp(files, function(x) tuneR::writeWave(extensible = FALSE, object = tuneR::normalize(tuneR::downsample(tuneR::readMP3(filename =  x), samp.rate = samp.rate * 1000), unit = normalize), filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))) else
-  suppressWarnings( 
-    a<-lapp(files, function(x) tuneR::writeWave(extensible = FALSE, object = tuneR::readMP3(filename =  x), filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))))
-    ) 
-  
-     }
+ # function to convert single mp3  
+ mp3_conv_FUN <- function(x, normalize) {
+   
+   wv <- tuneR::readMP3(filename =  x)
+   
+   if (wv@samp.rate != samp.rate * 1000)
+   wv <- tuneR::downsample(object = wv, samp.rate = samp.rate * 1000)
+   
+   if (!is.null(normalize))
+   wv <- tuneR::normalize(object = wv, unit = normalize)
+   
+   tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav")))
+   }
+
+ # set pb options 
+ pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+ 
+ # set clusters for windows OS
+ if (Sys.info()[1] == "Windows" & parallel > 1)
+   cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+ 
+ # run loop apply function
+ out <- pbapply::pblapply(X = files, cl = cl, FUN = function(i) 
+ { 
+   suppressWarnings(mp3_conv_FUN(x = i, normalize))
+ })  
+}

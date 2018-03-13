@@ -125,8 +125,7 @@ The frequency values are assumed to be equally spaced in between the start and e
 first 2 colums of the data frame should contain the 'sound.files' and 'selec' columns and should be 
 identical to the corresponding columns in X (same order).}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{type}{A character vector of length 1 indicating the type of frequency contour plot to be drawn. 
 Possible types are "p" for points, "l" for lines and "b" for both.}

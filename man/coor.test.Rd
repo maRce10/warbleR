@@ -20,8 +20,7 @@ Default is  \code{TRUE}.}
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{rm.imcomp}{Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
 \code{FALSE}.}

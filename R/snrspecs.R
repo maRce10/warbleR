@@ -53,8 +53,7 @@
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @return Spectrograms per selection marked with margins where background noise will be measured.
 #' @family spectrogram creators
 #' @seealso \code{\link{trackfreqs}} for creating spectrograms to visualize 
@@ -97,7 +96,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #' @source \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
-#last modification on jul-5-2016 (MAS)
+#last modification on mar-13-2018 (MAS)
 
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
                      inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100,
@@ -116,8 +115,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-  
-  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -158,13 +155,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-  
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
   
     snrspeFUN <- function(i, X, wl, flim, ovlp, inner.mar, outer.mar, picsize, res, cexlab, xl, mar, snrmar){
     
@@ -264,52 +254,17 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     return (NULL)
   }
      
-      
-    # Run parallel in windows
-    if(parallel > 1) {
-      if(Sys.info()[1] == "Windows") {
-        
-        i <- NULL #only to avoid non-declared objects
-        
-        cl <- parallel::makeCluster(parallel)
-        
-        doParallel::registerDoParallel(cl)
-        
-        a1 <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-          snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
-        }
-        
-        parallel::stopCluster(cl)
-        
-      } 
-      
-      if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-        if(pb)         a1 <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-          snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
-        }) else
-        a1 <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-          snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
-        })
-      }
-      if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-      {
-        cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-        
-        doParallel::registerDoParallel(cl)
-       
-         a1 <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-          snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
-        }
-        
-        parallel::stopCluster(cl)
-        
-      }
-    }
-    else {
-      if(pb)
-      a1 <- pbapply::pblapply(1:nrow(X), function(i) snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)) else
-        a1 <- lapply(1:nrow(X), function(i) snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar))
-    }
+    # set pb options 
+    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
     
-    }
+    # set clusters for windows OS
+    if (Sys.info()[1] == "Windows" & parallel > 1)
+      cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+    
+    # run loop apply function
+    out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+    { 
+      snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
+    }) 
+}
 

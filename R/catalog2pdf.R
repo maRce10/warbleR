@@ -10,8 +10,7 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param by.img.suffix Logical. If \code{TRUE} catalogs with the same image suffix will be 
 #' put together in a single pdf (so one pdf per image suffix in the catalog 
 #' images). Default is \code{FALSE} (i.e. no suffix).
@@ -40,7 +39,7 @@
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on nov-13-2016 (MAS)
+# last modification on mar-13-2018 (MAS)
 
 catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
                         pb = TRUE, by.img.suffix = FALSE, ...)
@@ -66,18 +65,11 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
    or.sf <- gsub("Catalog_p\\d+\\-|\\.jpeg", "" ,imgs) else
   or.sf <- by.img.suffix
   
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
   
   pdf.options(useDingbats = TRUE)
   
   #loop over each sound file name  
-  # no.out <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function(x)
-    cat2pdfFUN <- function(i, overwrite, keep.img)
+     cat2pdfFUN <- function(i, overwrite, keep.img)
     {
       if(!is.logical(i)) filnam <- paste0(i, ".pdf") else filnam <- "Catalog.pdf"
    
@@ -103,8 +95,6 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
     #start graphic device     
    if(!is.logical(i))
      grDevices::pdf(file = paste0(i, ".pdf"), width = 10, height = dimprop * 10, ...) else  grDevices::pdf(file = "Catalog.pdf", width = 10, height = dimprop * 10, ...)     
-
-
     #plot
     img <- jpeg::readJPEG(subimgs[1])
     par(mar = rep(0, 4), oma = rep(0, 4), pty = "m")
@@ -126,53 +116,17 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
   if(!keep.img) unlink(subimgs)
     }
     }
-    # )
+
+     # set pb options 
+     pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
-  
-  # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-      
-      i <- NULL #only to avoid non-declared objects
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      lst <- foreach::foreach(i = unique(or.sf)) %dopar% {
-        cat2pdfFUN(i, overwrite, keep.img)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    } 
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      if(pb)
-      lst <- pbmcapply::pbmclapply(unique(or.sf), mc.cores = parallel,function (i) {
-        cat2pdfFUN(i, overwrite, keep.img)
-      }) else
-      
-      lst <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function (i) {
-        cat2pdfFUN(i, overwrite, keep.img)
-      })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      lst <- foreach::foreach(i = unique(or.sf)) %dopar% {
-        cat2pdfFUN(i, overwrite, keep.img)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    }
-  } else 
-    if(pb)
-    lst <- pbapply::pblapply(unique(or.sf), function(i) cat2pdfFUN(i, overwrite, keep.img)) else
-      lst <- lapply(unique(or.sf), function(i) cat2pdfFUN(i, overwrite, keep.img))
-  
+     # set clusters for windows OS
+     if (Sys.info()[1] == "Windows" & parallel > 1)
+       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+     
+     # run loop apply function
+     a1 <- pbapply::pblapply(X = unique(or.sf), cl = cl, FUN = function(i) 
+     { 
+       cat2pdfFUN(i, overwrite, keep.img)
+     }) 
 }

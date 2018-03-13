@@ -5,7 +5,8 @@
 \title{Find overlapping selections}
 \usage{
 ovlp_sels(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, 
-drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = TRUE, indx.row = FALSE)
+drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = TRUE, 
+indx.row = FALSE, parallel = 1)
 }
 \arguments{
 \item{X}{'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -40,6 +41,9 @@ overlapped selections. Default is \code{NULL}.}
 each selection is added to the ouput data frame (if \code{index = TRUE}). For instance, if the selections in rows 1,2 
 and 3 all overlapped with each other, the 'indx.row' value would be "1/2/3" for all. However, if selection 3 only overlaps
  with 2 but not with 1, then it returns, "1/2" for row 1, "1/2/3" for row 2, and "2/3" for row 3. Default is \code{FALSE}.}
+
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 }
 \value{
 A data frame with the columns in X plus an additional column ('ovlp_sels') indicating 

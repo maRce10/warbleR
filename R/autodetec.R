@@ -76,8 +76,7 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
 #' \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR]{gray.2}} may work better when \code{fast.spec = TRUE}.
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
@@ -212,12 +211,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-      cat("parallel with progress bar is currently not available for windows OS")
-      cat("running parallel without progress bar")
-      pb <- FALSE
-    } 
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
@@ -295,8 +290,8 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
     }    
   
       # if parallel was not called 
-    if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
-      cat("Detecting signals in sound files:")}
+    if(pb) if(!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
+      cat("Detecting signals in sound files:")
     
   #create function to detec signals          
   adFUN <- function(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
@@ -407,60 +402,15 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   on.exit(rm(time.song1))
   }
   
-
   #Apply over each sound file
-  # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-    
-    i <- NULL #only to avoid non-declared objects
-    
-    cl <- parallel::makeCluster(parallel)
-      
-    doParallel::registerDoParallel(cl)
-    
-    ad <- parallel::parLapply(cl, 1:nrow(X), function(i)
-    {
-      adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
-    })
-    
-    parallel::stopCluster(cl)
-     
-  } 
-    if(Sys.info()[1] == "Linux")  {    # Run parallel in linux
-    
-      if(pb)
-        ad <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-          adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
-        }) else
-                
-    ad <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-      adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
-    })
-    }
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makeCluster(parallel) else cl <- parallel
   
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      sp <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
-      }
-      
-      parallel::stopCluster(cl)
-    }  
-    
-  } else {
-    if(pb)
-    ad <- pbapply::pblapply(1:nrow(X), function(i) 
-  {adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
-    }) else
-    ad <- lapply(1:nrow(X), function(i) 
-    {adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
-    })
-  }
+  ad <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  { 
+    adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
+  }) 
   
   results <- do.call(rbind, ad)
   
@@ -580,57 +530,17 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
       }
     } 
 
-  if(parallel > 1) {if(Sys.info()[1] == "Windows") 
-    {
     
-    z <- NULL #only to avoid non-declared objects
+    #Apply over each sound file
+    # set clusters for windows OS
+    if (Sys.info()[1] == "Windows" & parallel > 1)
+      cl <- parallel::makeCluster(parallel) else cl <- parallel
     
-    cl <- parallel::makeCluster(parallel)
-    
-    doParallel::registerDoParallel(cl)
-    
-    a1 <- parallel::parLapply(cl, unique(results$sound.files), function(z)
-    {
+    a1 <- pbapply::pblapply(X = unique(results$sound.files), cl = cl, FUN = function(z) 
+    { 
       lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = pal, fast.spec = fast.spec)
-    })
+    }) 
     
-    parallel::stopCluster(cl)
-    
-  } 
-    
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      if(pb)
-        a1 <- pbmcapply::pbmclapply(unique(results$sound.files), mc.cores = parallel, function(z) {
-          lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = pal, fast.spec = fast.spec)
-        }) else
-        
-      a1 <- parallel::mclapply(unique(results$sound.files), mc.cores = parallel, function(z) {
-        lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = pal, fast.spec = fast.spec)
-      })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      sp <- foreach::foreach(i = unique(results$sound.files)) %dopar% {
-        lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = pal, fast.spec = fast.spec)
-      }
-      
-      parallel::stopCluster(cl)
-    }
-    
-  } else {
-    if(pb)
-     a1 <- pbapply::pblapply(unique(results$sound.files), function(z) 
-  { 
-  lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = pal, fast.spec = fast.spec)
-  }) else  a1 <- lapply(unique(results$sound.files), function(z) 
-  { 
-    lspeFUN2(X = results, z = z, fl = flim, sl = sxrow, li = rows, pal = pal, fast.spec = fast.spec)
-  })
-  
-  }
   }
 
 return(results1)

@@ -2,7 +2,7 @@
 #' 
 #' \code{dfts} extracts the dominant frequency values as a time series.
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
-#' @usage dfts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+#' @usage dfts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70,
 #' bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
 #' img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE, 
 #' clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, ...)
@@ -31,12 +31,10 @@
 #'  'threshold' value is used.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#'  Not available in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located.
 #' @param img.suffix A character vector of length 1 with a sufix (label) to add at the end of the names of 
 #' image files.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param clip.edges Logical argument to control whether edges (start or end of signal) in
 #' which amplitude values above the threshold were not detected will be removed. If 
 #' \code{TRUE} this edges will be excluded and signal contour will be calculated on the
@@ -81,7 +79,7 @@
 #' 
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on oct-26-2016 (MAS)
+#last modification on march-12-2018 (MAS)
 
 dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
                   bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL,
@@ -99,8 +97,6 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-  
-  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -150,21 +146,8 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
-  
-  #if parallel
-  if(all(parallel > 1, img, !Sys.info()[1] %in% c("Linux","Windows"))) {
-    parallel <- 1
-    cat("creating images is not compatible with parallel computing (parallel > 1) in OSX (mac)")
-  }
-  
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) {if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
-    cat("measuring dominant frequency:")}  
+  if(pb) if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
+    cat("measuring dominant frequency:") 
   
   dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec){
     
@@ -241,57 +224,22 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     return(apdom$y)  
   } 
 
-  # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-      
-      i <- NULL #only to avoid non-declared objects
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    } 
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-     if(pb)
-       lst <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-         dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
-       }) else
-       lst <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-        dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
-      })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      lst <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    }
-  } else {
-   if(pb)
-     lst <- pbapply::pblapply(1:nrow(X), function(i) dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)) else
-       lst <- lapply(1:nrow(X), function(i) dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec))
-  }
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  lst <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  { 
+ dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
+  }) 
   
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
             
     df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)
          return(df)
-
     }

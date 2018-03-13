@@ -10,8 +10,7 @@
 #' If \code{NULL} (default) then the current working directory is used. 
 #' @param dest.path Character string containing the directory path where the cut sound files will be saved.
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param file.ext Character string defining the file extension for the files to be consolidated. Default is \code{'\\.WAV$'}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -106,63 +105,22 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
-  
   
   #create function to run within Xapply functions downstream     
   copyFUN <- function(i, dp, df) file.copy(from = file.path(df$original_dir[i], df$old_name[i]), to = file.path(dp, df$new_name[i]), ...)
 
-  # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-      
-      i <- NULL #only to avoid non-declared objects
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      out <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        copyFUN(i, dp = dest.path, df = X)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    } 
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      if(pb)       
-        out <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-          copyFUN(i, dp = dest.path, df = X)
-        }) else
-          out <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-            copyFUN(i, dp = dest.path, df = X)
-          })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      out <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        copyFUN(i, dp = dest.path, df = X)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    }
-  }
-  else {
-    if(pb)
-      out <- pbapply::pblapply(1:nrow(X), function(i) copyFUN(i, dp = dest.path, df = X)) else 
-        out <- lapply(1:nrow(X), function(i) copyFUN(i, dp = dest.path, df = X))
-  }
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  a1 <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  { 
+    copyFUN(i, dp = dest.path, df = X)
+  })
   
   if(save.csv) write.csv(X, row.names = FALSE, file = file.path(dest.path, "file_names_info.csv"))
 return(X)

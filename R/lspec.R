@@ -42,8 +42,7 @@
 #'   file in the working directory will be analyzed. Default is \code{FALSE}.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
@@ -82,7 +81,7 @@
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on nov-12-2016 (MAS)
+#last modification on mar-13-2018 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
                   wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE) {
@@ -174,13 +173,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
-  
   # redo
   if(!redo) 
     files <- files[!gsub(".wav$","", list.files(pattern = "\\.wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
@@ -192,8 +184,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
   #stop if files are not in working directory
   if(length(files) == 0) stop("all .wav files have been processed")
   
-    #create function for making spectrograms
-   lspecFUN <-function(z, fl, sl, li, ml, malo) {
+  #create function for making spectrograms
+  lspecFUN <-function(z, fl, sl, li, ml, malo) {
     
           #loop to print spectros  
     rec <- tuneR::readWave(z) #read wave file 
@@ -273,54 +265,17 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collev = seq(
     )
     }
     
-   #Apply over each sound file
-   # Run parallel in windows
-   if(parallel > 1) {
-     if(Sys.info()[1] == "Windows") {
-       
-       z <- NULL
-       
-       cl <- parallel::makeCluster(parallel)
-       
-       doParallel::registerDoParallel(cl)
-       
-       sp <- foreach::foreach(z = files) %dopar% {
-         lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
-       }
-       
-       parallel::stopCluster(cl)
-       
-     } 
-     if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-       
-      if(pb) 
-        sp <- pbmcapply::pbmclapply(files, mc.cores = parallel, function (z) {
-          lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
-        }) else
-        sp <- parallel::mclapply(files, mc.cores = parallel, function (z) {
-         lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
-       })
-     }
-     if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-     {
-       cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-       
-       doParallel::registerDoParallel(cl)
-       
-       sp <- foreach::foreach(z = files) %dopar% {
-         lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
-       }
-       
-       parallel::stopCluster(cl)
-       
-     }
-   }
-   else {
-     if(pb)
-     sp <- pbapply::pblapply(files, function(z) 
-       lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)) else
-         sp <- lapply(files, function(z) 
-           lspecFUN(z = z, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X))
-   }
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  sp <- pbapply::pblapply(X = files, cl = cl, FUN = function(i) 
+  { 
+    lspecFUN(z = i, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
+  })  
 }
 

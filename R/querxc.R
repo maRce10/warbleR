@@ -24,12 +24,10 @@
 #' @param file.name Character vector indicating the tags (or column names) to be included in the sound file names (if download = \code{TRUE}). Several tags can be included. If \code{NULL} only the 'Xeno-Canto' recording identification number ("Recording_ID") is used. Default is c("Genus", "Specific_epithet").
 #' Note that recording id is always used (whether or not is listed by users) to avoid duplicated names.
 #' @param parallel Numeric. Controls whether parallel computing is applied when downloading mp3 files.
-#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Currently only applied when downloading files. Might not 
-#' improve performance on Windows OS. 
+#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Applied both when getting metadata and downloading files.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.  
 #' @export
 #' @name querxc
@@ -99,11 +97,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
 
   # set pb options 
-  pboptions(type = ifelse(pb, "timer", "none"))
-  
-  # set clusters for windows OS
-  if (Sys.info()[1] == "Windows" & parallel > 1)
-    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
   file.name <- gsub(" ", "_", file.name) 
   file.name <- tolower(file.name) 
@@ -118,13 +112,11 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   }
   
   
-  
-  
   if(is.null(X))
   {
     
     #search recs in xeno-canto (results are returned in pages with 500 recordings each)
-    if(any(parallel == 1, Sys.info()[1] == "Linux") & pb)
+    if(pb)
       cat("Obtaining recording list...")
     
     #format JSON

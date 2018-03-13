@@ -51,7 +51,8 @@
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on jan-28-2018 (MAS)
+#last modification on mar-13-2018 (MAS)
+
 rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
                    flist = NULL, parallel = 1, pb = TRUE)
 {
@@ -75,7 +76,6 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
   if (!is.null(flist)) files <- files[files %in% flist]
   if (length(files) == 0)  stop("selected .wav files are not in working directory")
 
-
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
@@ -85,13 +85,6 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-  
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
   
   files <- files[!is.na(files)]
   
@@ -153,42 +146,20 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     } else  file.copy(from = wv, to = file.path(getwd(), "removed_silence_files", fl))
     }
   
+  if(pb) cat("searching for silence segments in wave files:")
   
-  if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("searching for silence segments in wave files:")
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
-  # Run parallel in windows
-  if(parallel > 1) {if(Sys.info()[1] == "Windows") {
-    
-    cl <- parallel::makeCluster(parallel)
-    
-    parallel::clusterExport(cl=cl) 
-    doParallel::registerDoParallel(cl)
-    
-    out <- parallel::parLapply(cl, files, function(i)
-    {
-      rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img) 
-    })
-    
-    parallel::stopCluster(cl)
-    
-    
-  } else {    # Run parallel in other operating systems
-    
-    if(pb)  
-      out <- pbmcapply::pbmclapply(files, mc.cores = parallel, function(i) {
-        rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img) 
-      }) else    
-        out <- parallel::mclapply(files, mc.cores = parallel, function(i) {
-          rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img) 
-          
-        })
-      
-  }
-  }
-  else {
-    if(pb) 
-      out <- pbapply::pblapply(files, function(i)  rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img)) else
-        out <- lapply(files, function(i)  rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img))        
-    }
-  }
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  out <- pbapply::pblapply(X = files, cl = cl, FUN = function(i) 
+  { 
+    rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img) 
+  }) 
+
+}
   

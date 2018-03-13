@@ -15,8 +15,7 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param dest.path Character string containing the directory path where the cut sound files will be saved.
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param labels String vector. Provides the column names that will be used as labels to
 #'  create sound file names. Note that they should provide unique names (otherwise 
 #'  sound files will be overwritten). Default is \code{c("sound.files", "selec")}.  
@@ -52,7 +51,7 @@
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
-#last modification on jul-5-2016 (MAS)
+#last modification on mar-12-2018 (MAS)
 
 cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
                      labels = c("sound.files", "selec"), overwrite = FALSE, ...){
@@ -118,14 +117,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-  
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
-  
+
   #create function to run within Xapply functions downstream     
   cutFUN <- function(X, i, mar, labels, dest.path){
     
@@ -153,52 +145,16 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
        
   }
   
-  # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-      
-      i <- NULL #only to avoid non-declared objects
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      out <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    } 
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      if(pb)       
-        out <- pbmcapply::pbmclapply(1:nrow(X), mc.cores = parallel, function (i) {
-          cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
-        }) else
-          out <- parallel::mclapply(1:nrow(X), mc.cores = parallel, function (i) {
-            cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
-            
-          })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      out <- foreach::foreach(i = 1:nrow(X)) %dopar% {
-        cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    }
-  }
-  else {
-    if(pb)
-      out <- pbapply::pblapply(1:nrow(X), function(i) cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)) else 
-        out <- lapply(1:nrow(X), function(i) cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path))
-  }
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  { 
+    cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
+  }) 
 }

@@ -19,14 +19,12 @@ for sound file name (sound.files), selection number (selec), and start and end t
 the start and end points of selection over which to measure noise.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-Not available in Windows OS.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{type}{Numeric. Determine the formula to be used to calculate the signal-to-noise ratio (S = signal
 , N = background noise): 

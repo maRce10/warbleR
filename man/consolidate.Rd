@@ -17,8 +17,7 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{dest.path}{Character string containing the directory path where the cut sound files will be saved.
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{file.ext}{Character string defining the file extension for the files to be consolidated. Default is \code{'\\.WAV$'}.}
 

@@ -81,8 +81,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-when parallel = 1.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 }
 \value{
 Spectrograms per selection marked with margins where background noise will be measured.

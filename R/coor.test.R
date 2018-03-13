@@ -11,8 +11,7 @@
 #' Default is  \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param rm.imcomp Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
 #'  \code{FALSE}.
 #' @param cutoff Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
@@ -94,13 +93,6 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
-  
     #create function to randomized singing events
       coortestFUN <- function(X, h){
   sub<-X[X$sing.event==h,]
@@ -178,43 +170,18 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
   return(l)}
       # )
 
-    if(parallel > 1) {if(Sys.info()[1] == "Windows") {
+      # set pb options 
+      pbapply::pboptions(type = ifelse(pb, "timer", "none"))
       
-      cl <- parallel::makeCluster(parallel)
+      # set clusters for windows OS
+      if (Sys.info()[1] == "Windows" & parallel > 1)
+        cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
       
-      doParallel::registerDoParallel(cl)
-      
-      cote <- parallel::parLapply(cl, unique(X$sing.event), function(h)
-      {
+      # run loop apply function
+      cote <- pbapply::pblapply(X =unique(X$sing.event), cl = cl, FUN = function(h) 
+      { 
         coortestFUN(X, h)
       })
-      
-      parallel::stopCluster(cl)
-      
-    } else {    # Run parallel in other operating systems
-      
-      if(pb)
-        cote <- pbmcapply::pbmclapply(unique(X$sing.event), mc.cores = parallel, function(h) {
-          coortestFUN(X, h) 
-        }) else  
-      
-      cote <- parallel::mclapply(unique(X$sing.event), mc.cores = parallel, function(h) {
-        coortestFUN(X, h)
-        })
-      
-      }
-    } else {
-      if(pb)
-      cote <- pbapply::pblapply(unique(X$sing.event), function(h) 
-    { 
-      coortestFUN(X, h)
-    }) else     
-      cote <- lapply(unique(X$sing.event), function(h) 
-    { 
-      coortestFUN(X, h)
-    })
-    
-    }
     
   df <- do.call(rbind, cote)
     

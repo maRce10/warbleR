@@ -29,14 +29,13 @@
 #'  'threshold' value is used.
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not availble in Windows OS.
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param ts.df Optional. Data frame with frequency contour time series of signals to be compared. If provided "X" is ignored.
 #' @param img.suffix A character vector of length 1 with a suffix (label) to add at the end of the names of 
 #' image files. Default is \code{NULL}.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param clip.edges Logical argument to control whether edges (start or end of signal) in
 #' which amplitude values above the threshold were not detected will be removed. If 
 #' \code{TRUE} (default) this edges will be excluded and signal contour will be calculated on the

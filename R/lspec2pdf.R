@@ -10,8 +10,7 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @export
 #' @name lspec2pdf
 #' @details The function combines  spectrograms for complete sound files from the \code{\link{lspec}} function into
@@ -37,7 +36,7 @@
 #' getwd()
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on nov-13-2016 (MAS)
+#last modification on mar-12-2018 (MAS)
 
 lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE)
 {
@@ -46,13 +45,6 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
   {wd <- getwd()
     if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
   setwd(path)} #set working directory
-  
-  #if parallel and pb in windows
-  if(parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
   
   #list jpeg files
   imgs <- list.files(pattern = "\\.jpeg$", ignore.case = TRUE)
@@ -103,52 +95,18 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
     }
     # )
   
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
-  # Run parallel in windows
-  if(parallel > 1) {
-    if(Sys.info()[1] == "Windows") {
-      
-      i <- NULL #only to avoid non-declared objects
-      
-      cl <- parallel::makeCluster(parallel)
-      
-      doParallel::registerDoParallel(cl)
-      
-      lst <- foreach::foreach(i = unique(or.sf)) %dopar% {
-        l2pdfFUN(i, overwrite, keep.img)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    } 
-    if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-      
-      if(pb)
-      lst <- pbmcapply::pbmclapply(unique(or.sf), mc.cores = parallel,function (i) {
-        l2pdfFUN(i, overwrite, keep.img)
-      }) else
-      
-      lst <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function (i) {
-        l2pdfFUN(i, overwrite, keep.img)
-      })
-    }
-    if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSX
-    {
-      cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-      
-      doParallel::registerDoParallel(cl)
-      
-      lst <- foreach::foreach(i = unique(or.sf)) %dopar% {
-        l2pdfFUN(i, overwrite, keep.img)
-      }
-      
-      parallel::stopCluster(cl)
-      
-    }
-  } else 
-    if(pb)
-    lst <- pbapply::pblapply(unique(or.sf), function(i) l2pdfFUN(i, overwrite, keep.img)) else
-      lst <- lapply(unique(or.sf), function(i) l2pdfFUN(i, overwrite, keep.img))
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  lst <- pbapply::pblapply(X = unique(or.sf), cl = cl, FUN = function(i) 
+  { 
+    l2pdfFUN(i, overwrite, keep.img)
+  }) 
   
   if(!is.null(path)) setwd(wd)
 }

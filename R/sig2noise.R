@@ -10,11 +10,9 @@
 #'   the start and end points of selection over which to measure noise.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' Not available in Windows OS.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
-#' when parallel = 1.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param type Numeric. Determine the formula to be used to calculate the signal-to-noise ratio (S = signal
 #' , N = background noise): 
 #' \itemize{
@@ -67,7 +65,7 @@
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #' @source \url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
-#last modification on jul-5-2016 (MAS)
+#last modification on mar-13-2018 (MAS)
 
 sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
                       in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10){
@@ -83,9 +81,6 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-  
-  
-  
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -122,103 +117,106 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #parallel not available on windows
-  if(parallel > 1 & Sys.info()[1] == "Windows")
-  {cat("parallel computing not availabe in Windows OS for this function")
-    parallel <- 1}
-  
-  if(parallel > 1) 
-    {if(Sys.info()[1] == "Linux" & pb) lapp <- function(X, FUN) pbmcapply::pbmclapply(X, FUN, mc.cores = parallel) else
-    lapp <- function(X, FUN) parallel::mclapply(X, FUN, mc.cores = parallel)} else {
-      if(pb) lapp <- pbapply::pblapply else lapp <- lapply}
-  
   options(warn = 0)
-  
-  SNR <- lapp(c(1:nrow(X)), function(y){
-      
+
+  # function to run over single selection
+  snr_FUN <- function(y, mar, bp, wl, type, before, in.dB, lim.dB){
+    
     # Read sound files to get sample rate and length
-      r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), header = TRUE)
-      f <- r$sample.rate
-  
-          
-      # set margin to half of signal duration
-      if(eq.dur) mar <- (X$end[y] - X$start[y])/2
-        
-      #reset time coordinates of signals if lower than 0 o higher than duration
-      stn <- X$start[y] - mar
-      enn <- X$end[y] + mar
-      mar1 <- mar
-      
-      if (stn < 0) { 
+    r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), header = TRUE)
+    f <- r$sample.rate
+    
+    
+    # set margin to half of signal duration
+    if(eq.dur) mar <- (X$end[y] - X$start[y])/2
+    
+    #reset time coordinates of signals if lower than 0 o higher than duration
+    stn <- X$start[y] - mar
+    enn <- X$end[y] + mar
+    mar1 <- mar
+    
+    if (stn < 0) { 
       mar1 <- mar1  + stn
       stn <- 0
-      }
-      
-      mar2 <- mar1 + X$end[y] - X$start[y]
-      
-      if(enn > r$samples/f) enn <- r$samples/f
-      
-      r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), from = stn, to = enn, units = "seconds", toWaveMC = TRUE)
-      
-      # add band-pass frequnecy filter
-      if (!is.null(bp)) {
-        r <- seewave::ffilter(r, f = f, from = bp[1] * 1000, ovlp = 0,
-                              to = bp[2] * 1000, bandpass = TRUE, wl = wl, 
-                              output = "Wave")
-      }
+    }
     
-      # Identify the signal
-      signal <- seewave::cutw(r, from =  mar1, to = mar2, f = f)
-      
-      # Identify areas before and after signal over which to measure noise 
-      noise1 <- seewave::cutw(r, from =  0, 
-                     to = mar1, f = f)
-      
-
-      noise2 <- seewave::cutw(r, from = mar2, to = seewave::duration(r), f = f)
-      
-      if(type == 1)
-  {    # Calculate mean noise amplitude 
+    mar2 <- mar1 + X$end[y] - X$start[y]
+    
+    if(enn > r$samples/f) enn <- r$samples/f
+    
+    r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), from = stn, to = enn, units = "seconds", toWaveMC = TRUE)
+    
+    # add band-pass frequnecy filter
+    if (!is.null(bp)) {
+      r <- seewave::ffilter(r, f = f, from = bp[1] * 1000, ovlp = 0,
+                            to = bp[2] * 1000, bandpass = TRUE, wl = wl, 
+                            output = "Wave")
+    }
+    
+    # Identify the signal
+    signal <- seewave::cutw(r, from =  mar1, to = mar2, f = f)
+    
+    # Identify areas before and after signal over which to measure noise 
+    noise1 <- seewave::cutw(r, from =  0, to = mar1, f = f)
+    
+    
+    noise2 <- seewave::cutw(r, from = mar2, to = seewave::duration(r), f = f)
+    
+    if(type == 1)
+    {    # Calculate mean noise amplitude 
       if(before)   
         noisamp <- mean(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
-         noisamp <- mean(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
-                        seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
-      
-      # Calculate mean signal amplitude 
-      sigamp <- mean(seewave::env(signal, f = f, envt = "abs", plot = FALSE))}
-      
-      if(type == 2)
-      {    # Calculate mean noise amplitude 
-        if(before)   
-          noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
-        noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
-                          seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
+          noisamp <- mean(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
+                            seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
+        
+        # Calculate mean signal amplitude 
+        sigamp <- mean(seewave::env(signal, f = f, envt = "abs", plot = FALSE))}
+    
+    if(type == 2)
+    {    # Calculate mean noise amplitude 
+      if(before)   
+        noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
+          noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
+                                    seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
         
         # Calculate mean signal amplitude 
         sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))}
-      
-      if(type == 3)
-      {    # Calculate mean noise amplitude 
-        if(before)   
-          noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
+    
+    if(type == 3)
+    {    # Calculate mean noise amplitude 
+      if(before)   
+        noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
           noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
-                         seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
+                                    seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
         
         # Calculate mean signal amplitude 
         sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
         sigamp <- sigamp - noisamp
-        }
-      
-      
-      # Calculate signal-to-noise ratio
-      snr <- sigamp / noisamp
+    }
     
-      #set lowest dB limit
-      if(in.dB & lim.dB) snr[snr <= 0] <- 0.01
-      
-      if(in.dB) return(20*log10(snr)) else return(snr)
     
-  })
+    # Calculate signal-to-noise ratio
+    snr <- sigamp / noisamp
+    
+    #set lowest dB limit
+    if(in.dB & lim.dB) snr[snr <= 0] <- 0.01
+    
+    if(in.dB) return(20*log10(snr)) else return(snr)
+    
+  }
+   
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+  # run loop apply function
+  SNR <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  { 
+    snr_FUN(y = i, mar, bp, wl, type, before, in.dB, lim.dB)
+  }) 
       
     # Add SNR data to manualoc output
     z <- data.frame(X[d,], SNR = unlist(SNR))

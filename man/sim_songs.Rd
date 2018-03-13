@@ -6,7 +6,8 @@
 \usage{
 sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
 samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", 
-fin = 0.1, fout = 0.2, shape = "linear")
+fin = 0.1, fout = 0.2, shape = "linear", selec_table = FALSE, file_name = NULL,
+path = NULL)
 }
 \arguments{
 \item{n}{Number of song subunits (e.g. elements). Default is 1.}
@@ -52,6 +53,18 @@ Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.}
 
 \item{shape}{Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
 ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.}
+
+\item{selec_table}{Logical. If \code{TRUE} a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
+is saved as a ".wav" file in the working directory. Defaul is \code{FALSE}.}
+
+\item{file_name}{Character string for naming the ".wav" file. Ignored if 
+'selec_table' is \code{FALSE}. If not provided the date-time stamp will be used.}
+
+\item{path}{Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is \code{FALSE}.
+If \code{NULL} (default) then the current working directory is used.}
+}
+\value{
+A wave object containing the simulated songs. If 'selec_table' is \code{TRUE} the function returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) a wave object.
 }
 \description{
 \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
