@@ -4,7 +4,7 @@
 \alias{consolidate}
 \title{Consolidate sound files into a single folder}
 \usage{
-consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", 
+consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".WAV$", 
 parallel = 1, save.csv = TRUE, ...)
 }
 \arguments{
@@ -19,7 +19,7 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
-\item{file.ext}{Character string defining the file extension for the files to be consolidated. Default is \code{'\\.WAV$'}.}
+\item{file.ext}{Character string defining the file extension for the files to be consolidated. Default is \code{'.wav$'} ignoring case.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}

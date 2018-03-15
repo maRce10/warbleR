@@ -57,11 +57,8 @@
 #' # Set temporary working directory
 #' # setwd(tempdir())
 #' # save sound file examples
-#' data(list = c("Phae.long1", "Phae.long2","selec.table"))
+#' data(list = c("Phae.long1", "selec.table"))
 #' writeWave(Phae.long1,"Phae.long1.wav") 
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#'  writeWave(Phae.long3,"Phae.long3.wav")
-#'  writeWave(Phae.long4,"Phae.long4.wav")
 #' 
 #' # variable collevels
 #' spec_param(X = selec.table, wl = 164, ovlp = c(90), wn = c("flattop"), 
@@ -100,7 +97,7 @@
 #'   "reverse.terrain.colors", "reverse.cm.colors"), 
 #'   length.out = 4, nrow = 5, ncol = 10, width = 20, height = 11.3, rm.axes = TRUE,
 #'    cex = 0.7, group.tag = "wn",  spec.mar = 0.4, lab.mar = 0.8, box = FALSE, 
-#'    tag.pal = reverse.cm.colors)
+#'    tag.pal = list(reverse.cm.colors))
 
 
 #' 
@@ -172,7 +169,7 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   
   X$lbs <- gsub(" \n$| $|  $|^ |^  ", "", X$lbs)  
   
-  catalog(X = X, ovlp = X$ovlp, wl = X$wl, collev = "collev.min", title = paste(X$sound.files[1], X$selec2[1]), rm.axes = rm.axes,
+  catalog(X = X, ovlp = X$ovlp, wl = X$wl, collev = "collev.min", title = paste(X$sound.files[1], X$selec2[1]), rm.axes = rm.axes, img.suffix = "spec_param", 
                   wn = X$wn, pal = "pal.list", path = path, labels = c("lbs"), ...)
   
 }

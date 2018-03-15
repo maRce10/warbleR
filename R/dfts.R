@@ -4,8 +4,9 @@
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage dfts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70,
 #' bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
-#' img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE, 
-#' clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, ...)
+#' img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE,
+#' clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1,
+#'  raw.contour = FALSE, ...)
 #' @param  X 'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -84,7 +85,7 @@
 dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
                   bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL,
                   img = TRUE, parallel = 1,
-                  path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, ...){     
+                  path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, raw.contour = FALSE, ...){     
   
   # reset working directory 
   wd <- getwd()
@@ -149,7 +150,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   if(pb) if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
     cat("measuring dominant frequency:") 
   
-  dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec){
+  dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec, raw.contour){
     
     # Read sound files to get sample rate and length
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
@@ -162,43 +163,48 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
     
-    if(frange.detec)
-    {frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
+    if(frange.detec){
+      frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
     
     if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
     
     # calculate dominant frequency at each time point     
-    dfreq1 <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
+    dfrq1 <- seewave::dfreq(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
                              threshold = threshold)
     
-    dfreq <- dfreq1[!is.na(dfreq1[,2]), ]
-    dfreq <- dfreq[dfreq[,2] > b[1]/1000, ]
+    dfrq <- dfrq1[!is.na(dfrq1[,2]), ]
+    dfrq <- dfrq[dfrq[,2] > b[1]/1000, ]
     
-    if(nrow(dfreq) < 2) {apdom <- list()
-    apdom$x <- dfreq1[, 1]
+    try(dfrq <- cbind(dfrq, dfrq[, 1] + X$start[i]), silent = TRUE)
+    try(colnames(dfrq) <- c("relative.time", "frequency", "absolute.time"), silent = TRUE)
+    try(dfrq <- dfrq[, c(3, 1, 2)], silent = TRUE)
+    if(!raw.contour){ 
+     if(nrow(dfrq) < 2) {apdom <- list()
+    apdom$x <- dfrq1[, 1]
     apdom$y <- rep(NA, length.out)
     apdom1 <- apdom
     
     } else {
-      if(!clip.edges)
-      {        apdom <- approx(dfreq[,1], dfreq[,2], xout = seq(from = dfreq1[1, 1], 
-                                                                to = dfreq1[nrow(dfreq1), 1], length.out = length.out),
+      if(!clip.edges) {        
+        apdom <- approx(dfrq[,1], dfrq[,2], xout = seq(from = dfrq1[1, 1], 
+                                                                to = dfrq1[nrow(dfrq1), 1], length.out = length.out),
                                method = "linear")
       apdom1 <- apdom
-      } else {
-        apdom <- approx(dfreq[,1], dfreq[,2], 
-                        xout = seq(from = dfreq[1, 1],  to = dfreq[nrow(dfreq), 1], 
+      } else 
+        {
+        apdom <- approx(dfrq[,1], dfrq[,2], 
+                        xout = seq(from = dfrq[1, 1],  to = dfrq[nrow(dfrq), 1], 
                                    length.out = length.out), method = "linear")
         
         #fix for ploting with trackfreqs
-        dfreq1[,2][is.na(dfreq1[,2])] <- 0
+        dfrq1[,2][is.na(dfrq1[,2])] <- 0
         
         #calculate time at start and end with no amplitude detected (duration of clipped edges)
-        durend1 <- suppressWarnings(diff(range(dfreq1[,1][rev(cumsum(rev(dfreq1[,2])) == 0)])))
+        durend1 <- suppressWarnings(diff(range(dfrq1[,1][rev(cumsum(rev(dfrq1[,2])) == 0)])))
         durend <- durend1
         if(is.infinite(durend) | is.na(durend)) durend <- 0
         
-        durst1 <- suppressWarnings(diff(range(dfreq1[,1][cumsum(dfreq1[,2]) == 0])))   
+        durst1 <- suppressWarnings(diff(range(dfrq1[,1][cumsum(dfrq1[,2]) == 0])))   
         durst <- durst1
         if(is.infinite(durst) | is.na(durst)) durst <- 0
         
@@ -214,14 +220,15 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
       } 
     }
     
-    
     if(img) 
       trackfreqs(X[i,], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
                  parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
                  custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom1$y)), xl = ifelse(frange.detec, 1.8, 1), fsmooth = fsmooth, frange.detec = frange.detec, ...)
       
       
-    return(apdom$y)  
+    return(apdom$y) 
+    } else
+  return(dfrq)  
   } 
 
   # set pb options 
@@ -234,12 +241,17 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   # run loop apply function
   lst <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
- dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec)
+ dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.detec, raw.contour)
   }) 
   
-  df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
+  if(!raw.contour)
+{  df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
             
     df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)
-         return(df)
+         return(df)}  else
+         {
+          names(lst) <- paste(X$sound.files, X$selec, sep = "-") 
+         return(lst)
+          }
     }
