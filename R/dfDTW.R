@@ -121,8 +121,6 @@ dfDTW <-  function(X = NULL, wl = 512, wl.freq = 512, length.out = 20, wn = "han
     res <- ts.df
   }
   
-
-  
     #matrix of dom freq time series
   mat <- res[,3:ncol(res)]
   

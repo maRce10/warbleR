@@ -169,10 +169,11 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
                        inner.mar = c(5,4,4,2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1,
                        title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, 
                        bp = c(0, 22), cex = c(0.6, 1), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
-                       contour = "both", 
-                       col = c("skyblue", "red2"),  pch = c(21, 24), mar = 0.05, lpos = "topright", 
+                       contour = "both", col = c("skyblue", "red2"),  pch = c(21, 24), mar = 0.05, lpos = "topright", 
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
-                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...){     
+                       type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, 
+                       ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), 
+                       freq.continuity = NULL, clip.edges = 2, ...){     
   
   # reset working directory 
   wd <- getwd()
@@ -255,7 +256,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
     if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
     
     # Compare custom.contour to X
-    if(!is.null(custom.contour)){
+    if(!is.null(custom.contour) & is.data.frame(custom.contour)){
       #check if sound.files and selec columns are present and in the right order
       if(!identical(names(custom.contour)[1:2], c("sound.files", "selec"))) stop("'sound.files' and/or 'selec' columns are not found in custom.contour")
       
@@ -483,11 +484,18 @@ if(!frange.detec){
     
     # Use freq values provided by user   
     if(!is.null(custom.contour))
-    {    
-      custom <- custom.contour[i, 3:ncol(custom.contour)]
+    { 
+      if (!is.data.frame(custom.contour)) {
+        custom <- custom.contour[[i]]
+        freq1 <- custom.contour[[i]][ , 2:3]
+        freq <- freq1[!is.na(freq1[,2]),]
+      } else
+     { 
+       custom <- custom.contour[i, 3:ncol(custom.contour)]
       timeaxis <- seq(from = 0,  to = X$end[i] - X$start[i], length.out = length(custom))
       freq1 <- cbind(timeaxis, t(custom))
-      freq <- freq1[!is.na(freq1[,2]),]  
+      freq <- freq1[!is.na(freq1[,2]),] 
+      } 
       
       # Plot extreme values dominant frequency
       points(c(freq[c(which.max(freq[,2]),which.min(freq[,2])),1])+mar1, c(freq[c(which.max(freq[,2]),

@@ -2,9 +2,9 @@
 % Please edit documentation in R/consolidate.R
 \name{consolidate}
 \alias{consolidate}
-\title{Consolidate sound files into a single folder}
+\title{Consolidate (sound) files into a single folder}
 \usage{
-consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".WAV$", 
+consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", 
 parallel = 1, save.csv = TRUE, ...)
 }
 \arguments{
@@ -36,7 +36,9 @@ a '.csv' file with the information about file location, old and new names (if an
 \code{consolidate} copies (sound) files scattered in several directories into a single folder.
 }
 \details{
-This function allow users to put files scattered in several folders in a single folder.
+This function allow users to put files scattered in several folders in a 
+single folder. By default it works on sound files in '.wav' format but can work with
+other type of files (for instance '.txt' selection files).
 }
 \examples{
 { 

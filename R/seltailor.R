@@ -143,7 +143,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   # merge ts.df and X
   if(!is.null(ts.df))
   {  
-    if(nrow(X) != ts.df) stop("number of rows in 'ts.df' and 'X' do not match")
+    if(nrow(X) != nrow(ts.df)) stop("number of rows in 'ts.df' and 'X' do not match")
     
       ncl <- names(ts.df)[-c(1:2)]
     X <- merge(X, ts.df, by = c("sound.files", "selec"))
