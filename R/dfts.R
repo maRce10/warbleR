@@ -6,7 +6,7 @@
 #' bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
 #' img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE,
 #' clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1,
-#'  raw.contour = FALSE, track.harm = FALSE, ...)
+#'  raw.contour = FALSE, track.harm = FALSE, adjust.wl = FALSE, ...)
 #' @param  X 'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -52,8 +52,9 @@
 #'  (i.e. without interpolating values to make all contours of equal length) is returned.
 #' @param track.harm Logical. If true warbleR's \code{\link{track_harm}} function is 
 #' used to track frequency contours. Otherwise seewave's \code{\link[seewave]{dfreq}} is used by default. 
-#' graphical output.
-#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}.
+#' @param adjust.wl Logical. If \code{TRUE} the 'wl' is reset to be equal at the 
+#' number of samples in a selections if the samples are less than 'wl'. Default is \code{FALSE}.
+#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}.
 #' @return If \code{raw.contour = TRUE} (default) a data frame with the dominant frequency values measured across the signals.  Otherwise, a list with the raw frequency detections (i.e. without interpolating values to make all contours of equal length) is returned. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies 
@@ -90,14 +91,15 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
                   bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL,
                   img = TRUE, parallel = 1,
                   path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, raw.contour = FALSE, 
-                  track.harm = FALSE, ...){     
+                  track.harm = FALSE, adjust.wl = FALSE, ...){     
   
-  # reset working directory 
+  # reset working directory and default parameters
   wd <- getwd()
   on.exit(setwd(wd))
-  
   op.dig <- options(digits = 5)
-  on.exit(options(digits = op.dig$digits))
+  
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
   
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
@@ -133,8 +135,6 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
   if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
   
-  if(track.harm) trckFUN <- warbleR::track_harm else trckFUN <- seewave::dfreq
-  
   # threshold adjustment
   if(is.null(threshold.time)) threshold.time <- threshold
   if(is.null(threshold.freq)) threshold.freq <- threshold
@@ -159,7 +159,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   if(pb) if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
     cat("measuring dominant frequency:") 
   
-  dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc, raw.contour){
+  dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc, raw.contour, track.harm, adjust.wl){
     
     # Read sound files to get sample rate and length
     r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
@@ -178,11 +178,15 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
     
     # calculate dominant frequency at each time point     
-    dfrq1 <- trckFUN(r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE, 
-                             threshold = threshold)
+    dfrq1 <- track_harm(wave = r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE,
+                             threshold = threshold, dfrq = !track.harm, adjust.wl = adjust.wl)
     
-    dfrq <- dfrq1[!is.na(dfrq1[,2]), ]
-    dfrq[dfrq[,2] < b[1]/1000, ] <- NA
+        dfrq <- dfrq1[!is.na(dfrq1[,2]), ]
+        if(nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+        
+        dfrq[dfrq[,2] < b[1]/1000, ] <- NA
+        if(nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+        
     
     if(!raw.contour){ 
      if(nrow(dfrq) < 2) {apdom <- list()
@@ -243,7 +247,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
       } 
     if(!raw.contour) return(apdom$y)  else return(dfrq)  
   } 
-
+  
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
@@ -254,7 +258,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   # run loop apply function
   lst <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
- dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc = frange.detec, raw.contour)
+ dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc = frange.detec, raw.contour, track.harm, adjust.wl)
   }) 
   
   if(!raw.contour)

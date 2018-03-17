@@ -3,7 +3,8 @@
 #' \code{track_harm} tracks the frequency contour of the dominant harmonic.
 #' @usage track_harm(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, at = NULL, 
 #' tlim = NULL, threshold = 10, bandpass = NULL, clip = NULL, plot = TRUE, 
-#' xlab = "Times (s)", ylab = "Frequency (kHz)",  ylim = c(0, f/2000), ...) 
+#' xlab = "Times (s)", ylab = "Frequency (kHz)",  ylim = c(0, f/2000),
+#' adjust.wl = FALSE, dfrq = FALSE, ...) 
 #' @param wave A 'wave' object produced by \code{\link[tuneR]{readWave}} or similar functions.
 #' @param f Sampling frequency of the wave object (in Hz). Does not need to be specified if embedded in wave.
 #' @param wl A numeric vector of length 1 specifying the window length for the FFT, default 
@@ -24,8 +25,10 @@
 #' @param xlab Label of the time axis.
 #' @param ylab Label of the frequency axis.
 #' @param ylim A numeric vector of length 2 for the frequency limit of 
-#'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, f/2000).
-
+#'  the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, f/2000).
+#' @param adjust.wl Logical. If \code{TRUE} the 'wl' is reset to be equal at the 
+#' number of samples in a selections if the samples are less than 'wl'. Default is \code{FALSE}.
+#' @param dfrq Logical. If \code{TRUE} seewave's \code{\link[seewave]{dfreq}} is used instead. Default is \code{FALSE}.
 #' @param ... Additional arguments to be passed to the plotting function.
 #' @seealso \code{\link{trackfreqs}} for tracking frequencies iteratively on selections tables.
 #' @export
@@ -52,15 +55,26 @@
 track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, 
           at = NULL, tlim = NULL, threshold = 10, bandpass = NULL, 
           clip = NULL, plot = TRUE, xlab = "Times (s)", ylab = "Frequency (kHz)", 
-          ylim = c(0, f/2000), ...) 
+          ylim = c(0, f/2000), adjust.wl = FALSE, dfrq = FALSE, ...) 
 {
+  
+  if(length(inputw(wave = wave, f = f)$w) < wl) {
+    if(adjust.wl) wl <- length(wave) else
+      stop("number of samples lower than 'wl' (i.e. no enough samples) \n check 'adjust.wl' argument")
+  } 
+  
+  if(dfrq) dfreq(wave, f, wl, wn, ovlp, fftw, at, tlim, threshold, bandpass, 
+                 clip, plot, xlab, ylab, ylim) else {
+
+                   
+  
   if (!is.null(at) && ovlp != 0) 
     stop("The 'ovlp' argument cannot bue used in conjunction with the arguement 'at'.")
   if (!is.null(clip)) {
     if (clip <= 0 | clip >= 1) 
       stop("'clip' value has to be superior to 0 and inferior to 1")
   }
-  
+ 
   input <- inputw(wave = wave, f = f)
   wave <- input$w
   f <- input$f
@@ -139,6 +153,8 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
     plot(x = x, y = y, xaxs = "i", xlab = xlab, yaxs = "i", 
          ylab = ylab, ylim = ylim, ...)
     invisible(cbind(x, y))
-  }
+    }
   else return(cbind(x, y))
-}
+  }
+  
+} 

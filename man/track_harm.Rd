@@ -6,7 +6,8 @@
 \usage{
 track_harm(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, at = NULL, 
 tlim = NULL, threshold = 10, bandpass = NULL, clip = NULL, plot = TRUE, 
-xlab = "Times (s)", ylab = "Frequency (kHz)",  ylim = c(0, f/2000), ...)
+xlab = "Times (s)", ylab = "Frequency (kHz)",  ylim = c(0, f/2000),
+adjust.wl = FALSE, dfrq = FALSE, ...)
 }
 \arguments{
 \item{wave}{A 'wave' object produced by \code{\link[tuneR]{readWave}} or similar functions.}
@@ -44,6 +45,11 @@ across the entire wave object).}
 
 \item{ylim}{A numeric vector of length 2 for the frequency limit of 
 the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, f/2000).}
+
+\item{adjust.wl}{Logical. If \code{TRUE} the 'wl' is reset to be equal at the 
+number of samples in a selections if the samples are less than 'wl'. Default is \code{FALSE}.}
+
+\item{dfrq}{Logical. If \code{TRUE} seewave's \code{\link[seewave]{dfreq}} is used instead. Default is \code{FALSE}.}
 
 \item{...}{Additional arguments to be passed to the plotting function.}
 }
