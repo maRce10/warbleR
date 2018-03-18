@@ -63,11 +63,10 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
       stop("number of samples lower than 'wl' (i.e. no enough samples) \n check 'adjust.wl' argument")
   } 
   
-  if(dfrq) dfreq(wave, f, wl, wn, ovlp, fftw, at, tlim, threshold, bandpass, 
+  if(dfrq) seewave::dfreq(wave, f, wl, wn, ovlp, fftw, at, tlim, threshold, bandpass, 
                  clip, plot, xlab, ylab, ylim) else {
 
-                   
-  
+                
   if (!is.null(at) && ovlp != 0) 
     stop("The 'ovlp' argument cannot bue used in conjunction with the arguement 'at'.")
   if (!is.null(clip)) {
@@ -104,7 +103,7 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
   
   step <- round(step)
   y1 <- seewave::stft(wave = wave, f = f, wl = wl, zp = 0, step = step, 
-             wn = wn, fftw = fftw)
+             wn = wn)
   if (!is.null(bandpass)) {
     if (length(bandpass) != 2) 
       stop("'The argument 'bandpass' should be a numeric vector of length 2'")

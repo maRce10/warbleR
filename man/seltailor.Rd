@@ -39,7 +39,7 @@ plot, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2. Se
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
 \item{auto.next}{Logical argument to control whether the functions moves automatically to the 
-next selection. The time interval before moving to the next selection is controled by the 'pause' argument.}
+next selection. The time interval before moving to the next selection is controled by the 'pause' argument. Ignored if \code{ts.df = TRUE}.}
 
 \item{pause}{Numeric vector of length 1. Controls the duration of the waiting period before 
 moving to the next selection (in seconds). Default is 1.}

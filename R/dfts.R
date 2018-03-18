@@ -186,9 +186,11 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
         
         dfrq[dfrq[,2] < b[1]/1000, ] <- NA
         if(nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
-        
+        if(any(is.na(dfrq[1, ]))) {dfrq <- dfrq[!is.na(dfrq[ , 1]), ]
+        if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+        }
     
-    if(!raw.contour){ 
+  if(!raw.contour){ 
      if(nrow(dfrq) < 2) {apdom <- list()
     apdom$x <- dfrq1[, 1]
     apdom$y <- rep(NA, length.out)
@@ -234,7 +236,9 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     {
       dfrq <- cbind(dfrq, X$start[i] + dfrq[, 1])
       colnames(dfrq) <- c("relative.time", "frequency", "absolute.time")
+      if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
       dfrq <- dfrq[, c(3, 1, 2)]
+      if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
       
       cstm.cntr <- list(dfrq)}
 

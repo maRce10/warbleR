@@ -27,7 +27,7 @@
 #' @param ovlp Numeric vector of length 1 specifying the percent overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
 #' @param auto.next Logical argument to control whether the functions moves automatically to the 
-#' next selection. The time interval before moving to the next selection is controled by the 'pause' argument.
+#' next selection. The time interval before moving to the next selection is controled by the 'pause' argument. Ignored if \code{ts.df = TRUE}. 
 #' @param pause Numeric vector of length 1. Controls the duration of the waiting period before 
 #' moving to the next selection (in seconds). Default is 1. 
 #' @param comments Logical argument specifying if 'sel.comment' (when in data frame) should be included 
@@ -139,14 +139,33 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     auto.next <- FALSE
   }
   
-  
   # merge ts.df and X
   if(!is.null(ts.df))
-  {  
+  {  if(is.data.frame(ts.df))
+    {
     if(nrow(X) != nrow(ts.df)) stop("number of rows in 'ts.df' and 'X' do not match")
-    
-      ncl <- names(ts.df)[-c(1:2)]
+    ncl <- names(ts.df)[-c(1:2)]
     X <- merge(X, ts.df, by = c("sound.files", "selec"))
+    } else 
+      { # if ts.df is a list
+      if(nrow(X) != length(ts.df)) stop("number of rows in 'X' and length of 'ts.df' do not match")
+    
+    mxts <- max(sapply(ts.df, nrow))  
+    
+    out <- lapply(1:length(ts.df), function(x)
+      {
+      z <- ts.df[[x]]
+     df <- data.frame(t(c(z$frequency, rep(NA, mxts - nrow(z)), z$absolute.time, rep(NA, mxts - nrow(z)))))
+     colnames(df) <- paste0(colnames(df), rep(c("...FREQ", "...TIME"), each = mxts))
+    df$sound.files.selec <- names(ts.df)[x] 
+    return(df)  
+    })
+    
+    ts.df2 <- do.call(rbind, out)
+    X$sound.files.selec <- paste(X$sound.files, X$selec, sep = "-")
+    X <- merge(X, ts.df2, by = c("sound.files.selec"))
+    ncl <- names(ts.df2)[-ncol(ts.df2)]
+    }
   }
   
   #if X is not a data frame
@@ -229,7 +248,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     spectro_wrblr_int(tuneR::readWave(as.character(X$sound.files[j]),from =  tlim[1], to = tlim[2], units = "seconds"), 
                       f = f, wl = wl, ovlp = ovlp, wn = wn, heights = c(3, 2), 
                       osc = osci, palette =  pal, main = NULL, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "#07889B", collevels = collevels,
-                      flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, ...)
+                      flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, 
+                      ...)
     if(!osci)
     {
       mtext("Time (s)", side=1, line= 1.8)
@@ -245,7 +265,6 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     y <- fl[2] + diff(fl) *  0.022
     lines(x = c(0, x2), y = rep(y, 2), lwd = 7, col = adjustcolor("#E37222", alpha.f = 0.6), xpd = TRUE)
     text(x = x2 + (diff(tlim) * 0.017), y = y, xpd = TRUE, labels = paste0(floor(prct * 100), "%"), col = "#E37222", cex = 0.8)
-    
     
     #add lines of selections on spectrogram
     if(any(is.na(X$bottom.freq[j]), is.na(X$top.freq[j])))
@@ -286,8 +305,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     if(!is.null(ts.df))
       if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]))
       {
-        
-        Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha)
+        Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha, l = !is.data.frame(ts.df))
         X[, ncl] <- Y$ts.df
         xy <- Y$xy
         rm(Y)
@@ -372,8 +390,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       if(!is.null(ts.df))
         if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]))
         {
-          
-          Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha)
+          Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha, l = !is.data.frame(ts.df))
           X[, ncl] <- Y$ts.df
           xy <- Y$xy
           rm(Y)
@@ -497,5 +514,4 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       }
     } 
   }
-  
 }
