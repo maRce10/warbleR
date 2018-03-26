@@ -40,6 +40,13 @@
 
 lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE)
 {
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   #check path to working directory
   if(!is.null(path))
   {wd <- getwd()

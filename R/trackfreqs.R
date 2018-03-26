@@ -179,6 +179,9 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
   wd <- getwd()
   on.exit(setwd(wd))
   
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
@@ -486,15 +489,21 @@ if(!frange.detec){
     if(!is.null(custom.contour))
     { 
       if (!is.data.frame(custom.contour)) {
-        custom <- custom.contour[[i]]
-        freq1 <- custom.contour[[i]][ , 2:3]
-        freq <- freq1[!is.na(freq1[,2]),]
-      } else
+        custom <- try(custom.contour[[i]], silent = TRUE)
+        if (class(custom) == "try-error") {
+          custom <- rep(NA, 3)
+          freq1 <- matrix(rep(NA, 2), ncol = 2)
+          } else {
+          freq1 <- try(custom.contour[[i]][ , 2:3], silent = TRUE)
+        if (class(freq1) == "try-error") freq1 <- custom.contour[ , 2:3, drop = FALSE]
+  }      
+        freq <- freq1[!is.na(freq1[,2]), , drop = FALSE]
+        } else
      { 
        custom <- custom.contour[i, 3:ncol(custom.contour)]
       timeaxis <- seq(from = 0,  to = X$end[i] - X$start[i], length.out = length(custom))
       freq1 <- cbind(timeaxis, t(custom))
-      freq <- freq1[!is.na(freq1[,2]),] 
+      freq <- freq1[!is.na(freq1[,2]), , drop = FALSE] 
       } 
       
       # Plot extreme values dominant frequency

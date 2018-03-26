@@ -5,7 +5,8 @@
 \title{Move/copy image files between directories}
 \usage{
 move.imgs(from = NULL, to = NULL, it = "all", cut = TRUE, 
-overwrite = FALSE, create.folder = TRUE, folder.name = "image_files")
+overwrite = FALSE, create.folder = TRUE, folder.name = "image_files", 
+parallel = 1, pb = TRUE)
 }
 \arguments{
 \item{from}{Directory path where image files to be copied are found. 
@@ -27,6 +28,11 @@ should be overwritten. Default is \code{FALSE}.}
 
 \item{folder.name}{Character string with the name of the new folder where the files will be 
 copied to. Ignored if 'to' is provided. Default is \code{"image_files"}.}
+
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
+
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 }
 \description{
 \code{move.imgs} moves/copies image files created by \code{\link{warbleR}} between 

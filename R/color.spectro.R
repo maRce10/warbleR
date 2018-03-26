@@ -159,7 +159,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   }
   
   # read wave object  
-  input <- inputw(wave = wave, f = wave@samp.rate/1000)
+  input <- inputw(wave = wave, f = wave@samp.rate)
   
   wave <- input$w
   

@@ -49,6 +49,8 @@
 coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE, 
                       rm.imcomp = FALSE, cutoff = 2, rm.solo = FALSE)
 {
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
+  
   if(!is.data.frame(X))  stop("X is not a data frame")
   
   #stop if some events have less than 10 observations

@@ -212,7 +212,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   # reset working directory 
   wd <- getwd()
   on.exit(setwd(wd))
-
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   # expand arguments for spec_param
   if (is.null(X$ovlp)) X$ovlp <- ovlp
   if (is.null(X$wl)) X$wl <- wl

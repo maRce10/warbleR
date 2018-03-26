@@ -109,6 +109,9 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   wd <- getwd()
   on.exit(setwd(wd))
   
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)

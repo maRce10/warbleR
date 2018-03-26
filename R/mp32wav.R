@@ -41,6 +41,9 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, norm
   wd <- getwd()
   on.exit(setwd(wd))
   
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   if(!is.null(from))
   {if(!file.exists(from)) stop("'path' provided does not exist")} else
     from <- wd #set working directory

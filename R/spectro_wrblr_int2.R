@@ -13,7 +13,7 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
                              scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
                              trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
                              heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast.spec = FALSE, 
-                             rm.zero = FALSE, amp.cutoff = NULL, X = NULL, pallete.2 = reverse.topo.colors, bx = TRUE, add = FALSE, collev.min = NULL, ...) 
+                             rm.zero = FALSE, amp.cutoff = NULL, X = NULL, palette.2 = reverse.topo.colors, bx = TRUE, add = FALSE, collev.min = NULL, ...) 
 {
   if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
@@ -120,7 +120,7 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
                             image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
                             if(!is.null(sel.tab))    
                               out <- lapply(1:nrow(sel.tab), function(i)
-                                image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], col = pallete.2(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)      
+                                image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], col = palette.2(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)      
                               )
                             
                             

@@ -62,6 +62,9 @@ ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE
                       priority = NULL, priority.col = NULL, unique.labs = TRUE, indx.row = FALSE, parallel = 1) 
   {
   
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   #X must be provided
   if(is.null(X)) stop("'X' must be provided (a data frame)")
   

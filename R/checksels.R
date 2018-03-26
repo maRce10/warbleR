@@ -48,6 +48,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   # reset working directory 
   wd <- getwd()
   on.exit(setwd(wd))
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
@@ -199,10 +200,11 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   
   if("top.freq" %in% names(res))
   {   
-    try(res$check.res <- ifelse((res$sample.rate/2000) - res$top.freq < 0, gsub("OK\\|", "", paste(res$check.res, "'Top.freq' higher than half the sample rate", sep = "|")), res$check.res), silent = TRUE)
+    try(res$check.res <- ifelse((res$sample.rate/2000) - res$top.freq < 0 & !is.na(res$sample.rate), gsub("OK\\|", "", paste(res$check.res, "'Top.freq' higher than half the sample rate", sep = "|")), res$check.res), silent = TRUE)
 
     if(any((((res$sample.rate[!is.na(res$duration)])/2000) - res$top.freq[!is.na(res$duration)]) < 0)) cat("\n 'top.freq' higher than half the sample rate in some selections")     
     } 
+  
   if(any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])) {cat("\n some selections for channel 2 in sound files with only 1 channel, relabeled as channel 1") 
     res$channel[!is.na(res$duration)][any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])] <- 1
   }

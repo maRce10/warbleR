@@ -3,7 +3,8 @@
 #' \code{move.imgs} moves/copies image files created by \code{\link{warbleR}} between 
 #' directories (folders).
 #' @usage move.imgs(from = NULL, to = NULL, it = "all", cut = TRUE, 
-#' overwrite = FALSE, create.folder = TRUE, folder.name = "image_files")
+#' overwrite = FALSE, create.folder = TRUE, folder.name = "image_files", 
+#' parallel = 1, pb = TRUE)
 #' @param from Directory path where image files to be copied are found. 
 #'  If \code{NULL} (default) then the current working directory is used.
 #' @param to Directory path where image files will be copied to.
@@ -17,6 +18,9 @@
 #' "folder.name" argument). Ignored if 'to' is provided. Default is \code{TRUE}.
 #' @param folder.name Character string with the name of the new folder where the files will be 
 #' copied to. Ignored if 'to' is provided. Default is \code{"image_files"}.
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @family data manipulation
 #' @seealso \code{\link{filtersels}} 
 #' @export
@@ -52,7 +56,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on feb-09-2017 (MAS)
 
-move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite = FALSE, create.folder = TRUE, folder.name = "image_files")
+move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite = FALSE, create.folder = TRUE, folder.name = "image_files", parallel = 1, pb = TRUE)
 {
   if(is.null(from)) from <- getwd()
   if(is.null(to) & !create.folder) stop("Either 'to' must be provided or 'create.folder' set to TRUE")
@@ -62,16 +66,41 @@ move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
     dir.create(to)
   }
   
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd))
+  
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
+  
   if(it == "all") pattern <- "\\.jpeg$|\\.tiff$|\\.pdf$"
   if(it == "tiff") pattern <- "\\.tiff$"
   if(it == "jpeg") pattern <- "\\.jpeg$"
   if(it == "pdf") pattern <- "\\.pdf$"
   
-  imgs <- list.files(path = from, pattern = pattern)
+  imgs <- list.files(path = from, pattern = pattern, ignore.case = TRUE)
   
-  if(length(imgs) == 0) stop(paste("No image files were found in", from))
+  if(length(imgs) == 0) cat(paste("No image files were found in", from))
   
-  a <- file.copy(from = file.path(from, imgs), to = to, overwrite = overwrite)
+  # set pb options 
+  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1)
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+  
+a <- pbapply::pblapply(X = seq(1, length(imgs), by = 10), cl = cl, FUN = function(x) 
+  { 
+    if(length(imgs) <= x + 9) y <- length(imgs) else y <- x + 9
+    
+    file.copy(from = file.path(from, imgs[x:y]), to = file.path(to, imgs[x:y]), overwrite = overwrite)  
+    }) 
+  
+  a <- unlist(a)
+  
+  # a <- file.copy(from = file.path(from, imgs), to = file.path(to, imgs), overwrite = overwrite)
   
   if(all(!a) & !overwrite) cat(paste("All files already existed in", to)) else
     if(any(!a) & !overwrite) cat(paste("Some files already existed in 'to'", to))

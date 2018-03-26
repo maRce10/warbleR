@@ -96,10 +96,14 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   # reset working directory and default parameters
   wd <- getwd()
   on.exit(setwd(wd))
+  
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   op.dig <- options(digits = 5)
   
   # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
@@ -149,8 +153,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   d <- which(X$sound.files %in% recs.wd) 
   if(length(d) == 0){
     stop("The .wav files are not in the working directory")
-  }  else 
-    X <- X[d, ]
+  }  else X <- X[d, ]
   
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -181,12 +184,12 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     dfrq1 <- track_harm(wave = r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE,
                              threshold = threshold, dfrq = !track.harm, adjust.wl = adjust.wl)
     
-        dfrq <- dfrq1[!is.na(dfrq1[,2]), ]
+        dfrq <- dfrq1[!is.na(dfrq1[,2]), , drop = FALSE]
         if(nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
         
         dfrq[dfrq[,2] < b[1]/1000, ] <- NA
         if(nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
-        if(any(is.na(dfrq[1, ]))) {dfrq <- dfrq[!is.na(dfrq[ , 1]), ]
+        if(any(is.na(dfrq[1, ]))) {dfrq <- dfrq[!is.na(dfrq[ , 1]), , drop = FALSE]
         if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
         }
     
@@ -235,16 +238,17 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     } else
     {
       dfrq <- cbind(dfrq, X$start[i] + dfrq[, 1])
+      if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
       colnames(dfrq) <- c("relative.time", "frequency", "absolute.time")
       if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
       dfrq <- dfrq[, c(3, 1, 2)]
       if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
       
-      cstm.cntr <- list(dfrq)}
+      cstm.cntr <- dfrq
+      }
 
     if (img)  
     {
-      
       trackfreqs(X[i,], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
                  parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
                  custom.contour = cstm.cntr, xl = ifelse(frange.dtc, 1.8, 1), fsmooth = fsmooth, frange.detec = frange.dtc, ...)
