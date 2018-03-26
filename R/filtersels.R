@@ -6,7 +6,7 @@
 #' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame.
-#' @param path Character string containing the directory path where the sound files are located. 
+#' @param path Character string containing the directory path where the image files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param lspec A logical argument indicating if the image files to be use for filtering were produced by the function \code{\link{lspec}}. 
 #' All the image files that correspond to a sound file must be deleted in order to be 

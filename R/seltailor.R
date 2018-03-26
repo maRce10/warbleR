@@ -6,7 +6,8 @@
 #'  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
 #'   comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
 #'   width = 15, height = 5, index = NULL, collevels = NULL, 
-#'   title = c("sound.files", "selec"), ts.df = NULL, col = "#E37222", alpha = 0.7, ...)
+#'   title = c("sound.files", "selec"), ts.df = NULL, col = "#E37222", 
+#'   alpha = 0.7, auto.contour = FALSE, ...)
 #' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
@@ -60,7 +61,11 @@
 #' 'autonext' is set to \code{FALSE}. Default is \code{NULL}. The data frame must include the 'sound.files' and 'selec' 
 #' columns for the same selections included in 'X'.
 #' @param col Character vector defining the color of the points when 'ts.df' is provided. Default is "#E37222" (orange).
-#' @param alpha Numeric of length one to adjust transparency of points when adjusting frequency contours. 
+#' @param alpha Numeric of length one to adjust transparency of points when adjusting frequency contours.
+#' @param auto.contour Logical. If \code{TRUE} contours are displayed automatically
+#' (without having to click on 'contour'). Note that adjusting the selection box 
+#' (frequency/time limits) won't be available. Default is \code{FALSE}. Ignored if
+#' 'ts.df' is not provided. 
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments. 
 #' @return data frame similar to X with the and a .csv file saved in the working directory with start and end time of 
 #'   selections.
@@ -121,7 +126,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
                        pause = 1, comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE,
                        ext.window = TRUE, width = 15, height = 5, index = NULL,
                        collevels = NULL, title = c("sound.files", "selec"), 
-                       ts.df = NULL, col = "#E37222", alpha = 0.7, ...)
+                       ts.df = NULL, col = "#E37222", alpha = 0.7, auto.contour = FALSE, ...)
 {
   
   # reset working directory 
@@ -166,7 +171,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     X <- merge(X, ts.df2, by = c("sound.files.selec"))
     ncl <- names(ts.df2)[-ncol(ts.df2)]
     }
-  }
+  } else auto.contour <- FALSE
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
@@ -293,7 +298,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     
     
     #ask users to select what to do next (1 click)
-    xy2 <- xy <- locator(n = 1, type = "n")
+    if(!auto.contour) xy2 <- xy <- locator(n = 1, type = "n") else
+    xy2 <- xy <- list(x = 0, y = 0)
+  
     
     #if selected is lower than 0 make it 
     xy$x[xy$x < 0] <- 0  
@@ -303,7 +310,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     
     # fix freq
     if(!is.null(ts.df))
-      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]))
+      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]) | auto.contour)
       {
         Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha, l = !is.data.frame(ts.df))
         X[, ncl] <- Y$ts.df

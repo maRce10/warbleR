@@ -12,7 +12,7 @@ filtersels(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "jpeg",
 files, 2) "sel": number of the selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 be used as the input data frame.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the image files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{lspec}{A logical argument indicating if the image files to be use for filtering were produced by the function \code{\link{lspec}}. 

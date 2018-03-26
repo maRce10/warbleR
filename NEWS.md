@@ -1,5 +1,21 @@
 # NEWS
 
+# warbleR 1.1.13
+## (CRAN release date: XXXX-XX-XX)
+
+## Changes and additions:
+
+* 'before' and 'eq.dur' arguments in 'snrspec' function
+* 'ts.df' argument in 'seltailor' function to adjust frequency contours
+
+## Bug fixes:
+* Change "http" to "https" protocol for accessing Xeno-Canto recordings in "querxc" 
+
+## New functions:
+
+* song_param: calculate acoustic parameters at the song (or other hierarchical) level
+* spec_param: plot catalog of a single selection with varying spectrogram (display) parameters
+
 # warbleR 1.1.12
 ## (CRAN release date: 2018-03-13)
 
@@ -12,9 +28,6 @@
 * Parallel computing in windows OS with and without progress bar
 * New arguments in 'specreator' to customize control lines/box around selections 
 * Replace internal "message" functions by "cat" (so warnings are printed in black, no red)
-
-## Bug fixes:
-* Change "http" to "https" protocol for accessing Xeno-Canto recordings in "querxc" 
 
 ## New functions:
 

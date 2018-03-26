@@ -9,6 +9,7 @@ fix_cntr_wrblr_int <- function(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, fl
   if(!l){
     ts.df.t <- seq(X$start[j], X$end[j], length.out = length(ncl)) - tlim[1] 
     ts.df <- X[, ncl]
+    ncl2 <- ncl
   } else {
       ts.df.t <- X[j, grep("...TIME", ncl, value = TRUE, fixed = TRUE)] - tlim[1]
       ncl2 <-  grep("...FREQ", ncl, value = TRUE, fixed = TRUE)

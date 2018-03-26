@@ -4,8 +4,8 @@
 #' will be measured by \code{\link{sig2noise}}.
 #' @usage snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70, 
 #' inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, 
-#' res = 100, cexlab = 1, title = TRUE, 
-#'   propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
+#' res = 100, cexlab = 1, title = TRUE, before = FALSE, eq.dur = FALSE,
+#'   propwidth= FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
 #'    snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
 #' @param  X 'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
@@ -33,6 +33,9 @@
 #'   labels. See \code{\link[seewave]{spectro}}.
 #' @param title Logical argument to add a title to individual spectrograms. 
 #'   Default is \code{TRUE}.
+#' @param before Logical. If \code{TRUE} noise is only measured right before the signal (instead of before and after). Default is \code{FALSE}.
+#' @param eq.dur Logical. Controls whether the noise segment that is measured has the same duration 
+#' than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then 'snrmar' argument is ignored.
 #' @param propwidth Logical argument to scale the width of spectrogram 
 #'   proportionally to duration of the selected call. Default is \code{FALSE}.
 #' @param xl Numeric vector of length 1, a constant by which to scale 
@@ -99,10 +102,10 @@
 #last modification on mar-13-2018 (MAS)
 
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
-                     inner.mar = c(5,4,4,2), outer.mar = c(0,0,0,0), picsize = 1, res = 100,
-                     cexlab = 1, title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE, 
-                     gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg", parallel = 1,
-                     path = NULL, pb = TRUE){
+                     inner.mar = c(5,4,4,2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100,
+                     cexlab = 1, title = TRUE, before = FALSE,  eq.dur = FALSE, propwidth = FALSE, 
+                     xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg",
+                     parallel = 1, path = NULL, pb = TRUE){
  
   # reset working directory 
   wd <- getwd()
@@ -159,7 +162,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-    snrspeFUN <- function(i, X, wl, flim, ovlp, inner.mar, outer.mar, picsize, res, cexlab, xl, mar, snrmar){
+    snrspeFUN <- function(i, X, wl, flim, ovlp, inner.mar, outer.mar, picsize, res, cexlab, xl, mar, snrmar, before, eq.dur){
     
     r <- tuneR::readWave(as.character(X$sound.files[i])) 
     f <- r@samp.rate
@@ -172,22 +175,11 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     
     
+    # set margin if eq.dur
+    if(eq.dur) snrmar <- X$end[i] -  X$start[i]
+    
     # Set mar equals to snrmar if is smaller
     if(mar < snrmar) mar <- snrmar
-    
-    # # Correct start and end time if is smaller than 0 or higher than length of rec
-    # st <- X$start[i] - mar
-    # en <- X$end[i] + mar
-    # mar1 <- mar
-    # 
-    # if (st < 0)  {
-    #   mar1 <- mar1  + st
-    #   st <- 0
-    #   }
-    # 
-    # mar2 <- mar1 + X$end[i] - X$start[i]
-    # 
-    # if(en > r$samples/f) en <- r$samples/f
 
     #reset coordinates of signals 
     st <- X$start[i] - mar
@@ -202,7 +194,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     mar2 <- mar1 + X$end[i] - X$start[i]
     
     if(en > r$samples/f) en <- r$samples/f
-    
     
     r <- tuneR::readWave(as.character(X$sound.files[i]), from = st, to = en, units = "seconds")
     
@@ -236,22 +227,16 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
       title(paste(X$sound.files[i], "-", X$selec[i], "-", "snr", sep = ""), cex.main = cexlab)
     }
     
-    # Add lines to visualize signal
-    abline(v = c(mar1, mar2), col = "red", lwd = 1.5, lty = "dashed") 
+    # Add boxes to visualize noise region
+    polygon(x = rep(c(mar1 - snrmar, mar1), each = 2), y = c(fl, sort(fl, decreasing = TRUE)), lty = 3, border = "#07889B", lwd = 1.3, col = adjustcolor("#07889B", alpha.f = 0.15))
+
+    text(x = mar1 - (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "#07889B", pos = 3)
     
-    # Add lines to visualize where noise will be measured in sig2noise
-    abline(v = c(mar1 - snrmar, mar2 + snrmar), col = "red", lwd = 1.5, lty = "dashed") 
-    
-    #add arrows/text indicating noise position
-    arrows(x0 =mar1 - snrmar, y0 = fl[1]+fl[2]/6, x1 = mar1, y1 = fl[1]+fl[2]/6, code = 3, 
-           col = "red", lty = "solid", lwd = 2, angle = 60)        
-  
-    arrows(x0 =mar2 + snrmar, y0 = fl[1]+fl[2]/6, x1 = mar2, y1 = fl[1]+fl[2]/6, code = 3, 
-           col = "red", lty = "solid", lwd = 2, angle = 60)        
-    
-    text(x = mar1 - (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3)
-    
-    text(x = mar2 + (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "red",pos = 3) 
+    if(!before)
+    {
+      polygon(x = rep(c(mar2, mar2 + snrmar), each = 2), y = c(fl, sort(fl, decreasing = TRUE)), lty = 3, border = "#07889B", lwd = 1.3, col = adjustcolor("#07889B", alpha.f = 0.15)) 
+      text(x = mar2 + (snrmar * 0.5), y = fl[1]+fl[2]/4, labels = "Noise", col = "#07889B", pos = 3) 
+      }
     
     dev.off()  
     return (NULL)
@@ -267,7 +252,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     # run loop apply function
     out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
     { 
-      snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar)
+      snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar, before,  eq.dur)
     }) 
 }
 

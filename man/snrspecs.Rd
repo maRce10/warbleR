@@ -9,8 +9,8 @@
 \usage{
 snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70, 
 inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, 
-res = 100, cexlab = 1, title = TRUE, 
-  propwidth= FALSE, xl=1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
+res = 100, cexlab = 1, title = TRUE, before = FALSE, eq.dur = FALSE,
+  propwidth= FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
    snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
@@ -50,6 +50,11 @@ labels. See \code{\link[seewave]{spectro}}.}
 
 \item{title}{Logical argument to add a title to individual spectrograms. 
 Default is \code{TRUE}.}
+
+\item{before}{Logical. If \code{TRUE} noise is only measured right before the signal (instead of before and after). Default is \code{FALSE}.}
+
+\item{eq.dur}{Logical. Controls whether the noise segment that is measured has the same duration 
+than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then 'snrmar' argument is ignored.}
 
 \item{propwidth}{Logical argument to scale the width of spectrogram 
 proportionally to duration of the selected call. Default is \code{FALSE}.}

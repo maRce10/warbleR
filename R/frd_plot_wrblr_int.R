@@ -21,7 +21,9 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
   }
   
   # fix flim
-  if(flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1 
+  if(!is.null(flim))
+  {if(flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1} else
+    flim <- c(0, ceiling(f/2000) - 1)
   
   # set limits for color rectangles down
   if(is.null(bp)) lims <- flim else lims <- bp

@@ -37,7 +37,7 @@ If \code{NULL} (default) then the current working directory is used.}
 }}
 
 \item{eq.dur}{Logical. Controls whether the noise segment that is measured has the same duration 
-than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then mar argument is ignored.}
+than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then 'mar' argument is ignored.}
 
 \item{in.dB}{Logical. Controls whether the signal-to-noise ratio is returned in decibels (20*log10(SNR)). 
 Default is \code{TRUE}.}
