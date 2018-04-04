@@ -81,7 +81,7 @@
 #'      by the dominant frequency range. 1 means the signals is not modulated. 
 #'    \item \code{startdom}:  dominant frequency measurement at the start of the signal 
 #'    \item \code{enddom}: dominant frequency measurement at the end of the signal 
-#'    \item \code{dfslope}: slope of the change in dominant through time ((enddom-startdom)/duration). Units are kHz/s.  
+#'    \item \code{dfslope}: slope of the change in dominant frequency through time ((enddom-startdom)/duration). Units are kHz/s.  
 #'    \item \code{peakf}: peak frequency. Frequency with highest energy (only generated if \code{fast = FALSE})
 #'    \item \code{meanpeakf}: Mean peak frequency. Frequency with highest energy from the 
 #'    mean spectrum (see \code{\link[seewave]{meanspec}}). Typically more consistent than peakf.

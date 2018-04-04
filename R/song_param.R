@@ -3,8 +3,8 @@
 #' \code{song_param} measures average or extreme values of acoustic parameters of 
 #' elements in a song 
 #' @usage song_param(X = NULL, weight = NULL, song_colm = "song",
-#' mean_indx = NULL, min_indx = NULL, max_indx = NULL, parallel = 1, pb = TRUE,
-#' path = NULL)
+#' mean_indx = NULL, min_indx = NULL, max_indx = NULL, sd = FALSE, 
+#' parallel = 1, pb = TRUE, na.rm = FALSE)
 #' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
@@ -22,8 +22,10 @@
 #' If  \code{NULL} the mean of all numeric columns in 'X' is returned. 
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+#' @param sd Logical value indicating whether standard deviaton is also returned for
+#' variables in which averages are reported. Default is \code{FALSE}.
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 
-#' @param path Character string containing the directory path where the sound file are located. 
+#' @param na.rm Logical value indicating whether 'NA' values should be ignored for calculations.
 #' @return A data frame similar to the input 'X' data frame, containing the mean
 #'  values for numeric acoustic parameters. Parameters to average can be defined with
 #'  'mean_indx' (otherwhise all numeric parameters are used). Parameters can be 
@@ -81,20 +83,10 @@
 
 song_param <- function(X = NULL, weight = NULL, song_colm = "song",
                        mean_indx = NULL, min_indx = NULL, max_indx = NULL, 
-                       parallel = 1, pb = TRUE, path = NULL)
+                       sd = FALSE, parallel = 1, pb = TRUE, na.rm = FALSE)
 {
-
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd))
-  
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
-  
-  #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!file.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
   
   #if parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -102,13 +94,18 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
   
   if (!any(names(X) == song_colm)) stop("'song_colm' not found")
 
+  if(!all(c("sound.files", "selec", 
+            "start", "end") %in% colnames(X))) 
+    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+                                                                   "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+  
   if (is.null(X$duration)) X$duration <- X$end - X$start
 
   if (!any(names(X) %in% weight) & !is.null(weight)) stop("'weight' column not found")
   
   if(!all(sapply(X[, mean_indx], is.numeric))) stop("not all columns in 'mean_indx' are numeric")
   
-  songparam.FUN <- function(Y, song_colm, mean_indx, min_indx, max_indx, weight) {
+  songparam.FUN <- function(Y, song_colm, mean_indx, min_indx, max_indx, weight, na.rm) {
     
     Z <- Y[1, , drop = FALSE]
     
@@ -125,27 +122,39 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
     
     if (is.null(mean_indx)) {
       mean_indx <- which(sapply(X, is.numeric))
-      mean_indx <- as.vector(mean_indx[!names(mean_indx) %in% c("selec", "channel", "song", "start", "end", "top.freq", "bottom.freq", min_indx, max_indx)])
+      mean_indx <- as.vector(mean_indx[!names(mean_indx) %in% c("selec", "channel", song_colm, "start", "end", "top.freq", "bottom.freq", min_indx, max_indx)])
       mean_indx <- mean_indx[!is.na(mean_indx)]
       }
     
-    for(u in mean_indx) Z[ ,u] <- stats::weighted.mean(x = as.vector(c(Y[, u, drop = TRUE])), w = wts, na.rm = TRUE)
+    for(u in mean_indx) Z[ , u] <- stats::weighted.mean(x = as.vector(c(Y[, u, drop = TRUE])), w = wts, na.rm = na.rm)
     
-    # set weight and calculated mean parameters
-    if (!is.null(min_indx)) for(u in min_indx)  Z[ ,u]  <- min(x = as.vector(c(Y[, u, drop = TRUE])), na.rm = TRUE)
+    if (sd){
+      W <- Z
+      
+      for(u in mean_indx) W[ , u] <- stats::sd(x = as.vector(c(Y[, u, drop = TRUE])), na.rm = na.rm)
+     
+      names(W) <- paste0("sd.", names(W))
+       }
     
-    if (!is.null(max_indx)) for(u in max_indx) Z[ ,u]  <- max(x = as.vector(c(Y[, u, drop = TRUE])), na.rm = TRUE)
+    # minimums
+    if (!is.null(min_indx)) for(u in min_indx)  Z[ ,u]  <- min(x = as.vector(c(Y[, u, drop = TRUE])), na.rm = na.rm)
+    
+    # maximums
+    if (!is.null(max_indx)) for(u in max_indx) Z[ ,u]  <- max(x = as.vector(c(Y[, u, drop = TRUE])), na.rm = na.rm)
     
     indx <- c(mean_indx, min_indx, max_indx)
     
     Z <- Z[, c(names(Z) %in% c("sound.files", song_colm, names(Z)[indx]))]
-    Z <- Z[, match(c("sound.files", "song", names(Y)[indx]), names(Z))]
+    Z <- Z[, match(c("sound.files", song_colm, names(Y)[indx]), names(Z))]
     
+    if (sd)
+    Z <- cbind(Z, W[, mean_indx, drop = FALSE])
+      
     Z$num.elemts <- nrow(Y)
     Z$start <- min(Y$start)
     Z$end <- max(Y$end)
-    try(Z$bottom.freq <- min(Y$bottom.freq), silent = TRUE)
-    try(Z$top.freq <- max(Y$top.freq), silent = TRUE)
+    try(Z$bottom.freq <- min(Y$bottom.freq, na.rm = na.rm), silent = TRUE)
+    try(Z$top.freq <- max(Y$top.freq, na.rm = na.rm), silent = TRUE)
     try(Z$freq.range <- Z$top.freq - Z$bottom.freq, silent = TRUE)
     Z$duration <- Z$end - Z$start
     Z$note.rate <- Z$num.elemts/Z$duration
@@ -153,7 +162,7 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
     return(Z)  
   }
   
-  X$.....SONGX... <- paste(X$sound.files, X$song) 
+  X$.....SONGX... <- paste(X$sound.files, X[, song_colm]) 
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
@@ -167,7 +176,7 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
   { 
     Y <- X[X$.....SONGX... == i, , drop = FALSE]
     
-    return(songparam.FUN(Y, song_colm, mean_indx, min_indx, max_indx, weight)) 
+    return(songparam.FUN(Y, song_colm, mean_indx, min_indx, max_indx, weight, na.rm)) 
   }) 
 
 return(do.call(rbind, out))

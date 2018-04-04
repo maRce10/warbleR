@@ -35,7 +35,7 @@ Note that recording id is always used (whether or not is listed by users) to avo
 \item{parallel}{Numeric. Controls whether parallel computing is applied when downloading mp3 files.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Applied both when getting metadata and downloading files.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files will be saved. 
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}

@@ -9,7 +9,8 @@ specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
   col = adjustcolor("red2", 0.6), lty = 3, mar = 0.05, it = "jpeg", 
-  parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, ...)
+  parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, 
+  sel.labels = "selec", ...)
 }
 \arguments{
 \item{X}{'selection.table' or data frame containing columns for sound file name (sound.files), 
@@ -96,7 +97,16 @@ to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
 
-\item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
+\item{by.song}{Character string with the column name containing song labels. If
+provide a single spectrogram containinig all elements for each song will be produce. Note that 
+the function assumes that song labels are not repeated within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.}
+
+\item{sel.labels}{Character string with the name of the column for selection 
+labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.}
+
+\item{...}{Additional arguments to be passed to the internal spectrogram 
+creating function for customizing graphical output. The function is a modified 
+version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }
 \value{
 Image files containing spectrograms of the signals listed in the input data frame.
@@ -116,15 +126,16 @@ high background noise levels.
 { 
 # First set empty folder
 # setwd(tempdir())
+
+# load and save data
 data(list = c("Phae.long1", "Phae.long2","selec.table"))
-writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
+writeWave(Phae.long1, "Phae.long1.wav") #save sound files
 writeWave(Phae.long2, "Phae.long2.wav")
 
 # make spectrograms
-
-specreator(selec.table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
+specreator(X = selec.table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
  
- #check this folder
+# check this folder
 getwd()
 }
 

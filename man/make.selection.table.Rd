@@ -30,10 +30,14 @@ errors due to missing or mislabeled data, or selection out of the ranges of the 
 \code{make.selection.table} converts data frames into an object of class selection.table.
 }
 \details{
-This function creates and object of class 'selection.table'. The function checks 1) if the selections listed in the data frame correspond to .wav files
-in the working directory, 2) if the sound files can be read and if so, 3) if the start and end time
-of the selections are found within the duration of the sound files. Note that the sound files 
-should be in the working directory (or the directory provided in 'path').
+This function creates and object of class 'selection.table'. The function checks 
+\itemize{
+   \item 1) if the selections listed in the data frame correspond to .wav files
+in the working directory
+   \item 2) if the sound files can be read and if so, 
+   \item 3) if the start and end time of the selections are found within the duration of the sound files
+   }
+Note that the sound files should be in the working directory (or the directory provided in 'path').
 This is useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}, \code{\link{xcorr}}, \code{\link{catalog}}, \code{\link{dfDTW}}). Note that corrupt files can be
 fixed using \code{\link{fixwavs}}) ('sox' must be installed to be able to run this function).
 The 'selection.table' class can be input in subsequent functions.

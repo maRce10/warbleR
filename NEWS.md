@@ -7,9 +7,11 @@
 
 * 'before' and 'eq.dur' arguments in 'snrspec' function
 * 'ts.df' argument in 'seltailor' function to adjust frequency contours
+* 'ts.df' argument in 'seltailor' function to adjust frequency contours
+* 'by.song' argument in 'specreator' to create full song spectrograms with labeled elements
 
 ## Bug fixes:
-* Change "http" to "https" protocol for accessing Xeno-Canto recordings in "querxc" 
+* Change "http" to "https" protocol for accessing Xeno-Canto recordings in "querxc"
 
 ## New functions:
 

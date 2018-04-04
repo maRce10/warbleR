@@ -37,17 +37,17 @@ fix_cntr_wrblr_int <- function(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, fl
     #select second point
     xy <- locator(n = 1, type = "n")
     
-    # if(!l)
-    # ts.df[j, which.min(abs(ts.df.t - xy$x))] <- xy$y else
-        ts.df[j, ncl2[which.min(abs(ts.df.t - xy$x))]] <- xy$y
+    # if on buttoms
+    out <- sapply(ending.buttons, function(w) out  <- !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[w]]) & xy$y < max(ys[[w]])))
+    
+    if(!all(out)) break  else {
+      
+      ts.df[j, ncl2[which.min(abs(ts.df.t - xy$x))]] <- xy$y
     
     #if selected is lower than 0 make it 
     xy$x[xy$x < 0] <- 0
     xy$y[xy$y < 0] <- 0 
-    
-    out <- sapply(ending.buttons, function(w) out  <- !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[w]]) & xy$y < max(ys[[w]])))
-    
-    if(!all(out)) break
+    }
     
     x <- x + 1
   }

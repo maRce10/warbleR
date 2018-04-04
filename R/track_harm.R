@@ -80,10 +80,12 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
   rm(input)
   if (!is.null(tlim)) 
     wave <- cutw(wave, f = f, from = tlim[1], to = tlim[2])
+  
   if (!is.null(threshold)) {
     wave <- afilter(wave = wave, f = f, threshold = threshold, 
                     plot = FALSE)
   }
+  
   n <- nrow(wave)
   if (!is.null(at)) {
     step <- at * f
@@ -102,7 +104,7 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
   }
   
   step <- round(step)
-  y1 <- seewave::stft(wave = wave, f = f, wl = wl, zp = 0, step = step, 
+  y1 <- seewave::stdft(wave = wave, f = f, wl = wl, zp = 0, step = step, 
              wn = wn)
   if (!is.null(bandpass)) {
     if (length(bandpass) != 2) 

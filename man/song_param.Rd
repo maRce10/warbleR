@@ -5,8 +5,8 @@
 \title{Measure acoustic parameters at the song level}
 \usage{
 song_param(X = NULL, weight = NULL, song_colm = "song",
-mean_indx = NULL, min_indx = NULL, max_indx = NULL, parallel = 1, pb = TRUE,
-path = NULL)
+mean_indx = NULL, min_indx = NULL, max_indx = NULL, sd = FALSE, 
+parallel = 1, pb = TRUE, na.rm = FALSE)
 }
 \arguments{
 \item{X}{'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -30,12 +30,15 @@ value is needed. Default is \code{NULL}.}
 value is needed. Default is \code{NULL}.
 If  \code{NULL} the mean of all numeric columns in 'X' is returned.}
 
+\item{sd}{Logical value indicating whether standard deviaton is also returned for
+variables in which averages are reported. Default is \code{FALSE}.}
+
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 
-\item{path}{Character string containing the directory path where the sound file are located.}
+\item{na.rm}{Logical value indicating whether 'NA' values should be ignored for calculations.}
 }
 \value{
 A data frame similar to the input 'X' data frame, containing the mean

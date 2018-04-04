@@ -215,9 +215,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   # expand arguments for spec_param
-  if (is.null(X$ovlp)) X$ovlp <- ovlp
-  if (is.null(X$wl)) X$wl <- wl
-  if (is.null(X$wn)) X$wn <- wn
+  if (is.null(X$...ovlp...)) X$...ovlp... <- ovlp
+  if (is.null(X$...wl...)) X$...wl... <- wl
+  if (is.null(X$...wn...)) X$...wn... <- wn
   
   #set collevels for spec_param
   if (collev[1] != "collev.min") 
@@ -771,7 +771,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           # draw spectro
           if (fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)
           
-          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = X3$wl[i], wn = X3$wn[i], ovlp = X3$ovlp[i], axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = X3$pal[i], fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, collev.min = X3$collev.min[i], cexaxis = cex * 1.2, add = TRUE)
+          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = X3$...wl...[i], wn = X3$...wn...[i], ovlp = X3$...ovlp...[i], axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = X3$pal[i], fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, collev.min = X3$collev.min[i], cexaxis = cex * 1.2, add = TRUE)
           
           #add box
           if (box) boxw_wrblr_int(xys = m[i,], bty = "u", lwd = 1.5)

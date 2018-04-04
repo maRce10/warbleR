@@ -58,31 +58,30 @@
 
 move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite = FALSE, create.folder = TRUE, folder.name = "image_files", parallel = 1, pb = TRUE)
 {
-  if(is.null(from)) from <- getwd()
-  if(is.null(to) & !create.folder) stop("Either 'to' must be provided or 'create.folder' set to TRUE")
-  if(is.null(to) & create.folder) {
+  if (is.null(from)) from <- getwd()
+  if (is.null(to) & !create.folder) stop("Either 'to' must be provided or 'create.folder' set to TRUE")
+  if (is.null(to) & create.folder) {
     to <- file.path(from, folder.name)
-    if(dir.exists(to)) stop('Directory with folder name provided already exists')
+    if (dir.exists(to)) stop('Directory with folder name provided already exists')
     dir.create(to)
   }
   
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd))
+  # Check directory permissions
+  if (file.access(to, 2) == -1) stop(paste("You don't have permission to copy files into", to))
   
   # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
   
+  # define what image type will be copied
+  if (it == "all") pattern <- "\\.jpeg$|\\.tiff$|\\.pdf$"
+  if (it == "tiff") pattern <- "\\.tiff$"
+  if (it == "jpeg") pattern <- "\\.jpeg$"
+  if (it == "pdf") pattern <- "\\.pdf$"
   
-  
-  if(it == "all") pattern <- "\\.jpeg$|\\.tiff$|\\.pdf$"
-  if(it == "tiff") pattern <- "\\.tiff$"
-  if(it == "jpeg") pattern <- "\\.jpeg$"
-  if(it == "pdf") pattern <- "\\.pdf$"
-  
+  # list images
   imgs <- list.files(path = from, pattern = pattern, ignore.case = TRUE)
   
-  if(length(imgs) == 0) cat(paste("No image files were found in", from))
+  if (length(imgs) == 0) cat(paste("No image files were found in", from))
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
@@ -91,9 +90,9 @@ move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-a <- pbapply::pblapply(X = seq(1, length(imgs), by = 10), cl = cl, FUN = function(x) 
+a <- pbapply::pblapply(X = seq(1, length(imgs), by = 10), cl = cl, FUN = function(x)
   { 
-    if(length(imgs) <= x + 9) y <- length(imgs) else y <- x + 9
+    if (length(imgs) <= x + 9) y <- length(imgs) else y <- x + 9
     
     file.copy(from = file.path(from, imgs[x:y]), to = file.path(to, imgs[x:y]), overwrite = overwrite)  
     }) 
@@ -102,9 +101,9 @@ a <- pbapply::pblapply(X = seq(1, length(imgs), by = 10), cl = cl, FUN = functio
   
   # a <- file.copy(from = file.path(from, imgs), to = file.path(to, imgs), overwrite = overwrite)
   
-  if(all(!a) & !overwrite) cat(paste("All files already existed in", to)) else
-    if(any(!a) & !overwrite) cat(paste("Some files already existed in 'to'", to))
+  if (all(!a) & !overwrite) cat(paste("All files already existed in", to)) else
+    if (any(!a) & !overwrite) cat(paste("Some files already existed in 'to'", to))
   
-  if(cut) unlink(file.path(from, imgs)[a])
+  if (cut) unlink(file.path(from, imgs)[a])
   
 }
