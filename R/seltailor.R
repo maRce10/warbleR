@@ -150,6 +150,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   {  if(is.data.frame(ts.df))
     {
     if(nrow(X) != nrow(ts.df)) stop("number of rows in 'ts.df' and 'X' do not match")
+    names(ts.df)[-c(1:2)] <- gsub("_|-", ".", names(ts.df)[-c(1:2)])
     ncl <- names(ts.df)[-c(1:2)]
     X <- merge(X, ts.df, by = c("sound.files", "selec"))
     } else 
@@ -198,18 +199,22 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   if(frange & !all(any(names(X) == "bottom.freq"), any(names(X) == "top.freq")))
     X$top.freq <- X$bottom.freq <- NA
   
-  if(!file.exists(file.path(getwd(), "seltailor_output.csv")))
-  {X$tailored <- ""
+  if(!file.exists("seltailor_output.csv"))
+  {
+    X$tailored <- ""
   X$tailored <- as.character(X$tailored)
   if(!is.null(index))   X$tailored[!1:nrow(X) %in% index] <- "y"
   write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
-  } else {X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
+  } else {
+    X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
   if(any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
   if(all(any(!is.na(X$tailored)),nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X))) {
     options(show.error.messages=FALSE)
     cat("all selections have been analyzed")
     stop() 
   }
+  ncl <- intersect(names(ts.df), names(X))
+  ncl <- ncl[!ncl %in% c("sound.files", "selec")]
   }
   
   dn <- 1:nrow(X)
@@ -298,12 +303,10 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       return(grY)   
     })
     
-    
     #ask users to select what to do next (1 click)
     if(!auto.contour) xy2 <- xy <- locator(n = 1, type = "n") else
     xy2 <- xy <- list(x = 0, y = 0)
   
-    
     #if selected is lower than 0 make it 
     xy$x[xy$x < 0] <- 0  
     xy$y[xy$y < 0] <- 0 
