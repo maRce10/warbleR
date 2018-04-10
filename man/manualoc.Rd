@@ -6,7 +6,8 @@
 \usage{
 manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-  NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, fast.spec = FALSE)
+  NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, 
+  fast.spec = FALSE, ext.window = TRUE, width = 15, height = 5)
 }
 \arguments{
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -58,6 +59,15 @@ This option is indicated for signals with high background noise levels. Palette 
 to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
+
+\item{ext.window}{Logical. If \code{TRUE} then and external graphic window is used. Default 
+dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.}
+
+\item{width}{Numeric of length 1 controling the width of the external graphic window. Ignored
+if \code{ext.window = FALSE}. Default is 15.}
+
+\item{height}{Numeric of length 1 controling the height of the external graphic window.
+Ignored if \code{ext.window = FALSE}. Default is 5.}
 }
 \value{
 .csv file saved in the working directory with start and end time of 
@@ -77,11 +87,11 @@ Users can zoom-in a specific sound file segment by clicking at the
   the previous view ("Previous view"), stop the analysis ("Stop"), go to the
   next sound file ("Next rec"), play the current view using external software 
   ("Play", see "player" argument), or delete the last manual selection in the
-  current sound file ("Del-sel"). When a unit has been selected, the function 
+  current sound file ("Delete"). When a unit has been selected, the function 
   plots a red circle with the selection number in the middle point of the 
   selection in the spectrogram. It also plots vertical dotted lines at the 
   start and end of the selection. The circle and lines "disappear" when the 
-  selection is deleted ("Del-sel" button). Only the last selection can be deleted. 
+  selection is deleted ("Delete" button). Only the last selection can be deleted. 
   
   The function produces a .csv file (manualoc_output.csv) with information about the .wav file name,
   selection number, start and end time, selection comment (selcomm), and

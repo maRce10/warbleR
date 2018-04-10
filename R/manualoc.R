@@ -4,7 +4,8 @@
 #' and end times of acoustic signals can be measured.
 #' @usage manualoc(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm =
 #'   FALSE, wn = "hanning", title = TRUE, selcomm = FALSE, osci = FALSE, player =
-#'   NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, fast.spec = FALSE)
+#'   NULL, pal = reverse.gray.colors.2, path = NULL, flist = NULL, 
+#'   fast.spec = FALSE, ext.window = TRUE, width = 15, height = 5)
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
@@ -40,7 +41,13 @@
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
-#' decreasing darkness levels. 
+#' decreasing darkness levels.
+#' @param ext.window Logical. If \code{TRUE} then and external graphic window is used. Default 
+#' dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.
+#' @param width Numeric of length 1 controling the width of the external graphic window. Ignored
+#' if \code{ext.window = FALSE}. Default is 15.
+#' @param height Numeric of length 1 controling the height of the external graphic window.
+#' Ignored if \code{ext.window = FALSE}. Default is 5. 
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
 #' @export
@@ -72,11 +79,11 @@
 #'   the previous view ("Previous view"), stop the analysis ("Stop"), go to the
 #'   next sound file ("Next rec"), play the current view using external software 
 #'   ("Play", see "player" argument), or delete the last manual selection in the
-#'   current sound file ("Del-sel"). When a unit has been selected, the function 
+#'   current sound file ("Delete"). When a unit has been selected, the function 
 #'   plots a red circle with the selection number in the middle point of the 
 #'   selection in the spectrogram. It also plots vertical dotted lines at the 
 #'   start and end of the selection. The circle and lines "disappear" when the 
-#'   selection is deleted ("Del-sel" button). Only the last selection can be deleted. 
+#'   selection is deleted ("Delete" button). Only the last selection can be deleted. 
 #'   
 #'   The function produces a .csv file (manualoc_output.csv) with information about the .wav file name,
 #'   selection number, start and end time, selection comment (selcomm), and
@@ -106,7 +113,7 @@
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
                      selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2,
-                     path = NULL, flist = NULL, fast.spec = FALSE)
+                     path = NULL, flist = NULL, fast.spec = FALSE, ext.window = TRUE, width = 15, height = 5)
 {
   
   # reset working directory 
@@ -142,13 +149,17 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
   if(length(files) == 0) { stop("all .wav files in working directory have been analyzed")}
   wavs = 0
   
+  #set external window function
+  if(any(Sys.info()[1] == c("Linux", "Windows"))) extwin <- grDevices::X11 else extwin <- grDevices::quartz
+  
+  #start external graphic device
+  if(ext.window)  extwin(width = width, height = height)
   
   #this first loop runs over files
   repeat{
     wavs = wavs + 1 # for selecting .wav files
     rec.comment <- NA
     sel.comment <- NA
-    try(dev.off(), silent = TRUE)
     ovlp <- 0 # for spectro display
     prev <- NULL #for going to previous view
     recs <- vector() #store results
@@ -185,8 +196,8 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       #add the circle and lines of selections on spectrogram
       if(length(start) > 0)
       {points(apply(data.frame(start, end), 1, mean),
-              rep(((fl[2] - fl[1])/2) + fl[1], length(start)), col = "firebrick1", cex = 4, pch = 20)
-       abline(v = c(start, end), lty = 3, col = "red", lwd = 0.8)
+              rep(((fl[2] - fl[1])/2) + fl[1], length(start)), col = "#E37222", cex = 4, pch = 20)
+       abline(v = c(start, end), lty = 3, col = "#E37222", lwd = 0.8)
        text(apply(data.frame(start, end), 1, mean),
             rep(((fl[2] - fl[1])/2) + fl[1], length(start)), labels = c((1:length(start) + 
                                                                            nrow(results[results$sound.files == files[wavs], ]))))
@@ -197,7 +208,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, 
                 (tlim[2] - tlim[1])/marg2, (tlim[2] - tlim[1])/marg2) + tlim[1], c((fl[2] - fl[1])/marg1, 
                                                                                    (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
-                                                                                   (fl[2] - fl[1])/marg1) + fl[1], col = topo.colors(6,  alpha = 0.55)[1], border = topo.colors(6, alpha = 1)[1])
+                                                                                   (fl[2] - fl[1])/marg1) + fl[1], col = adjustcolor("#07889B", alpha.f = 0.15), border = "#07889B")
       
       text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2) + tlim[1], 
            ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1], "Full view", 
@@ -207,8 +218,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg2, 
                 (tlim[2] - tlim[1])/marg2) + tlim[1], c((fl[2] - fl[1])/marg1, (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
                                                         (fl[2] - fl[1])/marg1) - ((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1) + fl[1], 
-              col = topo.colors(6, alpha = 0.55)[2], border = topo.colors(6, alpha = 1)[2])      
-      
+              col = adjustcolor("#07889B", alpha.f = 0.15), border = "#07889B")      
       text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2) + tlim[1],
            ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1] - ((fl[2] - fl[1])/
                                                                                 marg2 - (fl[2] - fl[1])/marg1), "Previous view", cex = 0.5, font = 2)
@@ -217,7 +227,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg2, 
                 (tlim[2] - tlim[1])/marg2) + tlim[1], c((fl[2] - fl[1])/marg1, (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
                                                         (fl[2] - fl[1])/marg1) - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1], 
-              col=topo.colors(6, alpha = 0.55)[3], border = topo.colors(6, alpha = 1)[3])      
+              col = adjustcolor("#07889B", alpha.f = 0.15), border = "#07889B")      
       
       text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2) + tlim[1], 
            ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1] - (2*((fl[2] - fl[1])/
@@ -227,7 +237,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg2,
                 (tlim[2] - tlim[1])/marg2) + tlim[1], c((fl[2] - fl[1])/marg1, (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
                                                         (fl[2] - fl[1])/marg1) - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1], 
-              col = topo.colors(6, alpha = 0.55)[4], border = topo.colors(6, alpha = 1)[4])
+              col = adjustcolor("#07889B", alpha.f = 0.15), border = "#07889B")
       
       text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2) + tlim[1], 
            ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1] - (3*((fl[2] - fl[1])/
@@ -237,7 +247,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg2, 
                 (tlim[2] - tlim[1])/marg2) + tlim[1], c((fl[2] - fl[1])/marg1, (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
                                                         (fl[2] - fl[1])/marg1) - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1], 
-              col = topo.colors(6, alpha = 0.7)[5], border = topo.colors(6, alpha = 1)[5])
+              col = adjustcolor("#07889B", alpha.f = 0.15), border = "#07889B")
       
       text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2) + tlim[1], 
            ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1] - (4*((fl[2] - fl[1])/
@@ -247,11 +257,11 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       polygon(c((tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg1, (tlim[2] - tlim[1])/marg2, 
                 (tlim[2] - tlim[1])/marg2) + tlim[1], c((fl[2] - fl[1])/marg1, (fl[2] - fl[1])/marg2, (fl[2] - fl[1])/marg2, 
                                                         (fl[2] - fl[1])/marg1) - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1], 
-              col = topo.colors(6, alpha = 0.7)[6], border = topo.colors(6, alpha = 1)[6])
+              col = adjustcolor("#07889B", alpha.f = 0.15), border = "#07889B")
       
       text(((((tlim[2] - tlim[1])/marg1) + ((tlim[2] - tlim[1])/marg2))/2) + tlim[1], 
            ((((fl[2] - fl[1])/marg1) + ((fl[2] - fl[1])/marg2))/2) + fl[1] - (5*((fl[2] - fl[1])/
-                                                                                   marg2 - (fl[2] - fl[1])/marg1)), "Del-sel", cex = 0.5, font = 2)
+                                                                                   marg2 - (fl[2] - fl[1])/marg1)), "Delete", cex = 0.5, font = 2)
       
       #ask users to select what to do next (2 clicks)
       xy <- locator(n = 2, type = "n")
@@ -293,8 +303,8 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       } else {start[length(start) + 1] <- xy$x[2]
               end[length(end) + 1] <- xy$x[1]
               points(apply(data.frame(start, end), 1, mean), 
-                     rep(((fl[2] - fl[1])/2) + fl[1], length(start)), col = "firebrick1", cex = 4, pch = 20)
-              abline(v = c(start, end), lty = 3, col = "red", lwd = 0.8)
+                     rep(((fl[2] - fl[1])/2) + fl[1], length(start)), col = "#E37222", cex = 4, pch = 20)
+              abline(v = c(start, end), lty = 3, col = "#E37222", lwd = 0.8)
               text(apply(data.frame(start, end), 1, mean), 
                    rep(((fl[2] - fl[1])/2) + fl[1], length(start)), labels = c((1:length(start) + 
                                                                                   nrow(results[results$sound.files == files[wavs], ]))))
@@ -368,7 +378,8 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       if(abs(xy$x[2] - xy$x[1]) > abs(prev1[1] - prev1[2]) && xy$x[1] < xy$x[2]) prev <- xy$x[order(xy$x)]
       
       if(abs(tlim[1] - tlim[2]) < 0.01) {tlim <- c(0.1, len - 0.1)}
-      dev.off()}
+      # dev.off()
+      }
     
     if(!file.exists(file.path(getwd(), files[wavs + 1])))
     {try(dev.off(), silent = TRUE)
