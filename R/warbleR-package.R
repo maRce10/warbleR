@@ -138,6 +138,7 @@
 #' @import iterators
 #' @import bitops
 #' @import jpeg
+#' @importFrom methods formalArgs new
 #' @importFrom pracma findpeaks
 #' @importFrom Sim.DiffProc BB GBM
 #' @importFrom methods slotNames

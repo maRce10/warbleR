@@ -4,7 +4,7 @@
 \alias{make.selection.table}
 \title{Create 'selection.table' class objects}
 \usage{
-make.selection.table(X, max.dur = 10, path = NULL,...)
+make.selection.table(X, max.dur = 10, path = NULL, whole.recs = FALSE, ...)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -17,6 +17,10 @@ be used as the input object for other \code{\link{warbleR}} functions.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{whole.recs}{Logical. If \code{TRUE} the function will create a selection 
+table for all sound files in the working directory (or "path") with `start = 0` 
+and `end = wavdur()`. Default is if \code{FALSE}.}
 
 \item{...}{Additional arguments to be passed to \code{\link{checksels}} for customizing
 checking routine.}

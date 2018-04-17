@@ -2,7 +2,7 @@
 #' 
 #' \code{catalog} produces spectrograms of selections (signals) split into multiple rows and columns.
 #' @usage catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
-#' collev = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
+#' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
 #' lab.mar = 1, wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, 
 #' it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, 
 #' orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
@@ -20,7 +20,7 @@
 #' @param ncol A numeric vector of length 1.  Specifies number of columns. Default is 3.
 #' @param same.time.scale Logical. Controls if all spectrograms are in the same time scale 
 #' (i.e. have the same duration).
-#' @param collev A numeric vector of length 3. Specifies levels to partition the 
+#' @param collevels A numeric vector of length 3. Specifies levels to partition the 
 #'   amplitude range of the spectrogram (in dB). The more levels the higher the
 #'   resolution of the spectrogram. Default is seq(-40, 0, 1). seq(-115, 0, 1) will produces spectrograms
 #'   similar to other acoustic analysis software packages. 
@@ -176,21 +176,21 @@
 #' catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
-#'  collev = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
+#'  collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
 #' 
 #'
 #' # with legend
 #' catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
-#'  width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
+#'  width = 20, collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors),
 #'   tags = c("songtype", "indiv"))
 #'   
 #'   # horizontal orientation
 #' catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
 #'  orientation = "h",  labels = c("sound.files", "selec"), legend = 3, 
-#'  width = 20, collev = seq(-65, 0, 5), tag.pal = list(terrain.colors),
+#'  width = 20, collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors),
 #'   tags = c("songtype", "indiv"))
 #' check this floder
 #' getwd()
@@ -198,7 +198,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on feb-09-2017 (MAS)
 
-catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, collev = seq(-40, 0, 1), 
+catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, collevels = seq(-40, 0, 1), 
                     ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, lab.mar = 1,
                     wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", 
                     path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
@@ -220,8 +220,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if (is.null(X$...wn...)) X$...wn... <- wn
   
   #set collevels for spec_param
-  if (collev[1] != "collev.min") 
-    X$collev.min <- collev[1] else collev <- seq(-40, 0, 1)
+  if (collevels[1] != "collev.min") 
+    X$collev.min <- collevels[1] else collevels <- seq(-40, 0, 1)
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else {if (!file.exists(path)) stop("'path' provided does not exist") else
@@ -771,7 +771,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           # draw spectro
           if (fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)
           
-          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = X3$...wl...[i], wn = X3$...wn...[i], ovlp = X3$...ovlp...[i], axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = X3$pal[i], fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collev, collev.min = X3$collev.min[i], cexaxis = cex * 1.2, add = TRUE)
+          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = X3$...wl...[i], wn = X3$...wn...[i], ovlp = X3$...ovlp...[i], axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = X3$pal[i], fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collevels, collev.min = X3$collev.min[i], cexaxis = cex * 1.2, add = TRUE)
           
           #add box
           if (box) boxw_wrblr_int(xys = m[i,], bty = "u", lwd = 1.5)

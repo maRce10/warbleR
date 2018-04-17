@@ -35,8 +35,16 @@ sequence are removed (if \code{TRUE}). For instances the sequence of signals A-A
 A-B-A-B-A-B. Default is  \code{FALSE}.}
 }
 \value{
-A data frame with the observed number of overlaps (obs.overlaps), mean number of overlaps expected by chance,
-and p value.
+A data frame with the following columns:
+#' \itemize{
+   \item \code{sing.event}: singing event ID
+   \item \code{obs.overlaps}: observed number of overlaps
+   \item \code{mean.random.ovlps}: mean number of overlaps expected by chance
+   \item \code{p.value}: p value 
+   \item \code{coor.score}: coordination score (**sensu** Araya-Salas et al. 2017), 
+   calculated as `(obs.overlaps - mean.random.ovlps) / mean.random.ovlps`. 
+   Positive values indicate a tendency to overlap while negative values indicate a tendency to alternate.
+   }
 }
 \description{
 Monte Carlo randomization test to assess the statistical significance of singing coordination
@@ -63,7 +71,14 @@ coor.test(sim.coor.sing, iterations = 100, less.than.chance = FALSE)
 }
 }
 \references{
-Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song Overlap Null model Generator (SONG): a new tool for distinguishing between random and non-random song overlap. Bioacoustics. 1-12.
+{
+Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.\
+ (2017) To overlap or not to overlap: context-dependent coordinated singing in 
+ lekking long-billed hermits. Anim Behav.
+Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song 
+Overlap Null model Generator (SONG): a new tool for distinguishing between random
+and non-random song overlap. Bioacoustics.
+}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

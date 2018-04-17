@@ -203,6 +203,8 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   
   fr <- do.call(rbind, fr)
   
+  if (any(! sapply(fr[, c("start", "end", "bottom.freq", "top.freq")], is.numeric))) fr[, c("start", "end", "bottom.freq", "top.freq")] <- rapply(fr[, c("start", "end", "bottom.freq", "top.freq")], as.numeric)
+
   row.names(fr) <- 1:nrow(fr)
   
   return(fr)

@@ -216,7 +216,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
   #if it argument is not "jpeg" or "tiff" 
-  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
   
   #wrap img creating function
   if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
@@ -238,13 +238,10 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   if(!is.null(smadj)) if(!any(smadj == "start", smadj == "end", smadj == "both")) 
     stop(paste("smooth adjustment", smadj, "not allowed"))  
   
-  
   if(!is.null(X)){
     
     #if X is not a data frame
     if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-    
-    
     
     #check if all columns are found
     if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 

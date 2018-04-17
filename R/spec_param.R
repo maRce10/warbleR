@@ -74,7 +74,7 @@
 #' # variable wl and wn
 #' spec_param(X = selec.table, wl = c(100, 1000), ovlp = c(50, 90), wn = "all", 
 #' length.out = 5, nrow = 10, ncol = 14, width = 20, height = 11.3, rm.axes = TRUE, 
-#' cex = 0.7); last.img()
+#' cex = 0.7)
 #' 
 #' # variable wl, collev.min and wn 
 #' spec_param(X = selec.table, wl = c(100, 1000), ovlp = 90, 
@@ -169,7 +169,7 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   
   X$lbs <- gsub(" \n$| $|  $|^ |^  ", "", X$lbs)  
   
-  catalog(X = X, ovlp = X$ovlp, wl = X$wl, collev = "collev.min", title = paste(X$sound.files[1], X$selec2[1]), rm.axes = rm.axes, img.suffix = "spec_param", 
+  catalog(X = X, ovlp = X$ovlp, wl = X$wl, collevels = "collev.min", title = paste(X$sound.files[1], X$selec2[1]), rm.axes = rm.axes, img.suffix = "spec_param", 
                   wn = X$wn, pal = "pal.list", path = path, labels = c("lbs"), ...)
   
 }

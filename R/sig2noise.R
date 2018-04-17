@@ -9,10 +9,13 @@
 #' @param mar numeric vector of length 1. Specifies the margins adjacent to
 #'   the start and end points of selection over which to measure noise.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' @param path Character string containing the directory path where the sound files are located. 
-#' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
+#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). It can also be
+#' set globally using the 'parallel' option (see \code{\link{warbleR_options}}).
+#' @param path Character string containing the directory path where the sound files are located.
+#' If \code{NULL} (default) then the current working directory is used. It can also be
+#' set globally using the 'wav.path' option (see \code{\link{warbleR_options}}).
+#' @param pb Logical argument to control if progress bar is shown. Default is \code{TRUE}. It can also be
+#' set globally using the 'pb' option (see \code{\link{warbleR_options}}).
 #' @param type Numeric. Determine the formula to be used to calculate the signal-to-noise ratio (S = signal
 #' , N = background noise): 
 #' \itemize{
@@ -31,7 +34,9 @@
 #' itself. Default is \code{TRUE}.
 #' @param bp Numeric vector of length 2 giving the lower and upper limits of a frequency bandpass filter (in kHz). Default is \code{NULL}.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram for applying bandpass. Default 
-#'   is 10. Ignored if \code{bp = NULL}. Note that lower values will increase time resolution, which is more important for signal-to-noise ratio calculations.
+#'   is 10. Ignored if \code{bp = NULL}. It can also be
+#' set globally using the 'wl' option (see \code{\link{warbleR_options}}).
+#'  Note that lower values will increase time resolution, which is more important for signal-to-noise ratio calculations. 
 #' @return Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 
 #' with the signal-to-noise values.
 #' @export
@@ -81,6 +86,22 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   } 
+  
+  # set arguments from options
+  argms <- methods::formalArgs(sig2noise)
+  opt.argms <- .Options$warbleR[!sapply(.Options$warbleR, is.null) & names(.Options$warbleR) %in% c(argms, "wav.path")]
+  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
+  
+  # overwrite with arguments that differ from function's default values 
+  call.argms <- as.list(base::match.call())[-1]
+  call.argms <- call.argms[!sapply(call.argms, is.null) & names(call.argms) %in% names(opt.argms)]
+
+  # remove those non-default values from option values
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  set.argms <- c(call.argms, opt.argms)
+
+  if (length(set.argms) > 0)
+    for (q in 1:length(set.argms)) assign(names(set.argms)[q], set.argms[[q]])
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")

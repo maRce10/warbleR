@@ -52,4 +52,4 @@ wavdur <- function(files = NULL, path = NULL) {
   })
    return(data.frame(sound.files = files, duration = a, row.names = NULL))
 
-  }
+}

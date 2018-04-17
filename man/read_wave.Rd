@@ -2,13 +2,57 @@
 % Please edit documentation in R/read_wave.R
 \name{read_wave}
 \alias{read_wave}
-\title{A wrapper for tuner readWave function internal warbleR function not to be called by users
-which the start/end times and frequency range of acoustic signals listed in a data frame can be adjusted.}
+\title{A wrapper for tuneR's readWave}
 \usage{
-read_wave(filename, from = 1, to = Inf, units = "seconds",
-  header = FALSE, toWaveMC = NULL, ignore.ext.case = TRUE)
+read_wave(filename, from = 0, to = Inf, units = "seconds", header = FALSE,
+toWaveMC = NULL, ignore.ext.case = TRUE)
+}
+\arguments{
+\item{filename}{Filename of the file to be read.}
+
+\item{from}{Where to start reading (in order to save memory by reading wave file piecewise), in units.}
+
+\item{to}{Where to stop reading (in order to save memory by reading wave file piecewise), in units. Default is \code{Inf}.}
+
+\item{units}{Units in which from and to is given, the default is "seconds".}
+
+\item{header}{If \code{TRUE}, just header information of the Wave file are returned, otherwise (the default) the whole Wave object.}
+
+\item{toWaveMC}{If \code{TRUE}, a WaveMC-class object is returned. If \code{NULL}
+(default) or \code{FALSE} and a non-extensible Wave file or an extensible Wave
+ file with no other than the 'FL' and 'FR' channels is found, a Wave-class object
+ is returned, otherwise a WaveMC-class object.}
+
+\item{ignore.ext.case}{Logical to control if the file extension case is ignored. Default is \code{TRUE}.}
+}
+\value{
+An object of class "Wave".
 }
 \description{
-A wrapper for tuner readWave function internal warbleR function not to be called by users
-which the start/end times and frequency range of acoustic signals listed in a data frame can be adjusted.
+\code{read_wave} A wrapper for tuneR's \code{\link[tuneR]{readWave}} function that deals with extension case mismatches.
+}
+\details{
+The function is a wrapper for \code{\link[tuneR]{readWave}} that ignores file extension mismatches, a common mistake when reading wave files.
+}
+\examples{
+{
+# First set temporary folder
+# setwd(tempdir())
+
+# write wave files with lower case file extension
+data(list = c("Phae.long1"))
+writeWave(Phae.long1,"Phae.long1.wav")
+
+# provide right extension case
+read_wave("Phae.long1.wav")
+
+# provide wrong extension case
+read_wave("Phae.long1.WAV")
+
+#' # provide no extension
+read_wave("Phae.long1")
+}
+}
+\author{
+Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }

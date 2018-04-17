@@ -1,7 +1,7 @@
 #' Create 'selection.table' class objects
 #' 
 #' \code{make.selection.table} converts data frames into an object of class selection.table.
-#' @usage make.selection.table(X, max.dur = 10, path = NULL,...)
+#' @usage make.selection.table(X, max.dur = 10, path = NULL, whole.recs = FALSE, ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional.  Alternatively, a 'selection.table' class object can be input to double check selections. 
@@ -10,6 +10,9 @@
 #' @param max.dur the maximum duration of expected for a selection  (ie. end - start).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param whole.recs Logical. If \code{TRUE} the function will create a selection 
+#' table for all sound files in the working directory (or "path") with `start = 0` 
+#' and `end = wavdur()`. Default is if \code{FALSE}.    
 #' @param ... Additional arguments to be passed to \code{\link{checksels}} for customizing
 #' checking routine.
 #' @return An object of class selection.table which includes the original data.frame as well as the 
@@ -47,16 +50,24 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on nov-10-2017 (MAS)
 
-make.selection.table <- function(X, max.dur = 10, path = NULL, ...)
+make.selection.table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE, ...)
 {
   
-  if(is.null(path)) path <- getwd()
+  if (is.null(path)) path <- getwd()
   
+  
+  if (whole.recs){ 
+    sound.files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+    
+    if( length(sound.files) == 0) stop("No sound files were found") 
+    
+    X <- data.frame(sound.files, selec = 1, channel = 1, start = 0, end = wavdur(files = sound.files, path = path)$duration)
+  }
   
   # cat("Checking selections")
   check.results <- checksels(X, path = path, ...)        
   
-  if(any(check.results$check.res != "OK")) stop("Not all selections can be read (use check.res() to locate problematic selections)")
+  if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check.res() to locate problematic selections)")
     
   check.results <- check.results[, names(X) %in% c("sound.files", "selec", "check.res", "duration", "min.n.sample", "sample.rate", "channels", "bits")]
   

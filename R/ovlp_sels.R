@@ -143,7 +143,7 @@ for(w in 1:nrow(out2)){
 unq <- table(lbls)
 
 # add NAs to single tags
-lbls[lbls == names(unq)[unq == 1]] <- NA
+lbls[lbls %in% names(unq)[unq == 1]] <- NA
 
 if(length(lbls[!is.na(lbls)]) > 0)
 lbls2 <- lbls <- lbls - min(lbls, na.rm = TRUE) + 1

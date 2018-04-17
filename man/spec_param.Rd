@@ -91,7 +91,7 @@ cex = 1, box = F)
 # variable wl and wn
 spec_param(X = selec.table, wl = c(100, 1000), ovlp = c(50, 90), wn = "all", 
 length.out = 5, nrow = 10, ncol = 14, width = 20, height = 11.3, rm.axes = TRUE, 
-cex = 0.7); last.img()
+cex = 0.7)
 
 # variable wl, collev.min and wn 
 spec_param(X = selec.table, wl = c(100, 1000), ovlp = 90, 

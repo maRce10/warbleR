@@ -17,6 +17,8 @@
 
 * song_param: calculate acoustic parameters at the song (or other hierarchical) level
 * spec_param: plot catalog of a single selection with varying spectrogram (display) parameters
+* read_wave: wrapper for tuneR's readWave that ignores exntesion file case mismatches
+* warbleR_options: function to set global parameters
 
 # warbleR 1.1.12
 ## (CRAN release date: 2018-03-13)
