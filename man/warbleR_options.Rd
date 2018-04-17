@@ -13,7 +13,7 @@ must come from the list of parameters described below.}
 \value{
 When parameters are set by warbleR_options, their former values are 
 returned in an invisible named list. Such a list can be passed as an argument to 
-pboptions to restore the parameter values. IF the function is called with no arguments the current option values are printed.
+pboptions to restore the parameter values. If the function is called with no arguments the current option values are printed.
 }
 \description{
 \code{warbleR_options} sets parameters for warbleR functions
