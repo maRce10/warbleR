@@ -6,7 +6,7 @@
 #'  must come from the list of parameters described below.
 #' @return When parameters are set by warbleR_options, their former values are 
 #' returned in an invisible named list. Such a list can be passed as an argument to 
-#' pboptions to restore the parameter values. IF the function is called with no arguments the current option values are printed.
+#' pboptions to restore the parameter values. If the function is called with no arguments the current option values are printed.
 #' @export
 #' @name warbleR_options
 #' @details The function aims to simplify the use of global of parameters that apply to many warbleR functions 
