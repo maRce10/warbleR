@@ -31,11 +31,8 @@ it will overwrite the values set by warbleR_options. The following tags are avai
    \item \code{collevels}:  A numeric vector of length 3. Specifies levels to partition the 
   amplitude range of the spectrogram (in dB). The more levels the higher the
   resolution of the spectrogram. THe lower the first value the darker the spectrograms.
-   \item \code{dest.path}: Character string containing the directory path where 
-   the cut sound files will be saved. Used in \code{\link{consolidate}} and \code{\link{cut_sels}}.
    \item \code{flim}: A numeric vector of length 2 for the frequency limit in kHz of 
   the spectrogram, as in \code{\link[seewave]{spectro}}.
-   \item \code{img.path}: Character string containing the directory path where the images should be saved. Used as 'path' in all image creating functions.
    \item \code{it}: A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted.
    \item \code{osci}: Logical argument to add an oscillogram underneath spectrogram, as
@@ -72,8 +69,11 @@ warbleR_options(pb = FALSE)
 # sig2noise without progress bar
 a <- sig2noise(X = selec.table, mar = 0.1)
 
-# sig2noise with progress bar by setting in the function call (overwritting options)
+# sig2noise with progress bar by setting it within the function call (overwritting options)
 a <- sig2noise(X = selec.table, pb = TRUE, mar = 0.1)
+
+# sig2noise without progress bar using warbleR_options setting again
+a <- sig2noise(X = selec.table, mar = 0.1)
 }
 }
 \author{

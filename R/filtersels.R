@@ -7,7 +7,8 @@
 #' files, 2) "sel": number of the selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame.
 #' @param path Character string containing the directory path where the image files are located. 
-#' If \code{NULL} (default) then the current working directory is used.
+#' If \code{NULL} (default) then the current working directory is used.  
+#' \code{\link{warbleR_options}} 'wav.path' argument does not apply.
 #' @param lspec A logical argument indicating if the image files to be use for filtering were produced by the function \code{\link{lspec}}. 
 #' All the image files that correspond to a sound file must be deleted in order to be 
 #' filtered out.
@@ -73,6 +74,27 @@ filtersels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "j
   wd <- getwd()
   on.exit(setwd(wd))
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(filtersels)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
@@ -81,9 +103,6 @@ filtersels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "j
     #if X is not a data frame
     if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
     
-    
-
-
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff", it == "pdf")) stop(paste("Image type", it, "not allowed"))  
   

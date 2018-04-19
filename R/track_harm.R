@@ -58,6 +58,27 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
           ylim = c(0, f/2000), adjust.wl = FALSE, dfrq = FALSE, ...) 
 {
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(track_harm)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
   if(length(inputw(wave = wave, f = f)$w) < wl) {
     if(adjust.wl) wl <- length(wave) else
       stop("number of samples lower than 'wl' (i.e. no enough samples) \n check 'adjust.wl' argument")

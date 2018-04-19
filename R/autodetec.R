@@ -142,6 +142,30 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   on.exit(setwd(wd))
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(autodetec)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # rename path for sound files
+  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
@@ -376,11 +400,11 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
         imgfun(filename = paste(fna, paste0(".", it), sep = "-"), 
         width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
         
-     spectro_wrblr_int(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,  colwave = "blue4", fast.spec = fast.spec,
+     spectro_wrblr_int(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,  colwave = "#07889B", fast.spec = fast.spec,
               scale = FALSE, palette = pal, flim = fl, ...)
       rm(song)
       if(nrow(time.song)>0)
-      {sapply(1:nrow(time.song), function(j)  abline(v=c(time.song$start[j]-X$start[i], time.song$end[j]-X$start[i]),col="red",lwd=2, lty= "dashed"))
+      {sapply(1:nrow(time.song), function(j)  abline(v = c(time.song$start[j]-X$start[i], time.song$end[j] - X$start[i]),col = adjustcolor("#E37222", alpha.f = 0.7), lwd = 2, lty = "dotted"))
     
       sapply(1:nrow(time.song), function(j)  text(time.song$start[j]+time.song$duration[j]/2-X$start[i],
                                                  rep(c(((fl[2]-fl[1])*0.85)+fl[1],((fl[2]-fl[1])*0.9)+fl[1],((fl[2]-fl[1])*0.95)+fl[1]),

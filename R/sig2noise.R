@@ -82,26 +82,34 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(sig2noise)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # rename path for sound files
+  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+        for (q in 1:length(opt.argms))
+                assign(names(opt.argms)[q], opt.argms[[q]])
+ 
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
-  } 
-  
-  # set arguments from options
-  argms <- methods::formalArgs(sig2noise)
-  opt.argms <- .Options$warbleR[!sapply(.Options$warbleR, is.null) & names(.Options$warbleR) %in% c(argms, "wav.path")]
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
-  # overwrite with arguments that differ from function's default values 
-  call.argms <- as.list(base::match.call())[-1]
-  call.argms <- call.argms[!sapply(call.argms, is.null) & names(call.argms) %in% names(opt.argms)]
-
-  # remove those non-default values from option values
-  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
-  set.argms <- c(call.argms, opt.argms)
-
-  if (length(set.argms) > 0)
-    for (q in 1:length(set.argms)) assign(names(set.argms)[q], set.argms[[q]])
+  }
   
   #if X is not a data frame
   if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
@@ -122,8 +130,6 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   
   #if any selections longer than 20 secs stop
   if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
-  
-   options( show.error.messages = TRUE)
   
   #return warning if not all sound files were found
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
@@ -230,7 +236,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   }
    
   # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  pbapply::pboptions(type = ifelse(as.logical(pb), "timer", "none"))
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)

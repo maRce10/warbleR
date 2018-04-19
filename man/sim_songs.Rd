@@ -60,11 +60,11 @@ is saved as a ".wav" file in the working directory. Defaul is \code{FALSE}.}
 \item{file_name}{Character string for naming the ".wav" file. Ignored if 
 'selec_table' is \code{FALSE}. If not provided the date-time stamp will be used.}
 
-\item{path}{Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is \code{FALSE}.
+\item{path}{Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is \code{FALSE}. 
 If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
-A wave object containing the simulated songs. If 'selec_table' is \code{TRUE} the function returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) a wave object.
+A wave object containing the simulated songs. If 'selec_table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.
 }
 \description{
 \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.

@@ -91,15 +91,37 @@ dfDTW <-  function(X = NULL, wl = 512, wl.freq = 512, length.out = 20, wn = "han
            img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, 
            window.type = "none", open.end = FALSE, scale = FALSE, frange.detec = FALSE,
            fsmooth = 0.1, ...){     
+
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(dfDTW)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # rename path for sound files
+  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
   
   if(is.null(X) & is.null(ts.df)) stop("either 'X' or 'ts.df' should be provided")
 
   if(!is.null(X)) {
     #if X is not a data frame
     if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-    
-    
-  }
+    }
   
   #stop if only 1 selection
   if(is.null(ts.df)) {if(nrow(X) == 1) stop("you need more than one selection for dfDTW")

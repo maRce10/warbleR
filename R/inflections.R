@@ -42,6 +42,27 @@ inflections <- function(X = NULL, parallel = 1, pb = TRUE)
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(inflections)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
 infls.FUN <- function(Y, l) {
     
     if (l) ts <- Y$frequency else ts <- Y[ , !names(Y) %in% c("sound.files", "selec")]

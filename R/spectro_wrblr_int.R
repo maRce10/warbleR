@@ -1,7 +1,7 @@
 #internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
 # that allows to plot spectrograms using image() which substantially increases speed (although makes some options unavailable)
 #last modification on feb-09-2018 (MAS)
-spectro_wrblr_int <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast.spec = FALSE,
+spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast.spec = FALSE,
           complex = FALSE, norm = TRUE, correction = "none", fftw = FALSE, 
           dB = "max0", dBref = NULL, plot = TRUE, flog = FALSE, grid = TRUE, 
           osc = FALSE, scale = TRUE, cont = FALSE, collevels = NULL, 
@@ -12,7 +12,7 @@ spectro_wrblr_int <- function (wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
           scalefontlab = 1, scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, 
           tlim = NULL, trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 
                                                                           1), 
-          heights = c(3, 1), oma = rep(0, 4), rnd = NULL, rm.lwst = FALSE,
+          heights = c(3, 1), oma = rep(0, 4), rnd = NULL, rm.lwst = FALSE, colwave =  adjustcolor("#07889B", alpha.f = 0.7),
           ...) 
 {
  
@@ -221,7 +221,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
                to = to, collab = collab, colaxis = colaxis, 
                colline = colaxis, tickup = max(abs(wave), na.rm = TRUE), 
                ylim = c(-max(abs(wave)), max(abs(wave))), tlab = tlab, 
-               alab = alab, cexlab = cexlab, cexaxis = cexaxis, 
+               alab = alab, cexlab = cexlab, cexaxis = cexaxis, colwave = colwave,
                xaxt = {
                  if (!axisX) {
                    "n"

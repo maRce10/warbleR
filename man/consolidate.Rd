@@ -12,6 +12,7 @@ parallel = 1, save.csv = TRUE, ...)
 should include the full file path. Optional.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
+'wav.path' set by \code{\link{warbleR_options}} is ignored. 
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{dest.path}{Character string containing the directory path where the cut sound files will be saved.

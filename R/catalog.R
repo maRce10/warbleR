@@ -214,6 +214,30 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   on.exit(setwd(wd))
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(catalog)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # rename path for sound files
+  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
   # expand arguments for spec_param
   if (is.null(X$...ovlp...)) X$...ovlp... <- ovlp
   if (is.null(X$...wl...)) X$...wl... <- wl

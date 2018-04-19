@@ -7,6 +7,7 @@
 #' @param files character vector or factor indicating the subset of files that will be analyzed. The files names
 #' should include the full file path. Optional.
 #' @param path Character string containing the directory path where the sound files are located. 
+#' 'wav.path' set by \code{\link{warbleR_options}} is ignored. 
 #' If \code{NULL} (default) then the current working directory is used. 
 #' @param dest.path Character string containing the directory path where the cut sound files will be saved.
 #' If \code{NULL} (default) then the current working directory is used.
@@ -58,6 +59,27 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   wd <- getwd()
   on.exit(setwd(wd))
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(consolidate)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
   
   # check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else

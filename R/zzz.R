@@ -11,20 +11,18 @@
 # set warbleR options
 .onLoad <- function(libname, pkgname){
   opts <- list(
-    wl = NULL,
-    parallel = NULL,
-    wn = NULL,
-    pb = TRUE,
     bp = NULL,
-    wav.path = NULL,
-    img.path = NULL,
-    dest.path = NULL,
+    collevels = NULL,
+    flim = NULL,
     it = NULL,
     res = NULL,
-    pal = NULL,
-    flim = NULL,
     osci = NULL,
-    collevels = NULL
+    pal = NULL,
+    parallel = NULL,
+    pb = TRUE,
+    wav.path = NULL,
+    wl = NULL,
+    wn = NULL
   )
   
   optsx <- getOption("warbleR")

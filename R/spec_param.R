@@ -112,6 +112,33 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
                     pal = "reverse.gray.colors.2", path = NULL, rm.axes = TRUE, ...)
 {
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(spec_param)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # rename path for sound files
+  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
+  
+  opt.argms <- opt.argms[which(names(opt.argms) == "path")]
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
+  
   # stop if pal is function
   if (is.function(pal)) stop("'pal' should be a character vector")
   

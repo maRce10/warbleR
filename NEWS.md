@@ -11,6 +11,7 @@
 * 'by.song' argument in 'specreator' to create full song spectrograms with labeled elements
 
 ## Bug fixes:
+
 * Change "http" to "https" protocol for accessing Xeno-Canto recordings in "querxc"
 
 ## New functions:
@@ -19,6 +20,7 @@
 * spec_param: plot catalog of a single selection with varying spectrogram (display) parameters
 * read_wave: wrapper for tuneR's readWave that ignores exntesion file case mismatches
 * warbleR_options: function to set global parameters
+*open_wd: open current working directory in wave browser
 
 # warbleR 1.1.12
 ## (CRAN release date: 2018-03-13)

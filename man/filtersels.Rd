@@ -13,7 +13,8 @@ files, 2) "sel": number of the selections. The ouptut of \code{\link{manualoc}} 
 be used as the input data frame.}
 
 \item{path}{Character string containing the directory path where the image files are located. 
-If \code{NULL} (default) then the current working directory is used.}
+If \code{NULL} (default) then the current working directory is used.  
+\code{\link{warbleR_options}} 'wav.path' argument does not apply.}
 
 \item{lspec}{A logical argument indicating if the image files to be use for filtering were produced by the function \code{\link{lspec}}. 
 All the image files that correspond to a sound file must be deleted in order to be 

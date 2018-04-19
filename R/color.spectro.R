@@ -107,6 +107,27 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
                           interactive = NULL, add = FALSE) 
 {
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(color.spectro)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
   # error if dB wrong
   if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")

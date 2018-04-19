@@ -7,7 +7,8 @@
 open_wd(path = getwd(), verbose = TRUE)
 }
 \arguments{
-\item{path}{Directory path to be opened. By default it's the working directory.}
+\item{path}{Directory path to be opened. By default it's the working directory. 
+'wav.path' set by \code{\link{warbleR_options}} is ignored in this case.}
 
 \item{verbose}{Logical to control whether the 'path' is printed in the console.}
 }

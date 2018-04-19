@@ -38,9 +38,9 @@
 #' is saved as a ".wav" file in the working directory. Defaul is \code{FALSE}.
 #' @param file_name Character string for naming the ".wav" file. Ignored if 
 #' 'selec_table' is \code{FALSE}. If not provided the date-time stamp will be used.
-#' @param path Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is \code{FALSE}.
+#' @param path Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is \code{FALSE}. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @return A wave object containing the simulated songs. If 'selec_table' is \code{TRUE} the function returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) a wave object. 
+#' @return A wave object containing the simulated songs. If 'selec_table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object. 
 #' @seealso \code{\link{querxc}} for for downloading bird vocalizations from an online repository.
 #' @export
 #' @name sim_songs
@@ -76,6 +76,29 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   
   on.exit(options(warn = .Options$warn), add = TRUE)
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(sim_songs)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # rename path for sound files
+  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
   if (is.null(path))  path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else

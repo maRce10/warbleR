@@ -4,7 +4,7 @@
 \alias{checksels}
 \title{Check selection data frames}
 \usage{
-checksels(X, parallel =  1, path = NULL, check.header = FALSE, pb = TRUE)
+checksels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE)
 }
 \arguments{
 \item{X}{'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 

@@ -8,8 +8,8 @@
 #'   when code is rerun. If \code{FALSE} only the ones missing will be produced. Default is \code{FALSE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' @param path Character string containing the directory path where the sound files are located. 
-#' If \code{NULL} (default) then the current working directory is used.
+#' @param path Character string containing the directory path where the catalog image files are located. 
+#' If \code{NULL} (default) then the current working directory is used. 
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param by.img.suffix Logical. If \code{TRUE} catalogs with the same image suffix will be 
 #' put together in a single pdf (so one pdf per image suffix in the catalog 
@@ -49,13 +49,34 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
   on.exit(setwd(wd))
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(catalog2pdf)
+  
+  # get warbleR options
+  opt.argms <- .Options$warbleR
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
   #check path to working directory
   if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #list jpeg files
-  imgs <- list.files(pattern = "\\.jpeg$", ignore.case = TRUE)
+  imgs <- list.files(pattern = "\\.jpeg$|\\.jpeg$", ignore.case = TRUE)
   if(length(imgs) == 0) stop("No .jpeg files were found in the working directory")
   
   #remove images that don't have the catalog_pX.jpeg ending
@@ -65,7 +86,6 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
  if(by.img.suffix)
    or.sf <- gsub("Catalog_p\\d+\\-|\\.jpeg", "" ,imgs) else
   or.sf <- by.img.suffix
-  
   
   pdf.options(useDingbats = TRUE)
   
