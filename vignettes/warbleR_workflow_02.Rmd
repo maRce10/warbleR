@@ -1,5 +1,5 @@
 ---
-title: <center><font size="7"><b>warbleR&#58; Visual inspection and signal classification</b></font></center>
+title: <center><font size="7"><b>warbleR&#58; 02 - Visual inspection and signal classification</b></font></center>
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
 - <center><a href="http://smithvidaurre.weebly.com/">Grace Smith-Vidaurre, PhD Candidate</a> </center>
@@ -14,7 +14,7 @@ output:
       smooth_scroll: true
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{warbleR: Visual inspection and signal classification}
+  %\VignetteIndexEntry{warbleR: 02 - Visual inspection and signal classification}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
@@ -22,12 +22,13 @@ vignette: >
 
 <center>![warbleR logo](Logo_Warble-azul_small_margin.png)</center>
 
+&nbsp; 
+
 <!-- <center> <h1><b>Visual inspection and classification of signals</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
 <!-- <center> `r Sys.Date()` </center> -->
-&nbsp; 
 
-## Bioacoustics in R with `warbleR` and `Rraven`
+## Bioacoustics in R with `warbleR`
 
 Bioacoustics research encompasses a wide range of questions, study systems and methods, including the software used for analyses. The `warbleR` and `Rraven` packages leverage the flexibility of the `R` environment to offer a broad and accessible bioinformatics tool set. These packages fundamentally rely upon two types of data to begin bioacoustic analyses in R:
 
@@ -35,7 +36,7 @@ Bioacoustics research encompasses a wide range of questions, study systems and m
 
   2. **Selection tables:** Selection tables contain the temporal coordinates (start and end points) of selected acoustic signals within recordings
 
-### Official `warbleR` and `Rraven` repositories
+### Package repositories
 
 These packages are both available on _CRAN_: [`warbleR`](https://cran.r-project.org/package=warbleR), [`Rraven`](https://CRAN.R-project.org/package=Rraven), as well as on _GitHub_: [`warbleR`](https://github.com/maRce10/warbleR), [`Rraven`](https://github.com/maRce10/Rraven). The GitHub repository will always contain the latest functions and updates. You can also check out an article in _Methods in Ecology and Evolution_ documenting the `warbleR` package <a href='#References'><sup>[1]</sup></a>.
 
@@ -86,7 +87,6 @@ options(width = 150, max.print = 100)
 
 ```
 
-
 ## **Prepare for analyses**
 
 ```{r, eval=FALSE}
@@ -104,7 +104,14 @@ getwd()
 
 ```
 
-&nbsp; 
+This vignette series will not always include all available `warbleR` functions, as existing functions are updated and new functions are added. To see all functions available in this package:
+
+```{r, echo = TRUE, eval=FALSE}
+
+# The package must be loaded in your working environment
+ls("package:warbleR")
+
+```
 
 ## **Quality control filtering of selections**
 
@@ -113,13 +120,12 @@ getwd()
 Overlapping selections can be common after using `autodetec` to select signals, but can sometimes arise after selecting signals using other functions or software. The function below helps you detect overlapping signals in your selection table, and has arguments that you can play around with for overlap detection, renaming or deleting overlapping selections.
 ```{r, echo=TRUE, eval=FALSE}
 
-# to run this example:
-# open Phae_hisnr.csv and modify the start coordinate of the first selection and the end coordinate of the second selection so that the signals overlap
-
-#### NOTE: need to merge the example data into Phae_hisnr.csv
+# To run this example:
+# Open Phae_hisnr.csv and modify the start coordinate of the first selection and the end coordinate of the second selection so that the signals overlap
 
 Phae.hisnr <- read.csv("Phae_hisnr.csv", header = TRUE)
 str(Phae.hisnr)
+head(Phae.hisnr, n = 15)
 
 # yields a data frame with an additional column (ovlp_sels) that indicates which selections overlap
 Phae.hisnr <- ovlp_sels(X = Phae.hisnr, max.ovlp = 0)
@@ -134,8 +140,6 @@ Phae.hisnr <- ovlp_sels(X = Phae.hisnr, max.ovlp = 0, drop = TRUE)
 `specreator` generates spectrograms of individual selected signals. These image files can be used to filter out selections that were poorly made or represent signals that are not relevant to your analysis. This quality control step is important for visualizing your selected signals after any selection method, even if you imported your selections from _Raven_ or _Syrinx_.
 
 ```{r, eval=FALSE}
-
-Phae.hisnr <- read.csv("Phae_hisnr.csv", header = TRUE)
 
 specreator(Phae.hisnr, wl = 300, flim = c(2, 10), it = "jpeg", res = 150, osci = TRUE, ovlp = 90)
 
@@ -167,7 +171,7 @@ checksels(Phae.hisnr2, check.header = FALSE)
 
 If selections cannot be read, it is possible the sound files are corrupt. If so, use the `fixwavs` function to repair _wav_ files. 
 
-```{r, eval=FALSE, echo = FALSE}
+```{r, eval=FALSE, echo=FALSE}
 
 # ### Cut selections into individual sound files 
 # 
@@ -175,7 +179,7 @@ If selections cannot be read, it is possible the sound files are corrupt. If so,
 # 
 # `cut_sels` can also be used to your advantage if your original recordings are long (over 10-15 minutes). Some _warbleR_ functions, in particular `manualoc` will run slowly with long recordings, so it's helpful to use shorter duration sound files. You can make selections of shorter pieces of long original recordings, either in _Raven_ or _Syrinx_, and use `cut_sels` to generate shorter segments for smoother signal detection in `warbleR`.
 
-cut_sels(X = Phae.hisnr2, labels = c("sound.files", "selec"))
+cut_sels(X = Phae.hisnr2, mar = 0.01, labels = c("sound.files", "selec"))
 
 # bug in the above cut_sels code
 
@@ -195,16 +199,16 @@ If you check out the image files generated by running `specreator` above, you'll
 For instance:
 
 The end of this signal is not well selected.
-<center> ![End coordinate not well-selected](Phaethornis-longirostris-154070.wav-13_badend.jpeg)</center>
+<center> ![End coordinate not well-selected](Phaethornis-longirostris-154070.wav-8_badend.jpeg)</center>
 &nbsp; 
 
 The temporal coordinates for the tailored signals will be saved in a _ .csv_ file called `seltailor_output.csv`. You can rename this file and read it back into `R` to continue downstream analyses. 
 
 ```{r, eval=FALSE}
 
-seltailor(Phae.hisnr2, wl = 300, flim = c(2,10), wn = "hanning", mar = 0.1,
- osci = TRUE, title = c("sound.files", "selec"))
+seltailor(Phae.hisnr2, wl = 300, flim = c(2,10), wn = "hanning", mar = 0.1, osci = TRUE, title = c("sound.files", "selec"), auto.next = TRUE)
 
+# Read in seltailor output after renaming the csv file
 Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
 str(Phae.hisnrt)
 
@@ -245,7 +249,7 @@ lspec2pdf(keep.img = FALSE, overwrite = TRUE)
 
 The image file (in the working directory) should look like this:
 
-<center> ![lspec image example with selections](Phaethornis-longirostris-154072-p1.jpeg)</center>
+<center> ![lspec image example with selections](Phaethornis-longirostris-154072-p1_selsigs.jpeg)</center>
 &nbsp; 
 
 ### Highlight spectrogram regions with `color.spectro`
@@ -291,15 +295,14 @@ color.spectro(wave = readWave("Phaethornis-longirostris-154072.wav"), wl = 300, 
 
 ```
 
-
 ### Optimize spectrogram display parameters
 
 `spec_param` makes a catalog or mosaic of the same signal plotted with different combinations of spectrogram display arguments. The purpose of this function is to help you choose parameters that yield the best spectrograms (e.g. optimal visualization) for your signals (although low signal-to-noise ratio selections may be an exception).  
 
 ```{r, eval=FALSE, echo=FALSE}
 
-# spec param takes a single selection from the selection table as input
-spec_param(Phae.hisnrt[1, ], length.out = 5, ovlp = 90, wl = c(150, 900), wn = c("hanning", "bartlett"), collev.min = c(-60, -30), pal = "reverse.gray.colors.2", path = NULL, rm.axes = TRUE, cex = 0.5)
+# spec_param takes a single selection from the selection table as input
+spec_param(Phae.hisnrt[1, ], length.out = 5, ovlp = 90, wl = c(150, 900), wn = c("hanning", "bartlett"), collev.min = c(-60, -30), pal = "reverse.gray.colors.2", path = NULL, rm.axes = TRUE, cex = 0.45, flim = c(2, 10))
 
 ```
 
@@ -332,12 +335,7 @@ The `move.imgs` function can come in handy when creating multiple catalogs to av
 
 # create a column of recording IDs for friendlier catalog labels
 rec_ID <- sapply(1:nrow(Phae.hisnrt), function(x){
-  # we need to account for sound file name differences due to different sources
-  if(grepl("Phae.long", Phae.hisnrt$sound.files[x])){
-    strsplit(as.character(Phae.hisnrt$sound.files[x]), split = ".w")[[1]][[1]]
-  } else {
-    strsplit(strsplit(as.character(Phae.hisnrt$sound.files[x]), split = "-")[[1]][[3]], split = ".w")[[1]][1]
-  }
+    gsub(x = strsplit(as.character(Phae.hisnrt$sound.files[x]), split = "-")[[1]][3], pattern = ".wav$", replacement = "")
 })
 rec_ID
 
@@ -348,7 +346,7 @@ str(Phae.hisnrt)
 # alpha controls transparency for softer colors
 cmc <- function(n) cm.colors(n, alpha = 0.8)
 
-catalog(X = Phae.hisnrt, flim = c(1, 10), nrow = 4, ncol = 3, height = 10, width = 10, tag.pal = list(cmc), cex = 0.8, same.time.scale = TRUE, mar = 0.01, wl = 300, gr = FALSE, labels = "rec_ID", tags = "rec_ID", hatching = 1, group.tag = "rec_ID", spec.mar = 0.4, lab.mar = 0.8, max.group.cols = 5)
+catalog(X = Phae.hisnrt, flim = c(2, 10), nrow = 4, ncol = 3, height = 10, width = 10, tag.pal = list(cmc), cex = 0.8, same.time.scale = TRUE, mar = 0.01, wl = 300, gr = FALSE, labels = "rec_ID", tags = "rec_ID", hatching = 1, group.tag = "rec_ID", spec.mar = 0.4, lab.mar = 0.8, max.group.cols = 5)
 
 catalog2pdf(keep.img = FALSE, overwrite = TRUE)
 
@@ -366,7 +364,7 @@ move.imgs(from = ".", it = "pdf", create.folder = TRUE, folder.name = "Catalog_i
 # and be able to move just "Cat*.pdf"...etc
 ```
 
-<center> ![Catalog with labels, tags and groups](Catalog_p2.jpeg)</center>
+<center> ![Catalog with labels, tags and groups](Catalog_p1.jpeg)</center>
 &nbsp; 
 
 You can also make lexicons for blind scoring, which could be useful for determining interobserver reliability. 
@@ -383,8 +381,8 @@ catalog2pdf(keep.img = FALSE, overwrite = TRUE)
 
 ```
 
-<center> ![Catalog without labels, tags and groups](Catalog_p2-nolabels.jpeg)</center>
-&nbsp; 
+<!-- <center> ![Catalog without labels, tags and groups](Catalog_p2-nolabels.jpeg)</center> -->
+<!-- &nbsp;  -->
 
 ###**Next vignette: Acoustic (dis)similarity, coordinated singing and simulating songs**
 

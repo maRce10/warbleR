@@ -1,5 +1,5 @@
 ---
-title: <center><font size="7"><b>warbleR&#58; Import sound files and select signals</b></font></center>
+title: <center><font size="7"><b>warbleR&#58; 01 - Import sound files and select signals</b></font></center>
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
 - <center><a href="http://smithvidaurre.weebly.com/">Grace Smith-Vidaurre, PhD Candidate</a> </center>
@@ -14,7 +14,7 @@ output:
       smooth_scroll: true
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{warbleR: Import sound files and select signals}
+  %\VignetteIndexEntry{warbleR: 01 - Import sound files and select signals}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
@@ -34,7 +34,7 @@ vignette: >
 
 &nbsp; 
 
-## Bioacoustics in R with `warbleR` and `Rraven`
+## Bioacoustics in R with `warbleR`
 
 Bioacoustics research encompasses a wide range of questions, study systems and methods, including the software used for analyses. The `warbleR` and `Rraven` packages leverage the flexibility of the `R` environment to offer a broad and accessible bioinformatics tool set. These packages fundamentally rely upon two types of data to perform bioacoustics analyses in R:
 
@@ -42,7 +42,7 @@ Bioacoustics research encompasses a wide range of questions, study systems and m
 
   2. **Selection tables:** Selection tables contain the temporal coordinates (start and end points) of selected acoustic signals within recordings
 
-### Official `warbleR` and `Rraven` repositories
+### Package repositories
 
 These packages are both available on _CRAN_: [`warbleR`](https://cran.r-project.org/package=warbleR), [`Rraven`](https://CRAN.R-project.org/package=Rraven), as well as on _GitHub_: [`warbleR`](https://github.com/maRce10/warbleR), [`Rraven`](https://github.com/maRce10/Rraven). The GitHub repository will always contain the latest functions and updates. You can also check out an article in _Methods in Ecology and Evolution_ documenting the `warbleR` package <a href='#References'><sup>[1]</sup></a>.
 
@@ -65,7 +65,6 @@ Below we present a case study of microgeographic vocal variation in long-billed 
   3. Obtain recordings from the open-access database [_xeno-canto_](http://www.xeno-canto.org/)
   
   4. Select signals using `warbleR` functions 
-
 
 This vignette can be run without an advanced understanding of `R`, as long as you know how to run code in your console. However, knowing more about basic `R` coding would be very helpful to modify the code for your research questions.
 
@@ -105,7 +104,7 @@ options(width = 150, max.print = 100)
 ```
 
 
-```{r, eval=FALSE}
+```{r, echo = TRUE, eval=FALSE}
 
 ### Install packages from CRAN
 # Note that if you install from CRAN, then don't run the code to install from GitHub below, and vice versa
@@ -130,11 +129,20 @@ invisible(lapply(X, library, character.only = TRUE))
 
 ```
 
+This vignette series will not always include all available `warbleR` functions, as existing functions are updated and new functions are added. To see all functions available in this package:
+
+```{r, echo = TRUE, eval=FALSE}
+
+# The package must be loaded in your working environment
+ls("package:warbleR")
+
+```
+
 &nbsp; 
 
 ### Make a new directory and set your working directory
 
-```{r, eval=FALSE}
+```{r, echo = TRUE, eval=FALSE}
 
 # Create a new directory and set your working directory (assuming that you are in your /home/username directory)
 dir.create(file.path(getwd(),"warbleR_example"))
@@ -148,7 +156,7 @@ getwd()
 &nbsp; 
 
 
-## **Import selection tables using `Rraven`**
+## **Import selection tables**
 
 `Rraven` is an interface between _Raven_ and `R` that allows you to import selection tables for your own recordings. This is very useful if you prefer to select signals in recordings outside of `R`. Once you have selection tables imported into `R` and the corresponding sound files in your working directory, you can move on to making spectrograms or performing analyses (see the next vignette in this series).
 
@@ -156,64 +164,45 @@ The sound files and selection tables loaded here correspond to male long-billed 
 
 Check out the `Rraven` package documentation for more functions and information (although you will need _Raven_ or _Syrinx_ installed on your computer for some functions).
 
-```{r, eval=FALSE, echo=FALSE}
+```{r, eval=FALSE, echo=TRUE}
 
+# Load Raven example selection tables
 data("selection_files")
 
-# x <- 1
-# need to provide these selection tables to workshop participants and also place in the warbleR directory for vignette to be built properly
-invisible(lapply(1:4, function(x){
-  write.table(selection_files[[x]], names(selection_files[x]), row.names = FALSE, quote = FALSE, sep = "\t", col.names = FALSE)
-}))
-# list.files()
+# Write out Raven example selection tables as physical files
+out <- lapply(1:2, function(x) 
+  writeLines(selection_files[[x]], con = names(selection_files)[x]))
+
+# Write example sound files out as physical .wav files
+data(list = c("Phae.long1", "Phae.long2"))
+
+writeWave(Phae.long1, "Phae.long1.wav")
+writeWave(Phae.long2, "Phae.long2.wav")
 
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
 
-# load .wav files corresponding to Raven selection tables from the NatureSounds package
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
-
-# write these out as physical .wav files
-writeWave(Phae.long1, "Phae.long1.wav")
-writeWave(Phae.long2, "Phae.long2.wav")
-writeWave(Phae.long3, "Phae.long3.wav")
-writeWave(Phae.long4, "Phae.long4.wav")
-
-# import selections
+# Import selections
 sels <- imp_raven(sound.file.col = "Begin.File", ext.case = "lower", all.data = FALSE, freq.cols = FALSE)
 str(sels)
 
-# write out the imported selections as a .csv for later use
+# Write out the imported selections as a .csv for later use
 write.csv(sels, "Raven_sels.csv", row.names = FALSE)
 
 ``` 
 
+### Make your data frame into an object of class `selection table`
 
-### Make your data frame into a selection table
-
-Downstream `warbleR` functions require selection tables in order to run correctly. Use the function `make.selection.table` to convert your data frame into an object of class `selection.table`.
+Downstream `warbleR` functions require selection tables in order to run correctly. Use the function `make.selection.table` to convert your data frame into an object of class `selection.table`. In future versions of `warbleR`, all functions will require selection table objects of class `selection.table`.
 
 ```{r, echo=TRUE, eval=FALSE}
 
-# this is a data frame with metadata for the NatureSounds sound files we loaded above
-data(selec.table)
-
-st <- make.selection.table(X = selec.table)
-
-class(st)
+sels <- make.selection.table(X = sels)
+str(sels)
+class(sels)
 
 ```
-
-
-```{r, eval=FALSE, echo=FALSE}
-
-# xeno-canto mp3 files must be remade into wav files with the correct atrributes to work in Raven 
-sels <- read.csv("Raven_sels.csv", header = TRUE)
-
-# str(sels)
-
-``` 
 
 
 ## **Obtain metadata and recordings from [xeno-canto](http://www.xeno-canto.org/)**
@@ -398,16 +387,38 @@ checkwavs()
 
 ## **A note on combining data from different sources**
 
-We now have _.wav_ files for existing recordings ( _Phae.long1.wav_ through _Phae.long4.wav_, representing recordings made in the field) as well as 6 recordings downloaded from _xeno-canto_. The existing Phae.long*.wav recordings have associated selection tables that were made in _Raven_, but the _xeno-canto_ have no selection tables, as we have not yet parsed these sound files to select signals within them. 
+We now have _.wav_ files for existing recordings ( _Phae.long1.wav_ through _Phae.long4.wav_, representing recordings made in the field) as well as 6 recordings downloaded from _xeno-canto_. The existing Phae.long*.wav recordings have associated selection tables that were made in _Raven_, but the _xeno-canto_ have no selection tables, as we have not parsed these sound files to select signals within them. 
 
-We will move forwards by treating these sound files from different sources as a single data set. This is made possible by the fact that `warbleR` functions will read in all sound files present in the working directory. Later on in this vignette we will use `warbleR` functions to select signals for the _xeno-canto_ sound files.
+Depending on your question(s), you can combine your own sound files and those from `xeno-canto` into a single data set (after ground-truthing). This is made possible by the fact that `warbleR` functions will read in all sound files present in your working directory. 
 
-In case you have your own recordings in _wav_ format and have skipped previous sections, you must specify the location of the sound files you will use prior to running downstream functions by setting your working directory again.
+For the main case study in this vignette, we will move forwards with only the `xeno-canto` sound files. We will use the example sound files when demonstrating `warbleR` functions that are not mandatory for the case study but may be useful for your own workflow (e.g. `consolidate` below). 
+
+To continue the workflow, remove all example _wav_ files from your working directory
+
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
+
+# Make sure you are in the right working directory
+# Note that all the example sound files begin with the pattern "Phae.long"
+wavs <- list.files(pattern = "wav$")
+wavs
+
+rm <- wavs[grep("Phae.long", wavs)]
+
+file.remove(rm)
+
+# Check that the right wav files were removed
+# Only xeno-cant wav files should remain
+list.files(pattern = "wav$")
+
+```
+
+### Consolidate sound files across various directories
 
 Since `warbleR` handles sound files in working directories, it's good practice to keep sound files associated with the same project in a single directory. If you're someone who likes to make a new directory for every batch of recordings or new analysis associated with the same project, you may find the `consolidate` function useful.
 
+In case you have your own recordings in _wav_ format and have skipped previous sections, you must specify the location of the sound files you will use prior to running downstream functions by setting your working directory again.
 
-```{r, echo=TRUE, eval = FALSE, message=FALSE}
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
 
 # For this example, set your working directory to an empty temporary directory
 setwd(tempdir())
@@ -449,7 +460,7 @@ First, adjust the function arguments as needed. We can work on a subset of the r
 wavs <- list.files(pattern = "wav$")
 
 # Print this object to see all sound files
-# As noted above, we have 10 sound files, 6 of which are from xeno-canto
+# 6 sound files from xeno-canto
 wavs 
 
 # Select a subset of recordings to explore lspec() arguments 
@@ -473,19 +484,10 @@ Once satisfied with the argument settings we can make long spectrograms for all 
 
 ```{r, eval=FALSE}
 
-# Reinitialize sels in the imp_raven section above as needed
-sels <- read.csv("Raven_sels.csv", header = TRUE)
-fl <- wavs[grep("Phae.lon*", wavs)]
-
-# Make long spectrograms for the recordings with Raven selections to highlight the selected signals
-# The resulting image files have dotted red lines indicating the temporal coordinates (start, end) of selected signals
-lspec(X = sels, flim = c(2, 10), ovlp = 10, sxrow = 6, rows = 15, it = "jpeg", flist = fl)
-
-# Make long spectrograms for the xeno-canto recordings, which do not have selections
-fl <- wavs[grep("Phae.lon*", wavs, invert = TRUE)]
+# Make long spectrograms for the xeno-canto sound files
 lspec(flim = c(2, 10), ovlp = 10, sxrow = 6, rows = 15, it = "jpeg", flist = fl)
 
-# concatenate lspec image files into a single PDF per recording
+# Concatenate lspec image files into a single PDF per recording
 # lspec images must be jpegs to do this
 lspec2pdf(keep.img = FALSE, overwrite = TRUE)
 
@@ -517,7 +519,7 @@ Recording _154123_ has a lot of background noise. Delete the _wav_ file for this
 
 # here we will produce spectrograms of the silent gaps that were removed
 # perform this on only the longer xeno-canto recordings
-rm_sil(flist = wavs[grep("Phae.lon*", wavs, invert = TRUE)], min.sil.dur = 0.2, img = TRUE, it = "jpeg", flim = c(0, 12))
+rm_sil(flist = wavs, min.sil.dur = 0.2, img = TRUE, it = "jpeg", flim = c(0, 12))
 
 ```
 
@@ -553,14 +555,12 @@ Finally, although `autodetec` performs automatic signal detection, it does not r
 ```{r, eval=FALSE, echo=TRUE}
 
 # Select a subset of sound files
-# Here we will focus on the sound files downloaded from xeno-canto, as these do not have selections
 # Reinitialize the wav object
 wavs <- list.files(pattern = ".wav$", ignore.case = TRUE)
-fl <- wavs[grep("Phae.lon*", wavs, invert = TRUE)]
 
 # Set a seed so we all have the same results
 set.seed(1)
-sub <- fl[sample(1:length(fl), 3)]
+sub <- wavs[sample(1:length(wavs), 3)]
 
 # Run autodetec() on subset of recordings
 # The data frame object output is printed to the console, we are not saving this in an object yet, since we are just playing around with argument settings
@@ -605,11 +605,7 @@ table(Phae.ad$sound.files)
 
 ```
 
-&nbsp; 
-
 ### Use SNR to filter automatically selected signals
-
-&nbsp; 
 
 Signal-to-noise ratio (SNR) can be a useful filter for automated signal detection. When background noise is detected as a signal it will have a low SNR, and this characteristic can be used to remove background noise from the `autodetec` selection table. SNR = 1 means the signal and background noise have the same amplitude, so signals with SNR <= 1 are poor quality. SNR calculations can also be used for different purposes throughout your analysis workflow. 
 
@@ -728,7 +724,7 @@ Some other uses for `manualoc`:
     + tag individual selections with song or element types using `selcomm`
     + use `specreator` to create spectrograms with `selcomm` text and check visual classifications
 
-You can stop the function at any point by clicking twice on the `stop` button.
+`manualoc` now opens an external graphics device for selecting signals. You can stop the function at any point by clicking twice on the `stop` button.
 
 ```{r, eval=FALSE}
 
@@ -743,9 +739,6 @@ manualoc_out <- read.csv("manualoc_output.csv", header = TRUE)
 
 ```
 
-The graphics device will look similar to this:
-
-<center> ![manualoc view](manualoc.jpg)</center>
 &nbsp; 
 
 ##**Next vignette: Visual inspection and signal classification**
