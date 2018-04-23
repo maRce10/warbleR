@@ -1,6 +1,6 @@
 #' Setting warbleR options 
 #' 
-#' \code{warbleR_options} sets parameters for warbleR functions
+#' \code{warbleR_options} sets global parameters for warbleR functions
 #' @usage warbleR_options(...)
 #' @param ... Arguments in `parameter = value`` form, or a list of tagged values. The tags (i.e. parameters)
 #'  must come from the list of parameters described below.
@@ -9,17 +9,17 @@
 #' pboptions to restore the parameter values. If the function is called with no arguments the current option values are printed.
 #' @export
 #' @name warbleR_options
-#' @details The function aims to simplify the use of global of parameters that apply to many warbleR functions 
+#' @details The function aims to simplify the use of parameters that apply to many warbleR functions (i.e. global parameters)
 #' by setting a default value that will be used to any function in downstream 
-#' analyses. All values are set to \code{NULL} by 
-#' default. Tags that are set with warbleR_options will be used iby the functions 
+#' analyses. Tags that are set with warbleR_options will be used iby the functions 
 #' that share those arguments. However, if an argument is set within a function call
-#' it will overwrite the values set by warbleR_options. The following tags are available: 
+#' it will overwrite the values set by warbleR_options. Hence, the functions remain 
+#' 'flexible' as their parameters can also be modified 'on the fly'. The following tags are available: 
 #' \itemize{
 #'    \item \code{bp}: Numeric vector of length 2 giving the lower and upper limits of a
 #'   frequency bandpass filter (in kHz).
 #'    \item \code{collevels}:  A numeric vector of length 3. Specifies levels to partition the 
-#'   amplitude range of the spectrogram (in dB). The more levels the higher the
+#'   amplitude range of the spectrogram (in dB) as in \code{\link[seewave]{spectro}}. The more levels the higher the
 #'   resolution of the spectrogram. THe lower the first value the darker the spectrograms.
 #'    \item \code{flim}: A numeric vector of length 2 for the frequency limit in kHz of 
 #'   the spectrogram, as in \code{\link[seewave]{spectro}}.
