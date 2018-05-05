@@ -1,5 +1,5 @@
 ---
-title: <center><font size="7"><b>warbleR&#58; 02 - Visual inspection and signal classification</b></font></center>
+title: <center><font size="7"><b>warbleR&#58; Visual inspection and signal classification</b></font></center>
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
 - <center><a href="http://smithvidaurre.weebly.com/">Grace Smith-Vidaurre, PhD Candidate</a> </center>
@@ -20,7 +20,7 @@ vignette: >
 
 &nbsp; 
 
-<center>![warbleR logo](Logo_Warble-azul_small_margin.png)</center>
+<center>![warbleR logo](logo.png)</center>
 
 &nbsp; 
 
@@ -247,10 +247,7 @@ lspec2pdf(keep.img = FALSE, overwrite = TRUE)
 
 ```
 
-The image file (in the working directory) should look like this:
-
-<center> ![lspec image example with selections](Phaethornis-longirostris-154072-p1_selsigs.jpeg)</center>
-&nbsp; 
+Check out the image file in your working directory. These will look very similar to the `lspec` images produced in vignette 1, but with red dotted lines indicating where the selected signals start and end. 
 
 ### Highlight spectrogram regions with `color.spectro`
 

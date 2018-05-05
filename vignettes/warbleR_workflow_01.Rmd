@@ -1,5 +1,5 @@
 ---
-title: <center><font size="7"><b>warbleR&#58; 01 - Import sound files and select signals</b></font></center>
+title: <center><font size="7"><b>warbleR&#58; Import sound files and select signals</b></font></center>
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
 - <center><a href="http://smithvidaurre.weebly.com/">Grace Smith-Vidaurre, PhD Candidate</a> </center>
@@ -18,18 +18,18 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-<script>
-   $(document).ready(function() {
-     $head = $('#header');
-     $head.prepend('<img src=\"logo.png\"/>')
-   });
-</script>
+<!-- <script> -->
+<!--    $(document).ready(function() { -->
+<!--      $head = $('#header'); -->
+<!--      $head.prepend('<img src=\"logo.png\"/>') -->
+<!--    }); -->
+<!-- </script> -->
 
-&nbsp; 
+<!-- &nbsp;  -->
 
 
 
-<center>![warbleR logo](Logo_Warble-azul_small_margin.png)</center>
+<center>![warbleR logo](logo.png)</center>
 
 
 &nbsp; 
@@ -569,12 +569,7 @@ autodetec(flist = sub, bp = c(1, 10), threshold = 10, mindur = 0.05, maxdur = 0.
 
 ```
 
-The image files (in the working directory) should look like this (shown below is recording ID 154161):
-
-<center> ![autodetec image example](154161-autodetec.th10.jpg)</center> 
-&nbsp; 
-
-Note that some songs were correctly detected but other undesired sounds were also detected. In most cases, the undesired selections have a shorter duration than our target signals.
+Check out the image files in your working directory. Note that some songs were correctly detected but other undesired sounds were also detected. In most cases, the undesired selections have a shorter duration than our target signals.
 
 We won't save the `autodetec` ouput in an object until we're satisfied with the detection. To improve our detection we should play around with argument values. Also note that the image files produced by `autodetec` contain the values used for the different arguments, which can help you better compare between runs. Below are some detection parameters that work well for these _Phaethornis longirotris _ recordings:
 
@@ -630,12 +625,7 @@ snrspecs(X = X, flim = c(2, 10), snrmar = 0.5, mar = 0.7, it = "jpeg")
 
 ```
 
-The image files should look like this:
-
-<center> ![snrpecs image example](Phaethornis-longirostris-154161.wav-113-snr.jpeg)</center>
-&nbsp; 
-
-This margin overlaps signals, so a smaller margin would be better.
+Check out the image files in your working directory. This margin overlaps neighboring signals, so a smaller margin would be better.
 
 ```{r, eval=FALSE}
 
