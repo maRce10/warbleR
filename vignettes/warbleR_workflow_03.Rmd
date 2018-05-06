@@ -6,7 +6,8 @@ author:
  &nbsp; 
 date:  <center>"`r Sys.Date()`"</center>
 output:
-  html_document:
+  rmarkdown::html_document:
+    self_contained: yes
     toc: true
     toc_depth: 3
     toc_float:
@@ -93,6 +94,11 @@ options(knitr.table.format = "html")
 opts_chunk$set(comment = "")
 # opts_knit$set(root.dir = tempdir())
 options(width = 150, max.print = 100)
+
+# from https://stackoverflow.com/questions/28961431/computationally-heavy-r-vignettes, so that vignettes will be built upon installation, but not executed during R CMD check (which is contributing to the /doc being too large)
+is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
+             "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
+knitr::opts_chunk$set(eval = !is_check)
 
 # for vignette checking and image file output
 # setwd("~/Desktop/R/warbleR_example2/")
