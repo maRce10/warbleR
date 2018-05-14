@@ -91,14 +91,14 @@ invisible(lapply(X, library, character.only = TRUE))
 # library(kableExtra)
 
 options(knitr.table.format = "html") 
-opts_chunk$set(comment = "")
+# opts_chunk$set(comment = "")
 # opts_knit$set(root.dir = tempdir())
 options(width = 150, max.print = 100)
 
 # from https://stackoverflow.com/questions/28961431/computationally-heavy-r-vignettes, so that vignettes will be built upon installation, but not executed during R CMD check (which is contributing to the /doc being too large)
 is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
              "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
-knitr::opts_chunk$set(eval = !is_check)
+knitr::opts_chunk$set(eval = !is_check, comment = "")
 
 # for vignette checking and image file output
 # setwd("~/Desktop/R/warbleR_example2/")
@@ -238,7 +238,7 @@ str(fr)
 
 Spectral entropy can be calculated as time series in selected signals and plotted onto image files. Previously, spectral entropy was only available as a sole measurement across a selection, as measured by `specan`. Check out the resulting image files in your working directory. 
 
-```{r, eval=TRUE, echo=FALSE}
+```{r, eval = FALSE, echo=FALSE}
 
 Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
 
@@ -273,7 +273,7 @@ trackfreqs(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(2, 12), col = c("purpl
 
 ```
 
-<center> ![trackfreqs image](Phaethornis-longirostris-154072.wav-108-trackfreqs.jpeg)</center>
+<!-- <center> ![trackfreqs image](Phaethornis-longirostris-154072.wav-108-trackfreqs.jpeg)</center> -->
 &nbsp; 
 
 Note that the fundamental frequency measurements are not always very accurate, so we will remove fundamental frequency measurements later on.
@@ -398,7 +398,7 @@ compare.methods(X = Phae.hisnrt, flim = c(0, 10), bp = c(0, 10),
 
 `compare.methods` will produce 10 image files in the working directory (since we specified `n = 10`) that look like this:
 
-<center> ![`compare.methods` image example](comp.meth-XCORR-dfDTW-6-10-11-18.jpeg)</center>
+<!-- <center> ![`compare.methods` image example](comp.meth-XCORR-dfDTW-6-10-11-18.jpeg)</center> -->
 &nbsp; 
 
 In this graphic, the acoustic pairwise distance between signals is shown next to the arrows linking them. The font color of a distance value corresponds to the font color of the method that generated it, as shown in the scatterplots (in this case black font represents XCORR distances). Distances are standardized, with 0 being the distance of a signal to itself and 1 the farthest pairwise distance in the pool of signals. Principal Component Analysis (`princomp` function) is applied to calculate distances when using spectral parameters (SP). In this case, the first 2 PC’s are used. Classical Multidimensional Scaling (also known as Principal Coordinates Analysis, `cmdscale` function) is used for all other methods. The image file name contains the methods being compared and the row number of the selections. This function internally uses a modified version of the `spectro` function from the `seewave` package to create spectrograms. Note that the spectrograms are all plotted with the same frequency and time scales.
@@ -559,7 +559,7 @@ text(x, y, labs, cex = 0.75)
 
 Songs are grouped by sound file. As each sound file represents a single individual, this suggests that songs have individual signatures. Let's look at the song type level. First, we need to classify the songs by song type. We can check the spectrograms we previously created to do this.
 
-<center> ![song types](song_types_spectros.jpg)</center>
+<!-- <center> ![song types](song_types_spectros.jpg)</center> -->
 &nbsp; 
 
 Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 represent a different song type. Finally, the songs from each of the other 2 sound files have a unique structure, so each one represents a different song type. Sound file 154123 is represented here too, but in vignette 1 we decided against using signals from this recording. We can add this information to the plot by using symbols to represent song types.
@@ -599,7 +599,7 @@ Songs of the same song type are more similar (they cluster together). This PCA c
 
 The function `coor.test` uses a Monte Carlo randomization test to determine whether or not the probability of finding overlapping songs in a singing event is less than or more than what you would expect by chance. `coor.test` can be run simultaneously for many singing events, if all are contained in a single data frame (see `coor.test` documentation for more information).
 
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval = FALSE, echo = TRUE}
 
 data(sim.coor.sing)
 str(sim.coor.sing)
@@ -607,7 +607,7 @@ str(sim.coor.sing)
 ```
 
 The `sim.coor.sing` dataset contains three types of singing bouts:
-```{r, eval=FALSE}
+```{r, eval = FALSE, echo = TRUE}
 
 # save plots in a list
 g <- coor.graph(sim.coor.sing, it = "jpeg", img = FALSE, res = 300)
@@ -618,7 +618,7 @@ g
 ```
 
 We can test for overlapping or alternating coordinated singing using the `less.than.chance` argument in `coor.test`. Here we will test for alternating coordinated singing, since `less.than.chance` is set to `TRUE`.
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval = FALSE, echo = TRUE}
 
 cs <- coor.test(sim.coor.sing, iterations = 1000, less.than.chance = TRUE, cutoff = 10)
 str(cs)
@@ -629,7 +629,7 @@ str(cs)
 
 You can simulate songs using `warbleR`. Depending on your question, you can simulate songs with different numbers of subunits, subunit durations, numbers of harmonics, amplitudes, gaps between subunits, amplitude fading of subunits, among other options. Songs are simulated under Brownian motion frequency drift.
 
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval = FALSE, echo = TRUE}
 
 # simulate a song with 3 tonal elements
 ss <- sim_songs(n = 3, harms = 1)

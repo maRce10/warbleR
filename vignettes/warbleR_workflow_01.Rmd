@@ -92,14 +92,14 @@ invisible(lapply(X, library, character.only = TRUE))
 # library(kableExtra)
 
 options(knitr.table.format = "html") 
-opts_chunk$set(comment = "")
-# opts_knit$set(root.dir = tempdir())
+# opts_chunk$set(comment = "")
+opts_knit$set(root.dir = tempdir())
 options(width = 150, max.print = 100)
 
 # from https://stackoverflow.com/questions/28961431/computationally-heavy-r-vignettes, so that vignettes will be built upon installation, but not executed during R CMD check (which is contributing to the /doc being too large)
 is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
              "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
-knitr::opts_chunk$set(eval = !is_check)
+knitr::opts_chunk$set(eval = !is_check, comment = "")
 
 # for vignette checking and image file output
 # setwd("~/Desktop/R/warbleR_example2/")
@@ -507,7 +507,7 @@ The pdf image files (in the working directory) for the _xeno-canto_ recordings s
 
 ```
 
-<center> ![lspec image example](Phaethornis-longirostris-154072-p1.jpg)</center> 
+<!-- <center> ![lspec image example](Phaethornis-longirostris-154072-p1.jpg)</center>  -->
 &nbsp; 
 
 The sound file name and page number are placed in the top right corner. The dimensions of the image are made to letter paper size for printing and subsequent visual inspection.
@@ -537,25 +537,15 @@ Both functions are fastest with shorter recordings, but there are ways to deal w
 
 ### Automatically detect signals with `autodetec`
 
-Keep these points in mind when using `autodetec`:
-
-  1. **`autodetec` has 2 types of output:** 
-    + data frame with recording name, selection, start and end times. The last two are temporal coordinates that will be passed on to downstream functions to measure acoustic parameters. Save this output as an object or it will not be saved in the environment, but rather printed in the console. 
-    + a spectrogram per recording, with red dotted lines marking the start and end of each detected signal, saved in your working directory. In the case of long recordings, it's preferable to create long spectrograms (`ls = TRUE`). For shorter recordings, spectrograms of individual selections may work better (`ls = FALSE`).
- &nbsp; 
- 
-  2. **Important detection parameters:** 
-    + `threshold` controls detection by relative amplitude (%) 
-    + `bp` serves as a frequency bandpass filter 
-    + `ssmooth` controls combination of window length and overlap to smooth signals that have many peaks and would otherwise be detected as multiple signals
-    + `mindur` & `maxdur` determine the minimum and maximum duration of the signals to be detected
-    + `set` dictates whether settings of the autodetection process are included in the image file name. If `set = TRUE`, threshold (th), envelope (envt), bandpass (bp), power (pw), smooth (smo), maxdur (mxdu), and mindur (midu) are included in image file names. This helps compare the performance of different detection setttings.
+`autodetec` has 2 types of output:** 
+    + data frame with recording name, selection, start and end times. The last two are temporal coordinates that will be passed on to downstream functions to measure acoustic parameters
+    + a spectrogram per recording, with red dotted lines marking the start and end of each detected signal, saved in your working directory
     
-To set detection parameters we need to know the frequency range and duration of the signals we want to detect. _Phaenthornis longirostris_ songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s. 
+Check out the `autodetec` documentation for more information. The argument `threshold` is one of the most important detection parameters, as well as information about signal frequency range and duration. _Phaenthornis longirostris_ songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s. 
 
 If you need to detect all or most of the signals within the recording, play around with different arguments to increase detection accuracy. Since you may need to do several rounds of optimization, we recommend using subsets of your recordings to speed up the process. If the species you study produces stereotyped signals, like _Phaethornis longirostris_, just a few signals are needed per recording, and a low-accuracy detection could yield enough selections.
 
-Finally, although `autodetec` performs automatic signal detection, it does not replace visual inspection of selected signals. Ensure that you set aside the time to inspect all selected signals for accuracy. You will often need to run detection functions several times, and in the process you will get to know your signals better (if you don't already). 
+`autodetec` does not replace visual inspection of selected signals. Ensure that you set aside the time to inspect all selected signals for accuracy. You will often need to run detection functions several times, and in the process you will get to know your signals better (if you don't already). 
 
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -640,7 +630,7 @@ snrspecs(X = X, flim = c(2, 10), snrmar = 0.04, mar = 0.7, it = "jpeg")
 
 ```
 
-<center> ![snrpecs image example](Phaethornis-longirostris-154161.wav-113-snr2.jpeg) </center>
+<!-- <center> ![snrpecs image example](Phaethornis-longirostris-154161.wav-113-snr2.jpeg) </center> -->
 &nbsp; 
 
 #### Calculate SNR for automatically selected signals
@@ -652,7 +642,7 @@ Phae.snr <- sig2noise(X = Phae.ad[seq(1, nrow(Phae.ad), 2), ], mar = 0.04)
 
 ```
 
-As we just need a few songs to characterize individual (here sound files are equivalent to different individuals), we can choose selections with the highest SNR per sound file. In this example, we will choose 5 selections per recording with the highest SNRs.  
+As we just need a few songs to characterize individuals (here sound files are equivalent to different individuals), we can choose selections with the highest SNR per sound file. In this example, we will choose 5 selections per recording with the highest SNRs.  
 
 ```{r, eval=FALSE}
 
@@ -667,7 +657,7 @@ table(Phae.hisnr$sound.files)
 
 ```
 
-```{r, eval=TRUE, echo=FALSE}
+```{r, eval=FALSE, echo=FALSE}
 
 Phae.hisnr <- read.csv("Phae_hisnr.csv", header = TRUE)
 table(Phae.hisnr$sound.files)
@@ -680,46 +670,8 @@ table(Phae.hisnr$sound.files)
 
 Note: `manualoc` will be deprecated in future versions of `warbleR`
 
-`manualoc` is a function that provides an interactive interface to select signals. We recommend reading the documentation for `manualoc` prior to running this example. Once you've done so, here are some points to keep in mind:
+`manualoc` is a function that provides an interactive interface to select signals. Check out the `manualoc` documentation prior to running this example. This function makes a selection table as a _.csv_ file in your working directory. 
   
-  1. **The sole output for this function is a .csv file**:
-    + contains the time coordinates, selection information and any comments made 
-  
-  2. **Be very precise with your clicks**
-    + stray clicks will cause `manualoc` to fail
-    + don't double-click, instead click once and wait for blue bubble to pop up before clicking again
-    + suspect a stray click when `manualoc` starts responding to single clicks
-    + if so, stop `manualoc` with `Stop` button
-    + `manualoc` retains all previous selections in the .csv file and will start up where you left off
-  
-  3. **Selections can be deleted directly in the `manualoc` interface** 
-    + use `Del-sel` button
-  
-  4. **Selections can also be deleted in the `manualoc_output.csv`** 
-    + stop `manualoc`, open the .csv 
-    + delete the rows corresponding to the unwanted selection(s) prior to starting `manualoc` again 
-
-  6. **Run `manualoc` within the expected frequency range for your species** 
-    + use argument `flim` to facilitate signal selection
-    
-  7. **Run `manualoc` with oscillograms enabled to improve signal selection**
-    + when `osci = TRUE`, the oscillogram or waveform serves as a visual aid 
-    + use changes in amplitude to select start and end of the signal
-    + the oscillogram will print to screen when the resolution of the projected spectrogram    
-    improves (depends on the `seltime` argument)
-    + `seltime ` determines the time interval in seconds at which the spectrograms are produced with higher resolution and oscillograms 
-
-Some other uses for `manualoc`:
-
-  1. **`manualoc` can be used in combination with `autodetec` if you have large recordings:**
-    + you can select specific time points to break up the recording and speed up `autodetec`
-    + then you can feed these time coordinates to `autodetec` using the data frame argument `X`
-    
-  2. **`manualoc` can also be used for visual classification:** 
-    + run `manualoc` with `selcomm = TRUE`
-    + tag individual selections with song or element types using `selcomm`
-    + use `specreator` to create spectrograms with `selcomm` text and check visual classifications
-
 `manualoc` now opens an external graphics device for selecting signals. You can stop the function at any point by clicking twice on the `stop` button.
 
 ```{r, eval=FALSE}
@@ -734,8 +686,6 @@ manualoc(flim = c(2, 10), reccomm = TRUE, selcomm = TRUE, osci = TRUE, seltime =
 manualoc_out <- read.csv("manualoc_output.csv", header = TRUE)
 
 ```
-
-&nbsp; 
 
 ##**Next vignette: Visual inspection and signal classification**
 
