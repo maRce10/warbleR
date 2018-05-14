@@ -4,7 +4,7 @@
 #' @usage xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
 #'  dfrange = FALSE, cor.mat = TRUE)
-#' @param  X 'selection.table' object or data frame containing columns for sound files (sound.files), 
+#' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #' is 512.
@@ -65,8 +65,7 @@
 #' @author Marcelo Araya-Salas \email{araya-salas@@cornell.edu})
 #' @source H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
 #' cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
-# last modification on mar-13-2018 (MAS)
-
+# last modification on may-7-2018 (MAS)
 
 xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp = NULL, wn ='hanning', 
                   cor.method = "pearson", parallel = 1, path = NULL,
@@ -110,9 +109,7 @@ xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp =
   }  
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-  
-  
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
@@ -150,18 +147,16 @@ if(dfrange) {df <- dfts(X, wl =300, img = FALSE, length.out = 50, parallel = par
 frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
 } else frq.lim = frange
 
-
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
 #create templates
-  if(pb) cat("creating templates:")
+  if(pb) write(file = "", x ="creating templates:")
 
   tempFUN <- function(X, x, wl, ovlp, wn, frq.lim)
   {
-    clip <- tuneR::readWave(filename = as.character(X$sound.files[x]),from = X$start[x], to=X$end[x],units = "seconds")
-    
+    clip <- read_wave(X = X, index = x)
     samp.rate <- clip@samp.rate
     
     # Fourier transform
@@ -301,14 +296,15 @@ FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
 }
 
 #run cross-correlation
-if(pb) cat("running cross-correlation:")
+if(pb) write(file = "", x ="running cross-correlation:")
 
 if (Sys.info()[1] == "Windows" & parallel > 1)
   cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
 
-a <- pbapply::pblapply(X = 1:(nrow(X)-1), cl = cl, FUN = function(j) 
+ord.shuf <- sample(1:(nrow(X)-1))
+a <- pbapply::pblapply(X = ord.shuf, cl = cl, FUN = function(j) 
  {
-    a <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
+  a <- read_wave(X = X, index = j, header = TRUE)  
  
   margin <-(max(with(X, end[j:nrow(X)] - start[j:nrow(X)])))/2
   start <-X$start[j] - margin
@@ -318,7 +314,7 @@ a <- pbapply::pblapply(X = 1:(nrow(X)-1), cl = cl, FUN = function(j)
   end <-X$end[j] + margin
   if(end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate - 0.001
   
-  survey<-tuneR::readWave(filename = as.character(X$sound.files[j]), from = start, to = end, units = "seconds")
+  survey <- read_wave(X = X, index = j, from = start, to = end)
   
   score.L <- lapply((1+j):length(ltemp), function(i) try(FUNXC(i, cor.mat, survey, wl, ovlp, wn,  j, X), silent = T))
   
@@ -346,6 +342,8 @@ a <- pbapply::pblapply(X = 1:(nrow(X)-1), cl = cl, FUN = function(j)
 return(score.df)
   }
 )
+
+a <- a[order(ord.shuf)]
 
 # put together correlation results in a single data frame
 b <- do.call("rbind", a)

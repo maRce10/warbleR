@@ -5,7 +5,8 @@
 #' @usage sp.en.ts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = NULL,
 #'   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "sp.en.ts",
 #'    pb = TRUE, clip.edges = FALSE, leglab = "sp.en.ts", sp.en.range = c(2, 10), ...)
-#' @param  X 'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
+#' @param  X object of class 'selection_table', 'extended_selection_table' or data 
+#' frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -123,7 +124,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   }  
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -157,6 +158,8 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
   
   #return warning if not all sound files were found
+  if (!is_extended_selection_table(X))
+  {
   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
@@ -168,6 +171,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     stop("The .wav files are not in the working directory")
   }  else 
   X <- X[d, ]
+  }
   
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -179,7 +183,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   sp.en.tsFUN <- function(X, i, bp, wl, threshold, sp.en.range){
     
     # Read sound files to get sample rate and length
-    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
+    r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
 
     #in case bp its higher than can be due to sampling rate
@@ -187,8 +191,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
-    
-      r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
+      r <- read_wave(X = X, index = i)
     
       #filter if this was needed
       if(!is.null(bp)) r <- ffilter(wave = r, from = b[1], to = b[2]) 
@@ -196,7 +199,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       # measure espectral entropy
       sp.en <- csh(wave = r, f = f, wl = wl, ovlp = ovlp, wn = wn, 
                    threshold = threshold, plot = F)
-      
+        
       if(clip.edges) 
       {    #remove initial values with 0
         sp.en1 <- sp.en[cumsum(sp.en[,2]) != 0, ]
@@ -224,7 +227,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       correc.apen <- sp.en.range[1] + (sp.en.range[2] - sp.en.range[1]) * apen1$y 
       
   if(img) 
-      trackfreqs(X[i,], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
+      trackfreqs(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
                  parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
                  custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(correc.apen)), ...)
       

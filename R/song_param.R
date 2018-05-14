@@ -5,7 +5,7 @@
 #' @usage song_param(X = NULL, weight = NULL, song_colm = "song",
 #' mean_indx = NULL, min_indx = NULL, max_indx = NULL, sd = FALSE, 
 #' parallel = 1, pb = TRUE, na.rm = FALSE)
-#' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above.
@@ -79,7 +79,7 @@
 #' }
 #' 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#last modification on mar-24-2018 (MAS)
+#last modification on may-8-2018 (MAS)
 
 song_param <- function(X = NULL, weight = NULL, song_colm = "song",
                        mean_indx = NULL, min_indx = NULL, max_indx = NULL, 
@@ -109,7 +109,13 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
+  #if X is not a data frame
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
+  # if extended only by song
+  if (is_extended_selection_table(X))
+    if (!attributes(X)$by.song$by.song) stop("extended selection tables must be created 'by.song' to be used in song.param()")
+    
   #if parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -125,6 +131,7 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
 
   if (!any(names(X) %in% weight) & !is.null(weight)) stop("'weight' column not found")
   
+  if (!is.null(mean_indx))
   if(!all(sapply(X[, mean_indx], is.numeric))) stop("not all columns in 'mean_indx' are numeric")
   
   songparam.FUN <- function(Y, song_colm, mean_indx, min_indx, max_indx, weight, na.rm) {
@@ -194,12 +201,15 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pblapply(X = unique(X$.....SONGX...), cl = cl, function(i) 
+  out <- pbapply::pblapply(unique(X$.....SONGX...), cl = cl, function(i) 
   { 
     Y <- X[X$.....SONGX... == i, , drop = FALSE]
-    
+    Y <- as.data.frame(Y)
     return(songparam.FUN(Y, song_colm, mean_indx, min_indx, max_indx, weight, na.rm)) 
   }) 
 
-return(do.call(rbind, out))
+  df <- do.call(rbind, out)
+  df <- as.data.frame(df)
+  
+  return(df)
 }

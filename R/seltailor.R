@@ -8,7 +8,7 @@
 #'   width = 15, height = 5, index = NULL, collevels = NULL, 
 #'   title = c("sound.files", "selec"), ts.df = NULL, col = "#E37222", 
 #'   alpha = 0.7, auto.contour = FALSE, ...)
-#' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.
@@ -201,7 +201,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   } else auto.contour <- FALSE
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if(!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
   
   #if there are NAs in start or end stop
   if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  

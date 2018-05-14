@@ -1,6 +1,6 @@
 #' Detect frequency range on wave objects
 #' 
-#' \code{frange.detec} detects the frequency range of acoustic signals in wave objects.
+#' \code{frange.detec} detects the frequency range of acoustic signals on wave objects.
 #' @usage frange.detec(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning",
 #'  flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, 
 #'  widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)

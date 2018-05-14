@@ -16,7 +16,7 @@ spec.mar = 0, spec.bg = "white", max.group.cols = NULL, sub.legend = FALSE,
 rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE)
 }
 \arguments{
-\item{X}{'selection.table' object or data frame with columns for sound file name (sound.files), selection number (selec), 
+\item{X}{'selection_table', 'extended_selection_table' or data frame with columns for sound file name (sound.files), selection number (selec), 
 and start and end time of signal (start and end). Default is \code{NULL}.}
 
 \item{flim}{A numeric vector of length 2 indicating the highest and lowest 
@@ -42,7 +42,7 @@ slow down the function but produce more accurate selection limits (when X is pro
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
+\item{mar}{Numeric vector of length 1. Specifies the margins (in seconds) adjacent to the start and end points of selections,
 dealineating spectrogram limits. Default is 0.05.}
 
 \item{prop.mar}{Numeric vector of length 1. Specifies the margins adjacent to the 
@@ -200,7 +200,7 @@ writeWave(Phae.long2,"Phae.long2.wav")
 
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
- orientation = "v",  labels = c("sound.files", "selec"), legend = 0)
+ orientation = "v", labels = c("sound.files", "selec"), legend = 0)
  
  #different time scales and tag palette
 catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,

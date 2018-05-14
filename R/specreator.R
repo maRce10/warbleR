@@ -5,13 +5,14 @@
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-#'   col = adjustcolor("red2", 0.6), lty = 3, mar = 0.05, it = "jpeg", 
+#'   col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, it = "jpeg", 
 #'   parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, 
 #'   sel.labels = "selec", ...)
-#' @param  X 'selection.table' or data frame containing columns for sound file name (sound.files), 
+#' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
 #' Low and high frequency columns are optional.
-#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
+#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. If using an 
+#' 'extended_selection_table' the sound files are not required (see \code{\link{selection_table}}). 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param flim A numeric vector of length 2 for the frequency limit (in kHz) of 
@@ -110,7 +111,7 @@
 specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                         inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
                         cexlab = 1, title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE,  gr = FALSE,
-                       sc = FALSE, line = TRUE, col = adjustcolor("red2", 0.6), lty = 3, mar = 0.05, 
+                       sc = FALSE, line = TRUE, col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, 
                        it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", ...){
   
   # reset working directory 
@@ -150,7 +151,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   }  
   
   #if X is not a data frame
-  if (!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -181,7 +182,9 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   #return warning if not all sound files were found
-  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  if(!is_extended_selection_table(X))
+  {
+    recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
            ".wav file(s) not found"))
@@ -191,7 +194,8 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else {
-    X <- X[d, ]
+    X <- X[d, , drop = FALSE]
+  }
   }
   
   if (propwidth) picsize <- 1
@@ -203,13 +207,16 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   if (!is.null(by.song)) {
     Y <- X
     X <- song_param(X = Y, song_colm = by.song, pb = FALSE)
-  } else Y <- NULL
+    X$selec <- 1
+    X <- fix_extended_selection_table(X, Y)
+    
+    } else Y <- NULL
   
   #create function to run within Xapply functions downstream     
   specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
+    r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -241,15 +248,12 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     # Change relative widths of columns for spectrogram when sc = TRUE
     if (sc) wts <- c(3, 1) else wts <- NULL
     
-    old.par <- par(no.readonly = TRUE) # par settings which could be changed.
-    on.exit(par(old.par)) 
-    
     # Change inner and outer plot margins
     par(mar = inner.mar)
     par(oma = outer.mar)
     
     # Generate spectrogram using seewave 
-  spectro_wrblr_int(tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds") , f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning", 
+  spectro_wrblr_int(read_wave(X = X, index = i, from = t[1], to = t[2]) , f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning", 
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)

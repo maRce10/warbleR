@@ -34,7 +34,6 @@
 
 inflections <- function(X = NULL, parallel = 1, pb = TRUE)
 {
-
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   

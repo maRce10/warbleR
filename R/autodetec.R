@@ -8,7 +8,7 @@
 #'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
 #'   parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2, 
 #'   fast.spec = FALSE, ...)
-#' @param X 'selection.table' object or data frame with results from \code{\link{manualoc}} function or any data frame with columns
+#' @param X 'selection_table' object or data frame with results from \code{\link{manualoc}} function or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting 
@@ -129,7 +129,7 @@
 #' modified version of the timer function from seewave. 
 #last modification on jul-5-2016 (MAS)
 
-autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 
+autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 
                     bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 
                     ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
                     img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1, 
@@ -265,7 +265,7 @@ autodetec<-function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth =
   if(!is.null(X)){
     
     #if X is not a data frame
-    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+    if(!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
     
     #check if all columns are found
     if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 

@@ -60,7 +60,7 @@ working directory). Default is \code{TRUE}.}
 A data frame with 2 columns for low and high frequency values. A plot is produced (in the graphic device) if \code{plot = TRUE} (see details).
 }
 \description{
-\code{frange.detec} detects the frequency range of acoustic signals in wave objects.
+\code{frange.detec} detects the frequency range of acoustic signals on wave objects.
 }
 \details{
 This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:

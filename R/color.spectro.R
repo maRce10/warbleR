@@ -1,8 +1,3 @@
-#internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
-# that allows to plot spectrograms without resetting the graphic device.It also allow using image() 
-# which substantially increases speed (although makes some options unavailable)
-#selec.col length 1 for a single color for all colored signals
-
 #' Highlight spectrogram regions
 #' 
 #' \code{color.spectro} highlights spectrogram regions specified by users

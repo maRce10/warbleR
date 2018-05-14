@@ -5,7 +5,7 @@
 #' wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1,
 #' res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1,
 #'  widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE)
-#' @param X 'selection.table' or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' be used as the input data frame.
@@ -125,7 +125,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   }  
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -155,7 +155,9 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   }} 
   
   #return warning if not all sound files were found
-  fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  if (!is_extended_selection_table(X))
+  {
+    fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
@@ -167,10 +169,10 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   }  else {
     X <- X[d, ]
   }
-  
+  }
   # internal function to detect freq range
   frangeFUN <- function(X, i, img, bp, wl, fsmooth, threshold, wn, flim, ovlp, fast.spec, pal, widths) {
-    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
+    r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -188,7 +190,7 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     
     
     # read rec segment
-    r <- tuneR::readWave(as.character(X$sound.files[i]), from = t[1], to = t[2], units = "seconds")
+    r <- read_wave(X = X, index = i, from = t[1], to = t[2])
     
     frng <- frd_wrblr_int(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
     

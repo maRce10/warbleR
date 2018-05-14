@@ -2,7 +2,7 @@
 #' 
 #' \code{checkwavs} checks whether .wav files can be read by subsequent functions.
 #' @usage checkwavs(X = NULL, path = NULL)
-#' @param X Optional. 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame. If provided the function also returns the
@@ -86,7 +86,7 @@ checkwavs <- function(X = NULL, path = NULL) {
   if(!is.null(X))
   {
     #if X is not a data frame
-    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+    if(!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
     
    if(!all(c("sound.files", "selec", 
               "start", "end") %in% colnames(X))) 
@@ -110,7 +110,7 @@ checkwavs <- function(X = NULL, path = NULL) {
     d <- which(X$sound.files %in% files) 
     if(length(d) == 0){
       stop("The .wav files are not in the working directory")
-    }  else X <- X[d, ]
+    }  else X <- X[d, , drop = FALSE]
     
     files <- files[files %in% X$sound.files]
   }

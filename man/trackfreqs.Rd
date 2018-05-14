@@ -9,14 +9,14 @@ trackfreqs(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
   xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.6, 1), 
   threshold = 15, threshold.time = NULL, threshold.freq = NULL, contour = "both", 
-  col = c("skyblue", "red2"), pch = c(21, 24),  mar = 0.05, lpos = "topright", 
+  col = c("#E37222B3", "#07889BB3"), pch = c(21, 24),  mar = 0.05, lpos = "topright", 
   it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
   pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
    fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...)
 }
 \arguments{
-\item{X}{'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
+\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
 The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
 
@@ -93,8 +93,8 @@ See \code{\link[seewave]{spectro}}.}
 dominant or fundamental frequencies or both should be plotted. Default is "both".}
 
 \item{col}{Vector of length 1 or 2 specifying colors of points plotted to mark 
-fundamental and dominant frequency measurements respetively (if both are plotted). Default is c("skyblue",
-"red2").}
+fundamental and dominant frequency measurements respetively (if both are plotted). Default is \code{c("#E37222B3",
+"#07889BB3")}.}
 
 \item{pch}{Numeric vector of length 1 or 2 specifying plotting characters for 
 the frequency measurements. Default is c(21, 24).}

@@ -11,7 +11,7 @@ clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1,
  raw.contour = FALSE, track.harm = FALSE, adjust.wl = FALSE, ...)
 }
 \arguments{
-\item{X}{'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
+\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
 The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
 

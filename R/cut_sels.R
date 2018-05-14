@@ -4,7 +4,7 @@
 #' @export cut_sels
 #' @usage cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
 #' labels = c("sound.files", "selec"), overwrite = FALSE, ...)
-#' @param X 'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
+#' @param X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
@@ -18,7 +18,7 @@
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param labels String vector. Provides the column names that will be used as labels to
 #'  create sound file names. Note that they should provide unique names (otherwise 
-#'  sound files will be overwritten). Default is \code{c("sound.files", "selec")}.  
+#'  sound files will be overwritten). Default is \code{c("sound.files", "selec")}. 
 #' @param overwrite Logical. If \code{TRUE} sound files with the same name will be 
 #' overwritten. Default is \code{FALSE}.
 #' @param ... Additional arguments to be passed to the internal \code{\link[tuneR]{writeWave}}  function for customizing sound file output (e.g. normalization). 
@@ -96,9 +96,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
      #set working directory
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
-  
-  
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -114,15 +112,17 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   #if any start higher than end stop
   if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
-  #return warning if not all sound files were found
+  #missing label columns
+  if(!all(labels %in% colnames(X)))
+    stop(paste(paste(labels[!(labels %in% colnames(X))], collapse=", "), "label column(s) not found in data frame"))
+  
+  if (!is_extended_selection_table(X))
+  {
+    #return warning if not all sound files were found
   recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
            ".wav file(s) not found"))
-  
-  #missing label columns
-  if(!all(labels %in% colnames(X)))
-    stop(paste(paste(labels[!(labels %in% colnames(X))], collapse=", "), "label column(s) not found in data frame"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd) 
@@ -131,9 +131,10 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   }  else {
     X <- X[d, ]
   }
+}  else X.orig <- X
   
   #convert factors to characters
-  X[,sapply(X, is.factor)] <- apply(X[,sapply(X, is.factor)], 2, as.character)
+  X[,sapply(X, is.factor)] <- apply(X[,sapply(X, is.factor), drop = FALSE], 2, as.character)
   
   #remove .wav from sound file names
   X2 <- X
@@ -147,7 +148,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   cutFUN <- function(X, i, mar, labels, dest.path){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- tuneR::readWave(file.path(path, as.character(X$sound.files[i])), header = TRUE)
+    r <- read_wave(X = X, index = i, header = TRUE, path = path)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -159,13 +160,11 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     if(t[2] > r$samples/f) t[2] <- r$samples/f
     
     # Cut wave
-    wvcut <- tuneR::readWave(file.path(path, as.character(X$sound.files[i])), from = t[1], to = t[2], units = "seconds")
+    wvcut <- read_wave(X = X, index = i, from = t[1], to = t[2])
 
-    
     # save cut
     if(overwrite) unlink(file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")))
 
-  
     tuneR::writeWave(extensible = FALSE, object = wvcut, filename = file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")), ...)
        
   }

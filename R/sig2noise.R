@@ -3,7 +3,7 @@
 #' \code{sig2noise} measures signal-to-noise ratio across multiple files.
 #' @usage sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
 #' in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10)
-#' @param X 'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
+#' @param X object of class 'selection_table', 'extended_selection_table' or data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param mar numeric vector of length 1. Specifies the margins adjacent to
@@ -112,7 +112,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   }
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -132,6 +132,8 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   
   #return warning if not all sound files were found
+  if(!any(class(X) == "extended_selection_table"))
+  {
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
@@ -141,19 +143,20 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   d <- which(X$sound.files %in% fs) 
   if(length(d) == 0){
     stop("The .wav files are not in the working directory")
-  }  else X <- X[d, ]
-   
+  }  else X <- X[d, , drop = FALSE]
+  } else d <- 1:nrow(X)
+  
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  options(warn = 0)
 
   # function to run over single selection
   snr_FUN <- function(y, mar, bp, wl, type, before, in.dB, lim.dB){
     
     # Read sound files to get sample rate and length
-    r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), header = TRUE)
+    r <- read_wave(X = X, index = y, header = TRUE)
+    # r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), header = TRUE)
     f <- r$sample.rate
     
     
@@ -174,7 +177,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     if(enn > r$samples/f) enn <- r$samples/f
     
-    r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), from = stn, to = enn, units = "seconds", toWaveMC = TRUE)
+    r <- read_wave(X = X, index = y, from = stn, to = enn)
     
     # add band-pass frequnecy filter
     if (!is.null(bp)) {
@@ -243,12 +246,12 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  SNR <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  SNR <- pbapply::pbsapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
     snr_FUN(y = i, mar, bp, wl, type, before, in.dB, lim.dB)
   }) 
       
     # Add SNR data to manualoc output
-    z <- data.frame(X[d,], SNR = unlist(SNR))
+    z <- data.frame(X[d,], SNR = SNR)
   return(z)
 }

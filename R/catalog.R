@@ -11,7 +11,7 @@
 #' tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5), group.tag = NULL, 
 #' spec.mar = 0, spec.bg = "white", max.group.cols = NULL, sub.legend = FALSE, 
 #' rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE)
-#' @param X 'selection.table' object or data frame with columns for sound file name (sound.files), selection number (selec), 
+#' @param X 'selection_table', 'extended_selection_table' or data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
@@ -29,7 +29,7 @@
 #'   slow down the function but produce more accurate selection limits (when X is provided). 
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
+#' @param mar Numeric vector of length 1. Specifies the margins (in seconds) adjacent to the start and end points of selections,
 #' dealineating spectrogram limits. Default is 0.05.
 #' @param prop.mar Numeric vector of length 1. Specifies the margins adjacent to the 
 #' start and end points of selections as a proportion of the duration of the signal. If
@@ -150,7 +150,7 @@
 #' 
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
-#'  orientation = "v",  labels = c("sound.files", "selec"), legend = 0)
+#'  orientation = "v", labels = c("sound.files", "selec"), legend = 0)
 #'  
 #'  #different time scales and tag palette
 #' catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
@@ -238,6 +238,28 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
+  #if X is not a data frame
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  
+  
+  #read files
+  if (!is_extended_selection_table(X))
+    {
+    #return warning if not all sound files were found
+    recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+      if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)))
+        (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
+               ".wav file(s) not found"))
+      
+      #count number of sound files in working directory and if 0 stop
+      d <- which(X$sound.files %in% recs.wd)
+      if (length(d) == 0){
+        stop("The .wav files are not in the working directory")
+      }  else {
+        X <- X[d, ]
+      }
+    } else X.orig <- X
+  
   # expand arguments for spec_param
   if (is.null(X$...ovlp...)) X$...ovlp... <- ovlp
   if (is.null(X$...wl...)) X$...wl... <- wl
@@ -252,20 +274,11 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     setwd(path)
   }  
   
-  #if X is not a data frame
-  if (!any(class(X) %in% c("data.frame", "selection.table"))) stop("X is not of a class 'data.frame' or 'selection table")
-  
   #nrow must be equal or higher than 2
   if (nrow < 2) stop("number of rows must be equal or higher than 2")
   
   #rows must be equal or higher than 2
   if (ncol < 1) stop("number of columns (ncol) must be equal or higher than 1")
-  
-  #read files
-  files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  
-  #stop if files are not in working directory
-  if (length(files) == 0) stop("no .wav files in working directory")
   
   #missing columns
   if (!all(c("sound.files", "selec",
@@ -306,6 +319,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
   
   #if NAs in tags
+  if (!is.null(tags))
   if (anyNA(X[,tags]))
     stop("NAs are not allowed in tag columns")
   
@@ -342,19 +356,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
-  #return warning if not all sound files were found
-  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)))
-    (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
-           ".wav file(s) not found"))
-  
-  #count number of sound files in working directory and if 0 stop
-  d <- which(X$sound.files %in% recs.wd)
-  if (length(d) == 0){
-    stop("The .wav files are not in the working directory")
-  }  else {
-    X <- X[d, ]
-  }
   
   #if flim is not vector or length!=2 stop
   if (is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
@@ -511,7 +512,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
     }
     
-    
     X <- do.call(rbind, lapply(1:nrow(X), function(x) {
       W <- X[x, ]
       if (is.numeric(X[,tags[1]]) & !is.integer(X[,tags[1]]))
@@ -541,24 +541,19 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     grcl <- tag.pal[[3]](length(unique(Y[, group.tag]))) 
     
     #convert characters to factors
+    
     X <- rapply(X, as.factor, classes="character", how="replace")
     X$colgroup <- X[,group.tag] 
     X$colgroup <- droplevels(as.factor(X$colgroup))
     levels(X$colgroup) <- grcl[1:length(unique(X$colgroup))]
-    
-    #add to df for legend
-    #   tag.col.df2 <- X[!duplicated(X[,group.tag]), c(group.tag, "colgroup")]
-    #   names(tag.col.df2) <- c("tag", "col")
-    #   tag.col.df2$tag.col <- paste(group.tag, "(group.tag)")
-    #   tag.col.df2$pattern <- "no.pattern"
-    #   
-    # if (!exists("tag.col.df"))
-    #     tag.col.df <- tag.col.df2 else tag.col.df <- rbind(tag.col.df, tag.col.df2)
   }
+ 
+   ## repair sel table
+  if (exists("X.orig")) X <- fix_extended_selection_table(X = as.data.frame(X), Y = X.orig)
   
   #calculate time and freq ranges based on all recs
   rangs <- lapply(1:nrow(X), function(i){
-    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
+   r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
     
     # change mar to prop.mar (if provided)
@@ -586,7 +581,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   {
     X2 <- lapply(1:nrow(X), function(x)
     {
-      Y <- X[x, ]
+      Y <- as.data.frame(X)[x, ]
       dur <- Y$end - Y$start
       if (dur < max(rangs$mardur)) {
         Y$end  <- Y$end + (max(rangs$mardur) - dur)/2
@@ -599,7 +594,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       return(Y)
     })
     X <- do.call(rbind, X2)
-  }
+    
+    if (exists("X.orig")) X <- fix_extended_selection_table(X = as.data.frame(X), Y = X.orig)
+    }
   
   # function to run on data frame subset   
   catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim,pal, width, height, tag.col.df, legend, cex, 
@@ -702,11 +699,12 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         fig.type <- c(fig.type, "title")
       }
       
-      
-      X3 <- X[rep(1:nrow(X), each = 2), ]
+      X3 <- X3.1 <- X[rep(1:nrow(X), each = 2), ]
       
       #convert factors to character
       X3 <- data.frame(rapply(X3, as.character, classes="factor", how="replace"), stringsAsFactors = FALSE)
+      
+      if (is_extended_selection_table(X3.1)) X3 <- fix_extended_selection_table(X3, X3.1)
       
       #start graphic device
       if (!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
@@ -728,7 +726,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         
         m <- m[c(neor2, which(!1:nrow(m) %in% neor2)),]
       }
-      
       
       # split graphic window
       invisible(close.screen(all.screens = TRUE))
@@ -757,13 +754,12 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         
         if (fig.type[i] == "spec")  #plot spectros
         {     #Read sound files, initialize frequency and time limits for spectrogram
-          r <- tuneR::readWave(as.character(X3$sound.files[i]), header = TRUE)
+         r <- read_wave(X = X3, index = i, header = TRUE)
           f <- r$sample.rate
           
           # change mar to prop.mar (if provided)
           if (!is.null(prop.mar)) adj.mar <- (X3$end[i] - X3$start[i]) * prop.mar else
             adj.mar <- mar
-          
           
           t <- c(X3$start[i] - adj.mar, X3$end[i] + adj.mar)
           
@@ -771,7 +767,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
           if (t[2] > r$samples/f) t[2] <- r$samples/f
           
-          rec <- tuneR::readWave(as.character(X3$sound.files[i]), from = t[1], to = t[2], units = "seconds")
+          # rec <- tuneR::readWave(as.character(X3$sound.files[i]), from = t[1], to = t[2], units = "seconds")
+          rec <- read_wave(X = X3, index = i, from = t[1], to = t[2])
           
           #add xaxis to bottom spectros
           if (!same.time.scale & !rm.axes) {
@@ -930,7 +927,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
             tag.col.df <- droplevels(tag.col.df[tag.col.df$tag %in% levs,])  
           }
           
-          
           if (nrow(tag.col.df) > 15) 
           {
             y1 <- 0.03
@@ -1021,10 +1017,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   out <- pbapply::pblapply(X = 1:length(Xlist), cl = cl, FUN = function(z) 
-   
+    { 
     catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
-             width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)
+             width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)}
   )   
-  
-  if (!is.null(path)) setwd(wd)
+
 }

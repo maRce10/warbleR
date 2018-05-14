@@ -4,7 +4,7 @@
 #' facilitate selection of display parameters
 #' @usage spec_param(X, length.out = 5, ovlp = 90, wl = c(100, 1000), wn = "hanning",
 #'  collev.min = -40, pal = "reverse.gray.colors.2", path = NULL, rm.axes = TRUE, ...)
-#' @param X 'selection.table' object or data frame with a single row and columns for sound file name (sound.files), selection number (selec), 
+#' @param X object of class 'selection_table', 'extended_selection_table' or data frame with a single row and columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param length.out Numeric vector of length 1 controling the number of sublevels of
 #'  the numeric arguments for which a range has been provided. Ranges are allowed for
@@ -111,7 +111,6 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
                     wn = "hanning", collev.min = -40,
                     pal = "reverse.gray.colors.2", path = NULL, rm.axes = TRUE, ...)
 {
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(spec_param)
@@ -138,7 +137,6 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  
   # stop if pal is function
   if (is.function(pal)) stop("'pal' should be a character vector")
   
@@ -148,11 +146,11 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   if(wn[1] == "all") wn <- c("bartlett", "blackman", "flattop", "hamming", "hanning", "rectangle")
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if(nrow(X) > 1){
-  X <- X[1,]
-  cat("Data frame provided has more than 1 selection (row), only the first one was used")
+  X <- X[1, , drop = FALSE]
+  write(file = "", x = "Data frame provided has more than 1 selection (row), only the first one was used")
   }
   
   if (length.out < 2) stop("'length.out' should be equal or higher than 2")
@@ -169,6 +167,8 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   if (length(collev.min) > 1)
     collev.min <- seq(collev.min[1], collev.min[2], length.out = length.out)
   
+  if(is_extended_selection_table(X))  X.orig <- X
+  
   # Expand data frame
   X <- suppressWarnings(data.frame(X, expand.grid(ovlp = ovlp, wl = wl, 
           collev.min = collev.min, wn = wn, pal = pal), stringsAsFactors = FALSE))
@@ -179,6 +179,7 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   X$selec2 <- X$selec
   X$selec <- 1:nrow(X)
   X$lbs <- ""
+  
   
   if(length(exp.cols) > 0)
   for(i in seq_len(length(exp.cols)))
@@ -196,7 +197,19 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   
   X$lbs <- gsub(" \n$| $|  $|^ |^  ", "", X$lbs)  
   
-  catalog(X = X, ovlp = X$ovlp, wl = X$wl, collevels = "collev.min", title = paste(X$sound.files[1], X$selec2[1]), rm.axes = rm.axes, img.suffix = "spec_param", 
+  
+  if(exists("X.orig"))
+    {
+    attributes(X)$check.results <- do.call(rbind, lapply(1:nrow(X), function(x) attributes(X.orig)$check.results[1, ]))
+    attributes(X)$check.results$selec <- 1:nrow(X)
+
+    attributes(X)$wave.objects <- attributes(X.orig)$wave.objects[1]
+
+    attributes(X)$by.song <- attributes(X.orig)$by.song
+    class(X) <- class(X.orig)
+    }
+
+    catalog(X = X, ovlp = X$ovlp, wl = X$wl, collevels = "collev.min", title = paste(X$sound.files[1], X$selec2[1]), rm.axes = rm.axes, img.suffix = "spec_param", 
                   wn = X$wn, pal = "pal.list", path = path, labels = c("lbs"), ...)
   
 }

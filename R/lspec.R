@@ -6,7 +6,7 @@
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 #' cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, 
 #' fast.spec = FALSE) 
-#' @param X 'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
+#' @param X 'selection_table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
 #' start and end of a selection and the selections are labeled with the selection number 
@@ -143,7 +143,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   if(!is.null(X)) {
   
     #if X is not a data frame
-    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+    if(!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
     
   #stop if files are not in working directory
   if(length(files) == 0) stop(".wav files in X are not in working directory")

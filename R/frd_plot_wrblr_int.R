@@ -44,7 +44,7 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     #add gray polygon on detected frequency bands
     lapply(seq_len(length(min.start)), function(e)
     {
-      rect(xleft = 0, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = dur, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("green3", 0.1), border = adjustcolor("gray", 0.2)) 
+      rect(xleft = 0, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = dur, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("#07889B", alpha.f = 0.1), border = adjustcolor("gray", 0.2)) 
       
     })
       
@@ -72,10 +72,10 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     zf3 <- c(lims[1], zf, lims[2])
     
     # plot amplitude values curve
-    polygon(cbind(z3, zf3), col= adjustcolor("#4D69FF", 0.9))
+    polygon(cbind(z3, zf3), col= adjustcolor("#E37222", 0.8))
     
     # add border line
-    points(z3, zf3, type = "l", col = adjustcolor("black", 0.5))
+    points(z3, zf3, type = "l", col = adjustcolor("gray", 0.3))
     
     # add bacground color
     rect(xleft = 0, ybottom = flim[1], xright = 1, ytop = flim[2], col = adjustcolor("#4D69FF", 0.05))
@@ -83,7 +83,7 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     #add gray polygon on detected frequency bands
     lapply(seq_len(length(min.start)), function(e)
     {
-      rect(xleft = 0, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = 1, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("green3", 0.1), border = adjustcolor("gray", 0.2)) 
+      rect(xleft = 0, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = 1, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("#07889B", alpha.f = 0.1), border = adjustcolor("gray", 0.2)) 
       
     })
     
@@ -95,7 +95,7 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     }
     
     # add line to highligh freq range
-    abline(v = threshold/100, col = adjustcolor("blue4", 0.7), lty = 3, lwd = 2)
+    abline(v = threshold/100, col = adjustcolor("#07889B", 0.7), lty = 3, lwd = 2)
     abline(h = c(min.start, max.end), col = "#80C3FF", lty = 3, lwd = 2)
     
     

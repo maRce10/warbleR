@@ -11,7 +11,7 @@ clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
  pal = reverse.gray.colors.2, img = TRUE, ...)
 }
 \arguments{
-\item{X}{'selection.table' object or data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
+\item{X}{'selection_table' object or data frame with results from \code{\link{manualoc}} function, \code{\link{autodetec}} 
 function, or any data frame with columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
 Default \code{NULL}.}
@@ -115,7 +115,9 @@ standardized, being 0 the distance of a signal to itself and 1 the farthest pair
 distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{princomp}}) 
 is applied to calculate distances when using spectral parameters (SP). In that case the first 2 PC's are used. Classical 
 Multidimensional Scalling (also known as Principal Coordinates Analysis, 
-(\code{\link[stats]{cmdscale}})) is used for all other methods. Note that SP can only be used with at least 22 selections (number of rows in input data frame) as PCA only works with more units than variables. The graphs are return as image files in the 
+(\code{\link[stats]{cmdscale}})) is used for all other methods. Note that SP can
+only be used with at least 22 selections (number of rows in input data frame) as
+PCA only works with more units than variables. The graphs are return as image files in the 
 working directory. The file name contains the methods being compared and the 
 rownumber of the selections. This function uses internally a modified version
 of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms.

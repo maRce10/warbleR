@@ -12,7 +12,7 @@ autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL
   fast.spec = FALSE, ...)
 }
 \arguments{
-\item{X}{'selection.table' object or data frame with results from \code{\link{manualoc}} function or any data frame with columns
+\item{X}{'selection_table' object or data frame with results from \code{\link{manualoc}} function or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end).}
 

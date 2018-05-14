@@ -7,7 +7,7 @@
 #' res = 100, cexlab = 1, title = TRUE, before = FALSE, eq.dur = FALSE,
 #'   propwidth= FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
 #'    snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
-#' @param  X 'selection.table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
+#' @param  X 'selection_table', 'extended_selection_table' or data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -144,7 +144,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   }  
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -171,6 +171,8 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   options( show.error.messages = TRUE)
     
   #return warning if not all sound files were found
+  if (!is_extended_selection_table(X))
+  { 
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
@@ -180,7 +182,8 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   d <- which(X$sound.files %in% fs) 
   if(length(d) == 0){
     stop("The .wav files are not in the working directory")
-  }  else X <- X[d, ]
+  }  else X <- X[d, , drop = FALSE]
+  }
   
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -188,11 +191,8 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   
     snrspeFUN <- function(i, X, wl, flim, ovlp, inner.mar, outer.mar, picsize, res, cexlab, xl, mar, snrmar, before, eq.dur){
     
-    r <- tuneR::readWave(as.character(X$sound.files[i])) 
-    f <- r@samp.rate
-    
     # Read sound files to get sample rate and length
-    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
+    r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
     
     fl<- flim #in case flim its higher than can be due to sampling rate
@@ -219,7 +219,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     
     if(en > r$samples/f) en <- r$samples/f
     
-    r <- tuneR::readWave(as.character(X$sound.files[i]), from = st, to = en, units = "seconds")
+    r <- read_wave(X = X, index = i, from = st, to = en)
     
     
 # Spectrogram width can be proportional to signal duration

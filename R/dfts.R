@@ -7,7 +7,7 @@
 #' img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE,
 #' clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1,
 #'  raw.contour = FALSE, track.harm = FALSE, adjust.wl = FALSE, ...)
-#' @param  X 'selection.table' object or data frame with results containing columns for sound file name (sound.files), 
+#' @param  X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -133,7 +133,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   }  
   
   #if X is not a data frame
-  if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if(!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
@@ -166,7 +166,8 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   if(is.null(threshold.freq)) threshold.freq <- threshold
   
   #return warning if not all sound files were found
-  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  if (!is_extended_selection_table(X)){
+   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
@@ -175,7 +176,8 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   d <- which(X$sound.files %in% recs.wd) 
   if(length(d) == 0){
     stop("The .wav files are not in the working directory")
-  }  else X <- X[d, ]
+  }  else X <- X[d, , drop = FALSE]
+  }
   
   #if parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -187,7 +189,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc, raw.contour, track.harm, adjust.wl){
     
     # Read sound files to get sample rate and length
-    r <- tuneR::readWave(as.character(X$sound.files[i]), header = TRUE)
+    r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
     
     #in case bp its higher than can be due to sampling rate
@@ -195,7 +197,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
-    r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds")
+    r <- read_wave(X = X, index = i)
     
     if(frange.dtc){
       frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
@@ -271,7 +273,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
 
     if (img)  
     {
-      trackfreqs(X[i,], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
+      trackfreqs(X[i, , drop = FALSE], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
                  parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
                  custom.contour = cstm.cntr, xl = ifelse(frange.dtc, 1.8, 1), fsmooth = fsmooth, frange.detec = frange.dtc, ...)
       } 

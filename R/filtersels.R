@@ -3,7 +3,7 @@
 #' \code{filtersels} subsets selection data frames based on image files that have been manually filtered.
 #' @usage filtersels(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "jpeg",
 #'  incl.wav = TRUE, missing = FALSE, index = FALSE)
-#' @param X 'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame.
 #' @param path Character string containing the directory path where the image files are located. 
@@ -101,7 +101,7 @@ filtersels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "j
   }  
 
     #if X is not a data frame
-    if(!class(X) %in% c("data.frame", "selection.table")) stop("X is not of a class 'data.frame' or 'selection table")
+    if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
     
   #if it argument is not "jpeg" or "tiff" 
   if(!any(it == "jpeg", it == "tiff", it == "pdf")) stop(paste("Image type", it, "not allowed"))  
@@ -134,7 +134,7 @@ if(it != "pdf")
     
     if(!index)
     {
-      if(missing) Y <- X[!miss.index, ] else Y <- X[miss.index, ]
+      if(missing) Y <- X[!miss.index, , drop = FALSE] else Y <- X[miss.index, , drop = FALSE]
       
     } else if(missing)  Y <- which(!miss.index) else  Y <- which(miss.index)
     
@@ -152,7 +152,7 @@ if(it != "pdf")
     
     if(!index)
     {
-      if(missing) Y <- X[!miss.index, ] else Y <- X[miss.index, ]
+      if(missing) Y <- X[!miss.index, , drop = FALSE] else Y <- X[miss.index, , drop = FALSE]
     
     } else if(missing)  Y <- which(!miss.index) else Y <- which(miss.index)
 
@@ -169,11 +169,15 @@ if(it != "pdf")
   
   if(!index)
   {
-    if(missing) Y <- droplevels(X[miss.index, ]) else Y <- droplevels(X[!miss.index, ])
-    
-  } else if(missing)  Y <- which(!miss.index) else  Y <- which(miss.index)
-  
+    if(missing) miss.index <- !miss.index
+      
+    Y <- X[miss.index, , drop = FALSE]
+     
+     if (is_extended_selection_table(X))
+        attributes(X)$check.results <- droplevels(attributes(X)$check.results[miss.index, ])
+    } else Y <- which(miss.index)
 }
+
 if(!index)
 {if(nrow(Y) == 0) stop("Image files in working directory do not match sound file names in X (wrong working directory?)")
   return(Y)

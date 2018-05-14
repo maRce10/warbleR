@@ -2,37 +2,36 @@
 % Please edit documentation in R/read_wave.R
 \name{read_wave}
 \alias{read_wave}
-\title{A wrapper for tuneR's readWave}
+\title{A wrapper for tuneR's readWave that read sound files listed within selection tables}
 \usage{
-read_wave(filename, from = 0, to = Inf, units = "seconds", header = FALSE,
-toWaveMC = NULL, ignore.ext.case = TRUE)
+read_wave(X, index, from = X$start[index], to = X$end[index], header = FALSE, path = NULL)
 }
 \arguments{
-\item{filename}{Filename of the file to be read.}
+\item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
+selection number (selec), and start and end time of signals (start and end). 
+Low and high frequency columns are optional. Default is \code{NULL}.}
 
-\item{from}{Where to start reading (in order to save memory by reading wave file piecewise), in units.}
+\item{index}{Index of the selection in 'X' that will be read. Ignored if 'X' is \code{NULL}.}
 
-\item{to}{Where to stop reading (in order to save memory by reading wave file piecewise), in units. Default is \code{Inf}.}
+\item{from}{Where to start reading, in seconds. Default is \code{X$start[index]}.}
 
-\item{units}{Units in which from and to is given, the default is "seconds".}
+\item{to}{Where to stop reading, in seconds. Default is \code{X$end[index]}.}
 
-\item{header}{If \code{TRUE}, just header information of the Wave file are returned, otherwise (the default) the whole Wave object.}
+\item{header}{If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.}
 
-\item{toWaveMC}{If \code{TRUE}, a WaveMC-class object is returned. If \code{NULL}
-(default) or \code{FALSE} and a non-extensible Wave file or an extensible Wave
- file with no other than the 'FL' and 'FR' channels is found, a Wave-class object
- is returned, otherwise a WaveMC-class object.}
-
-\item{ignore.ext.case}{Logical to control if the file extension case is ignored. Default is \code{TRUE}.}
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
 An object of class "Wave".
 }
 \description{
-\code{read_wave} A wrapper for tuneR's \code{\link[tuneR]{readWave}} function that deals with extension case mismatches.
+\code{read_wave} A wrapper for tuneR's \code{\link[tuneR]{readWave}} function that read sound files listed within selection tables
 }
 \details{
-The function is a wrapper for \code{\link[tuneR]{readWave}} that ignores file extension mismatches, a common mistake when reading wave files.
+The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files listed within selection tables
+ignores file extension mismatches, a common mistake when reading wave files. It 
+is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details).
 }
 \examples{
 {
@@ -43,14 +42,7 @@ The function is a wrapper for \code{\link[tuneR]{readWave}} that ignores file ex
 data(list = c("Phae.long1"))
 writeWave(Phae.long1,"Phae.long1.wav")
 
-# provide right extension case
-read_wave("Phae.long1.wav")
-
-# provide wrong extension case
-read_wave("Phae.long1.WAV")
-
-#' # provide no extension
-read_wave("Phae.long1")
+read_wave(X = selec.table, index  =  1)
 }
 }
 \author{

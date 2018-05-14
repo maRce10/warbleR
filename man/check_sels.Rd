@@ -4,12 +4,13 @@
 \alias{checksels}
 \title{Check selection data frames}
 \usage{
-checksels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE)
+checksels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE,
+wav.size = FALSE)
 }
 \arguments{
-\item{X}{'selection.table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
+\item{X}{'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. Alternatively, a 'selection.table' class object can be input to double check selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 be used as the input data frame.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
@@ -23,6 +24,10 @@ If \code{NULL} (default) then the current working directory is used.}
 with long sound files.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
+
+\item{wav.size}{Logical argument to control if the size of the wave object 
+when the selection is imported into R (as when using \code{\link[tuneR]{readWave}}
+is calculated and added as a column. Size is return in MB. Default is \code{FALSE}.}
 }
 \value{
 A data frame including the columns in the input data frame (X) and 2 additional columns:
