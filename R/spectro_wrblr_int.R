@@ -1,3 +1,4 @@
+
 #internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
 # that allows to plot spectrograms using image() which substantially increases speed (although makes some options unavailable)
 #last modification on feb-09-2018 (MAS)
