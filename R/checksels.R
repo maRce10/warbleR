@@ -246,5 +246,4 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   if (wav.size) res$wav.size.MB <- round(res$bits  * res$channel * res$sample.rate * res$duration / 4) / 1024
 
   return(res) 
-  
 }

@@ -51,13 +51,13 @@
 #' } 
 #' @examples{
 #' #load  simulated singing data (see data documentation)
-#' data(sim.coor.sing)
+#' data(sim_coor_sing)
 #' 
 #' # testing if coordination happens less than expected by chance
-#' coor.test(sim.coor.sing, iterations = 100, less.than.chance = TRUE)
+#' coor.test(sim_coor_sing, iterations = 100, less.than.chance = TRUE)
 #' 
 #' # testing if coordination happens more than expected by chance
-#' coor.test(sim.coor.sing, iterations = 100, less.than.chance = FALSE)
+#' coor.test(sim_coor_sing, iterations = 100, less.than.chance = FALSE)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on apr-11-2018 (MAS)

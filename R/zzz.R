@@ -4,8 +4,7 @@
 # see https://github.com/hadley/r-pkgs/blob/master/r.rmd
 
 .onAttach <- function(libname, pkgname) {
-  if(!requireNamespace("ggplot2",quietly = TRUE))
-    packageStartupMessage("\nNOTEs: \n 1) install ggplot2 to run coor.graph() \n 2) functions 'imp.raven' and 'imp.syrinx' were moved to the Rraven package \n 3) 'low.freq' and 'high.freq' columns names shoud be renamed to 'bottom.freq' and 'top.freq' \n 3) ")
+    packageStartupMessage("\nNOTE: functions are been renamed (run 'print(name_changes)' to see new names). Both old and new names are available in this version")
 }
 
 # set warbleR options
@@ -40,3 +39,35 @@
   options("warbleR" = NULL)
   invisible(NULL)
 }
+
+
+auto_detec <- autodetec
+check_sels <- checksels
+check_wavs <- checkwavs
+compare_methods <- compare.methods
+coor_test <- coor.test
+coor_graph <- coor.graph
+df_DTW <- dfDTW
+df_ts <- dfts
+ff_DTW <- ffDTW
+ff_ts <- ffts
+filter_sels <- filtersels
+fix_wavs <- fixwavs
+freq_range <- frange
+freq_range_detec <- frange.detec
+manual_loc <- manualoc
+move_imgs <- move.imgs
+sel_tailor <- seltailor
+se_ts <- sp.en.ts
+snr_specs <- snrspecs
+spec_an <- specan
+spectrograms <- specreator
+track_freqs <- trackfreqs
+color_spectro <- color.spectro
+xc_maps <- xcmaps
+quer_xc <- querxc
+
+
+name_changes <- data.frame('New names' = c("auto_detec", "check_sels", "check_wavs", "compare_methods", "coor_test", "coor_graph", "df_DTW", "df_ts", "ff_ts", "filter_sels", "fix_wavs", "freq_range", "freq_range_detec", "manual_loc", "move_imgs", "sel_tailor", "selec_table", "sim_coor_sing", "se_ts", "snr_specs", "spec_an", "spectrograms", "track_freqs", "color_spectro", "xc_maps", "quer_xc"),
+           'Old names'= c("autodetec", "checksels", "checkwavs", "compare.methods", "coor.test", "coor.graph", "dfDTW", "dfts", "ffts", "filtersels", "fixwavs", "frange", "frange.detec", "manualoc", "move.imgs", "seltailor", "selec.table", "sim.coor.sing", "sp.en.ts", "snrspecs", "specan", "specreator", "trackfreqs", "color.spectro", "xcmaps", "querxc"))
+

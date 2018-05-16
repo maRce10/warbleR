@@ -1,38 +1,42 @@
-#' Create 'selection_table' class objects
+#' Create 'selection_table' and 'extended_selection_table' objects
 #' 
-#' \code{selection_table} converts data frames into an object of class selection_table.
+#' \code{selection_table} converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.
 #' @usage selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-#' extended = FALSE, confirm.extended = TRUE, mar = 0.05, by.song = NULL, ...)
+#' extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, 
+#' pb = TRUE, parallel = 1, ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
-#' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+#' files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end": 
 #' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional.  Alternatively, a 'selection_table' class object can be input to double check selections. 
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input object for other \code{\link{warbleR}} functions.
-#' @param max.dur the maximum duration of expected for a selection  (ie. end - start).
+#' @param max.dur the maximum duration of expected for a selection  (ie. end - start). If surpassed then an error message 
+#' will be generated. Useful for detecting errors in selection tables.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param whole.recs Logical. If \code{TRUE} the function will create a selection 
 #' table for all sound files in the working directory (or "path") with `start = 0` 
 #' and `end = wavdur()`. Default is if \code{FALSE}.  
-#' @param extended Logical. If \code{TRUE}, the selections are 
-#' included as an additional attribute ('wave.objects') to the data set, which now will
-#' be called a 'extended selection 
-#' table'. This can largely faciliate the storing and sharing of (bio)acoustic data
-#' as the extended selection tables will contain all the necessary information for 
-#' running acoustic analysis. The output object will also belong to the 'extended_selection_table' 
-#' class (in addition to the 'data.frame' and 'selection_table' classes). Default 
-#' is if \code{FALSE}. An 'extended selection table won't be created if there is any issue with the selection. See 'details'.
+#' @param extended Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table' 
+#' which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is 
+#' and self-contained format that does not require the original sound files for running most acoustic analysis in 
+#' \code{\link{warbleR}}. This can largely faciliate the storing and sharing of (bio)acoustic data. Default 
+#' is if \code{FALSE}. An extended selection table won't be created if there is any issue with the selection. See 
+#' 'details'.
 #' @param mar Numeric vector of length 1 specifying the margins (in seconds) 
 #' adjacent to the start and end points of the selections when creating extended 
-#' selection tables. Default is 0.05. Ignored if 'extended' is \code{FALSE}.
+#' selection tables. Default is 0.1. Ignored if 'extended' is \code{FALSE}.
 #' @param confirm.extended Logical. If \code{TRUE} then the size of the 'extended_selection_table' 
 #' will be estimated and the user will be asked for confirmation (in the console)
 #'before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
 #' generating objects too big to be dealth with by R. See 'details' for more information about extended selection table size.
 #' @param by.song Character string with the column name containing song labels. If provided a wave object containing for 
 #' all selection belonging to a single song would be saved in the extended selection table (hence only applicable for 
-#' extended selection tables). Default is \code{FALSE}. Ignored if \code{extended = FALSE}. Note that the function assumes
-#' that song labels are not repeated within a sound file. If \code{NULL} (default), wave objects are created for each selection.
+#' extended selection tables). Note that the function assumes that song labels are not repeated within a sound file. 
+#' If \code{NULL} (default), wave objects are created for each selection (e.g. by selection). 
+#' Ignored if \code{extended = FALSE}.
+#' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
+#' @param parallel Numeric. Controls whether parallel computing is applied. 
+#' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param ... Additional arguments to be passed to \code{\link{checksels}} for customizing
 #' checking routine.
 #' @return An object of class selection_table which includes the original data frame plus the following additional attributes:
@@ -42,32 +46,36 @@
 #'    \item 2) A list indicating if the selection table has been created by song (see 'by.song argument).
 #'    \item 3) If a extended selection table is created a list containing the wave objects for each selection (or song if 'by.song').
 #'    }
-#' @details This function creates and object of class 'selection_table' or 'extended_selection_table' (if \code{extended = TRUE}, see below). The function checks: 
+#' @details This function creates and object of class 'selection_table' or 'extended_selection_table' (if \code{extended = TRUE}, see below). First, the function checks: 
 #' \itemize{
 #'    \item 1) if the selections listed in the data frame correspond to .wav files
 #' in the working directory
 #'    \item 2) if the sound files can be read and if so, 
 #'    \item 3) if the start and end time of the selections are found within the duration of the sound files
 #'    }
+#' If no errors are found the a selection table or extended selection table will be generated. 
 #' Note that the sound files should be in the working directory (or the directory provided in 'path').
 #' This is useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}, \code{\link{xcorr}}, \code{\link{catalog}}, \code{\link{dfDTW}}). Note also that corrupt files can be
 #' fixed using \code{\link{fixwavs}} ('sox' must be installed to be able to run this function).
 #' The 'selection_table' class can be input in subsequent functions. 
 #' 
 #' When \code{extended = TRUE} the function will generate an object of class 'extended_selection_table' which 
-#' will also contain the wave objects for each of the selections in the data frame.
-#' This transforms selection talbe in stand alone objects as they no longer need the original
-#' sound files to run acoustic analysis. Extended selection table size will be a 
-#' function of the number of selections \code{nrow(X)}, sampling rate, selection 
+#' will also contains the wave objects for each of the selections in the data frame.
+#' This transforms selection tables into self-contained objects as they no longer need the original
+#' sound files to run acoustic analysis. This can largely faciliate the storing and sharing of (bio)acoustic data.
+#' Extended selection table size will be a function of the number of selections \code{nrow(X)}, sampling rate, selection 
 #' duration and margin duration. As a guide, a selection table
 #' with 1000 selections similar to the ones in 'selec.table' (mean duration ~0.15
-#'  seconds) at 22.5 kHz sampling rate and the default margin (\code{mar = 0.05}) 
-#'  will generate a extended selection table of ~23 MB (~230 MB for a 10000 rows 
+#'  seconds) at 22.5 kHz sampling rate and the default margin (\code{mar = 0.1}) 
+#'  will generate a extended selection table of ~31 MB (~310 MB for a 10000 rows 
 #'  selection table). You can check the size of the output extended selection table
-#'  with the \code{\link[utils]{object.size}} function.
+#'  with the \code{\link[utils]{object.size}} function. Note that extended selection table created 'by.song' could be 
+#'  considerable larger.
 #' @seealso \code{\link{checkwavs}}
 #' @export
 #' @name selection_table
+#' @name make.selection.table
+#' @aliases make.selection.table
 #' @examples
 #' {
 #' # First set temporary folder
@@ -99,9 +107,15 @@
 #last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-    extended = FALSE, confirm.extended = TRUE, mar = 0.05, by.song = NULL, ...)
+    extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, ...)
 {
   if (is.null(path)) path <- getwd()
+  
+  # reset working directory 
+  on.exit(setwd(getwd()))
+  
+  # set pb options 
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options
   # get function arguments
@@ -127,6 +141,11 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
+  # If parallel is not numeric
+  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
+  
   if (whole.recs){ 
     sound.files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
     
@@ -134,9 +153,11 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     
     X <- data.frame(sound.files, selec = 1, channel = 1, start = 0, end = wavdur(files = sound.files, path = path)$duration)
   }
+
+  if(pb) write(file = "", x ="checking selections:")
+    check.results <- checksels(X, path = path, wav.size = TRUE, ...)        
   
-  check.results <- checksels(X, path = path, wav.size = TRUE, pb = FALSE, ...)        
-  if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check.sels() to locate problematic selections)")
+    if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check.sels() to locate problematic selections)")
     
   X <- check.results[ , names(check.results) %in% names(X)]
   
@@ -181,10 +202,17 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         Y$mar.after <- check.results$mar.after
         }
       
-    #save wave objects as a list attribute  
-      #write(file = "", x ="saving wave objects into extended selection table:")
+    #save wave objects as a list attributes
+      # set clusters for windows OS
+      # set pb options 
+      pbapply::pboptions(type = ifelse(pb, "timer", "none"))
       
-      attributes(X)$wave.objects <- pbapply::pblapply(1:nrow(Y), function(x) read_wave(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x]))
+      if (Sys.info()[1] == "Windows" & parallel > 1)
+        cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
+      
+       if(pb) write(file = "", x ="saving wave objects into extended selection table:")
+      
+      attributes(X)$wave.objects <- pbapply::pblapply(1:nrow(Y), cl = cl, function(x) read_wave(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x],  path = path))
     
     # reset for new dimensions  
     check.results$start <- X$start <- check.results$mar.before
@@ -199,7 +227,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     X$sound.files <- check.results$sound.files <- paste0(X$sound.files, "-song_", as.data.frame(X)[ , names(X) == by.song,])
     
   for(i in unique(X$sound.files))
-   check.results$selec[check.results$sound.files == i] <- X$selec[X$sound.files == i] <- 1:nrow(X[X$sound.files == i,])
+   check.results$selec[check.results$sound.files == i] <- X$selec[X$sound.files == i] <- 1:nrow(X[X$sound.files == i, drop = FALSE])
   
     check.results$n.samples <- NA
     
@@ -239,6 +267,9 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   
   return(X)
 }
+
+# alias
+make.selection.table <- selection_table
 
 ##############################################################################################################
 
@@ -399,7 +430,7 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
 # function to print extended selection table
 print.extended_selection_table <- function(X) {
   
-  cat("object of class 'extended_selection_table' \n contains a selection table data frame: \n")
+  cat(paste("object of class 'extended_selection_table' \n contains a selection table data frame with"), nrow(X), "rows and", ncol(X), "columns: \n")
   
   print(head(as.data.frame(X)))
   
@@ -422,7 +453,7 @@ print.extended_selection_table <- function(X) {
 # function to print selection table 
 print.selection_table <- function(X) {
   
-  cat("object of class 'selection_table' \n contains a selection table data frame: \n")
+  cat(paste("object of class 'selection_table' \n contains a selection table data frame with"), nrow(X), "rows and", ncol(X), "columns: \n")
   
   print(head(as.data.frame(X)))
   
@@ -436,7 +467,7 @@ print.selection_table <- function(X) {
 
 #' Fix extended selection tables 
 #' 
-#' \code{fix_extended_selection_table} Fixes extended selection tables that have lost their attributes
+#' \code{fix_extended_selection_table} fixes extended selection tables that have lost their attributes
 #' @usage fix_extended_selection_table(X, Y)
 #' @param X an object of class 'selection_table' or data frame that  contains columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal

@@ -2,8 +2,7 @@
 #' 
 #' A data frame containing the start, end, low and hig frequency of 
 #' \emph{Phaethornis longirostris} (Long-billed Hermit) songs from the 
-#' example sound files included in this package. Same data than 'selec_table'.
-#' 'selec.table' will be reomved in future package version.
+#' example sound files included in this package. Same data than 'selec.table'.
 #' 
 #' @format A data frame with 11 rows and 6 variables: \describe{ 
 #'  \item{sound.files}{recording names}
@@ -17,7 +16,7 @@
 #'  \item{rec.comment}{recording comments}
 #' }
 #' 
-#' @usage data(selec.table)
+#' @usage data(selec_table)
 #' 
 #' @source Marcelo Araya Salas, warbleR 
-"selec.table"
+"selec_table"

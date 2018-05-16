@@ -200,11 +200,11 @@ write.csv(sels, "Raven_sels.csv", row.names = FALSE)
 
 ### Make your data frame into an object of class `selection table`
 
-Downstream `warbleR` functions require selection tables in order to run correctly. Use the function `make.selection.table` to convert your data frame into an object of class `selection.table`. In future versions of `warbleR`, all functions will require selection table objects of class `selection.table`.
+Downstream `warbleR` functions require selection tables in order to run correctly. Use the function `selection_table` to convert your data frame into an object of class `selection_table`. In future versions of `warbleR`, all functions will require selection table objects of class `selection_table`.
 
 ```{r, echo=TRUE, eval=FALSE}
 
-sels <- make.selection.table(X = sels)
+sels <- selection_table(X = sels)
 str(sels)
 class(sels)
 

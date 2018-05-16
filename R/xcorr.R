@@ -224,10 +224,8 @@ frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
   
   # run loop apply function for templates
   ltemp <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(x) 
-  { 
     tempFUN(X, x, wl, ovlp, wn, frq.lim)
-    
-  })   
+    )   
   
 names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
 
@@ -280,18 +278,20 @@ FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
   # Perform analysis for each time value (bin) of survey 
   # Starting time value (bin) of correlation window
   c.win.start <- as.list(1:(n.t.survey-n.t.template)*n.frq.template) # Starting position of subset of each survey amp matrix  
-  score.survey <- unlist(
-    lapply(X=c.win.start, FUN=function(x) 
+  score.survey <- sapply(X=c.win.start, FUN=function(x) 
     {
       # Unpack columns of survey amplitude matrix for correlation analysis
-      cor(amp.template, amp.survey.v[x + pts.v], method=cor.method, use='complete.obs') 
+      try_na(cor(amp.template, amp.survey.v[x + pts.v], method=cor.method, use='complete.obs')) 
     }
     )
-  )
   
   # Collect score results and time (center of time bins) in data frame
-  score.L <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j], sep= "-"),sound.file2 = paste(template$sound.files,template$selec, sep= "-"), time=survey.spec$time[1:(n.t.survey-n.t.template)+n.t.template/2], 
-                        score=score.survey)
+  if (any(!is.na(score.survey)))
+  score.L <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j], sep= "-"),sound.file2 = paste(template$sound.files,template$selec, sep= "-"), time=survey.spec$time[1:(n.t.survey-n.t.template)+n.t.template/2][!is.na(score.survey)], 
+                        score=score.survey[!is.na(score.survey)]) else 
+                          
+  score.L <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j], sep= "-"), sound.file2 = paste(template$sound.files,template$selec, sep= "-"), time=survey.spec$time[1:(n.t.survey-n.t.template)+n.t.template/2][1], 
+                                                score= NA)
   return(score.L)
 }
 
@@ -320,7 +320,8 @@ a <- pbapply::pblapply(X = ord.shuf, cl = cl, FUN = function(j)
   
   if(any(!sapply(score.L, is.data.frame))) {
   if(j != (length(ltemp)-1))
-    {combs <- t(combn(paste(X$sound.files, X$selec,sep = "-"), 2))
+    {
+    combs <- t(combn(paste(X$sound.files, X$selec,sep = "-"), 2))
   combs <- combs[combs[,1] == paste(X$sound.files[j], X$selec[j],sep = "-"),]
   comDF <- data.frame(sound.file1 = combs[,1], sound.file2 = combs[,2], time = 0, score = NA, stringsAsFactors = FALSE)
   

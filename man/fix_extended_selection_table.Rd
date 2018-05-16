@@ -14,7 +14,7 @@ for sound file name (sound.files), selection number (selec), and start and end t
 \item{Y}{an object of class 'extended_selection_table'}
 }
 \description{
-\code{fix_extended_selection_table} Fixes extended selection tables that have lost their attributes
+\code{fix_extended_selection_table} fixes extended selection tables that have lost their attributes
 }
 \examples{
 {

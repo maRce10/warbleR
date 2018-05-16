@@ -1,9 +1,9 @@
 #' Simulated coordinated singing events.
 #' 
-#' @description \code{sim.coor.sing} Selections of simulated interactive singing events.The simulated events use the mean 
+#' @description \code{sim.coor.sing} are selections of simulated interactive singing events.The simulated events use the mean 
 #' and standard deviation of real lekking \emph{Phaethornis longirostris} (Long-billed 
 #' Hermit hummingbird) songs and intervals between songs (e.i gaps). Three events are simulated: overlapping signals (ovlp), 
-#' alternating signals (altern) and non-synchronized signals (uncoor).
+#' alternating signals (altern) and non-synchronized signals (uncoor). Will be replaced by 'sim_coor_sing' in future package versions.
 #' 
 #' @format \describe{
 #'   

@@ -5,6 +5,7 @@
 
 ## Changes and additions:
 
+* object class 'extended_selection_table' to create self-contained acoustic data sets
 * 'before' and 'eq.dur' arguments in 'snrspec' function
 * 'ts.df' argument in 'seltailor' function to adjust frequency contours
 * 'ts.df' argument in 'seltailor' function to adjust frequency contours
@@ -16,6 +17,8 @@
 
 ## New functions:
 
+* selection_table: converts data frames into an object of classes 'selection_table' or 'extended_selection_table'
+* generic S3 methods for and 'print', 'cbind' and '[' for  classes 'selection_table' or 'extended_selection_table'
 * song_param: calculate acoustic parameters at the song (or other hierarchical) level
 * spec_param: plot catalog of a single selection with varying spectrogram (display) parameters
 * read_wave: wrapper for tuneR's readWave that ignores exntesion file case mismatches

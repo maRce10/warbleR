@@ -218,7 +218,6 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
 
   #create function to run within Xapply functions downstream
   spFUN <- function(i, X, bp, wl, threshold) { 
-    # r <- tuneR::readWave(as.character(X$sound.files[i]), from = X$start[i], to = X$end[i], units = "seconds", toWaveMC = TRUE) 
     r <- read_wave(X = X, index = i)
     
     if(bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
