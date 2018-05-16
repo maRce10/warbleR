@@ -4,7 +4,7 @@
 # see https://github.com/hadley/r-pkgs/blob/master/r.rmd
 
 .onAttach <- function(libname, pkgname) {
-    packageStartupMessage("\nNOTE: functions are being renamed (run 'print(name_changes)' to see new names). Both old and new names are available in this version")
+    packageStartupMessage("\nNOTE: functions are being renamed (run 'print(name_changes)' to see new names). Both old and new names are available in this version \n Please see citation('warbleR') for use in publication")
 }
 
 # set warbleR options
