@@ -14,7 +14,7 @@
 data(sim_coor_sing)
 }
 \description{
-\code{sim_coor_sing} Same data set as 'sim.coor.sing'. Selections of simulated interactive singing events.The simulated events use the mean 
+\code{sim_coor_sing} same data set as 'sim.coor.sing'. Selections of simulated interactive singing events.The simulated events use the mean 
 and standard deviation of real lekking \emph{Phaethornis longirostris} (Long-billed
 
 Hermit hummingbird) songs and intervals between songs (e.i gaps). Three events are simulated: overlapping signals (ovlp), 
