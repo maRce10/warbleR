@@ -99,3 +99,13 @@ frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "ha
   
  
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{frange.detec}}
+#'
+#' @keywords internal
+#' @details see \code{\link{frange.detec}} for documentation. \code{\link{frange.detec}} will be deprecated in future versions.
+#' @export
+
+freq_range_detec <- frange.detec

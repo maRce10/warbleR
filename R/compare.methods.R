@@ -542,3 +542,13 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
         comp.methFUN(X, u, res, disim.mats, m, mar, flim)
       })
       }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{compare.methods}}
+#'
+#' @keywords internal
+#' @details see \code{\link{compare.methods}} for documentation. \code{\link{compare.methods}} will be deprecated in future versions.
+#' @export
+
+compare_methods <- compare.methods

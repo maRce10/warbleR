@@ -256,3 +256,13 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   return(df)
   
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{ffts}}
+#'
+#' @keywords internal
+#' @details see \code{\link{ffts}} for documentation. \code{\link{ffts}} will be deprecated in future versions.
+#' @export
+
+ff_ts <- ffts

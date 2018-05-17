@@ -304,3 +304,13 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
          return(lst)
           }
     }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{dfts}}
+#'
+#' @keywords internal
+#' @details see \code{\link{dfts}} for documentation. \code{\link{dfts}} will be deprecated in future versions.
+#' @export
+
+df_ts <- dfts

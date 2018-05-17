@@ -68,7 +68,7 @@ input data frame showing the location of the dominant frequencies
 }
 \description{
 \code{sp.en.ts} spectral entropy across signals as a time series.
-of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+of signals selected by \code{\link{manualoc}} or \code{\link{sp.en.ts}}.
 }
 \details{
 This function spectral entropy across signals as a time series. 

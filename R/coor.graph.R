@@ -219,3 +219,13 @@ if(img){      if(it == "jpeg") ite <- "coor.singing.jpeg" else ite <- "coor.sing
       }
   }))
   }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{coor_graph}}
+#'
+#' @keywords internal
+#' @details see \code{\link{coor_graph}} for documentation. \code{\link{coor.graph}} will be deprecated in future versions.
+#' @export
+
+coor_graph <- coor.graph

@@ -132,3 +132,12 @@ checkwavs <- function(X = NULL, path = NULL) {
     }
   }
 }
+
+##############################################################################################################
+#' alternative name for \code{\link{checkwavs}}
+#'
+#' @keywords internal
+#' @details see \code{\link{checkwavs}} for documentation. \code{\link{checkwavs}} will be deprecated in future versions.
+#' @export
+
+check_wavs <- checkwavs

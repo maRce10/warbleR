@@ -188,3 +188,13 @@ if(!index)
     }
 
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{filtersels}}
+#'
+#' @keywords internal
+#' @details see \code{\link{filtersels}} for documentation. \code{\link{filtersels}} will be deprecated in future versions.
+#' @export
+
+filter_sels <- filtersels

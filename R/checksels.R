@@ -247,3 +247,12 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
 
   return(res) 
 }
+
+##############################################################################################################
+#' alternative name for \code{\link{checksels}}
+#'
+#' @keywords internal
+#' @details see \code{\link{checksels}} for documentation. \code{\link{checksels}} will be deprecated in future versions.
+#' @export
+
+check_sels <- checksels

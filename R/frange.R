@@ -235,4 +235,13 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   
   return(fr)
   
-  }
+}
+
+##############################################################################################################
+#' alternative name for \code{\link{frange}}
+#'
+#' @keywords internal
+#' @details see \code{\link{frange}} for documentation. \code{\link{frange}} will be deprecated in future versions.
+#' @export
+
+freq_range <- frange

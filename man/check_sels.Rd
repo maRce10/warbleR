@@ -2,10 +2,14 @@
 % Please edit documentation in R/checksels.R
 \name{checksels}
 \alias{checksels}
+\alias{check_sels}
 \title{Check selection data frames}
 \usage{
 checksels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE,
 wav.size = FALSE)
+
+check_sels(X = NULL, parallel = 1, path = NULL, check.header = FALSE,
+  pb = TRUE, wav.size = FALSE)
 }
 \arguments{
 \item{X}{'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -36,6 +40,8 @@ in a selection limits the minimum window length (wl argument in other functions)
 }
 \description{
 \code{checksels} checks whether selections can be read by subsequent functions.
+
+alternative name for \code{\link{checksels}}
 }
 \details{
 This function checks 1) if the selections listed in the data frame correspond to .wav files
@@ -44,6 +50,8 @@ of the selections are found within the duration of the sound files. Note that th
 should be in the working directory (or the directory provided in 'path').
 This is useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}, \code{\link{xcorr}}, \code{\link{catalog}}, \code{\link{dfDTW}}). Note that corrupt files can be
 fixed using \code{\link{fixwavs}}) ('sox' must be installed to be able to run this function).
+
+see \code{\link{checksels}} for documentation. \code{\link{checksels}} will be deprecated in future versions.
 }
 \examples{
 {
@@ -65,3 +73,4 @@ checksels(X = selec.table)
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
+\keyword{internal}

@@ -229,3 +229,13 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
     
 return(df)
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{coor.test}}
+#'
+#' @keywords internal
+#' @details see \code{\link{coor.test}} for documentation. \code{\link{coor.test}} will be deprecated in future versions.
+#' @export
+
+coor_test <- coor.test

@@ -117,3 +117,14 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
   
   if(!is.null(path)) setwd(wd)
 }
+
+
+
+##############################################################################################################
+#' alternative name for \code{\link{lspec2pdf}}
+#'
+#' @keywords internal
+#' @details see \code{\link{lspec2pdf}} for documentation
+#' @export
+
+full_spec2pdf <- lspec2pdf

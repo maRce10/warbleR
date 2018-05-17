@@ -552,3 +552,13 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     } 
   }
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{seltailor}}
+#'
+#' @keywords internal
+#' @details see \code{\link{seltailor}} for documentation. \code{\link{seltailor}} will be deprecated in future versions.
+#' @export
+
+sel_tailor <- seltailor

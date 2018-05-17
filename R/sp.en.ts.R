@@ -1,7 +1,7 @@
 #' Extract the spectral entropy across signals as a time series
 #' 
 #' \code{sp.en.ts} spectral entropy across signals as a time series.
-#' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+#' of signals selected by \code{\link{manualoc}} or \code{\link{sp.en.ts}}.
 #' @usage sp.en.ts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = NULL,
 #'   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "sp.en.ts",
 #'    pb = TRUE, clip.edges = FALSE, leglab = "sp.en.ts", sp.en.range = c(2, 10), ...)
@@ -256,3 +256,13 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   return(df)
 
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{sp.en.ts}}
+#'
+#' @keywords internal
+#' @details see \code{\link{sp.en.ts}} for documentation. \code{\link{sp.en.ts}} will be deprecated in future versions.
+#' @export
+
+se_ts <- sp.en.ts

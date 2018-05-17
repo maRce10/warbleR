@@ -280,3 +280,13 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     }) 
 }
 
+
+
+##############################################################################################################
+#' alternative name for \code{\link{snrspecs}}
+#'
+#' @keywords internal
+#' @details see \code{\link{snrspecs}} for documentation. \code{\link{snrspecs}} will be deprecated in future versions.
+#' @export
+
+snr_specs <- snrspecs

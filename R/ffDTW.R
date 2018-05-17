@@ -128,3 +128,13 @@ ffDTW <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   return(dm)
 
   }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{ffDTW}}
+#'
+#' @keywords internal
+#' @details see \code{\link{ffDTW}} for documentation. \code{\link{ffDTW}} will be deprecated in future versions.
+#' @export
+
+ff_DTW <- ffDTW

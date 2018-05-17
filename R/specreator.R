@@ -307,3 +307,13 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     specreFUN(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels)
   }) 
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{specreator}}
+#'
+#' @keywords internal
+#' @details see \code{\link{specreator}} for documentation. \code{\link{specreator}} will be deprecated in future versions.
+#' @export
+
+spectrograms <- specreator

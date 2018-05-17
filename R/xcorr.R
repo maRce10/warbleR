@@ -392,3 +392,13 @@ names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim")
 return(c)}
 
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{xcorr}}
+#'
+#' @keywords internal
+#' @details see \code{\link{xcorr}} for documentation. \code{\link{xcorr}} will be deprecated in future versions.
+#' @export
+
+x_corr <- xcorr

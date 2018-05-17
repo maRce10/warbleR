@@ -352,3 +352,13 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   
   return(sp)
   }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{specan}}
+#'
+#' @keywords internal
+#' @details see \code{\link{specan}} for documentation. \code{\link{specan}} will be deprecated in future versions.
+#' @export
+
+spec_an <- specan

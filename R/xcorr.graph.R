@@ -158,3 +158,13 @@ xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = 
         outer = TRUE, line = -0.9, cex.lab= cex.axis.lab)
   on.exit(close.screen(all.screens = TRUE))
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{xcorr.graph}}
+#'
+#' @keywords internal
+#' @details see \code{\link{xcorr.graph}} for documentation. \code{\link{xcorr.graph}} will be deprecated in future versions.
+#' @export
+
+xcorr_graph <- xcorr.graph

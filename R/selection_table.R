@@ -271,6 +271,16 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 
 
 ##############################################################################################################
+#' Old name for \code{\link{selection_table}}
+#'
+#' @keywords internal
+#' @details see \code{\link{selection_table}} for documentation
+#' @export
+
+make.selection.table <- selection_table
+
+
+##############################################################################################################
 
 
 #' Class 'selection_table': double-checked frequency/time coordinates of selections

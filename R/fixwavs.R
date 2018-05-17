@@ -122,3 +122,13 @@ dir.create(file.path(getwd(), "converted_sound_files"))
      })
 
   }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{fixwavs}}
+#'
+#' @keywords internal
+#' @details see \code{\link{fixwavs}} for documentation. \code{\link{fixwavs}} will be deprecated in future versions.
+#' @export
+
+fix_wavs <- fixwavs

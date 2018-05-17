@@ -2,7 +2,7 @@
 % Please edit documentation in R/autodetec.R
 \name{auto_detec}
 \alias{auto_detec}
-\title{alternative name for \code{autodetec}}
+\title{alternative name for \code{\link{autodetec}}}
 \usage{
 auto_detec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL,
   msmooth = NULL, power = 1, bp = NULL, osci = FALSE, wl = 512,
@@ -13,6 +13,9 @@ auto_detec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL,
   fast.spec = FALSE, ...)
 }
 \description{
-alternative name for \code{autodetec}
+alternative name for \code{\link{autodetec}}
+}
+\details{
+see \code{\link{autodetec}} for documentation. \code{\link{autodetec}} will be deprecated in future versions.
 }
 \keyword{internal}

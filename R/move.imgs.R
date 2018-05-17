@@ -131,3 +131,13 @@ a <- pbapply::pblapply(X = seq(1, length(imgs), by = 10), cl = cl, FUN = functio
   if (cut) unlink(file.path(from, imgs)[a])
   
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{move.imgs}}
+#'
+#' @keywords internal
+#' @details see \code{\link{move.imgs}} for documentation. \code{\link{move.imgs}} will be deprecated in future versions.
+#' @export
+
+move_imgs <- move.imgs

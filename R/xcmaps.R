@@ -181,3 +181,13 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = F) {
     }
   }
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{xcmaps}}
+#'
+#' @keywords internal
+#' @details see \code{\link{xcmaps}} for documentation. \code{\link{xcmaps}} will be deprecated in future versions.
+#' @export
+
+xc_maps <- xcmaps

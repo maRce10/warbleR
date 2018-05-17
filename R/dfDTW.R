@@ -160,3 +160,12 @@ dfDTW <-  function(X = NULL, wl = 512, wl.freq = 512, length.out = 20, wn = "han
   return(dm)
 }
 
+
+##############################################################################################################
+#' alternative name for \code{\link{dfDTW}}
+#'
+#' @keywords internal
+#' @details see \code{\link{dfDTW}} for documentation. \code{\link{dfDTW}} will be deprecated in future versions.
+#' @export
+
+df_DTW <- dfDTW

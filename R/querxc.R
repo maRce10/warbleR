@@ -275,3 +275,13 @@ if(pb)
  if(is.null(X)) if(as.numeric(q$numRecordings) > 0) return(droplevels(results))
   
    }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{querxc}}
+#'
+#' @keywords internal
+#' @details see \code{\link{querxc}} for documentation. \code{\link{querxc}} will be deprecated in future versions.
+#' @export
+
+quer_xc <- querxc

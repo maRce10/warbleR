@@ -77,3 +77,13 @@ wavdur <- function(files = NULL, path = NULL) {
    return(data.frame(sound.files = files, duration = a, row.names = NULL))
 
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{wavdur}}
+#'
+#' @keywords internal
+#' @details see \code{\link{wavdur}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
+#' @export
+
+wav_dur <- wavdur

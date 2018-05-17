@@ -304,3 +304,13 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   })  
 }
 
+
+
+##############################################################################################################
+#' alternative name for \code{\link{lspec}}
+#'
+#' @keywords internal
+#' @details see \code{\link{lspec}} for documentation. \code{\link{lspec}} will be deprecated in future versions.
+#' @export
+
+full_spec <- lspec

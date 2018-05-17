@@ -412,3 +412,13 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
   }
   
     }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{manualoc}}
+#'
+#' @keywords internal
+#' @details see \code{\link{manualoc}} for documentation. \code{\link{manualoc}} will be deprecated in future versions.
+#' @export
+
+manual_loc <- manualoc

@@ -293,3 +293,13 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   }
   
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{color.spectro}}
+#'
+#' @keywords internal
+#' @details see \code{\link{color.spectro}} for documentation. \code{\link{color.spectro}} will be deprecated in future versions.
+#' @export
+
+color_spectro <- color.spectro

@@ -660,3 +660,13 @@ legend(lpos, legend = leglab[1],
                   custom.contour)
     }) 
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{trackfreqs}}
+#'
+#' @keywords internal
+#' @details see \code{\link{trackfreqs}} for documentation. \code{\link{trackfreqs}} will be deprecated in future versions.
+#' @export
+
+track_freqs <- trackfreqs
