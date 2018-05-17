@@ -59,6 +59,10 @@ License: GPL (>= 2)
   \code{\link{rm_sil}}: Remove silence segments from wave files
   
   \code{\link{consolidate}}: Consolidate sound files into a single folder
+  
+  \code{\link{selection_table}}: Create double-checked and self-contained selection tables
+  
+  \code{\link{fix_extended_selection_table}}: Fix attributes of extended selection tables
 }
 
 \section{Exploring/analyzing signal structure}{

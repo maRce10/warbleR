@@ -48,6 +48,10 @@
 #'   
 #'   \code{\link{consolidate}}: Consolidate sound files into a single folder
 #'   
+#'   \code{\link{selection_table}}: Create double-checked and self-contained selection tables
+#'   
+#'   \code{\link{fix_extended_selection_table}}: Fix attributes of extended selection tables
+#'   
 #' @section Exploring/analyzing signal structure:
 #'   
 #'   \code{\link{autodetec}}: Automatically detect start and 

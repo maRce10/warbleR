@@ -44,7 +44,7 @@ class(st)
 }
 }
 \seealso{
-\code{\link{selection_table}}, \code{\link{selection_table}}
+\code{\link{selection_table}}
 Check if object is of class "selection_table"
 
 \code{is_selection_table} Check if the object belongs to the class "selection_table"

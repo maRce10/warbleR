@@ -2,7 +2,6 @@
 % Please edit documentation in R/selection_table.R
 \name{selection_table}
 \alias{selection_table}
-\alias{make.selection.table}
 \title{Create 'selection_table' and 'extended_selection_table' objects}
 \usage{
 selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,

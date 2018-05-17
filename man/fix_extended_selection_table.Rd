@@ -7,7 +7,7 @@
 fix_extended_selection_table(X, Y)
 }
 \arguments{
-\item{X}{an object of class 'selection_table' or data frame that  contains columns
+\item{X}{an object of class 'selection_table' or data frame that contains columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end).}
 
