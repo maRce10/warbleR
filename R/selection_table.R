@@ -139,9 +139,12 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
+  setwd(path)
+  
   # If parallel is not numeric
   if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  
   
   
   if (whole.recs){ 
@@ -170,7 +173,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024 ^ 2)
     
     if (confirm.extended)
-      answer <- readline(prompt = paste0("Expected 'extended_selection_table' size is ~", round(exp.size, 2), "MB (~", round(exp.size/1024, 5), " GB) \n Do you want to proceed (y/n): \n")) else answer <- "yeah dude!"
+      answer <- readline(prompt = paste0("Expected 'extended_selection_table' size is ~", round(exp.size), "MB (~", round(exp.size/1024, 5), " GB) \n Do you want to proceed (y/n): \n")) else answer <- "yeah dude!"
       
       if (substr(answer, 1, 1) %in% c("y", "Y")) # if yes
       {
@@ -633,12 +636,11 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
   
   cl.nms <- intersect(names(X), names(Y))
   
-  W <- rbind(as.data.frame(X[ , cl.nms, drop = FALSE]), as.data.frame(Y[ , cl.nms, drop = FALSE]), make.row.names = TRUE,
-             stringsAsFactors = FALSE)
+  W <- rbind(as.data.frame(X[ , cl.nms, drop = FALSE]), as.data.frame(Y[ , cl.nms, drop = FALSE]), make.row.names = TRUE)
   
   cl.nms.cr <- intersect(names(attr(X, "check.results")), names(attr(Y, "check.results")))
   
-  attr(W, "check.results") <- rbind(attr(X, "check.results")[ , cl.nms.cr, drop = FALSE], attr(Y, "check.results")[ , cl.nms.cr, drop = FALSE], make.row.names = TRUE, stringsAsFactors = FALSE)
+  attr(W, "check.results") <- rbind(attr(X, "check.results")[ , cl.nms.cr, drop = FALSE], attr(Y, "check.results")[ , cl.nms.cr, drop = FALSE], make.row.names = TRUE)
   
   attr(W, "wave.objects") <- c(attr(W, "wave.objects"), attr(Y, "wave.objects"))
   
