@@ -5,6 +5,7 @@
 
 ## Changes and additions:
 
+* new function names (print(new_function_names))
 * object class 'extended_selection_table' to create self-contained acoustic data sets
 * 'before' and 'eq.dur' arguments in 'snrspec' function
 * 'ts.df' argument in 'seltailor' function to adjust frequency contours
