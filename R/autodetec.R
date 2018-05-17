@@ -577,14 +577,15 @@ return(results1)
 #'
 #' @export
 
-auto_detec <- function(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL, 
-                          power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,
-                          flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur =
-                          NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
-                          parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2,
-                          fast.spec = FALSE, ...) { 
-  autodetec(X, threshold, envt, ssmooth, msmooth, power, bp, osci, wl,
-                                                              xl, picsize, res, flim, ls, sxrow, rows, mindur, maxdur, redo, img, it, set, flist, smadj,
-                                                              parallel, path, pb, pal,
-                                                              fast.spec)}
-  
+auto_detec <- autodetec
+# auto_detec <- function(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL, 
+#                           power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100,
+#                           flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur =
+#                           NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
+#                           parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2,
+#                           fast.spec = FALSE, ...) { 
+#   autodetec(X, threshold, envt, ssmooth, msmooth, power, bp, osci, wl,
+#                                                               xl, picsize, res, flim, ls, sxrow, rows, mindur, maxdur, redo, img, it, set, flist, smadj,
+#                                                               parallel, path, pb, pal,
+#                                                               fast.spec)}
+#   
