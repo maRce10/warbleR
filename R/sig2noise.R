@@ -107,48 +107,48 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
                 assign(names(opt.argms)[q], opt.argms[[q]])
  
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #if any selections longer than 20 secs stop
-  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
+  if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   
   #return warning if not all sound files were found
-  if(!any(class(X) == "extended_selection_table"))
+  if (!any(class(X) == "extended_selection_table"))
   {
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
+  if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% fs) 
-  if(length(d) == 0){
+  if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else X <- X[d, , drop = FALSE]
   } else d <- 1:nrow(X)
   
   # If parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
 
   # function to run over single selection
@@ -161,7 +161,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     
     # set margin to half of signal duration
-    if(eq.dur) mar <- (X$end[y] - X$start[y])/2
+    if (eq.dur) mar <- (X$end[y] - X$start[y])/2
     
     #reset time coordinates of signals if lower than 0 o higher than duration
     stn <- X$start[y] - mar
@@ -175,7 +175,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     mar2 <- mar1 + X$end[y] - X$start[y]
     
-    if(enn > r$samples/f) enn <- r$samples/f
+    if (enn > r$samples/f) enn <- r$samples/f
     
     r <- read_wave(X = X, index = y, from = stn, to = enn)
     
@@ -195,9 +195,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     noise2 <- seewave::cutw(r, from = mar2, to = seewave::duration(r), f = f)
     
-    if(type == 1)
+    if (type == 1)
     {    # Calculate mean noise amplitude 
-      if(before)   
+      if (before)   
         noisamp <- mean(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
           noisamp <- mean(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
                             seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
@@ -205,9 +205,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
         # Calculate mean signal amplitude 
         sigamp <- mean(seewave::env(signal, f = f, envt = "abs", plot = FALSE))}
     
-    if(type == 2)
+    if (type == 2)
     {    # Calculate mean noise amplitude 
-      if(before)   
+      if (before)   
         noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
           noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
                                     seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
@@ -215,9 +215,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
         # Calculate mean signal amplitude 
         sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))}
     
-    if(type == 3)
+    if (type == 3)
     {    # Calculate mean noise amplitude 
-      if(before)   
+      if (before)   
         noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
           noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
                                     seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
@@ -232,9 +232,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     snr <- sigamp / noisamp
     
     #set lowest dB limit
-    if(in.dB & lim.dB) snr[snr <= 0] <- 0.01
+    if (in.dB & lim.dB) snr[snr <= 0] <- 0.01
     
-    if(in.dB) return(20*log10(snr)) else return(snr)
+    if (in.dB) return(20*log10(snr)) else return(snr)
     
   }
    

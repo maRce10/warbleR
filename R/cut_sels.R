@@ -86,47 +86,47 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
   setwd(path)
   }  
   
   #check path to working directory
-  if(!is.null(dest.path))
-  {if(class(try(setwd(dest.path), silent = TRUE)) == "try-error") stop("'dest.path' provided does not exist")} else dest.path <- getwd()
+  if (!is.null(dest.path))
+  {if (class(try(setwd(dest.path), silent = TRUE)) == "try-error") stop("'dest.path' provided does not exist")} else dest.path <- getwd()
      #set working directory
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #missing label columns
-  if(!all(labels %in% colnames(X)))
+  if (!all(labels %in% colnames(X)))
     stop(paste(paste(labels[!(labels %in% colnames(X))], collapse=", "), "label column(s) not found in data frame"))
   
   if (!is_extended_selection_table(X))
   {
     #return warning if not all sound files were found
   recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
+  if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
            ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd) 
-  if(length(d) == 0){
+  if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else {
     X <- X[d, ]
@@ -141,8 +141,8 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   X2$sound.files <- gsub("\\.wav$", "", X2$sound.files, ignore.case = TRUE)
   
   # If parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
 
   #create function to run within Xapply functions downstream     
   cutFUN <- function(X, i, mar, labels, dest.path){
@@ -157,13 +157,13 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     mar2 <- mar1 + X$end[i] - X$start[i]
     
     if (t[1] < 0)  t[1] <- 0
-    if(t[2] > r$samples/f) t[2] <- r$samples/f
+    if (t[2] > r$samples/f) t[2] <- r$samples/f
     
     # Cut wave
     wvcut <- read_wave(X = X, index = i, from = t[1], to = t[2])
 
     # save cut
-    if(overwrite) unlink(file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")))
+    if (overwrite) unlink(file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")))
 
     tuneR::writeWave(extensible = FALSE, object = wvcut, filename = file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")), ...)
        

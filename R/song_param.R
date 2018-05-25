@@ -110,7 +110,7 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   # if extended only by song
   if (is_extended_selection_table(X))
@@ -122,7 +122,7 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
   
   if (!any(names(X) == song_colm)) stop("'song_colm' not found")
 
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
@@ -132,7 +132,7 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
   if (!any(names(X) %in% weight) & !is.null(weight)) stop("'weight' column not found")
   
   if (!is.null(mean_indx))
-  if(!all(sapply(X[, mean_indx], is.numeric))) stop("not all columns in 'mean_indx' are numeric")
+  if (!all(sapply(X[, mean_indx], is.numeric))) stop("not all columns in 'mean_indx' are numeric")
   
   songparam.FUN <- function(Y, song_colm, mean_indx, min_indx, max_indx, weight, na.rm) {
     

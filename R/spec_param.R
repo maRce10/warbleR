@@ -143,12 +143,12 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   ## reset parameters
   # only seewave spectros
   fast.spec <- FALSE
-  if(wn[1] == "all") wn <- c("bartlett", "blackman", "flattop", "hamming", "hanning", "rectangle")
+  if (wn[1] == "all") wn <- c("bartlett", "blackman", "flattop", "hamming", "hanning", "rectangle")
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
-  if(nrow(X) > 1){
+  if (nrow(X) > 1){
   X <- X[1, , drop = FALSE]
   write(file = "", x = "Data frame provided has more than 1 selection (row), only the first one was used")
   }
@@ -167,7 +167,7 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   if (length(collev.min) > 1)
     collev.min <- seq(collev.min[1], collev.min[2], length.out = length.out)
   
-  if(is_extended_selection_table(X))  X.orig <- X
+  if (is_extended_selection_table(X))  X.orig <- X
   
   # Expand data frame
   X <- suppressWarnings(data.frame(X, expand.grid(ovlp = ovlp, wl = wl, 
@@ -181,16 +181,16 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   X$lbs <- ""
   
   
-  if(length(exp.cols) > 0)
+  if (length(exp.cols) > 0)
   for(i in seq_len(length(exp.cols)))
     X$lbs <- paste(X$lbs, exp.cols[i], "=", X[ , exp.cols[i]], " ")
   
   co <- 32
-  if(max(nchar(X$lbs)) > co) {
+  if (max(nchar(X$lbs)) > co) {
     empty_spc <- sapply(gregexpr(" ", substr(X$lbs, co, 1000)), "[[", 1) + co
 
         for(i in 1:nrow(X)){
-          if(nchar(X$lbs[i]) > co)
+          if (nchar(X$lbs[i]) > co)
     substring(X$lbs[i], first = empty_spc[i], last = empty_spc[i] + 1) <- paste0("\n", substr(X$lbs[i], empty_spc[i], empty_spc[i] + 1))
         }
     }
@@ -198,7 +198,7 @@ spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   X$lbs <- gsub(" \n$| $|  $|^ |^  ", "", X$lbs)  
   
   
-  if(exists("X.orig"))
+  if (exists("X.orig"))
     {
     attributes(X)$check.results <- do.call(rbind, lapply(1:nrow(X), function(x) attributes(X.orig)$check.results[1, ]))
     attributes(X)$check.results$selec <- 1:nrow(X)

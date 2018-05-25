@@ -89,7 +89,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
@@ -97,26 +97,26 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
-  if(length(files) == 0) stop("no .wav files in working directory")
+  if (length(files) == 0) stop("no .wav files in working directory")
   
   #subet based on file list provided (flist)
   if (!is.null(flist)) files <- files[files %in% flist]
   if (length(files) == 0)  stop("selected .wav files are not in working directory")
 
   #if it argument is not "jpeg" or "tiff" 
-  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
   #wrap img creating function
-  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   #if parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
   files <- files[!is.na(files)]
   
   #stop if files are not in working directory
-  if(length(files) == 0) stop("all .wav files have been processed")
+  if (length(files) == 0) stop("all .wav files have been processed")
   
   dir.create(file.path(getwd(), "removed_silence_files"), showWarnings = FALSE)
   
@@ -126,25 +126,25 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     wv <- readWave(fl)  
     
     #in case flim is higher than can be due to sampling rate
-    if(flm[2] > ceiling(wv@samp.rate/2000) - 1) flm[2] <- ceiling(wv@samp.rate/2000) - 1 
+    if (flm[2] > ceiling(wv@samp.rate/2000) - 1) flm[2] <- ceiling(wv@samp.rate/2000) - 1 
     
     #downsample to speed up process
-    if(wv@samp.rate > f + 1000) wv1 <- downsample(object = wv, samp.rate =  f) else wv1 <- wv
+    if (wv@samp.rate > f + 1000) wv1 <- downsample(object = wv, samp.rate =  f) else wv1 <- wv
     writeWave(wv1, file.path(tempdir(), fl))
   
     ad <- autodetec(threshold = 0.06, ssmooth = 1500, parallel = 1, pb = FALSE, img = FALSE, flist = fl, path = tempdir())
     
     # remove the silence less than min.sil.dur 
-    if(nrow(ad) > 1) for(i in 1:(nrow(ad) - 1)) {
-      if(i == nrow(ad)) break
-      if(ad$start[i + 1] - ad$end[i] < msd) { 
+    if (nrow(ad) > 1) for(i in 1:(nrow(ad) - 1)) {
+      if (i == nrow(ad)) break
+      if (ad$start[i + 1] - ad$end[i] < msd) { 
         ad$start[i] <- ad$start[i + 1]
         ad <- ad[-(i + 1), ]
         }
     }
     
     
-    if(mg)
+    if (mg)
     {
       imgfun(filename = file.path(getwd(), "removed_silence_files", paste0(fl, ".rm.silence.", it)),  res = 160, units = "in", width = 8.5, height = 4) 
     
@@ -152,7 +152,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
       spectro_wrblr_int(wv, ovlp = 0, grid = FALSE, scale = FALSE, palette = monitoR::gray.3, axisX = TRUE, fast.spec = TRUE, flim = flm)
     
       # label silence in spectro
-      if(nrow(ad) > 1) lapply(1:(nrow(ad) - 1), function(z)
+      if (nrow(ad) > 1) lapply(1:(nrow(ad) - 1), function(z)
         {
         # add arrow
         arrows(x0 = ad$end[z], y0 = flm[1] + flm[2]/2, x1 = ad$start[z + 1], y1 = flm[1] + flm[2]/2, code = 3,
@@ -168,12 +168,12 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     }
     
     #cut silence from file
-    if(nrow(ad) > 1) {for(z in (nrow(ad) - 1):1)   wv <- deletew(wave = wv, from = ad$end[z], to = ad$start[z + 1], plot = FALSE, output = "Wave")
+    if (nrow(ad) > 1) {for(z in (nrow(ad) - 1):1)   wv <- deletew(wave = wv, from = ad$end[z], to = ad$start[z + 1], plot = FALSE, output = "Wave")
     writeWave(object = wv, filename = file.path(getwd(), "removed_silence_files", fl), extensible = FALSE)
     } else  file.copy(from = wv, to = file.path(getwd(), "removed_silence_files", fl))
     }
   
-  if(pb) cat("searching for silence segments in wave files:")
+  if (pb) cat("searching for silence segments in wave files:")
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))

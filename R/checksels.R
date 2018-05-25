@@ -80,38 +80,38 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #if X is not a data frame
-  if(all(!any(is.data.frame(X), is_selection_table(X)))) stop("X is not of a class 'data.frame' or 'selection_table'")
+  if (all(!any(is.data.frame(X), is_selection_table(X)))) stop("X is not of a class 'data.frame' or 'selection_table'")
   
   if (is_extended_selection_table(X)) stop("checksels does not work on objects of class 'extended_selection_table'")
   
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
-  if(any(duplicated(paste(X$sound.files, X$selec)))) stop("Duplicated selection labels for one or more sound files")
+  if (any(duplicated(paste(X$sound.files, X$selec)))) stop("Duplicated selection labels for one or more sound files")
   
   #if any start higher than end stop
-  if(any(X$end - X$start < 0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start < 0)), "case(s)"))  
+  if (any(X$end - X$start < 0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start < 0)), "case(s)"))  
   
   #check additional columns
-  if(!"channel" %in% colnames(X)) 
+  if (!"channel" %in% colnames(X)) 
   {#cat("\n sound file channel for analysis assumed to be 1 (left) for all selections (channel column not found)")
     X$channel <- 1
   } else {
-    if(!is.numeric(X$channel)) stop("'channel' must be numeric")
-    if(any(is.na(X$channel))) {cat("NAs in 'channel', assumed to be channel 1")
+    if (!is.numeric(X$channel)) stop("'channel' must be numeric")
+    if (any(is.na(X$channel))) {cat("NAs in 'channel', assumed to be channel 1")
       X$channel[is.na(X$channel)] <- 1   
     }}
   
@@ -121,38 +121,38 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     stop("no .wav files in working directory")
   
   #if any selection labels are repeated within a sound file
-  if(length(unique(paste(X$sound.files, X$selec))) != nrow(X))
+  if (length(unique(paste(X$sound.files, X$selec))) != nrow(X))
     stop("Repeated selection labels within (a) sound file(s)")  
   
   # update to new frequency range column names
-  if(any(grepl("low.freq|high.freq", names(X)))) { 
+  if (any(grepl("low.freq|high.freq", names(X)))) { 
     names(X)[names(X) == "low.freq"] <- "bottom.freq"
     names(X)[names(X) == "high.freq"] <- "top.freq"
   }
   
   #check frequency range columns
-  if("top.freq" %in% colnames(X)) 
+  if ("top.freq" %in% colnames(X)) 
   {
     #if any start higher than end stop
-    if(any(X$top.freq - X$bottom.freq < 0)) stop(paste("The bottom frequency is higher than the top frequency in", length(which(X$top.freq - X$bottom.freq < 0)), "case(s)"))  
-    if(any(X$bottom.freq < 0)) stop("bottom frequency lower than 0 for some selections")  
+    if (any(X$top.freq - X$bottom.freq < 0)) stop(paste("The bottom frequency is higher than the top frequency in", length(which(X$top.freq - X$bottom.freq < 0)), "case(s)"))  
+    if (any(X$bottom.freq < 0)) stop("bottom frequency lower than 0 for some selections")  
   }    
   
   #function to run over each sound file
   csFUN <- function(x, X){
     Y <- X[X$sound.files == x, ]
     
-    if(file.exists(as.character(x))){
+    if (file.exists(as.character(x))){
       rec <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
       
-      if(!class(rec) == "try-error")
+      if (!class(rec) == "try-error")
       {
-        if(check.header)  
+        if (check.header)  
         {
           recfull <- try(suppressWarnings(tuneR::readWave(as.character(x), header = FALSE)), silent = TRUE)
-          if(any(methods::slotNames(recfull) == "stereo")) 
+          if (any(methods::slotNames(recfull) == "stereo")) 
           {
-            if(rec$channels == 2) channel.check <- ifelse(recfull@stereo, FALSE, TRUE) else
+            if (rec$channels == 2) channel.check <- ifelse(recfull@stereo, FALSE, TRUE) else
               channel.check <- ifelse(!recfull@stereo, FALSE, TRUE)
             
             samples.check <- ifelse(rec$samples == length(recfull@left), FALSE, TRUE) 
@@ -162,7 +162,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
           }
           
           
-          if(any(rec$sample.rate != recfull@samp.rate, rec$bits != recfull@bit, channel.check, samples.check))
+          if (any(rec$sample.rate != recfull@samp.rate, rec$bits != recfull@bit, channel.check, samples.check))
           {
             Y$check.res <- "file header corrupted"
             Y$duration <- NA
@@ -176,7 +176,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
             maxdur <- rec$samples/rec$sample.rate  
             Y$check.res <- "OK"
             
-            if(any(Y$end > maxdur))  Y$check.res[Y$end > maxdur] <- "exceeds sound file length"
+            if (any(Y$end > maxdur))  Y$check.res[Y$end > maxdur] <- "exceeds sound file length"
             Y$duration <- Y$end - Y$start
             Y$min.n.samples <- floor(Y$duration * rec$sample.rate)
             Y$sample.rate <- rec$sample.rate
@@ -189,7 +189,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
         { maxdur <- rec$samples/rec$sample.rate  
         Y$check.res <- "OK"
         
-        if(any(Y$end > maxdur))  Y$check.res[Y$end > maxdur] <- "exceeds sound file length"
+        if (any(Y$end > maxdur))  Y$check.res[Y$end > maxdur] <- "exceeds sound file length"
         Y$duration <- Y$end - Y$start
         Y$min.n.samples <- floor(Y$duration * rec$sample.rate)
         Y$sample.rate <- rec$sample.rate
@@ -232,14 +232,14 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   res <- do.call(rbind, out)
   res <- res[match(paste(X$sound.files, X$selec), paste(res$sound.files, res$selec)),]
   
-  if("top.freq" %in% names(res))
+  if ("top.freq" %in% names(res))
   {   
     try(res$check.res <- ifelse((res$sample.rate/2000) - res$top.freq < 0 & !is.na(res$sample.rate), gsub("OK\\|", "", paste(res$check.res, "'Top.freq' higher than half the sample rate", sep = "|")), res$check.res), silent = TRUE)
     
-    if(any((((res$sample.rate[!is.na(res$duration)])/2000) - res$top.freq[!is.na(res$duration)]) < 0)) cat("\n 'top.freq' higher than half the sample rate in some selections")     
+    if (any((((res$sample.rate[!is.na(res$duration)])/2000) - res$top.freq[!is.na(res$duration)]) < 0)) cat("\n 'top.freq' higher than half the sample rate in some selections")     
   } 
   
-  if(any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])) {cat("\n some selections listed with channel 2 in sound files with only 1 channel, relabeled as channel 1") 
+  if (any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])) {cat("\n some selections listed with channel 2 in sound files with only 1 channel, relabeled as channel 1") 
     res$channel[!is.na(res$duration)][any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])] <- 1
   }
   

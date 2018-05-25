@@ -87,58 +87,58 @@ ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #X must be provided
-  if(is.null(X)) stop("'X' must be provided (a data frame)")
+  if (is.null(X)) stop("'X' must be provided (a data frame)")
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table'")
   
   # check column names
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
     
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
   
  # priority
-  if(!is.null(priority.col) & !is.null(priority))
+  if (!is.null(priority.col) & !is.null(priority))
   {
   #if col not found
-    if(!priority.col %in% names(X)) stop(paste('priority.col', priority.col, "not found"))
+    if (!priority.col %in% names(X)) stop(paste('priority.col', priority.col, "not found"))
   
     #all levels of priority col should be in priority
-    if(!all(priority %in% unique(X[, priority.col]))) stop("Not all levels of 'priority.col' included in 'priority'") 
+    if (!all(priority %in% unique(X[, priority.col]))) stop("Not all levels of 'priority.col' included in 'priority'") 
   }
 
   
  # function that runs on a data frame for a single sound file 
   ovlpFUN <- function(X, ndx.rw = indx.row) {
     #only if there is more than 1 selection for that sound file
-    if(nrow(X) > 1)
+    if (nrow(X) > 1)
     {
       # order by start time
       X <- X[order(X$start), ]
       
       #relabel
-      if(relabel)
+      if (relabel)
         rownames(X) <- 1:nrow(X)
       
     # determine which ones overlap
     out1 <- lapply(1:(nrow(X)), function(i) {
     sapply((i) : nrow(X), function(j) {
       # if they overlap not perfectly
-      if(X$start[j] < X$end[i]) {
-    if(X$end[i] - X$start[j] > max.ovlp)  out <- i else out <- 0
+      if (X$start[j] < X$end[i]) {
+    if (X$end[i] - X$start[j] > max.ovlp)  out <- i else out <- 0
       } else 
         # if they have the same start and end
-        if(X$start[i] == X$start[j] & X$end[i] == X$end[j]) out <- i else 0
+        if (X$start[i] == X$start[j] & X$end[i] == X$end[j]) out <- i else 0
   }
   )
     })
@@ -153,7 +153,7 @@ lbls <- rep(NA, nrow(out2))
 for(w in 1:nrow(out2)){
   
   if (w == 1) lbls[w] <- max(out2) + 1 else
-    if(length(which(out2[ w, ] != 0)) >= 2) {
+    if (length(which(out2[ w, ] != 0)) >= 2) {
       wh.mn <- which(out2[ w, ] != 0)
   lbls[w] <- lbls[wh.mn[- length(wh.mn)]]
       }  else   lbls[w] <- max(lbls, na.rm = TRUE) + 1 
@@ -166,20 +166,20 @@ unq <- table(lbls)
 # add NAs to single tags
 lbls[lbls %in% names(unq)[unq == 1]] <- NA
 
-if(length(lbls[!is.na(lbls)]) > 0)
+if (length(lbls[!is.na(lbls)]) > 0)
 lbls2 <- lbls <- lbls - min(lbls, na.rm = TRUE) + 1
 
 lbls.lvls <- unique(lbls)
 
 lbls.lvls <- lbls.lvls[!is.na(lbls.lvls)]
 
-if(length(lbls.lvls) > 0)
+if (length(lbls.lvls) > 0)
 for(e in seq_len(length(lbls.lvls)))
   if (lbls.lvls[e] != lbls.lvls[1]) lbls[lbls2 == lbls.lvls[e]] <- max(lbls2[1:max(which(lbls2 == lbls.lvls[e - 1]), na.rm = TRUE)], na.rm = TRUE) + 1
 
 # add index row
-if(ndx.rw)
-{  if(length(lbls.lvls) > 0)
+if (ndx.rw)
+{  if (length(lbls.lvls) > 0)
   X$indx.row <- sapply(1:nrow(out2), function(z) paste(unique(c(which(out2[z, ] != 0), which(out2[ , z] != 0))), collapse = "/")) else X$indx.row <- NA
 }
                        
@@ -217,13 +217,13 @@ out$ovlp.sels <- factor(out$ovlp.sels, levels = as.character(stats::na.exclude(o
 ovlp <- out$ovlp.sels <- as.numeric(out$ovlp.sels)
 }
 
-if(index) return(which(duplicated(out$ovlp.sels, incomparables = NA))) else{
+if (index) return(which(duplicated(out$ovlp.sels, incomparables = NA))) else{
 
     # remove the ones overlapped  
-    if(drop)
+    if (drop)
       {
       # remove based on priority
-      if(!is.null(priority.col) & !is.null(priority) &  length(priority) > 1)
+      if (!is.null(priority.col) & !is.null(priority) &  length(priority) > 1)
         {
         # remove duplicated labels
         priority <- priority[!duplicated(priority)]
@@ -246,9 +246,9 @@ if(index) return(which(duplicated(out$ovlp.sels, incomparables = NA))) else{
     
     }
   
-  if(length(ovlp[!is.na(ovlp)]) > 0) 
+  if (length(ovlp[!is.na(ovlp)]) > 0) 
     {
-    if(drop)
+    if (drop)
       cat(paste(length(ovlp[!is.na(ovlp)]),"selections overlapped,", length(which(duplicated(ovlp,  incomparables = NA))), "were removed \nSelection table has been ordered by 'sound.files' and 'start'")) else
   cat(paste(length(ovlp[!is.na(ovlp)]),"selections overlapped \nSelection table has been ordered by 'sound.files' and 'start'"))
   

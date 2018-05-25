@@ -34,8 +34,8 @@
 read_wave <- function (X, index, from = X$start[index], to = X$end[index], header = FALSE, path = NULL) 
 {
   #check path to working directory
-  if(is.null(path)) path <- getwd() else 
-      if (!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else 
+      if (!dir.exists(path)) stop("'path' provided does not exist") else
       {
         on.exit(setwd(getwd()))
         setwd(path)
@@ -60,21 +60,23 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], heade
   
   if (header)
     {
-    if(any(is_selection_table(X), is_extended_selection_table(X)))
+    if (any(is_selection_table(X), is_extended_selection_table(X)))
     object <- list(sample.rate = attr(X, "check.results")$sample.rate[attr(X, "check.results")$sound.files == X$sound.files[index]], channels = 1, bits = attr(X, "check.results")$bits[attr(X, "check.results")$sound.files == X$sound.files[index]], samples = attr(X, "check.results")$n.samples[attr(X, "check.results")$sound.files == X$sound.files[index]]) else 
       object <- readWave(filename = filename, header = TRUE)
     
     if (any(sapply(object, length) > 1)) object <- lapply(object, "[", 1)
     } else 
     {
-    if(is_selection_table(X) | is.data.frame(X) & !is_extended_selection_table(X)) # if no extended selection table
+    if (is_selection_table(X) | is.data.frame(X) & !is_extended_selection_table(X)) # if no extended selection table
     object <- tuneR::readWave(filename = filename, header = FALSE, units = "seconds", from = from, to = to) else {
-      object <- attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == X$sound.files[index])[1]]]
-    
-      # if (attr(X, "by.song")$by.song)
-        if (attr(X, "check.results")$mar.before[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & attr(X, "check.results")$mar.after[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0)  object <- seewave::cutw(object, from = from, to = to, output = "Wave") #else
         
-      # if (attr(X, "check.results")$mar.before[attr(X, "check.results")$sound.files == X$sound.files[index]] != 0 & attr(X, "check.results")$mar.after[attr(X, "check.results")$sound.files == X$sound.files[index]] != 0)  object <- seewave::cutw(object, from = from, to = to, output = "Wave")
+      object <- attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == X$sound.files[index])[1]]]
+
+      # if to is inifite then duration of sound file
+      if (is.infinite(to)) to <- length(object@left)/object@samp.rate
+      
+        if (attr(X, "check.results")$mar.before[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & attr(X, "check.results")$mar.after[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & any(to < length(object@left)/object@samp.rate, from > 0))  object <- seewave::cutw(object, from = from, to = to, output = "Wave") #else
+        
     }
     }
 

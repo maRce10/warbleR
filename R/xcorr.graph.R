@@ -45,21 +45,21 @@
 xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = FALSE, labs = NULL) {
   
   #if X is not provided or is not a list
-  if(!is.list(X))  stop("X is not a list. It should be the output of 'xcorr' function (set argument 'cormat' in 'xcorr' to FALSE)")
+  if (!is.list(X))  stop("X is not a list. It should be the output of 'xcorr' function (set argument 'cormat' in 'xcorr' to FALSE)")
   
   #if cex.cor is not vector or length!=1 stop
-  if(!is.numeric(cex.cor)) stop("'cex.cor' must be a numeric vector of length 1") else {
-    if(!is.vector(cex.cor)) stop("'cex.cor' must be a numeric vector of length 1") else{
-      if(!length(cex.cor) == 1) stop("'cex.cor' must be a numeric vector of length 1")}} 
+  if (!is.numeric(cex.cor)) stop("'cex.cor' must be a numeric vector of length 1") else {
+    if (!is.vector(cex.cor)) stop("'cex.cor' must be a numeric vector of length 1") else{
+      if (!length(cex.cor) == 1) stop("'cex.cor' must be a numeric vector of length 1")}} 
   
   #if cex.lab is not vector or length!=1 stop
-  if(!is.numeric(cex.lab)) stop("'cex.lab' must be a numeric vector of length 1") else {
-    if(!is.vector(cex.lab)) stop("'cex.lab' must be a numeric vector of length 1") else{
-      if(!length(cex.lab) == 1) stop("'cex.lab' must be a numeric vector of length 1")}} 
+  if (!is.numeric(cex.lab)) stop("'cex.lab' must be a numeric vector of length 1") else {
+    if (!is.vector(cex.lab)) stop("'cex.lab' must be a numeric vector of length 1") else{
+      if (!length(cex.lab) == 1) stop("'cex.lab' must be a numeric vector of length 1")}} 
   
   #rel.cex must be logical
-  if(!is.logical(rel.cex)) stop("'rel.cex' must be logical") else
-    if(!length(rel.cex) == 1) stop("'rel.cex' must be a logical vector of length 1") 
+  if (!is.logical(rel.cex)) stop("'rel.cex' must be logical") else
+    if (!length(rel.cex) == 1) stop("'rel.cex' must be a logical vector of length 1") 
   
   y <- X$correlation.data
   y <- y[order(y$sound.file1, y$sound.file2), ]
@@ -67,11 +67,11 @@ xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = 
   w <- w[order(w$sound.file1, w$sound.file2), ]
   
   #labs right length
-  if(!is.null(labs)) if(length(labs)!=length(unique(c(as.character(y$sound.file1), as.character(y$sound.file2)))))
+  if (!is.null(labs)) if (length(labs)!=length(unique(c(as.character(y$sound.file1), as.character(y$sound.file2)))))
     stop("'labs' is not the same length as the number of selections")
   
   #create labels
-  if(is.null(labs)) labs <- unique(c(as.character(y$sound.file1), as.character(y$sound.file2)))
+  if (is.null(labs)) labs <- unique(c(as.character(y$sound.file1), as.character(y$sound.file2)))
   
   #split graph device  
   levs <- length(unique(y$sound.file1)) + 1
@@ -86,7 +86,7 @@ xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = 
     a<-matrix(ncol = 4, nrow = levs)
     repeat{a[y+1,]<-c(rws[[x]],rws[[y+1]])
     y=y+1
-    if(y==length(rws)) break}
+    if (y==length(rws)) break}
     return(a)    
   }))
   
@@ -104,11 +104,11 @@ xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = 
   {  screen(i)
     par(mar = mar)
     plot(1, 1, col ="white", ylim = c(0,1), xlab = "", ylab = "", yaxt = "n", xaxt = "n", lwd = 5, xlim = c(-1,1))
-    if(i %in% sidepan) 
+    if (i %in% sidepan) 
     {      axis(side = 2, line =0, at = seq(0, 1,length.out = 5),tick = TRUE, cex=0.2,labels = FALSE)
       axis(side = 2, line =-0.6, at = seq(0, 1,length.out = 5),tick = FALSE, cex.axis=0.7,labels = round(seq(0, 1,length.out = 5),1))
     }
-    if(i %in% bottompan) 
+    if (i %in% bottompan) 
     {      axis(side = 1, line =0, at = seq(-1, 1,length.out = 5),tick = TRUE, cex=0.2,labels = FALSE)
       axis(side = 1, line =-0.6, at = seq(-1, 1,length.out = 5),tick = FALSE, cex.axis=0.7,labels = round(seq(-1, 1,length.out = 5),1))
     }
@@ -148,7 +148,7 @@ xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = 
     par(mar= mar)
     plot(1, 1, col ="white",  xaxt = "n", yaxt = "n", xlab = "", ylab = "")
     rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = c("#67001F", "#B2182B", "#D6604D", "#F4A582","#FFFFFF", "#D1E5F0", "#92C5DE", "#4393C3", "#2166AC", "#053061")[round((1 - w$score[x])*10, 0)], border = "black")
-    if(rel.cex) cex <- w$score[x]*cex.cor else cex <- cex.cor
+    if (rel.cex) cex <- w$score[x]*cex.cor else cex <- cex.cor
     text(1, 1, round(w$score[x], 2), cex = cex)
     x <- x + 1}
   

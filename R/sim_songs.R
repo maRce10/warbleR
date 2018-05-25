@@ -69,7 +69,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
                       file_name = NULL, path = NULL) {
   
   # reset working directory 
-  if(selec_table)
+  if (selec_table)
     {
     wd <- getwd()
   on.exit(setwd(wd))
@@ -101,7 +101,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path))  path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path))  path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
@@ -223,6 +223,6 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
     
   }
   
-  if(selec_table) return(list(selec_table = st, wave = wv)) else
+  if (selec_table) return(list(selec_table = st, wave = wv)) else
   return(wv)
 }

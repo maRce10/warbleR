@@ -128,62 +128,62 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #if any selections longer than 20 secs stop
-  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
+  if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   
   #if bp is not vector or length!=2 stop
-  if(!is.null(bp)) {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
+  if (!is.null(bp)) {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
   
   # If length.out is not numeric
-  if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
-  if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
+  if (!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
+  if (any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
   
   # threshold adjustment
-  if(is.null(threshold.time)) threshold.time <- threshold
-  if(is.null(threshold.freq)) threshold.freq <- threshold
+  if (is.null(threshold.time)) threshold.time <- threshold
+  if (is.null(threshold.freq)) threshold.freq <- threshold
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X)){
    recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
+  if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd) 
-  if(length(d) == 0){
+  if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else X <- X[d, , drop = FALSE]
   }
   
   #if parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  if(pb) if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
+  if (pb) if (img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
     cat("measuring dominant frequency:") 
   
   dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc, raw.contour, track.harm, adjust.wl){
@@ -194,37 +194,37 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     
     #in case bp its higher than can be due to sampling rate
     b <- bp 
-    if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
+    if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
     r <- read_wave(X = X, index = i)
     
-    if(frange.dtc){
+    if (frange.dtc){
       frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
     
-    if(!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
+    if (!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
     
     # calculate dominant frequency at each time point     
     dfrq1 <- track_harm(wave = r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE,
                              threshold = threshold, dfrq = !track.harm, adjust.wl = adjust.wl)
     
         dfrq <- dfrq1[!is.na(dfrq1[,2]), , drop = FALSE]
-        if(nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+        if (nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
         
         dfrq[dfrq[,2] < b[1]/1000, ] <- NA
-        if(nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
-        if(any(is.na(dfrq[1, ]))) {dfrq <- dfrq[!is.na(dfrq[ , 1]), , drop = FALSE]
-        if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+        if (nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+        if (any(is.na(dfrq[1, ]))) {dfrq <- dfrq[!is.na(dfrq[ , 1]), , drop = FALSE]
+        if (!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
         }
     
-  if(!raw.contour){ 
-     if(nrow(dfrq) < 2) {apdom <- list()
+  if (!raw.contour){ 
+     if (nrow(dfrq) < 2) {apdom <- list()
     apdom$x <- dfrq1[, 1]
     apdom$y <- rep(NA, length.out)
     apdom1 <- apdom
     
     } else {
-      if(!clip.edges) {        
+      if (!clip.edges) {        
         apdom <- approx(dfrq[,1], dfrq[,2], xout = seq(from = dfrq1[1, 1], 
                                                                 to = dfrq1[nrow(dfrq1), 1], length.out = length.out),
                                method = "linear")
@@ -241,11 +241,11 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
         #calculate time at start and end with no amplitude detected (duration of clipped edges)
         durend1 <- suppressWarnings(diff(range(dfrq1[,1][rev(cumsum(rev(dfrq1[,2])) == 0)])))
         durend <- durend1
-        if(is.infinite(durend) | is.na(durend)) durend <- 0
+        if (is.infinite(durend) | is.na(durend)) durend <- 0
         
         durst1 <- suppressWarnings(diff(range(dfrq1[,1][cumsum(dfrq1[,2]) == 0])))   
         durst <- durst1
-        if(is.infinite(durst) | is.na(durst)) durst <- 0
+        if (is.infinite(durst) | is.na(durst)) durst <- 0
         
         by.dur <- mean(diff(apdom$x))
         clipst <- length(seq(from = 0, to = durst, by = by.dur))
@@ -254,19 +254,19 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
         apdom1 <- apdom
         apdom1$y <- c(rep(NA, clipst) ,apdom$y, rep(NA, clipend))
         
-        if(is.infinite(durst1) | is.na(durst1)) apdom1$y <- apdom1$y[-1]
-        if(is.infinite(durend1) | is.na(durend1)) apdom1$y <- apdom1$y[-length(apdom1$y)]
+        if (is.infinite(durst1) | is.na(durst1)) apdom1$y <- apdom1$y[-1]
+        if (is.infinite(durend1) | is.na(durend1)) apdom1$y <- apdom1$y[-length(apdom1$y)]
       } 
     }
       cstm.cntr <- data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apdom1$y))
     } else
     {
       dfrq <- cbind(dfrq, X$start[i] + dfrq[, 1])
-      if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+      if (!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
       colnames(dfrq) <- c("relative.time", "frequency", "absolute.time")
-      if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+      if (!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
       dfrq <- dfrq[, c(3, 1, 2)]
-      if(!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+      if (!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
       
       cstm.cntr <- dfrq
       }
@@ -277,7 +277,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
                  parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
                  custom.contour = cstm.cntr, xl = ifelse(frange.dtc, 1.8, 1), fsmooth = fsmooth, frange.detec = frange.dtc, ...)
       } 
-    if(!raw.contour) return(apdom$y)  else return(dfrq)  
+    if (!raw.contour) return(apdom$y)  else return(dfrq)  
   } 
   
   # set pb options 
@@ -293,7 +293,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
  dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc = frange.detec, raw.contour, track.harm, adjust.wl)
   }) 
   
-  if(!raw.contour)
+  if (!raw.contour)
 {  df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))
     colnames(df)[3:ncol(df)]<-paste("dfreq",1:(ncol(df)-2),sep = "-")
             

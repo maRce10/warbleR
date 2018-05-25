@@ -24,7 +24,7 @@ filled_contour_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = seq(0, 1
   }
   if (any(diff(x) <= 0) || any(diff(y) <= 0)) 
     stop("increasing 'x' and 'y' values expected")
-  if(!add) plot.new()
+  if (!add) plot.new()
   plot.window(xlim, ylim, "", xaxs = xaxs, yaxs = yaxs, asp = asp)
   if (!is.matrix(z) || nrow(z) <= 1 || ncol(z) <= 1) 
     stop("no proper 'z' matrix specified")

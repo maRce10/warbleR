@@ -79,12 +79,12 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  if(length(inputw(wave = wave, f = f)$w) < wl) {
-    if(adjust.wl) wl <- length(wave) else
+  if (length(inputw(wave = wave, f = f)$w) < wl) {
+    if (adjust.wl) wl <- length(wave) else
       stop("number of samples lower than 'wl' (i.e. no enough samples) \n check 'adjust.wl' argument")
   } 
   
-  if(dfrq) seewave::dfreq(wave, f, wl, wn, ovlp, fftw, at, tlim, threshold, bandpass, 
+  if (dfrq) seewave::dfreq(wave, f, wl, wn, ovlp, fftw, at, tlim, threshold, bandpass, 
                  clip, plot, xlab, ylab, ylim) else {
 
                 
@@ -155,7 +155,7 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
       y2[i] <- which.max(z)
     } else {
     pks <- pracma::findpeaks(z, npeaks = 5, sortstr = TRUE)[ , 1:3]
-    if(is.vector(pks)) pks <- matrix(pks, ncol = 3)
+    if (is.vector(pks)) pks <- matrix(pks, ncol = 3)
     pks[,3] <- abs(pks[ ,2] - y2[i - 1])
     maxi[i] <- pks[which.min(pks[ , 3]), 1]  
     y2[i] <- pks[which.min(pks[ , 3]), 2]    

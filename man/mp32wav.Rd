@@ -4,8 +4,8 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav(samp.rate = 44.1, parallel = 1, from = NULL, to = NULL, 
-normalize = NULL, pb = TRUE)
+mp32wav(samp.rate = 44.1, parallel = 1, from = NULL,path = NULL, 
+to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE)
 }
 \arguments{
 \item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.}
@@ -13,11 +13,17 @@ normalize = NULL, pb = TRUE)
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{from}{Character string containing the directory path where the .mp3 files are located. 
-If \code{NULL} (default) then the current working directory is used.}
+\item{from}{Character string containing the directory path where the .mp3 files are located. Will be deprecated in future versions.}
+
+\item{path}{Character string containing the directory path where the .mp3 files are located.
+If \code{NULL} (default) then the current working directory is used. Same as
+'from' (will replace it in future versions).}
 
 \item{to}{Character string containing the directory path where the .wav files will be saved. 
-If \code{NULL} (default) then the current working directory is used.}
+If \code{NULL} (default) then the current working directory is used. Will be deprecated in future versions.}
+
+\item{dest.path}{Character string containing the directory path where the .wav files will be saved. 
+If \code{NULL} (default) then the current working directory is used. Same as 'to' (will replace it in future versions).}
 
 \item{normalize}{Character string containing the units to be used for amplitude normalization. Check 
 (\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.}

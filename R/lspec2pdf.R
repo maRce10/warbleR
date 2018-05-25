@@ -48,14 +48,14 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #check path to working directory
-  if(!is.null(path))
+  if (!is.null(path))
   {wd <- getwd()
-    if(class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
+    if (class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
   setwd(path)} #set working directory
   
   #list jpeg files
   imgs <- list.files(pattern = "\\.jpeg$", ignore.case = TRUE)
-  if(length(imgs) == 0) stop("No .jpeg files were found in the working directory")
+  if (length(imgs) == 0) stop("No .jpeg files were found in the working directory")
   
   #remove images that don't have the pX.jpeg ending
   imgs <- grep("p\\d+\\.jpeg" ,imgs, value = TRUE)
@@ -67,12 +67,12 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
   # no.out <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function(x)
     l2pdfFUN <- function(i, overwrite, keep.img)
     {
-    if(any(!overwrite & !file.exists(paste0(i, ".pdf")), overwrite))
+    if (any(!overwrite & !file.exists(paste0(i, ".pdf")), overwrite))
 {    pdf(file = paste0(i, ".pdf"), width = 8.5, height = 11)
     
     #order imgs so they look order in the pdf
     subimgs <- imgs[or.sf == i]
-    if(length(subimgs) > 1){
+    if (length(subimgs) > 1){
     pgs <- substr(subimgs, regexpr("p\\d+\\.jpeg" ,subimgs), nchar(subimgs))
     pgs <- as.numeric(gsub("p|.jpeg|.jpg", "", pgs, ignore.case = TRUE))
     subimgs <- subimgs[order(pgs)]
@@ -86,7 +86,7 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
     graphics::rasterImage(img, mr[1], mr[3], mr[2], mr[4])
     
     #loop over the following pages if more than 1 page
-    if(length(subimgs) > 1)
+    if (length(subimgs) > 1)
       {
       no.out <- lapply(subimgs[-1], function(y) {
         plot.new()
@@ -97,7 +97,7 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
       })
     }
     dev.off()
-  if(!keep.img) unlink(subimgs)
+  if (!keep.img) unlink(subimgs)
     }
     }
     # )
@@ -115,7 +115,7 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
     l2pdfFUN(i, overwrite, keep.img)
   }) 
   
-  if(!is.null(path)) setwd(wd)
+  if (!is.null(path)) setwd(wd)
 }
 
 

@@ -6,7 +6,7 @@ fix_cntr_wrblr_int <- function(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, fl
   
   prev.plot <- recordPlot()
   
-  if(!l){
+  if (!l){
     ts.df.t <- seq(X$start[j], X$end[j], length.out = length(ncl)) - tlim[1] 
     ts.df <- X[, ncl]
     ncl2 <- ncl
@@ -23,13 +23,13 @@ fix_cntr_wrblr_int <- function(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, fl
   
   while(all(out))
   {
-    if(x > 1) replayPlot(prev.plot)
+    if (x > 1) replayPlot(prev.plot)
     
     points(x = ts.df.t, 
            y = ts.df[j, ncl2], pch = 20, cex = 1.2, 
            col = adjustcolor(col,  alpha.f = alpha))  
     
-    if(any(is.na(ts.df[j, seq_len(which.max(ts.df.t))])))
+    if (any(is.na(ts.df[j, seq_len(which.max(ts.df.t))])))
       points(x = ts.df.t[is.na(ts.df.f[seq_len(which.max(ts.df.t))])], 
              y = ((flim[2] - flim[1]) * 0.02) + flim[1], pch = 20, cex = 1.2,
              col = adjustcolor( "gray",  alpha.f = alpha))  
@@ -40,7 +40,7 @@ fix_cntr_wrblr_int <- function(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, fl
     # if on buttoms
     out <- sapply(ending.buttons, function(w) out  <- !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[w]]) & xy$y < max(ys[[w]])))
     
-    if(!all(out)) break  else {
+    if (!all(out)) break  else {
       
       ts.df[j, ncl2[which.min(abs(ts.df.t - xy$x))]] <- xy$y
     

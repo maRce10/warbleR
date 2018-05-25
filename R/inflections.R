@@ -65,7 +65,7 @@ inflections <- function(X = NULL, parallel = 1, pb = TRUE)
 infls.FUN <- function(Y, l) {
     
     if (l) ts <- Y$frequency else ts <- Y[ , !names(Y) %in% c("sound.files", "selec")]
-    if(is.data.frame(ts)) ts <- unlist(ts)
+    if (is.data.frame(ts)) ts <- unlist(ts)
     
     infls <- length(which(c(FALSE, diff(diff(ts) > 0) != 0)))
     

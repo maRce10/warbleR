@@ -120,51 +120,51 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #if any selections longer than 20 secs warning
-  if(any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
+  if (any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
   
   #wrap img creating function
-  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   # bp checking
-  if(!is.null(bp))
-  {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else
+  if (!is.null(bp))
+  {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else
   {
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")
   }} 
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {
     fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
+  if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% fs) 
-  if(length(d) == 0){
+  if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else {
     X <- X[d, ]
@@ -179,14 +179,14 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     #adjust margins if signal is close to start or end of sound file
     mar1 <- mar
     
-    if(t[1] < 0) {
+    if (t[1] < 0) {
       t[1] <- 0
       mar1 <- X$start[i]
     }
     
     mar2 <- mar1 + X$end[i] - X$start[i]
     
-    if(t[2] > r$samples/f) t[2] <- r$samples/f
+    if (t[2] > r$samples/f) t[2] <- r$samples/f
     
     
     # read rec segment
@@ -194,10 +194,10 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     
     frng <- frd_wrblr_int(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
     
-    if(img)
+    if (img)
       {
     # Spectrogram width can be proportional to signal duration
-    if(propwidth)
+    if (propwidth)
       pwc <- (13.16) * ((t[2]-t[1])/0.27) * xl * picsize else pwc <- (13.16) * xl * picsize
     
     #call image function

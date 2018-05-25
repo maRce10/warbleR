@@ -15,7 +15,7 @@ output:
       smooth_scroll: true
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{warbleR: 03 - Acoustic (dis)similarity, coordinated singing and  and simulating songs}
+  %\VignetteIndexEntry{3. Acoustic (dis)similarity, coordinated singing and simulating songs}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
@@ -39,7 +39,7 @@ Bioacoustics research encompasses a wide range of questions, study systems and m
 
 ### Package repositories
 
-These packages are both available on _CRAN_: [`warbleR`](https://cran.r-project.org/package=warbleR), [`Rraven`](https://CRAN.R-project.org/package=Rraven), as well as on _GitHub_: [`warbleR`](https://github.com/maRce10/warbleR), [`Rraven`](https://github.com/maRce10/Rraven). The GitHub repository will always contain the latest functions and updates. You can also check out an article in _Methods in Ecology and Evolution_ documenting the `warbleR` package <a href='#References'><sup>[1]</sup></a>.
+These packages are both available on _CRAN_: [`warbleR`](https://cran.r-project.org/package=warbleR), [`Rraven`](https://cran.r-project.org/package=Rraven), as well as on _GitHub_: [`warbleR`](https://github.com/maRce10/warbleR), [`Rraven`](https://github.com/maRce10/Rraven). The GitHub repository will always contain the latest functions and updates. You can also check out an article in _Methods in Ecology and Evolution_ documenting the `warbleR` package <a href='#References'><sup>[1]</sup></a>.
 
 We welcome all users to provide feedback, contribute updates or new functions and report bugs to warbleR's GitHub repository.
 

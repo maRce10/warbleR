@@ -91,18 +91,18 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, para
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  if(!is.data.frame(X))  stop("X is not a data frame")
+  if (!is.data.frame(X))  stop("X is not a data frame")
   
   #stop if some events have less than 10 observations
-  if(any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
+  if (any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
   
   #stop if some cells are not labeled
-  if(any(is.na(X$sing.event))) stop("NA's in singing event names ('sing.event' column) not allowed")
+  if (any(is.na(X$sing.event))) stop("NA's in singing event names ('sing.event' column) not allowed")
   
-  if(any(is.na(X$indiv))) stop("NA's in individual names ('indiv' column) not allowed")  
+  if (any(is.na(X$indiv))) stop("NA's in individual names ('indiv' column) not allowed")  
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #remove hidden levels
   X <- droplevels(X)
@@ -112,28 +112,28 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, para
   qw[is.na(qw)] <- 0
    
    #complete singing events
-    if(rm.imcomp) cse <- qw[,1] >= cutoff & qw[,2] >= cutoff else cse <- qw[,1] >= 1 & qw[,2] >= 1
+    if (rm.imcomp) cse <- qw[,1] >= cutoff & qw[,2] >= cutoff else cse <- qw[,1] >= 1 & qw[,2] >= 1
     
-if(rm.imcomp)   {X <- X[X$sing.event %in% unique(X$sing.event)[cse], ]
-if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
+if (rm.imcomp)   {X <- X[X$sing.event %in% unique(X$sing.event)[cse], ]
+if (any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
 } else
-  if(any(!cse)) stop("Some singing events don't have 2 interacting individuals ('indiv' colum)")
+  if (any(!cse)) stop("Some singing events don't have 2 interacting individuals ('indiv' colum)")
 
     #if nothing was left
-    if(nrow(X) == 0) stop("No events left after removing incomplete events")
+    if (nrow(X) == 0) stop("No events left after removing incomplete events")
     
   #if iterations is not vector or length==1 stop
-  if(any(!is.vector(iterations),!is.numeric(iterations))) stop("'interations' must be a numeric vector of length 1") else{
-    if(!length(iterations) == 1) stop("'interations' must be a numeric vector of length 1")}
+  if (any(!is.vector(iterations),!is.numeric(iterations))) stop("'interations' must be a numeric vector of length 1") else{
+    if (!length(iterations) == 1) stop("'interations' must be a numeric vector of length 1")}
   
   iterations <- round(iterations)
   
   #interations should be positive
-  if(iterations < 1) stop("'iterations' must be a positive integer")
+  if (iterations < 1) stop("'iterations' must be a positive integer")
   
   #if parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
     #create function to randomized singing events
       coortestFUN <- function(X, h){
@@ -141,7 +141,7 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
   sub<-sub[order(sub$start),]
   
   #remove solo singing
-  if(rm.solo)
+  if (rm.solo)
     {  
     fst <- max(c(which(sub$start==min(sub$start[sub$indiv==unique(sub$indiv)[1]])),
                which(sub$start==min(sub$start[sub$indiv==unique(sub$indiv)[2]])))) - 1
@@ -158,7 +158,7 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
   
   #determine which ones overlap (observed)
   ovlp <- sapply(2:nrow(sub),function(i) {
-    if(sub$start[i]>sub$start[i-1] & sub$start[i]<sub$end[i-1])  
+    if (sub$start[i]>sub$start[i-1] & sub$start[i]<sub$end[i-1])  
       "ovlp" else "No ovlp"})
   
   
@@ -180,7 +180,7 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
     nbt1<-NULL
     for(i in 1:(length(dur1)-1))
     {nbt1[i]<-dur1[i]+gap1[i]
-    if(i!=1) nbt1[i]<-nbt1[i]+nbt1[i-1]}  
+    if (i!=1) nbt1[i]<-nbt1[i]+nbt1[i-1]}  
     nbt1<-c(0,nbt1)
     nbt1<-nbt1+min(sub1$start)
     net1<-nbt1+dur1
@@ -188,7 +188,7 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
     nbt2<-NULL
     for(i in 1:(length(dur2)-1))
     {nbt2[i]<-dur2[i]+gap2[i]
-    if(i!=1) nbt2[i]<-nbt2[i]+nbt2[i-1]}  
+    if (i!=1) nbt2[i]<-nbt2[i]+nbt2[i-1]}  
     nbt2<-c(0,nbt2)
     nbt2<-nbt2+min(sub2$start)
     net2<-nbt2+dur2
@@ -198,7 +198,7 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
     rownames(ndf)<-1:nrow(ndf)
     
     rovlp<-sapply(2:nrow(ndf),function(i) {
-      if(ndf$nbt[i]>ndf$nbt[i-1] & ndf$nbt[i]<ndf$net[i-1])  
+      if (ndf$nbt[i]>ndf$nbt[i-1] & ndf$nbt[i]<ndf$net[i-1])  
         "ovlp" else "No ovlp"})
     return(length(rovlp[rovlp=="ovlp"]))
   })
@@ -206,7 +206,7 @@ if(any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
   #resutls
   obs.overlaps <- length(ovlp[ovlp=="ovlp"])
   mean.random.ovlps <- mean(rov)
-  if(less.than.chance) p <- length(rov[rov <= obs.overlaps])/iterations else p <- length(rov[rov >= obs.overlaps])/iterations
+  if (less.than.chance) p <- length(rov[rov <= obs.overlaps])/iterations else p <- length(rov[rov >= obs.overlaps])/iterations
   l <- data.frame(sing.event = h, obs.ovlps = obs.overlaps, mean.random.ovlps, p.value = p, coor.score = round((obs.overlaps - mean.random.ovlps)/mean.random.ovlps, 3))
   
   return(l)}

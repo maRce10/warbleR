@@ -11,7 +11,7 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
   dur <- seewave::duration(wave)
   
   # detection limits
-  if(!all.detec)
+  if (!all.detec)
   {
     min.start <- detections$frange$bottom.freq
     max.end <- detections$frange$top.freq
@@ -21,12 +21,12 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
   }
   
   # fix flim
-  if(!is.null(flim))
-  {if(flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1} else
+  if (!is.null(flim))
+  {if (flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1} else
     flim <- c(0, ceiling(f/2000) - 1)
   
   # set limits for color rectangles down
-  if(is.null(bp)) lims <- flim else lims <- bp
+  if (is.null(bp)) lims <- flim else lims <- bp
   
     # split screen
     m <- rbind(c(0, widths[1]/sum(widths), 0, 0.93), #1
@@ -89,7 +89,7 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     
         
     # add gray boxes in filtered out freq bands
-    if(!is.null(bp))
+    if (!is.null(bp))
     {  rect(xleft = 0, ybottom = bp[2], xright = 1, ytop = flim[2], col = adjustcolor("gray", 0.5)) 
       rect(xleft = 0, ybottom = flim[1], xright = 1, ytop = bp[1], col = adjustcolor("gray", 0.5))
     }
@@ -99,7 +99,7 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     abline(h = c(min.start, max.end), col = "#80C3FF", lty = 3, lwd = 2)
     
     
-    if(!is.null(main))
+    if (!is.null(main))
     {
       screen(3)
       par( mar = rep(0, 4))

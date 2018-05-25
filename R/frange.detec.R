@@ -91,11 +91,11 @@ frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "ha
   frng <- frd_wrblr_int(wave = wave, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
   
   
-  if(plot)
+  if (plot)
     frd_plot_wrblr_int(wave = wave, detections = frng, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = main, all.detec = all.detec)   
 
     # return low and high freq
- if(all.detec) return(frng$detections) else return(frng$frange)
+ if (all.detec) return(frng$detections) else return(frng$frange)
   
  
 }

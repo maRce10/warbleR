@@ -96,20 +96,20 @@ filtersels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "j
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
 
     #if X is not a data frame
-    if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+    if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
     
   #if it argument is not "jpeg" or "tiff" 
-  if(!any(it == "jpeg", it == "tiff", it == "pdf")) stop(paste("Image type", it, "not allowed"))  
+  if (!any(it == "jpeg", it == "tiff", it == "pdf")) stop(paste("Image type", it, "not allowed"))  
   
-if(!all(c("sound.files", "selec") %in% colnames(X))) 
+if (!all(c("sound.files", "selec") %in% colnames(X))) 
   stop(paste(paste(c("sound.files", "selec")[!(c("sound.files", "selec") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
 
-if(it != "pdf")
+if (it != "pdf")
 {
   #check if files are in working directory
   imgs <- list.files(pattern = "\\.jpeg$|\\.tiff$", ignore.case = FALSE)
@@ -117,26 +117,26 @@ if(it != "pdf")
     stop("No image files in working directory")
   
   # if not long spec
-  if(!lspec){
+  if (!lspec){
   
     #if img suffix not provided
-  if(is.null(img.suffix)){
+  if (is.null(img.suffix)){
     # if .wav extension is included
-    if(incl.wav)  imgn <- paste(paste(X$sound.files, X$selec, sep =  "-"), it, sep = ".") else 
+    if (incl.wav)  imgn <- paste(paste(X$sound.files, X$selec, sep =  "-"), it, sep = ".") else 
       imgn <- paste(paste(gsub(".wav$", "", X$sound.files, ignore.case = TRUE), X$selec, sep =  "-"), it, sep = ".") 
     } else
-  {      if(incl.wav)  imgn <- paste(paste(X$sound.files, X$selec, img.suffix, sep =  "-"), it, sep = ".") else
+  {      if (incl.wav)  imgn <- paste(paste(X$sound.files, X$selec, img.suffix, sep =  "-"), it, sep = ".") else
     imgn <- paste(paste(gsub(".wav$", "", X$sound.files, ignore.case = TRUE), X$selec, img.suffix, sep =  "-"), it, sep = ".")
 
   }
           #subset data frame X
   miss.index <- imgn %in% imgs
     
-    if(!index)
+    if (!index)
     {
-      if(missing) Y <- X[!miss.index, , drop = FALSE] else Y <- X[miss.index, , drop = FALSE]
+      if (missing) Y <- X[!miss.index, , drop = FALSE] else Y <- X[miss.index, , drop = FALSE]
       
-    } else if(missing)  Y <- which(!miss.index) else  Y <- which(miss.index)
+    } else if (missing)  Y <- which(!miss.index) else  Y <- which(miss.index)
     
     
     
@@ -145,16 +145,16 @@ if(it != "pdf")
 
   #   #remove the ones with no pX.it ending
     imgs <- grep("p\\d+\\.jpeg|p\\d+\\.tiff" ,imgs, value = TRUE)
-  if(length(imgs) == 0) stop("Images have not been produced by 'lspec' function")
+  if (length(imgs) == 0) stop("Images have not been produced by 'lspec' function")
   
   #subset selection table
     miss.index <- gsub(".wav$", "", X$sound.files, ignore.case = TRUE) %in% gsub("-p\\d+\\.jpeg$|-p\\d+\\.tiff$" , "", imgs)
     
-    if(!index)
+    if (!index)
     {
-      if(missing) Y <- X[!miss.index, , drop = FALSE] else Y <- X[miss.index, , drop = FALSE]
+      if (missing) Y <- X[!miss.index, , drop = FALSE] else Y <- X[miss.index, , drop = FALSE]
     
-    } else if(missing)  Y <- which(!miss.index) else Y <- which(miss.index)
+    } else if (missing)  Y <- which(!miss.index) else Y <- which(miss.index)
 
   }
   
@@ -167,9 +167,9 @@ if(it != "pdf")
   #subset selection table
   miss.index <- gsub(".wav$", "", X$sound.files, ignore.case = TRUE) %in% gsub(".pdf$" , "", imgs)
   
-  if(!index)
+  if (!index)
   {
-    if(missing) miss.index <- !miss.index
+    if (missing) miss.index <- !miss.index
       
     Y <- X[miss.index, , drop = FALSE]
      
@@ -178,12 +178,12 @@ if(it != "pdf")
     } else Y <- which(miss.index)
 }
 
-if(!index)
-{if(nrow(Y) == 0) stop("Image files in working directory do not match sound file names in X (wrong working directory?)")
+if (!index)
+{if (nrow(Y) == 0) stop("Image files in working directory do not match sound file names in X (wrong working directory?)")
   return(Y)
   } else 
   {
-    if(length(Y) == 0) cat("Index vector is of length 0")
+    if (length(Y) == 0) cat("Index vector is of length 0")
  return(Y)
     }
 

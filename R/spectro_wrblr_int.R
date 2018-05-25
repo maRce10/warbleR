@@ -18,7 +18,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
 {
  
   # remove scale if fast.spec
-  if(fast.spec) scale <- FALSE
+  if (fast.spec) scale <- FALSE
   
    if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
@@ -58,7 +58,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
   step <- seq(1, n - wl, wl - (ovlp * wl/100))
   
   # to fix function name change in after version 2.0.5
-  # if(exists("stdft")) stft <- stdft
+  # if (exists("stdft")) stft <- stdft
   z <- stft_wrblr_int(wave = wave, f = f, wl = wl, zp = zp, step = step, 
             wn = wn, fftw = fftw, scale = norm, complex = complex, 
             correction = correction)
@@ -68,7 +68,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
     X <- seq(0, n/f, length.out = length(step))
   }
   xat <- xlabel <- pretty(X)
-  if(!is.null(rnd)) xlabel <- round(xlabel, rnd)
+  if (!is.null(rnd)) xlabel <- round(xlabel, rnd)
   if (is.null(flim)) {
     Y <- seq(0, (f/2) - (f/(wl + zp)), by = f/(wl + zp))/1000
   } else {
@@ -78,7 +78,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
     Y <- seq(flim[1], flim[2], length.out = nrow(z))
   }
   yat <- ylabel <- pretty(Y)
-if(rm.lwst) ylabel[1] <- ""
+if (rm.lwst) ylabel[1] <- ""
     if (flog) {
     Y <- log(Y + 1)
     yat <- log(yat + 1)
@@ -148,7 +148,7 @@ if(rm.lwst) ylabel[1] <- ""
                }, ...)
       par(mar = c(0, 4.1, 1, 0), las = 1, cex.lab = cexlab + 
             0.2)
-      if(!fast.spec)
+      if (!fast.spec)
         seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = "", ylab = flab), plot.axes = {
@@ -181,7 +181,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
       par(mar = c(5, 4.1, 1, 0), las = 1, cex = 1, col = colaxis, 
           col.axis = colaxis, col.lab = collab, bg = colbg, 
           cex.lab = cexlab + 0.2)
-      if(!fast.spec)
+      if (!fast.spec)
         seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = tlab, ylab = flab), plot.axes = {
@@ -229,7 +229,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
                  }
                }, ...)
       par(mar = c(0, 4.1, 2.1, 2.1), las = 1, cex.lab = cexlab)
-    if(!fast.spec)
+    if (!fast.spec)
         filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = "", ylab = flab), color.palette = palette, 
@@ -243,7 +243,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
                               image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
                               if (axisY) axis(2, at = yat, labels = ylabel)
                               box()
-                              if(!is.null(main)) title(main)            
+                              if (!is.null(main)) title(main)            
                 }
       if (grid) 
         abline(h = yat, col = colgrid, lty = "dotted")
@@ -258,7 +258,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
       par(las = 1, col = colaxis, col.axis = colaxis, 
           col.lab = collab, bg = colbg, cex.axis = cexaxis, 
           cex.lab = cexlab, ...)
-      if(!fast.spec)
+      if (!fast.spec)
         seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = tlab, ylab = flab), plot.axes = {

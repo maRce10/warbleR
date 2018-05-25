@@ -4,8 +4,8 @@
 fade_env_wrblr_int <- function(nvlp, fin = 0.1, fout = 0.2, shape = "linear") 
 {
 
-  if(fin + fout > 1) stop("'fin' + 'fout' cannot be higher than 1")
-  if(fin < 0 | fout < 0) stop("'fin' and 'fout' cannot be negative")
+  if (fin + fout > 1) stop("'fin' + 'fout' cannot be higher than 1")
+  if (fin < 0 | fout < 0) stop("'fin' and 'fout' cannot be negative")
   
   n <- length(nvlp)
   IN <- seq(0, 1, length.out = fin * n)

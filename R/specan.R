@@ -155,54 +155,54 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #if any selections longer than 20 secs warning
-  if(any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
+  if (any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
   
   #if ff.method argument  
-  if(!any(ff.method == "seewave", ff.method == "tuneR")) stop(paste("ff.method", ff.method, "is not recognized")) 
+  if (!any(ff.method == "seewave", ff.method == "tuneR")) stop(paste("ff.method", ff.method, "is not recognized")) 
   
   # bp checking
-  if(bp[1] != "frange")
-  {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
+  if (bp[1] != "frange")
+  {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
   } else
-  {if(!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
-    if(any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
-    if(any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
-    if(any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than bottom.freq")
+  {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
+    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
+    if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
+    if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than bottom.freq")
   }
   
-  if(!is_extended_selection_table(X)){
+  if (!is_extended_selection_table(X)){
   #return warning if not all sound files were found
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
+  if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% fs) 
-  if(length(d) == 0){
+  if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else {
     X <- X[d, ]
@@ -210,25 +210,25 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   }
   
   # wl adjustment
-  if(is.null(wl.freq)) wl.freq <- wl
+  if (is.null(wl.freq)) wl.freq <- wl
   
   # If parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
 
   #create function to run within Xapply functions downstream
   spFUN <- function(i, X, bp, wl, threshold) { 
     r <- read_wave(X = X, index = i)
     
-    if(bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
+    if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
 
      #in case bp its higher than can be due to sampling rate
-    if(b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
+    if (b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
     
     bpfr <- b
     bpfr <- bpfr + c(-0.2, 0.2)  
-    if(bpfr[1] < 0) bpfr[1] <- 0
-    if(bpfr[2] > ceiling(r@samp.rate/2000) - 1) bpfr[2] <- ceiling(r@samp.rate/2000) - 1 
+    if (bpfr[1] < 0) bpfr[1] <- 0
+    if (bpfr[2] > ceiling(r@samp.rate/2000) - 1) bpfr[2] <- ceiling(r@samp.rate/2000) - 1 
     
   frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = b, bp = bpfr, ovlp = ovlp)
   
@@ -240,7 +240,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     m <- sspectro(r, f = r@samp.rate, wl = wl, ovlp = ovlp, wn = wn)
     fl <- b * nrow(m) * 2000/r@samp.rate
     m <- m[(fl[1]:fl[2]) + 1, ]
-    if(is.vector(m)) m <- t(as.matrix(m))
+    if (is.vector(m)) m <- t(as.matrix(m))
     time <- seq(0, length(r)/r@samp.rate, length.out = ncol(m))
     t.cont <- apply(m, MARGIN = 2, FUN = sum)
     t.cont <- t.cont/sum(t.cont)
@@ -267,22 +267,22 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     sfm <- analysis$sfm
     
     #Frequency with amplitude peaks 
-    if(!fast) #only if fast is TRUE
+    if (!fast) #only if fast is TRUE
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     options(warn = -1)
     #Fundamental frequency parameters
-    if(ff.method == "seewave")
+    if (ff.method == "seewave")
     ff <- seewave::fund(r, f = r@samp.rate, ovlp = ovlp, threshold = threshold, 
                         fmax = b[2] * 1000, plot = FALSE)[, 2] else {
-                        if(!any(methods::slotNames(r) == "stereo")) r <- Wave(r) 
+                        if (!any(methods::slotNames(r) == "stereo")) r <- Wave(r) 
       ff <- tuneR::FF(tuneR::periodogram(mono(r, "left"), width = wl, 
         overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
                                      }
     
   ff <- ff[!is.na(ff)]
     
-  if(length(ff) > 0)
+  if (length(ff) > 0)
    { 
     meanfun<-mean(ff, na.rm = TRUE)
     minfun<-min(ff, na.rm = TRUE)
@@ -297,7 +297,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     #remove values below and above bandpass
     y <- y[y >= b[1] & y <= b[2] & y != 0]
     
-    if(length(y) > 0)
+    if (length(y) > 0)
     {
     meandom <- mean(y, na.rm = TRUE)
     mindom <- min(y, na.rm = TRUE)
@@ -305,12 +305,12 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     dfrange <- maxdom - mindom
     startdom <- y[1]
     enddom <- y[length(y)]
-    if(length(y) > 1 & dfrange != 0)
+    if (length(y) > 1 & dfrange != 0)
     modindx <- sum(sapply(2:length(y), function(j) abs(y[j] - y[j - 1])))/dfrange else modindx <- 1 
     } else meandom <- mindom <- maxdom <- dfrange <- startdom <- enddom <- modindx <- NA
     
     duration <- (X$end[i] - X$start[i])
-    if(!is.na(enddom) && !is.na(startdom))
+    if (!is.na(enddom) && !is.na(startdom))
     dfslope <- (enddom -startdom)/duration else dfslope <- NA
     meanpeakf <- frng$meanpeakf 
     
@@ -320,10 +320,10 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
                         meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope, meanpeakf)
     
     # add peak freq
-    if(!fast) dfres$peakf <- peakf
+    if (!fast) dfres$peakf <- peakf
     
     # add low high freq
-    if(bp[1] == "frange") {
+    if (bp[1] == "frange") {
       dfres$bottom.freq <- b[1]
      dfres$top.freq <- b[2]
      }

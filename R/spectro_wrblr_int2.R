@@ -20,8 +20,8 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
   sel.tab <- X
   
   
-  if(is.list(palette)) palette <- unlist(palette[[1]])
-  if(is.null(palette)) palette <- spectro.colors  
+  if (is.list(palette)) palette <- unlist(palette[[1]])
+  if (is.null(palette)) palette <- spectro.colors  
   if (!is.function(palette)) palette <- get(palette)
     
   if (is.null(collevels) & !is.null(collev.min))
@@ -30,7 +30,7 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
   if (!is.null(collevels) & !is.null(collev.min))
     collevels <- seq(collev.min, 0, 1)
 
-    if(!is.null(sel.tab)) fast.spec <- TRUE 
+    if (!is.null(sel.tab)) fast.spec <- TRUE 
   
   if (complex & norm) {
     norm <- FALSE
@@ -60,7 +60,7 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
   step <- seq(1, n - wl, wl - (ovlp * wl/100))
   
   # to fix function name change in after version 2.0.5
-  # if(exists("stdft")) stft <- stdft
+  # if (exists("stdft")) stft <- stdft
   z <- stft_wrblr_int(wave = wave, f = f, wl = wl, zp = zp, step = step, 
             wn = wn, fftw = fftw, scale = norm, complex = complex)
   if (!is.null(tlim) && trel) {
@@ -109,24 +109,24 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
   }
   Zlim <- range(Z, finite = TRUE, na.rm = TRUE)
   
-  if(!is.null(amp.cutoff)) Z[Z >= (diff(range(Z)) * amp.cutoff) + min(Z)] <- 0 
+  if (!is.null(amp.cutoff)) Z[Z >= (diff(range(Z)) * amp.cutoff) + min(Z)] <- 0 
   
-  if(!fast.spec)
+  if (!fast.spec)
     filled_contour_wrblr_int(x = X, y = Y, z = Z, levels = collevels, 
                           nlevels = 20, plot.title = title(main = main, 
                                                            xlab = tlab, ylab = flab), color.palette = palette, 
                           axisX = FALSE, axisY = axisY, col.lab = collab, 
                           colaxis = colaxis, add = add) else {
                             image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
-                            if(!is.null(sel.tab))    
+                            if (!is.null(sel.tab))    
                               out <- lapply(1:nrow(sel.tab), function(i)
                                 image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], col = palette.2(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)      
                               )
                             
                             
                             if (axisY) axis(2, at = pretty(Y), labels = pretty(Y), cex.axis = cexlab)
-                            if(bx)  box()
-                            if(!is.null(main)) title(main)       
+                            if (bx)  box()
+                            if (!is.null(main)) title(main)       
                         }
   
   if (axisX) {

@@ -145,39 +145,39 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   options(show.error.messages = TRUE) 
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director
-  if(length(files) == 0) stop("no .wav files in working directory")
+  if (length(files) == 0) stop("no .wav files in working directory")
   
   #if flist is not character vector
-  if(!is.null(flist) & any(!is.character(flist), !is.vector(flist))) stop("'flist' must be a character vector") 
+  if (!is.null(flist) & any(!is.character(flist), !is.vector(flist))) stop("'flist' must be a character vector") 
   
   #filter based on flist
-  if(!is.null(flist)) files <- files[files %in% flist]
-  if(length(files) == 0) stop("Files in 'flist' not in working directory")
+  if (!is.null(flist)) files <- files[files %in% flist]
+  if (length(files) == 0) stop("Files in 'flist' not in working directory")
   
-  if(!file.exists(file.path(getwd(), "manualoc_output.csv")))
+  if (!file.exists(file.path(getwd(), "manualoc_output.csv")))
   {results <- data.frame(matrix(nrow = 0, ncol = 6))
    colnames(results) <- c("sound.files", "selec", "start", "end", "sel.comment", "rec.comment")
    write.csv(results, "manualoc_output.csv", row.names = FALSE)} else
-   {if(nrow(read.csv("manualoc_output.csv")) == 0)
+   {if (nrow(read.csv("manualoc_output.csv")) == 0)
    {results <- data.frame(matrix(nrow = 0, ncol = 6))
     colnames(results) <- c("sound.files", "selec", "start", "end", "sel.comment", "rec.comment")} else
    {results <- read.csv("manualoc_output.csv")  
     files <- setdiff(files, results$sound.files)}} 
   
-  if(length(files) == 0) { stop("all .wav files in working directory have been analyzed")}
+  if (length(files) == 0) { stop("all .wav files in working directory have been analyzed")}
   wavs = 0
   
   #set external window function
-  if(any(Sys.info()[1] == c("Linux", "Windows"))) extwin <- grDevices::X11 else extwin <- grDevices::quartz
+  if (any(Sys.info()[1] == c("Linux", "Windows"))) extwin <- grDevices::X11 else extwin <- grDevices::quartz
   
   #start external graphic device
-  if(ext.window)  extwin(width = width, height = height)
+  if (ext.window)  extwin(width = width, height = height)
   
   #this first loop runs over files
   repeat{
@@ -188,12 +188,12 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
     prev <- NULL #for going to previous view
     recs <- vector() #store results
     rec <- tuneR::readWave(file.path(getwd(), files[wavs]))
-    if(title) main <- files[wavs] else main <- NULL
+    if (title) main <- files[wavs] else main <- NULL
     f <- rec@samp.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
-    if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     len <- seewave::duration(rec) #for spectro display 
-    if(!is.null(tdisp) && len > tdisp) len <- tdisp #to decide when to create hi resolution spectro
+    if (!is.null(tdisp) && len > tdisp) len <- tdisp #to decide when to create hi resolution spectro
     tlim <- c(0, len) 
     start <- numeric() #save results
     end <- numeric() #save results
@@ -205,12 +205,12 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
     repeat{
       
       #choose spectrogram "resolution" based on seltime duration (see descrrption)
-      if(tlim[2] - tlim[1] < seltime) seqs <- seq(-40, 0, 0.5) else  seqs <- seq(-50, 0, 10)   
-      if(tlim[2] - tlim[1] < seltime) ovlp <- 70 else ovlp <- 0
-      if(tlim[2] - tlim[1] < seltime && osci) osc <- T else  osc <- F
+      if (tlim[2] - tlim[1] < seltime) seqs <- seq(-40, 0, 0.5) else  seqs <- seq(-50, 0, 10)   
+      if (tlim[2] - tlim[1] < seltime) ovlp <- 70 else ovlp <- 0
+      if (tlim[2] - tlim[1] < seltime && osci) osc <- T else  osc <- F
       
       #set an undivided window
-      if(mean(par("mfrow")) != 1) par(mfrow = c(1, 1))
+      if (mean(par("mfrow")) != 1) par(mfrow = c(1, 1))
       
       #create spectrogram
       spectro_wrblr_int(rec, f = f, wl = wl, ovlp = ovlp, wn = wn, collevels = seqs, heights = c(3, 2), osc = osc, palette =  pal, 
@@ -218,14 +218,14 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
               flim = fl, scale = FALSE, axisY = TRUE, cexlab = 1, flab = "Frequency (kHz)", tlab = "Time (s)", fast.spec = fast.spec)
       
       #add the circle and lines of selections on spectrogram
-      if(length(start) > 0)
+      if (length(start) > 0)
       {points(apply(data.frame(start, end), 1, mean),
               rep(((fl[2] - fl[1])/2) + fl[1], length(start)), col = "#E37222", cex = 4, pch = 20)
        abline(v = c(start, end), lty = 3, col = "#E37222", lwd = 0.8)
        text(apply(data.frame(start, end), 1, mean),
             rep(((fl[2] - fl[1])/2) + fl[1], length(start)), labels = c((1:length(start) + 
                                                                            nrow(results[results$sound.files == files[wavs], ]))))
-       if(selcomm)  text(apply(data.frame(start, end), 1, mean), 
+       if (selcomm)  text(apply(data.frame(start, end), 1, mean), 
                          rep(((fl[2] - fl[1])/2) + fl[1], length(start)) + (((fl[2] - fl[1])/2) + fl[1])/6, labels = sel.comment)}
       
       #full view button (buttons are just boxes, each one has a box and a text)
@@ -307,23 +307,23 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
                   all(xy$x < (((tlim[2] - tlim[1])/marg2) + tlim[1])) & 
                   all(xy$y < (fl[2] - fl[1])/marg2 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & 
                   all(xy$y > (fl[2] - fl[1])/marg1 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])))
-      {if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) & 
+      {if (all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) & 
             all(xy$x < (((tlim[2] - tlim[1])/marg2) + tlim[1])) &
             all(xy$y < (fl[2] - fl[1])/marg2 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & 
             all(xy$y > (fl[2] - fl[1])/marg1 - (4*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) & !is.null(player))
        tuneR::play(cutw(rec, from = tlim[1], to = tlim[2], output = "Wave"), player = player)
-       else {if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) & all(xy$x < (((tlim[2] - tlim[1])/marg2) + 
+       else {if (all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) & all(xy$x < (((tlim[2] - tlim[1])/marg2) + 
                                                                                      tlim[1])) & #if click on delete
                    all(xy$y < (fl[2] - fl[1])/marg2 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) &
                    all(xy$y > (fl[2] - fl[1])/marg1 - (5*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]) &
                    length(start) > 0) {points(mean(c(start[length(start)], end[length(end)])), 
                                               ((fl[2] - fl[1])/2) + fl[1], col = "white", cex = 4.2, pch = 20)
                                        abline(v = c(start[length(start)], end[length(end)]), lty = 1, col = "white", lwd = 2.3)
-                                       if(selcomm) {text(mean(c(start[length(start)], end[length(end)])), 
+                                       if (selcomm) {text(mean(c(start[length(start)], end[length(end)])), 
                                                          ((fl[2] - fl[1])/2) + fl[1] + (((fl[2] - fl[1])/2) + fl[1])/6, labels = sel.comment[length(start)], col = "white")
-                                                    if(length(sel.comment) == 1)  sel.comment <- character() else sel.comment <- sel.comment[1:(length(sel.comment) - 1)]}
-                                       if(length(start) == 1) start <- numeric() else start <- start[1:(length(start) - 1)]
-                                       if(length(end) == 1) end <- numeric() else end <- end[1:(length(end) - 1)]
+                                                    if (length(sel.comment) == 1)  sel.comment <- character() else sel.comment <- sel.comment[1:(length(sel.comment) - 1)]}
+                                       if (length(start) == 1) start <- numeric() else start <- start[1:(length(start) - 1)]
+                                       if (length(end) == 1) end <- numeric() else end <- end[1:(length(end) - 1)]
       } else {start[length(start) + 1] <- xy$x[2]
               end[length(end) + 1] <- xy$x[1]
               points(apply(data.frame(start, end), 1, mean), 
@@ -332,7 +332,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
               text(apply(data.frame(start, end), 1, mean), 
                    rep(((fl[2] - fl[1])/2) + fl[1], length(start)), labels = c((1:length(start) + 
                                                                                   nrow(results[results$sound.files == files[wavs], ]))))
-              if(selcomm)  {sel.comment[length(start)] <- edit((sel.comment[length(start)]))         
+              if (selcomm)  {sel.comment[length(start)] <- edit((sel.comment[length(start)]))         
                             text(apply(data.frame(start, end), 1, mean), 
                                  rep(((fl[2] - fl[1])/2) + fl[1], length(start)) + (((fl[2] - fl[1])/2) + fl[1])/6, labels = sel.comment
                             )} else sel.comment <- ""        
@@ -346,11 +346,11 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       prev1 <- tlim
       
       #stop
-      if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && 
+      if (all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && 
            all(xy$x < (((tlim[2] - tlim[1])/marg2) + tlim[1])) && 
            all(xy$y < (fl[2] - fl[1])/marg2 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])
          && all(xy$y > (fl[2] - fl[1])/marg1 - (2*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]))
-      {if(length(start) > 0) {    if(reccomm) rec.comment <- edit((rec.comment)) else rec.comment <- ""
+      {if (length(start) > 0) {    if (reccomm) rec.comment <- edit((rec.comment)) else rec.comment <- ""
                                   selec <- 1:length(start)
                                   results <- rbind(results, data.frame(sound.files = files[wavs], selec, start, end, sel.comment, rec.comment))
                                   results$sound.files <- as.character(results$sound.files)
@@ -360,17 +360,17 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
        stop("Stopped by user")}
       
       #next rec
-      if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && 
+      if (all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && 
            all(xy$x < (((tlim[2] - tlim[1])/marg2) + tlim[1])) && 
            all(xy$y < (fl[2] - fl[1])/marg2 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1])
          && all(xy$y > (fl[2] - fl[1])/marg1 - (3*((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1)) + fl[1]))
-      {if(length(setdiff(files, unique(results$sound.files))) == 0)
+      {if (length(setdiff(files, unique(results$sound.files))) == 0)
       {try(dev.off(), silent = TRUE)
        cat("all .wav files in working directory have been analyzed")
        options( show.error.messages = FALSE)
        stop("")}
-      if(reccomm) rec.comment <- edit(rec.comment) else rec.comment <- ""   
-      if(length(start) > 0) { selec <- 1:length(start)
+      if (reccomm) rec.comment <- edit(rec.comment) else rec.comment <- ""   
+      if (length(start) > 0) { selec <- 1:length(start)
                               results <- rbind(results, data.frame(sound.files = files[wavs], selec, start, end, sel.comment, rec.comment))
                               results$sound.files <- as.character(results$sound.files)
                               write.csv(results, "manualoc_output.csv", row.names = FALSE)} else {
@@ -381,31 +381,31 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       break}
       
       #previous view
-      if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && 
+      if (all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && 
            all(xy$x < (((tlim[2] - tlim[1])/marg2) + tlim[1])) && 
            all(xy$y < (fl[2] - fl[1])/marg2 - ((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1) + fl[1])
          && all(xy$y > (fl[2] - fl[1])/marg1 - ((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1) + fl[1]))
-      {if(is.null(prev)) tlim <- tlim
-       if(!is.null(prev)) tlim <- prev}
+      {if (is.null(prev)) tlim <- tlim
+       if (!is.null(prev)) tlim <- prev}
       
       #full view
-      if(all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && all(xy$x < (((tlim[2] - tlim[1])/marg2) + tlim[1])) && 
+      if (all(xy$x > (((tlim[2] - tlim[1])/marg1) + tlim[1])) && all(xy$x < (((tlim[2] - tlim[1])/marg2) + tlim[1])) && 
            all(xy$y < ((fl[2] - fl[1])/marg2) + fl[1]) && all(xy$y > ((fl[2] - fl[1])/marg1) + fl[1]))
         tlim <- c(0.1, len - 0.1)
       
       #Zoom in
-      if(all(xy$y < (fl[2] - fl[1])/marg1 - ((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1) + fl[1]) && 
+      if (all(xy$y < (fl[2] - fl[1])/marg1 - ((fl[2] - fl[1])/marg2 - (fl[2] - fl[1])/marg1) + fl[1]) && 
            xy$x[1] < xy$x[2])
         tlim <- c(xy$x[1], xy$x[2])
       
-      if(abs(xy$x[2] - xy$x[1]) < abs(prev1[1] - prev1[2]) && xy$x[1] < xy$x[2]) prev <- prev1
-      if(abs(xy$x[2] - xy$x[1]) > abs(prev1[1] - prev1[2]) && xy$x[1] < xy$x[2]) prev <- xy$x[order(xy$x)]
+      if (abs(xy$x[2] - xy$x[1]) < abs(prev1[1] - prev1[2]) && xy$x[1] < xy$x[2]) prev <- prev1
+      if (abs(xy$x[2] - xy$x[1]) > abs(prev1[1] - prev1[2]) && xy$x[1] < xy$x[2]) prev <- xy$x[order(xy$x)]
       
-      if(abs(tlim[1] - tlim[2]) < 0.01) {tlim <- c(0.1, len - 0.1)}
+      if (abs(tlim[1] - tlim[2]) < 0.01) {tlim <- c(0.1, len - 0.1)}
       # dev.off()
       }
     
-    if(!file.exists(file.path(getwd(), files[wavs + 1])))
+    if (!file.exists(file.path(getwd(), files[wavs + 1])))
     {try(dev.off(), silent = TRUE)
      cat("This was the last sound file")
      break}

@@ -82,31 +82,31 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   # check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   # check path to working directory
-  if(!is.null(dest.path))
-  {if(class(try(setwd(dest.path), silent = TRUE)) == "try-error") stop("'dest.path' provided does not exist")} else 
+  if (!is.null(dest.path))
+  {if (class(try(setwd(dest.path), silent = TRUE)) == "try-error") stop("'dest.path' provided does not exist")} else 
     dir.create(dest.path <- file.path(getwd(), "consolidated_folder"), showWarnings = FALSE)
   
   # list files
-  if(!is.null(files)){
+  if (!is.null(files)){
     
     fe <- file.exists(as.character(files))
     
     # stop if files are not in working directory
-    if(length(fe) == 0) stop("files were not found") 
+    if (length(fe) == 0) stop("files were not found") 
     
-    if(length(fe) < length(files)) cat("some files were not found")
+    if (length(fe) < length(files)) cat("some files were not found")
 
     files <- files[fe]
   } else 
     files <- list.files(path = path, pattern = file.ext, ignore.case = TRUE, recursive = TRUE, full.names = TRUE) 
   
   # stop if files are not in working directory
-  if(length(files) == 0) stop("no .wav files in working directory and/or subdirectories")
+  if (length(files) == 0) stop("no .wav files in working directory and/or subdirectories")
   
   # create new names for duplicated songs
   old_name <- basename(files)
@@ -118,7 +118,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
     new_name <- unlist(lapply(unique(old_name), 
       function(x) { 
         on <- old_name[old_name == x]
-        if(length(on) > 1) return(paste0(gsub(file.ext, "", on, ignore.case = TRUE), "-", seq_len(length(on)), gsub("$","", file.ext, fixed = TRUE))) else return(x)})) 
+        if (length(on) > 1) return(paste0(gsub(file.ext, "", on, ignore.case = TRUE), "-", seq_len(length(on)), gsub("$","", file.ext, fixed = TRUE))) else return(x)})) 
   
     new_name <- gsub("\\", "", new_name, fixed = TRUE)
     
@@ -126,11 +126,11 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   X <- data.frame(original_dir = gsub("\\.", path, dirname(files)), old_name, new_name, file_size_bytes, stringsAsFactors = FALSE)
   
   # label possible duplicates
-  X$duplicate <- sapply(paste0(X$old_name, X$file_size_bytes), function(y) if(length(which(paste0(X$old_name, X$file_size_bytes) == y)) > 1) return("possible.dupl") else return(NA))
+  X$duplicate <- sapply(paste0(X$old_name, X$file_size_bytes), function(y) if (length(which(paste0(X$old_name, X$file_size_bytes) == y)) > 1) return("possible.dupl") else return(NA))
   
   # If parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
   
   #create function to run within Xapply functions downstream     
@@ -149,7 +149,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
     copyFUN(i, dp = dest.path, df = X)
   })
   
-  if(save.csv) write.csv(X, row.names = FALSE, file = file.path(dest.path, "file_names_info.csv"))
+  if (save.csv) write.csv(X, row.names = FALSE, file = file.path(dest.path, "file_names_info.csv"))
 return(X)
   
   }

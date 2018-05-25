@@ -74,36 +74,36 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.rate =
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
-  if(is.null(checksels) & is.null(files)) stop("either 'checksels' or 'files' shoud be provided")
+  if (is.null(checksels) & is.null(files)) stop("either 'checksels' or 'files' shoud be provided")
   
-  if(!is.null(checksels))
+  if (!is.null(checksels))
   {fls <-unique(checksels$sound.files[checksels$check.res == "Sound file can't be read" | checksels$check.res == "file header corrupted"])
-  if(length(fls) == 0) stop("All files were OK according tochecksels")
+  if (length(fls) == 0) stop("All files were OK according tochecksels")
 
     #if X is not a data frame
-  if(!class(checksels) == "data.frame") stop("checksels is not a data frame")
+  if (!class(checksels) == "data.frame") stop("checksels is not a data frame")
   
-  if(!all(c("sound.files", "check.res") %in% colnames(checksels))) 
+  if (!all(c("sound.files", "check.res") %in% colnames(checksels))) 
     stop(paste(paste(c("sound.files", "check.res")[!(c("sound.files", "check.res") %in% colnames(checksels))], collapse=", "), "column(s) not found in data frame (does not seem to be the output of checksels)"))
   } else fls <- unique(files)
 
   
-  if(length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if(is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
+  if (length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
   
-  if(!is.null(samp.rate)) {
-    if(!is.vector(samp.rate)) stop("'samp.rate' must be a numeric vector of length 1") else {
-      if(!length(samp.rate) == 1) stop("'samp.rate' must be a numeric vector of length 1")}}  
+  if (!is.null(samp.rate)) {
+    if (!is.vector(samp.rate)) stop("'samp.rate' must be a numeric vector of length 1") else {
+      if (!length(samp.rate) == 1) stop("'samp.rate' must be a numeric vector of length 1")}}  
   
-  if(!is.null(bit.rate)) {
-    if(!is.vector(bit.rate)) stop("'bit.rate' must be a numeric vector of length 1") else {
-      if(!length(bit.rate) == 1) stop("'bit.rate' must be a numeric vector of length 1")}}  
+  if (!is.null(bit.rate)) {
+    if (!is.vector(bit.rate)) stop("'bit.rate' must be a numeric vector of length 1") else {
+      if (!length(bit.rate) == 1) stop("'bit.rate' must be a numeric vector of length 1")}}  
   
     
-if(!is.null(samp.rate) & is.null(bit.rate)) bit.rate <- 16
+if (!is.null(samp.rate) & is.null(bit.rate)) bit.rate <- 16
 
 dir.create(file.path(getwd(), "converted_sound_files"))
   
@@ -116,7 +116,7 @@ dir.create(file.path(getwd(), "converted_sound_files"))
     #name  and path of converted file
     filout <- file.path("converted_sound_files", x)
 
-    if(!is.null(samp.rate))
+    if (!is.null(samp.rate))
        out <- system(paste("sox", x, " -t wavpcm", filout, "rate", samp.rate * 1000), ignore.stdout = FALSE, intern = TRUE) else
         out <- system(paste("sox", x, "-t wavpcm", filout), ignore.stdout = FALSE, intern = TRUE) 
      })

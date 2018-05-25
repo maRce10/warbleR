@@ -270,7 +270,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     X$collev.min <- collevels[1] else collevels <- seq(-40, 0, 1)
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   

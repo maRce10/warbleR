@@ -167,152 +167,152 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
 }  
 
   #if files not found
-  if(length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if(is.null(path)) stop("No .wav files in working directory") else stop("No .wav files found") 
+  if (length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files found") 
   
   #if bp is not vector or length!=2 stop
-  if(!is.null(bp))
-  {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}    
+  if (!is.null(bp))
+  {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}    
   
   #if flim is not vector or length!=2 stop
-  if(is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
-    if(!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
-      if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
+  if (is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
+    if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
+      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
   
   #if msmooth is not vector or length!=2 stop
-  if(!is.null(msmooth)) {
-    if(!is.vector(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else {
-      if(!length(msmooth) == 2) stop("'msmooth' must be a numeric vector of length 2")}}   
+  if (!is.null(msmooth)) {
+    if (!is.vector(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else {
+      if (!length(msmooth) == 2) stop("'msmooth' must be a numeric vector of length 2")}}   
 
   #if ssmooth is not vector or length!=1 stop
-  if(!is.null(ssmooth)) {
-    if(!is.vector(ssmooth)) stop("'ssmooth' must be a numeric vector of length 1") else {
-      if(!length(ssmooth) == 1) stop("'ssmooth' must be a numeric vector of length 1")}}   
+  if (!is.null(ssmooth)) {
+    if (!is.vector(ssmooth)) stop("'ssmooth' must be a numeric vector of length 1") else {
+      if (!length(ssmooth) == 1) stop("'ssmooth' must be a numeric vector of length 1")}}   
   
   #if wl is not vector or length!=1 stop
-  if(is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
-    if(!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
-      if(!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}  
+  if (is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
+    if (!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
+      if (!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}  
   
   #if sxrow is not vector or length!=1 stop
-  if(is.null(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else {
-    if(!is.vector(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else{
-      if(!length(sxrow) == 1) stop("'sxrow' must be a numeric vector of length 1")}}  
+  if (is.null(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else {
+    if (!is.vector(sxrow)) stop("'sxrow' must be a numeric vector of length 1") else{
+      if (!length(sxrow) == 1) stop("'sxrow' must be a numeric vector of length 1")}}  
   
   #if rows is not vector or length!=1 stop
-  if(is.null(rows)) stop("'rows' must be a numeric vector of length 1") else {
-    if(!is.vector(rows)) stop("'rows' must be a numeric vector of length 1") else{
-      if(!length(rows) == 1) stop("'rows' must be a numeric vector of length 1")}}  
+  if (is.null(rows)) stop("'rows' must be a numeric vector of length 1") else {
+    if (!is.vector(rows)) stop("'rows' must be a numeric vector of length 1") else{
+      if (!length(rows) == 1) stop("'rows' must be a numeric vector of length 1")}}  
   
   #if picsize is not vector or length!=1 stop
-  if(is.null(picsize)) stop("'picsize' must be a numeric vector of length 1") else {
-    if(!is.vector(picsize)) stop("'picsize' must be a numeric vector of length 1") else{
-      if(!length(picsize) == 1) stop("'picsize' must be a numeric vector of length 1")}}  
+  if (is.null(picsize)) stop("'picsize' must be a numeric vector of length 1") else {
+    if (!is.vector(picsize)) stop("'picsize' must be a numeric vector of length 1") else{
+      if (!length(picsize) == 1) stop("'picsize' must be a numeric vector of length 1")}}  
   
   #if xl is not vector or length!=1 stop
-  if(is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
-    if(!is.vector(xl)) stop("'xl' must be a numeric vector of length 1") else{
-      if(!length(xl) == 1) stop("'xl' must be a numeric vector of length 1")}}  
+  if (is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
+    if (!is.vector(xl)) stop("'xl' must be a numeric vector of length 1") else{
+      if (!length(xl) == 1) stop("'xl' must be a numeric vector of length 1")}}  
   
   #if res is not vector or length!=1 stop
-  if(is.null(res)) stop("'res' must be a numeric vector of length 1") else {
-    if(!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
-      if(!length(res) == 1) stop("'res' must be a numeric vector of length 1")}}  
+  if (is.null(res)) stop("'res' must be a numeric vector of length 1") else {
+    if (!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
+      if (!length(res) == 1) stop("'res' must be a numeric vector of length 1")}}  
   
   #if threshold is not vector or length!=1 stop
-  if(is.null(threshold))  stop("'threshold' must be a numeric vector of length 1") else {
-    if(!is.vector(threshold)) stop("'threshold' must be a numeric vector of length 1") else{
-      if(!length(threshold) == 1) stop("'threshold' must be a numeric vector of length 1")}}  
+  if (is.null(threshold))  stop("'threshold' must be a numeric vector of length 1") else {
+    if (!is.vector(threshold)) stop("'threshold' must be a numeric vector of length 1") else{
+      if (!length(threshold) == 1) stop("'threshold' must be a numeric vector of length 1")}}  
  
   #if flist is not character vector
-  if(!is.null(flist) & is.null(X) & any(!is.character(flist), !is.vector(flist))) stop("'flist' must be a character vector") 
+  if (!is.null(flist) & is.null(X) & any(!is.character(flist), !is.vector(flist))) stop("'flist' must be a character vector") 
   
    #if parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
   #if it argument is not "jpeg" or "tiff" 
-  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
+  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
   
   #wrap img creating function
-  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   #if envt is not vector or length!=1 stop
-  if(any(envt %in% c("abs", "hil"))){if(!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
+  if (any(envt %in% c("abs", "hil"))){if (!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
   } else stop("'envt' must be either 'abs' or 'hil'" )
   
-  if(any(!sapply(list(osci,ls, redo),is.logical))) 
+  if (any(!sapply(list(osci,ls, redo),is.logical))) 
     stop(paste(paste(c("osci","ls","redo")[!sapply(list(osci,ls, redo),is.logical)],collapse = " "),"not logical"))
   
   #stop if power is 0
   if (power == 0) 
     stop("'power' cannot equal to 0")
   
-  if(!is.null(msmooth)) smo <- msmooth[1] else {if(!is.null(ssmooth)) smo <- ssmooth else smo <- 0}
+  if (!is.null(msmooth)) smo <- msmooth[1] else {if (!is.null(ssmooth)) smo <- ssmooth else smo <- 0}
   
   #if smadj argument is not "start" "end" or "both"
-  if(!is.null(smadj)) if(!any(smadj == "start", smadj == "end", smadj == "both")) 
+  if (!is.null(smadj)) if (!any(smadj == "start", smadj == "end", smadj == "both")) 
     stop(paste("smooth adjustment", smadj, "not allowed"))  
   
-  if(!is.null(X)){
+  if (!is.null(X)){
     
     #if X is not a data frame
-    if(!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+    if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
     
     #check if all columns are found
-    if(any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
+    if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
       stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
         "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
     
     #if there are NAs in start or end stop
-    if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
+    if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
     
     #if end or start are not numeric stop
-    if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+    if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
     
     #if any start higher than end stop
-    if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+    if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
     
     #return warning if not all sound files were found
     fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-    if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
+    if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                     ".wav file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% fs) 
-    if(length(d) == 0) stop("The .wav files are not in the working directory") else X <- X[d,]  
+    if (length(d) == 0) stop("The .wav files are not in the working directory") else X <- X[d,]  
   xprov <- T #to replace X if not provided
      } else  { 
-       if(!is.null(flist)) X <- warbleR::wavdur(files = flist) else
+       if (!is.null(flist)) X <- warbleR::wavdur(files = flist) else
          X <- warbleR::wavdur()
   X$start <- 0
   X$selec <- 1
   names(X)[2] <- "end"  
   xprov <- F #to replace X if not provided
-  if(nrow(X) == 0) stop("Files in 'flist' not in working directory")
+  if (nrow(X) == 0) stop("Files in 'flist' not in working directory")
   }
     
     #redo the ones that have no images in folder
-  if(!redo) {
+  if (!redo) {
     imgfs <- list.files(pattern = "\\.jpeg$|\\.tiff$")
     done <- sapply(1:nrow(X), function(x){
       any(grep(paste(gsub(".wav","", X$sound.files[x]),X$selec[x], sep = "-"), imgfs,  invert = FALSE))
       })
     X <- X[!done, ]
-    if(nrow(X) == 0) stop("All selections have been analyzed (redo = FALSE)")
+    if (nrow(X) == 0) stop("All selections have been analyzed (redo = FALSE)")
     }    
   
       # if parallel was not called 
-    if(pb) if(!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
+    if (pb) if (!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
       cat("Detecting signals in sound files:")
     
   #create function to detec signals          
@@ -320,14 +320,14 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   {
      song <- tuneR::readWave(as.character(X$sound.files[i]),from=X$start[i],to=X$end[i],units="seconds")
     
-     if(length(song@left) > wl + 2)
+     if (length(song@left) > wl + 2)
     { 
     f <- song@samp.rate
     fl<- flim #in case flim is higher than can be due to sampling rate
-    if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     
     #filter frequnecies below 1000 Hz
-    if(!is.null(bp))
+    if (!is.null(bp))
     f.song<-seewave::ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = TRUE, wl = wl, output="Wave") else
     f.song<-song
     
@@ -372,15 +372,15 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     time.song <- data.frame(sound.files = X$sound.files[i], duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
    
     #remove signals based on duration  
-    if(!is.null(mindur)) time.song <-time.song[time.song$duration > mindur,]
-    if(!is.null(maxdur)) time.song <-time.song[time.song$duration < maxdur,]
+    if (!is.null(mindur)) time.song <-time.song[time.song$duration > mindur,]
+    if (!is.null(maxdur)) time.song <-time.song[time.song$duration < maxdur,]
     
-    if(nrow(time.song) > 0) 
-    {if(xprov) time.song$selec <- paste(X$selec[i], 1:nrow(time.song), sep = "-") else
+    if (nrow(time.song) > 0) 
+    {if (xprov) time.song$selec <- paste(X$selec[i], 1:nrow(time.song), sep = "-") else
       time.song$selec <- 1:nrow(time.song)}
    
     #if nothing was detected
-    if(nrow(time.song)==0)
+    if (nrow(time.song)==0)
       time.song <- data.frame(sound.files = X$sound.files[i], duration = NA,selec = NA,start = NA, end = NA) 
     
     time.song1 <- time.song
@@ -389,8 +389,8 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     time.song$start[is.na(time.song$start)] <- -1
     
     
-    if(!ls & img & nrow(time.song) > 0) {
-      if(set) 
+    if (!ls & img & nrow(time.song) > 0) {
+      if (set) 
         fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
                    "-", X$selec[i], "-autodetec","-th" ,threshold , "-env.", envt,"-bp", bp[1],".",bp[2], "-smo", smo, "-midu", mindur,
                    "-mxdu", maxdur, "-pw", power, sep = "") else
@@ -403,7 +403,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
      spectro_wrblr_int(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,  colwave = "#07889B", fast.spec = fast.spec,
               scale = FALSE, palette = pal, flim = fl, ...)
       rm(song)
-      if(nrow(time.song)>0)
+      if (nrow(time.song)>0)
       {sapply(1:nrow(time.song), function(j)  abline(v = c(time.song$start[j]-X$start[i], time.song$end[j] - X$start[i]),col = adjustcolor("#E37222", alpha.f = 0.7), lwd = 2, lty = "dotted"))
     
       sapply(1:nrow(time.song), function(j)  text(time.song$start[j]+time.song$duration[j]/2-X$start[i],
@@ -440,9 +440,9 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   rownames(results) <- 1:nrow(results)
   
   #adjust time coordinates based on known deviance when using ssmooth
-  if(!is.null(ssmooth) & !is.null(smadj))
-  {if(smadj == "start" | smadj == "both") results$start <- results$start-((threshold*2.376025e-07)-1.215234e-05)*ssmooth 
-  if(smadj == "end" | smadj == "both")  results$end <- results$end-((threshold*-2.369313e-07)+1.215129e-05)*ssmooth }  
+  if (!is.null(ssmooth) & !is.null(smadj))
+  {if (smadj == "start" | smadj == "both") results$start <- results$start-((threshold*2.376025e-07)-1.215234e-05)*ssmooth 
+  if (smadj == "end" | smadj == "both")  results$end <- results$end-((threshold*-2.369313e-07)+1.215129e-05)*ssmooth }  
 
   results1 <- results
   
@@ -451,8 +451,8 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   results$end[is.na(results$end)] <- -1
   
   # long spectrograms
-  if(ls & img) {  
-   if(any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("Producing long spectrogram:")
+  if (ls & img) {  
+   if (any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("Producing long spectrogram:")
     
     #function for long spectrograms (based on lspec function)
     lspeFUN2 <- function(X, z, fl = flim, sl = sxrow, li = rows, fli = fli, pal, fast.spec) {
@@ -468,21 +468,21 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
       rec <- tuneR::readWave(as.character(z)) #read wave file 
       f <- rec@samp.rate #set sampling rate
       frli<- fl #in case flim is higher than can be due to sampling rate
-      if(frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
+      if (frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
       dur <- duration(rec)
       
-      if(!length(grep("[^[:digit:]]", as.character(dur/sl))))  #if duration is multiple of sl
+      if (!length(grep("[^[:digit:]]", as.character(dur/sl))))  #if duration is multiple of sl
         rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec
       dur <- seewave::duration(rec) #set duration    
       
       #loop over pages 
       for (j in 1:ceiling(dur/(li*sl))){
-        if(set) fna<-paste(substring(z, first = 1, last = nchar(as.character(z))-4),
+        if (set) fna<-paste(substring(z, first = 1, last = nchar(as.character(z))-4),
                             "-autodetec.ls","-th" ,threshold , "-env.", envt, "-bp", bp[1],".",bp[2], "-smo", smo, "-midu", mindur,
                            "-mxdu", maxdur, "-pw", power, sep = "") else
         fna<-paste(substring(z, first = 1, last = nchar(as.character(z))-4), "-autodetec.ls", sep = "")
           
-        if(it == "tiff") tiff(filename = paste(fna, "-p", j, ".tiff", sep = ""),  
+        if (it == "tiff") tiff(filename = paste(fna, "-p", j, ".tiff", sep = ""),  
              res = 160, units = "in", width = 8.5, height = 11) else
                jpeg(filename = paste(fna, "-p", j, ".jpeg", sep = ""),  
                res = 160, units = "in", width = 8.5, height = 11)
@@ -493,26 +493,26 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
         x <- 0
         while(x <= li-1){
           x <- x + 1
-          if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1) < dur)){  #for rows with complete spectro
+          if (all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1) < dur)){  #for rows with complete spectro
             spectro_wrblr_int(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = TRUE,
                     fast.spec = fast.spec, ...)
-            if(x == 1)  text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
+            if (x == 1)  text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
        last = nchar(as.character(z))-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
           
-      if(nrow(Y) > 0)
+      if (nrow(Y) > 0)
             {
                 abline(v = c(Y$start, Y$end), col = "red", lty = 2)
   text(x = ((Y$start + Y$end)/2), y = frli[2] - 2*((frli[2] - frli[1])/12), labels = Y$selec, font = 4)
             }
             } else 
               { #for rows with incomplete spectro (final row)
-  if(all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1) > dur)){ 
+  if (all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1) > dur)){ 
     spectro_wrblr_int(seewave::pastew(seewave::noisew(f = f, d = (x)*sl+li*(sl)*(j-1)-dur+1, type = "unif",   
     listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
      to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = 512, flim = frli, 
      tlim = c(0, sl), collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = FALSE, fast.spec = fast.spec, ...)
                                        
-    if(x == 1)  text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1,                                                                                              last = nchar(as.character(z))-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
+    if (x == 1)  text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1,                                                                                              last = nchar(as.character(z))-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
     
     #add axis to last spectro row
   axis(1, at = c(0:sl), labels = c((((x)*sl+li*(sl)*(j-1))-sl):((x)*sl+li*(sl)*(j-1))) , tick = TRUE)
@@ -520,7 +520,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   
   
   
-  if(nrow(Y) > 0)
+  if (nrow(Y) > 0)
   {
     abline(v = c(Y$start, Y$end) - (((x)*sl+li*(sl)*(j-1))-sl), col = "red", lty = 2)
     text(x = ((Y$start + Y$end)/2) - (((x)*sl+li*(sl)*(j-1))-sl),  frli[2] - 2*((frli[2] - frli[1])/12), labels = Y$selec, font = 4)

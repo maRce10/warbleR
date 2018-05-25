@@ -119,65 +119,65 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
 
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #if any selections longer than 20 secs stop
-  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
+  if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   options( show.error.messages = TRUE)
   
   #if bp is not vector or length!=2 stop
-  if(!is.null(bp)) {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
+  if (!is.null(bp)) {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
   
   #if sp.en.range is not vector or length!=2 stop
-  if(!is.vector(sp.en.range)) stop("'sp.en.range' must be a numeric vector of length 2") else
-    if(!length(sp.en.range) == 2) stop("'sp.en.range' must be a numeric vector of length 2")
+  if (!is.vector(sp.en.range)) stop("'sp.en.range' must be a numeric vector of length 2") else
+    if (!length(sp.en.range) == 2) stop("'sp.en.range' must be a numeric vector of length 2")
   
   # If length.out is not numeric
-  if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
-  if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
+  if (!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
+  if (any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {
   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
+  if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd) 
-  if(length(d) == 0){
+  if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else 
   X <- X[d, ]
   }
   
   #if parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
- if(pb) {if(img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
+ if (pb) {if (img) cat("Creating spectrograms overlaid with dominant frequency measurements:") else
     cat("Measuring spectral entropy:")}  
   
   sp.en.tsFUN <- function(X, i, bp, wl, threshold, sp.en.range){
@@ -188,19 +188,19 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
 
     #in case bp its higher than can be due to sampling rate
     b<- bp 
-    if(!is.null(b)) {if(b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
+    if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
       r <- read_wave(X = X, index = i)
     
       #filter if this was needed
-      if(!is.null(bp)) r <- ffilter(wave = r, from = b[1], to = b[2]) 
+      if (!is.null(bp)) r <- ffilter(wave = r, from = b[1], to = b[2]) 
       
       # measure espectral entropy
       sp.en <- csh(wave = r, f = f, wl = wl, ovlp = ovlp, wn = wn, 
                    threshold = threshold, plot = F)
         
-      if(clip.edges) 
+      if (clip.edges) 
       {    #remove initial values with 0
         sp.en1 <- sp.en[cumsum(sp.en[,2]) != 0, ]
         
@@ -214,7 +214,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
                      method = "linear")  
       
       #fix for ploting with trackfreqs
-      if(clip.edges) 
+      if (clip.edges) 
       { apen1 <- approx(sp.en[,1], sp.en[,2], xout = seq(from = sp.en[1, 1],
                             to = sp.en[nrow(sp.en), 1], length.out = length.out),
                         method = "linear")
@@ -226,7 +226,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       
       correc.apen <- sp.en.range[1] + (sp.en.range[2] - sp.en.range[1]) * apen1$y 
       
-  if(img) 
+  if (img) 
       trackfreqs(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
                  parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
                  custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(correc.apen)), ...)

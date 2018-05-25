@@ -74,41 +74,41 @@ checkwavs <- function(X = NULL, path = NULL) {
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #return warning if not all sound files were found
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(files) == 0) stop("no .wav files in working directory") 
+  if (length(files) == 0) stop("no .wav files in working directory") 
   
   
-  if(!is.null(X))
+  if (!is.null(X))
   {
     #if X is not a data frame
-    if(!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+    if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
     
-   if(!all(c("sound.files", "selec", 
+   if (!all(c("sound.files", "selec", 
               "start", "end") %in% colnames(X))) 
       stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                      "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
     
     #if there are NAs in start or end stop
-    if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+    if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
     
     #if end or start are not numeric stop
-    if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+    if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
     
     #if any start higher than end stop
-    if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+    if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
     
-    if(length(unique(X$sound.files[(X$sound.files %in% files)])) != length(unique(X$sound.files))) 
+    if (length(unique(X$sound.files[(X$sound.files %in% files)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% files)])), 
                     ".wav file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% files) 
-    if(length(d) == 0){
+    if (length(d) == 0){
       stop("The .wav files are not in the working directory")
     }  else X <- X[d, , drop = FALSE]
     
@@ -117,15 +117,15 @@ checkwavs <- function(X = NULL, path = NULL) {
   
   a <- sapply(files, function(x) {
     r <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
-    if(class(r) == "try-error") return (NA) else
+    if (class(r) == "try-error") return (NA) else
       return(r$sample.rate)  }) 
   
-  if(length(files[is.na(a)])>0){
+  if (length(files[is.na(a)])>0){
     cat("Some file(s) cannot be read")
     return(files[is.na(a)])
   } else {
     cat("All files can be read") 
-    if(!is.null(X)) {
+    if (!is.null(X)) {
       df <- merge(X, data.frame(f = a, sound.files = names(a)), by = "sound.files")
       
       cat("smallest number of samples: ", floor(min((df$end - df$start)*df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start)*df$f)]),"; selection label: ", df$selec[which.min((df$end - df$start)*df$f)], ")", sep = "")

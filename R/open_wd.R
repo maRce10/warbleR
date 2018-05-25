@@ -22,7 +22,7 @@
 open_wd <- function(path = getwd(), verbose = TRUE){
   
   #check path to working directory
-  if(!file.exists(path)) stop("'path' provided does not exist") 
+  if (!dir.exists(path)) stop("'path' provided does not exist") 
   
     if (.Platform['OS.type'] == "windows"){
     shell.exec(path)

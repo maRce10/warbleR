@@ -190,100 +190,100 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
 
   #check basic columns in X
-  if(!all(c("sound.files", "selec", 
+  if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
    #if parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
   # methods 
-  if(any(!is.character(methods),length(methods) > 2)) stop("'methods' must be a character vector of length 2")
-  if(length(methods[!methods %in% c("XCORR", "dfDTW", "ffDTW", "SP")]) > 0) 
+  if (any(!is.character(methods),length(methods) > 2)) stop("'methods' must be a character vector of length 2")
+  if (length(methods[!methods %in% c("XCORR", "dfDTW", "ffDTW", "SP")]) > 0) 
     stop(paste(methods[!methods %in% c("XCORR", "dfDTW", "ffDTW", "SP")],"is (are) not valid method"))
   
   #if flim is not vector or length!=2 stop
-  if(!is.null(flim))
-  {if(!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
-    if(!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}    
+  if (!is.null(flim))
+  {if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
+    if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}    
  
   #if bp is not vector or length!=2 stop
-  if(!is.null(bp))
-  {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}} 
+  if (!is.null(bp))
+  {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}} 
   
   #if wl is not vector or length!=1 stop
-  if(is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
-    if(!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
-      if(!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}  
+  if (is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
+    if (!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
+      if (!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}}  
   
   #if res is not vector or length!=1 stop
-  if(is.null(res)) stop("'res' must be a numeric vector of length 1") else {
-    if(!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
-      if(!length(res) == 1) stop("'res' must be a numeric vector of length 1")}}  
+  if (is.null(res)) stop("'res' must be a numeric vector of length 1") else {
+    if (!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
+      if (!length(res) == 1) stop("'res' must be a numeric vector of length 1")}}  
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
   
   #if any selections longer than 20 secs stop
-  if(any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
+  if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
 
   # If n is not numeric
-  if(!is.numeric(n)) stop("'n' must be a numeric vector of length 1") 
-  if(any(!(n %% 1 == 0),n < 1)) stop("'n' should be a positive integer")
+  if (!is.numeric(n)) stop("'n' must be a numeric vector of length 1") 
+  if (any(!(n %% 1 == 0),n < 1)) stop("'n' should be a positive integer")
 
   # If length.out is not numeric
-  if(!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
-  if(any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
+  if (!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
+  if (any(!(length.out %% 1 == 0),length.out < 1)) stop("'length.out' should be a positive integer")
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {
     fs <- list.files(path = getwd(), pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
+  if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% fs) 
-  if(length(d) == 0){
+  if (length(d) == 0){
     stop("The .wav files are not in the working directory")
   }  else X <- X[d,]
   }
   
   # If SP is used need at least 24 selections
-  if("SP" %in% methods & is.null(sp))
-  {if(nrow(X) < 24)  stop("SP can only be used with at least 24 selections (number of rows in input data frame) as PCA only works with more units than variables (NOTE that you can also input your own matrix with the 'sp' argument)")}
+  if ("SP" %in% methods & is.null(sp))
+  {if (nrow(X) < 24)  stop("SP can only be used with at least 24 selections (number of rows in input data frame) as PCA only works with more units than variables (NOTE that you can also input your own matrix with the 'sp' argument)")}
   
   #check sp data frame
-  if(!is.null(sp))
-  {if(!is.data.frame(sp)) stop("'sp' must be a data frame") 
-    if(nrow(sp) != nrow(X)) stop("'sp' must have the same number of selections than X") 
-    if(!all(c("sound.files", "selec") %in% names(sp))) stop("'sound.files' or 'selec' columns missing in 'sp'")
+  if (!is.null(sp))
+  {if (!is.data.frame(sp)) stop("'sp' must be a data frame") 
+    if (nrow(sp) != nrow(X)) stop("'sp' must have the same number of selections than X") 
+    if (!all(c("sound.files", "selec") %in% names(sp))) stop("'sound.files' or 'selec' columns missing in 'sp'")
   } 
   
   #if it argument is not "jpeg" or "tiff" 
-  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   #wrap img creating function
-  if(it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
 
   #create empty list for method results
   disim.mats <- list()
   
-  if("XCORR" %in% methods)
+  if ("XCORR" %in% methods)
   {xcmat <- xcorr(X, wl = wl, frange = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE)
 
   MDSxcorr <- stats::cmdscale(1-xcmat)  
@@ -291,10 +291,10 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   disim.mats[[1]] <- MDSxcorr
   
   #remove the ones that failed cross-corr
-  if(na.rm) X <- X[paste(X$sound.files, X$selec, sep = "-") %in% rownames(MDSxcorr), ]
+  if (na.rm) X <- X[paste(X$sound.files, X$selec, sep = "-") %in% rownames(MDSxcorr), ]
     }
   
-  if("dfDTW" %in% methods)
+  if ("dfDTW" %in% methods)
     {
     if (pb)   write(file = "", x = "measuring dominant frequency contours:")
     dtwmat <- dfts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
@@ -302,7 +302,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
    
     dtwmat <- dtwmat[,3:ncol(dtwmat)]
     
-     if(scale)
+     if (scale)
        dtwmat <- t(apply(dtwmat, 1, scale))  
     
       dm <- dtw::dtwDist(dtwmat, dtwmat, method="DTW")  
@@ -312,7 +312,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   disim.mats[[length(disim.mats) + 1]] <- MDSdtw
   }
 
-  if("ffDTW" %in% methods)
+  if ("ffDTW" %in% methods)
   {
    if (pb)  write(file = "", x ="measuring fundamental frequency contours:")
     dtwmat <- ffts(X, wl = 512, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
@@ -320,7 +320,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   dtwmat <- dtwmat[,3:ncol(dtwmat)]
  
-   if(scale)
+   if (scale)
     dtwmat <- t(apply(dtwmat, 1, scale))  
   
   dm <- dtw::dtwDist(dtwmat,dtwmat, method="DTW")  
@@ -330,8 +330,8 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   disim.mats[[length(disim.mats) + 1]] <- MDSdtw
   }
   
-  if("SP" %in% methods)
-  { if(is.null(sp)) {
+  if ("SP" %in% methods)
+  { if (is.null(sp)) {
     if (pb) write(file = "", x ="measuring spectral parameters:")
     spmat <- specan(X, wl = 512, bp = flim, parallel = parallel, pb = pb, threshold = threshold)} else spmat <- sp
   
@@ -353,14 +353,14 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   combs <- combn(1:nrow(X), 4)
   
-  if(nrow(X) == 4)  {n <- 1
+  if (nrow(X) == 4)  {n <- 1
   combs <- as.matrix(1:4)
   cat("Only 1 possible combination of signals")
-  } else if(n > ncol(combs)) {n <- ncol(combs)
+  } else if (n > ncol(combs)) {n <- ncol(combs)
   cat(paste("Only",n, "possible combinations of signals"))
   }
   
-  if(nrow(X) > 4)  combs <- as.data.frame(combs[,sample(1:ncol(combs), n)])
+  if (nrow(X) > 4)  combs <- as.data.frame(combs[,sample(1:ncol(combs), n)])
 
   #create matrix for sppliting screen
   m <- rbind(c(0, 2.5/7, 3/10, 5/10), #1
@@ -385,7 +385,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     rs <- combs[,u]
     X <- X[rs,]
   
-       if(img)
+       if (img)
   imgfun(filename = paste("comp.meth-", names(disim.mats)[1],"-",names(disim.mats)[2], "-", paste(X$labels, collapse = "-"), paste0(".", it), sep = ""), width = 16.25, height =  16.25, units = "cm", res = res)
   
   graphics::split.screen(m)
@@ -405,7 +405,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   {
     graphics::screen(x)
     par(mar = rep(0, 4))
-    if(x < 5) 
+    if (x < 5) 
     { 
       r <-  read_wave(X = X, index = x, header = TRUE)
       tlim <- c((X$end[x] - X$start[x])/2 + X$start[x] - mxdur/2, (X$end[x] - X$start[x])/2 + X$start[x] + mxdur/2)
@@ -435,15 +435,15 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       
       spectro_wrblr_int2(wave = r, f = r@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = pal, grid = grid, ...)
       box(lwd = 2)
-      if(x == 1 | x == 3) 
+      if (x == 1 | x == 3) 
         text(tlim[2] - tlim[1], ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 2) else 
           text(0, ((flim[2] - flim[1])*0.86) + flim[1], labels = X$labels[x], col = col[rs[x]], cex = 1.5, font = 2, pos = 4)  
-      if(grid)
+      if (grid)
       abline(v=c(mar1, mar2),lty = 4, col = "gray")
     }
     
     #upper left
-    if(x == 5) {
+    if (x == 5) {
       plot(disim.mats[[1]], col = "white", xaxt = "n", yaxt = "n", xlim = c(min(disim.mats[[1]][,1]) * 1.1, max(disim.mats[[1]][,1]) * 1.1), ylim = c(min(disim.mats[[1]][,2]) * 1.1, max(disim.mats[[1]][,2]) * 1.1))
       box(lwd = 4)
       centro <- apply(disim.mats[[1]], 2, mean)
@@ -454,7 +454,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     }
     
     #upper right
-    if(x == 6) {
+    if (x == 6) {
       plot(disim.mats[[2]], col = "white", xaxt = "n", yaxt = "n", xlim = c(min(disim.mats[[2]][,1]) * 1.1, max(disim.mats[[2]][,1]) * 1.1), ylim = c(min(disim.mats[[2]][,2]) * 1.1, max(disim.mats[[2]][,2]) * 1.1))
       box(lwd = 4)
       centro <- apply(disim.mats[[2]], 2, mean)
@@ -465,7 +465,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     }  
     
     #lower mid
-    if(x == 8){
+    if (x == 8){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = adjustcolor("#EFAA7B", alpha.f = 0), col = adjustcolor("#EFAA7B", alpha.f = 0.15))
@@ -484,7 +484,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     }
     
     #in between left
-    if(x == 7){
+    if (x == 7){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = adjustcolor("#EFAA7B", alpha.f = 0.15), col = adjustcolor("#EFAA7B", alpha.f = 0.15))
@@ -494,7 +494,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     }
     
     #in between right
-    if(x == 9){
+    if (x == 9){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = adjustcolor("#EFAA7B", alpha.f = 0.15), col = adjustcolor("#EFAA7B", alpha.f = 0.15))
@@ -505,7 +505,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     }
     
     #top (for method labels)
-    if(x == 10){
+    if (x == 10){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "black", col = adjustcolor("#4ABDAC", alpha.f = 0.3))
@@ -513,7 +513,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
         box(lwd = 4)
         }
     
-    if(x == 11){
+    if (x == 11){
       plot(0.5, xlim = c(0,1), ylim = c(0,1), type = "n", axes = FALSE, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
       lim <- par("usr")
       rect(lim[1], lim[3]-1, lim[2], lim[4]+1, border = "black", col = adjustcolor("#4ABDAC", alpha.f = 0.3))
@@ -522,7 +522,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     }
   }
   ))
-  if(img)
+  if (img)
   invisible(dev.off())
   on.exit(invisible(close.screen(all.screens = TRUE)))
   }

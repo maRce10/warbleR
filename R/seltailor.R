@@ -160,27 +160,27 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   # no autonext if ts.df provided
-  if(auto.next & !is.null(ts.df)) {
+  if (auto.next & !is.null(ts.df)) {
     cat("'auto.next' not available when 'ts.df' is provided") 
     auto.next <- FALSE
   }
   
   # merge ts.df and X
-  if(!is.null(ts.df))
-  {  if(is.data.frame(ts.df))
+  if (!is.null(ts.df))
+  {  if (is.data.frame(ts.df))
     {
-    if(nrow(X) != nrow(ts.df)) stop("number of rows in 'ts.df' and 'X' do not match")
+    if (nrow(X) != nrow(ts.df)) stop("number of rows in 'ts.df' and 'X' do not match")
     names(ts.df)[-c(1:2)] <- gsub("_|-", ".", names(ts.df)[-c(1:2)])
     ncl <- names(ts.df)[-c(1:2)]
     X <- merge(X, ts.df, by = c("sound.files", "selec"))
     } else 
       { # if ts.df is a list
-      if(nrow(X) != length(ts.df)) stop("number of rows in 'X' and length of 'ts.df' do not match")
+      if (nrow(X) != length(ts.df)) stop("number of rows in 'X' and length of 'ts.df' do not match")
     
     mxts <- max(sapply(ts.df, nrow))  
     
@@ -201,39 +201,39 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   } else auto.contour <- FALSE
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if(all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
   
   #if any start higher than end stop
-  if(any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
+  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
   
   #check title columns
-  if(any(!title %in% names(X))) stop(paste('title column(s)', title[!title %in% names(X)], "not found"))
+  if (any(!title %in% names(X))) stop(paste('title column(s)', title[!title %in% names(X)], "not found"))
   
   # stop if not all sound files were found
   fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
-  if(length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
+  if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     stop(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                ".wav file(s) not found"))
   
-  if(frange & !all(any(names(X) == "bottom.freq"), any(names(X) == "top.freq")))
+  if (frange & !all(any(names(X) == "bottom.freq"), any(names(X) == "top.freq")))
     X$top.freq <- X$bottom.freq <- NA
   
-  if(!file.exists("seltailor_output.csv"))
+  if (!file.exists("seltailor_output.csv"))
   {
     X$tailored <- ""
   X$tailored <- as.character(X$tailored)
-  if(!is.null(index))   X$tailored[!1:nrow(X) %in% index] <- "y"
+  if (!is.null(index))   X$tailored[!1:nrow(X) %in% index] <- "y"
   write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
   } else {
     X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
-  if(any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
-  if(all(any(!is.na(X$tailored)),nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X))) {
+  if (any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
+  if (all(any(!is.na(X$tailored)),nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X))) {
     options(show.error.messages=FALSE)
     cat("all selections have been analyzed")
     stop() 
@@ -243,14 +243,14 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   }
   
   dn <- 1:nrow(X)
-  if(any(!is.na(X$tailored))) if(length(which(X$tailored == "y")) > 0) 
+  if (any(!is.na(X$tailored))) if (length(which(X$tailored == "y")) > 0) 
     dn <- which(X$tailored != "y")  
   
   #set external window function
-  if(any(Sys.info()[1] == c("Linux", "Windows"))) extwin <- grDevices::X11 else extwin <- grDevices::quartz
+  if (any(Sys.info()[1] == c("Linux", "Windows"))) extwin <- grDevices::X11 else extwin <- grDevices::quartz
   
   #start external graphic device
-  if(ext.window)  extwin(width = width, height = height)
+  if (ext.window)  extwin(width = width, height = height)
   
   #set original number of sels to tailor
   org.sel.n <- nrow(X)
@@ -261,20 +261,20 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   repeat{
     j <- dn[h]
     
-    if(exists("prev.plot")) rm(prev.plot)
+    if (exists("prev.plot")) rm(prev.plot)
     rec <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
     main <- do.call(paste, as.list(X[j, names(X) %in% title])) 
     
     f <- rec$sample.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
-    if(fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     len <- rec$samples/f  #for spectro display 
     start <- numeric() #save results
     end <- numeric() #save results
     selcount <- 0
     tlim <- c(X$start[j] - mar, X$end[j] + mar)
-    if(tlim[1]<0) tlim[1]<-0
-    if(tlim[2]>rec$samples/f) tlim[2]<-rec$samples/f
+    if (tlim[1]<0) tlim[1]<-0
+    if (tlim[2]>rec$samples/f) tlim[2]<-rec$samples/f
     org.start <- X$start[j] #original start value
     
     #set an undivided window
@@ -286,7 +286,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
                       osc = osci, palette =  pal, main = NULL, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "#07889B", collevels = collevels,
                       flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, 
                       ...)
-    if(!osci)
+    if (!osci)
     {
       mtext("Time (s)", side=1, line= 1.8)
       mtext("Frequency (kHz)", side = 2,  xpd = TRUE, las = 0)
@@ -304,7 +304,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     
     options(warn = -1)
     #add lines of selections on spectrogram
-    if((any(is.na(X$bottom.freq[j]), is.na(X$top.freq[j]))))
+    if ((any(is.na(X$bottom.freq[j]), is.na(X$top.freq[j]))))
       polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(fl, sort(fl, decreasing = TRUE)), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15))  else
         polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(c(X$bottom.freq[j], X$top.freq[j]),c(X$top.freq[j], X$bottom.freq[j])), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15)) 
     
@@ -312,7 +312,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     xs <- grconvertX(x = c(0.92, 0.92, 0.99, 0.99), from = "npc", to = "user")
     
     labels <- c("stop", "next", "previous", "delete")
-    if(!is.null(ts.df)) labels <- c(labels, "contour")
+    if (!is.null(ts.df)) labels <- c(labels, "contour")
     
     mrg <- 0.05
     cpy <- sapply(0:(length(labels)- 1), function(x) {0.95 - (x * 3 * mrg)})
@@ -329,7 +329,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     })
     
     #ask users to select what to do next (1 click)
-    if(!auto.contour) xy2 <- xy <- locator(n = 1, type = "n") else
+    if (!auto.contour) xy2 <- xy <- locator(n = 1, type = "n") else
     xy2 <- xy <- list(x = 0, y = 0)
   
     #if selected is lower than 0 make it 
@@ -339,25 +339,25 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     xy2$y[xy2$y < 0] <- 0 
     
     # fix freq
-    if(!is.null(ts.df))
-      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]) | auto.contour)
+    if (!is.null(ts.df))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]) | auto.contour)
       {
         Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha, l = !is.data.frame(ts.df))
         X[, ncl] <- Y$ts.df
         xy <- Y$xy
         rm(Y)
         
-        if(selcount > 0) X$tailored[j] <- "y"
+        if (selcount > 0) X$tailored[j] <- "y"
         write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
       }
     
     #if delete
-    if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[4]]) & xy$y < max(ys[[4]]))
+    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[4]]) & xy$y < max(ys[[4]]))
     {    
       # delete row
       X$tailored[j] <- "delete"
       write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
-      if(nrow(X[X$tailored %in% c("y", "delete") ,]) == nrow(X)) {
+      if (nrow(X[X$tailored %in% c("y", "delete") ,]) == nrow(X)) {
         dev.off()
         #return X
         return(droplevels(X[X$tailored != "delete", ]))
@@ -370,21 +370,21 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     }
     
     #if previous
-    if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
     {    
       h <- h - 1
-      if(h == 0) {h <- 1
+      if (h == 0) {h <- 1
       cat("These selection was the first one during the selection procedure (can't go further back)")
       }
     }
     
     #if next sel
-    if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
+    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
     {    
       X$tailored[j] <- "y"
       write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
       
-      if(nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) {
+      if (nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) {
         dev.off()
         #return X
         return(droplevels(X[X$tailored != "delete", ]))
@@ -397,10 +397,10 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     }
     
     # stop
-    if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
+    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
     {
       dev.off()
-      if(selcount > 0) X$tailored[j] <- "y"
+      if (selcount > 0) X$tailored[j] <- "y"
       write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
       #return X
       return(droplevels(X[X$tailored != "delete", ]))
@@ -424,25 +424,25 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       xy$y[xy$y < 0] <- 0 
       
       # fix freq
-      if(!is.null(ts.df))
-        if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]))
+      if (!is.null(ts.df))
+        if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]))
         {
           Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha, l = !is.data.frame(ts.df))
           X[, ncl] <- Y$ts.df
           xy <- Y$xy
           rm(Y)
           
-          if(selcount > 0) X$tailored[j] <- "y"
+          if (selcount > 0) X$tailored[j] <- "y"
           write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
         }
       
       #if delete
-      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[4]]) & xy$y < max(ys[[4]]))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[4]]) & xy$y < max(ys[[4]]))
       {    
         # delete row
         X$tailored[j] <- "delete"
         write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
-        if(nrow(X[X$tailored %in% c("y", "delete") ,]) == nrow(X)) {
+        if (nrow(X[X$tailored %in% c("y", "delete") ,]) == nrow(X)) {
           dev.off()
           
           #return X
@@ -457,10 +457,10 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       }
       
       #if previous
-      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
       {    
         h <- h - 1
-        if(h == 0) {
+        if (h == 0) {
           h <- 1
           cat("These selection was the first one during the selection procedure (can't go further back)")
         }
@@ -468,12 +468,12 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       }
       
       #if next sel
-      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
       {    
         X$tailored[j] <- "y"
         write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
         
-        if(nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) {
+        if (nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) {
           dev.off()
           
           #return X
@@ -488,9 +488,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       }
       
       # stop
-      if(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
       {dev.off()
-        if(selcount > 0) X$tailored[j] <- "y"
+        if (selcount > 0) X$tailored[j] <- "y"
         write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
         options(show.error.messages=FALSE)
         
@@ -500,42 +500,42 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         cat("Stopped by user")
         stop()}
       
-      if(exists("prev.plot")) xy2 <- locator(n = 1, type = "n")
+      if (exists("prev.plot")) xy2 <- locator(n = 1, type = "n")
       
       xy3 <- list()
       xy3$x <- c(xy$x, xy2$x)
       xy3$y <- c(xy$y, xy2$y)
       
-      if(exists("prev.plot")) replayPlot(prev.plot) else prev.plot <- recordPlot()   
+      if (exists("prev.plot")) replayPlot(prev.plot) else prev.plot <- recordPlot()   
       
-      if(frange) polygon(x = rep(sort(xy3$x), each = 2), y = c(sort(xy3$y),sort(xy3$y, decreasing = TRUE)), lty = 3, border = "#E37222", lwd = 1.2, col = adjustcolor("#EFAA7B", alpha.f = 0.15)) else
+      if (frange) polygon(x = rep(sort(xy3$x), each = 2), y = c(sort(xy3$y),sort(xy3$y, decreasing = TRUE)), lty = 3, border = "#E37222", lwd = 1.2, col = adjustcolor("#EFAA7B", alpha.f = 0.15)) else
         polygon(x = rep(sort(xy3$x), each = 2), y = c(fl,sort(fl, decreasing = TRUE)), lty = 3, border = "#E37222", lwd = 1.2, col = adjustcolor("#EFAA7B", alpha.f = 0.15))
       
       X$start[j] <-  tlim[1] + min(xy3$x) 
       X$end[j] <-  tlim[1] + max(xy3$x)
       X$tailored[j] <- "y"
-      if(frange) {
+      if (frange) {
         X$bottom.freq[j] <- min(xy3$y)  
-        if(min(xy3$y) < 0) X$bottom.freq[j] <- 0  
+        if (min(xy3$y) < 0) X$bottom.freq[j] <- 0  
         X$top.freq[j] <- max(xy3$y)  
       }
       selcount <- selcount + 1
       
       
       #auto next
-      if(auto.next){
+      if (auto.next){
         X$start[j] <-  tlim[1] + min(xy3$x) 
         X$end[j] <-  tlim[1] + max(xy3$x)
-        if(frange) {
+        if (frange) {
           X$bottom.freq[j] <- min(xy3$y)  
-          if(min(xy3$y) < 0) X$bottom.freq[j] <- 0  
+          if (min(xy3$y) < 0) X$bottom.freq[j] <- 0  
           X$top.freq[j] <- max(xy3$y)
         }
         
         # save selections
         write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
         
-        if(nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) { 
+        if (nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) { 
           dev.off()
           
           #return X

@@ -7,7 +7,7 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   
   # fix flim
   flim <- c(0, floor(f/2000))
-  if(flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1 
+  if (flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1 
   
   
   # mean spectrum
@@ -28,7 +28,7 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   z <- apply(as.matrix(1:(n - FWL)), 1, function(y) sum(spc[y:(y + FWL), 2]))
   zf <- seq(min(spc[,1]), max(spc[,1]), length.out = length(z))
   
-  if(!is.null(bp)) { 
+  if (!is.null(bp)) { 
     #remove range outsde bp
     z <- z[zf > bp[1] & zf < bp[2]]
     zf <- zf[zf > bp[1] & zf < bp[2]]
@@ -54,11 +54,11 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   nd <- zf[z2 == -1]
 
     #add NAs when some ends or starts where not found
-    if(length(strt) != length(nd))
-    {if(z1[1] == 0) nd <- c(nd, NA) else strt <- c(NA, strt)}
+    if (length(strt) != length(nd))
+    {if (z1[1] == 0) nd <- c(nd, NA) else strt <- c(NA, strt)}
   
-  if(length(strt) == 1){
-  if(z1[1] == 1 & z1[length(z1)] == 1  & strt > nd){    
+  if (length(strt) == 1){
+  if (z1[1] == 1 & z1[length(z1)] == 1  & strt > nd){    
     strt <- c(NA, strt)
     nd <- c(nd , NA)
   }
@@ -73,8 +73,8 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   min.strt <- ifelse(length(strt) == 1, strt, min(strt, na.rm = TRUE))
   max.nd <- ifelse(length(nd) == 1, nd, max(nd, na.rm = TRUE))
   
-  if(!any(is.na(c(min.strt, max.nd)))) {
-    if(min.strt > max.nd){
+  if (!any(is.na(c(min.strt, max.nd)))) {
+    if (min.strt > max.nd){
     min.strt <- NA
     max.nd <- NA
   }

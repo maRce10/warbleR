@@ -71,19 +71,19 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #list jpeg files
   imgs <- list.files(pattern = "\\.jpeg$|\\.jpeg$", ignore.case = TRUE)
-  if(length(imgs) == 0) stop("No .jpeg files were found in the working directory")
+  if (length(imgs) == 0) stop("No .jpeg files were found in the working directory")
   
   #remove images that don't have the catalog_pX.jpeg ending
   imgs <- grep("Catalog_p\\d+", imgs, value = TRUE)
     
   #remove page info at the end of file names to get sound file names
- if(by.img.suffix)
+ if (by.img.suffix)
    or.sf <- gsub("Catalog_p\\d+\\-|\\.jpeg", "" ,imgs) else
   or.sf <- by.img.suffix
   
@@ -92,16 +92,16 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
   #loop over each sound file name  
      cat2pdfFUN <- function(i, overwrite, keep.img)
     {
-      if(!is.logical(i)) filnam <- paste0(i, ".pdf") else filnam <- "Catalog.pdf"
+      if (!is.logical(i)) filnam <- paste0(i, ".pdf") else filnam <- "Catalog.pdf"
    
-       if(any(!overwrite & !file.exists(filnam), overwrite))
+       if (any(!overwrite & !file.exists(filnam), overwrite))
 { 
     
     #order imgs so they look order in the pdf
-         if(!is.logical(i)) subimgs <- imgs[or.sf == i] else subimgs <- imgs
-    if(length(subimgs) > 1){
+         if (!is.logical(i)) subimgs <- imgs[or.sf == i] else subimgs <- imgs
+    if (length(subimgs) > 1){
     pgs <- substr(subimgs,attr(regexpr("Catalog_p" ,subimgs), "match.length") + 1, nchar(subimgs))
-    if(!is.logical(i))
+    if (!is.logical(i))
     pgs <- as.numeric(gsub(paste0("-", i, "|\\.jpeg|\\.jpg"), "", pgs, ignore.case = TRUE)) else
       pgs <- as.numeric(gsub(paste0("|\\.jpeg|\\.jpg"), "", pgs, ignore.case = TRUE))
     
@@ -114,7 +114,7 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
     dimprop <- imgdm[1]/imgdm[2]
     
     #start graphic device     
-   if(!is.logical(i))
+   if (!is.logical(i))
      grDevices::pdf(file = paste0(i, ".pdf"), width = 10, height = dimprop * 10, ...) else  grDevices::pdf(file = "Catalog.pdf", width = 10, height = dimprop * 10, ...)     
     #plot
     img <- jpeg::readJPEG(subimgs[1])
@@ -124,7 +124,7 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
     graphics::rasterImage(img, mr[1], mr[3], mr[2], mr[4])
     
     #loop over the following pages if more than 1 page
-    if(length(subimgs) > 1)
+    if (length(subimgs) > 1)
       {
       no.out <- lapply(subimgs[-1], function(y) {
         plot.new()
@@ -134,7 +134,7 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
       })
     }
     dev.off()
-  if(!keep.img) unlink(subimgs)
+  if (!keep.img) unlink(subimgs)
     }
     }
 

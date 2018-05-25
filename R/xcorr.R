@@ -104,55 +104,55 @@ xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp =
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #if X is not a data frame
-  if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   #if there are NAs in start or end stop
-  if(any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
   
   #stop if only 1 selection
-  if(nrow(X) == 1) stop("you need more than one selection to do cross-correlation")
+  if (nrow(X) == 1) stop("you need more than one selection to do cross-correlation")
   
   #if bp is not vector or length!=2 stop
-  if(!is.null(bp)) {if(!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if(!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
+  if (!is.null(bp)) {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
   
   #if flim is not vector or length!=2 stop
-  if(is.null(frange) & !dfrange) stop("either 'frange' must be provided or 'dfrange' set to TRUE")
-  if(!is.null(frange) & !is.vector(frange)) stop("'frange' must be a numeric vector of length 2") else
-      if(!is.null(frange) & !length(frange) == 2) stop("'frange' must be a numeric vector of length 2")
+  if (is.null(frange) & !dfrange) stop("either 'frange' must be provided or 'dfrange' set to TRUE")
+  if (!is.null(frange) & !is.vector(frange)) stop("'frange' must be a numeric vector of length 2") else
+      if (!is.null(frange) & !length(frange) == 2) stop("'frange' must be a numeric vector of length 2")
   
   #if wl is not vector or length!=1 stop
-  if(!is.numeric(wl)) stop("'wl' must be a numeric vector of length 1") else {
-    if(!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
-      if(!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}} 
+  if (!is.numeric(wl)) stop("'wl' must be a numeric vector of length 1") else {
+    if (!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
+      if (!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}} 
 
   #if ovlp is not vector or length!=1 stop
-  if(!is.numeric(ovlp)) stop("'ovlp' must be a numeric vector of length 1") else {
-    if(!is.vector(ovlp)) stop("'ovlp' must be a numeric vector of length 1") else{
-      if(!length(ovlp) == 1) stop("'ovlp' must be a numeric vector of length 1")}} 
+  if (!is.numeric(ovlp)) stop("'ovlp' must be a numeric vector of length 1") else {
+    if (!is.vector(ovlp)) stop("'ovlp' must be a numeric vector of length 1") else{
+      if (!length(ovlp) == 1) stop("'ovlp' must be a numeric vector of length 1")}} 
   
   #if dens is not vector or length!=1 stop
-  if(!is.numeric(dens)) stop("'dens' must be a numeric vector of length 1") else {
-    if(!is.vector(dens)) stop("'dens' must be a numeric vector of length 1") else{
-      if(!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
+  if (!is.numeric(dens)) stop("'dens' must be a numeric vector of length 1") else {
+    if (!is.vector(dens)) stop("'dens' must be a numeric vector of length 1") else{
+      if (!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
   
 # if frange was not provided the range is calculated with dominant frequency range  
-if(dfrange) {df <- dfts(X, wl =300, img = FALSE, length.out = 50, parallel = parallel, clip.edges = TRUE)
+if (dfrange) {df <- dfts(X, wl =300, img = FALSE, length.out = 50, parallel = parallel, clip.edges = TRUE)
   df <- df[, 3:ncol(df)]
 frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
 } else frq.lim = frange
 
   # If parallel is not numeric
-  if(!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if(any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
 #create templates
-  if(pb) write(file = "", x ="creating templates:")
+  if (pb) write(file = "", x ="creating templates:")
 
   tempFUN <- function(X, x, wl, ovlp, wn, frq.lim)
   {
@@ -248,10 +248,10 @@ FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
   pts <- template$pts[, c(2:1, 3)]
   
   # Adjust pts if step sizes differ
-  if(!isTRUE(all.equal(template$t.step, t.step, tolerance=t.step/1E4))) {
+  if (!isTRUE(all.equal(template$t.step, t.step, tolerance=t.step/1E4))) {
     pts[, 't'] <- round(pts[, 't'] * template$t.step/t.step)
   }
-  if(!isTRUE(all.equal(template$frq.step, frq.step, tolerance=frq.step/1E6))) {
+  if (!isTRUE(all.equal(template$frq.step, frq.step, tolerance=frq.step/1E6))) {
     pts[, 'frq'] <- round(pts[, 'frq'] * template$frq.step/frq.step)
   }
   
@@ -296,7 +296,7 @@ FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
 }
 
 #run cross-correlation
-if(pb) write(file = "", x ="running cross-correlation:")
+if (pb) write(file = "", x ="running cross-correlation:")
 
 if (Sys.info()[1] == "Windows" & parallel > 1)
   cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
@@ -308,25 +308,25 @@ a <- pbapply::pblapply(X = ord.shuf, cl = cl, FUN = function(j)
  
   margin <-(max(with(X, end[j:nrow(X)] - start[j:nrow(X)])))/2
   start <-X$start[j] - margin
-  if(start < 0) {
+  if (start < 0) {
     end <-X$end[j] + margin -start
     start <- 0} else
   end <-X$end[j] + margin
-  if(end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate - 0.001
+  if (end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate - 0.001
   
   survey <- read_wave(X = X, index = j, from = start, to = end)
   
   score.L <- lapply((1+j):length(ltemp), function(i) try(FUNXC(i, cor.mat, survey, wl, ovlp, wn,  j, X), silent = T))
   
-  if(any(!sapply(score.L, is.data.frame))) {
-  if(j != (length(ltemp)-1))
+  if (any(!sapply(score.L, is.data.frame))) {
+  if (j != (length(ltemp)-1))
     {
     combs <- t(combn(paste(X$sound.files, X$selec,sep = "-"), 2))
   combs <- combs[combs[,1] == paste(X$sound.files[j], X$selec[j],sep = "-"),]
   comDF <- data.frame(sound.file1 = combs[,1], sound.file2 = combs[,2], time = 0, score = NA, stringsAsFactors = FALSE)
   
   score.L <-lapply(1:length(score.L), function(x) {
-    if(is.data.frame(score.L[[x]])) return(score.L[[x]]) else
+    if (is.data.frame(score.L[[x]])) return(score.L[[x]]) else
       return(comDF[x,])
   })
   } else  score.L[[1]] <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j],sep = "-"), sound.file2 = paste(X$sound.files[j + 1], X$selec[j + 1], sep = "-"), time = 0, score = NA, stringsAsFactors = FALSE)
@@ -334,7 +334,7 @@ a <- pbapply::pblapply(X = ord.shuf, cl = cl, FUN = function(j)
   score.df <- do.call("rbind", score.L)
 
   
-    if(cor.mat)  
+    if (cor.mat)  
 {      score.df <- data.frame(dyad = paste(score.df$sound.file1,score.df$sound.file2,sep = "/"), score.df)
   
   # calculate maximum correlation values
@@ -350,7 +350,7 @@ a <- a[order(ord.shuf)]
 b <- do.call("rbind", a)
 rm(a)
 
-if(!cor.mat)
+if (!cor.mat)
 {b <- data.frame(dyad = paste(b$sound.file1,b$sound.file2,sep = "/"), b)
 
 # calculate maximum correlation values
@@ -368,24 +368,24 @@ mat[lower.tri(mat, diag=FALSE)] <- scores$scores
 mat <- t(mat)
 mat[lower.tri(mat, diag=FALSE)] <- scores$scores
 
-if(na.rm)
+if (na.rm)
 {
 com.case <- intersect(rownames(mat)[stats::complete.cases(mat)], colnames(mat)[stats::complete.cases(t(mat))])
-if(length(which(is.na(mat))) > 0) 
+if (length(which(is.na(mat))) > 0) 
    warning(paste(length(which(is.na(mat))), "pairwise comparisons failed and were removed"))
 
    #remove them from mat
    mat <- mat[rownames(mat) %in% com.case, colnames(mat) %in% com.case]
-if(nrow(mat) == 0) stop("Not selections remained after removing NAs (na.rm = TRUE)")
+if (nrow(mat) == 0) stop("Not selections remained after removing NAs (na.rm = TRUE)")
 
    #clean correlation data
-   if(!cor.mat)
+   if (!cor.mat)
    b <- b[b$sound.file1 %in% com.case & b$sound.file2 %in% com.case, ]
 
 }  
   
 #list results
-if(cor.mat) return(mat) else
+if (cor.mat) return(mat) else
 {c <- list(b, mat, frq.lim)
 names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim") 
  

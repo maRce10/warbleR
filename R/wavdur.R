@@ -57,18 +57,18 @@ wavdur <- function(files = NULL, path = NULL) {
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if(is.null(path)) path <- getwd() else {if(!file.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)
   }  
   
   #stop if files is not a character vector
-  if(!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
+  if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
-   if(is.null(files))
+   if (is.null(files))
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director    
   
    #stop if no wav files are found
-   if(length(files) == 0) stop("no .wav files in working directory") 
+   if (length(files) == 0) stop("no .wav files in working directory") 
   
   a <- sapply(files, function(x) {
     rec <- tuneR::readWave(as.character(x),header = TRUE)

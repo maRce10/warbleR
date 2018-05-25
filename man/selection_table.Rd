@@ -97,7 +97,7 @@ with 1000 selections similar to the ones in 'selec.table' (mean duration ~0.15
 \examples{
 {
 # First set temporary folder
- setwd(tempdir())
+ # setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")

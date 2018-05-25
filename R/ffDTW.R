@@ -103,10 +103,10 @@ ffDTW <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
     #if X is not a data frame
-    if(!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+    if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
 
   #stop if only 1 selection
-  if(nrow(X) == 1) stop("you need more than one selection for ffDTW")
+  if (nrow(X) == 1) stop("you need more than one selection for ffDTW")
   
   # run ffts function
   res <- ffts(X, wl = wl, length.out = length.out, wn = wn, ovlp = ovlp, 
@@ -116,11 +116,11 @@ ffDTW <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   #matrix of fund freq time series
   mat <- res[,3:ncol(res)]
  
-  if(scale)
+  if (scale)
     mat <- t(apply(mat, 1, scale))  
   
   #stop if NAs in matrix
-    if(any(is.na(mat))) stop("missing values in frequency time series (fundamental frequency was not detected at one or both extremes of the signal)")
+    if (any(is.na(mat))) stop("missing values in frequency time series (fundamental frequency was not detected at one or both extremes of the signal)")
   
   dm <- dtw::dtwDist(mat, mat, window.type = window.type, open.end = open.end)       
 

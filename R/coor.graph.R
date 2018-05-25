@@ -55,7 +55,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
                         img = TRUE, tlim = NULL, pb = TRUE) { 
   
   # warning message if ggplot2 is not installed
-  if(!requireNamespace("ggplot2",quietly = TRUE))
+  if (!requireNamespace("ggplot2",quietly = TRUE))
     stop("'install ggplot2 to use coor.graph()'")
   
   #### set arguments from options
@@ -79,49 +79,49 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  if(!is.data.frame(X))  stop("X is not a data frame")
+  if (!is.data.frame(X))  stop("X is not a data frame")
   
   #stop if some events have less than 10 observations
-  if(any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
+  if (any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
   
   #stop if some cells are not labeled
-  if(any(is.na(X$sing.event))) stop("NA's in singing event names ('sing.event' column) not allowed")
+  if (any(is.na(X$sing.event))) stop("NA's in singing event names ('sing.event' column) not allowed")
   
-  if(any(is.na(X$indiv))) stop("NA's in individual names ('indiv' column) not allowed")  
+  if (any(is.na(X$indiv))) stop("NA's in individual names ('indiv' column) not allowed")  
   
-  if(any(is.na(X$start))) stop("NA's in 'start' column not allowed")  
+  if (any(is.na(X$start))) stop("NA's in 'start' column not allowed")  
   
-  if(any(is.na(X$end))) stop("NA's in 'end' column  not allowed")
+  if (any(is.na(X$end))) stop("NA's in 'end' column  not allowed")
   
-  if(!is.null(tlim)) X <- X[X$start > tlim[1] & X$end < tlim[2], ] 
+  if (!is.null(tlim)) X <- X[X$start > tlim[1] & X$end < tlim[2], ] 
 
     #if it argument is not "jpeg" or "tiff" 
-  if(!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
     
     #stop if some events do not have 2 individuals 
     qw <- as.data.frame((tapply(X$sing.event, list(X$sing.event, X$indiv), length)))
   
   qw[qw > 0] <- 1
   
-  if(any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interating individuals ('indiv' colum)")
+  if (any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interating individuals ('indiv' colum)")
   
   
   
   #if xl is not vector or length!=1 stop
-  if(is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
-    if(!is.vector(xl)) stop("'xl' must be a numeric vector of length 1") else{
-      if(!length(xl) == 1) stop("'xl' must be a numeric vector of length 1")}}  
+  if (is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
+    if (!is.vector(xl)) stop("'xl' must be a numeric vector of length 1") else{
+      if (!length(xl) == 1) stop("'xl' must be a numeric vector of length 1")}}  
   
   #if res is not vector or length==1 stop
-  if(!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
-    if(!length(res) == 1) stop("'res' must be a numeric vector of length 1")}
+  if (!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
+    if (!length(res) == 1) stop("'res' must be a numeric vector of length 1")}
   
   X$sing.event <- as.character(X$sing.event)
   
   # to avoid "notes" when submitting to CRAN
   xmin <- xmax <- ymin <- ymax <- NULL
   
-  if(pb) lpply <- pbapply::pblapply else lpply <- lapply
+  if (pb) lpply <- pbapply::pblapply else lpply <- lapply
   
   invisible(ggs <- lpply(unique(X$sing.event), function(x)
   {
@@ -132,7 +132,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
     y <- y[order(y$start), ]
     
     
-    if(only.coor){
+    if (only.coor){
       fst <- max(c(which(y$start==min(y$start[y$indiv==unique(y$indiv)[1]])),
                    which(y$start==min(y$start[y$indiv==unique(y$indiv)[2]])))) - 1
       
@@ -148,7 +148,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
     #data for indiv 2
     y2<-y[y$indiv == unique(y$indiv)[2],]
     
-    if(any(nrow(y1) == 0, nrow(y2) == 0)) paste("in", x,"singing bouts do not overlap in time") else
+    if (any(nrow(y1) == 0, nrow(y2) == 0)) paste("in", x,"singing bouts do not overlap in time") else
     {
       df1 <- data.frame(xmin = y1$start,ymin = rep(0.8,nrow(y1)),xmax = y1$end,
                         ymax = rep(1.1,nrow(y1)), id = unique(y$indiv)[1], col = "#F9766E")
@@ -159,7 +159,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
       df<-rbind(df1, df2)
       
       #determine which ones overlap
-      if(ovlp) {
+      if (ovlp) {
         btc<-max(c(min(y1$start),min(y2$start)))
         z<-y[c((which(y$start==btc)-1):nrow(y)),] 
         
@@ -169,20 +169,20 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
         z<-z[1:c((which(z$start==etc)+1)),]
         
         ov<-sapply(2:nrow(z),function(i) {
-          if(z$start[i] > z$start[i-1] & z$start[i] < z$end[i-1])  
+          if (z$start[i] > z$start[i-1] & z$start[i] < z$end[i-1])  
             "ovlp" else "No ovlp"})
         
-        if(length(ov[ov == "ovlp"])>0)
+        if (length(ov[ov == "ovlp"])>0)
         {z1<-data.frame(z,ovl=c("No ovlp", ov))
         
         recdf <- NULL
         for(i in 1:nrow(z1))
-        {if(z1$ovl[i]=="ovlp") {
-          if(z1$indiv[z1$start==min(z1$start[i],z1$start[i-1])] == unique(z$indiv)[1]) 
+        {if (z1$ovl[i]=="ovlp") {
+          if (z1$indiv[z1$start==min(z1$start[i],z1$start[i-1])] == unique(z$indiv)[1]) 
           {col<-"#00BFC496"
           id <-"#!"}  else {col <-"#F9766E96"
           id <- "^%"}
-          if(is.null(recdf)) recdf <- data.frame(xmin = mean(z1$start[i],z1$end[i]), xmax = min(z1$end[i],z1$end[i-1]),
+          if (is.null(recdf)) recdf <- data.frame(xmin = mean(z1$start[i],z1$end[i]), xmax = min(z1$end[i],z1$end[i-1]),
                                                  ymin = 1.1, ymax = 1.4, id,  col) else
                                                    recdf <- rbind(recdf, data.frame(xmin = mean(z1$start[i],z1$end[i]), xmax = min(z1$end[i],z1$end[i-1]),
                                                                                     ymin = 1.1, ymax = 1.4, id,  col))
@@ -196,7 +196,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
       cols <- c("#F9766E66", "#00BFC466")
       ids <- c(as.character(unique(y$indiv)[2]), as.character(unique(y$indiv)[1]))
       
-      if(all(exists("recdf"), ovlp)) if(nrow(recdf) > 0) {if(suppressWarnings(min(which(df$id == "#!"))) < suppressWarnings(min(which(df$id == "^%"))))
+      if (all(exists("recdf"), ovlp)) if (nrow(recdf) > 0) {if (suppressWarnings(min(which(df$id == "#!"))) < suppressWarnings(min(which(df$id == "^%"))))
       {  cols <- c("#00BFC466", "#F9766E66") 
       ids <- c(as.character(unique(y$indiv)[2]), as.character(unique(y$indiv)[1]))} else {cols <- c("#F9766E66", "#00BFC466")
       ids <- c(as.character(unique(y$indiv)[1]), as.character(unique(y$indiv)[2]))}} 
@@ -210,7 +210,7 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
                                    paste("overlap from", ids[2]))) + 
         ggplot2::theme(legend.position="top") + ggplot2::ggtitle(x)
       
-if(img){      if(it == "jpeg") ite <- "coor.singing.jpeg" else ite <- "coor.singing.tiff"
+if (img){      if (it == "jpeg") ite <- "coor.singing.jpeg" else ite <- "coor.singing.tiff"
       ggplot2::ggsave(plot = ggp, filename = paste(x, ite, sep = "-"),
              dpi= res, units = "in", width = 9 * xl,height = 2.5)
         } 
