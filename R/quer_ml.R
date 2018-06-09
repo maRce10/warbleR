@@ -127,7 +127,9 @@ quer_ml <- function(qword, download = FALSE, X = NULL, file.name = "sciName",
     
     count <- q$results$count
     
-    if (q$results$count == 0) cat("No recordings were found") else {
+    if (q$results$count == 0) {cat("No recordings were found") 
+      download <- FALSE
+      }else {
      
     # no more than 100 at the time currently  
     if (q$results$count > 100) q$results$count <- 100
@@ -190,8 +192,8 @@ else {
     if (any(file.name == "catalogId")) file.name <- file.name[-which(file.name == "catalogId")]
 
     if (!is.null(file.name))  {  if (length(which(names(results) %in% file.name)) > 1)
-      fn <- apply(results[,which(names(results) %in% file.name)], 1 , paste , collapse = "-" ) else
-        fn <- results[,which(names(results) %in% file.name)]
+      fn <- apply(results[ ,which(names(results) %in% file.name)], 1 , paste , collapse = "-" ) else
+        fn <- results[ ,which(names(results) %in% file.name)]
       results$sound.files <- paste(paste(fn, paste0("ML", results$catalogId), sep = "-"), ".mp3", sep = "")
     } else
       results$sound.files <- paste0("ML", results$catalogId, ".mp3")
@@ -200,7 +202,7 @@ else {
 
     xcFUN <-  function(W, x){
       if (!file.exists(W$sound.files[x]))
-        download.file(url = as.character(W$mediaUrl[x]), destfile = results$sound.files[x],
+        download.file(url = as.character(W$mediaUrl[x]), destfile = W$sound.files[x],
                       quiet = TRUE,  mode = "wb", cacheOK = TRUE,
                       extra = getOption("download.file.extra"))
       return (NULL)
@@ -246,6 +248,6 @@ if (pb) write(file = "", x ="double-checking downloaded files")
    results <- results[,match(c("sciName","commonName" , "catalogId", "locationLine2", "location", "behaviors", "sex", "recorder", "microphone", "accessories", "licenseType", "age", "thumbnailUrl", "previewUrl", "largeUrl", "mediaUrl", "userId", "mediaType", "rating", "userDisplayName", "assetId", "width", "height","speciesCode", "eBirdChecklistId", "valid","comments", "obsComments", "specimenUrl", "userProfileUrl", "locationLine1", "obsDttm", "collected", "eBirdChecklistUrl", "ratingCount", "specimenIds", "homeArchive", "stimulus", "source"), names(results))]
    
    return(droplevels(results))
-   } else return(NULL)
+   }
   
    }
