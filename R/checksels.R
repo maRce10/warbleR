@@ -140,7 +140,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   
   #function to run over each sound file
   csFUN <- function(x, X){
-    Y <- X[X$sound.files == x, ]
+    Y <- as.data.frame(X[X$sound.files == x, , drop = FALSE])
     
     if (file.exists(as.character(x))){
       rec <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
@@ -230,7 +230,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   }) 
   
   res <- do.call(rbind, out)
-  res <- res[match(paste(X$sound.files, X$selec), paste(res$sound.files, res$selec)),]
+  res <- res[match(paste(X$sound.files, X$selec), paste(res$sound.files, res$selec)), ]
   
   if ("top.freq" %in% names(res))
   {   

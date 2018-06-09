@@ -5,7 +5,7 @@
 \title{Convert .mp3 files to .wav}
 \usage{
 mp32wav(samp.rate = 44.1, parallel = 1, from = NULL,path = NULL, 
-to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE)
+to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE, overwrite = FALSE)
 }
 \arguments{
 \item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.}
@@ -29,6 +29,9 @@ If \code{NULL} (default) then the current working directory is used. Same as 'to
 (\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
+
+\item{overwrite}{Logical. Control whether a .wav sound file that is already in the working directory should be 
+overwritten.}
 }
 \value{
 .wav files saved in the working directory with same name as original mp3 files.

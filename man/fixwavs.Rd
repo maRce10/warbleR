@@ -4,8 +4,8 @@
 \alias{fixwavs}
 \title{Fix .wav files to allow importing them into R}
 \usage{
-fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.rate = NULL,
- path = NULL, ...)
+fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL,
+ path = NULL, mono = FALSE, ...)
 }
 \arguments{
 \item{checksels}{Data frame with results from \code{\link{checksels}}.}
@@ -14,11 +14,13 @@ fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.rate = NULL,
 
 \item{samp.rate}{Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.}
 
-\item{bit.rate}{Numeric vector of length 1 with the dynamic interval (i.e. bit rate) for output files.
+\item{bit.depth}{Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
 Default is \code{NULL}. Currently not available.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{mono}{Logical indicating if stereo (2 channel) files should be converted to mono (1 channel).}
 
 \item{...}{Additional arguments to be passed to \code{\link[seewave]{sox}}.}
 }
@@ -41,13 +43,13 @@ names to be "fixed" can be provided (argument 'files'). Internally the function 
 # Set temporary working directory
 # setwd(tempdir())
 
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec_table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav") 
 
-fixwavs(files = selec.table$sound.files)
+fixwavs(files = selec_table$sound.files)
 
 #check this folder
 getwd()

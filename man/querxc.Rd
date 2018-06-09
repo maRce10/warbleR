@@ -10,7 +10,7 @@ parallel = 1, path = NULL, pb = TRUE)
 \arguments{
 \item{qword}{Character vector of length one indicating the genus, or genus and
 species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
-(\url{https://www.xeno-canto.org/}). More complex queries can be done by using search terms that follow the 
+More complex queries can be done by using search terms that follow the 
 xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings 
 (e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song' 
 will search for all recordings in which the sound type description contains the word 'song'. 

@@ -20,9 +20,11 @@
 #'   \item Obtaining avian vocalization data \item Sound file management \item Streamlined 
 #'   (bio)acoustic analysis in R }
 #'   
-#' @section Obtaining avian vocalization data:
+#' @section Obtaining animal vocalization data:
 #'   
-#'   \code{\link{querxc}}: Download recordings and metadata from 'Xeno-Canto'
+#'   \code{\link{querxc}}: Download recordings and/or metadata from 'Xeno-Canto'
+#'  
+#'   \code{\link{quer_ml}}: Download recordings and/or metadata from Macaulay Library
 #'   
 #'   \code{\link{sim_songs}}: Simulate animal vocalizations
 #'   

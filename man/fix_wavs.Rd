@@ -5,7 +5,7 @@
 \title{alternative name for \code{\link{fixwavs}}}
 \usage{
 fix_wavs(checksels = NULL, files = NULL, samp.rate = NULL,
-  bit.rate = NULL, path = NULL, ...)
+  bit.depth = NULL, path = NULL, mono = FALSE, ...)
 }
 \description{
 alternative name for \code{\link{fixwavs}}

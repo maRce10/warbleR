@@ -5,7 +5,7 @@
 #' parallel = 1, path = NULL, pb = TRUE)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'  species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
-#'  (\url{https://www.xeno-canto.org/}). More complex queries can be done by using search terms that follow the 
+#'  More complex queries can be done by using search terms that follow the 
 #'  xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings 
 #'  (e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song' 
 #'  will search for all recordings in which the sound type description contains the word 'song'. 
@@ -143,8 +143,8 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   {
     
     #search recs in xeno-canto (results are returned in pages with 500 recordings each)
-    if (pb)
-      cat("Obtaining recording list...")
+    if (pb & download)
+      write(file = "", x = "Obtaining recording list...")
     
     #format JSON
     qword <- gsub(" ", "%20", qword)
@@ -200,7 +200,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     results <- results[!duplicated(results$Recording_ID), ]
     
     if (pb)
-      cat(paste( nrow(results), " recordings found!", sep=""))  
+      write(file = "", x = paste0(nrow(results), " recordings found!"))
     } 
   } else { 
     #stop if X is not a data frame
@@ -226,7 +226,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
         fn <- results[,which(tolower(names(results)) %in% file.name)]
       results$sound.files <- paste(paste(fn, results$Recording_ID, sep = "-"), ".mp3", sep = "")     
     } else
-      results$sound.files <- paste(results$Recording_ID, ".mp3", sep = "")   
+      results$sound.files <- paste0(results$Recording_ID, ".mp3")   
     
     
     xcFUN <-  function(results, x){
@@ -238,6 +238,8 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     }
 
     # set clusters for windows OS
+    if (pb)
+      write(file = "", x = "Downloading files...")
     if (Sys.info()[1] == "Windows" & parallel > 1)
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
     
@@ -246,8 +248,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       xcFUN(results, x) 
   }) 
   
-if (pb)
-   cat("double-checking downloaded files")
+if (pb) write(file = "", x ="double-checking downloaded files")
    
    #check if some files have no data
     fl <- list.files(pattern = ".mp3$")
