@@ -94,7 +94,7 @@ dominant or fundamental frequencies or both should be plotted. Default is "both"
 
 \item{col}{Vector of length 1 or 2 specifying colors of points plotted to mark 
 fundamental and dominant frequency measurements respetively (if both are plotted). Default is \code{c("#E37222B3",
-"#07889BB3")}.}
+"#07889BB3")}. Extreme values (lowest and highest) are highlighted in yellow.}
 
 \item{pch}{Numeric vector of length 1 or 2 specifying plotting characters for 
 the frequency measurements. Default is c(21, 24).}
@@ -179,7 +179,8 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 This function provides visualization of frequency measurements as the ones 
   made by \code{\link{specan}}, \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}} and \code{\link{ffDTW}}. Frequency measures can be made by the function or input by the 
   user (see 'custom.contour' argument). If \code{frange = TRUE} the function uses \code{\link{frange.detec}} to detect the frequency range. In this case the graphical output includes a
-  frequency spectrum showing the detection threshold.
+  frequency spectrum showing the detection threshold. Extreme values (lowest and highest) are highlighted in yellow. 
+  Note that, unlike other warbleR functions that measure frequency contours, track_freqs do not interpolate frequency values.
 }
 \examples{
 {
