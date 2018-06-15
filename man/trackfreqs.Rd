@@ -18,7 +18,7 @@ trackfreqs(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
-The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
+The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can also be used as the input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}

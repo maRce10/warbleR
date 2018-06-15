@@ -10,7 +10,7 @@ checkwavs(X = NULL, path = NULL)
 \item{X}{Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
-be used as the input data frame. If provided the function also returns the
+also be used as the input data frame. If provided the function also returns the
 smallest number of samples from the listed selections, which limits the minimum window 
 length (wl argument in other functions) that can be used in batch analyses. 
 This could be useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}).}

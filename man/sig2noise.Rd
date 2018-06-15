@@ -11,9 +11,9 @@ sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE
 in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10)
 }
 \arguments{
-\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with results from \code{\link{manualoc}} or any data frame with columns
+\item{X}{object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end).}
+(start and end). The ouptut of \code{\link{manual_loc}} can also be used as the input data frame.}
 
 \item{mar}{numeric vector of length 1. Specifies the margins adjacent to
 the start and end points of selection over which to measure noise.}

@@ -8,7 +8,7 @@
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
-#' be used as the input data frame.
+#' also be used as the input data frame.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) 
 #'   and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}). 

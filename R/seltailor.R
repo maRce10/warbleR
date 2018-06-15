@@ -238,7 +238,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     cat("all selections have been analyzed")
     stop() 
   }
-  ncl <- intersect(names(ts.df), names(X))
+  ncl <- intersect(names(ts.df2), names(X))
   ncl <- ncl[!ncl %in% c("sound.files", "selec")]
   }
   

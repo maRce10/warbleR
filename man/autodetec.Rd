@@ -12,9 +12,10 @@ autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL
   fast.spec = FALSE, ...)
 }
 \arguments{
-\item{X}{'selection_table' object or data frame with results from \code{\link{manualoc}} function or any data frame with columns
+\item{X}{'selection_table' object or a data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end).}
+(start and end). The ouptut of \code{\link{manual_loc}} can 
+also be used as the input data frame.}
 
 \item{threshold}{A numeric vector of length 1 specifying the amplitude threshold for detecting 
 signals (in \%).}

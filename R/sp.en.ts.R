@@ -8,7 +8,7 @@
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data 
 #' frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
-#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
+#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can  also be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512. Note that this is particularly important for measuring spectral entropy. Low values (~100) 
 #'   generate a very detail contour of the variation in spectral entropy that is probably not useful for 

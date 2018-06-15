@@ -8,9 +8,10 @@
 #'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
 #'   parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2, 
 #'   fast.spec = FALSE, ...)
-#' @param X 'selection_table' object or data frame with results from \code{\link{manualoc}} function or any data frame with columns
+#' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
-#' (start and end). 
+#' (start and end). The ouptut of \code{\link{manual_loc}} can 
+#' also be used as the input data frame.
 #' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting 
 #'   signals (in \%).
 #' @param envt Character vector of length 1 specifying the type of envelope to

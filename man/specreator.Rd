@@ -113,7 +113,7 @@ version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 Image files containing spectrograms of the signals listed in the input data frame.
 }
 \description{
-\code{specreator} creates spectrograms of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+\code{specreator} creates spectrograms of signals from selection tables.
 }
 \details{
 This function provides access to batch process of (a modified version of) the \code{\link[seewave]{spectro}} function from the 'seewave' package. The function creates spectrograms for visualization of vocalizations. 
