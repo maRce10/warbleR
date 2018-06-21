@@ -14,7 +14,7 @@
 #' the manipulation of sound files and other files produced by many of the \code{\link{warbleR}} function.
 #' @examples
 #' {
-#' open_wd()
+#' \donttest{open_wd()}
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on apr-16-2018 (MAS)

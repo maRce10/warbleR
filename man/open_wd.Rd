@@ -22,7 +22,7 @@ the manipulation of sound files and other files produced by many of the \code{\l
 }
 \examples{
 {
-open_wd()
+\donttest{open_wd()}
 }
 }
 \seealso{

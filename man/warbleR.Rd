@@ -34,8 +34,6 @@ License: GPL (>= 2)
   
   \code{\link{querxc}}: Download recordings and/or metadata from 'Xeno-Canto'
  
-  \code{\link{quer_ml}}: Download recordings and/or metadata from Macaulay Library
-  
   \code{\link{sim_songs}}: Simulate animal vocalizations
 }
 
@@ -52,7 +50,7 @@ License: GPL (>= 2)
   \code{\link{checkwavs}}: Check whether .wav files can be read by subsequent 
   functions and the minimum windows length ("wl" argument) that can be used
   
-  \code{\link{fixwavs}}: Fix .wav files to allow importing them into R
+  \code{\link{fixwavs}}: Fix .wav files so they can be read by other functions
   
   \code{\link{wavdur}}: Determine the duration of sound files
   

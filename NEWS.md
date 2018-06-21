@@ -1,7 +1,16 @@
 # NEWS
 
+
+# warbleR 1.1.14
+## (CRAN release date: 2018-06-22)
+
+## Changes and additions:
+
+* 'open_wd' example fixed (requested by CRAN)
+
+
 # warbleR 1.1.13
-## (CRAN release date: XXXX-XX-XX)
+## (CRAN release date: 2018-05-18)
 
 ## Changes and additions:
 
