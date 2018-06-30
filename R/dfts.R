@@ -126,7 +126,6 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  
   #check path to working directory
   if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
     setwd(path)

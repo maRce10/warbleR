@@ -109,8 +109,8 @@ sp.en.ts(X = selec.table, threshold = 10, bp = c(2, 12), clip.edges = TRUE, leng
 Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{dfDTW}}, \code{\link{dfts}},
   \code{\link{ffDTW}}, \code{\link{ffts}},
-  \code{\link{snrspecs}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+  \code{\link{multi_DTW}}, \code{\link{snrspecs}},
+  \code{\link{specreator}}, \code{\link{trackfreqs}}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

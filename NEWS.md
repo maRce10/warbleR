@@ -1,18 +1,34 @@
 # NEWS
 
+===============================================================================================
 
-# warbleR 1.1.14
-## (CRAN release date: 2018-06-22)
+## warbleR 1.1.15
+### (CRAN release date: )
 
-## Changes and additions:
+</br>
+
+## New functions:
+
+* 'multi_DTW': wrapper on dtw for comparing signals described by multiple contours 
+===============================================================================================
+
+## warbleR 1.1.14
+### (CRAN release date: 2018-06-22)
+
+</br>
+
+#### Changes and additions:
 
 * 'open_wd' example fixed (requested by CRAN)
 
+===============================================================================================
 
-# warbleR 1.1.13
-## (CRAN release date: 2018-05-18)
+## warbleR 1.1.13
+### (CRAN release date: 2018-05-18)
 
-## Changes and additions:
+</br>
+
+#### Changes and additions:
 
 * new function names (print(new_function_names))
 * object class 'extended_selection_table' to create self-contained acoustic data sets
@@ -35,10 +51,14 @@
 * warbleR_options: function to set global parameters
 *open_wd: open current working directory in wave browser
 
-# warbleR 1.1.12
-## (CRAN release date: 2018-03-13)
+===============================================================================================
 
-## Changes and additions:
+## warbleR 1.1.12
+### (CRAN release date: 2018-03-13)
+
+</br> 
+
+#### Changes and additions:
 
 * Parallel computing available in 'querxc' funtion when getting metadata
 * Parallel computing available in 'checksels' funtion 
@@ -53,10 +73,15 @@
 * track_harm: track harmonic frequency contour
 * sim_song: simulate songs 
 
-# warbleR 1.1.10
+
+===============================================================================================
+
+## warbleR 1.1.10
 ### (CRAN release date: 2018-08-28)
 
-## Changes and additions:
+</br>
+
+#### Changes and additions:
 
 * Example sound files have been moved to the new R package 'NatureSounds' (which is now a dependency)
 
@@ -69,10 +94,14 @@
 * rm_sil: removes silence segments (i.e. segments with very low amplitude values) from wave files
 * consolidate: copies (sound) files scattered in several directories into a single folder
 
-# warbleR 1.1.9
+===============================================================================================
+
+## warbleR 1.1.9
 ### (CRAN release date: 2017-11-18)
 
-## Changes and additions:
+</br> 
+
+#### Changes and additions:
 
 * "low.freq" and "high.freq" column names in default table format are now "bottom.freq" and "top.freq" respectively
 * Moved 'imp.syrinx' and 'imp.raven' functions to new R package Rraven
@@ -105,7 +134,7 @@
 
 ===============================================================================================
 
-# warbleR 1.1.8
+## warbleR 1.1.8
 ### (CRAN release date: 2017-04-26)
 
 ## Bug fixes:
@@ -114,10 +143,12 @@
 
 ===============================================================================================
 
-# warbleR 1.1.7
+## warbleR 1.1.7
 ### (CRAN release date: 2017-04-24)
 
-## Changes and additions:
+</br> 
+
+#### Changes and additions:
 
 * "seltailor" function now can use external graphic devices (X11 or quartz)
 
@@ -127,7 +158,7 @@
 
 ===============================================================================================
 
-# warbleR 1.1.6 
+## warbleR 1.1.6 
 ### (CRAN release date: 2017-04-05)
 
 ## New functions:
@@ -136,7 +167,9 @@
 * catalog2pdf: convert several catalog jpeg's images into single pdf files
 * fixwavs: convert corrupted files to a format that can be imported into R
 
-## Changes and additions:
+</br> 
+
+#### Changes and additions:
 
 * added new acoustic parameters to "specan" function related to distribution of energy in the time axis. Also time entropy ("time.ent") and overall entropy ("entropy") were added
 * "centroid" and "mode" parameters were removed from "specan" function
@@ -173,10 +206,12 @@ different individuals) would be subset to A-B-A-B-A-B
 
 ===============================================================================================
 
-# warbleR 1.1.5 
+## warbleR 1.1.5 
 ### (CRAN release date: 2017-01-19)
 
-## Changes and additions:
+</br> 
+
+#### Changes and additions:
 
 * "frange" argument in seltailor to define also the frequency range (low.f and high.f)
 * trackfreqs, specan now can use low.f and high.f as bandpass limits
@@ -193,10 +228,12 @@ different individuals) would be subset to A-B-A-B-A-B
 
 ===============================================================================================
 
-# warbleR 1.1.4 
+## warbleR 1.1.4 
 ### (CRAN release date: 2016-11-14)
 
-## Changes and additions:
+</br> 
+
+#### Changes and additions:
 
 * "pb" argument to allow users to knock down progress bars and messages (in looping functions)
 * modification to (slightly) improve 'lspec' performance 

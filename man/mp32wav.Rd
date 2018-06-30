@@ -4,7 +4,7 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav(samp.rate = 44.1, parallel = 1, from = NULL,path = NULL, 
+mp32wav(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL, 
 to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE, overwrite = FALSE)
 }
 \arguments{

@@ -1,7 +1,7 @@
 #' Convert .mp3 files to .wav
 #' 
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
-#' @usage mp32wav(samp.rate = 44.1, parallel = 1, from = NULL,path = NULL, 
+#' @usage mp32wav(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL, 
 #' to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE, overwrite = FALSE)  
 #' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -50,6 +50,8 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL,
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
+  if (!is.null(path)) from <- path
+  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(mp32wav)
@@ -65,9 +67,6 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL,
   
   # get arguments set in the call
   call.argms <- as.list(base::match.call())[-1]
-  
-  
-  
   
   # remove arguments in options that are in call
   opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]

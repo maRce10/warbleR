@@ -224,8 +224,8 @@ bp = c(1, 3), contour = "both", wl = 300)
 Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{dfDTW}}, \code{\link{dfts}},
   \code{\link{ffDTW}}, \code{\link{ffts}},
-  \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
-  \code{\link{specreator}}
+  \code{\link{multi_DTW}}, \code{\link{snrspecs}},
+  \code{\link{sp.en.ts}}, \code{\link{specreator}}
 }
 \author{
 Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

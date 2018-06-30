@@ -139,8 +139,8 @@ getwd()
 Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{dfDTW}}, \code{\link{dfts}},
   \code{\link{ffDTW}}, \code{\link{ffts}},
-  \code{\link{sp.en.ts}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+  \code{\link{multi_DTW}}, \code{\link{sp.en.ts}},
+  \code{\link{specreator}}, \code{\link{trackfreqs}}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre

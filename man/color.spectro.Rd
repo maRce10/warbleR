@@ -129,9 +129,9 @@ writeWave(Phae.long1, "Phae.long1.wav") #save sound files
 
 Other spectrogram creators: \code{\link{dfDTW}},
   \code{\link{dfts}}, \code{\link{ffDTW}},
-  \code{\link{ffts}}, \code{\link{snrspecs}},
-  \code{\link{sp.en.ts}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+  \code{\link{ffts}}, \code{\link{multi_DTW}},
+  \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
+  \code{\link{specreator}}, \code{\link{trackfreqs}}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre

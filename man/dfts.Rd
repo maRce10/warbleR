@@ -121,9 +121,9 @@ dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
 
 Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{dfDTW}}, \code{\link{ffDTW}},
-  \code{\link{ffts}}, \code{\link{snrspecs}},
-  \code{\link{sp.en.ts}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+  \code{\link{ffts}}, \code{\link{multi_DTW}},
+  \code{\link{snrspecs}}, \code{\link{sp.en.ts}},
+  \code{\link{specreator}}, \code{\link{trackfreqs}}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
