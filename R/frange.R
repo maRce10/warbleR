@@ -4,7 +4,8 @@
 #' @usage frange(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, 
 #' wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1,
 #' res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1,
-#'  widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE)
+#'  widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE,
+#'   impute = FALSE)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
@@ -56,6 +57,8 @@
 #'  to set spectrogram limits. Default is 0.05.
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
 #' @param path Character string containing the directory path where the sound files are located. 
+#' @param impute Logical. If \code{TRUE} then missing range values are imputed 
+#' with the corresponding bandpass value (hence ignored when \code{bp = NULL}). Default is \code{FALSE}.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @return The original data frame with an additional 2 columns for low and high frequency values. A plot is produced in the working directory if \code{img = TRUE} (see details).
 #' @export
@@ -79,14 +82,14 @@
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
-#' frange(X = selec.table, wl = 112, fsmooth = 1, threshold = 13, widths = c(4, 1), 
+#' frange(X = selec.table, wl = 112, fsmooth = 1, threshold = 13, widths = c(4, 1),
 #' img = TRUE, pb = TRUE, it = "tiff", line = TRUE, mar = 0.1, bp = c(1,10.5), 
 #' flim = c(0, 11))
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on mar-12-2018 (MAS)
 
-frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE)
+frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
 {
   # reset working directory 
   wd <- getwd()
@@ -228,6 +231,12 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   }) 
   
   fr <- do.call(rbind, fr)
+  
+  if (impute & !is.null(bp))
+  {
+    fr$bottom.freq[is.na(fr$bottom.freq)] <- bp[1]
+    fr$top.freq[is.na(fr$top.freq)] <- bp[2]
+  }
   
   if (any(! sapply(fr[, c("start", "end", "bottom.freq", "top.freq")], is.numeric))) fr[, c("start", "end", "bottom.freq", "top.freq")] <- rapply(fr[, c("start", "end", "bottom.freq", "top.freq")], as.numeric)
 

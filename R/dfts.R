@@ -231,7 +231,7 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
       } else 
         {
         apdom <- approx(dfrq[,1], dfrq[,2], 
-                        xout = seq(from = dfrq[1, 1],  to = dfrq[nrow(dfrq), 1], 
+                        xout = seq(from = dfrq[1, 1],  to = dfrq1[nrow(dfrq), 1], 
                                    length.out = length.out), method = "linear")
         
         #fix for ploting with trackfreqs
