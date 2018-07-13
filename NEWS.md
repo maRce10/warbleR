@@ -7,9 +7,14 @@
 
 </br>
 
-## New functions:
+#### New functions:
 
-* 'multi_DTW': wrapper on dtw for comparing signals described by multiple contours 
+* 'multi_DTW': wrapper on dtw for comparing signals described by multiple contours
+
+#### Changes and additions:
+
+* 'selection_table` now can take files found in different directories and create extended selection tables
+
 ===============================================================================================
 
 ## warbleR 1.1.14
