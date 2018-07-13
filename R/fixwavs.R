@@ -106,18 +106,18 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
     
 if (!is.null(samp.rate) & is.null(bit.depth)) bit.depth <- 16
 
-try(dir.create(file.path(getwd(), "converted_sound_files")), silent = TRUE)
+dir.create(file.path(getwd(), "converted_sound_files"), showWarnings = FALSE)
   
   out <- pbapply::pblapply(fls, function(x)
     {
-   
+    
     #name  and path of original file
-    cll <- paste("sox", x, "-t wavpcm")
+    cll <- paste0("sox '", x, "' -t wavpcm")
 
     if (!is.null(bit.depth))
       cll <- paste(cll, paste("-b", bit.depth))
     
-    cll <- paste(cll, file.path("converted_sound_files", x))
+    cll <- paste0(cll, " converted_sound_files/'", x, "'")
     
     if (!is.null(samp.rate))
        cll <- paste(cll, "rate", samp.rate * 1000)

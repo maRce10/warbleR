@@ -67,7 +67,7 @@
 #' @param width Numeric. Single value (in inches) indicating the width of the output image files.  Default is 8.5
 #'  for vertical orientation.
 #' @param tags String vector. Provides the column names that will be used for the color tagging legend above. Tags can also be numeric. Continuous variables would be break down in 10 color classes.
-#' @param tag.pal List of color palette function for tags. Should be of length 1, 2.  Default is \code{list(temp.colors, heat.colors, topo.colors)}.
+#' @param tag.pal List of color palette function for tags. Should be of length 1, 2 or 3.  Default is \code{list(temp.colors, heat.colors, topo.colors)}.
 #' @param legend A numeric vector of length 1 controling a legend for color tags is added.
 #' Ignored if no tags are provided. Four values are allowed: 
 #' \itemize{

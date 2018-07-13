@@ -116,9 +116,10 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     }}
   
   #check if files are in working directory
-  files <- list.files(pattern = "wav$", ignore.case = TRUE)
-  if (length(files) == 0) 
-    stop("no .wav files in working directory")
+  files <- file.exists(as.character(X$sound.files))
+  if (all(!files)) 
+    stop("no .wav files found")
+  
   
   #if any selection labels are repeated within a sound file
   if (length(unique(paste(X$sound.files, X$selec))) != nrow(X))

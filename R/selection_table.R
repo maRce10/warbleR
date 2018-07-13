@@ -245,7 +245,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
           
         } else 
         {  
-          names(attributes(X)$wave.objects) <- check.results$sound.files <- X$sound.files <- paste(X$sound.files, X$selec, sep = "_")
+          names(attributes(X)$wave.objects) <- check.results$sound.files <- X$sound.files <- paste(basename(as.character(X$sound.files)), X$selec, sep = "_")
           check.results$selec <- X$selec <- 1
           
           check.results$n.samples <- as.vector(sapply(attr(X, "wave.objects"), function(x) length(x@left)))     # add n.samples for header info

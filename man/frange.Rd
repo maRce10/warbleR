@@ -81,13 +81,13 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the selections
 to set spectrogram limits. Default is 0.05.}
 
-\item{path}{Character string containing the directory path where the sound files are located.}
+\item{path}{Character string containing the directory path where the sound files are located. 
+If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 
 \item{impute}{Logical. If \code{TRUE} then missing range values are imputed 
-with the corresponding bandpass value (hence ignored when \code{bp = NULL}). Default is \code{FALSE}.
-If \code{NULL} (default) then the current working directory is used.}
+with the corresponding bandpass value (hence ignored when \code{bp = NULL}). Default is \code{FALSE}.}
 }
 \value{
 The original data frame with an additional 2 columns for low and high frequency values. A plot is produced in the working directory if \code{img = TRUE} (see details).
