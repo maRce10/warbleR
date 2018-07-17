@@ -100,7 +100,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
-  if (any(duplicated(paste(X$sound.files, X$selec)))) stop("Duplicated selection labels for one or more sound files")
+  if (any(duplicated(X[, c("sound.files", "selec")]))) stop("Duplicated selection labels for one or more sound files")
   
   #if any start higher than end stop
   if (any(X$end - X$start < 0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start < 0)), "case(s)"))  
@@ -116,14 +116,9 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     }}
   
   #check if files are in working directory
-  files <- file.exists(as.character(X$sound.files))
+  files <- file.exists(as.character(unique(X$sound.files)))
   if (all(!files)) 
     stop("no .wav files found")
-  
-  
-  #if any selection labels are repeated within a sound file
-  if (length(unique(paste(X$sound.files, X$selec))) != nrow(X))
-    stop("Repeated selection labels within (a) sound file(s)")  
   
   # update to new frequency range column names
   if (any(grepl("low.freq|high.freq", names(X)))) { 
@@ -134,8 +129,9 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   #check frequency range columns
   if ("top.freq" %in% colnames(X)) 
   {
+    frq.rng <- X$top.freq - X$bottom.freq
     #if any start higher than end stop
-    if (any(X$top.freq - X$bottom.freq < 0)) stop(paste("The bottom frequency is higher than the top frequency in", length(which(X$top.freq - X$bottom.freq < 0)), "case(s)"))  
+    if (any(frq.rng < 0)) stop(paste("The bottom frequency is higher than the top frequency in", length(which(frq.rng < 0)), "case(s)"))  
     if (any(X$bottom.freq < 0)) stop("bottom frequency lower than 0 for some selections")  
   }    
   
@@ -205,6 +201,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
         Y$sample.rate <- NA
         Y$channels <- NA
         Y$bits <- NA
+        Y$sound.file.samples <- NA
       }    } else {
         Y$check.res <- "sound file not found"
         Y$duration <- NA
