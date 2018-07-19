@@ -34,9 +34,17 @@ when the selection is imported into R (as when using \code{\link[tuneR]{readWave
 is calculated and added as a column. Size is return in MB. Default is \code{FALSE}.}
 }
 \value{
-A data frame including the columns in the input data frame (X) and 2 additional columns:
-"check.res" (check selections), and "min.n.samples" (the smallest number of samples). Note the number of samples available
+A data frame including the columns in the input data frame (X) and 7 additional columns:
+\itemize{
+   \item \code{check.res}: diagnose for each selection 
+   \item \code{duration}: duration of selection in seconds
+   \item \code{min.n.samples} number of samples in a selection. Note the number of samples available
 in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses.
+   \item \code{sample.rate}: sampling rate in kHz
+   \item \code{channels}: number of channels
+   \item \code{bits}: bit depth
+   \item \code{sound.file.samples}: number of samples in the sound file
+   }
 }
 \description{
 \code{checksels} checks whether selections can be read by subsequent functions.
