@@ -18,4 +18,5 @@ VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 Packaged: 2016-04-18 23:45:31 UTC; m
 Repository: CRAN
+Authors@R: person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "araya-salas@cornell.edu")
 Date/Publication: 2016-04-19 08:12:11
