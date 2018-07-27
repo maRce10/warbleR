@@ -272,8 +272,8 @@ input data frame showing the location of the dominant frequencies
 The function uses the <code><a href='http://www.rdocumentation.org/packages/stats/topics/approxfun'>approx</a></code> function to interpolate values between dominant frequency 
 measures. If there are no frequencies above the amplitude theshold at the begining or end 
  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
- above the amplitude theshold in between signal segments in which amplitude was 
- detected then the values of this adjacent segments will be interpolated 
+ above the amplitude theshold in time windows in between the signal in which amplitude was 
+ detected then the values of the adjacent will be interpolated 
  to fill out the missing values (e.g. no NAs in between detected amplitude segments).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
