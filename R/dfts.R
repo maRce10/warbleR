@@ -67,8 +67,8 @@
 #' The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant frequency 
 #' measures. If there are no frequencies above the amplitude theshold at the begining or end 
 #'  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
-#'  above the amplitude theshold in between signal segments in which amplitude was 
-#'  detected then the values of this adjacent segments will be interpolated 
+#'  above the amplitude theshold in time windows in between the signal in which amplitude was 
+#'  detected then the values of the adjacent will be interpolated 
 #'  to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
 #' 
 #' @examples{
@@ -87,7 +87,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on march-12-2018 (MAS)
 
-dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
+dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
                   bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL,
                   img = TRUE, parallel = 1,
                   path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, raw.contour = FALSE, 
@@ -224,15 +224,31 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
     
     } else {
       if (!clip.edges) {        
-        apdom <- approx(dfrq[,1], dfrq[,2], xout = seq(from = dfrq1[1, 1], 
+        apdom <- try_na(approx(dfrq[,1], dfrq[,2], xout = seq(from = dfrq1[1, 1], 
                                                                 to = dfrq1[nrow(dfrq1), 1], length.out = length.out),
-                               method = "linear")
-      apdom1 <- apdom
+                               method = "linear"))
+      
+      if (is.na(apdom[1])) 
+      {
+        apdom <- list()
+        apdom$x <- dfrq1[, 1]
+        apdom$y <- rep(NA, length.out)
+        apdom1 <- apdom
+      }
+        apdom1 <- apdom
       } else 
         {
-        apdom <- approx(dfrq[,1], dfrq[,2], 
+        apdom <- try_na(approx(dfrq[,1], dfrq[,2], 
                         xout = seq(from = dfrq[1, 1],  to = dfrq1[nrow(dfrq), 1], 
-                                   length.out = length.out), method = "linear")
+                                   length.out = length.out), method = "linear"))
+        
+        if (is.na(apdom)) 
+        {
+          apdom <- list()
+          apdom$x <- dfrq1[, 1]
+          apdom$y <- rep(NA, length.out)
+          apdom1 <- apdom
+        }
         
         #fix for ploting with trackfreqs
         dfrq1[,2][is.na(dfrq1[,2])] <- 0
@@ -291,6 +307,8 @@ dfts <-  function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", o
   { 
  dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc = frange.detec, raw.contour, track.harm, adjust.wl)
   }) 
+  
+  if (any(sapply(lst, class) == "try-error")) stop("error during frequency detection for at least 1 selection (try 'adjust.wl = TRUE')")
   
   if (!raw.contour)
 {  df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))

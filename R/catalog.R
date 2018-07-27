@@ -240,6 +240,10 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
+  #check path to working directory
+  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
+    setwd(path)
+  }  
   
   #read files
   if (!is_extended_selection_table(X))
@@ -267,11 +271,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   #set collevels for spec_param
   if (collevels[1] != "collev.min") 
     X$collev.min <- collevels[1] else collevels <- seq(-40, 0, 1)
-  
-  #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
   
   #nrow must be equal or higher than 2
   if (nrow < 2) stop("number of rows must be equal or higher than 2")

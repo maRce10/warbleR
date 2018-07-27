@@ -27,7 +27,7 @@
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 
 #' @param na.rm Logical value indicating whether 'NA' values should be ignored for calculations.
 #' @return A data frame similar to the input 'X' data frame, containing the mean
-#'  values for numeric acoustic parameters. Parameters to average can be defined with
+#'  values for numeric acoustic parameters. Parameters that will be averaged can be defined with
 #'  'mean_indx' (otherwhise all numeric parameters are used). Parameters can be 
 #'  weighted by other parameters in the data set (e.g. duration, frequency range). Note
 #'  that the functions works by default on songs, but can be used at other hierarchical
@@ -115,7 +115,7 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
   # if extended only by song
   if (is_extended_selection_table(X))
     if (!attributes(X)$by.song$by.song) stop("extended selection tables must be created 'by.song' to be used in song.param()")
-    
+
   #if parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")

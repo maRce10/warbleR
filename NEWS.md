@@ -15,6 +15,10 @@
 
 * 'selection_table` now can take files found in different directories and create extended selection tables
 
+#### Bug fixes:
+
+* Using 'wav.path' from 'warbleR_options' in 'catalog'
+
 ===============================================================================================
 
 ### *warbleR 1.1.14*

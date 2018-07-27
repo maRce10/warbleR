@@ -42,7 +42,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 }
 \value{
 A data frame similar to the input 'X' data frame, containing the mean
- values for numeric acoustic parameters. Parameters to average can be defined with
+ values for numeric acoustic parameters. Parameters that will be averaged can be defined with
  'mean_indx' (otherwhise all numeric parameters are used). Parameters can be 
  weighted by other parameters in the data set (e.g. duration, frequency range). Note
  that the functions works by default on songs, but can be used at other hierarchical

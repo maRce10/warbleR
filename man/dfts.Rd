@@ -97,8 +97,8 @@ This function extracts the dominant frequency values as a time series.
 The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant frequency 
 measures. If there are no frequencies above the amplitude theshold at the begining or end 
  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
- above the amplitude theshold in between signal segments in which amplitude was 
- detected then the values of this adjacent segments will be interpolated 
+ above the amplitude theshold in time windows in between the signal in which amplitude was 
+ detected then the values of the adjacent will be interpolated 
  to fill out the missing values (e.g. no NAs in between detected amplitude segments).
 }
 \examples{
