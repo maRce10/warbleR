@@ -15,7 +15,8 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param whole.recs Logical. If \code{TRUE} the function will create a selection 
 #' table for all sound files in the working directory (or "path") with `start = 0` 
-#' and `end = wavdur()`. Default is if \code{FALSE}.  
+#' and `end = wavdur()`. Default is if \code{FALSE}. Note that this will not create
+#' a extended selection table. If provided 'X' is ignored.  
 #' @param extended Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table' 
 #' which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is 
 #' and self-contained format that does not require the original sound files for running most acoustic analysis in 
@@ -145,8 +146,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  
-  
+  # create a selection table for a row for each full length recording
   if (whole.recs){ 
     sound.files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
     
@@ -173,7 +173,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024 ^ 2)
     
     if (confirm.extended)
-      answer <- readline(prompt = paste0("Expected 'extended_selection_table' size is ~", round(exp.size), "MB (~", round(exp.size/1024, 5), " GB) \n Do you want to proceed (y/n): \n")) else answer <- "yeah dude!"
+      answer <- readline(prompt = paste0("Expected 'extended_selection_table' size is ~", ifelse(round(exp.size) == 0, round(exp.size, 2), round(exp.size)), "MB (~", round(exp.size/1024, 5), " GB) \n Do you want to proceed (y/n): \n")) else answer <- "yeah dude!"
       
       if (substr(answer, 1, 1) %in% c("y", "Y")) # if yes
       {
@@ -192,8 +192,11 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         
         if (!is.null(by.song))
         {
-          Y <- song_param(X = as.data.frame(X), song_colm = by.song, pb = FALSE)[, c("sound.files", "song", "start", "end")]
+          Y <- song_param(X = as.data.frame(X), song_colm = by.song, pb = FALSE)
+          Y <-Y[, names(Y) %in% c("sound.files", "song", "start", "end")]
           
+          check.results$song <- X[, by.song]          
+
           Y$mar.before <- sapply(unique(Y$song), function(x) check.results$mar.before[which.min(check.results$orig.start[check.results$song == x])])
           
           Y$mar.after <- sapply(unique(Y$song), function(x) check.results$mar.after[which.max(check.results$orig.end[check.results$song == x])])

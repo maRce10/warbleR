@@ -61,7 +61,7 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], heade
   if (header)
     {
     if (any(is_selection_table(X), is_extended_selection_table(X)))
-    object <- list(sample.rate = attr(X, "check.results")$sample.rate[attr(X, "check.results")$sound.files == X$sound.files[index]], channels = 1, bits = attr(X, "check.results")$bits[attr(X, "check.results")$sound.files == X$sound.files[index]], samples = attr(X, "check.results")$n.samples[attr(X, "check.results")$sound.files == X$sound.files[index]]) else 
+    object <- list(sample.rate = attr(X, "check.results")$sample.rate[attr(X, "check.results")$sound.files == X$sound.files[index]] * 1000, channels = 1, bits = attr(X, "check.results")$bits[attr(X, "check.results")$sound.files == X$sound.files[index]], samples = attr(X, "check.results")$n.samples[attr(X, "check.results")$sound.files == X$sound.files[index]]) else 
       object <- readWave(filename = filename, header = TRUE)
     
     if (any(sapply(object, length) > 1)) object <- lapply(object, "[", 1)

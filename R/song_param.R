@@ -121,7 +121,13 @@ song_param <- function(X = NULL, weight = NULL, song_colm = "song",
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
   if (!any(names(X) == song_colm)) stop("'song_colm' not found")
-
+  
+  if (song_colm == "sound.files") {
+    X$song <- X$sound.files
+    song_colm <- "song"
+    }
+  
+  
   if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 

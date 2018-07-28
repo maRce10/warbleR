@@ -27,9 +27,6 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
   if (is.null(collevels) & !is.null(collev.min))
     collevels <- seq(collev.min, 0, 1)
   
-  if (!is.null(collevels) & !is.null(collev.min))
-    collevels <- seq(collev.min, 0, 1)
-
     if (!is.null(sel.tab)) fast.spec <- TRUE 
   
   if (complex & norm) {

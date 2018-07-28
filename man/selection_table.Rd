@@ -23,7 +23,8 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{whole.recs}{Logical. If \code{TRUE} the function will create a selection 
 table for all sound files in the working directory (or "path") with `start = 0` 
-and `end = wavdur()`. Default is if \code{FALSE}.}
+and `end = wavdur()`. Default is if \code{FALSE}. Note that this will not create
+a extended selection table. If provided 'X' is ignored.}
 
 \item{extended}{Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table' 
 which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is 
