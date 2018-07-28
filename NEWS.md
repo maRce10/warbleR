@@ -1,43 +1,39 @@
-# NEWS
-
-===============================================================================================
-
-### *warbleR 1.1.15*
-#### *(CRAN release date: )*
+# *warbleR 1.1.15*
+## *(CRAN release date: )*
 
 </br>
 
-#### New functions:
+## New functions:
 
 * multi_DTW: wrapper on dtw for comparing signals described by multiple contours
 
-#### Changes and additions:
+## Changes and additions:
 
 * 'selection_table` now can take files found in different directories and create extended selection tables
 
-#### Bug fixes:
+## Bug fixes:
 
 * Using 'wav.path' from 'warbleR_options' in 'catalog'
 
 ===============================================================================================
 
-### *warbleR 1.1.14*
-#### *(CRAN release date: 2018-06-22)*
+# *warbleR 1.1.14*
+## *(CRAN release date: 2018-06-22)*
 
 </br>
 
-#### Changes and additions:
+## Changes and additions:
 
 * 'open_wd' example fixed (requested by CRAN)
 
 ===============================================================================================
 
-### *warbleR 1.1.13*
-#### *(CRAN release date: 2018-05-18)*
+# *warbleR 1.1.13*
+## *(CRAN release date: 2018-05-18)*
 
 </br>
 
-#### Changes and additions:
+## Changes and additions:
 
 * new function names (print(new_function_names))
 * object class 'extended_selection_table' to create self-contained acoustic data sets
@@ -46,11 +42,11 @@
 * 'ts.df' argument in 'seltailor' function to adjust frequency contours
 * 'by.song' argument in 'specreator' to create full song spectrograms with labeled elements
 
-#### Bug fixes:
+## Bug fixes:
 
 * Change "http" to "https" protocol for accessing Xeno-Canto recordings in "querxc"
 
-#### New functions:
+## New functions:
 
 * selection_table: converts data frames into an object of classes 'selection_table' or 'extended_selection_table'
 * generic S3 methods for and 'print', 'cbind' and '[' for  classes 'selection_table' or 'extended_selection_table'
@@ -62,12 +58,12 @@
 
 ===============================================================================================
 
-### *warbleR 1.1.12*
-#### *(CRAN release date: 2018-03-13)*
+# *warbleR 1.1.12*
+## *(CRAN release date: 2018-03-13)*
 
 </br> 
 
-#### Changes and additions:
+## Changes and additions:
 
 * Parallel computing available in 'querxc' funtion when getting metadata
 * Parallel computing available in 'checksels' funtion 
@@ -77,7 +73,7 @@
 * New arguments in 'specreator' to customize control lines/box around selections 
 * Replace internal "message" functions by "cat" (so warnings are printed in black, no red)
 
-#### New functions:
+## New functions:
 
 * track_harm: track harmonic frequency contour
 * sim_song: simulate songs 
@@ -85,32 +81,32 @@
 
 ===============================================================================================
 
-### *warbleR 1.1.10*
-#### *(CRAN release date: 2018-08-28)/
+# *warbleR 1.1.10*
+## *(CRAN release date: 2018-08-28)/
 
 </br>
 
-#### Changes and additions:
+## Changes and additions:
 
 * Example sound files have been moved to the new R package 'NatureSounds' (which is now a dependency)
 
-#### Bug fixes:
+## Bug fixes:
 
 * Problem with multiple tags in 'catalog'
 
-#### New functions:
+## New functions:
 
 * rm_sil: removes silence segments (i.e. segments with very low amplitude values) from wave files
 * consolidate: copies (sound) files scattered in several directories into a single folder
 
 ===============================================================================================
 
-### *warbleR 1.1.9*
-#### *(CRAN release date: 2017-11-18)*
+# *warbleR 1.1.9*
+## *(CRAN release date: 2017-11-18)*
 
 </br> 
 
-#### Changes and additions:
+## Changes and additions:
 
 * "low.freq" and "high.freq" column names in default table format are now "bottom.freq" and "top.freq" respectively
 * Moved 'imp.syrinx' and 'imp.raven' functions to new R package Rraven
@@ -125,7 +121,7 @@
 * "imp.raven" and "imp.syrinx" now import low and high frequency in kHz (if all.data == FALSE)
 * Mew argument "bp" (bandpass) and "wl" in "sig2noise" function to calculate signal-to-noise ratio within a frequency range
 
-#### New functions:
+## New functions:
 
 * is.selection.table: checks if an object is of class 'selection.table'
 * make.selection.table: creates an object of class 'selection.table'
@@ -137,42 +133,42 @@
 * color_spectro: produces spectrograms in which signals are highlighted with colors
 * exp.raven: exports selection tables to a .txt file that can be opened in Raven
 
-#### Bug fixes:
+## Bug fixes:
 
 * Reading wave files with no stereo slot in "specan" and "checksels"
 
 ===============================================================================================
 
-### *warbleR 1.1.8*
-#### *(CRAN release date: 2017-04-26)*
+# *warbleR 1.1.8*
+## *(CRAN release date: 2017-04-26)*
 
-#### Bug fixes:
+## Bug fixes:
 
 * installation in some linux distributions
 
 ===============================================================================================
 
-### *warbleR 1.1.7*
-#### *(CRAN release date: 2017-04-24)*
+# *warbleR 1.1.7*
+## *(CRAN release date: 2017-04-24)*
 
 </br> 
 
-#### Changes and additions:
+## Changes and additions:
 
 * "seltailor" function now can use external graphic devices (X11 or quartz)
 
-#### Bug fixes:
+## Bug fixes:
 
 * installation in windows OS fixed (pbmcapply conflict in previous version)
 
 ===============================================================================================
 
-### *warbleR 1.1.6* 
-#### *(CRAN release date: 2017-04-05)*
+# *warbleR 1.1.6* 
+## *(CRAN release date: 2017-04-05)*
 
 </br>
 
-#### New functions:
+## New functions:
 
 * catalog: create song catalogs (i.e. images with multiple spectrograms in several rows/columns that can be color-labeled)
 * catalog2pdf: convert several catalog jpeg's images into single pdf files
@@ -180,7 +176,7 @@
 
 </br> 
 
-#### Changes and additions:
+## Changes and additions:
 
 * added new acoustic parameters to "specan" function related to distribution of energy in the time axis. Also time entropy ("time.ent") and overall entropy ("entropy") were added
 * "centroid" and "mode" parameters were removed from "specan" function
@@ -209,7 +205,7 @@ different individuals) would be subset to A-B-A-B-A-B
 * 3 different options (formulas) for calculating signal-to-noise ratio are now available (sig2noise function). In addition the "eq.dur" argument allows to measure a noise segment of the same duration than the signal
 * grid can be removed from spectrograms in compare.methods function
 
-#### Bug fixes:
+## Bug fixes:
 
 * error produced when calculating frequency limits based on dominant frequency contours in xcorr (when frange is not provided)
 * error for identifying readable sound files in some specific .wav formats in checkwavs function
@@ -217,12 +213,12 @@ different individuals) would be subset to A-B-A-B-A-B
 
 ===============================================================================================
 
-### *warbleR 1.1.5* 
-#### *(CRAN release date: 2017-01-19)*
+# *warbleR 1.1.5* 
+## *(CRAN release date: 2017-01-19)*
 
 </br> 
 
-#### Changes and additions:
+## Changes and additions:
 
 * "frange" argument in seltailor to define also the frequency range (low.f and high.f)
 * trackfreqs, specan now can use low.f and high.f as bandpass limits
@@ -232,31 +228,31 @@ different individuals) would be subset to A-B-A-B-A-B
 * added 'clip.edges' argument to dfts/ ffts/ dfDTW/ ffDTW/sp.en.ts functions to remove missing values at the start or end of signals
 * more detailed checksels output (now including, sampling rate, duration, number of samples and bits)
 
-#### New functions:
+## New functions:
 
 *  sp.en.ts: extracts the spectral entropy across signals as a time series iteratively
 
 
 ===============================================================================================
 
-### *warbleR 1.1.4* 
-#### *(CRAN release date: 2016-11-14)*
+# *warbleR 1.1.4* 
+## *(CRAN release date: 2016-11-14)*
 
 </br> 
 
-#### Changes and additions:
+## Changes and additions:
 
 * "pb" argument to allow users to knock down progress bars and messages (in looping functions)
 * modification to (slightly) improve 'lspec' performance 
 * new "sp" argument in compare.methods to allow users to input their own spectral parameters
 * new "custom.contour" argument in trackfreqs to allow users to input their own frequency contours 
 
-#### Bug fixes:
+## Bug fixes:
 
 * bug fix for setting 'path' argument in several functions
 * bug fix to due to missing values (undetected) in amplitude detection in trackfreqs, ffts, dfts, ffDTW, and dfDTW  
  
-#### New functions:
+## New functions:
 
 *  filtersels: subsets selection data frames based on manually filtered image files
 *  lspec2pdf: combines lspec images to single pdf files iteratively
