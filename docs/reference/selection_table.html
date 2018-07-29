@@ -158,7 +158,8 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
       <th>whole.recs</th>
       <td><p>Logical. If <code>TRUE</code> the function will create a selection 
 table for all sound files in the working directory (or "path") with `start = 0` 
-and `end = wavdur()`. Default is if <code>FALSE</code>.</p></td>
+and `end = wavdur()`. Default is if <code>FALSE</code>. Note that this will not create
+a extended selection table. If provided 'X' is ignored.</p></td>
     </tr>
     <tr>
       <th>extended</th>
@@ -201,7 +202,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='check_sels.html'>checksels</a></code> for customizing
+      <td><p>Additional arguments to be passed to <code><a href='checksels.html'>checksels</a></code> for customizing
 checking routine.</p></td>
     </tr>
     </table>
@@ -209,7 +210,7 @@ checking routine.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class selection_table which includes the original data frame plus the following additional attributes:</p><ul>
-<li><p>1) A data frame with the output of <code><a href='check_sels.html'>checksels</a></code> run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
+<li><p>1) A data frame with the output of <code><a href='checksels.html'>checksels</a></code> run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
 errors due to missing or mislabeled data, or selection out of the ranges of the original sound files.</p></li>
 <li><p>2) A list indicating if the selection table has been created by song (see 'by.song argument).</p></li>
 <li><p>3) If a extended selection table is created a list containing the wave objects for each selection (or song if 'by.song').</p></li>
@@ -306,7 +307,7 @@ Marcelo Araya-Salas (<a href='mailto:araya-salas@cornell.edu'>araya-salas@cornel
 
       <footer>
       <div class="copyright">
-  <p>Developed by Marcelo Araya-Salas.</p>
+  <p>Developed by Marcelo Araya-Salas, Grace Smith-Vidaurre.</p>
 </div>
 
 <div class="pkgdown">

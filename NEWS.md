@@ -1,7 +1,4 @@
 # *warbleR 1.1.15*
-## *(CRAN release date: )*
-
-</br>
 
 ## New functions:
 
@@ -15,23 +12,17 @@
 
 * Using 'wav.path' from 'warbleR_options' in 'catalog'
 
-===============================================================================================
+</br>
 
 # *warbleR 1.1.14*
-## *(CRAN release date: 2018-06-22)*
-
-</br>
 
 ## Changes and additions:
 
 * 'open_wd' example fixed (requested by CRAN)
 
-===============================================================================================
+</br>
 
 # *warbleR 1.1.13*
-## *(CRAN release date: 2018-05-18)*
-
-</br>
 
 ## Changes and additions:
 
@@ -56,12 +47,9 @@
 * warbleR_options: function to set global parameters
 *open_wd: open current working directory in wave browser
 
-===============================================================================================
+</br> 
 
 # *warbleR 1.1.12*
-## *(CRAN release date: 2018-03-13)*
-
-</br> 
 
 ## Changes and additions:
 
@@ -78,13 +66,9 @@
 * track_harm: track harmonic frequency contour
 * sim_song: simulate songs 
 
-
-===============================================================================================
+</br>
 
 # *warbleR 1.1.10*
-## *(CRAN release date: 2018-08-28)/
-
-</br>
 
 ## Changes and additions:
 
@@ -99,12 +83,9 @@
 * rm_sil: removes silence segments (i.e. segments with very low amplitude values) from wave files
 * consolidate: copies (sound) files scattered in several directories into a single folder
 
-===============================================================================================
+</br> 
 
 # *warbleR 1.1.9*
-## *(CRAN release date: 2017-11-18)*
-
-</br> 
 
 ## Changes and additions:
 
@@ -137,21 +118,17 @@
 
 * Reading wave files with no stereo slot in "specan" and "checksels"
 
-===============================================================================================
+</br> 
 
 # *warbleR 1.1.8*
-## *(CRAN release date: 2017-04-26)*
 
 ## Bug fixes:
 
 * installation in some linux distributions
 
-===============================================================================================
+</br> 
 
 # *warbleR 1.1.7*
-## *(CRAN release date: 2017-04-24)*
-
-</br> 
 
 ## Changes and additions:
 
@@ -161,20 +138,15 @@
 
 * installation in windows OS fixed (pbmcapply conflict in previous version)
 
-===============================================================================================
+</br> 
 
 # *warbleR 1.1.6* 
-## *(CRAN release date: 2017-04-05)*
-
-</br>
 
 ## New functions:
 
 * catalog: create song catalogs (i.e. images with multiple spectrograms in several rows/columns that can be color-labeled)
 * catalog2pdf: convert several catalog jpeg's images into single pdf files
 * fixwavs: convert corrupted files to a format that can be imported into R
-
-</br> 
 
 ## Changes and additions:
 
@@ -211,12 +183,9 @@ different individuals) would be subset to A-B-A-B-A-B
 * error for identifying readable sound files in some specific .wav formats in checkwavs function
 * error when comparing signals with a high duration difference in xcorr
 
-===============================================================================================
+</br> 
 
 # *warbleR 1.1.5* 
-## *(CRAN release date: 2017-01-19)*
-
-</br> 
 
 ## Changes and additions:
 
@@ -232,13 +201,9 @@ different individuals) would be subset to A-B-A-B-A-B
 
 *  sp.en.ts: extracts the spectral entropy across signals as a time series iteratively
 
-
-===============================================================================================
+</br> 
 
 # *warbleR 1.1.4* 
-## *(CRAN release date: 2016-11-14)*
-
-</br> 
 
 ## Changes and additions:
 
@@ -256,5 +221,3 @@ different individuals) would be subset to A-B-A-B-A-B
 
 *  filtersels: subsets selection data frames based on manually filtered image files
 *  lspec2pdf: combines lspec images to single pdf files iteratively
-
-</br>

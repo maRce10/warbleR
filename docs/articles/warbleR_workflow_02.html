@@ -105,7 +105,7 @@
 <p> </p>
             
             <h4 class="date"><center>
-“2018-07-26”
+“2018-07-28”
 </center></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/warbleR_workflow_02.Rmd"><code>vignettes/warbleR_workflow_02.Rmd</code></a></small>
@@ -122,7 +122,7 @@
 <p> </p>
 <!-- <center> <h1><b>Visual inspection and classification of signals</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2018-07-26 </center> -->
+<!-- <center> 2018-07-28 </center> -->
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
@@ -217,7 +217,7 @@ Phae.hisnr2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference
 <a href="#check-selections" class="anchor"></a>Check selections</h3>
 <p>Can selections be read by downstream functions? The function <code>checksels</code> also yields a data frame with columns for duration, minimum samples, sampling rate, channels and bits.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># if selections can be read, "OK" will be printed to check.res column</span>
-<span class="kw"><a href="../reference/check_sels.html">checksels</a></span>(Phae.hisnr2, <span class="dt">check.header =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<span class="kw"><a href="../reference/checksels.html">checksels</a></span>(Phae.hisnr2, <span class="dt">check.header =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p>If selections cannot be read, it is possible the sound files are corrupt. If so, use the <code>fixwavs</code> function to repair <em>wav</em> files.</p>
 </div>
 <div id="tailor-temporal-coordinates-of-selections" class="section level3">
@@ -411,7 +411,7 @@ Phae.hisnrt<span class="op">$</span>no_label &lt;-<span class="st"> ""</span>
 
 
       <footer><div class="copyright">
-  <p>Developed by Marcelo Araya-Salas.</p>
+  <p>Developed by Marcelo Araya-Salas, Grace Smith-Vidaurre.</p>
 </div>
 
 <div class="pkgdown">

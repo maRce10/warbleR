@@ -39,7 +39,6 @@
 #' @export
 #' @name checksels
 #' @export
-#' @rdname check_sels
 #' @examples{
 #' # First set temporary folder
 #' # setwd(tempdir())

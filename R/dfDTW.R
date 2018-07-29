@@ -132,6 +132,8 @@ dfDTW <-  function(X = NULL, wl = 512, wl.freq = 512, length.out = 20, wn = "han
   if (is.null(threshold.freq)) threshold.freq <- threshold
   
   #run dfts function
+  if (pb) write(file = "", x = "measuring dominant frequency contours:")
+  
   res <- dfts(X, wl = wl, length.out = length.out, wn = wn, ovlp = ovlp, wl.freq = wl.freq,
               bp = bp, threshold.time = threshold.time, threshold.freq = threshold.freq, 
               img = img, parallel = parallel,
