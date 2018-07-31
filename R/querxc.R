@@ -40,7 +40,7 @@
 #'  Maps of recording coordinates can be produced using 
 #' \code{\link{xcmaps}}.
 #' @seealso \code{\link{xcmaps}}, 
-#' \url{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html} 
+#' \href{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html}{blog post on accessing Xeno-Canto recordings} 
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory

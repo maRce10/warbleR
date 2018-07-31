@@ -55,7 +55,7 @@ getwd()
 }
 \seealso{
 \code{\link{catalog2pdf}}, 
-\url{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}
+\href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

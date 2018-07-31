@@ -70,7 +70,7 @@ getwd()
 }
 \seealso{
 \code{\link{seltailor}} for tailoring selections 
- \url{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}
+ \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
 
 Other selection manipulation, sound file manipulation: \code{\link{consolidate}}
 }

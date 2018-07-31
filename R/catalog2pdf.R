@@ -19,7 +19,7 @@
 #' @name catalog2pdf
 #' @details The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution and smaller dimension (width and height) when creating catalogs will substantially decrease the size of pdf files (which could be pretty big).
 #' @seealso \code{\link{catalog2pdf}}, 
-#' \url{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}
+#' \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs}
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory

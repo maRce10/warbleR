@@ -124,7 +124,7 @@ st <- selection_table(X = selec.table, extended = TRUE, confirm.extended = FALSE
 }
 }
 \seealso{
-\code{\link{checkwavs}}
+\code{\link{checkwavs}}, \href{https://marce10.github.io/2018/05/15/Extended_selection_tables.html}{blog post on extended selection tables}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

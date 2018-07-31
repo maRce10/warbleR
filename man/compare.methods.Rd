@@ -180,7 +180,7 @@ methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
 
 }
 \seealso{
-\url{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}
+\href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}). It uses 

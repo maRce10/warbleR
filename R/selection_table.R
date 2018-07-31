@@ -72,7 +72,7 @@
 #'  selection table). You can check the size of the output extended selection table
 #'  with the \code{\link[utils]{object.size}} function. Note that extended selection table created 'by.song' could be 
 #'  considerable larger.
-#' @seealso \code{\link{checkwavs}}
+#' @seealso \code{\link{checkwavs}}, \href{https://marce10.github.io/2018/05/15/Extended_selection_tables.html}{blog post on extended selection tables}
 #' @export
 #' @name selection_table
 #' @examples

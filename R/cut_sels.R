@@ -25,7 +25,7 @@
 #' @return Sound files of the signals listed in the input data frame.
 #' @family selection manipulation, sound file manipulation
 #' @seealso \code{\link{seltailor}} for tailoring selections 
-#'  \url{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}
+#'  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
 #' @name cut_sels
 #' @details This function allow users to produce individual sound files from the selections
 #' listed in a selection table as in \code{\link{selec.table}}.

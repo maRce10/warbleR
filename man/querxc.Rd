@@ -89,7 +89,7 @@ femsong <- querxc(qword = 'type:song type:female', download = FALSE)
 }
 \seealso{
 \code{\link{xcmaps}}, 
-\url{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html}
+\href{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html}{blog post on accessing Xeno-Canto recordings}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

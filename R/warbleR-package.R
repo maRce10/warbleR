@@ -48,6 +48,8 @@
 #'  
 #'   \code{\link{rm_sil}}: Remove silence segments from wave files
 #'   
+#'   \code{\link{rm_channels}}: Remove channels in wave files
+#'   
 #'   \code{\link{consolidate}}: Consolidate sound files into a single folder
 #'   
 #'   \code{\link{selection_table}}: Create double-checked and self-contained selection tables

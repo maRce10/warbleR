@@ -132,8 +132,8 @@
 #'   This files can be put together in a single pdf file with \code{\link{catalog2pdf}}.
 #'   We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if
 #'   aiming to generate pdfs (otherwise pdfs could be pretty big).
-#' @seealso \url{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}
-#' \url{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}
+#' @seealso \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs},
+#' \href{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}{blog post on customizing catalogs}, 
 #' \code{\link{catalog2pdf}}
 #' @examples
 #' \dontrun{
@@ -177,7 +177,6 @@
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
 #'  collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
 #' 
-#'
 #' # with legend
 #' catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
