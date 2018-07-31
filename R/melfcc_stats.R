@@ -27,11 +27,10 @@
 #' cepstral coefficients (set by 'numcep' argument). See details. 
 #' @export
 #' @name melfcc_stats
-#' @details The function calculates descriptive statistics on Mel-frequency cepstral coefficients (MFCCs) and its derivatives for each of the signals (rows) in a selection
-#' data frame. It also includes the mean and variance of the second and third derivatives of the MFCCs.
-#' It returns the minimum, maximum, mean, median, skewness, kurtosis and
-#' variance for each of the cepstral coefficients (number of cofficients is determined by the 'numcep' arguments). 
-#' It also returns the mean and variance for the first and second derivatives of the coefficients. 
+#' @details The function calculates descriptive statistics on Mel-frequency cepstral coefficients (MFCCs) for each of the signals (rows) in a selection
+#' data frame. The descriptive statistics are: minimum, maximum, mean, median, skewness, kurtosis and
+#' variance. 
+#' It also returns the mean and variance for the first and second derivatives of the coefficients. These parameters are commonly used in signal processing of acoustic data (e.g. Salamon et al 2014). 
 #' @seealso \code{\link{fixwavs}}, \code{\link{rm_sil}}, 
 #' @examples{
 #' # Set temporary working directory
@@ -46,8 +45,12 @@
 #' # run function
 #' mel_st <- melfcc_stats(X = selec.table, pb = FALSE)
 #' 
+#' head(mel_st)
+#' 
 #' # measure 12 coefficients 
-#' mel_st12 <- melfcc_stats(X = selec.table, numcep = 12)
+#' mel_st12 <- melfcc_stats(X = selec.table, numcep = 12, pb = FALSE)
+#'
+#'  head(mel_st)
 #' }
 #' @references {
 #' Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban sound research. In Proceedings of the 22nd ACM international conference on Multimedia (pp. 1041-1044)
