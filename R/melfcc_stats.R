@@ -1,7 +1,7 @@
 #' Calculate descriptive statistics on Mel-frequency cepstral coefficients
 #'
-#' \code{melfcc_stats} calculates descriptive statistics on Mel-frequency cepstral coefficients and its derivatives.
-#' @usage melfcc_stats(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL, numcep = 25, 
+#' \code{mfcc_stats} calculates descriptive statistics on Mel-frequency cepstral coefficients and its derivatives.
+#' @usage mfcc_stats(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL, numcep = 25, 
 #' nbands = 40, parallel = 1, pb = TRUE, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
@@ -26,7 +26,7 @@
 #' @return A data frame containing the descriptive statistics for each of the Mel-frequency 
 #' cepstral coefficients (set by 'numcep' argument). See details. 
 #' @export
-#' @name melfcc_stats
+#' @name mfcc_stats
 #' @details The function calculates descriptive statistics on Mel-frequency cepstral coefficients (MFCCs) for each of the signals (rows) in a selection
 #' data frame. The descriptive statistics are: minimum, maximum, mean, median, skewness, kurtosis and
 #' variance. 
@@ -43,12 +43,12 @@
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
 #' # run function
-#' mel_st <- melfcc_stats(X = selec.table, pb = FALSE)
+#' mel_st <- mfcc_stats(X = selec.table, pb = FALSE)
 #' 
 #' head(mel_st)
 #' 
 #' # measure 12 coefficients 
-#' mel_st12 <- melfcc_stats(X = selec.table, numcep = 12, pb = FALSE)
+#' mel_st12 <- mfcc_stats(X = selec.table, numcep = 12, pb = FALSE)
 #'
 #'  head(mel_st)
 #' }
@@ -58,7 +58,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on Jul-30-2018 (MAS)
 
-melfcc_stats <- function(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL, 
+mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL, 
                          numcep = 25, nbands = 40, parallel = 1,  pb = TRUE, ...){
     
     # reset working directory 

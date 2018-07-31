@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate descriptive statistics on Mel-frequency cepstral coefficients — melfcc_stats • warbleR</title>
+<title>Calculate descriptive statistics on Mel-frequency cepstral coefficients — mfcc_stats • warbleR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Calculate descriptive statistics on Mel-frequency cepstral coefficients — melfcc_stats" />
+<meta property="og:title" content="Calculate descriptive statistics on Mel-frequency cepstral coefficients — mfcc_stats" />
 
-<meta property="og:description" content="melfcc_stats calculates descriptive statistics on Mel-frequency cepstral coefficients and its derivatives." />
+<meta property="og:description" content="mfcc_stats calculates descriptive statistics on Mel-frequency cepstral coefficients and its derivatives." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,16 +120,16 @@
     <div class="page-header">
     <h1>Calculate descriptive statistics on Mel-frequency cepstral coefficients</h1>
     <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/melfcc_stats.R'><code>R/melfcc_stats.R</code></a></small>
-    <div class="hidden name"><code>melfcc_stats.Rd</code></div>
+    <div class="hidden name"><code>mfcc_stats.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>melfcc_stats</code> calculates descriptive statistics on Mel-frequency cepstral coefficients and its derivatives.</p>
+    <p><code>mfcc_stats</code> calculates descriptive statistics on Mel-frequency cepstral coefficients and its derivatives.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>melfcc_stats</span>(<span class='no'>X</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>numcep</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+    <pre class="usage"><span class='fu'>mfcc_stats</span>(<span class='no'>X</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>numcep</span> <span class='kw'>=</span> <span class='fl'>25</span>,
 <span class='kw'>nbands</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -220,12 +220,12 @@ It also returns the mean and variance for the first and second derivatives of th
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># run function</span>
-<span class='no'>mel_st</span> <span class='kw'>&lt;-</span> <span class='fu'>melfcc_stats</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>mel_st</span> <span class='kw'>&lt;-</span> <span class='fu'>mfcc_stats</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>head</span>(<span class='no'>mel_st</span>)
 
 <span class='co'># measure 12 coefficients </span>
-<span class='no'>mel_st12</span> <span class='kw'>&lt;-</span> <span class='fu'>melfcc_stats</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>numcep</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>mel_st12</span> <span class='kw'>&lt;-</span> <span class='fu'>mfcc_stats</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>numcep</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
  <span class='fu'>head</span>(<span class='no'>mel_st</span>)
 }</div><div class='output co'>#&gt;      sound.files selec min.cc1 min.cc2 min.cc3 min.cc4  min.cc5  min.cc6

@@ -237,6 +237,8 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   if (all(is.na(sg.param$pitch))) 
     ff <- c(as.matrix(sg.param[, grep("pitch", names(sg.param))])) else ff <- sg.param$pitch
 
+  sg.param[, grep("freq$|_width$", names(sg.param))] <- sg.param[, grep("freq$|_width$", names(sg.param))] / 1000
+  
   sg.param <- as.data.frame(t(apply(sg.param[, grep("harmonics|HNR|_freq$|_width$", names(sg.param))], 2, mean, na.rm = TRUE)))
     
     #frequency spectrum analysis
@@ -292,9 +294,9 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     
   if (length(ff) > 0)
    { 
-    meanfun<-mean(ff, na.rm = TRUE)
-    minfun<-min(ff, na.rm = TRUE)
-    maxfun<-max(ff, na.rm = TRUE)} else meanfun <- minfun <- maxfun <- NA
+    meanfun<-mean(ff, na.rm = TRUE) / 1000
+    minfun<-min(ff, na.rm = TRUE) / 1000
+    maxfun<-max(ff, na.rm = TRUE) / 1000} else meanfun <- minfun <- maxfun <- NA
     
     #Dominant frecuency parameters
     y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
