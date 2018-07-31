@@ -4,7 +4,7 @@
 #' are provided. 
 #' @usage specan(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
 #'  parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50,
-#' wn = "hanning", fsmooth = 0.1, nharmonics = 3, ...)
+#' wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
@@ -34,6 +34,9 @@
 #' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
 #'  sliding window (in kHz) used for mean peak frequency detection. This help to average 
 #'  amplitude "hills" to minimize the effect of amplitude modulation. Default is 0.1.
+#' @param harmonicity Logical. If \code{TRUE} harmonicity related parameters (fundamental frequency parameters [meanfun, minfun, maxfun], hn_freq, 
+#' hn_width, harmonics and HNR) are measured. Note that measuring these parameters 
+#' considerably increases computing time.    
 #' @param nharmonics Numeric vector of length 1 setting the number of harmonics to analyze.
 #' @param ... Additional parameters to be passed to \code{\link[soundgen]{analyze}}, which measures parameters related to harmonicity.
 #' @return Data frame with 'sound.files' and 'selec' as in the input data frame, plus the following acoustic parameters: 
@@ -85,7 +88,7 @@
 #'    mean spectrum (see \code{\link[seewave]{meanspec}}). Typically more consistent than peakf.
 #'    \item \code{hn_freq}: Mean frequency of the 'n' upper harmonics (kHz) (see \code{\link[soundgen]{analyze}}). 
 #'    Number of harmonics is defined with the argument 'nharmonics'.
-#'    \item \code{hn_width}: Mean bandwidth of the 'n' upper harmonics (kHz) (see \code{\link[soundgen]{analyze}}). Number of harmonics is defined with the argument 'nharmonics'. 
+#'    \item \code{hn_width}: Mean bandwidth of the 'n' upper harmonics (kHz) (see \code{\link[soundgen]{analyze}}). Number of harmonics is defined with the argument 'nharmonics'.  
 #'    \item \code{harmonics}: The amount of energy in upper harmonics, namely the 
 #'    ratio of total spectral power above 1.25 x F0 to the total spectral power 
 #'    below 1.25 x F0 (dB) (see \code{\link[soundgen]{analyze}}). Number of 
@@ -105,7 +108,7 @@
 #' @examples
 #' {
 #' # First set temporary folder
-#' # setwd(tempdir())
+# setwd(tempdir())
 #' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
@@ -120,7 +123,7 @@
 
 specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
                    parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
-                   wn = "hanning", fsmooth = 0.1, nharmonics = 3, ...){
+                   wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...){
   
   # reset working directory 
   wd <- getwd()
@@ -229,7 +232,9 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     # freq range to measure peak freq  
     frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = b, bp = bpfr, ovlp = ovlp)
   
-    # soungen measures    
+    # soungen measurements
+    if (harmonicity)
+    {
     sg.param <- soundgen::analyze(x = as.numeric(r@left), samplingRate = r@samp.rate, silence = threshold / 100, overlap = ovlp, windowLength = wl / r@samp.rate * 1000, plot = FALSE, wn = wn, pitchCeiling = b[2] * 1000, cutFreq = b[2] * 1000, nFormants = nharmonics)
     
   names(sg.param) <- gsub("^f", "h", names(sg.param))
@@ -241,6 +246,17 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   
   sg.param <- as.data.frame(t(apply(sg.param[, grep("harmonics|HNR|_freq$|_width$", names(sg.param))], 2, mean, na.rm = TRUE)))
     
+  ff <- ff[!is.na(ff)]
+  
+  if (length(ff) > 0)
+  { 
+    meanfun<-mean(ff, na.rm = TRUE) / 1000
+    minfun<-min(ff, na.rm = TRUE) / 1000
+    maxfun<-max(ff, na.rm = TRUE) / 1000} else meanfun <- minfun <- maxfun <- NA
+  
+  fun.pars <- data.frame(t(c(meanfun = meanfun, minfun = minfun, maxfun = maxfun)))
+  }
+      
     #frequency spectrum analysis
     songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl.freq, wn = wn, flim = b)
     analysis <- seewave::specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
@@ -289,15 +305,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   #     ff <- tuneR::FF(tuneR::periodogram(mono(r, "left"), width = wl, 
   #       overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
   #                                    }
-   
-  ff <- ff[!is.na(ff)]
-    
-  if (length(ff) > 0)
-   { 
-    meanfun<-mean(ff, na.rm = TRUE) / 1000
-    minfun<-min(ff, na.rm = TRUE) / 1000
-    maxfun<-max(ff, na.rm = TRUE) / 1000} else meanfun <- minfun <- maxfun <- NA
-    
+  
     #Dominant frecuency parameters
     y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
     
@@ -326,13 +334,14 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     
     #save results
     dfres <- data.frame(sound.files = X$sound.files[i], selec = X$selec[i], duration, meanfreq, sd, freq.median, freq.Q25, freq.Q75, freq.IQR, time.median, time.Q25, time.Q75, time.IQR, skew, kurt, sp.ent, time.ent, entropy, sfm, 
-                        meanfun, minfun, maxfun, meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope, meanpeakf)
+                        meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope, meanpeakf)
     
     # add peak freq
     if (!fast) dfres$peakf <- peakf
     
     # add soundgen parameters
-    dfres <- cbind(dfres, sg.param)
+    if (harmonicity)
+    dfres <- cbind(dfres, sg.param, fun.pars)
     
     # add low high freq
     if (bp[1] == "frange") {

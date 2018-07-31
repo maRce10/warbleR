@@ -6,7 +6,8 @@
 \usage{
 spec_an(X, bp = c(0, 22), wl = 512, wl.freq = NULL, threshold = 15,
   parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50,
-  wn = "hanning", fsmooth = 0.1, nharmonics = 3, ...)
+  wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3,
+  ...)
 }
 \description{
 alternative name for \code{\link{specan}}

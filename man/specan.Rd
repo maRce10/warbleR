@@ -6,7 +6,7 @@
 \usage{
 specan(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
  parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50,
-wn = "hanning", fsmooth = 0.1, nharmonics = 3, ...)
+wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -49,6 +49,10 @@ See function \code{\link[seewave]{ftwindow}} for more options.}
 \item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for mean peak frequency detection. This help to average 
 amplitude "hills" to minimize the effect of amplitude modulation. Default is 0.1.}
+
+\item{harmonicity}{Logical. If \code{TRUE} harmonicity related parameters (fundamental frequency parameters [meanfun, minfun, maxfun], hn_freq, 
+hn_width, harmonics and HNR) are measured. Note that measuring these parameters 
+considerably increases computing time.}
 
 \item{nharmonics}{Numeric vector of length 1 setting the number of harmonics to analyze.}
 
@@ -104,7 +108,7 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    mean spectrum (see \code{\link[seewave]{meanspec}}). Typically more consistent than peakf.
    \item \code{hn_freq}: Mean frequency of the 'n' upper harmonics (kHz) (see \code{\link[soundgen]{analyze}}). 
    Number of harmonics is defined with the argument 'nharmonics'.
-   \item \code{hn_width}: Mean bandwidth of the 'n' upper harmonics (kHz) (see \code{\link[soundgen]{analyze}}). Number of harmonics is defined with the argument 'nharmonics'. 
+   \item \code{hn_width}: Mean bandwidth of the 'n' upper harmonics (kHz) (see \code{\link[soundgen]{analyze}}). Number of harmonics is defined with the argument 'nharmonics'.  
    \item \code{harmonics}: The amount of energy in upper harmonics, namely the 
    ratio of total spectral power above 1.25 x F0 to the total spectral power 
    below 1.25 x F0 (dB) (see \code{\link[soundgen]{analyze}}). Number of 
@@ -129,7 +133,6 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used
 \examples{
 {
 # First set temporary folder
-# setwd(tempdir())
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
 writeWave(Phae.long1,"Phae.long1.wav")
