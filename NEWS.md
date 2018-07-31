@@ -3,14 +3,17 @@
 ## New functions:
 
 * multi_DTW: wrapper on dtw for comparing signals described by multiple contours
+* rm_channels: remove channels from wave files
+* melfcc_stats: calculate descriptive statistics on Mel-frequency cepstral coefficients
 
 ## Changes and additions:
 
 * 'selection_table` now can take files found in different directories and create extended selection tables
+* new parameters measured by  'specan()'
 
 ## Bug fixes:
 
-* Using 'wav.path' from 'warbleR_options' in 'catalog'
+* Using 'wav.path' from 'warbleR_options' in 'catalog()'
 
 </br>
 
@@ -18,7 +21,7 @@
 
 ## Changes and additions:
 
-* 'open_wd' example fixed (requested by CRAN)
+* 'open_wd()' example fixed (requested by CRAN)
 
 </br>
 

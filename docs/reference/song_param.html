@@ -219,16 +219,15 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># add a 'song' column</span>
 <span class='no'>selec.table</span>$<span class='no'>song</span> <span class='kw'>&lt;-</span> <span class='fu'>rep</span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>3</span>)[<span class='fl'>1</span>:<span class='fl'>11</span>]
 
 <span class='co'># measure acoustic parameters</span>
-<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='specan.html'>specan</a></span>(<span class='no'>selec.table</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>11</span>), <span class='fl'>300</span>, <span class='kw'>fast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='specan.html'>specan</a></span>(<span class='no'>selec.table</span>[<span class='fl'>1</span>:<span class='fl'>8</span>, ], <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>11</span>), <span class='fl'>300</span>, <span class='kw'>fast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># add song data</span>
-<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'>merge</span>(<span class='no'>sp</span>, <span class='no'>selec.table</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>))
+<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'>merge</span>(<span class='no'>sp</span>, <span class='no'>selec.table</span>[<span class='fl'>1</span>:<span class='fl'>8</span>, ], <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>))
 
 <span class='co'># caculate song-level parameters for all numeric parameters</span>
 <span class='fu'>song_param</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>sp</span>, <span class='kw'>song_colm</span> <span class='kw'>=</span> <span class='st'>"song"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -248,24 +247,20 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 <span class='co'># with two weights no progress bar</span>
 <span class='fu'>song_param</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>sp</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"duration"</span>, <span class='st'>"dfrange"</span>), <span class='kw'>song_colm</span> <span class='kw'>=</span> <span class='st'>"song"</span>,
 <span class='kw'>mean_indx</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>9</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++                                             | 9 % ~00s             |++++++++++                                        | 18% ~02s             |++++++++++++++                                    | 27% ~01s             |+++++++++++++++++++                               | 36% ~01s             |+++++++++++++++++++++++                           | 45% ~01s             |++++++++++++++++++++++++++++                      | 55% ~01s             |++++++++++++++++++++++++++++++++                  | 64% ~00s             |+++++++++++++++++++++++++++++++++++++             | 73% ~00s             |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++                                         | 17% ~00s             |+++++++++++++++++                                 | 33% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++        | 83% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++                                         | 17% ~00s             |+++++++++++++++++                                 | 33% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++        | 83% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++                                         | 17% ~00s             |+++++++++++++++++                                 | 33% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++        | 83% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++                                         | 17% ~00s             |+++++++++++++++++                                 | 33% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++        | 83% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='output co'>#&gt;       sound.files song     sd freq.median freq.Q25 freq.Q75 freq.IQR num.elemts
-#&gt; 1  Phae.long1.wav    1 1.8934      6.4158   5.2715   7.0980   1.8265          3
-#&gt; 4  Phae.long2.wav    2 1.8116      6.7172   5.6363   7.5588   1.9225          2
-#&gt; 6  Phae.long3.wav    2 1.6490      6.7241   6.0534   7.5854   1.5320          1
-#&gt; 7  Phae.long3.wav    3 1.6435      6.7162   6.0517   7.5961   1.5444          2
-#&gt; 9  Phae.long4.wav    3 1.9040      6.2682   5.3810   7.4649   2.0839          1
-#&gt; 10 Phae.long4.wav    4 1.9223      6.2166   5.3149   7.5013   2.1864          2
-#&gt;      start     end bottom.freq top.freq freq.range duration note.rate
-#&gt; 1  0.34334 2.32146      2.1694   8.8071     6.6376  1.97812   1.51659
-#&gt; 4  0.15960 1.58321      2.2840   8.8880     6.6040  1.42361   1.40488
-#&gt; 6  0.62655 0.75777      3.0068   8.8223     5.8155  0.13122   7.62082
-#&gt; 7  0.12336 2.10439      2.3169   9.3152     6.9983  1.98103   1.00958
-#&gt; 9  1.51681 1.66224      2.5140   9.2166     6.7026  0.14542   6.87640
-#&gt; 10 0.14540 3.07688      2.5797  10.2351     7.6554  2.93148   0.68225</div><div class='input'>
+}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++                                           | 12% ~07s             |+++++++++++++                                     | 25% ~07s             |+++++++++++++++++++                               | 38% ~04s             |+++++++++++++++++++++++++                         | 50% ~03s             |++++++++++++++++++++++++++++++++                  | 62% ~02s             |++++++++++++++++++++++++++++++++++++++            | 75% ~01s             |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~01s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 04s
+#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='output co'>#&gt;      sound.files song     sd freq.median freq.Q25 freq.Q75 freq.IQR num.elemts
+#&gt; 1 Phae.long1.wav    1 1.8934      6.4158   5.2715   7.0980   1.8265          3
+#&gt; 4 Phae.long2.wav    2 1.8116      6.7172   5.6363   7.5588   1.9225          2
+#&gt; 6 Phae.long3.wav    2 1.6490      6.7241   6.0534   7.5854   1.5320          1
+#&gt; 7 Phae.long3.wav    3 1.6435      6.7162   6.0517   7.5961   1.5444          2
+#&gt;     start     end bottom.freq top.freq freq.range duration note.rate
+#&gt; 1 0.34334 2.32146      2.1694   8.8071     6.6376  1.97812    1.5166
+#&gt; 4 0.15960 1.58321      2.2840   8.8880     6.6040  1.42361    1.4049
+#&gt; 6 0.62655 0.75777      3.0068   8.8223     5.8155  0.13122    7.6208
+#&gt; 7 0.12336 2.10439      2.3169   9.3152     6.9983  1.98103    1.0096</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

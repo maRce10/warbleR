@@ -132,8 +132,8 @@ are provided.</p>
     </div>
 
     <pre class="usage"><span class='fu'>specan</span>(<span class='no'>X</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>22</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>wl.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>,
- <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>ff.method</span> <span class='kw'>=</span> <span class='st'>"seewave"</span>,
-<span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
+ <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+<span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>nharmonics</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,13 +193,6 @@ consecutive windows, used for fundamental frequency (using <code><a href='http:/
 Default is 50.</p></td>
     </tr>
     <tr>
-      <th>ff.method</th>
-      <td><p>Character. Selects the method used to calculate the fundamental
-frequency. Either 'tuneR' (using <code><a href='http://www.rdocumentation.org/packages/tuneR/topics/FF'>FF</a></code>) or 'seewave' (using 
-<code><a href='http://www.rdocumentation.org/packages/seewave/topics/fund'>fund</a></code>). Default is 'seewave'. Use trackfreqs to decide which method works the best. 
-'tuneR' performs faster (and seems to be more accurate) than 'seewave'.</p></td>
-    </tr>
-    <tr>
       <th>wn</th>
       <td><p>Character vector of length 1 specifying window name. Default is hanning'. 
 See function <code><a href='http://www.rdocumentation.org/packages/seewave/topics/ftwindow'>ftwindow</a></code> for more options.</p></td>
@@ -209,6 +202,14 @@ See function <code><a href='http://www.rdocumentation.org/packages/seewave/topic
       <td><p>A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for mean peak frequency detection. This help to average 
 amplitude "hills" to minimize the effect of amplitude modulation. Default is 0.1.</p></td>
+    </tr>
+    <tr>
+      <th>nharmonics</th>
+      <td><p>Numeric vector of length 1 setting the number of harmonics to analyze.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters provided to <code><a href='http://www.rdocumentation.org/packages/soundgen/topics/analyze'>analyze</a></code>, which measures parameters related to harmonicity.</p></td>
     </tr>
     </table>
     
@@ -251,7 +252,7 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
 <li><p><code>mindom</code>: minimum of dominant frequency measured across the acoustic signal</p></li>
 <li><p><code>maxdom</code>: maximum of dominant frequency measured across the acoustic signal</p></li>
 <li><p><code>dfrange</code>: range of dominant frequency measured across the acoustic signal</p></li>
-<li><p><code>modindx</code>: modulation index. Calculated as the cumulative absolute 
+<li><p><code>modindx</code>: modulation index. Calculated as the cumulative absolute
      difference between adjacent measurements of dominant frequencies divided
      by the dominant frequency range. 1 means the signals is not modulated.</p></li>
 <li><p><code>startdom</code>:  dominant frequency measurement at the start of the signal</p></li>
@@ -260,8 +261,14 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
 <li><p><code>peakf</code>: peak frequency. Frequency with highest energy (only generated if <code>fast = FALSE</code>)</p></li>
 <li><p><code>meanpeakf</code>: Mean peak frequency. Frequency with highest energy from the 
    mean spectrum (see <code><a href='http://www.rdocumentation.org/packages/seewave/topics/meanspec'>meanspec</a></code>). Typically more consistent than peakf.</p></li>
-<li><p><code>bottom.freq</code>: low frequency. Low limit of frequency range (only generated if <code>frange.detec = TRUE</code>)</p></li>
-<li><p><code>top.freq</code>: high frequency. High limit of frequency range (only generated if <code>frange.detec = TRUE</code>)</p></li>
+<li><p><code>hn_freq</code>: Mean frequency of the 'n' upper harmonics (kHz) (see <code><a href='http://www.rdocumentation.org/packages/soundgen/topics/analyze'>analyze</a></code>). 
+   Number of harmonics is defined with the argument 'nharmonics'.</p></li>
+<li><p><code>hn_width</code>: Mean bandwidth of the 'n' upper harmonics (kHz) (see <code><a href='http://www.rdocumentation.org/packages/soundgen/topics/analyze'>analyze</a></code>). Number of harmonics is defined with the argument 'nharmonics'.</p></li>
+<li><p><code>harmonics</code>: The amount of energy in upper harmonics, namely the 
+   ratio of total spectral power above 1.25 x F0 to the total spectral power 
+   below 1.25 x F0 (dB) (see <code><a href='http://www.rdocumentation.org/packages/soundgen/topics/analyze'>analyze</a></code>). Number of 
+   harmonics is defined with the argument 'nharmonics'.</p></li>
+<li><p><code>HNR</code>: Harmonics-to-noise ratio (dB). A measure of the harmonic content generated by <code><a href='http://www.rdocumentation.org/packages/soundgen/topics/getPitchAutocor'>getPitchAutocor</a></code>.</p></li>
 </ul>
 
     
@@ -273,7 +280,8 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
  <code><a href='http://www.rdocumentation.org/packages/seewave/topics/specprop'>specprop</a></code>, <code><a href='http://www.rdocumentation.org/packages/seewave/topics/fpeaks'>fpeaks</a></code>, <code><a href='http://www.rdocumentation.org/packages/seewave/topics/fund'>fund</a></code>,
  and <code><a href='http://www.rdocumentation.org/packages/seewave/topics/dfreq'>dfreq</a></code> from the package seewave and <code><a href='http://www.rdocumentation.org/packages/tuneR/topics/FF'>FF</a></code> 
  from the package tuneR. NAs are produced for fundamental and dominant 
- frequency measures when there are no amplitude values above the threshold.</p>
+ frequency measures when there are no amplitude values above the threshold. 
+ Additional parameters can be provided to the internal function <code><a href='http://www.rdocumentation.org/packages/soundgen/topics/analyze'>analyze</a></code>, which measures parameters related to harmonicity.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -285,16 +293,10 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>specan</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>))
-
-<span class='co'># using a diferent threshold</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'>specan</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>20</span>)
-<span class='co'># View(a)</span>
-
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++                                             | 9 % ~00s             |++++++++++                                        | 18% ~00s             |++++++++++++++                                    | 27% ~00s             |+++++++++++++++++++                               | 36% ~00s             |+++++++++++++++++++++++                           | 45% ~00s             |++++++++++++++++++++++++++++                      | 55% ~00s             |++++++++++++++++++++++++++++++++                  | 64% ~00s             |+++++++++++++++++++++++++++++++++++++             | 73% ~00s             |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt;    |                                                  | 0 % ~calculating     |+++++                                             | 9 % ~00s             |++++++++++                                        | 18% ~00s             |++++++++++++++                                    | 27% ~00s             |+++++++++++++++++++                               | 36% ~00s             |+++++++++++++++++++++++                           | 45% ~00s             |++++++++++++++++++++++++++++                      | 55% ~00s             |++++++++++++++++++++++++++++++++                  | 64% ~00s             |+++++++++++++++++++++++++++++++++++++             | 73% ~00s             |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div></pre>
+<span class='co'># measure acoustic parameters</span>
+<span class='no'>sp_param</span> <span class='kw'>&lt;-</span> <span class='fu'>specan</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>[<span class='fl'>1</span>:<span class='fl'>8</span>,], <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

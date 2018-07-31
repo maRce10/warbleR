@@ -47,16 +47,15 @@
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav") 
 #' 
 #' # add a 'song' column
 #' selec.table$song <- rep(1:4, each = 3)[1:11]
 #' 
 #' # measure acoustic parameters
-#' sp <- specan(selec.table, bp = c(1, 11), 300, fast = TRUE)
+#' sp <- specan(selec.table[1:8, ], bp = c(1, 11), 300, fast = TRUE)
 #' 
 #' # add song data
-#' sp <- merge(sp, selec.table, by = c("sound.files", "selec"))
+#' sp <- merge(sp, selec.table[1:8, ], by = c("sound.files", "selec"))
 #' 
 #' # caculate song-level parameters for all numeric parameters
 #' song_param(X = sp, song_colm = "song", parallel = 1, pb = TRUE)
