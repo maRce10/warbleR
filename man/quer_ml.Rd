@@ -41,7 +41,7 @@ If \code{NULL} (default) then the current working directory is used.}
 If X is not provided the function returns a data frame with detailing media file metadata.
 }
 \description{
-\code{quer_ml} queries meta from \href{http://macaulaylibrary.org}{Macaulay Library database}.
+\code{quer_ml} queries media metadata from \href{http://macaulaylibrary.org}{Macaulay Library database}.
 }
 \details{
 This function queries for animal behavior media files at the \href{http://macaulaylibrary.org/}{Macaulay Library, Cornell Lab of Ornithology}. It can return recordings metadata

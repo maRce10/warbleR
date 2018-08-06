@@ -1,6 +1,6 @@
 #' Access Macaulay Library media (meta)data
 #' 
-#' \code{quer_ml} queries meta from \href{http://macaulaylibrary.org}{Macaulay Library database}.
+#' \code{quer_ml} queries media metadata from \href{http://macaulaylibrary.org}{Macaulay Library database}.
 #' @usage quer_ml(qword, download = FALSE, X = NULL, file.name = "sciName", media.type = "a",
 #' parallel = 1, path = NULL, pb = TRUE)  
 #' @param qword Character vector of length one indicating the genus, or genus and
