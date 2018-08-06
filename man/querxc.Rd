@@ -16,7 +16,7 @@ xeno-canto advance query syntax.This syntax uses tags to search within a particu
 will search for all recordings in which the sound type description contains the word 'song'. 
 Several tags can be included in the same query. The query "phaethornis cnt:belize' will only return 
 results for birds in the genus \emph{Phaethornis} that were recorded in  Belize. 
-See \url{https://www.xeno-canto.org/help/search} for a full description and see examples below 
+See \href{https://www.xeno-canto.org/help/search}{Xeno-Canto's search help} for a full description and see examples below 
 for queries using terms with more than one word.}
 
 \item{download}{Logical argument. If \code{FALSE} only the recording file names and
@@ -44,11 +44,11 @@ If \code{NULL} (default) then the current working directory is used.}
 If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.
 }
 \description{
-\code{querxc} downloads recordings and metadata from 'Xeno-Canto' (\url{https://www.xeno-canto.org/}).
+\code{querxc} downloads recordings and metadata from \href{https://www.xeno-canto.org/}{Xeno-Canto}.
 }
 \details{
 This function queries for avian vocalization recordings in the open-access
-online repository 'Xeno-Canto' (\url{https://www.xeno-canto.org/}). It can return recordings metadata
+online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. It can return recordings metadata
 or download the associated sound files. Complex queries can be done by using search terms that follow the 
  xeno-canto advance query syntax (check "qword" argument description). 
  Files are double-checked after downloading and "empty" files are re-downloaded. 

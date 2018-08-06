@@ -3,9 +3,6 @@
 \name{sig2noise}
 \alias{sig2noise}
 \title{Measure signal-to-noise ratio}
-\source{
-\url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
-}
 \usage{
 sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
 in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10)
@@ -93,6 +90,9 @@ sig2noise(selec.table[grep("Phae.long1", selec.table$sound.files), ], mar = 0.2)
 sig2noise(selec.table[grep("Phae.long1", selec.table$sound.files), ], mar = 0.1)
 }
 
+}
+\references{
+\href{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}{Wikipedia: Signal-to-noise ratio}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre

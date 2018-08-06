@@ -100,12 +100,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/maRce10/warbleR">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -119,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Spectrogram cross-correlation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/xcorr.R'><code>R/xcorr.R</code></a></small>
+    
     <div class="hidden name"><code>xcorr.Rd</code></div>
     </div>
 
@@ -208,11 +203,6 @@ results. This means that all selections with at least 1 cross-correlation that f
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>H. Khanna, S.L.L. Gaunt &amp; D.A. McCallum (1997). Digital spectrographic 
-cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>If corr.mat is <code>TRUE</code> the function returns a matrix with 
@@ -229,6 +219,11 @@ of the signals are expanded by half the duration of the signal both before and a
 The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).
 This function is a modified version of the <code><a href='http://www.rdocumentation.org/packages/monitoR/topics/templateMatching'>corMatch</a></code> and <code>makeTemplate</code> 
 from the awesome R package `monitoR`.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>H. Khanna, S.L.L. Gaunt &amp; D.A. McCallum (1997). Digital spectrographic 
+cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -257,11 +252,11 @@ from the awesome R package `monitoR`.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#source">Source</a></li>
-
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

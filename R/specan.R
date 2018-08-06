@@ -2,7 +2,7 @@
 #'
 #' \code{specan} measures acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
-#' @usage specan(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
+#' @usage specan(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
 #'  parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50,
 #' wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -10,9 +10,9 @@
 #' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' be used as the input data frame.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq
-#'   and top.freq columns will be used as bandpass limits. Default is c(0, 22).Lower limit of
-#'    bandpass is not applied to fundamental frequencies. 
+#'   frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in bottom.freq
+#'   and top.freq columns will be used as bandpass limits.  Lower limit of
+#'    bandpass filter is not applied to fundamental frequencies. 
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.
 #' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
 #' for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
@@ -121,7 +121,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on mar-13-2018 (MAS)
 
-specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
+specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
                    parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
                    wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...){
   
@@ -217,12 +217,15 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
 
   #create function to run within Xapply functions downstream
   spFUN <- function(i, X, bp, wl, threshold) { 
+    
+    # read wave object
     r <- read_wave(X = X, index = i)
     
     if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
 
      #in case bp its higher than can be due to sampling rate
     if (b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
+    
     # add a bit above and below to ensure range limits are included
     bpfr <- b
     bpfr <- bpfr + c(-0.2, 0.2)  
@@ -230,6 +233,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     if (bpfr[2] > ceiling(r@samp.rate/2000) - 1) bpfr[2] <- ceiling(r@samp.rate/2000) - 1 
   
     # freq range to measure peak freq  
+    # wl is adjusted when very short signals
     frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = b, bp = bpfr, ovlp = ovlp)
   
     # soungen measurements
@@ -261,8 +265,10 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
     songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl.freq, wn = wn, flim = b)
     analysis <- seewave::specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
 
-    #acoustat
-    m <- sspectro(r, f = r@samp.rate, wl = wl, ovlp = ovlp, wn = wn)
+    #from seewave's acoustat
+    m <- sspectro(r, f = r@samp.rate, wl = ifelse(wl >= length(r@left), length(r@left) - 1, wl), ovlp = ovlp, wn = wn)
+    if (!is.matrix(m)) m <- as.matrix(m)
+    
     fl <- b * nrow(m) * 2000/r@samp.rate
     m <- m[(fl[1]:fl[2]) + 1, ]
     if (is.vector(m)) m <- t(as.matrix(m))
@@ -307,7 +313,7 @@ specan <- function(X, bp = c(0,22), wl = 512, wl.freq = NULL, threshold = 15,
   #                                    }
   
     #Dominant frecuency parameters
-    y <- seewave::dfreq(r, f = r@samp.rate, wl = wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
+    y <- seewave::dfreq(r, f = r@samp.rate, wl = ifelse(wl >= length(r@left), length(r@left) - 1, wl), ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
     
     #remove NAs
     y <- y[!is.na(y)]

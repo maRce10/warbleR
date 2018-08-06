@@ -6,7 +6,7 @@
 \usage{
 seltailor(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
-  comments = TRUE, path = NULL, frange = FALSE, fast.spec = FALSE, ext.window = TRUE,
+  comments = TRUE, path = NULL, frange = TRUE, fast.spec = FALSE, ext.window = TRUE,
   width = 15, height = 5, index = NULL, collevels = NULL, 
   title = c("sound.files", "selec"), ts.df = NULL, col = "#E37222", 
   alpha = 0.7, auto.contour = FALSE, ...)
@@ -52,7 +52,7 @@ in the title of the spectrograms. Default is \code{TRUE}.}
 
 \item{frange}{Logical argument specifying whether limits on frequency range should be
  recorded. 
-If \code{NULL} (default) then only the time limits are recorded.}
+If \code{TRUE} (default) time and frequency limits are recorded.}
 
 \item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as sc (amplitude scale).

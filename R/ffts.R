@@ -197,6 +197,14 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       apfund1 <- apfund
     } else {
       if (!clip.edges)  {
+        
+        # clip start edges
+        ffreq <- ffreq[which(as.numeric(is.na(ffreq[ , 2])) == 0)[1]:nrow(ffreq), ]
+        
+        # clip end edges
+        ffreq <- ffreq[1:max(which(as.numeric(is.na(ffreq[ , 2])) == 0)), ]
+        
+        # interpolate
         apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],
                                                           to = ffreq1[nrow(ffreq1), 1], length.out = length.out), 
                          method = "linear") 

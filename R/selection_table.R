@@ -140,6 +140,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
+  # set working directory
   setwd(path)
   
   # If parallel is not numeric
@@ -170,7 +171,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   # add wave object to extended file
   if (extended)
   { 
-    exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024 ^ 2)
+    exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024 )
     
     if (confirm.extended)
       answer <- readline(prompt = paste0("Expected 'extended_selection_table' size is ~", ifelse(round(exp.size) == 0, round(exp.size, 2), round(exp.size)), "MB (~", round(exp.size/1024, 5), " GB) \n Do you want to proceed (y/n): \n")) else answer <- "yeah dude!"
@@ -181,6 +182,8 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         check.results$orig.end <- X$end
         
         check.results$mar.after <- check.results$mar.before <- rep(mar, nrow(X))
+        
+        # get sound file duration
         dur <- wavdur(files = as.character(X$sound.files))$duration
         
         #reset margin signals if lower than 0 or higher than duration
@@ -193,13 +196,13 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         if (!is.null(by.song))
         {
           Y <- song_param(X = as.data.frame(X), song_colm = by.song, pb = FALSE)
-          Y <-Y[, names(Y) %in% c("sound.files", "song", "start", "end")]
+          Y <-Y[, names(Y) %in% c("sound.files", by.song, "start", "end")]
           
           check.results$song <- X[, by.song]          
 
-          Y$mar.before <- sapply(unique(Y$song), function(x) check.results$mar.before[which.min(check.results$orig.start[check.results$song == x])])
+          Y$mar.before <- sapply(unique(Y[ , by.song]), function(x) check.results$mar.before[which.min(check.results$orig.start[check.results$song == x])])
           
-          Y$mar.after <- sapply(unique(Y$song), function(x) check.results$mar.after[which.max(check.results$orig.end[check.results$song == x])])
+          Y$mar.after <- sapply(unique(Y[ , by.song]), function(x) check.results$mar.after[which.max(check.results$orig.end[check.results$song == x])])
         } else {
           Y <- X
           Y$mar.before <- check.results$mar.before
@@ -227,7 +230,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         
         if (!is.null(by.song)) 
         {
-          names(attributes(X)$wave.objects) <- paste0(Y$sound.files, "-song_", Y$song) 
+          names(attributes(X)$wave.objects) <- paste0(Y$sound.files, "-song_", Y[ , by.song]) 
           X$sound.files <- check.results$sound.files <- paste0(X$sound.files, "-song_", as.data.frame(X)[ , names(X) == by.song,])
           
           for(i in unique(X$sound.files))

@@ -101,12 +101,7 @@ are provided." />
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/maRce10/warbleR">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -120,7 +115,7 @@ are provided." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Measure acoustic parameters in batches of sound files</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/specan.R'><code>R/specan.R</code></a></small>
+    
     <div class="hidden name"><code>specan.Rd</code></div>
     </div>
 
@@ -131,7 +126,7 @@ are provided.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>specan</span>(<span class='no'>X</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>22</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>wl.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>,
+    <pre class="usage"><span class='fu'>specan</span>(<span class='no'>X</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='st'>"frange"</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>wl.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>,
  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>,
 <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>harmonicity</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nharmonics</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='no'>...</span>)</pre>
     
@@ -148,9 +143,9 @@ be used as the input data frame.</p></td>
     <tr>
       <th>bp</th>
       <td><p>A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq
-and top.freq columns will be used as bandpass limits. Default is c(0, 22).Lower limit of
- bandpass is not applied to fundamental frequencies.</p></td>
+frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in bottom.freq
+and top.freq columns will be used as bandpass limits.  Lower limit of
+ bandpass filter is not applied to fundamental frequencies.</p></td>
     </tr>
     <tr>
       <th>wl</th>

@@ -9,6 +9,8 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   flim <- c(0, floor(f/2000))
   if (flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1 
   
+  if(wl >= length(wave@left))  wl <- length(wave@left) - 1 
+  if (wl %% 2 != 0) wl <- wl - 1
   
   # mean spectrum
   spc <- meanspec(wave, plot = FALSE, wl = wl, f = f, wn = wn, ovlp = ovlp)

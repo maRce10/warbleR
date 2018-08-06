@@ -43,25 +43,10 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], heade
     
   filename <- as.character(X$sound.files[index])
   
-  # if (ignore.ext.case)
-  # {
-  #   # get file extension
-  #   extnt <- substr(x = filename, start = nchar(filename) - 3, stop = nchar(filename))
-  #   
-  #   # check if is actually a file extension
-  #   if (extnt %in% c(".wav", ".WAV"))  
-  #     no.ext.name <- substr(x = filename, start = 0, stop = nchar(filename) - 4) else
-  #       no.ext.name <- filename
-  #     
-  #     # paste file name and file extension
-  #     if (file.exists(paste0(no.ext.name, ".wav"))) filename <- paste0(no.ext.name, ".wav")  else
-  #       if (file.exists(paste0(no.ext.name, ".WAV"))) filename <- paste0(no.ext.name, ".wav")  
-  # }
-  
   if (header)
     {
     if (any(is_selection_table(X), is_extended_selection_table(X)))
-    object <- list(sample.rate = attr(X, "check.results")$sample.rate[attr(X, "check.results")$sound.files == X$sound.files[index]] * 1000, channels = 1, bits = attr(X, "check.results")$bits[attr(X, "check.results")$sound.files == X$sound.files[index]], samples = attr(X, "check.results")$n.samples[attr(X, "check.results")$sound.files == X$sound.files[index]]) else 
+    object <- list(sample.rate = attr(X, "check.results")$sample.rate[attr(X, "check.results")$sound.files == X$sound.files[index]][1] * 1000, channels = 1, bits = attr(X, "check.results")$bits[attr(X, "check.results")$sound.files == X$sound.files[index]][1], samples = attr(X, "check.results")$n.samples[attr(X, "check.results")$sound.files == X$sound.files[index]][1]) else 
       object <- readWave(filename = filename, header = TRUE)
     
     if (any(sapply(object, length) > 1)) object <- lapply(object, "[", 1)

@@ -30,7 +30,7 @@
 #' @details The function calculates descriptive statistics on Mel-frequency cepstral coefficients (MFCCs) for each of the signals (rows) in a selection
 #' data frame. The descriptive statistics are: minimum, maximum, mean, median, skewness, kurtosis and
 #' variance. 
-#' It also returns the mean and variance for the first and second derivatives of the coefficients. These parameters are commonly used in signal processing of acoustic data (e.g. Salamon et al 2014). 
+#' It also returns the mean and variance for the first and second derivatives of the coefficients. These parameters are commonly used in acoustic signal processing and detection (e.g. Salamon et al 2014). 
 #' @seealso \code{\link{fixwavs}}, \code{\link{rm_sil}}, 
 #' @examples{
 #' # Set temporary working directory
@@ -54,6 +54,7 @@
 #' }
 #' @references {
 #' Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban sound research. In Proceedings of the 22nd ACM international conference on Multimedia (pp. 1041-1044)
+#' Lyon, R. H., & Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis. Journal of Mechanical Design, 104(2), 303-306.
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on Jul-30-2018 (MAS)

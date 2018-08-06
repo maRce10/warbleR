@@ -63,7 +63,7 @@
 #' }
 #' @seealso \code{\link{xcorr.graph}}
 #' @author Marcelo Araya-Salas \email{araya-salas@@cornell.edu})
-#' @source H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
+#' @references H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
 #' cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 # last modification on may-7-2018 (MAS)
 

@@ -1,7 +1,7 @@
 #' Spectrograms of selected signals
 #' 
 #' \code{specreator} creates spectrograms of signals from selection tables.
-#' @usage specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
+#' @usage specreator(X, wl = 512, flim = "frange", wn = "hanning", pal
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
 #'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
@@ -108,7 +108,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on mar-13-2018 (MAS)
 
-specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
+specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                         inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
                         cexlab = 1, title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE,  gr = FALSE,
                        sc = FALSE, line = TRUE, col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, 
@@ -173,6 +173,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   
   #if any selections longer than 20 secs stop
   if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
+  
   options( show.error.messages = TRUE)
   
   #if it argument is not "jpeg" or "tiff" 
@@ -213,7 +214,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     } else Y <- NULL
   
   #create function to run within Xapply functions downstream     
-  specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels){
+  specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal){
     
     # Read sound files, initialize frequency and time limits for spectrogram
     r <- read_wave(X = X, index = i, header = TRUE)
@@ -231,7 +232,10 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     
     if (t[2] > r$samples/f) t[2] <- r$samples/f
     
-    fl<- flim #in case flim its higher than can be due to sampling rate
+    # add low high freq
+    if (flim[1] == "frange") flim <- range(c(X$bottom.freq[i], X$top.freq[i])) + c(-1, 1)
+    
+    fl <- flim #in case flim its higher than can be due to sampling rate
     if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     
     # Spectrogram width can be proportional to signal duration
@@ -253,7 +257,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
     par(oma = outer.mar)
     
     # Generate spectrogram using seewave 
-  spectro_wrblr_int(read_wave(X = X, index = i, from = t[1], to = t[2]) , f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning", 
+  spectro_wrblr_int(wave = read_wave(X = X, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning", 
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)
@@ -304,7 +308,7 @@ specreator <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", pal = rever
   # run loop apply function
   out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
-    specreFUN(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels)
+    specreFUN(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal)
   }) 
 }
 

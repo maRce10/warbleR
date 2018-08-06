@@ -10,7 +10,7 @@ License: GPL (>= 2)
 Imports: bitops, dtw, fftw, graphics, grDevices, iterators, jpeg, monitoR, parallel, pbapply, RCurl, rjson, stats, utils, methods, pracma, Sim.DiffProc, soundgen
 Depends: R (>= 3.2.1), maps, tuneR, seewave (>= 2.0.1), NatureSounds
 LazyData: TRUE
-URL: https://github.com/maRce10/warbleR 
+URL: https://marce10.github.io/warbleR
 BugReports: https://github.com/maRce10/warbleR/issues
 NeedsCompilation: no
 Suggests: knitr, ggplot2, rmarkdown, Rraven

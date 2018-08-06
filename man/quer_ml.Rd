@@ -41,27 +41,29 @@ If \code{NULL} (default) then the current working directory is used.}
 If X is not provided the function returns a data frame with detailing media file metadata.
 }
 \description{
-\code{quer_ml} queries meta from Macaulay Library database (\url{http://macaulaylibrary.org/}).
+\code{quer_ml} queries meta from \href{http://macaulaylibrary.org}{Macaulay Library database}.
 }
 \details{
-This function queries for animal behavior media files at the Macaulay Library, Cornell Lab of Ornithology (\url{http://macaulaylibrary.org/}). It can return recordings metadata
+This function queries for animal behavior media files at the \href{http://macaulaylibrary.org/}{Macaulay Library, Cornell Lab of Ornithology}. It can return recordings metadata
 or download the associated files.
  Files are double-checked after downloading and "empty" files are re-downloaded.
  File downloading process can be interrupted and resume later as long as the 
  working directory is the same. Note that only the first 100 results can be 
  retreived at this time.
  
- Please read carefully [Macaulay Library's terms of use](https://www.macaulaylibrary.org/macaulay-library-terms-of-use/) 
+ Please read carefully \href{https://www.macaulaylibrary.org/macaulay-library-terms-of-use/}{Macaulay Library's terms of use}
  before using any of their data. Users are permitted to:
- * View Content online.
- * Print Website pages for non-commercial, personal, educational, and research uses provided that ML is properly cited as the source.
- * Retain copies of specimen record data in digital form for non-commercial, personal, educational and research purposes provided that ML is properly cited as the source.
- * Link to and share Website pages from third-party websites for non-commercial, personal, educational and research purposes only provided that ML is properly cited as the source.
- * Share Content for non-commercial, personal, educational and research purposes provided that ML is properly cited as the source.
- * Any other uses (including but not limited to commercial, promotional, or administrative uses), reproduction,
+\itemize{
+  \item View Content online.
+  \item Print Website pages for non-commercial, personal, educational, and research uses provided that ML is properly cited as the source.
+  \item Retain copies of specimen record data in digital form for non-commercial, personal, educational and research purposes provided that ML is properly cited as the source.
+  \item Link to and share Website pages from third-party websites for non-commercial, personal, educational and research purposes only provided that ML is properly cited as the source.
+  \item Share Content for non-commercial, personal, educational and research purposes provided that ML is properly cited as the source.
+  \item Any other uses (including but not limited to commercial, promotional, or administrative uses), reproduction,
   alteration, modification, public performance or display, uploading or posting onto the internet, transmission, 
   redistribution or any other exploitation of the Website or the Content, whether in whole or in part, are prohibited 
   without prior written permission.
+}
 }
 \examples{
 \dontrun{

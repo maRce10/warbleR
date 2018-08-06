@@ -100,12 +100,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/maRce10/warbleR">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -119,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Randomization test for singing coordination</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/coor.test.R'><code>R/coor.test.R</code></a></small>
+    
     <div class="hidden name"><code>coor.test.Rd</code></div>
     </div>
 
@@ -223,8 +218,8 @@ and non-random song overlap. Bioacoustics.</p>
 
 <span class='co'># testing if coordination happens more than expected by chance</span>
 <span class='fu'>coor.test</span>(<span class='no'>sim_coor_sing</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>less.than.chance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~02s             |++++++++++++++++++++++++++++++++++                | 67% ~01s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 03s
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~01s             |++++++++++++++++++++++++++++++++++                | 67% ~01s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s</div><div class='output co'>#&gt;   sing.event obs.ovlps mean.random.ovlps p.value coor.score
+}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~02s             |++++++++++++++++++++++++++++++++++                | 67% ~01s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s
+#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~01s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s</div><div class='output co'>#&gt;   sing.event obs.ovlps mean.random.ovlps p.value coor.score
 #&gt; 1     altern        20             36.53    1.00     -0.453
 #&gt; 2       ovlp        57             40.83    0.00      0.396
 #&gt; 3    uncoord        39             41.10    0.71     -0.051</div></pre>

@@ -100,12 +100,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/maRce10/warbleR">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -119,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Spectrograms of selected signals</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/specreator.R'><code>R/specreator.R</code></a></small>
+    
     <div class="hidden name"><code>specreator.Rd</code></div>
     </div>
 
@@ -129,7 +124,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>specreator</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>pal</span>
+    <pre class="usage"><span class='fu'>specreator</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='st'>"frange"</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>pal</span>
   <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>, <span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>4</span>, <span class='fl'>2</span>), <span class='kw'>outer.mar</span> <span class='kw'>=</span>
   <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>), <span class='kw'>picsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>cexlab</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>propwidth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>xl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>osci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>gr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,  <span class='kw'>sc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -336,7 +331,7 @@ high background noise levels.</p>
 
 <span class='co'># check this folder</span>
 <span class='fu'>getwd</span>()
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt;    |+++++                                             | 9 % ~01s          </div><div class='output co'>#&gt;    |++++++++++                                        | 18% ~02s          </div><div class='output co'>#&gt;    |++++++++++++++                                    | 27% ~01s          </div><div class='output co'>#&gt;    |+++++++++++++++++++                               | 36% ~01s          </div><div class='output co'>#&gt;    |+++++++++++++++++++++++                           | 45% ~01s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++                      | 55% ~01s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++                  | 64% ~00s          </div><div class='output co'>#&gt;    |+++++++++++++++++++++++++++++++++++++             | 73% ~00s          </div><div class='output co'>#&gt;    |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s</div><div class='output co'>#&gt; [1] "/home/m/Dropbox/warbleR/docs/reference"</div><div class='input'>
+}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt;    |+++++                                             | 9 % ~01s          </div><div class='output co'>#&gt;    |++++++++++                                        | 18% ~01s          </div><div class='output co'>#&gt;    |++++++++++++++                                    | 27% ~01s          </div><div class='output co'>#&gt;    |+++++++++++++++++++                               | 36% ~01s          </div><div class='output co'>#&gt;    |+++++++++++++++++++++++                           | 45% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++                      | 55% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++                  | 64% ~00s          </div><div class='output co'>#&gt;    |+++++++++++++++++++++++++++++++++++++             | 73% ~00s          </div><div class='output co'>#&gt;    |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s</div><div class='output co'>#&gt; [1] "/home/m/Dropbox/warbleR/docs/reference"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

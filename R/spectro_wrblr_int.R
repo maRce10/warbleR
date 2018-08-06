@@ -17,11 +17,15 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
           ...) 
 {
  
+  if(wl >= length(wave@left))  wl <- length(wave@left) - 1 
+  if (wl %% 2 != 0) wl <- wl - 1
+  
   # remove scale if fast.spec
   if (fast.spec) scale <- FALSE
   
    if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) 
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
+  
   if (complex) {
     if (plot) {
       plot <- FALSE
@@ -36,16 +40,20 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
       warning("\n'dB' was turned to 'NULL'")
     }
   }
+  
   input <- inputw(wave = wave, f = f)
   if (!is.null(tlim) && trel && osc) {
     wave <- wave0 <- input$w
   } else {
     wave <- input$w
   }
+  
   f <- input$f
   rm(input)
+  
   if (!is.null(tlim)) 
     wave <- cutw(wave, f = f, from = tlim[1], to = tlim[2])
+  
   if (!is.null(flimd)) {
     mag <- round((f/2000)/(flimd[2] - flimd[1]))
     wl <- wl * mag
@@ -62,21 +70,28 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
   z <- stft_wrblr_int(wave = wave, f = f, wl = wl, zp = zp, step = step, 
             wn = wn, fftw = fftw, scale = norm, complex = complex, 
             correction = correction)
+  
   if (!is.null(tlim) && trel) {
     X <- seq(tlim[1], tlim[2], length.out = length(step))
   } else {
     X <- seq(0, n/f, length.out = length(step))
   }
-  xat <- xlabel <- pretty(X)
+  
+  pl <- pretty(X)
+  if (any(pl < 0)) pl <- pl + abs(min(pl))
+  xat <- xlabel <- pl
+  
   if (!is.null(rnd)) xlabel <- round(xlabel, rnd)
+  
   if (is.null(flim)) {
     Y <- seq(0, (f/2) - (f/(wl + zp)), by = f/(wl + zp))/1000
   } else {
     fl1 <- flim[1] * nrow(z) * 2000/f
     fl2 <- flim[2] * nrow(z) * 2000/f
-    z <- z[(fl1:fl2) + 1, ]
+    z <- z[(fl1:fl2) + 1, , drop = FALSE]
     Y <- seq(flim[1], flim[2], length.out = nrow(z))
   }
+  
   yat <- ylabel <- pretty(Y)
 if (rm.lwst) ylabel[1] <- ""
     if (flog) {

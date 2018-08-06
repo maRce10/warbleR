@@ -321,9 +321,10 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       f <- r$sample.rate
       t <- c(X$start[i] - mar, X$end[i] + mar)
       
-      #adjust margins if signal is close to start or end of sound file
+      # adjust margins if signal is close to start or end of sound file
       mar1 <- mar
       
+      # adjust margin if negative
       if (t[1] < 0) {
         t[1] <- 0
         mar1 <- X$start[i]

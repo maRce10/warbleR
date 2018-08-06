@@ -3,10 +3,6 @@
 \name{xcorr}
 \alias{xcorr}
 \title{Spectrogram cross-correlation}
-\source{
-H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
-cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
-}
 \usage{
 xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
 cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
@@ -89,6 +85,10 @@ xcor <- xcorr(X = selec.table, wl = 300, frange = c(2, 9), ovlp = 90,
 dens = 1, wn = 'hanning', cor.method = "pearson")
 
 }
+}
+\references{
+H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
+cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 }
 \seealso{
 \code{\link{xcorr.graph}}

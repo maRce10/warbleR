@@ -139,7 +139,6 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
-  
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
@@ -217,14 +216,15 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
         }
     
   if (!raw.contour){ 
-     if (nrow(dfrq) < 2) {apdom <- list()
+     if (nrow(dfrq) < 2) {
+       apdom <- list()
     apdom$x <- dfrq1[, 1]
     apdom$y <- rep(NA, length.out)
     apdom1 <- apdom
     
     } else {
-      if (!clip.edges) {        
-        apdom <- try_na(approx(dfrq[,1], dfrq[,2], xout = seq(from = dfrq1[1, 1], 
+      if (!clip.edges) {       
+        apdom <- try_na(approx(dfrq[ , 1], dfrq[ , 2], xout = seq(from = dfrq1[1,  1], 
                                                                 to = dfrq1[nrow(dfrq1), 1], length.out = length.out),
                                method = "linear"))
       
@@ -238,6 +238,13 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
         apdom1 <- apdom
       } else 
         {
+        # clip start edges
+        dfrq <- dfrq[which(as.numeric(is.na(dfrq[ , 2])) == 0)[1]:nrow(dfrq), ]
+        
+        # clip end edges
+        dfrq <- dfrq[1:max(which(as.numeric(is.na(dfrq[ , 2])) == 0)), ]
+      
+        # interpolate    
         apdom <- try_na(approx(dfrq[,1], dfrq[,2], 
                         xout = seq(from = dfrq[1, 1],  to = dfrq1[nrow(dfrq), 1], 
                                    length.out = length.out), method = "linear"))
@@ -288,7 +295,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
 
     if (img)  
     {
-      trackfreqs(X[i, , drop = FALSE], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
+      trackfreqs(X = X[i, , drop = FALSE], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
                  parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
                  custom.contour = cstm.cntr, xl = ifelse(frange.dtc, 1.8, 1), fsmooth = fsmooth, frange.detec = frange.dtc, ...)
       } 

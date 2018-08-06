@@ -32,7 +32,7 @@ A map of 'Xeno-Canto' recordings per species (image file), or a faceted
 }
 \details{
 This function creates maps for visualizing the geographic spread of recordings from the open-access
-online repository 'Xeno-Canto' (\url{http://www.xeno-canto.org/}). The function takes the output of 
+online repository  \href{http://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of 
 \code{\link{querxc}} as input. Maps can be displayed in the graphic devide or saved as images in the
 working directory.
 }

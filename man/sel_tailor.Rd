@@ -7,7 +7,7 @@
 sel_tailor(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning",
   mar = 0.5, osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70,
   auto.next = FALSE, pause = 1, comments = TRUE, path = NULL,
-  frange = FALSE, fast.spec = FALSE, ext.window = TRUE, width = 15,
+  frange = TRUE, fast.spec = FALSE, ext.window = TRUE, width = 15,
   height = 5, index = NULL, collevels = NULL, title = c("sound.files",
   "selec"), ts.df = NULL, col = "#E37222", alpha = 0.7,
   auto.contour = FALSE, ...)

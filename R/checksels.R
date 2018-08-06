@@ -107,6 +107,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
+  # check for duplicates
   if (any(duplicated(X[, c("sound.files", "selec")]))) stop("Duplicated selection labels for one or more sound files")
   
   #if any start higher than end stop
@@ -151,7 +152,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
       
       if (!class(rec) == "try-error")
       {
-        if (check.header)  
+        if (check.header) # look for mismatchs between file header & file content  
         {
           recfull <- try(suppressWarnings(tuneR::readWave(as.character(x), header = FALSE)), silent = TRUE)
           if (any(methods::slotNames(recfull) == "stereo")) 
@@ -190,8 +191,9 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
           }
           
         } else
-        { maxdur <- rec$samples/rec$sample.rate  
-        Y$check.res <- "OK"
+        { 
+          maxdur <- rec$samples/rec$sample.rate  
+          Y$check.res <- "OK"
         
         if (any(Y$end > maxdur))  Y$check.res[Y$end > maxdur] <- "exceeds sound file length"
         Y$duration <- Y$end - Y$start

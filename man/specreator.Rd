@@ -4,7 +4,7 @@
 \alias{specreator}
 \title{Spectrograms of selected signals}
 \usage{
-specreator(X, wl = 512, flim = c(0, 22), wn = "hanning", pal
+specreator(X, wl = 512, flim = "frange", wn = "hanning", pal
   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,

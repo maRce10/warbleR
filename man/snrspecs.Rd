@@ -3,9 +3,6 @@
 \name{snrspecs}
 \alias{snrspecs}
 \title{Spectrograms with background noise margins}
-\source{
-\url{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}
-}
 \usage{
 snrspecs(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70, 
 inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, 
@@ -130,6 +127,9 @@ mar = 0.2, snrmar = 0.01, wl = 300)
 #check this folder!!
 getwd()
 }
+}
+\references{
+\href{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}{Wikipedia: Signal-to-noise ratio}
 }
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize 
