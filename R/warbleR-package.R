@@ -82,6 +82,8 @@
 #'   \code{\link{specan}}: Measure acoustic parameters on selected acoustic 
 #'   signals
 #'   
+#'   \code{\link{mfcc_stats}}: Calculate descriptive statistics on Mel-frequency cepstral coefficients
+#'   
 #'   \code{\link{xcorr}}: Pairwise cross-correlation of multiple signals  
 #'   
 #'   \code{\link{dfts}}: Extract the dominant frequency values across the signal as a time series

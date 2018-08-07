@@ -8,7 +8,7 @@ dfDTW(X = NULL, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp =
 bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, img = TRUE, 
 parallel = 1, path = NULL, ts.df = NULL, img.suffix = "dfDTW", pb = TRUE, 
 clip.edges = TRUE, window.type = "none", open.end = FALSE, scale = FALSE, 
-frange.detec = FALSE,  fsmooth = 0.1, ...)
+frange.detec = FALSE,  fsmooth = 0.1, adjust.wl = TRUE, ...)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data 
@@ -77,6 +77,9 @@ bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.}
 \item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
 amplitude modulation. Default is 0.1.}
+
+\item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
+number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to \code{\link{trackfreqs}} for customizing
 graphical output.}

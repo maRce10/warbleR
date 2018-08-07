@@ -8,7 +8,7 @@ dfts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70,
 bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
 img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE,
 clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1,
- raw.contour = FALSE, track.harm = FALSE, adjust.wl = FALSE, ...)
+ raw.contour = FALSE, track.harm = FALSE, adjust.wl = TRUE, ...)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
@@ -77,8 +77,8 @@ amplitude modulation. Default is 0.1.}
 \item{track.harm}{Logical. If true warbleR's \code{\link{track_harm}} function is 
 used to track frequency contours. Otherwise seewave's \code{\link[seewave]{dfreq}} is used by default.}
 
-\item{adjust.wl}{Logical. If \code{TRUE} the 'wl' is reset to be equal at the 
-number of samples in a selections if the samples are less than 'wl'. Default is \code{FALSE}.}
+\item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
+number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}.}
 }
@@ -112,8 +112,14 @@ writeWave(Phae.long2, "Phae.long2.wav") #save sound files
 writeWave(Phae.long1, "Phae.long1.wav")
 
 # run function 
-dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
+dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE)
 
+# note a NA in the row 4 column 3 (dfreq-1)
+# this can be removed by clipping edges (removing NAs at the start and/or end 
+# when no freq was detected) 
+
+dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE, 
+clip.edges = TRUE)
 }
 }
 \seealso{

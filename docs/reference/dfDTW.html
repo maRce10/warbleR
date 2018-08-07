@@ -130,7 +130,7 @@ time warping. Internally it applies the <code><a href='http://www.rdocumentation
 <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>threshold.time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
 <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ts.df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='st'>"dfDTW"</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
 <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>window.type</span> <span class='kw'>=</span> <span class='st'>"none"</span>, <span class='kw'>open.end</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>frange.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,  <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='no'>...</span>)</pre>
+<span class='kw'>frange.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,  <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>adjust.wl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,6 +245,11 @@ bandpass filter (overwriting 'bp' argument). Default is <code>FALSE</code>.</p><
       <td><p>A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for frequency range detection (when <code>frange.detec = TRUE</code>). This help to average amplitude "hills" to minimize the effect of
 amplitude modulation. Default is 0.1.</p></td>
+    </tr>
+    <tr>
+      <th>adjust.wl</th>
+      <td><p>Logical. If <code>TRUE</code> 'wl' (window length) is reset to be lower than the 
+number of samples in a selection if the number of samples is less than 'wl'. Default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>

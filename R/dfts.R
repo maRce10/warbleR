@@ -6,7 +6,7 @@
 #' bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
 #' img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE,
 #' clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1,
-#'  raw.contour = FALSE, track.harm = FALSE, adjust.wl = FALSE, ...)
+#'  raw.contour = FALSE, track.harm = FALSE, adjust.wl = TRUE, ...)
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -51,9 +51,9 @@
 #' @param raw.contour Logical. If \code{TRUE} then a list with the original contours 
 #'  (i.e. without interpolating values to make all contours of equal length) is returned.
 #' @param track.harm Logical. If true warbleR's \code{\link{track_harm}} function is 
-#' used to track frequency contours. Otherwise seewave's \code{\link[seewave]{dfreq}} is used by default. 
-#' @param adjust.wl Logical. If \code{TRUE} the 'wl' is reset to be equal at the 
-#' number of samples in a selections if the samples are less than 'wl'. Default is \code{FALSE}.
+#' used to track frequency contours. Otherwise seewave's \code{\link[seewave]{dfreq}} is used by default.
+#' @param adjust.wl Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
+#' number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}.
 #' @return If \code{raw.contour = TRUE} (default) a data frame with the dominant frequency values measured across the signals.  Otherwise, a list with the raw frequency detections (i.e. without interpolating values to make all contours of equal length) is returned. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
@@ -81,8 +81,14 @@
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # run function 
-#' dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
+#' dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE)
 #' 
+#' # note a NA in the row 4 column 3 (dfreq-1)
+#' # this can be removed by clipping edges (removing NAs at the start and/or end 
+#' # when no freq was detected) 
+#' 
+#' dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE, 
+#' clip.edges = TRUE)
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on march-12-2018 (MAS)
@@ -91,7 +97,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
                   bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL,
                   img = TRUE, parallel = 1,
                   path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, raw.contour = FALSE, 
-                  track.harm = FALSE, adjust.wl = FALSE, ...){     
+                  track.harm = FALSE, adjust.wl = TRUE, ...){     
   
   # reset working directory and default parameters
   wd <- getwd()
@@ -315,7 +321,9 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
  dftsFUN(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc = frange.detec, raw.contour, track.harm, adjust.wl)
   }) 
   
-  if (any(sapply(lst, class) == "try-error")) stop("error during frequency detection for at least 1 selection (try 'adjust.wl = TRUE')")
+  if (any(sapply(lst, class) == "try-error") & !adjust.wl) stop("error during frequency detection for at least 1 selection (try 'adjust.wl = TRUE' and/or a lower threshold)") else 
+    if (any(sapply(lst, class) == "try-error"))
+    stop("error during frequency detection for at least 1 selection (try a lower threshold)")
   
   if (!raw.contour)
 {  df <- data.frame(sound.files = X$sound.files, selec = X$selec, (as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE))))

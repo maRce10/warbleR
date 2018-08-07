@@ -46,8 +46,8 @@ across the entire wave object).}
 \item{ylim}{A numeric vector of length 2 for the frequency limit of 
 the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, f/2000).}
 
-\item{adjust.wl}{Logical. If \code{TRUE} the 'wl' is reset to be equal at the 
-number of samples in a selections if the samples are less than 'wl'. Default is \code{FALSE}.}
+\item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
+number of samples in a selection if the number of samples is less than 'wl'. Default is \code{FALSE}.}
 
 \item{dfrq}{Logical. If \code{TRUE} seewave's \code{\link[seewave]{dfreq}} is used instead. Default is \code{FALSE}.}
 
