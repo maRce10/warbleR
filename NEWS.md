@@ -14,6 +14,7 @@
 ## Bug fixes:
 
 * Using 'wav.path' from 'warbleR_options' in 'catalog()'
+* clipping.edges option in 'dfts()' and 'ffts()'
 
 </br>
 
