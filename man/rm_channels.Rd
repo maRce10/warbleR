@@ -10,7 +10,7 @@ rm_channels(files = NULL, channels, path = NULL, parallel = 1, pb = TRUE)
 \item{files}{Character vector indicating the files that will be analyzed. If not provided. Optional.
 then all wave files in the working directory (or path) will be processed.}
 
-\item{channels}{Numeric vector indicating the index (or channel number) for the channels that will be kept.}
+\item{channels}{Numeric vector indicating the index (or channel number) for the channels that will be kept (left = 1, right = 2; 3 to inf for multichannel sound files).}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}

@@ -206,19 +206,21 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
     if (frange.dtc){
       frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = c(0, 22), bp = b/ 1000, ovlp = ovlp)
     
-    if (!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 }
+    if (!all(is.na(frng$frange))) b <- as.numeric(frng$frange) * 1000 
+    }
     
     # calculate dominant frequency at each time point     
     dfrq1 <- track_harm(wave = r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE,
-                             threshold = threshold, dfrq = !track.harm, adjust.wl = adjust.wl)
+                             threshold = threshold.time, dfrq = !track.harm, adjust.wl = adjust.wl)
     
         dfrq <- dfrq1[!is.na(dfrq1[,2]), , drop = FALSE]
         if (nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
         
         dfrq[dfrq[,2] < b[1]/1000, ] <- NA
         if (nrow(dfrq1) == 1 & !is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
-        if (any(is.na(dfrq[1, ]))) {dfrq <- dfrq[!is.na(dfrq[ , 1]), , drop = FALSE]
-        if (!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
+        if (any(is.na(dfrq[1, ]))) {
+          dfrq <- dfrq[!is.na(dfrq[ , 1]), , drop = FALSE]
+          if (!is.matrix(dfrq)) dfrq <- as.matrix(t(dfrq))
         }
     
   if (!raw.contour){ 
@@ -234,7 +236,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
                                                                 to = dfrq1[nrow(dfrq1), 1], length.out = length.out),
                                method = "linear"))
       
-      if (is.na(apdom[1])) 
+      if (!is.list(apdom)) 
       {
         apdom <- list()
         apdom$x <- dfrq1[, 1]
@@ -255,7 +257,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
                         xout = seq(from = dfrq[1, 1],  to = dfrq1[nrow(dfrq), 1], 
                                    length.out = length.out), method = "linear"))
         
-        if (is.na(apdom)) 
+        if (!is.list(apdom)) 
         {
           apdom <- list()
           apdom$x <- dfrq1[, 1]

@@ -37,7 +37,7 @@ frequency bandpass filter (in kHz). Default is c(0, 22).}
 
 \item{threshold}{amplitude threshold (\%) for dominant frequency detection. Default is 15.}
 
-\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
+\item{threshold.time}{amplitude threshold (\%) for the time domain. Use for dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
 
 \item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
 'threshold' value is used.}
