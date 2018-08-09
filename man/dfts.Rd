@@ -83,7 +83,7 @@ number of samples in a selection if the number of samples is less than 'wl'. Def
 \item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}.}
 }
 \value{
-If \code{raw.contour = TRUE} (default) a data frame with the dominant frequency values measured across the signals.  Otherwise, a list with the raw frequency detections (i.e. without interpolating values to make all contours of equal length) is returned. If img is 
+The function returns a data frame with the dominant frequency values measured across the signals.  If \code{raw.contour = TRUE} a list with the raw frequency detections (i.e. without interpolating values to make all contours of equal length) is returned. If img is 
 \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the dominant frequencies 
 (see \code{\link{trackfreqs}} description for more details).

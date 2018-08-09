@@ -55,7 +55,7 @@
 #' @param adjust.wl Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
 #' number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}.
-#' @return If \code{raw.contour = TRUE} (default) a data frame with the dominant frequency values measured across the signals.  Otherwise, a list with the raw frequency detections (i.e. without interpolating values to make all contours of equal length) is returned. If img is 
+#' @return The function returns a data frame with the dominant frequency values measured across the signals.  If \code{raw.contour = TRUE} a list with the raw frequency detections (i.e. without interpolating values to make all contours of equal length) is returned. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies 
 #' (see \code{\link{trackfreqs}} description for more details).

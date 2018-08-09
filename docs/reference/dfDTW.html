@@ -179,7 +179,7 @@ frequency bandpass filter (in kHz). Default is c(0, 22).</p></td>
     </tr>
     <tr>
       <th>threshold.time</th>
-      <td><p>amplitude threshold (%) for the time domain. Use for fundamental and dominant frequency detection. If <code>NULL</code> (default) then the 'threshold' value is used.</p></td>
+      <td><p>amplitude threshold (%) for the time domain. Use for dominant frequency detection. If <code>NULL</code> (default) then the 'threshold' value is used.</p></td>
     </tr>
     <tr>
       <th>threshold.freq</th>
@@ -299,8 +299,9 @@ The function uses the <code><a href='http://www.rdocumentation.org/packages/stat
 <span class='co'># run function </span>
 <span class='fu'>dfDTW</span>(<span class='no'>selec.table</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>12</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 
-}</div><div class='output co'>#&gt; measuring dominant frequency contours:
-#&gt; Creating spectrograms overlaid with dominant frequency measurements:   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt;                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3
+}</div><div class='output co'>#&gt; measuring dominant frequency contours (step 1 of 2):
+#&gt; Creating spectrograms overlaid with dominant frequency measurements:   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; 
+#&gt; calculating DTW distances (step 2 of 2, no progress bar):</div><div class='output co'>#&gt;                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3
 #&gt; Phae.long1.wav-1            0.000            7.277           11.403
 #&gt; Phae.long1.wav-2            7.277            0.000           11.782
 #&gt; Phae.long1.wav-3           11.403           11.782            0.000
