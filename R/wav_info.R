@@ -7,10 +7,10 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 
-#' @return A data frame with descriptive information about the wave files in the working directory (or path). See "details".  
+#' @return A data frame with descriptive information about the wave files in the working directory (or 'path'). See "details".  
 #' @export
 #' @name wav_info
-#' @details This function is a wrapper for \code{\link{selection_table}} returns a data frame with the following descriptive parameters for each wave file in the working directory (or 'path'):
+#' @details This function is a wrapper for \code{\link{selection_table}} that returns a data frame with the following descriptive parameters for each wave file in the working directory (or 'path'):
 #' \itemize{
 #'    \item \code{duration}: duration of selection in seconds
 #'    \item \code{sample.rate}: sampling rate in kHz
