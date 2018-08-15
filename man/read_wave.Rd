@@ -4,7 +4,8 @@
 \alias{read_wave}
 \title{A wrapper for tuneR's readWave that read sound files listed within selection tables}
 \usage{
-read_wave(X, index, from = X$start[index], to = X$end[index], header = FALSE, path = NULL)
+read_wave(X, index, from = X$start[index], to = X$end[index], channel = NULL, 
+header = FALSE, path = NULL)
 }
 \arguments{
 \item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
@@ -16,6 +17,9 @@ Low and high frequency columns are optional. Default is \code{NULL}.}
 \item{from}{Where to start reading, in seconds. Default is \code{X$start[index]}.}
 
 \item{to}{Where to stop reading, in seconds. Default is \code{X$end[index]}.}
+
+\item{channel}{Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). If 
+\code{NULL} or highes than the number of channels in a wave then the first channel is used.}
 
 \item{header}{If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.}
 

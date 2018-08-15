@@ -157,7 +157,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
 
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
   if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  

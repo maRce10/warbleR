@@ -124,7 +124,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_wave</span>(<span class='no'>X</span>, <span class='no'>index</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>start</span>[<span class='no'>index</span>], <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>end</span>[<span class='no'>index</span>], <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>read_wave</span>(<span class='no'>X</span>, <span class='no'>index</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>start</span>[<span class='no'>index</span>], <span class='kw'>to</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>end</span>[<span class='no'>index</span>], <span class='kw'>channel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,6 +147,11 @@ Low and high frequency columns are optional. Default is <code>NULL</code>.</p></
     <tr>
       <th>to</th>
       <td><p>Where to stop reading, in seconds. Default is <code>X$end[index]</code>.</p></td>
+    </tr>
+    <tr>
+      <th>channel</th>
+      <td><p>Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). If 
+<code>NULL</code> or highes than the number of channels in a wave then the first channel is used.</p></td>
     </tr>
     <tr>
       <th>header</th>

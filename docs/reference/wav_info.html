@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove silence in wave files — rm_sil • warbleR</title>
+<title>Get wave file parameter information — wav_info • warbleR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Remove silence in wave files — rm_sil" />
+<meta property="og:title" content="Get wave file parameter information — wav_info" />
 
-<meta property="og:description" content="rm_sil Removes silences in wave files" />
+<meta property="og:description" content="wav_info is a wrapper for selection_table that returns wave file information" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -113,19 +113,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove silence in wave files</h1>
+    <h1>Get wave file parameter information</h1>
     
-    <div class="hidden name"><code>rm_sil.Rd</code></div>
+    <div class="hidden name"><code>wav_info.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>rm_sil</code> Removes silences in wave files</p>
+    <p><code>wav_info</code> is a wrapper for <code><a href='selection_table.html'>selection_table</a></code> that returns wave file information</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>rm_sil</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>min.sil.dur</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>12</span>),
-<span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>wav_info</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,30 +133,6 @@
       <th>path</th>
       <td><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>min.sil.dur</th>
-      <td><p>Numeric. Controls the minimum duration of silence segments that would be removed.</p></td>
-    </tr>
-    <tr>
-      <th>img</th>
-      <td><p>Logical argument. If <code>FALSE</code>, image files are not produced. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>it</th>
-      <td><p>A character vector of length 1  giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is "jpeg".</p></td>
-    </tr>
-    <tr>
-      <th>flim</th>
-      <td><p>A numeric vector of length 2 indicating the highest and lowest 
-frequency limits (kHz) of the spectrogram as in 
-<code><a href='http://www.rdocumentation.org/packages/seewave/topics/spectro'>spectro</a></code>. Default is c(0,12). Ignored if `img = FALSE`.</p></td>
-    </tr>
-    <tr>
-      <th>flist</th>
-      <td><p>character vector or factor indicating the subset of files that will be analyzed. If not provided
-then all wave files in the working directory (or path) will be processed.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -172,46 +147,68 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Sound files for which silence segments have been removed are saved in the new 
-folder "removed_silence_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
-that were removed are also saved.</p>
+    <p>A data frame with descriptive information about the wave files in the working directory (or path). See "details".</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function removes silence segments (i.e. segments with very low amplitude values) from wave files.</p>
+    <p>This function is a wrapper for <code><a href='selection_table.html'>selection_table</a></code> returns a data frame with the following descriptive parameters for each wave file in the working directory (or 'path'):</p><ul>
+<li><p><code>duration</code>: duration of selection in seconds</p></li>
+<li><p><code>sample.rate</code>: sampling rate in kHz</p></li>
+<li><p><code>channels</code>: number of channels</p></li>
+<li><p><code>bits</code>: bit depth</p></li>
+<li><p><code>wav.size</code>: wave file size in MB</p></li>
+<li><p><code>samples</code>: number of samples in the sound file</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='fixwavs.html'>fixwavs</a></code>, <code><a href='autodetec.html'>autodetec</a></code>,</p></div>
+    <div class='dont-index'><p><code><a href='fixwavs.html'>fixwavs</a></code>, <code><a href='selection_table.html'>selection_table</a></code> &amp; <code><a href='checksels.html'>checksels</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
 <span class='co'># Set temporary working directory</span>
-<span class='co'># setwd(tempdir())</span>
+<span class='co'># First set temporary folder</span>
+ <span class='co'># setwd(tempdir())</span>
 
-<span class='co'># save sound file examples</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"selec.table"</span>))
-<span class='no'>sil</span> <span class='kw'>&lt;-</span> <span class='fu'>silence</span>(<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>22500</span>, <span class='kw'>duration</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>xunit</span> <span class='kw'>=</span> <span class='st'>"time"</span>)
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
-<span class='no'>wv1</span> <span class='kw'>&lt;-</span> <span class='fu'>pastew</span>(<span class='fu'>pastew</span>(<span class='no'>Phae.long1</span>, <span class='no'>sil</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>22500</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"Wave"</span>),
-<span class='no'>Phae.long2</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>22500</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"Wave"</span>)
-
-<span class='co'>#check silence in between amplitude peaks</span>
-<span class='fu'>env</span>(<span class='no'>wv1</span>)
-
- <span class='co'>#save wave file</span>
- <span class='fu'>writeWave</span>(<span class='kw'>object</span> <span class='kw'>=</span> <span class='no'>wv1</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"wv1.wav"</span>, <span class='kw'>extensible</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'>#remove silence</span>
-<span class='fu'>rm_sil</span>(<span class='kw'>flist</span> <span class='kw'>=</span> <span class='st'>"wv1.wav"</span>)
-
-<span class='co'># OR this is tempdir was used instead</span>
-<span class='co'># rm_sil(path = tempdir(), flist = "wv1.wav")</span>
-
-<span class='co'>#check this floder</span>
-<span class='fu'>getwd</span>()
-}</div><div class='output co'>#&gt; searching for silence segments in wave files:   |                                                  | 0 % ~calculating  </div><div class='img'><img src='rm_sil-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; [1] "/home/m/Dropbox/warbleR/docs/reference"</div></pre>
+<span class='co'>#get info</span>
+<span class='fu'>wav_info</span>()
+}</div><div class='output co'>#&gt; checking selections:</div><div class='output co'>#&gt;             sound.files duration sample.rate channels bits wav.size samples
+#&gt; 1         Cryp.soui.wav  8.00044         9.0        1   16 0.281250   72004
+#&gt; 2  Phae.long1-1-c24.wav  0.27307        22.5        1   16 0.024414    6144
+#&gt; 3      Phae.long1-1.wav  0.27307        22.5        1   16 0.024414    6144
+#&gt; 4  Phae.long1-2-c25.wav  0.26307        22.5        1   16 0.023438    5919
+#&gt; 5      Phae.long1-2.wav  0.26307        22.5        1   16 0.023438    5919
+#&gt; 6      Phae.long1.2.wav  2.50004        22.5        2   16 0.219727   56251
+#&gt; 7  Phae.long1-3-c26.wav  0.27493        22.5        1   16 0.024414    6186
+#&gt; 8      Phae.long1-3.wav  0.27493        22.5        1   16 0.024414    6186
+#&gt; 9        Phae.long1.wav  2.50004        22.5        1   16 0.219727   56251
+#&gt; 10 Phae.long2-1-c27.wav  0.23258        22.5        1   16 0.020508    5233
+#&gt; 11     Phae.long2-1.wav  0.23258        22.5        1   16 0.020508    5233
+#&gt; 12 Phae.long2-2-c28.wav  0.22613        22.5        1   16 0.019531    5088
+#&gt; 13     Phae.long2-2.wav  0.22613        22.5        1   16 0.019531    5088
+#&gt; 14       Phae.long2.wav  1.70004        22.5        1   16 0.149414   38251
+#&gt; 15 Phae.long3-1-c29.wav  0.23124        22.5        1   16 0.020508    5203
+#&gt; 16     Phae.long3-1.wav  0.23124        22.5        1   16 0.020508    5203
+#&gt; 17 Phae.long3-2-c30.wav  0.23018        22.5        1   16 0.020508    5179
+#&gt; 18     Phae.long3-2.wav  0.23018        22.5        1   16 0.020508    5179
+#&gt; 19 Phae.long3-3-c31.wav  0.23120        22.5        1   16 0.020508    5202
+#&gt; 20     Phae.long3-3.wav  0.23120        22.5        1   16 0.020508    5202
+#&gt; 21       Phae.long3.wav  2.20000        22.5        1   16 0.193359   49500
+#&gt; 22 Phae.long4-1-c32.wav  0.24542        22.5        1   16 0.021484    5522
+#&gt; 23     Phae.long4-1.wav  0.24542        22.5        1   16 0.021484    5522
+#&gt; 24 Phae.long4-2-c33.wav  0.24418        22.5        1   16 0.021484    5494
+#&gt; 25     Phae.long4-2.wav  0.24418        22.5        1   16 0.021484    5494
+#&gt; 26 Phae.long4-3-c34.wav  0.24511        22.5        1   16 0.021484    5515
+#&gt; 27     Phae.long4-3.wav  0.24511        22.5        1   16 0.021484    5515
+#&gt; 28       Phae.long4.wav  3.20000        22.5        1   16 0.281250   72000
+#&gt; 29              wv1.wav  7.20009        22.5        1   16 0.632812  162002</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

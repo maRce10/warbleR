@@ -6,7 +6,9 @@
 #' pb = TRUE, parallel = 1, ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end": 
-#' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional.  Frequency parameters (including top and bottom frequency) are should be provided in kHz. Alternatively, a 'selection_table' class object can be input to double check selections. 
+#' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
+#' not provided the 1 channel (i.e. left channel) would be used by default. 
+#' Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input to double check selections. 
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input object for other \code{\link{warbleR}} functions.
 #' @param max.dur the maximum duration of expected for a selection  (ie. end - start). If surpassed then an error message 
@@ -166,7 +168,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   ## Set the name for the class
   class(X) <- unique(append("selection_table", class(X)))
   
-  check.results <- check.results[, names(check.results) %in% c("sound.files", "selec", by.song, "check.res", "duration", "min.n.sample", "sample.rate", "channels", "bits", "wav.size.MB", "sound.file.samples")]
+  check.results <- check.results[, names(check.results) %in% c("sound.files", "selec", by.song, "check.res", "duration", "min.n.sample", "sample.rate", "channels", "bits", "wav.size", "sound.file.samples")]
   
   # add wave object to extended file
   if (extended)
@@ -264,7 +266,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     check.results$n.samples <- check.results$sound.file.samples
   
   # order check results columns
-  check.results <- check.results[,na.omit(match(c("orig.sound.files", "orig.selec", "orig.start", "orig.end", "sound.files", "selec", "start", "end", "check.results", "duration", "sample.rate", "channels", "bits", "wav.size.MB", "mar.before", "mar.after", "n.samples"), names(check.results)))]
+  check.results <- check.results[,na.omit(match(c("orig.sound.files", "orig.selec", "orig.start", "orig.end", "sound.files", "selec", "start", "end", "check.results", "duration", "sample.rate", "channels", "bits", "wav.size", "mar.before", "mar.after", "n.samples"), names(check.results)))]
   
   attributes(X)$check.results <- check.results
   

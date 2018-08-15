@@ -102,7 +102,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
   
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
@@ -246,11 +246,11 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     if (any((((res$sample.rate[!is.na(res$duration)])/2) - res$top.freq[!is.na(res$duration)]) < 0)) cat("\n 'top.freq' higher than half the sample rate in some selections")     
   } 
   
-  if (any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])) {cat("\n some selections listed with channel 2 in sound files with only 1 channel, relabeled as channel 1") 
+  if (any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])) {cat("\n some selections listed as having more than 1 channel found in sound files with only 1 channel; channel field relabeled as '1'") 
     res$channel[!is.na(res$duration)][any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])] <- 1
   }
   
-  if (wav.size) res$wav.size.MB <- round(res$bits  * res$channel * res$sample.rate * res$duration / 4) / 1024
+  if (wav.size) res$wav.size <- round(res$bits  * res$channel * res$sample.rate * res$duration / 4) / 1024
 
   return(res) 
 }

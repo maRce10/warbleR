@@ -101,8 +101,8 @@
 #'  directly without any additional modification. The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
 #'  each selection in the data frame. Most parameters are produced internally by 
 #'  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
-#'  and \code{\link[seewave]{dfreq}} from the package seewave and \code{\link[tuneR]{FF}} 
-#'  from the package tuneR. NAs are produced for fundamental and dominant 
+#'  and \code{\link[seewave]{dfreq}} from the package seewave and \code{\link[soundgen]{analyze}} 
+#'  from the package soundgen. NAs are produced for fundamental and dominant 
 #'  frequency measures when there are no amplitude values above the threshold. 
 #'  Additional parameters can be provided to the internal function \code{\link[soundgen]{analyze}}, which measures parameters related to harmonicity.
 #' @examples
@@ -173,7 +173,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
   if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  

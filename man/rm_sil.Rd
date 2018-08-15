@@ -36,7 +36,7 @@ folder "removed_silence_files". If `img = TRUE` then spectrogram images highligh
 that were removed are also saved.
 }
 \description{
-\code{rm_sil}
+\code{rm_sil} Removes silences in wave files
 }
 \details{
 The function removes silence segments (i.e. segments with very low amplitude values) from wave files.

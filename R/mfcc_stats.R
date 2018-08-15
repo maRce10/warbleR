@@ -110,7 +110,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL,
     if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
     
     #if end or start are not numeric stop
-    if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'end' and 'selec' must be numeric")
+    if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
     
     #if any start higher than end stop
     if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  

@@ -125,8 +125,8 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used
  directly without any additional modification. The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
  each selection in the data frame. Most parameters are produced internally by 
  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
- and \code{\link[seewave]{dfreq}} from the package seewave and \code{\link[tuneR]{FF}} 
- from the package tuneR. NAs are produced for fundamental and dominant 
+ and \code{\link[seewave]{dfreq}} from the package seewave and \code{\link[soundgen]{analyze}} 
+ from the package soundgen. NAs are produced for fundamental and dominant 
  frequency measures when there are no amplitude values above the threshold. 
  Additional parameters can be provided to the internal function \code{\link[soundgen]{analyze}}, which measures parameters related to harmonicity.
 }

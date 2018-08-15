@@ -122,7 +122,7 @@ dir.create(file.path(getwd(), "converted_sound_files"), showWarnings = FALSE)
     if (!is.null(samp.rate))
        cll <- paste(cll, "rate", samp.rate * 1000)
     
-    if (!is.null(samp.rate))
+    if (!is.null(mono))
       cll <- paste(cll, "remix 1")
     
     if (!is.null(bit.depth))

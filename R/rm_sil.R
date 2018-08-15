@@ -1,6 +1,6 @@
 #' Remove silence in wave files
 #'
-#' \code{rm_sil} 
+#' \code{rm_sil} Removes silences in wave files
 #' @usage rm_sil(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
 #' flist = NULL, parallel = 1, pb = TRUE)
 #' @param path Character string containing the directory path where the sound files are located. 
