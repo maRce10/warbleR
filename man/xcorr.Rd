@@ -16,8 +16,11 @@ selection number (selec), and start and end time of signal (start and end).}
 is 512.}
 
 \item{frange}{A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
-in which to compare the signals. Must be provided. The \code{\link{dfts}} function can be used to determine this parameter if \code{dfrange = TRUE}. This method is more adequate for pure tone
-signals. Default is \code{NULL}.}
+in which to compare the signals or "frange" (default) to indicate that values in 'bottom.freq'
+and 'top.freq' columns will be used as frequency limits. Alternatively, the \code{\link{dfts}} function can 
+be used to determine this parameter if \code{dfrange = TRUE} and \code{frange = NULL}. This method is more 
+adequate for pure tone signals. Default is \code{NULL}. Either 'frange' should be provided or 
+set \code{dfrange = TRUE}.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
@@ -47,7 +50,8 @@ only 1 (\code{n = nrow(X)}).}
 \item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.}
 
-\item{dfrange}{Logical. If \code{TRUE} the \code{\link{dfts}} function can is used to determine the frequency range in which to compare signals.}
+\item{dfrange}{Logical. If \code{TRUE} the \code{\link{dfts}} function can is used to determine the frequency range in which to compare signals.
+Ignored if 'frange' is provided.}
 
 \item{cor.mat}{Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.}
 }

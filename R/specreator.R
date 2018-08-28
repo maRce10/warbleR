@@ -205,12 +205,12 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  # by song
   if (!is.null(by.song)) {
     Y <- X
     X <- song_param(X = Y, song_colm = by.song, pb = FALSE)
     X$selec <- 1
-    X <- fix_extended_selection_table(X, Y)
-    
+    if (is_extended_selection_table(Y)) X <- fix_extended_selection_table(X, Y)
     } else Y <- NULL
   
   #create function to run within Xapply functions downstream     

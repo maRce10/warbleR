@@ -2,15 +2,15 @@
 % Please edit documentation in R/coor.graph.R
 \name{coor_graph}
 \alias{coor_graph}
-\title{alternative name for \code{\link{coor_graph}}}
+\title{alternative name for \code{\link{coor.graph}}}
 \usage{
 coor_graph(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1, res = 80,
   it = "jpeg", img = TRUE, tlim = NULL, pb = TRUE)
 }
 \description{
-alternative name for \code{\link{coor_graph}}
+alternative name for \code{\link{coor.graph}}
 }
 \details{
-see \code{\link{coor_graph}} for documentation. \code{\link{coor.graph}} will be deprecated in future versions.
+see \code{\link{coor.graph}} for documentation. \code{\link{coor.graph}} will be deprecated in future versions.
 }
 \keyword{internal}

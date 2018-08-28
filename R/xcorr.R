@@ -9,9 +9,13 @@
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #' is 512.
 #' @param frange A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
-#' in which to compare the signals. Must be provided. The \code{\link{dfts}} function can be used to determine this parameter if \code{dfrange = TRUE}. This method is more adequate for pure tone
-#' signals. Default is \code{NULL}.
-#' @param dfrange Logical. If \code{TRUE} the \code{\link{dfts}} function can is used to determine the frequency range in which to compare signals. 
+#' in which to compare the signals or "frange" (default) to indicate that values in 'bottom.freq'
+#' and 'top.freq' columns will be used as frequency limits. Alternatively, the \code{\link{dfts}} function can 
+#' be used to determine this parameter if \code{dfrange = TRUE} and \code{frange = NULL}. This method is more 
+#' adequate for pure tone signals. Default is \code{NULL}. Either 'frange' should be provided or 
+#' set \code{dfrange = TRUE}.
+#' @param dfrange Logical. If \code{TRUE} the \code{\link{dfts}} function can is used to determine the frequency range in which to compare signals.
+#' Ignored if 'frange' is provided. 
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
 #' slow down the function but produce more accurate results.
@@ -122,9 +126,16 @@ xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp =
     if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
   
   #if flim is not vector or length!=2 stop
-  if (is.null(frange) & !dfrange) stop("either 'frange' must be provided or 'dfrange' set to TRUE")
-  if (!is.null(frange) & !is.vector(frange)) stop("'frange' must be a numeric vector of length 2") else
-      if (!is.null(frange) & !length(frange) == 2) stop("'frange' must be a numeric vector of length 2")
+  if (frange[1] != "frange")
+  {
+    if (is.null(frange) & !dfrange) stop("either 'frange' must be provided or 'dfrange' set to TRUE")
+  if (!is.null(frange) & !is.vector(frange)) stop("'frange' must be a numeric vector of length 2 or set to 'frange'") else
+      if (!is.null(frange) & !length(frange) == 2) stop("'frange' must be a numeric vector of length 2 or set to 'frange'")
+    } else  {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'frange' = frange requires bottom.freq and top.freq columns in X")
+      if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
+      if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
+      if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than bottom.freq")
+    }
   
   #if wl is not vector or length!=1 stop
   if (!is.numeric(wl)) stop("'wl' must be a numeric vector of length 1") else {
@@ -141,11 +152,29 @@ xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp =
     if (!is.vector(dens)) stop("'dens' must be a numeric vector of length 1") else{
       if (!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
   
+  if (!is_extended_selection_table(X)){
+    #return warning if not all sound files were found
+    fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+    if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
+      write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+                                 ".wav file(s) not found"))
+    
+    #count number of sound files in working directory and if 0 stop
+    d <- which(X$sound.files %in% fs) 
+    if (length(d) == 0){
+      stop("The .wav files are not in the working directory")
+    }  else {
+      X <- X[d, ]
+    }
+  }
+  
+  
 # if frange was not provided the range is calculated with dominant frequency range  
-if (dfrange) {df <- dfts(X, wl =300, img = FALSE, length.out = 50, parallel = parallel, clip.edges = TRUE)
+if (dfrange & is.null(frange)) {df <- dfts(X, wl =300, img = FALSE, length.out = 50, parallel = parallel, clip.edges = TRUE)
   df <- df[, 3:ncol(df)]
 frq.lim = c(min(df, na.rm = TRUE), max(df, na.rm = TRUE))
-} else frq.lim = frange
+} else 
+  if (frange == "frange") frq.lim <- c(min(X$bottom.freq), max(X$top.freq)) else frq.lim <- frange
 
   # If parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 

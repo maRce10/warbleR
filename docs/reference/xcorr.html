@@ -144,8 +144,11 @@ is 512.</p></td>
     <tr>
       <th>frange</th>
       <td><p>A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
-in which to compare the signals. Must be provided. The <code><a href='dfts.html'>dfts</a></code> function can be used to determine this parameter if <code>dfrange = TRUE</code>. This method is more adequate for pure tone
-signals. Default is <code>NULL</code>.</p></td>
+in which to compare the signals or "frange" (default) to indicate that values in 'bottom.freq'
+and 'top.freq' columns will be used as frequency limits. Alternatively, the <code><a href='dfts.html'>dfts</a></code> function can 
+be used to determine this parameter if <code>dfrange = TRUE</code> and <code>frange = NULL</code>. This method is more 
+adequate for pure tone signals. Default is <code>NULL</code>. Either 'frange' should be provided or 
+set <code>dfrange = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>ovlp</th>
@@ -195,7 +198,8 @@ results. This means that all selections with at least 1 cross-correlation that f
     </tr>
     <tr>
       <th>dfrange</th>
-      <td><p>Logical. If <code>TRUE</code> the <code><a href='dfts.html'>dfts</a></code> function can is used to determine the frequency range in which to compare signals.</p></td>
+      <td><p>Logical. If <code>TRUE</code> the <code><a href='dfts.html'>dfts</a></code> function can is used to determine the frequency range in which to compare signals.
+Ignored if 'frange' is provided.</p></td>
     </tr>
     <tr>
       <th>cor.mat</th>

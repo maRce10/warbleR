@@ -9,7 +9,6 @@
 #' @export
 #' @name wavdur
 #' @details This function returns the duration (in seconds) of sound files.
-#'   
 #' @examples
 #' {
 #' # Set temporary working directory

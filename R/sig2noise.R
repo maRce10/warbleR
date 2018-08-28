@@ -251,7 +251,11 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     snr_FUN(y = i, mar, bp, wl, type, before, in.dB, lim.dB)
   }) 
       
-    # Add SNR data to manualoc output
-    z <- data.frame(X[d,], SNR = SNR)
-  return(z)
+    # Add SNR data to X
+    z <- data.frame(X, SNR = SNR)
+    
+  # fix extended selection table
+    if (is_extended_selection_table(X)) z <- fix_extended_selection_table(X = z, Y = X)  
+
+    return(z)
 }
