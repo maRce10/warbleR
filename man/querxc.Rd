@@ -86,6 +86,12 @@ phae.cr <- querxc(qword = 'gen:phaeochroa cnt:"costa rica"', download = FALSE)
 # search for all female songs in sound type
 femsong <- querxc(qword = 'type:song type:female', download = FALSE)
 }
+
+}
+\references{
+{
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+}
 }
 \seealso{
 \code{\link{xcmaps}}, 

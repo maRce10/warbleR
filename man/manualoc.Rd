@@ -78,7 +78,10 @@ Ignored if \code{ext.window = FALSE}. Default is 5.}
 and end times of acoustic signals can be measured.
 }
 \details{
-Users can zoom-in a specific sound file segment by clicking at the 
+This function may work very slowly with middle and large size sound files. We strongly suggest using
+ other software tools (e.g. Raven, Avisoft) to create selection tables manually. 
+
+  Users can zoom-in a specific sound file segment by clicking at the 
   start and end (left side and right side) of the segment. To select the
   start and end of a vocalization unit the users need to click at the end and
   then at the start (right side and left side) of the unit. In addition, 6 

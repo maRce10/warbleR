@@ -32,6 +32,12 @@ try_na(crazy78(12))
 # try a real function (no error)
 try_na(mean(1:5))
 }
+
+}
+\references{
+{
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

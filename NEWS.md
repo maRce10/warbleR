@@ -12,6 +12,7 @@
 * 'selection_table` now can take files found in different directories and create extended selection tables
 * new parameters measured by  'specan()'
 * wav.size.MB column names is now wav.size in 'check_sels()' output
+* 'title.labels' argument in 'specreator()' to customized title
 
 ## Bug fixes:
 

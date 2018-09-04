@@ -67,8 +67,12 @@
 #' }
 #' @seealso \code{\link{xcorr.graph}}
 #' @author Marcelo Araya-Salas \email{araya-salas@@cornell.edu})
-#' @references H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic 
-#' cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
+#' 
+#' @references {
+#' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+#' 
+#' H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
+#' }
 # last modification on may-7-2018 (MAS)
 
 xcorr <- function(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9, bp = NULL, wn ='hanning', 

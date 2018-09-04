@@ -40,15 +40,6 @@
 #' expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
 #' than the observed value. The function runs one test for each singing event in the input data frame. The function 
 #' is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
-#' @references 
-#' {
-#' Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.\
-#'  (2017) To overlap or not to overlap: context-dependent coordinated singing in 
-#'  lekking long-billed hermits. Anim Behav.
-#' Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song 
-#' Overlap Null model Generator (SONG): a new tool for distinguishing between random
-#' and non-random song overlap. Bioacoustics.
-#' } 
 #' @examples{
 #' #load  simulated singing data (see data documentation)
 #' data(sim_coor_sing)
@@ -59,6 +50,20 @@
 #' # testing if coordination happens more than expected by chance
 #' coor.test(sim_coor_sing, iterations = 100, less.than.chance = FALSE)
 #' }
+#' 
+#' @references 
+#' {
+#' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals.
+#'  Methods in Ecology and Evolution, 8(2), 184-191.
+#' 
+#' Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.\
+#'  (2017) To overlap or not to overlap: context-dependent coordinated singing in 
+#'  lekking long-billed hermits. Anim Behav.
+#' 
+#' Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song 
+#' Overlap Null model Generator (SONG): a new tool for distinguishing between random
+#' and non-random song overlap. Bioacoustics.
+#' } 
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on apr-11-2018 (MAS)
 

@@ -47,6 +47,12 @@ writeWave(Phae.long4,"Phae.long4.wav")
 #get info
 wav_info()
 }
+
+}
+\references{
+{
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+}
 }
 \seealso{
 \code{\link{fixwavs}}, \code{\link{selection_table}} & \code{\link{checksels}}

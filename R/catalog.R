@@ -114,7 +114,7 @@
 #' @param sub.legend Logical. If \code{TRUE} then only the levels present on each
 #' page are shown in the legend. Default is \code{FALSE}.
 #' @param rm.axes Logical. If \code{TRUE} frequency and time axes are excluded. Default is \code{FALSE}.
-#' @param title Character vector of length 1 to set the tile of catalogs. 
+#' @param title Character vector of length 1 to set the title of catalogs. 
 #' @param by.row Logical. If \code{TRUE} (default) catalogs are filled by rows. 
 #' @param box Logical. If \code{TRUE} (default) a box is drawn around spectrograms and 
 #' corresponding labels and tags. 
@@ -193,6 +193,7 @@
 #' check this floder
 #' getwd()
 #' }
+#' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on feb-09-2017 (MAS)
 

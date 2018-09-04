@@ -68,6 +68,11 @@ getwd()
 }
 
 }
+\references{
+{
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+}
+}
 \seealso{
 \code{\link{seltailor}} for tailoring selections 
  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}

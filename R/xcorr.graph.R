@@ -39,6 +39,13 @@
 #'  #plot pairwise scores
 #'   #xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
 #' }
+#' 
+#' @references {
+#' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+#' 
+#' H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
+#' }
+
 #' @seealso \code{\link{xcorr}}
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 

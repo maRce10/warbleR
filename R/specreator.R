@@ -3,11 +3,11 @@
 #' \code{specreator} creates spectrograms of signals from selection tables.
 #' @usage specreator(X, wl = 512, flim = "frange", wn = "hanning", pal
 #'   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-#'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
+#'   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1,
 #'   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 #'   col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, it = "jpeg", 
 #'   parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, 
-#'   sel.labels = "selec", ...)
+#'   sel.labels = "selec", title.labels = NULL, ...)
 #' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
 #' Low and high frequency columns are optional.
@@ -36,8 +36,6 @@
 #'   presentation quality.
 #' @param cexlab Numeric vector of length 1 specifying the relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}.
-#' @param title Logical argument to add a title to individual spectrograms. 
-#'   Default is \code{TRUE}.
 #' @param propwidth Logical argument to scale the width of spectrogram 
 #'   proportionally to duration of the selection. Default is \code{FALSE}.
 #' @param xl Numeric vector of length 1. A constant by which to scale 
@@ -72,6 +70,7 @@
 #' the function assumes that song labels are not repeated within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.
 #' @param sel.labels Character string with the name of the column for selection 
 #' labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.
+#' @param title.labels Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.
 #' @param ... Additional arguments to be passed to the internal spectrogram 
 #' creating function for customizing graphical output. The function is a modified 
 #' version of \code{\link[seewave]{spectro}}, so it takes the same arguments. 
@@ -105,14 +104,17 @@
 #' getwd()
 #' }
 #' 
+#' @references {
+#' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+#' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on mar-13-2018 (MAS)
 
 specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                         inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
-                        cexlab = 1, title = TRUE, propwidth = FALSE, xl = 1, osci = FALSE,  gr = FALSE,
+                        cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE,  gr = FALSE,
                        sc = FALSE, line = TRUE, col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, 
-                       it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", ...){
+                       it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", title.labels = NULL, ...){
   
   # reset working directory 
   wd <- getwd()
@@ -181,6 +183,11 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   
   #wrap img creating function
   if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
+  
+  #missing label columns
+  if (!all(title.labels %in% colnames(X)))
+    stop(paste(paste(title.labels[!(title.labels %in% colnames(X))], collapse=", "), "label column(s) not found in data frame"))
+  
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
@@ -263,13 +270,12 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
                      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)
     
     # Add title to spectrogram
-    if (title) 
+    if (!is.null(title.labels)) 
       if (!is.null(by.song))
         title(paste0(X$sound.files[i], "-", X[i, by.song]), cex.main = cexlab) else
-      {if (!is.null(X$sel.comment[i]))
-      title(paste(X$sound.files[i], "-", X$selec[i], "-", X$sel.comment[i], sep = ""), cex.main = cexlab) else
-        title(paste(X$sound.files[i], "-", X$selec[i], sep = ""), cex.main = cexlab)
-}    
+      title(paste(X[i, title.labels], collapse = " "), cex.main = cexlab) 
+  
+  
     # Plot lines to visualize selections (start and end of signal)
     if (line){  
       if (any(names(X) == "bottom.freq") & any(names(X) == "top.freq"))

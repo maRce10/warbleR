@@ -159,7 +159,7 @@ page are shown in the legend. Default is \code{FALSE}.}
 
 \item{rm.axes}{Logical. If \code{TRUE} frequency and time axes are excluded. Default is \code{FALSE}.}
 
-\item{title}{Character vector of length 1 to set the tile of catalogs.}
+\item{title}{Character vector of length 1 to set the title of catalogs.}
 
 \item{by.row}{Logical. If \code{TRUE} (default) catalogs are filled by rows.}
 
@@ -243,6 +243,9 @@ catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 check this floder
 getwd()
 }
+}
+\references{
+{Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 }
 \seealso{
 \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs},

@@ -6,11 +6,11 @@
 \usage{
 specreator(X, wl = 512, flim = "frange", wn = "hanning", pal
   = reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE,
+  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1,
   propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
   col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, it = "jpeg", 
   parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, 
-  sel.labels = "selec", ...)
+  sel.labels = "selec", title.labels = NULL, ...)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
@@ -51,9 +51,6 @@ presentation quality.}
 
 \item{cexlab}{Numeric vector of length 1 specifying the relative size of axis 
 labels. See \code{\link[seewave]{spectro}}.}
-
-\item{title}{Logical argument to add a title to individual spectrograms. 
-Default is \code{TRUE}.}
 
 \item{propwidth}{Logical argument to scale the width of spectrogram 
 proportionally to duration of the selection. Default is \code{FALSE}.}
@@ -105,6 +102,8 @@ the function assumes that song labels are not repeated within a sound file. If \
 \item{sel.labels}{Character string with the name of the column for selection 
 labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.}
 
+\item{title.labels}{Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.}
+
 \item{...}{Additional arguments to be passed to the internal spectrogram 
 creating function for customizing graphical output. The function is a modified 
 version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
@@ -140,6 +139,11 @@ specreator(X = selec.table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
 getwd()
 }
 
+}
+\references{
+{
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+}
 }
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize 

@@ -87,6 +87,12 @@ sm_sng2 <- sim_songs(n = 5, harms = 3)
  # plot spectro
  seewave::spectro(sm_sng2)
 }
+
+}
+\references{
+{
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+}
 }
 \seealso{
 \code{\link{querxc}} for for downloading bird vocalizations from an online repository.

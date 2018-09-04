@@ -129,7 +129,9 @@ getwd()
 }
 }
 \references{
+{Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 \href{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}{Wikipedia: Signal-to-noise ratio}
+}
 }
 \seealso{
 \code{\link{trackfreqs}} for creating spectrograms to visualize 

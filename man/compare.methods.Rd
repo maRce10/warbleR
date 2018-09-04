@@ -179,6 +179,9 @@ methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
 }
 
 }
+\references{
+{Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
+}
 \seealso{
 \href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
 }

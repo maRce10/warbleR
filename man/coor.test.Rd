@@ -69,12 +69,17 @@ coor.test(sim_coor_sing, iterations = 100, less.than.chance = TRUE)
 # testing if coordination happens more than expected by chance
 coor.test(sim_coor_sing, iterations = 100, less.than.chance = FALSE)
 }
+
 }
 \references{
 {
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals.
+ Methods in Ecology and Evolution, 8(2), 184-191.
+
 Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.\
  (2017) To overlap or not to overlap: context-dependent coordinated singing in 
  lekking long-billed hermits. Anim Behav.
+
 Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song 
 Overlap Null model Generator (SONG): a new tool for distinguishing between random
 and non-random song overlap. Bioacoustics.

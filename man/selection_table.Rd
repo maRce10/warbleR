@@ -124,6 +124,12 @@ selec.table$song <- as.numeric(selec.table$sound.files)
 
 st <- selection_table(X = selec.table, extended = TRUE, confirm.extended = FALSE, by.song = "song")
 }
+
+}
+\references{
+{
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+}
 }
 \seealso{
 \code{\link{checkwavs}}, \href{https://marce10.github.io/2018/05/15/Extended_selection_tables.html}{blog post on extended selection tables}
