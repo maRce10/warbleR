@@ -140,7 +140,7 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
  
  ## SPECTROGRAMS (save in temporary directory)  
   # save specreator call
- cll.spec <- quote(specreator(line = FALSE, pb = FALSE))
+ cll.spec <- quote(specreator(line = FALSE, pb = FALSE, dest.path = tempdir()))
  
  # keep arguments in ... found in specreator
  shr.args <- argus[names(argus) %in% names(formals(specreator))]
@@ -233,7 +233,7 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
   for(y in 1:nrow(X)) {
     
     # read images    
-    img <- jpeg::readJPEG(source = file.path(path, paste0(X$sound.files[y], "-", X$selec[y], ".jpeg")))
+    img <- jpeg::readJPEG(source = file.path(tempdir(), paste0(X$sound.files[y], "-", X$selec[y], ".jpeg")))
     
     # get image aspect
     asp <- dim(img)[1]/dim(img)[2]
