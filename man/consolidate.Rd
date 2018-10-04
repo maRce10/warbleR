@@ -78,3 +78,4 @@ Other selection manipulation, sound file manipulation: \code{\link{cut_sels}}
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
+\concept{selection manipulation, sound file manipulation}

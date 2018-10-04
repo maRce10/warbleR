@@ -1,15 +1,15 @@
 #' Convert .mp3 files to .wav
 #' 
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
-#' @usage mp32wav(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL, 
+#' @usage mp32wav(samp.rate = 44.1, parallel = 1, path = NULL, 
 #' to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE, overwrite = FALSE)  
-#' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.
-#' @param parallel Numeric. Controls whether parallel computing is applied.
+#' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). 
+#' Units should be kHz. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
+#' \code{\link[tuneR]{downsample}} function from tuneR, which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses SOX instead).  
+#' @param parallel Numeric. Controls whether parallel computing is applied. 
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' @param from Character string containing the directory path where the .mp3 files are located. Will be deprecated in future versions.
 #' @param path Character string containing the directory path where the .mp3 files are located.   
-#' If \code{NULL} (default) then the current working directory is used. Same as
-#' 'from' (will replace it in future versions).
+#' If \code{NULL} (default) then the current working directory is used. 
 #' @param to Character string containing the directory path where the .wav files will be saved. 
 #' If \code{NULL} (default) then the current working directory is used. Will be deprecated in future versions.
 #' @param dest.path Character string containing the directory path where the .wav files will be saved. 
@@ -44,7 +44,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on mar-13-2018 (MAS)
 
-mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL, 
+mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL, 
                     to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE, overwrite = FALSE) {
   
   # reset working directory 
@@ -54,14 +54,12 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL,
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
-  if (!is.null(path)) from <- path
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(mp32wav)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   # rename path for sound files
   names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
@@ -80,11 +78,11 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL,
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  if (!is.null(from))
-  {if (!dir.exists(from)) stop("'path' provided does not exist")} else
-    from <- wd #set working directory
+  if (!is.null(path))
+  {if (!dir.exists(path)) stop("'path' provided does not exist")} else
+    path <- wd #set working directory
 
-  setwd(from)
+  setwd(path)
   
   if (!is.null(to))
   {if (!dir.exists(to)) stop("'path' provided does not exist")} else
@@ -125,17 +123,31 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, from = NULL, path = NULL,
  # function to convert single mp3  
  mp3_conv_FUN <- function(x, normalize) {
    
+   # read mp3
    wv <- try(tuneR::readMP3(filename =  x), silent = TRUE)
    
+   
+   
+   # downsample and filter if samp.rate different than mp3
    if(class(wv) == "Wave")
    {
-     if (wv@samp.rate != samp.rate * 1000)
-   wv <- tuneR::downsample(object = wv, samp.rate = samp.rate * 1000)
-   
-   if (!is.null(normalize))
-   wv <- tuneR::normalize(object = wv, unit = normalize)
-   
-   wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(from, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
+     if (wv@samp.rate != samp.rate * 1000) {
+      
+      # filter first to avoid aliasing 
+      wv <- seewave::fir(wave = wv , f = wv@samp.rate, from = 0, to = samp.rate * 1000 / 2, bandpass = TRUE, output = "Wave")
+
+      #downsample
+      wv <- tuneR::downsample(object = wv, samp.rate = samp.rate * 1000)
+     
+      # force normalize
+      if (is.null(normalize)) normalize <- "16"
+      }
+
+    # normalize 
+    if (!is.null(normalize))
+       wv <- tuneR::normalize(object = wv, unit = normalize)
+     
+   wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
    }
    return(wv)
    }

@@ -168,7 +168,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   argms <- methods::formalArgs(compare.methods)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   options(warn = -1)
   on.exit(options(warn = 0), add = TRUE)

@@ -4,8 +4,8 @@
 \alias{coor_graph}
 \title{alternative name for \code{\link{coor.graph}}}
 \usage{
-coor_graph(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1, res = 80,
-  it = "jpeg", img = TRUE, tlim = NULL, pb = TRUE)
+coor_graph(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,
+  res = 80, it = "jpeg", img = TRUE, tlim = NULL, pb = TRUE)
 }
 \description{
 alternative name for \code{\link{coor.graph}}

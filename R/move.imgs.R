@@ -81,7 +81,7 @@ move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
   argms <- methods::formalArgs(move.imgs)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   # rename path for sound files
   names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
@@ -109,7 +109,7 @@ move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
   # list images
   imgs <- list.files(path = from, pattern = pattern, ignore.case = TRUE)
   
-  if (length(imgs) == 0) cat(paste("No image files were found in", from))
+  if (length(imgs) == 0) cat(paste("No image files were found in", from)) else {
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
@@ -133,7 +133,7 @@ a <- pbapply::pblapply(X = seq(1, length(imgs), by = 10), cl = cl, FUN = functio
     if (any(!a) & !overwrite) cat(paste("Some files already existed in 'to'", to))
   
   if (cut) unlink(file.path(from, imgs)[a])
-  
+  }  
 }
 
 

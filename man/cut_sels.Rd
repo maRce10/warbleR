@@ -82,3 +82,4 @@ Other selection manipulation, sound file manipulation: \code{\link{consolidate}}
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
 }
+\concept{selection manipulation, sound file manipulation}

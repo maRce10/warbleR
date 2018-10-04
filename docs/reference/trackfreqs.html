@@ -410,8 +410,9 @@ the dominant and fundamental frequencies.</p>
 <p>Other spectrogram creators: <code><a href='color.spectro.html'>color.spectro</a></code>,
   <code><a href='dfDTW.html'>dfDTW</a></code>, <code><a href='dfts.html'>dfts</a></code>,
   <code><a href='ffDTW.html'>ffDTW</a></code>, <code><a href='ffts.html'>ffts</a></code>,
-  <code><a href='multi_DTW.html'>multi_DTW</a></code>, <code><a href='snrspecs.html'>snrspecs</a></code>,
-  <code><a href='sp.en.ts.html'>sp.en.ts</a></code>, <code><a href='specreator.html'>specreator</a></code></p></div>
+  <code><a href='multi_DTW.html'>multi_DTW</a></code>, <code><a href='phylo_spectro.html'>phylo_spectro</a></code>,
+  <code><a href='snrspecs.html'>snrspecs</a></code>, <code><a href='sp.en.ts.html'>sp.en.ts</a></code>,
+  <code><a href='specreator.html'>specreator</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -446,11 +447,7 @@ the dominant and fundamental frequencies.</p>
 <span class='fu'>trackfreqs</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>ad</span>[!<span class='fu'>is.na</span>(<span class='no'>ad</span>$<span class='no'>start</span>),], <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>5</span>), <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"tiff"</span>,
 <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='kw'>contour</span> <span class='kw'>=</span> <span class='st'>"both"</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 
-}</div><div class='output co'>#&gt; Detecting signals in sound files:   |                                                  | 0 % ~calculating     |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
-#&gt;    |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt;    |+++++++++++++++++++++++++                         | 50% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt; measuring dominant frequency:   |                                                  | 0 % ~calculating     |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt;    |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt;    |+++++++++++++++++++++++++                         | 50% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt;    |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt;    |+++++++++++++++++++++++++                         | 50% ~00s          </div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s</div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='error'>Error in autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2, maxdur = 3,     img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav"): 'flim' must be a numeric vector of length 2</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

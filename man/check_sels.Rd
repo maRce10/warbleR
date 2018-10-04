@@ -4,8 +4,8 @@
 \alias{check_sels}
 \title{alternative name for \code{\link{checksels}}}
 \usage{
-check_sels(X = NULL, parallel = 1, path = NULL, check.header = FALSE,
-  pb = TRUE, wav.size = FALSE)
+check_sels(X = NULL, parallel = 1, path = NULL,
+  check.header = FALSE, pb = TRUE, wav.size = FALSE)
 }
 \description{
 alternative name for \code{\link{checksels}}

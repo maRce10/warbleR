@@ -5,7 +5,7 @@
 \title{Randomization test for singing coordination}
 \usage{
 coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE, 
-rm.imcomp = FALSE, cutoff = 2, rm.solo = FALSE)
+rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE)
 }
 \arguments{
 \item{X}{Data frame containing columns for singing event (sing.event), 
@@ -22,11 +22,11 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
-\item{rm.imcomp}{Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
+\item{rm.incomp}{Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
 \code{FALSE}.}
 
 \item{cutoff}{Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
-this criterium are removed if rm.imcomp is \code{TRUE}. If rm.icomp is \code{FALSE} cutoff is ignored. Default is 2. 
+this criterium are removed if rm.incomp is \code{TRUE}. If rm.icomp is \code{FALSE} cutoff is ignored. Default is 2. 
 Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
 should be available in each singing event.}
 
@@ -47,13 +47,13 @@ A data frame with the following columns:
    }
 }
 \description{
-Monte Carlo randomization test to assess the statistical significance of singing coordination
+Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing
 }
 \details{
-This function calculates the probability of finding and equal or lower number 
+This function calculates the probability of finding an equal or lower number 
 (or higher if les.than.chance is \code{TRUE}) of song overlaps in a coordinated singing event. 
 The function shuffles the sequences of signals and silence-between-signals for both individuals to produce 
-a null distribution of expected number of overlaps by chance. The observed number of overlaps is compared to this
+a null distribution of number of overlaps expected by chance. The observed number of overlaps is compared to this
 expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
 than the observed value. The function runs one test for each singing event in the input data frame. The function 
 is equivalent to the "KeepGaps" methods described in Masco et al. 2015.

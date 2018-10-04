@@ -4,13 +4,13 @@
 \alias{color_spectro}
 \title{alternative name for \code{\link{color.spectro}}}
 \usage{
-color_spectro(wave, wl = 512, wn = "hanning", ovlp = 70, dB = "max0",
-  collevels = NULL, selec.col = "red2", col.clm = NULL,
-  base.col = "black", bg.col = "white", cexlab = 1, cexaxis = 1,
-  tlab = "Time (s)", flab = "Frequency (kHz)", title = NULL,
-  axisX = TRUE, axisY = TRUE, flim = NULL, rm.zero = FALSE, X = NULL,
-  fast.spec = FALSE, t.mar = NULL, f.mar = NULL, interactive = NULL,
-  add = FALSE)
+color_spectro(wave, wl = 512, wn = "hanning", ovlp = 70,
+  dB = "max0", collevels = NULL, selec.col = "red2",
+  col.clm = NULL, base.col = "black", bg.col = "white", cexlab = 1,
+  cexaxis = 1, tlab = "Time (s)", flab = "Frequency (kHz)",
+  title = NULL, axisX = TRUE, axisY = TRUE, flim = NULL,
+  rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL,
+  f.mar = NULL, interactive = NULL, add = FALSE)
 }
 \description{
 alternative name for \code{\link{color.spectro}}

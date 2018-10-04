@@ -32,7 +32,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 }
 \value{
 Sound files for which silence segments have been removed are saved in the new 
-folder "removed_silence_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
+folder "silence-removed_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
 that were removed are also saved.
 }
 \description{
@@ -60,10 +60,10 @@ env(wv1)
  writeWave(object = wv1, filename = "wv1.wav", extensible = FALSE)
 
 #remove silence
-rm_sil(flist = "wv1.wav")
+rm_sil(flist = "wv1.wav", pb = FALSE)
 
-# OR this is tempdir was used instead
-# rm_sil(path = tempdir(), flist = "wv1.wav")
+# OR this if tempdir was used instead
+# rm_sil(path = tempdir(), flist = "wv1.wav", pb = FALSE)
 
 #check this floder
 getwd()

@@ -248,8 +248,9 @@ if there are no frequenciesabove the amplitude theshold in between signal segmen
 <p>Other spectrogram creators: <code><a href='color.spectro.html'>color.spectro</a></code>,
   <code><a href='dfDTW.html'>dfDTW</a></code>, <code><a href='dfts.html'>dfts</a></code>,
   <code><a href='ffDTW.html'>ffDTW</a></code>, <code><a href='ffts.html'>ffts</a></code>,
-  <code><a href='multi_DTW.html'>multi_DTW</a></code>, <code><a href='snrspecs.html'>snrspecs</a></code>,
-  <code><a href='specreator.html'>specreator</a></code>, <code><a href='trackfreqs.html'>trackfreqs</a></code></p></div>
+  <code><a href='multi_DTW.html'>multi_DTW</a></code>, <code><a href='phylo_spectro.html'>phylo_spectro</a></code>,
+  <code><a href='snrspecs.html'>snrspecs</a></code>, <code><a href='specreator.html'>specreator</a></code>,
+  <code><a href='trackfreqs.html'>trackfreqs</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -271,31 +272,7 @@ if there are no frequenciesabove the amplitude theshold in between signal segmen
 <span class='co'># with clip edges and length.out 10</span>
 <span class='fu'>sp.en.ts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>12</span>), <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
-}</div><div class='output co'>#&gt; Creating spectrograms overlaid with dominant frequency measurements:   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; 
-#&gt; Creating spectrograms overlaid with dominant frequency measurements:   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; </div><div class='output co'>#&gt;       sound.files selec sp.en-1 sp.en-2 sp.en-3 sp.en-4 sp.en-5 sp.en-6 sp.en-7
-#&gt; 1  Phae.long1.wav     1   0.895   0.843   0.859   0.891   0.840   0.880   0.861
-#&gt; 2  Phae.long1.wav     2   0.901   0.802   0.887   0.903   0.853   0.842   0.902
-#&gt; 3  Phae.long1.wav     3   0.945   0.881   0.876   0.931   0.859   0.878   0.931
-#&gt; 4  Phae.long2.wav     1   0.929   0.891   0.921   0.920   0.897   0.879   0.883
-#&gt; 5  Phae.long2.wav     2   0.920   0.900   0.923   0.924   0.898   0.879   0.875
-#&gt; 6  Phae.long3.wav     1   0.932   0.905   0.852   0.880   0.859   0.864   0.849
-#&gt; 7  Phae.long3.wav     2   0.933   0.904   0.884   0.873   0.854   0.867   0.863
-#&gt; 8  Phae.long3.wav     3   0.916   0.901   0.832   0.872   0.854   0.862   0.866
-#&gt; 9  Phae.long4.wav     1   0.924   0.842   0.815   0.825   0.835   0.884   0.881
-#&gt; 10 Phae.long4.wav     2   0.931   0.835   0.834   0.834   0.849   0.900   0.845
-#&gt; 11 Phae.long4.wav     3   0.949   0.828   0.818   0.839   0.855   0.886   0.868
-#&gt;    sp.en-8 sp.en-9 sp.en-10
-#&gt; 1    0.779   0.826    0.933
-#&gt; 2    0.798   0.814    0.923
-#&gt; 3    0.782   0.826    0.862
-#&gt; 4    0.872   0.894    0.928
-#&gt; 5    0.877   0.873    0.910
-#&gt; 6    0.854   0.862    0.934
-#&gt; 7    0.845   0.847    0.861
-#&gt; 8    0.841   0.850    0.894
-#&gt; 9    0.776   0.804    0.901
-#&gt; 10   0.770   0.818    0.903
-#&gt; 11   0.804   0.831    0.912</div><div class='input'>
+}</div><div class='output co'>#&gt; Creating spectrograms overlaid with dominant frequency measurements:   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; <span class='error'>Error in if (fl[2] &gt; ceiling(f/2000) - 1) fl[2] &lt;- ceiling(f/2000) - 1: missing value where TRUE/FALSE needed</span></div><div class='output co'>#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

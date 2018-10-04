@@ -5,7 +5,7 @@
 \title{alternative name for \code{\link{coor.test}}}
 \usage{
 coor_test(X = NULL, iterations = 1000, less.than.chance = TRUE,
-  parallel = 1, pb = TRUE, rm.imcomp = FALSE, cutoff = 2,
+  parallel = 1, pb = TRUE, rm.incomp = FALSE, cutoff = 2,
   rm.solo = FALSE)
 }
 \description{

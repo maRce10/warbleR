@@ -43,7 +43,7 @@ filled_contour_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = seq(0, 1
     }
   }
   else plot.axes
-  box()
+   box()
   if (missing(plot.title)) 
     title()
   else plot.title

@@ -83,3 +83,4 @@ Other data manipulation: \code{\link{open_wd}}
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
+\concept{data manipulation}

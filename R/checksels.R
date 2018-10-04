@@ -68,7 +68,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   argms <- methods::formalArgs(checksels)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   # rename path for sound files
   names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"

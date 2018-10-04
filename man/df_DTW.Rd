@@ -8,9 +8,9 @@ df_DTW(X = NULL, wl = 512, wl.freq = 512, length.out = 20,
   wn = "hanning", ovlp = 70, bp = c(0, 22), threshold = 15,
   threshold.time = NULL, threshold.freq = NULL, img = TRUE,
   parallel = 1, path = NULL, ts.df = NULL, img.suffix = "dfDTW",
-  pb = TRUE, clip.edges = TRUE, window.type = "none", open.end = FALSE,
-  scale = FALSE, frange.detec = FALSE, fsmooth = 0.1, adjust.wl = TRUE,
-  ...)
+  pb = TRUE, clip.edges = TRUE, window.type = "none",
+  open.end = FALSE, scale = FALSE, frange.detec = FALSE,
+  fsmooth = 0.1, adjust.wl = TRUE, ...)
 }
 \description{
 alternative name for \code{\link{dfDTW}}

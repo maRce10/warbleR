@@ -77,7 +77,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL,
     argms <- methods::formalArgs(specan)
     
     # get warbleR options
-    opt.argms <- .Options$warbleR
+    opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
     
     # rename path for sound files
     names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"

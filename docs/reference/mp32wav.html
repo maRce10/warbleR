@@ -124,7 +124,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>mp32wav</span>(<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>mp32wav</span>(<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
 <span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dest.path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>normalize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -132,22 +132,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>samp.rate</th>
-      <td><p>Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). Units should be kHz.</p></td>
+      <td><p>Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). 
+Units should be kHz. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
+<code><a href='http://www.rdocumentation.org/packages/tuneR/topics/downsample'>downsample</a></code> function from tuneR, which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the <code><a href='fix_wavs.html'>fix_wavs</a></code> function (which uses SOX instead).</p></td>
     </tr>
     <tr>
       <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
+      <td><p>Numeric. Controls whether parallel computing is applied. 
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>from</th>
-      <td><p>Character string containing the directory path where the .mp3 files are located. Will be deprecated in future versions.</p></td>
     </tr>
     <tr>
       <th>path</th>
       <td><p>Character string containing the directory path where the .mp3 files are located.
-If <code>NULL</code> (default) then the current working directory is used. Same as
-'from' (will replace it in future versions).</p></td>
+If <code>NULL</code> (default) then the current working directory is used.</p></td>
     </tr>
     <tr>
       <th>to</th>

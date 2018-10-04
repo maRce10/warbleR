@@ -58,7 +58,7 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
   argms <- methods::formalArgs(fixwavs)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   # rename path for sound files
   names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"

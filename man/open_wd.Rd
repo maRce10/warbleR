@@ -39,3 +39,4 @@ Other data manipulation: \code{\link{move.imgs}}
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
 }
+\concept{data manipulation}

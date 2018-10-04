@@ -89,7 +89,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   argms <- methods::formalArgs(sig2noise)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   # rename path for sound files
   names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
@@ -158,7 +158,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     # Read sound files to get sample rate and length
     r <- read_wave(X = X, index = y, header = TRUE)
-    # r <- tuneR::readWave(file.path(getwd(), X$sound.files[y]), header = TRUE)
+   
     f <- r$sample.rate
     
     

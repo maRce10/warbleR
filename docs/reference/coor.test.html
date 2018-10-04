@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Randomization test for singing coordination — coor.test" />
 
-<meta property="og:description" content="Monte Carlo randomization test to assess the statistical significance of singing coordination" />
+<meta property="og:description" content="Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,12 +120,12 @@
 
     <div class="ref-description">
     
-    <p>Monte Carlo randomization test to assess the statistical significance of singing coordination</p>
+    <p>Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>coor.test</span>(<span class='no'>X</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>less.than.chance</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>rm.imcomp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rm.solo</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='kw'>rm.incomp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rm.solo</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,14 +155,14 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
       <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>rm.imcomp</th>
+      <th>rm.incomp</th>
       <td><p>Logical. If <code>TRUE</code> removes the events that don't have 2 interacting individuals. Default is
 <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>cutoff</th>
       <td><p>Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
-this criterium are removed if rm.imcomp is <code>TRUE</code>. If rm.icomp is <code>FALSE</code> cutoff is ignored. Default is 2. 
+this criterium are removed if rm.incomp is <code>TRUE</code>. If rm.icomp is <code>FALSE</code> cutoff is ignored. Default is 2. 
 Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
 should be available in each singing event.</p></td>
     </tr>
@@ -190,10 +190,10 @@ A-B-A-B-A-B. Default is  <code>FALSE</code>.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function calculates the probability of finding and equal or lower number 
+    <p>This function calculates the probability of finding an equal or lower number 
 (or higher if les.than.chance is <code>TRUE</code>) of song overlaps in a coordinated singing event. 
 The function shuffles the sequences of signals and silence-between-signals for both individuals to produce 
-a null distribution of expected number of overlaps by chance. The observed number of overlaps is compared to this
+a null distribution of number of overlaps expected by chance. The observed number of overlaps is compared to this
 expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
 than the observed value. The function runs one test for each singing event in the input data frame. The function 
 is equivalent to the "KeepGaps" methods described in Masco et al. 2015.</p>
@@ -220,8 +220,8 @@ and non-random song overlap. Bioacoustics.</p>
 
 <span class='co'># testing if coordination happens more than expected by chance</span>
 <span class='fu'>coor.test</span>(<span class='no'>sim_coor_sing</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>less.than.chance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~01s             |++++++++++++++++++++++++++++++++++                | 67% ~01s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~01s             |++++++++++++++++++++++++++++++++++                | 67% ~01s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s</div><div class='output co'>#&gt;   sing.event obs.ovlps mean.random.ovlps p.value coor.score
+}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~01s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
+#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~01s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s</div><div class='output co'>#&gt;   sing.event obs.ovlps mean.random.ovlps p.value coor.score
 #&gt; 1     altern        20             36.53    1.00     -0.453
 #&gt; 2       ovlp        57             40.83    0.00      0.396
 #&gt; 3    uncoord        39             41.10    0.71     -0.051</div><div class='input'>

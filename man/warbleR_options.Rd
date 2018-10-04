@@ -4,9 +4,11 @@
 \alias{warbleR_options}
 \title{Setting warbleR options}
 \usage{
-warbleR_options(...)
+warbleR_options(reset = FALSE, ...)
 }
 \arguments{
+\item{reset}{Logical. If \code{TRUE} then all global parameters are removed. Default is \code{FALSE}.}
+
 \item{...}{Arguments in `parameter = value`` form, or a list of tagged values. The tags (i.e. parameters)
 must come from the list of parameters described below.}
 }

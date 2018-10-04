@@ -5,8 +5,8 @@
 \title{alternative name for \code{\link{ffDTW}}}
 \usage{
 ff_DTW(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
-  bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1, path = NULL,
-  img.suffix = "ffDTW", pb = TRUE, clip.edges = TRUE,
+  bp = c(0, 22), threshold = 5, img = TRUE, parallel = 1,
+  path = NULL, img.suffix = "ffDTW", pb = TRUE, clip.edges = TRUE,
   window.type = "none", open.end = FALSE, scale = FALSE, ...)
 }
 \description{

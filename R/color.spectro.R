@@ -108,7 +108,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   argms <- methods::formalArgs(color.spectro)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]

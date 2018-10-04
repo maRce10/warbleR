@@ -98,7 +98,7 @@
 <p> </p>
             
             <h4 class="date"><center>
-“2018-09-04”
+“2018-10-04”
 </center></h4>
       
       
@@ -259,7 +259,7 @@ Phae.lon &lt;-<span class="st"> </span><span class="kw"><a href="../reference/qu
 
 <span class="co"># Check out the structure of resulting the data frame</span>
 <span class="kw">str</span>(Phae.lon)</code></pre></div>
-<pre><code>78 recordings found!</code></pre>
+<pre><code>79 recordings found!</code></pre>
 <p> </p>
 <p>You can then use the function <code>xcmaps</code> to visualize the geographic spread of the queried recordings. <code>xcmaps</code> will create an image file of a map per species in your current directory if <code>img = TRUE</code>. If <code>img = FALSE</code>, maps will be displayed in the graphics device.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Image type default is jpeg, but tiff files have better resolution</span>
@@ -275,16 +275,16 @@ Phae.lon &lt;-<span class="st"> </span><span class="kw"><a href="../reference/qu
 <p> </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># How many recordings are available for Phaethornis longirostris?</span>
 <span class="kw">nrow</span>(Phae.lon) </code></pre></div>
-<pre><code>[1] 78</code></pre>
+<pre><code>[1] 79</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># How many signal types exist in the xeno-canto metadata?</span>
 <span class="kw">levels</span>(Phae.lon<span class="op">$</span>Vocalization_type)</code></pre></div>
-<pre><code>[1] "alarm call"        "flight call"       "song"              "song at lek"       "calls"             "call"              "lekking"          
+<pre><code>[1] "song"              "alarm call"        "flight call"       "song at lek"       "calls"             "call"              "lekking"          
 [8] "300"               "song, wing whirrs"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># How many recordings per signal type?</span>
 <span class="kw">table</span>(Phae.lon<span class="op">$</span>Vocalization_type)</code></pre></div>
 <pre><code>
-       alarm call       flight call              song       song at lek             calls              call           lekking               300 
-                1                 2                64                 2                 1                 5                 1                 1 
+             song        alarm call       flight call       song at lek             calls              call           lekking               300 
+               65                 1                 2                 2                 1                 5                 1                 1 
 song, wing whirrs 
                 1 </code></pre>
 <p> </p>
@@ -293,34 +293,34 @@ song, wing whirrs
 <span class="co"># First by quality</span>
 Phae.lon &lt;-<span class="st"> </span>Phae.lon[Phae.lon<span class="op">$</span>Quality <span class="op">==</span><span class="st"> "A"</span>, ]
 <span class="kw">nrow</span>(Phae.lon)</code></pre></div>
-<pre><code>[1] 19</code></pre>
+<pre><code>[1] 20</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Then by signal type</span>
 Phae.lon.song &lt;-<span class="st"> </span>Phae.lon[<span class="kw">grep</span>(<span class="st">"song"</span>, Phae.lon<span class="op">$</span>Vocalization_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>), ]
 <span class="kw">nrow</span>(Phae.lon.song)</code></pre></div>
-<pre><code>[1] 14</code></pre>
+<pre><code>[1] 15</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Finally by locality</span>
 Phae.lon.LS &lt;-<span class="st"> </span>Phae.lon.song[<span class="kw">grep</span>(<span class="st">"La Selva Biological Station, Sarapiqui, Heredia"</span>, Phae.lon.song<span class="op">$</span>Locality, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>), ]
 
 <span class="co"># Check resulting data frame, 6 recordings remain</span>
 <span class="kw">str</span>(Phae.lon.LS)</code></pre></div>
 <pre><code>'data.frame':   6 obs. of  17 variables:
- $ Recording_ID     : Factor w/ 78 levels "402755","402754",..: 12 13 14 15 16 17
+ $ Recording_ID     : Factor w/ 79 levels "433645","402755",..: 13 14 15 16 17 18
  $ Genus            : Factor w/ 1 level "Phaethornis": 1 1 1 1 1 1
  $ Specific_epithet : Factor w/ 1 level "longirostris": 1 1 1 1 1 1
  $ Subspecies       : Factor w/ 3 levels "","baroni","cephalus": 1 1 1 1 1 1
  $ English_name     : Factor w/ 1 level "Long-billed Hermit": 1 1 1 1 1 1
- $ Recordist        : Factor w/ 17 levels "Marilyn Castillo",..: 9 9 9 9 9 9
- $ Country          : Factor w/ 7 levels "Mexico","Panama",..: 5 5 5 5 5 5
- $ Locality         : Factor w/ 24 levels "Boca de Chajul, Marqués de Comillas, Chiapas",..: 10 10 10 10 10 10
- $ Latitude         : Factor w/ 23 levels "16.1332","16.1696",..: 10 10 10 10 10 10
- $ Longitude        : Factor w/ 22 levels "-90.9381","-90.9035",..: 10 10 10 10 10 10
- $ Vocalization_type: Factor w/ 9 levels "alarm call","flight call",..: 3 3 3 3 3 3
- $ Audio_file       : Factor w/ 78 levels "//www.xeno-canto.org/402755/download",..: 12 13 14 15 16 17
- $ License          : Factor w/ 5 levels "//creativecommons.org/licenses/by-nc-nd/4.0/",..: 3 3 3 3 3 3
- $ Url              : Factor w/ 78 levels "https://www.xeno-canto.org/402755",..: 12 13 14 15 16 17
+ $ Recordist        : Factor w/ 18 levels "Oscar Campbell",..: 10 10 10 10 10 10
+ $ Country          : Factor w/ 7 levels "Panama","Mexico",..: 5 5 5 5 5 5
+ $ Locality         : Factor w/ 25 levels "Panama Rainforest Discovery Centre",..: 11 11 11 11 11 11
+ $ Latitude         : Factor w/ 24 levels "9.1314","16.1332",..: 11 11 11 11 11 11
+ $ Longitude        : Factor w/ 23 levels "-79.7235","-90.9381",..: 11 11 11 11 11 11
+ $ Vocalization_type: Factor w/ 9 levels "song","alarm call",..: 1 1 1 1 1 1
+ $ Audio_file       : Factor w/ 79 levels "//www.xeno-canto.org/433645/download",..: 13 14 15 16 17 18
+ $ License          : Factor w/ 5 levels "//creativecommons.org/licenses/by-nc-sa/4.0/",..: 3 3 3 3 3 3
+ $ Url              : Factor w/ 79 levels "https://www.xeno-canto.org/433645",..: 13 14 15 16 17 18
  $ Quality          : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1
- $ Time             : Factor w/ 62 levels "07:30","07:00",..: 11 12 13 14 15 16
- $ Date             : Factor w/ 35 levels "2016-01-18","2017-02-09",..: 10 11 11 11 12 13</code></pre>
+ $ Time             : Factor w/ 62 levels "08:30","07:30",..: 12 13 14 15 16 17
+ $ Date             : Factor w/ 36 levels "2018-07-10","2016-01-18",..: 11 12 12 12 13 14</code></pre>
 <p> </p>
 <p>We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using <code>xcmaps</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># map in the RStudio graphics device (img = FALSE)</span>

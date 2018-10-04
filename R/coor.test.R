@@ -1,8 +1,8 @@
 #' Randomization test for singing coordination 
 #' 
-#' Monte Carlo randomization test to assess the statistical significance of singing coordination
+#' Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing
 #' @usage coor.test(X, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE, 
-#' rm.imcomp = FALSE, cutoff = 2, rm.solo = FALSE)
+#' rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE)
 #' @param  X Data frame containing columns for singing event (sing.event), 
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param iterations number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.
@@ -12,10 +12,10 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
-#' @param rm.imcomp Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
+#' @param rm.incomp Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
 #'  \code{FALSE}.
 #' @param cutoff Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
-#' this criterium are removed if rm.imcomp is \code{TRUE}. If rm.icomp is \code{FALSE} cutoff is ignored. Default is 2. 
+#' this criterium are removed if rm.incomp is \code{TRUE}. If rm.icomp is \code{FALSE} cutoff is ignored. Default is 2. 
 #' Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
 #' should be available in each singing event.
 #' @param rm.solo Logical. Controls if signals that are not intercalated at the start or end of the 
@@ -33,10 +33,10 @@
 #'    }
 #' @export
 #' @name coor.test
-#' @details This function calculates the probability of finding and equal or lower number 
+#' @details This function calculates the probability of finding an equal or lower number 
 #' (or higher if les.than.chance is \code{TRUE}) of song overlaps in a coordinated singing event. 
 #' The function shuffles the sequences of signals and silence-between-signals for both individuals to produce 
-#' a null distribution of expected number of overlaps by chance. The observed number of overlaps is compared to this
+#' a null distribution of number of overlaps expected by chance. The observed number of overlaps is compared to this
 #' expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
 #' than the observed value. The function runs one test for each singing event in the input data frame. The function 
 #' is equivalent to the "KeepGaps" methods described in Masco et al. 2015.
@@ -68,7 +68,7 @@
 #last modification on apr-11-2018 (MAS)
 
 coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, parallel = 1, pb = TRUE, 
-                      rm.imcomp = FALSE, cutoff = 2, rm.solo = FALSE)
+                      rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE)
 {
   on.exit(pbapply::pboptions(type = .Options$pboptions$type))
   
@@ -77,7 +77,7 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, para
   argms <- methods::formalArgs(coor.test)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   # rename path for sound files
   names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
@@ -117,9 +117,9 @@ coor.test <- function(X = NULL, iterations = 1000, less.than.chance = TRUE, para
   qw[is.na(qw)] <- 0
    
    #complete singing events
-    if (rm.imcomp) cse <- qw[,1] >= cutoff & qw[,2] >= cutoff else cse <- qw[,1] >= 1 & qw[,2] >= 1
+    if (rm.incomp) cse <- qw[,1] >= cutoff & qw[,2] >= cutoff else cse <- qw[,1] >= 1 & qw[,2] >= 1
     
-if (rm.imcomp)   {X <- X[X$sing.event %in% unique(X$sing.event)[cse], ]
+if (rm.incomp)   {X <- X[X$sing.event %in% unique(X$sing.event)[cse], ]
 if (any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
 } else
   if (any(!cse)) stop("Some singing events don't have 2 interacting individuals ('indiv' colum)")

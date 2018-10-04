@@ -7,10 +7,10 @@
 auto_detec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL,
   msmooth = NULL, power = 1, bp = NULL, osci = FALSE, wl = 512,
   xl = 1, picsize = 1, res = 100, flim = c(0, 22), ls = FALSE,
-  sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE,
-  img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
-  parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2,
-  fast.spec = FALSE, ...)
+  sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL,
+  redo = FALSE, img = TRUE, it = "jpeg", set = FALSE,
+  flist = NULL, smadj = NULL, parallel = 1, path = NULL,
+  pb = TRUE, pal = reverse.gray.colors.2, fast.spec = FALSE, ...)
 }
 \description{
 alternative name for \code{\link{autodetec}}

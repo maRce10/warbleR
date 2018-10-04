@@ -1,7 +1,8 @@
 #' Setting warbleR options 
 #' 
 #' \code{warbleR_options} sets global parameters for warbleR functions
-#' @usage warbleR_options(...)
+#' @usage warbleR_options(reset = FALSE, ...)
+#' @param reset Logical. If \code{TRUE} then all global parameters are removed. Default is \code{FALSE}.
 #' @param ... Arguments in `parameter = value`` form, or a list of tagged values. The tags (i.e. parameters)
 #'  must come from the list of parameters described below.
 #' @return When parameters are set by warbleR_options, their former values are 
@@ -67,7 +68,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 # last modification on apr-18-2018 (MAS)
 
-warbleR_options <- function(...){
+warbleR_options <- function(reset = FALSE, ...){
   opar <- getOption("warbleR")
   argms <- list(...)
   
@@ -87,6 +88,7 @@ warbleR_options <- function(...){
       options("warbleR" = npar)
     }
     invisible(opar)
-  } else print(opar)
-  
+  } else
+    if (reset)  options("warbleR" = NULL) else
+      print(opar)
 }

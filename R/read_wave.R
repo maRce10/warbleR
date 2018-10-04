@@ -5,7 +5,7 @@
 #' header = FALSE, path = NULL) 
 #' @param X 'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
-#' Low and high frequency columns are optional. Default is \code{NULL}.
+#' 'top.freq' and 'bottom.freq' columns are optional. Default is \code{NULL}.
 #' @param index Index of the selection in 'X' that will be read. Ignored if 'X' is \code{NULL}.
 #' @param from Where to start reading, in seconds. Default is \code{X$start[index]}.
 #' @param to Where to stop reading, in seconds. Default is \code{X$end[index]}.

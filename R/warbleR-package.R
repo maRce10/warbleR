@@ -131,6 +131,8 @@
 #'   
 #'   \code{\link{snrspecs}}: Create spectrograms to visualize margins over which 
 #'   noise will be measured by sig2noise
+#'   
+#'   \code{\link{phylo_spectro}}: Add spectrograms onto phylogenetic trees
 
 #' @exportClass selection_table
 #' @exportClass extended_selection_table

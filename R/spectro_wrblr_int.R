@@ -13,8 +13,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
           scalefontlab = 1, scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, 
           tlim = NULL, trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 
                                                                           1), 
-          heights = c(3, 1), oma = rep(0, 4), rnd = NULL, rm.lwst = FALSE, colwave =  adjustcolor("#07889B", alpha.f = 0.7),
-          ...) 
+          heights = c(3, 1), oma = rep(0, 4), rnd = NULL, rm.lwst = FALSE, colwave =  adjustcolor("#07889B", alpha.f = 0.7), ...) 
 {
  
   if(wl >= length(wave@left))  wl <- length(wave@left) - 1 
@@ -245,8 +244,8 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
                }, ...)
       par(mar = c(0, 4.1, 2.1, 2.1), las = 1, cex.lab = cexlab)
     if (!fast.spec)
-        filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
-                            nlevels = 20, plot.title = title(main = main, 
+        filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels,
+                          nlevels = 20, plot.title = title(main = main, 
                                                              xlab = "", ylab = flab), color.palette = palette, 
                             plot.axes = {
                               if (axisY) {

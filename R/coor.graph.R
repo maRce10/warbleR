@@ -56,16 +56,16 @@
 coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 80, it = "jpeg",
                         img = TRUE, tlim = NULL, pb = TRUE) { 
   
-  # warning message if ggplot2 is not installed
+  # error message if ggplot2 is not installed
   if (!requireNamespace("ggplot2",quietly = TRUE))
-    stop("'install ggplot2 to use coor.graph()'")
+    stop("must install 'ggplot2' to use coor.graph()")
   
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(coor.graph)
   
   # get warbleR options
-  opt.argms <- .Options$warbleR
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
@@ -208,9 +208,9 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
         ggplot2::scale_x_continuous("Time (s)") +
         ggplot2::scale_y_continuous(name = NULL, breaks= c(0.95, 1.55), labels = c(unique(y$indiv)[1],unique(y$indiv)[2])) +
         ggplot2::scale_fill_manual(values=c("#F9766E","#00BFC4",cols), name = "", 
-                          labels=c(as.character(unique(y$indiv)[1]),as.character(unique(y$indiv)[2]), paste("overlap from", ids[1]),
+                          labels = c(as.character(unique(y$indiv)[1]),as.character(unique(y$indiv)[2]), paste("overlap from", ids[1]),
                                    paste("overlap from", ids[2]))) + 
-        ggplot2::theme(legend.position="top") + ggplot2::ggtitle(x)
+        ggplot2::theme(legend.position = "top") + ggplot2::ggtitle(x)
       
 if (img){      if (it == "jpeg") ite <- "coor.singing.jpeg" else ite <- "coor.singing.tiff"
       ggplot2::ggsave(plot = ggp, filename = paste(x, ite, sep = "-"),

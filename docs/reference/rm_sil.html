@@ -173,7 +173,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Sound files for which silence segments have been removed are saved in the new 
-folder "removed_silence_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
+folder "silence-removed_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
 that were removed are also saved.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -208,14 +208,14 @@ that were removed are also saved.</p>
  <span class='fu'>writeWave</span>(<span class='kw'>object</span> <span class='kw'>=</span> <span class='no'>wv1</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"wv1.wav"</span>, <span class='kw'>extensible</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'>#remove silence</span>
-<span class='fu'>rm_sil</span>(<span class='kw'>flist</span> <span class='kw'>=</span> <span class='st'>"wv1.wav"</span>)
+<span class='fu'>rm_sil</span>(<span class='kw'>flist</span> <span class='kw'>=</span> <span class='st'>"wv1.wav"</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='co'># OR this is tempdir was used instead</span>
-<span class='co'># rm_sil(path = tempdir(), flist = "wv1.wav")</span>
+<span class='co'># OR this if tempdir was used instead</span>
+<span class='co'># rm_sil(path = tempdir(), flist = "wv1.wav", pb = FALSE)</span>
 
 <span class='co'>#check this floder</span>
 <span class='fu'>getwd</span>()
-}</div><div class='output co'>#&gt; searching for silence segments in wave files:   |                                                  | 0 % ~calculating  </div><div class='img'><img src='rm_sil-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; [1] "/home/m/Dropbox/warbleR/docs/reference"</div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='error'>Error in if (flm[2] &gt; ceiling(wv@samp.rate/2000) - 1) flm[2] &lt;- ceiling(wv@samp.rate/2000) -     1: missing value where TRUE/FALSE needed</span></div><div class='img'><img src='rm_sil-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

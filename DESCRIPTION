@@ -5,7 +5,7 @@ Version: 1.1.15
 Date: 2018-09-04
 Author: Marcelo Araya-Salas [aut, cre], Grace Smith-Vidaurre [aut]
 Maintainer: Marcelo Araya-Salas <araya-salas@cornell.edu>
-Description: A tool to streamline the analysis of animal acoustic signal struct. The package offers functions for downloading avian vocalizations from the open-access online repository Xeno-Canto <https://www.xeno-canto.org>, manipulating sound files, detecting acoustic signals, assessing performance of methods that measure acoustic similarity, conducting cross-correlations, dynamic time warping, measuring acoustic parameters and analysing interactive vocal signals, among others. Most functions working iteratively allow parallelization to improve computational efficiency.
+Description: A tool to streamline the analysis of animal acoustic signal structure. The package offers functions for downloading avian vocalizations from the open-access online repository Xeno-Canto <https://www.xeno-canto.org>, manipulating sound files, detecting acoustic signals, assessing performance of methods that measure acoustic similarity, conducting cross-correlations, dynamic time warping, measuring acoustic parameters and analysing interactive vocal signals, among others. Most functions working iteratively allow parallelization to improve computational efficiency.
 License: GPL (>= 2)
 Imports: bitops, dtw, fftw, graphics, grDevices, iterators, jpeg, monitoR, parallel, pbapply, RCurl, rjson, stats, utils, methods, pracma, Sim.DiffProc, soundgen
 Depends: R (>= 3.2.1), maps, tuneR, seewave (>= 2.0.1), NatureSounds
@@ -13,9 +13,9 @@ LazyData: TRUE
 URL: https://marce10.github.io/warbleR
 BugReports: https://github.com/maRce10/warbleR/issues
 NeedsCompilation: no
-Suggests: knitr, ggplot2, rmarkdown, Rraven
+Suggests: knitr, ggplot2, rmarkdown, Rraven, ape
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Packaged: 2016-04-18 23:45:31 UTC; m
 Repository: CRAN
 Authors@R: c(person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "araya-salas@cornell.edu"), person("Grace", "Smith-Vidaurre", role = c("aut"), email = "gsmithvi@gmail.com"))
