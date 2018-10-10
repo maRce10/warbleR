@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Measure acoustic parameters at the song level — song_param • warbleR</title>
+<title>Calculates acoustic parameters at the song level — song_param • warbleR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Measure acoustic parameters at the song level — song_param" />
+<meta property="og:title" content="Calculates acoustic parameters at the song level — song_param" />
 
-<meta property="og:description" content="song_param measures average or extreme values of acoustic parameters of 
-elements in a song" />
+<meta property="og:description" content="song_param calculates average or extreme values of acoustic parameters of
+elements in a song or other level of organization in the signals" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,21 +114,21 @@ elements in a song" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Measure acoustic parameters at the song level</h1>
+    <h1>Calculates acoustic parameters at the song level</h1>
     
     <div class="hidden name"><code>song_param.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>song_param</code> measures average or extreme values of acoustic parameters of 
-elements in a song</p>
+    <p><code>song_param</code> calculates average or extreme values of acoustic parameters of
+elements in a song or other level of organization in the signals</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>song_param</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>song_colm</span> <span class='kw'>=</span> <span class='st'>"song"</span>,
-<span class='kw'>mean_indx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>min_indx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_indx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>song_param</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>song_colm</span> <span class='kw'>=</span> <span class='st'>"song"</span>,<span class='kw'>mean_indx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>min_indx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>max_indx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+<span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,14 +141,10 @@ end time of selections. The ouptut of <code><a href='manualoc.html'>manualoc</a>
 be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above.</p></td>
     </tr>
     <tr>
-      <th>weight</th>
-      <td><p>Character vector defining 1 or more numeric vectors to weight average
-measurements (i.e. song parameters). Default is <code>NULL</code>. Names of numeric columns in 'X' can also be used. See <code><a href='http://www.rdocumentation.org/packages/stats/topics/weighted.mean'>weighted.mean</a></code>. 
- for more details. To use unweighted average set 'weight' to <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
       <th>song_colm</th>
-      <td><p>Character string with the column name containing song labels. Note that 
+      <td><p>Character string with the column name containing song labels. 
+It can be used to label any hierarchical level at which parameters need to be calculated (e.g. syllables, phrases).
+Note that 
 the function assumes that song labels are not repeated within a sound file.</p></td>
     </tr>
     <tr>
@@ -184,17 +180,29 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
       <th>na.rm</th>
       <td><p>Logical value indicating whether 'NA' values should be ignored for calculations.</p></td>
     </tr>
+    <tr>
+      <th>weight</th>
+      <td><p>Character vector defining 1 or more numeric vectors to weight average
+measurements (i.e. song parameters). Names of numeric columns in 'X' can also be used. See <code><a href='http://www.rdocumentation.org/packages/stats/topics/weighted.mean'>weighted.mean</a></code>. 
+ for more details.  Default is <code>NULL</code> (unweighted average).</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame similar to the input 'X' data frame, containing the mean
- values for numeric acoustic parameters. Parameters that will be averaged can be defined with
- 'mean_indx' (otherwhise all numeric parameters are used). Parameters can be 
- weighted by other parameters in the data set (e.g. duration, frequency range). Note
- that the functions works by default on songs, but can be used at other hierarchical
- levels (e.g. syllables, singing bouts). This function assumes that song labels are
-  not repeated within a sound file.</p>
+    <p>A data frame similar to the input 'X' data frame, but in this case each row corresponds to a single song. The data frame contains the mean
+ values for numeric columns for each song. Columns that will be averaged can be defined with
+ 'mean_indx' (otherwhise all numeric columns are used). Columns can be 
+ weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters:</p><ul>
+<li><p><code>duration</code>: length of song (in s)</p></li>
+<li><p><code>num.elements</code>: number of elements (or song units)</p></li>
+<li><p><code>start</code>: start time of song (in s)</p></li>
+<li><p><code>end</code>: end time of song (in s)</p></li>
+<li><p><code>bottom.freq</code>: lowest 'bottom.freq' from all song elements (in kHz)</p></li>
+<li><p><code>top.freq</code>: highest 'top.freq' from all song elements (in kHz)</p></li>
+<li><p><code>freq.range</code>: difference between song's 'top.freq' and 'bottom.freq' (in kHz)</p></li>
+<li><p><code>note.rate</code>: number of elements per second</p></li>
+</ul><p>This function assumes that song labels are not repeated within a sound file.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -246,7 +254,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 <span class='co'># with two weights no progress bar</span>
 <span class='fu'>song_param</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>sp</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"duration"</span>, <span class='st'>"dfrange"</span>), <span class='kw'>song_colm</span> <span class='kw'>=</span> <span class='st'>"song"</span>,
 <span class='kw'>mean_indx</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>9</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++                                           | 12% ~00s             |+++++++++++++                                     | 25% ~01s             |+++++++++++++++++++                               | 38% ~01s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++                  | 62% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
+}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++                                           | 12% ~00s             |+++++++++++++                                     | 25% ~01s             |+++++++++++++++++++                               | 38% ~01s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++                  | 62% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s

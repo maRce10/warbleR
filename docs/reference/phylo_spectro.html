@@ -134,14 +134,13 @@
       <th>X</th>
       <td><p>'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
 (sound.files), selection number (selec), and start and end time of signals (start and end). 
-'top.freq' and 'bottom.freq' columns are optional.
-The ouptut of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can be used as the input data frame. If using an 
+'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '<code>tree$tip.label</code>). The column is use to match rows and tip labels. If using an 
 'extended_selection_table' the sound files are not required (see <code><a href='selection_table.html'>selection_table</a></code>).</p></td>
     </tr>
     <tr>
       <th>tree</th>
       <td><p>Object of class 'phylo' (i.e. a phylogenetic tree). Ultrametric trees may produce better results.
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
+If <code>NULL</code> (default) then the current working directory is used. Tip labels must match the names provided in the 'tip.label' column in 'X' (see 'X' argument).</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -193,9 +192,10 @@ customizing graphical output.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function uses internally the <code><a href='http://www.rdocumentation.org/packages/ape/topics/plot.phylo'>plot.phylo</a></code> function to plot the tree 
+    <p>The function add the spectrograms of sounds annotated in a selection table ('X' argument) onto the tips of a phylogenetic tree. 
+The 'tip.label' column in 'X' is used to match spectrograms and tree tips. The function uses internally the <code><a href='http://www.rdocumentation.org/packages/ape/topics/plot.phylo'>plot.phylo</a></code> function to plot the tree 
 and the <code><a href='specreator.html'>specreator</a></code> function to create the spectrograms. Arguments for both of these functions
-can be provided for further customization.</p>
+can be provided for further customization. Fitting spectrograms</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

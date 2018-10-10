@@ -10,12 +10,11 @@ size = 1, offset = 2, path = NULL, ladder = NULL, horizontal = TRUE, ...)
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
 (sound.files), selection number (selec), and start and end time of signals (start and end). 
-'top.freq' and 'bottom.freq' columns are optional.
-The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. If using an 
+'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '\code{tree$tip.label}). The column is use to match rows and tip labels. If using an 
 'extended_selection_table' the sound files are not required (see \code{\link{selection_table}}).}
 
 \item{tree}{Object of class 'phylo' (i.e. a phylogenetic tree). Ultrametric trees may produce better results.
-If \code{NULL} (default) then the current working directory is used.}
+If \code{NULL} (default) then the current working directory is used. Tip labels must match the names provided in the 'tip.label' column in 'X' (see 'X' argument).}
 
 \item{type}{Character string of length 1 specifying the type of phylogeny to be drawn 
 (as in \code{\link[ape]{plot.phylo}}). Only 'phylogram' (default) and 'fan' are allowed.}
@@ -50,9 +49,10 @@ A phylogenetic tree with spectrograms on tree tips is plotted in the current gra
 \code{phylo_spectro} Add spectrograms to the tips of an objects of class phylo.
 }
 \details{
-The function uses internally the \code{\link[ape]{plot.phylo}} function to plot the tree 
+The function add the spectrograms of sounds annotated in a selection table ('X' argument) onto the tips of a phylogenetic tree. 
+The 'tip.label' column in 'X' is used to match spectrograms and tree tips. The function uses internally the \code{\link[ape]{plot.phylo}} function to plot the tree 
 and the \code{\link{specreator}} function to create the spectrograms. Arguments for both of these functions
-can be provided for further customization.
+can be provided for further customization. Fitting spectrograms
 }
 \examples{
 { 
