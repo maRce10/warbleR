@@ -213,24 +213,146 @@ other type of files (for instance '.txt' selection files).</p>
 
 <span class='co'># or if tempdir wa used</span>
 <span class='co'># consolidate(path = tempdir())</span>
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++                                           | 12% ~00s             |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++                               | 38% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++                  | 62% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='output co'>#&gt;                                     original_dir       old_name
-#&gt; 1 /home/m/Dropbox/warbleR/docs/reference/folder1 Phae.long1.wav
-#&gt; 2         /home/m/Dropbox/warbleR/docs/reference Phae.long1.wav
-#&gt; 3 /home/m/Dropbox/warbleR/docs/reference/folder1 Phae.long2.wav
-#&gt; 4         /home/m/Dropbox/warbleR/docs/reference Phae.long2.wav
-#&gt; 5 /home/m/Dropbox/warbleR/docs/reference/folder2 Phae.long3.wav
-#&gt; 6         /home/m/Dropbox/warbleR/docs/reference Phae.long3.wav
-#&gt; 7 /home/m/Dropbox/warbleR/docs/reference/folder2 Phae.long4.wav
-#&gt; 8         /home/m/Dropbox/warbleR/docs/reference Phae.long4.wav
-#&gt;           new_name file_size_bytes     duplicate
-#&gt; 1 Phae.long1-1.wav          112582 possible.dupl
-#&gt; 2 Phae.long1-2.wav          112582 possible.dupl
-#&gt; 3 Phae.long2-1.wav           76582 possible.dupl
-#&gt; 4 Phae.long2-2.wav           76582 possible.dupl
-#&gt; 5 Phae.long3-1.wav           99080 possible.dupl
-#&gt; 6 Phae.long3-2.wav           99080 possible.dupl
-#&gt; 7 Phae.long4-1.wav          144080 possible.dupl
-#&gt; 8 Phae.long4-2.wav          144080 possible.dupl</div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: 'folder1' already exists</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'folder2' already exists</span></div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+                                                 | 1 % ~00s             |++                                                | 3 % ~00s             |+++                                               | 4 % ~00s             |+++                                               | 6 % ~00s             |++++                                              | 7 % ~00s             |+++++                                             | 9 % ~00s             |++++++                                            | 10% ~00s             |++++++                                            | 12% ~00s             |+++++++                                           | 13% ~00s             |++++++++                                          | 14% ~00s             |++++++++                                          | 16% ~00s             |+++++++++                                         | 17% ~00s             |++++++++++                                        | 19% ~00s             |+++++++++++                                       | 20% ~00s             |+++++++++++                                       | 22% ~00s             |++++++++++++                                      | 23% ~00s             |+++++++++++++                                     | 25% ~00s             |++++++++++++++                                    | 26% ~00s             |++++++++++++++                                    | 28% ~00s             |+++++++++++++++                                   | 29% ~00s             |++++++++++++++++                                  | 30% ~00s             |++++++++++++++++                                  | 32% ~00s             |+++++++++++++++++                                 | 33% ~00s             |++++++++++++++++++                                | 35% ~00s             |+++++++++++++++++++                               | 36% ~00s             |+++++++++++++++++++                               | 38% ~00s             |++++++++++++++++++++                              | 39% ~00s             |+++++++++++++++++++++                             | 41% ~00s             |++++++++++++++++++++++                            | 42% ~00s             |++++++++++++++++++++++                            | 43% ~00s             |+++++++++++++++++++++++                           | 45% ~00s             |++++++++++++++++++++++++                          | 46% ~00s             |++++++++++++++++++++++++                          | 48% ~00s             |+++++++++++++++++++++++++                         | 49% ~00s             |++++++++++++++++++++++++++                        | 51% ~00s             |+++++++++++++++++++++++++++                       | 52% ~00s             |+++++++++++++++++++++++++++                       | 54% ~00s             |++++++++++++++++++++++++++++                      | 55% ~00s             |+++++++++++++++++++++++++++++                     | 57% ~00s             |+++++++++++++++++++++++++++++                     | 58% ~00s             |++++++++++++++++++++++++++++++                    | 59% ~00s             |+++++++++++++++++++++++++++++++                   | 61% ~00s             |++++++++++++++++++++++++++++++++                  | 62% ~00s             |++++++++++++++++++++++++++++++++                  | 64% ~00s             |+++++++++++++++++++++++++++++++++                 | 65% ~00s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |+++++++++++++++++++++++++++++++++++               | 68% ~00s             |+++++++++++++++++++++++++++++++++++               | 70% ~00s             |++++++++++++++++++++++++++++++++++++              | 71% ~00s             |+++++++++++++++++++++++++++++++++++++             | 72% ~00s             |+++++++++++++++++++++++++++++++++++++             | 74% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |+++++++++++++++++++++++++++++++++++++++           | 77% ~00s             |++++++++++++++++++++++++++++++++++++++++          | 78% ~00s             |++++++++++++++++++++++++++++++++++++++++          | 80% ~00s             |+++++++++++++++++++++++++++++++++++++++++         | 81% ~00s             |++++++++++++++++++++++++++++++++++++++++++        | 83% ~00s             |+++++++++++++++++++++++++++++++++++++++++++       | 84% ~00s             |+++++++++++++++++++++++++++++++++++++++++++       | 86% ~00s             |++++++++++++++++++++++++++++++++++++++++++++      | 87% ~00s             |+++++++++++++++++++++++++++++++++++++++++++++     | 88% ~00s             |+++++++++++++++++++++++++++++++++++++++++++++     | 90% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s             |+++++++++++++++++++++++++++++++++++++++++++++++   | 93% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++  | 94% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++  | 96% ~00s             |+++++++++++++++++++++++++++++++++++++++++++++++++ | 97% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 99% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='output co'>#&gt;                                                    original_dir
+#&gt; 1  /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 2                        /home/m/Dropbox/warbleR/docs/reference
+#&gt; 3  /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 4                        /home/m/Dropbox/warbleR/docs/reference
+#&gt; 5    /home/m/Dropbox/warbleR/docs/reference/consolidated_folder
+#&gt; 6  /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 7                        /home/m/Dropbox/warbleR/docs/reference
+#&gt; 8  /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 9                        /home/m/Dropbox/warbleR/docs/reference
+#&gt; 10   /home/m/Dropbox/warbleR/docs/reference/consolidated_folder
+#&gt; 11 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 12                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 13 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 14                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 15 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 16                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 17 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 18                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 19 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 20               /home/m/Dropbox/warbleR/docs/reference/folder1
+#&gt; 21                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 22 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 23                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 24   /home/m/Dropbox/warbleR/docs/reference/consolidated_folder
+#&gt; 25 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 26                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 27 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 28                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 29   /home/m/Dropbox/warbleR/docs/reference/consolidated_folder
+#&gt; 30 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 31                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 32 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 33               /home/m/Dropbox/warbleR/docs/reference/folder1
+#&gt; 34                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 35 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 36                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 37   /home/m/Dropbox/warbleR/docs/reference/consolidated_folder
+#&gt; 38 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 39                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 40 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 41                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 42   /home/m/Dropbox/warbleR/docs/reference/consolidated_folder
+#&gt; 43 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 44                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 45 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 46                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 47 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 48                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 49 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 50               /home/m/Dropbox/warbleR/docs/reference/folder2
+#&gt; 51                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 52 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 53                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 54   /home/m/Dropbox/warbleR/docs/reference/consolidated_folder
+#&gt; 55 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 56                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 57 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 58                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 59   /home/m/Dropbox/warbleR/docs/reference/consolidated_folder
+#&gt; 60 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 61                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 62 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 63                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 64 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 65                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 66 /home/m/Dropbox/warbleR/docs/reference/converted_sound_files
+#&gt; 67               /home/m/Dropbox/warbleR/docs/reference/folder2
+#&gt; 68                       /home/m/Dropbox/warbleR/docs/reference
+#&gt; 69                       /home/m/Dropbox/warbleR/docs/reference
+#&gt;                old_name               new_name file_size_bytes     duplicate
+#&gt; 1         Cryp.soui.wav        Cryp.soui-1.wav          144052          &lt;NA&gt;
+#&gt; 2         Cryp.soui.wav        Cryp.soui-2.wav          144088          &lt;NA&gt;
+#&gt; 3  Phae.long1-1-c24.wav Phae.long1-1-c24-1.wav           12332 possible.dupl
+#&gt; 4  Phae.long1-1-c24.wav Phae.long1-1-c24-2.wav           12332 possible.dupl
+#&gt; 5      Phae.long1-1.wav     Phae.long1-1-1.wav          112582          &lt;NA&gt;
+#&gt; 6      Phae.long1-1.wav     Phae.long1-1-2.wav           12332 possible.dupl
+#&gt; 7      Phae.long1-1.wav     Phae.long1-1-3.wav           12332 possible.dupl
+#&gt; 8  Phae.long1-2-c25.wav Phae.long1-2-c25-1.wav           11882 possible.dupl
+#&gt; 9  Phae.long1-2-c25.wav Phae.long1-2-c25-2.wav           11882 possible.dupl
+#&gt; 10     Phae.long1-2.wav     Phae.long1-2-1.wav          112582          &lt;NA&gt;
+#&gt; 11     Phae.long1-2.wav     Phae.long1-2-2.wav           11882 possible.dupl
+#&gt; 12     Phae.long1-2.wav     Phae.long1-2-3.wav           11882 possible.dupl
+#&gt; 13     Phae.long1.2.wav     Phae.long1.2-1.wav          112546          &lt;NA&gt;
+#&gt; 14     Phae.long1.2.wav     Phae.long1.2-2.wav          225084          &lt;NA&gt;
+#&gt; 15 Phae.long1-3-c26.wav Phae.long1-3-c26-1.wav           12416 possible.dupl
+#&gt; 16 Phae.long1-3-c26.wav Phae.long1-3-c26-2.wav           12416 possible.dupl
+#&gt; 17     Phae.long1-3.wav     Phae.long1-3-1.wav           12416 possible.dupl
+#&gt; 18     Phae.long1-3.wav     Phae.long1-3-2.wav           12416 possible.dupl
+#&gt; 19       Phae.long1.wav       Phae.long1-1.wav          112546          &lt;NA&gt;
+#&gt; 20       Phae.long1.wav       Phae.long1-2.wav          112582 possible.dupl
+#&gt; 21       Phae.long1.wav       Phae.long1-3.wav          112582 possible.dupl
+#&gt; 22 Phae.long2-1-c27.wav Phae.long2-1-c27-1.wav           10510 possible.dupl
+#&gt; 23 Phae.long2-1-c27.wav Phae.long2-1-c27-2.wav           10510 possible.dupl
+#&gt; 24     Phae.long2-1.wav     Phae.long2-1-1.wav           76582          &lt;NA&gt;
+#&gt; 25     Phae.long2-1.wav     Phae.long2-1-2.wav           10510 possible.dupl
+#&gt; 26     Phae.long2-1.wav     Phae.long2-1-3.wav           10510 possible.dupl
+#&gt; 27 Phae.long2-2-c28.wav Phae.long2-2-c28-1.wav           10220 possible.dupl
+#&gt; 28 Phae.long2-2-c28.wav Phae.long2-2-c28-2.wav           10220 possible.dupl
+#&gt; 29     Phae.long2-2.wav     Phae.long2-2-1.wav           76582          &lt;NA&gt;
+#&gt; 30     Phae.long2-2.wav     Phae.long2-2-2.wav           10220 possible.dupl
+#&gt; 31     Phae.long2-2.wav     Phae.long2-2-3.wav           10220 possible.dupl
+#&gt; 32       Phae.long2.wav       Phae.long2-1.wav           76546          &lt;NA&gt;
+#&gt; 33       Phae.long2.wav       Phae.long2-2.wav           76582 possible.dupl
+#&gt; 34       Phae.long2.wav       Phae.long2-3.wav           76582 possible.dupl
+#&gt; 35 Phae.long3-1-c29.wav Phae.long3-1-c29-1.wav           10450 possible.dupl
+#&gt; 36 Phae.long3-1-c29.wav Phae.long3-1-c29-2.wav           10450 possible.dupl
+#&gt; 37     Phae.long3-1.wav     Phae.long3-1-1.wav           99080          &lt;NA&gt;
+#&gt; 38     Phae.long3-1.wav     Phae.long3-1-2.wav           10450 possible.dupl
+#&gt; 39     Phae.long3-1.wav     Phae.long3-1-3.wav           10450 possible.dupl
+#&gt; 40 Phae.long3-2-c30.wav Phae.long3-2-c30-1.wav           10402 possible.dupl
+#&gt; 41 Phae.long3-2-c30.wav Phae.long3-2-c30-2.wav           10402 possible.dupl
+#&gt; 42     Phae.long3-2.wav     Phae.long3-2-1.wav           99080          &lt;NA&gt;
+#&gt; 43     Phae.long3-2.wav     Phae.long3-2-2.wav           10402 possible.dupl
+#&gt; 44     Phae.long3-2.wav     Phae.long3-2-3.wav           10402 possible.dupl
+#&gt; 45 Phae.long3-3-c31.wav Phae.long3-3-c31-1.wav           10448 possible.dupl
+#&gt; 46 Phae.long3-3-c31.wav Phae.long3-3-c31-2.wav           10448 possible.dupl
+#&gt; 47     Phae.long3-3.wav     Phae.long3-3-1.wav           10448 possible.dupl
+#&gt; 48     Phae.long3-3.wav     Phae.long3-3-2.wav           10448 possible.dupl
+#&gt; 49       Phae.long3.wav       Phae.long3-1.wav           99044          &lt;NA&gt;
+#&gt; 50       Phae.long3.wav       Phae.long3-2.wav           99080 possible.dupl
+#&gt; 51       Phae.long3.wav       Phae.long3-3.wav           99080 possible.dupl
+#&gt; 52 Phae.long4-1-c32.wav Phae.long4-1-c32-1.wav           11088 possible.dupl
+#&gt; 53 Phae.long4-1-c32.wav Phae.long4-1-c32-2.wav           11088 possible.dupl
+#&gt; 54     Phae.long4-1.wav     Phae.long4-1-1.wav          144080          &lt;NA&gt;
+#&gt; 55     Phae.long4-1.wav     Phae.long4-1-2.wav           11088 possible.dupl
+#&gt; 56     Phae.long4-1.wav     Phae.long4-1-3.wav           11088 possible.dupl
+#&gt; 57 Phae.long4-2-c33.wav Phae.long4-2-c33-1.wav           11032 possible.dupl
+#&gt; 58 Phae.long4-2-c33.wav Phae.long4-2-c33-2.wav           11032 possible.dupl
+#&gt; 59     Phae.long4-2.wav     Phae.long4-2-1.wav          144080          &lt;NA&gt;
+#&gt; 60     Phae.long4-2.wav     Phae.long4-2-2.wav           11032 possible.dupl
+#&gt; 61     Phae.long4-2.wav     Phae.long4-2-3.wav           11032 possible.dupl
+#&gt; 62 Phae.long4-3-c34.wav Phae.long4-3-c34-1.wav           11074 possible.dupl
+#&gt; 63 Phae.long4-3-c34.wav Phae.long4-3-c34-2.wav           11074 possible.dupl
+#&gt; 64     Phae.long4-3.wav     Phae.long4-3-1.wav           11074 possible.dupl
+#&gt; 65     Phae.long4-3.wav     Phae.long4-3-2.wav           11074 possible.dupl
+#&gt; 66       Phae.long4.wav       Phae.long4-1.wav          144044          &lt;NA&gt;
+#&gt; 67       Phae.long4.wav       Phae.long4-2.wav          144080 possible.dupl
+#&gt; 68       Phae.long4.wav       Phae.long4-3.wav          144080 possible.dupl
+#&gt; 69              wv1.wav                wv1.wav          324048          &lt;NA&gt;</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
