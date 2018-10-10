@@ -131,9 +131,11 @@ dir.create(file.path(getwd(), "converted_sound_files"), showWarnings = FALSE)
     if (!is.null(bit.depth))
       cll <- paste(cll, "dither -s")
      
+    if (Sys.info()[1] == "Windows")
+      cll <- gsub("'", "", cll)
+      
     out <- system(cll, ignore.stdout = FALSE, intern = TRUE) 
-       })
-
+     })
   }
 
 
