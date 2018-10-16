@@ -76,7 +76,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{fixwavs}}, \code{\link{autodetec}},
+\code{\link{fixwavs}}, \code{\link{autodetec}}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

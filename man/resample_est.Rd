@@ -5,7 +5,7 @@
 \title{Resample wave objects in a extended selection table}
 \usage{
 resample_est(X, samp.rate = 44.1, bit.depth = 16,
-sox = FALSE, avoid.clip = TRUE, pb = FALSE)
+sox = FALSE, avoid.clip = TRUE, pb = FALSE, parallel = 1)
 }
 \arguments{
 \item{X}{object of class 'extended_selection_table' (see \code{\link{selection_table}}).}
@@ -14,24 +14,27 @@ sox = FALSE, avoid.clip = TRUE, pb = FALSE)
 
 \item{bit.depth}{Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.}
 
-\item{sox}{Logical to control whether \href{http://sox.sourceforge.net/sox.html}{sox} is used internally for resampling. Sox must be installed. Default is \code{FALSE}. sox is a better if having aliasing issues after resampling.}
+\item{sox}{Logical to control whether \href{http://sox.sourceforge.net/sox.html}{sox} is used internally for resampling. Sox must be installed. Default is \code{FALSE}. sox is a better option if having aliasing issues after resampling.}
 
-\item{avoid.clip}{Logical to control whether the volumn is automatically 
-adjusted to avoid clipping high amplitude signals when resampling. Ignored if
+\item{avoid.clip}{Logical to control whether the volume is automatically 
+adjusted to avoid clipping high amplitude samples when resampling. Ignored if
  '\code{sox = FALSE}. Default is \code{TRUE}.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{FALSE}.}
+
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 }
 \value{
 An extended selection table with the modfied wave objects.
 }
 \description{
-\code{resample_est} resample wave objects in a extended selection table.
+\code{resample_est} changes sampling rate and bit depth of wave objects in a extended selection table.
 }
 \details{
 This function aims to simplify the process of homogenizing sound 
 files (sampling rate and bit depth). This is a necessary step before running 
-any further analysis.
+any further (bio)acoustic analysis.
 }
 \examples{
 \dontrun{
@@ -56,6 +59,9 @@ Y <- resample_est(X)
 {
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 }
+}
+\seealso{
+\code{\link{mp32wav}}, \code{\link{fix_wavs}}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

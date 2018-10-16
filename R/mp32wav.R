@@ -2,7 +2,7 @@
 #' 
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
 #' @usage mp32wav(samp.rate = 44.1, parallel = 1, path = NULL, 
-#' to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE, overwrite = FALSE)  
+#' to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)  
 #' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). 
 #' Units should be kHz. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
 #' \code{\link[tuneR]{downsample}} function from tuneR, which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses SOX instead).  
@@ -14,8 +14,8 @@
 #' If \code{NULL} (default) then the current working directory is used. Will be deprecated in future versions.
 #' @param dest.path Character string containing the directory path where the .wav files will be saved. 
 #' If \code{NULL} (default) then the current working directory is used. Same as 'to' (will replace it in future versions).
-#' @param normalize Character string containing the units to be used for amplitude normalization. Check 
-#' (\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.
+#' @param bit.depth Character string containing the units to be used for amplitude normalization. Check 
+#' \code{\link[tuneR]{normalize}} for details. Default is 16.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param overwrite Logical. Control whether a .wav sound file that is already in the working directory should be 
 #' overwritten.
@@ -45,7 +45,7 @@
 #last modification on mar-13-2018 (MAS)
 
 mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL, 
-                    to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE, overwrite = FALSE) {
+                    to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE) {
   
   # reset working directory 
   wd <- getwd()
@@ -89,25 +89,14 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL,
     to <- wd #set working directory
   
   #normalize
-  if (!is.null(normalize))
-  {if (length(normalize) >1) stop("'normalize' should have a single value")
-    normalize <- as.character(normalize)
-    if (!normalize %in% c("1", "8", "16", "24", "32", "64", "0")) stop("'normalize' value not allowed (check the documentation from the normalize function in the tuneR package")
-    }
+  if (length(bit.depth) > 1) stop("'bit.depth' should have a single value")
+    bit.depth <- as.character(bit.depth)
   
-  #fix sample rate
-  if (samp.rate > 44.1) samp.rate <- 44.1
-  
+  if (!bit.depth %in% c("1", "8", "16", "24", "32", "64", "0")) stop('only this "bit.depth" values allowed c("1", "8", "16", "24", "32", "64", "0") \n see ?tuneR::normalize')
+    
   #if parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
-  
-  #if parallel and pb in windows
-  if (parallel > 1 &  pb & Sys.info()[1] == "Windows") {
-    cat("parallel with progress bar is currently not available for windows OS")
-    cat("running parallel without progress bar")
-    pb <- FALSE
-  } 
           
   files <- list.files(path=getwd(), pattern = ".mp3$", ignore.case = TRUE) #list .mp3 files in working directory
   if (length(files) == 0) stop("no 'mp3' files in working directory")
@@ -121,7 +110,7 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL,
   }
   
  # function to convert single mp3  
- mp3_conv_FUN <- function(x, normalize) {
+ mp3_conv_FUN <- function(x, bit.depth) {
    
    # read mp3
    wv <- try(tuneR::readMP3(filename =  x), silent = TRUE)
@@ -132,21 +121,20 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL,
      if (wv@samp.rate != samp.rate * 1000) {
       
       # filter first to avoid aliasing 
+       if (wv@samp.rate > samp.rate * 1000)
       wv <- seewave::fir(wave = wv , f = wv@samp.rate, from = 0, to = samp.rate * 1000 / 2, bandpass = TRUE, output = "Wave")
 
       #downsample
-      wv <- tuneR::downsample(object = wv, samp.rate = samp.rate * 1000)
-     
-      # force normalize
-      if (is.null(normalize)) normalize <- "16"
+      wv <- bioacoustics::resample(wave = wv, to = samp.rate * 1000)
       }
 
     # normalize 
-    if (!is.null(normalize))
-       wv <- tuneR::normalize(object = wv, unit = as.character(normalize))
+     if (bit.depth != wv@bit)
+       wv <- tuneR::normalize(object = wv, unit = as.character(bit.depth))
      
    wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
    }
+   
    return(wv)
    }
 
@@ -160,7 +148,7 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL,
  # run loop apply function
  out <- pbapply::pbsapply(X = files, cl = cl, FUN = function(i) 
  { 
-   suppressWarnings(mp3_conv_FUN(x = i, normalize))
+   suppressWarnings(mp3_conv_FUN(x = i, bit.depth))
  })
  
  if(any(sapply(out, function(x) class(x) == "try-error"))) {

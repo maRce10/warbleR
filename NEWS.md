@@ -2,6 +2,7 @@
 
 ## New functions:
 
+* resample_est: resample wave objects in a extended selection table
 * phylo_spectro: add spectrograms to the tips of a phylogeny
 * wav_info: wrapper for 'selection_table()' that returns wave file information 
 * multi_DTW: wrapper on dtw for comparing signals described by multiple contours
@@ -10,6 +11,7 @@
 
 ## Changes and additions:
 
+* 'normalize' argument in 'mp32wav()' renamed as 'dip.depth'
 * 'frange' and 'dfrange' arguments in 'xcorr()' function deprecated
 * 'selection_table` now can take files found in different directories and create extended selection tables
 * new parameters measured by  'specan()'

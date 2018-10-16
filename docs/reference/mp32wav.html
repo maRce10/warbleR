@@ -125,7 +125,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>mp32wav</span>(<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dest.path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>normalize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dest.path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bit.depth</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,9 +157,9 @@ If <code>NULL</code> (default) then the current working directory is used. Will 
 If <code>NULL</code> (default) then the current working directory is used. Same as 'to' (will replace it in future versions).</p></td>
     </tr>
     <tr>
-      <th>normalize</th>
+      <th>bit.depth</th>
       <td><p>Character string containing the units to be used for amplitude normalization. Check 
-(<code><a href='http://www.rdocumentation.org/packages/tuneR/topics/normalize'>normalize</a></code>) for details. If NULL (default) no normalization is carried out.</p></td>
+<code><a href='http://www.rdocumentation.org/packages/tuneR/topics/normalize'>normalize</a></code> for details. Default is 16.</p></td>
     </tr>
     <tr>
       <th>pb</th>

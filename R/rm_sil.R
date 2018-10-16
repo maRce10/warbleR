@@ -23,7 +23,7 @@
 #' @export
 #' @name rm_sil
 #' @details The function removes silence segments (i.e. segments with very low amplitude values) from wave files. 
-#' @seealso \code{\link{fixwavs}}, \code{\link{autodetec}}, 
+#' @seealso \code{\link{fixwavs}}, \code{\link{autodetec}} 
 #' @examples{
 #' # Set temporary working directory
 #' # setwd(tempdir())

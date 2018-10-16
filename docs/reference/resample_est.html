@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Resample wave objects in a extended selection table — resample_est" />
 
-<meta property="og:description" content="resample_est resample wave objects in a extended selection table." />
+<meta property="og:description" content="resample_est changes sampling rate and bit depth of wave objects in a extended selection table." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,12 +120,12 @@
 
     <div class="ref-description">
     
-    <p><code>resample_est</code> resample wave objects in a extended selection table.</p>
+    <p><code>resample_est</code> changes sampling rate and bit depth of wave objects in a extended selection table.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>resample_est</span>(<span class='no'>X</span>, <span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>bit.depth</span> <span class='kw'>=</span> <span class='fl'>16</span>,
-<span class='kw'>sox</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>avoid.clip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='kw'>sox</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>avoid.clip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,17 +144,22 @@
     </tr>
     <tr>
       <th>sox</th>
-      <td><p>Logical to control whether <a href='http://sox.sourceforge.net/sox.html'>sox</a> is used internally for resampling. Sox must be installed. Default is <code>FALSE</code>. sox is a better if having aliasing issues after resampling.</p></td>
+      <td><p>Logical to control whether <a href='http://sox.sourceforge.net/sox.html'>sox</a> is used internally for resampling. Sox must be installed. Default is <code>FALSE</code>. sox is a better option if having aliasing issues after resampling.</p></td>
     </tr>
     <tr>
       <th>avoid.clip</th>
-      <td><p>Logical to control whether the volumn is automatically 
-adjusted to avoid clipping high amplitude signals when resampling. Ignored if
+      <td><p>Logical to control whether the volume is automatically 
+adjusted to avoid clipping high amplitude samples when resampling. Ignored if
  '<code>sox = FALSE</code>. Default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>pb</th>
       <td><p>Logical argument to control progress bar. Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
     </tr>
     </table>
     
@@ -166,11 +171,15 @@ adjusted to avoid clipping high amplitude signals when resampling. Ignored if
 
     <p>This function aims to simplify the process of homogenizing sound 
 files (sampling rate and bit depth). This is a necessary step before running 
-any further analysis.</p>
+any further (bio)acoustic analysis.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='mp32wav.html'>mp32wav</a></code>, <code><a href='fix_wavs.html'>fix_wavs</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -202,6 +211,8 @@ any further analysis.</p>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

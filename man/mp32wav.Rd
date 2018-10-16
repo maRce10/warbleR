@@ -5,7 +5,7 @@
 \title{Convert .mp3 files to .wav}
 \usage{
 mp32wav(samp.rate = 44.1, parallel = 1, path = NULL, 
-to = NULL, dest.path = NULL, normalize = NULL, pb = TRUE, overwrite = FALSE)
+to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)
 }
 \arguments{
 \item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). 
@@ -24,8 +24,8 @@ If \code{NULL} (default) then the current working directory is used. Will be dep
 \item{dest.path}{Character string containing the directory path where the .wav files will be saved. 
 If \code{NULL} (default) then the current working directory is used. Same as 'to' (will replace it in future versions).}
 
-\item{normalize}{Character string containing the units to be used for amplitude normalization. Check 
-(\code{\link[tuneR]{normalize}}) for details. If NULL (default) no normalization is carried out.}
+\item{bit.depth}{Character string containing the units to be used for amplitude normalization. Check 
+\code{\link[tuneR]{normalize}} for details. Default is 16.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
