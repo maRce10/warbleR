@@ -2,6 +2,7 @@
 
 ## New functions:
 
+* phylo_spectro: add spectrograms to the tips of a phylogeny
 * wav_info: wrapper for 'selection_table()' that returns wave file information 
 * multi_DTW: wrapper on dtw for comparing signals described by multiple contours
 * rm_channels: remove channels from wave files
@@ -9,6 +10,7 @@
 
 ## Changes and additions:
 
+* 'frange' and 'dfrange' arguments in 'xcorr()' function deprecated
 * 'selection_table` now can take files found in different directories and create extended selection tables
 * new parameters measured by  'specan()'
 * wav.size.MB column names is now wav.size in 'check_sels()' output

@@ -2,16 +2,15 @@
 #' 
 #' \code{fixwavs} fixes sound files in .wav format so they can be imported into R.
 #' @usage fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL,
-#'  path = NULL, mono = FALSE, ...)
+#'  path = NULL, mono = FALSE)
 #' @param checksels Data frame with results from \code{\link{checksels}}. 
 #' @param files Character vector with the names of the wav files to fix. Default is \code{NULL}.
 #' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
 #' @param bit.depth Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
-#' Default is \code{NULL}. Currently not available.
+#' Default is \code{NULL}.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param mono Logical indicating if stereo (2 channel) files should be converted to mono (1 channel).
-#' @param ... Additional arguments to be passed to \code{\link[seewave]{sox}}.
 #' @return  A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
 #' sound files in a format that can be imported in R. 
 #' @export
@@ -19,8 +18,7 @@
 #' @details This function aims to simplify the process of converting sound files that cannot be imported into R to 
 #' a format that can actually be imported. Problematic files can be determined using \code{\link{checksels}}. The  
 #' \code{\link{checksels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
-#' names to be "fixed" can be provided (argument 'files'). Internally the function calls 'sox' through the 
-#' \code{\link[seewave]{sox}} function. 'sox' must be installed to be able to run this function.
+#' names to be "fixed" can be provided (argument 'files'). Internally the function calls sox \href{http://sox.sourceforge.net/sox.html}{sox}. 'sox' must be installed to be able to run this function.
 #'   
 #' @examples
 #' \dontrun{
@@ -43,10 +41,9 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#' #last modification on march-15-2017 (MAS)
+#' #last modification on oct-15-2018 (MAS)
 
-
-fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL, path = NULL, mono = FALSE, ...)
+fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL, path = NULL, mono = FALSE)
 {
 
   # reset working directory 
@@ -98,13 +95,13 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
   
   if (length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
   
-  if (!is.null(samp.rate)) {
-    if (!is.vector(samp.rate)) stop("'samp.rate' must be a numeric vector of length 1") else {
-      if (!length(samp.rate) == 1) stop("'samp.rate' must be a numeric vector of length 1")}}  
+  if (!is.null(samp.rate)) 
+    if (!is.vector(samp.rate)) stop("'samp.rate' must be a numeric vector of length 1") else 
+      if (!length(samp.rate) == 1) stop("'samp.rate' must be a numeric vector of length 1")
   
-  if (!is.null(bit.depth)) {
-    if (!is.vector(bit.depth)) stop("'bit.depth' must be a numeric vector of length 1") else {
-      if (!length(bit.depth) == 1) stop("'bit.depth' must be a numeric vector of length 1")}}  
+  if (!is.null(bit.depth)) 
+    if (!is.vector(bit.depth)) stop("'bit.depth' must be a numeric vector of length 1") else 
+      if (!length(bit.depth) == 1) stop("'bit.depth' must be a numeric vector of length 1")
   
     
 if (!is.null(samp.rate) & is.null(bit.depth)) bit.depth <- 16

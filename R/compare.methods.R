@@ -13,8 +13,7 @@
 #' @param flim A numeric vector of length 2 for the frequency limit in kHz of 
 #'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
 #' @param bp numeric vector of length 2 giving the lower and upper limits of the 
-#' frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22). Note that
-#' for XCORR this argument sets the frange argument from the \code{\link{xcorr}} function.  
+#' frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22).
 #' @param mar Numeric vector of length 1. Specifies plot margins around selection in seconds. Default is 0.1.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram and cross-correlation, default 
 #'   is 512.
@@ -285,7 +284,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   disim.mats <- list()
   
   if ("XCORR" %in% methods)
-  {xcmat <- xcorr(X, wl = wl, frange = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE)
+  {xcmat <- xcorr(X, wl = wl, bp = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE)
 
   MDSxcorr <- stats::cmdscale(1-xcmat)  
   MDSxcorr <- scale(MDSxcorr)

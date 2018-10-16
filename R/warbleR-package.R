@@ -42,6 +42,8 @@
 #'   
 #'   \code{\link{fixwavs}}: Fix .wav files so they can be read by other functions
 #'   
+#'   \code{\link{resample_est}}: Resample wave objects in extended selection tables
+#'   
 #'   \code{\link{wavdur}}: Determine the duration of sound files
 #'   
 #'   \code{\link{cut_sels}}: Cut selections from a selection table into individual sound files

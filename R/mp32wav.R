@@ -126,8 +126,6 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL,
    # read mp3
    wv <- try(tuneR::readMP3(filename =  x), silent = TRUE)
    
-   
-   
    # downsample and filter if samp.rate different than mp3
    if(class(wv) == "Wave")
    {
@@ -145,7 +143,7 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL,
 
     # normalize 
     if (!is.null(normalize))
-       wv <- tuneR::normalize(object = wv, unit = normalize)
+       wv <- tuneR::normalize(object = wv, unit = as.character(normalize))
      
    wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
    }

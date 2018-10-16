@@ -11,7 +11,7 @@ Install/load the package from CRAN as follows:
 #install.packages("warbleR")
 
 #load package
-library(Rraven)
+library(warbleR)
 
 ```
 

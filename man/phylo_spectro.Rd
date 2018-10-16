@@ -5,12 +5,12 @@
 \title{Add spectrograms onto phylogenetic trees}
 \usage{
 phylo_spectro(X, tree, type = "fan", par.mar = rep(1, 4), 
-size = 1, offset = 2, path = NULL, ladder = NULL, horizontal = TRUE, ...)
+size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, ...)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
 (sound.files), selection number (selec), and start and end time of signals (start and end). 
-'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '\code{tree$tip.label}). The column is use to match rows and tip labels. If using an 
+'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '\code{tree$tip.label}). This column is used to match rows and tip labels. If using an 
 'extended_selection_table' the sound files are not required (see \code{\link{selection_table}}).}
 
 \item{tree}{Object of class 'phylo' (i.e. a phylogenetic tree). Ultrametric trees may produce better results.
@@ -23,10 +23,10 @@ If \code{NULL} (default) then the current working directory is used. Tip labels 
 in inner plot margins where axis labels fall, with form c(bottom, left, top, right). 
 See \code{\link[graphics]{par}}. See 'inner.par' argument for controling spectrogram margins.}
 
-\item{size}{Numeric vector of length 1 controlling the relative size of spectrograms. Default is 1. 
+\item{size}{Numeric vector of length 1 controlling the relative size of spectrograms. Higher numbers increase the height of spectrograms. Default is 1. 
 Numbers between range \code{c(>0, Inf)} are allowed.}
 
-\item{offset}{Numeric vector of length 1 controlling the space between tips and spectrograms. Default is 2.}
+\item{offset}{Numeric vector of length 1 controlling the space between tips and spectrograms. Default is 0.}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
@@ -36,11 +36,11 @@ tree is reorganized to get the ladderized effect when plotted). Only 'left' of '
 \code{NULL} (no ladderization). See \code{\link[ape]{ladderize}} for more details.}
 
 \item{horizontal}{Logical. Controls whether spectrograms in a fan phylogeny are place in a horizontal position 
-\code{FALSE} or in the same angle as tree tips. Currently only horizontal spectrograms are available.}
+\code{FALSE} or in the same angle as the tree tips. Currently only horizontal spectrograms are available.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram 
 creating function (\code{\link{specreator}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 
-customizing graphical output.}
+customizing graphical output. Only rightwards phylogenies can be plotted.}
 }
 \value{
 A phylogenetic tree with spectrograms on tree tips is plotted in the current graphical device.
@@ -82,18 +82,31 @@ tree <- ape::chronoMPL(tree)
 # add tip label column to example selection table (just for the sake of the example)
 X$tip.label <- tree$tip.label
 
-
 # print phylogram with spectros
-phylo_spectro(X = X, tree = tree, offset = 0.3, par.mar = c(0, 0, 0, 10),
-pal = reverse.gray.colors.2, title.labels = c("sound.files", "selec"), size = 2)
+phylo_spectro(X = X, tree = tree, par.mar = c(0, 0, 0, 8), size = 2)
 
-# print phylogram with spectros and no margin in spectrograms showing tip labels (higher offset)
-phylo_spectro(X = X, tree = tree, offset = 0.4, par.mar = c(0, 0, 0, 10), inner.mar = rep(0, 4),
-pal = reverse.gray.colors.2, title.labels = c("sound.files", "selec"), size = 2)
+# no margin in spectrograms and showing tip labels (higher offset)
+phylo_spectro(X = X, tree = tree, offset = 0.1, par.mar = c(0, 0, 0, 6), 
+inner.mar = rep(0, 4), size = 2)
 
 # print fan tree and no margin in spectrograms
-phylo_spectro(X = X, tree = tree, offset = 0.7, par.mar = rep(5, 4), inner.mar = rep(0, 4),
-pal = reverse.gray.colors.2, size = 2, type = "fan")
+phylo_spectro(X = X, tree = tree, offset = 0.6, par.mar = rep(3, 4),
+inner.mar = rep(0, 4), size = 2, type = "fan", show.tip.label = FALSE)
+
+# changing edge color and witdh
+phylo_spectro(X = X, tree = tree, offset = 0.2, par.mar = rep(3, 4), inner.mar = rep(0, 4), 
+size = 2, type = "fan", show.tip.label = FALSE, edge.color = "red", edge.width = 2)
+
+# plotting a tree representing cross-correlation distances 
+xcorr_mat <- xcorr(X, bp = c(1, 10))
+
+xc.tree <- ape::chronoMPL(ape::as.phylo(hclust(as.dist(1 - xcorr_mat))))
+
+X$tip.label <- xc.tree$tip.label
+
+phylo_spectro(X = X, tree = xc.tree, offset = 0.03, par.mar = rep(3, 4), 
+inner.mar = rep(0, 4), size = 0.3, type = "fan", show.tip.label = FALSE, 
+edge.color = "red", edge.width = 2)
   }
 }
 }

@@ -124,9 +124,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>frange</span><span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ovlp</span><span class='kw'>=</span><span class='fl'>90</span>, <span class='kw'>dens</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>bp</span><span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
+    <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ovlp</span><span class='kw'>=</span><span class='fl'>90</span>, <span class='kw'>dens</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
 <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>dfrange</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+ <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,13 +142,10 @@ selection number (selec), and start and end time of signal (start and end).</p><
 is 512.</p></td>
     </tr>
     <tr>
-      <th>frange</th>
+      <th>bp</th>
       <td><p>A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
 in which to compare the signals or "frange" (default) to indicate that values in 'bottom.freq'
-and 'top.freq' columns will be used as frequency limits. Alternatively, the <code><a href='dfts.html'>dfts</a></code> function can 
-be used to determine this parameter if <code>dfrange = TRUE</code> and <code>frange = NULL</code>. This method is more 
-adequate for pure tone signals. Default is <code>NULL</code>. Either 'frange' should be provided or 
-set <code>dfrange = TRUE</code>.</p></td>
+and 'top.freq' columns will be used as frequency limits. Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>ovlp</th>
@@ -160,12 +157,6 @@ slow down the function but produce more accurate results.</p></td>
       <th>dens</th>
       <td><p>Numeric vector of length 1 specifying the approximate density of points in which to sample amplitude. 
 See <code>makeTemplate</code>. Deafult is 0.9.</p></td>
-    </tr>
-    <tr>
-      <th>bp</th>
-      <td><p>A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz) in which to detect dominant frequency. 
-Only applied when frange is <code>NULL</code>. Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>wn</th>
@@ -195,11 +186,6 @@ only 1 (<code>n = nrow(X)</code>).</p></td>
       <th>na.rm</th>
       <td><p>Logical. If <code>TRUE</code> all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.</p></td>
-    </tr>
-    <tr>
-      <th>dfrange</th>
-      <td><p>Logical. If <code>TRUE</code> the <code><a href='dfts.html'>dfts</a></code> function can is used to determine the frequency range in which to compare signals.
-Ignored if 'frange' is provided.</p></td>
     </tr>
     <tr>
       <th>cor.mat</th>
@@ -246,7 +232,7 @@ from the awesome R package `monitoR`.</p>
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='st'>"Phae.long3.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='st'>"Phae.long4.wav"</span>)
 
-<span class='no'>xcor</span> <span class='kw'>&lt;-</span> <span class='fu'>xcorr</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>frange</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>,
+<span class='no'>xcor</span> <span class='kw'>&lt;-</span> <span class='fu'>xcorr</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>,
 <span class='kw'>dens</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>'hanning'</span>, <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>)
 
 }</div></pre>

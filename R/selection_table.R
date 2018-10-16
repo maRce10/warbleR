@@ -163,7 +163,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
   
   if (pb) write(file = "", x ="checking selections:")
-  check.results <- checksels(X, path = path, wav.size = TRUE, ...)        
+  check.results <- checksels(X, path = path, wav.size = TRUE, pb = pb, ...)        
   
   if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check.sels() to locate problematic selections)")
   

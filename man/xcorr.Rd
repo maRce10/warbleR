@@ -4,9 +4,9 @@
 \alias{xcorr}
 \title{Spectrogram cross-correlation}
 \usage{
-xcorr(X, wl =512, frange= NULL, ovlp=90, dens=0.9, bp= NULL, wn='hanning', 
+xcorr(X, wl =512, bp = NULL, ovlp=90, dens=0.9, wn='hanning', 
 cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
- dfrange = FALSE, cor.mat = TRUE)
+ cor.mat = TRUE)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
@@ -15,12 +15,9 @@ selection number (selec), and start and end time of signal (start and end).}
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
 
-\item{frange}{A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
+\item{bp}{A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
 in which to compare the signals or "frange" (default) to indicate that values in 'bottom.freq'
-and 'top.freq' columns will be used as frequency limits. Alternatively, the \code{\link{dfts}} function can 
-be used to determine this parameter if \code{dfrange = TRUE} and \code{frange = NULL}. This method is more 
-adequate for pure tone signals. Default is \code{NULL}. Either 'frange' should be provided or 
-set \code{dfrange = TRUE}.}
+and 'top.freq' columns will be used as frequency limits. Default is \code{NULL}.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
@@ -28,10 +25,6 @@ slow down the function but produce more accurate results.}
 
 \item{dens}{Numeric vector of length 1 specifying the approximate density of points in which to sample amplitude. 
 See \code{\link[monitoR]{makeTemplate}}. Deafult is 0.9.}
-
-\item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz) in which to detect dominant frequency. 
-Only applied when frange is \code{NULL}. Default is \code{NULL}.}
 
 \item{wn}{A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}.}
 
@@ -49,9 +42,6 @@ only 1 (\code{n = nrow(X)}).}
 
 \item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.}
-
-\item{dfrange}{Logical. If \code{TRUE} the \code{\link{dfts}} function can is used to determine the frequency range in which to compare signals.
-Ignored if 'frange' is provided.}
 
 \item{cor.mat}{Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.}
 }
@@ -85,7 +75,7 @@ writeWave(Phae.long2, "Phae.long2.wav")
 writeWave(Phae.long3, "Phae.long3.wav")
 writeWave(Phae.long4, "Phae.long4.wav")
 
-xcor <- xcorr(X = selec.table, wl = 300, frange = c(2, 9), ovlp = 90,
+xcor <- xcorr(X = selec.table, wl = 300, bp = c(2, 9), ovlp = 90,
 dens = 1, wn = 'hanning', cor.method = "pearson")
 
 }

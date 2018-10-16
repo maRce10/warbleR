@@ -125,7 +125,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>fixwavs</span>(<span class='kw'>checksels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>files</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bit.depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
- <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mono</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+ <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mono</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,7 +145,7 @@
     <tr>
       <th>bit.depth</th>
       <td><p>Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
-Default is <code>NULL</code>. Currently not available.</p></td>
+Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -155,10 +155,6 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     <tr>
       <th>mono</th>
       <td><p>Logical indicating if stereo (2 channel) files should be converted to mono (1 channel).</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='http://www.rdocumentation.org/packages/seewave/topics/sox'>sox</a></code>.</p></td>
     </tr>
     </table>
     
@@ -172,8 +168,7 @@ sound files in a format that can be imported in R.</p>
     <p>This function aims to simplify the process of converting sound files that cannot be imported into R to 
 a format that can actually be imported. Problematic files can be determined using <code><a href='checksels.html'>checksels</a></code>. The  
 <code><a href='checksels.html'>checksels</a></code> output can be directly input using the argument 'checksels'. Alternatively a vector of file 
-names to be "fixed" can be provided (argument 'files'). Internally the function calls 'sox' through the 
-<code><a href='http://www.rdocumentation.org/packages/seewave/topics/sox'>sox</a></code> function. 'sox' must be installed to be able to run this function.</p>
+names to be "fixed" can be provided (argument 'files'). Internally the function calls sox <a href='http://sox.sourceforge.net/sox.html'>sox</a>. 'sox' must be installed to be able to run this function.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -215,7 +210,7 @@ names to be "fixed" can be provided (argument 'files'). Internally the function 
     <h2>Author</h2>
     
 Marcelo Araya-Salas (<a href='mailto:araya-salas@cornell.edu'>araya-salas@cornell.edu</a>)
-#last modification on march-15-2017 (MAS)
+#last modification on oct-15-2018 (MAS)
 
   </div>
 </div>

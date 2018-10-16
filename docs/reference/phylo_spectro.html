@@ -125,7 +125,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>phylo_spectro</span>(<span class='no'>X</span>, <span class='no'>tree</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fan"</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>1</span>, <span class='fl'>4</span>),
-<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ladder</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>horizontal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ladder</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>horizontal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,7 +134,7 @@
       <th>X</th>
       <td><p>'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
 (sound.files), selection number (selec), and start and end time of signals (start and end). 
-'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '<code>tree$tip.label</code>). The column is use to match rows and tip labels. If using an 
+'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '<code>tree$tip.label</code>). This column is used to match rows and tip labels. If using an 
 'extended_selection_table' the sound files are not required (see <code><a href='selection_table.html'>selection_table</a></code>).</p></td>
     </tr>
     <tr>
@@ -155,12 +155,12 @@ See <code><a href='http://www.rdocumentation.org/packages/graphics/topics/par'>p
     </tr>
     <tr>
       <th>size</th>
-      <td><p>Numeric vector of length 1 controlling the relative size of spectrograms. Default is 1. 
+      <td><p>Numeric vector of length 1 controlling the relative size of spectrograms. Higher numbers increase the height of spectrograms. Default is 1. 
 Numbers between range <code>c(&gt;0, Inf)</code> are allowed.</p></td>
     </tr>
     <tr>
       <th>offset</th>
-      <td><p>Numeric vector of length 1 controlling the space between tips and spectrograms. Default is 2.</p></td>
+      <td><p>Numeric vector of length 1 controlling the space between tips and spectrograms. Default is 0.</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -176,13 +176,13 @@ tree is reorganized to get the ladderized effect when plotted). Only 'left' of '
     <tr>
       <th>horizontal</th>
       <td><p>Logical. Controls whether spectrograms in a fan phylogeny are place in a horizontal position 
-<code>FALSE</code> or in the same angle as tree tips. Currently only horizontal spectrograms are available.</p></td>
+<code>FALSE</code> or in the same angle as the tree tips. Currently only horizontal spectrograms are available.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>Additional arguments to be passed to the internal spectrogram 
 creating function (<code><a href='specreator.html'>specreator</a></code>) or phylogeny plotting function (<code><a href='http://www.rdocumentation.org/packages/ape/topics/plot.phylo'>plot.phylo</a></code>) for 
-customizing graphical output.</p></td>
+customizing graphical output. Only rightwards phylogenies can be plotted.</p></td>
     </tr>
     </table>
     
@@ -242,16 +242,29 @@ can be provided for further customization. Fitting spectrograms</p>
 <span class='co'># add tip label column to example selection table (just for the sake of the example)</span>
 <span class='no'>X</span>$<span class='no'>tip.label</span> <span class='kw'>&lt;-</span> <span class='no'>tree</span>$<span class='no'>tip.label</span>
 
-
 <span class='co'># print phylogram with spectros</span>
-<span class='fu'>phylo_spectro</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>X</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>tree</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>10</span>),
-<span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>, <span class='kw'>title.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='phylo_spectro-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># print phylogram with spectros and no margin in spectrograms showing tip labels (higher offset)</span>
-<span class='fu'>phylo_spectro</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>X</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>tree</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>4</span>),
-<span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>, <span class='kw'>title.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='phylo_spectro-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>phylo_spectro</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>X</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>tree</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>8</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='phylo_spectro-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># no margin in spectrograms and showing tip labels (higher offset)</span>
+<span class='fu'>phylo_spectro</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>X</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>tree</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>6</span>),
+<span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>4</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='phylo_spectro-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># print fan tree and no margin in spectrograms</span>
-<span class='fu'>phylo_spectro</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>X</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>tree</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>5</span>, <span class='fl'>4</span>), <span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>4</span>),
-<span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fan"</span>)</div><div class='img'><img src='phylo_spectro-3.png' alt='' width='700' height='433' /></div><div class='input'>  </div><div class='input'>}
+<span class='fu'>phylo_spectro</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>X</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>tree</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>3</span>, <span class='fl'>4</span>),
+<span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>4</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fan"</span>, <span class='kw'>show.tip.label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='phylo_spectro-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># changing edge color and witdh</span>
+<span class='fu'>phylo_spectro</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>X</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>tree</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>3</span>, <span class='fl'>4</span>), <span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>4</span>),
+<span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fan"</span>, <span class='kw'>show.tip.label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>edge.color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>edge.width</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='phylo_spectro-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># plotting a tree representing cross-correlation distances </span>
+<span class='no'>xcorr_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='xcorr.html'>xcorr</a></span>(<span class='no'>X</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>10</span>))</div><div class='output co'>#&gt; creating templates:
+#&gt;    |                                                  | 0 % ~calculating     |+++++++                                           | 12% ~00s             |+++++++++++++                                     | 25% ~01s             |+++++++++++++++++++                               | 38% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++                  | 62% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt; running cross-correlation:
+#&gt;    |                                                  | 0 % ~calculating     |++++++++                                          | 14% ~03s             |+++++++++++++++                                   | 29% ~02s             |++++++++++++++++++++++                            | 43% ~01s             |+++++++++++++++++++++++++++++                     | 57% ~01s             |++++++++++++++++++++++++++++++++++++              | 71% ~00s             |+++++++++++++++++++++++++++++++++++++++++++       | 86% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s</div><div class='input'>
+<span class='no'>xc.tree</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ape</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/ape/topics/chronoMPL'>chronoMPL</a></span>(<span class='kw pkg'>ape</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/ape/topics/as.phylo'>as.phylo</a></span>(<span class='fu'>hclust</span>(<span class='fu'>as.dist</span>(<span class='fl'>1</span> - <span class='no'>xcorr_mat</span>))))
+
+<span class='no'>X</span>$<span class='no'>tip.label</span> <span class='kw'>&lt;-</span> <span class='no'>xc.tree</span>$<span class='no'>tip.label</span>
+
+<span class='fu'>phylo_spectro</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>X</span>, <span class='kw'>tree</span> <span class='kw'>=</span> <span class='no'>xc.tree</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.03</span>, <span class='kw'>par.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>3</span>, <span class='fl'>4</span>),
+<span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fl'>0</span>, <span class='fl'>4</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fan"</span>, <span class='kw'>show.tip.label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+<span class='kw'>edge.color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>edge.width</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='phylo_spectro-5.png' alt='' width='700' height='433' /></div><div class='input'>  </div><div class='input'>}
 </div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:1:1: unexpected '}'</span>
 #&gt; <span class='error'>1: }</span>
 #&gt; <span class='error'>    ^</span></div></pre>

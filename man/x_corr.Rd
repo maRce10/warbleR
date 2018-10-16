@@ -4,10 +4,9 @@
 \alias{x_corr}
 \title{alternative name for \code{\link{xcorr}}}
 \usage{
-x_corr(X = NULL, wl = 512, frange = NULL, ovlp = 90, dens = 0.9,
-  bp = NULL, wn = "hanning", cor.method = "pearson", parallel = 1,
-  path = NULL, pb = TRUE, na.rm = FALSE, dfrange = FALSE,
-  cor.mat = TRUE)
+x_corr(X = NULL, wl = 512, bp = NULL, ovlp = 90, dens = 0.9,
+  wn = "hanning", cor.method = "pearson", parallel = 1,
+  path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = TRUE)
 }
 \description{
 alternative name for \code{\link{xcorr}}

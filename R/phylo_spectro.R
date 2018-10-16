@@ -2,10 +2,10 @@
 #' 
 #' \code{phylo_spectro} Add spectrograms to the tips of an objects of class phylo.
 #' @usage phylo_spectro(X, tree, type = "fan", par.mar = rep(1, 4), 
-#' size = 1, offset = 2, path = NULL, ladder = NULL, horizontal = TRUE, ...) 
+#' size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, ...) 
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
 #' (sound.files), selection number (selec), and start and end time of signals (start and end). 
-#' 'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '\code{tree$tip.label}). The column is use to match rows and tip labels. If using an 
+#' 'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '\code{tree$tip.label}). This column is used to match rows and tip labels. If using an 
 #' 'extended_selection_table' the sound files are not required (see \code{\link{selection_table}}). 
 #' @param tree Object of class 'phylo' (i.e. a phylogenetic tree). Ultrametric trees may produce better results.
 #' If \code{NULL} (default) then the current working directory is used. Tip labels must match the names provided in the 'tip.label' column in 'X' (see 'X' argument).
@@ -14,19 +14,19 @@
 #' @param par.mar Numeric vector with 4 elements, default is \code{rep(1, 4)}. Specifies the number of lines 
 #' in inner plot margins where axis labels fall, with form c(bottom, left, top, right). 
 #' See \code{\link[graphics]{par}}. See 'inner.par' argument for controling spectrogram margins.
-#' @param size Numeric vector of length 1 controlling the relative size of spectrograms. Default is 1. 
+#' @param size Numeric vector of length 1 controlling the relative size of spectrograms. Higher numbers increase the height of spectrograms. Default is 1. 
 #' Numbers between range \code{c(>0, Inf)} are allowed. 
-#' @param offset Numeric vector of length 1 controlling the space between tips and spectrograms. Default is 2.
+#' @param offset Numeric vector of length 1 controlling the space between tips and spectrograms. Default is 0.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param ladder Character string controling whether the phylogeny is ladderized (i.e. the internal structure of the 
 #' tree is reorganized to get the ladderized effect when plotted). Only 'left' of 'right' values are accepted. Default is 
 #' \code{NULL} (no ladderization). See \code{\link[ape]{ladderize}} for more details.
 #' @param horizontal Logical. Controls whether spectrograms in a fan phylogeny are place in a horizontal position 
-#' \code{FALSE} or in the same angle as tree tips. Currently only horizontal spectrograms are available. 
+#' \code{FALSE} or in the same angle as the tree tips. Currently only horizontal spectrograms are available. 
 #' @param ... Additional arguments to be passed to the internal spectrogram 
 #' creating function (\code{\link{specreator}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 
-#' customizing graphical output.
+#' customizing graphical output. Only rightwards phylogenies can be plotted.
 #' @return A phylogenetic tree with spectrograms on tree tips is plotted in the current graphical device.
 #' @family spectrogram creators
 #' @seealso \code{\link{specreator}}, \code{\link[ape]{plot.phylo}}
@@ -63,18 +63,31 @@
 #' # add tip label column to example selection table (just for the sake of the example)
 #' X$tip.label <- tree$tip.label
 #' 
-#' 
 #' # print phylogram with spectros
-#' phylo_spectro(X = X, tree = tree, offset = 0.3, par.mar = c(0, 0, 0, 10),
-#' pal = reverse.gray.colors.2, title.labels = c("sound.files", "selec"), size = 2)
-#' 
-#' # print phylogram with spectros and no margin in spectrograms showing tip labels (higher offset)
-#' phylo_spectro(X = X, tree = tree, offset = 0.4, par.mar = c(0, 0, 0, 10), inner.mar = rep(0, 4),
-#' pal = reverse.gray.colors.2, title.labels = c("sound.files", "selec"), size = 2)
+#' phylo_spectro(X = X, tree = tree, par.mar = c(0, 0, 0, 8), size = 2)
+#'
+#' # no margin in spectrograms and showing tip labels (higher offset)
+#' phylo_spectro(X = X, tree = tree, offset = 0.1, par.mar = c(0, 0, 0, 6), 
+#' inner.mar = rep(0, 4), size = 2)
 #' 
 #' # print fan tree and no margin in spectrograms
-#' phylo_spectro(X = X, tree = tree, offset = 0.7, par.mar = rep(5, 4), inner.mar = rep(0, 4),
-#' pal = reverse.gray.colors.2, size = 2, type = "fan")
+#' phylo_spectro(X = X, tree = tree, offset = 0.6, par.mar = rep(3, 4),
+#' inner.mar = rep(0, 4), size = 2, type = "fan", show.tip.label = FALSE)
+#' 
+#' # changing edge color and witdh
+#' phylo_spectro(X = X, tree = tree, offset = 0.2, par.mar = rep(3, 4), inner.mar = rep(0, 4), 
+#' size = 2, type = "fan", show.tip.label = FALSE, edge.color = "red", edge.width = 2)
+#' 
+#' # plotting a tree representing cross-correlation distances 
+#' xcorr_mat <- xcorr(X, bp = c(1, 10))
+#' 
+#' xc.tree <- ape::chronoMPL(ape::as.phylo(hclust(as.dist(1 - xcorr_mat))))
+#' 
+#' X$tip.label <- xc.tree$tip.label
+#' 
+#' phylo_spectro(X = X, tree = xc.tree, offset = 0.03, par.mar = rep(3, 4), 
+#' inner.mar = rep(0, 4), size = 0.3, type = "fan", show.tip.label = FALSE, 
+#' edge.color = "red", edge.width = 2)
 #'   }
 #' }
 #' @references {
@@ -83,7 +96,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on oct-1-2018 (MAS)
 
-phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, offset = 2, 
+phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, offset = 0, 
                          path = NULL, ladder = NULL, horizontal = TRUE, ...) {
 
   # error message if ape is not installed
@@ -133,7 +146,7 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
   if (!is.null(ladder)) tree <- ape::ladderize(phy = tree, right = ladder == "right")
   
  # check tip labels match
- if (!identical(sort(as.character(X$tip.label)), sort(tree$tip.label))) stop("tree tip labels (tree$tip.label) and 'tip.label' column in 'X' do not match")  
+ if (!identical(sort(as.character(X$tip.label)), sort(tree$tip.label))) stop("tree tip labels (tree$tip.label) and 'tip.label' column in 'X' do not match")
  
  # map arguments provided
  argus <- c(opt.argms, call.argms)
@@ -159,7 +172,7 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
   
   ## PHYLOGENY
   # keep arguments in ... found in specreator
-  cll.phylo <- quote(ape::plot.phylo(x = tree))
+  cll.phylo <- quote(ape::plot.phylo(x = tree, direction = "rightwards"))
 
   # keep arguments in ... found in specreator
   shr.args2 <- argus[names(argus) %in% names(formals(ape::plot.phylo))]
@@ -179,6 +192,13 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
   # plot tree
   eval(cll.phylo)
   
+  # get border coordinates
+  usr <- par()$usr
+  plt <- par()$plt
+
+  # correct for margins
+  usr <- usr * (abs(plt - c(0, 1, 0, 1)) + 1)
+
   # get coordinates for spectrograms
   lastPP <- get("last_plot.phylo", envir = ape::.PlotPhyloEnv)
   xs <- lastPP$xx[1:nrow(X)]
@@ -212,8 +232,8 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
   # fix size according to number of tips in tree
   size <- size / sqrt(nrow(X))
   
-  # if not horizontal
-  if (!horizontal)
+  # if position of  not horizontal
+  if (!horizontal & lastPP$type %in% c("fan", "radial"))
   {
     # cuadrant I
     dgs[xs > 0 &  ys > 0] <- asin(abs(ys[xs > 0 &  ys > 0])/ sqrt((xs[xs > 0 &  ys > 0])^2 + (ys[xs > 0 &  ys > 0])^2)) * 180 /pi
@@ -228,27 +248,53 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
     dgs[xs < 0 &  ys > 0] <- (acos((xs[xs < 0 &  ys > 0])/ sqrt((xs[xs < 0 &  ys > 0])^2 + (ys[xs < 0 &  ys > 0])^2)) * 180 /pi) + 180
   } 
 
-
-  # add spectros to phylogeny  
+  # empty list for images
+  imgs <- list()
+  
+  # image coordinate data frame
+  coors <- data.frame(xs, ys, size, dgs, asp = NA, xleft = NA, xright = NA, 
+                      ybottom = NA, ytop = NA)
+  
+  # read images and calculate margins for spectrograms
   for(y in 1:nrow(X)) {
     
     # read images    
-    img <- jpeg::readJPEG(source = file.path(tempdir(), paste0(X$sound.files[y], "-", X$selec[y], ".jpeg")))
+    imgs[[1 + length(imgs)]] <- jpeg::readJPEG(source = file.path(tempdir(), paste0(X$sound.files[y], "-", X$selec[y], ".jpeg")))
+    
+    # get image dimensions
+    dims <- dim(imgs[[length(imgs)]])
     
     # get image aspect
-    # asp <- dim(img)[1]/dim(img)[2]
-    asp2 <- 1 / (dim(img)[1] / dim(img)[2])
-    # asp2 <- 1 / asp2
+    coors$asp[y] <- 1 / (dims[1] / dims[2])
     
     # allow to plot outside main image area
     par(xpd = TRUE, mar = par()$mar + c(0, 0, 0, 7))
+    
+    # calculate image limits
+    if (lastPP$type == "phylogram") 
+   
+    coors$xleft[y] <- xs[y]  
+    coors$xright[y] <- xs[y] + size  * coors$asp[y]  
+    coors$ybottom[y] <- coors$ys[y] - (size / 2)  
+    coors$ytop[y] <- coors$ys[y] + (size / 2)  
+  }
+
+  # fix right margin
+  if (lastPP$direction == "rightwards")
+   coors$xright <- coors$xright * (usr[2]/max(coors$xright))
+  
+  # allow to plot outside main image area
+  par(xpd = TRUE, mar = par()$mar + c(0, 0, 0, 7))
+  
+  # add spectros to phylogeny  
+  for(y in 1:nrow(X)) {
 
     # add spectrograms
-    # graphics::rasterImage(image = img, xleft = xs[y] - (size / 2), ybottom = ys[y] - (size / 2  * asp), xright = xs[y] + (size / 2), ytop = ys[y] + (size * asp / 2), angle = dgs[y])
-    # graphics::rasterImage(image = img, xleft = xs[y] - (size / 2  * asp2), ybottom = ys[y] - (size / 2), xright = xs[y] + (size / 2)  * asp2, ytop = ys[y] + (size/ 2), angle = dgs[y])
-    graphics::rasterImage(image = img, xleft = xs[y], ybottom = ys[y] - (size / 2), xright = xs[y] + size  * asp2, ytop = ys[y] + (size/ 2), angle = dgs[y])
-    
+    if (lastPP$type == "phylogram")
+    graphics::rasterImage(image = imgs[[y]], xleft = coors$xleft[y], ybottom = coors$ybottom[y], xright = coors$xright[y], ytop = coors$ytop[y], angle = dgs[y])     else
+    graphics::rasterImage(image = imgs[[y]], xleft = xs[y] - (size / 2), ybottom = ys[y] - (size / 2  * coors$asp[y]), xright = xs[y] + (size / 2), ytop = ys[y] + (size * coors$asp[y] / 2), angle = dgs[y])
   }
+
   
   # add points to coordinates for each label
   # points(x = xs, y = ys, pch = 20, col = "purple")

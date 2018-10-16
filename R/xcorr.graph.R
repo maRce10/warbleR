@@ -33,7 +33,7 @@
 #' writeWave(Phae.long2, "Phae.long2.wav")
 #'
 #'  #run cross correlation first
-#'  xcor<-xcorr(X = selec.table[1:5,], wl =300, frange= c(2, 9), ovlp=90, dens=0.8,
+#'  xcor<-xcorr(X = selec.table[1:5,], wl =300, bp= c(2, 9), ovlp=90, dens=0.8,
 #'  wn= "hanning", cor.method = "pearson", cor.mat = FALSE) 
 #'  
 #'  #plot pairwise scores
