@@ -13,7 +13,7 @@
 #' @param pb Logical argument to control progress bar. Default is \code{FALSE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' @return  An extended selection table with the modfied wave objects. 
+#' @return  An extended selection table with the modified wave objects. 
 #' @export
 #' @name resample_est
 #' @details This function aims to simplify the process of homogenizing sound 
@@ -122,7 +122,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
           
         # if (x@samp.rate < samp.rate * 1000) cll <- gsub("dither -s$", "resample", cll)
         
-        if (Sys.info()[1] == "Windows") cll <- gsub("'", "", cll)
+        if (Sys.info()[1] == "Windows")  cll <- gsub("'", "\"", cll)
         
         out <- suppressWarnings(system(cll, ignore.stdout = FALSE, intern = TRUE)) 
         

@@ -24,7 +24,7 @@ data(selec.table)
 \description{
 A data frame containing the start, end, low and hig frequency of 
 \emph{Phaethornis longirostris} (Long-billed Hermit) songs from the 
-example sound files included in this package. Same data than 'selec_table'.
+example sound files included in this package. Same data than 'lbh_selec_table'.
 'selec.table' will be reomved in future package version.
 }
 \keyword{datasets}

@@ -3,14 +3,17 @@
 #' \code{fixwavs} fixes sound files in .wav format so they can be imported into R.
 #' @usage fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL,
 #'  path = NULL, mono = FALSE)
-#' @param checksels Data frame with results from \code{\link{checksels}}. 
-#' @param files Character vector with the names of the wav files to fix. Default is \code{NULL}.
-#' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
+#' @param checksels Data frame with results from \code{\link{checksels}}. Default is \code{NULL}. If  both 'checksels' and 'files'  are \code{NULL}
+#' then all files in 'path' are converted. 
+#' @param files Character vector with the names of the wav files to fix. Default is \code{NULL}. If  both 'checksels' and 'files'  are \code{NULL}
+#' then all files in 'path' are converted. 
+#' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}. 
+#' (remain unchanged).
 #' @param bit.depth Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
-#' Default is \code{NULL}.
+#' Default is \code{NULL} (remain unchanged).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param mono Logical indicating if stereo (2 channel) files should be converted to mono (1 channel).
+#' @param mono Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{NULL} (remain unchanged).
 #' @return  A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
 #' sound files in a format that can be imported in R. 
 #' @export
@@ -18,20 +21,21 @@
 #' @details This function aims to simplify the process of converting sound files that cannot be imported into R to 
 #' a format that can actually be imported. Problematic files can be determined using \code{\link{checksels}}. The  
 #' \code{\link{checksels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
-#' names to be "fixed" can be provided (argument 'files'). Internally the function calls sox \href{http://sox.sourceforge.net/sox.html}{sox}. 'sox' must be installed to be able to run this function.
+#' names to be "fixed" can be provided (argument 'files'). Internally the function calls sox \href{http://sox.sourceforge.net/sox.html}{sox}. 'sox' must be installed to be able to run this function. If  both 'checksels' and 'files'  are \code{NULL}
+#' then all files in 'path' are converted. 
 #'   
 #' @examples
 #' \dontrun{
 #' # Set temporary working directory
 #' # setwd(tempdir())
 #' 
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav") 
-#' 
-#' fixwavs(files = selec_table$sound.files)
+# data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
+# writeWave(Phae.long1,"Phae.long1.wav")
+# writeWave(Phae.long2,"Phae.long2.wav")
+# writeWave(Phae.long3,"Phae.long3.wav")
+# writeWave(Phae.long4,"Phae.long4.wav")
+# 
+# fixwavs(files = lbh_selec_table$sound.files)
 #' 
 #' #check this folder
 #' getwd()
@@ -41,7 +45,7 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
-#' #last modification on oct-15-2018 (MAS)
+# last modification on oct-22-2018 (MAS)
 
 fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL, path = NULL, mono = FALSE)
 {
@@ -79,9 +83,10 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
     setwd(path)
   }  
   
-  if (is.null(checksels) & is.null(files)) stop("either 'checksels' or 'files' shoud be provided")
-  
-  if (!is.null(checksels))
+  #  If  both 'checksels' and 'files'  are NULL
+  if (is.null(checksels) & is.null(files)) files <- list.files(pattern = ".wav$", ignore.case = TRUE)  
+
+    if (!is.null(checksels))
   {fls <-unique(checksels$sound.files[checksels$check.res == "Sound file can't be read" | checksels$check.res == "file header corrupted"])
   if (length(fls) == 0) stop("All files were OK according tochecksels")
 
@@ -129,7 +134,7 @@ dir.create(file.path(getwd(), "converted_sound_files"), showWarnings = FALSE)
       cll <- paste(cll, "dither -s")
      
     if (Sys.info()[1] == "Windows")
-      cll <- gsub("'", "", cll)
+      cll <- gsub("'", "\"", cll)
       
     out <- system(cll, ignore.stdout = FALSE, intern = TRUE) 
      })

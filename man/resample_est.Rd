@@ -26,7 +26,7 @@ adjusted to avoid clipping high amplitude samples when resampling. Ignored if
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 }
 \value{
-An extended selection table with the modfied wave objects.
+An extended selection table with the modified wave objects.
 }
 \description{
 \code{resample_est} changes sampling rate and bit depth of wave objects in a extended selection table.

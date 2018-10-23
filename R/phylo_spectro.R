@@ -104,6 +104,7 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
     stop("must install 'ape' to use phylo_spectro()")
   
   # currenlt only horizontal is allowed
+  if (!horizontal) cat("Currently only horizontal spectrograms are allowed")
   horizontal <- TRUE
   
   ## save curent working directory and use a temporary one for saving images
@@ -194,16 +195,23 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
   
   # get border coordinates
   usr <- par()$usr
-  plt <- par()$plt
+  # plt <- par()$plt
+  # 
+  # # correct for margins
+  # usr[2] <- usr[2] + ((usr[2] - usr[1]) * (1 - plt[2])) 
+  # usr[1] <- usr[1] - ((usr[2] - usr[1]) * plt[1])
 
-  # correct for margins
-  usr <- usr * (abs(plt - c(0, 1, 0, 1)) + 1)
-
+  # y limits
+  plt.y.rng <- usr[4] - usr[3]
+  
+  # fix size according to number of tips in tree
+  size <- plt.y.rng / nrow(X) * size 
+  
   # get coordinates for spectrograms
   lastPP <- get("last_plot.phylo", envir = ape::.PlotPhyloEnv)
   xs <- lastPP$xx[1:nrow(X)]
   ys <- lastPP$yy[1:nrow(X)]
-  
+
    # fix offset (taken from ape::tiplabels)
   if (offset != 0) {
     if (lastPP$type %in% c("phylogram", "cladogram")) {
@@ -228,9 +236,6 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
 
   # get degrees
   dgs <- rep(0, length(xs))
-  
-  # fix size according to number of tips in tree
-  size <- size / sqrt(nrow(X))
   
   # if position of  not horizontal
   if (!horizontal & lastPP$type %in% c("fan", "radial"))
@@ -266,42 +271,28 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
     
     # get image aspect
     coors$asp[y] <- 1 / (dims[1] / dims[2])
-    
-    # allow to plot outside main image area
-    par(xpd = TRUE, mar = par()$mar + c(0, 0, 0, 7))
-    
+  
     # calculate image limits
-    if (lastPP$type == "phylogram") 
+    # if (lastPP$type == "phylogram") 
    
-    coors$xleft[y] <- xs[y]  
-    coors$xright[y] <- xs[y] + size  * coors$asp[y]  
+    coors$xleft[y] <- coors$xs[y]  
+    coors$xright[y] <- coors$xs[y] + size  * coors$asp[y]  
+    coors$difx[y] <- size  * coors$asp[y]  
     coors$ybottom[y] <- coors$ys[y] - (size / 2)  
     coors$ytop[y] <- coors$ys[y] + (size / 2)  
-  }
+      }
 
-  # fix right margin
-  if (lastPP$direction == "rightwards")
-   coors$xright <- coors$xright * (usr[2]/max(coors$xright))
-  
-  # allow to plot outside main image area
-  par(xpd = TRUE, mar = par()$mar + c(0, 0, 0, 7))
-  
   # add spectros to phylogeny  
   for(y in 1:nrow(X)) {
 
+    # allow to plot outside main image area
+    par(xpd = TRUE)
+    
     # add spectrograms
     if (lastPP$type == "phylogram")
-    graphics::rasterImage(image = imgs[[y]], xleft = coors$xleft[y], ybottom = coors$ybottom[y], xright = coors$xright[y], ytop = coors$ytop[y], angle = dgs[y])     else
+    graphics::rasterImage(image = imgs[[y]], xleft = coors$xleft[y], ybottom = coors$ybottom[y], xright = coors$xleft[y] +  coors$difx[y], ytop = coors$ytop[y], angle = dgs[y])
+    else
     graphics::rasterImage(image = imgs[[y]], xleft = xs[y] - (size / 2), ybottom = ys[y] - (size / 2  * coors$asp[y]), xright = xs[y] + (size / 2), ytop = ys[y] + (size * coors$asp[y] / 2), angle = dgs[y])
   }
 
-  
-  # add points to coordinates for each label
-  # points(x = xs, y = ys, pch = 20, col = "purple")
-  
-  # add labels to check degrees
-  # for( i in 1:nrow(X))
-  # text(x = xs[i], y = ys[i], cex =2 , labels = "text" , col = "green", srt = dgs[i])
-  
-# return(cbind(xs, ys, dgs))
   }

@@ -170,7 +170,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   
   # no autonext if ts.df provided
   if (auto.next & !is.null(ts.df)) {
-    cat("'auto.next' not available when 'ts.df' is provided") 
+    write(file = "", x = "'auto.next' not available when 'ts.df' is provided") 
     auto.next <- FALSE
   }
   
@@ -238,10 +238,10 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
   if (any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
   if (all(any(!is.na(X$tailored)),nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X))) {
-    options(show.error.messages=FALSE)
-    cat("all selections have been analyzed")
+    
+    write(file = "", x = "all selections have been analyzed")
     stop() 
-  }
+  } else write(file = "", x = "'seltailor_output.csv' found in working directory, resuming tailoring ...")
   
   if(!is.null(ts.df))
   {
@@ -370,8 +370,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         #return X
         return(droplevels(X[X$tailored != "delete", ]))
         
-        options(show.error.messages=FALSE)
-        cat("all selections have been analyzed")
+        write(file = "", x = "all selections have been analyzed")
         stop() 
       } 
       h <- h + 1
@@ -382,7 +381,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     {    
       h <- h - 1
       if (h == 0) {h <- 1
-      cat("These selection was the first one during the selection procedure (can't go further back)")
+      write(file = "", x = "These selection was the first one during the selection procedure (can't go further back)")
       }
     }
     
@@ -397,8 +396,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         #return X
         return(droplevels(X[X$tailored != "delete", ]))
         
-        options(show.error.messages=FALSE)
-        cat("all selections have been analyzed")
+        write(file = "", x = "all selections have been analyzed")
         stop() 
       } 
       h <- h + 1
@@ -413,8 +411,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       #return X
       return(droplevels(X[X$tailored != "delete", ]))
       
-      options(show.error.messages=FALSE)
-      cat("Stopped by user")
+      write(file = "", x = "Stopped by user")
       stop() 
     } 
     
@@ -456,8 +453,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           #return X
           return(droplevels(X[X$tailored != "delete", ]))
           
-          options(show.error.messages=FALSE)
-          cat("all selections have been analyzed")
+          write(file = "", x = "all selections have been analyzed")
           stop() 
         } else {
           h <- h + 1
@@ -470,7 +466,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         h <- h - 1
         if (h == 0) {
           h <- 1
-          cat("These selection was the first one during the selection procedure (can't go further back)")
+          write(file = "", x = "These selection was the first one during the selection procedure (can't go further back)")
         }
         break
       }
@@ -488,7 +484,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           return(droplevels(X[X$tailored != "delete", ]))
           
           options(show.error.messages=FALSE)
-          cat("all selections have been analyzed")
+          write(file = "", x = "all selections have been analyzed")
           stop() 
         } else  {
           h <- h + 1  
@@ -500,12 +496,12 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       {dev.off()
         if (selcount > 0) X$tailored[j] <- "y"
         write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
-        options(show.error.messages=FALSE)
+      
         
         #return X
         return(droplevels(X[X$tailored != "delete", ]))
         
-        cat("Stopped by user")
+        write(file = "", x = "Stopped by user")
         stop()}
       
       if (exists("prev.plot")) xy2 <- locator(n = 1, type = "n")
@@ -549,8 +545,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           #return X
           return(droplevels(X[X$tailored != "delete", ]))
           
-          options(show.error.messages=FALSE)
-          cat("all selections have been analyzed")
+          write(file = "", x = "all selections have been analyzed")
           stop() 
         } else {
           Sys.sleep(pause) 

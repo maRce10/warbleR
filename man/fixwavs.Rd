@@ -8,19 +8,22 @@ fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL,
  path = NULL, mono = FALSE)
 }
 \arguments{
-\item{checksels}{Data frame with results from \code{\link{checksels}}.}
+\item{checksels}{Data frame with results from \code{\link{checksels}}. Default is \code{NULL}. If  both 'checksels' and 'files'  are \code{NULL}
+then all files in 'path' are converted.}
 
-\item{files}{Character vector with the names of the wav files to fix. Default is \code{NULL}.}
+\item{files}{Character vector with the names of the wav files to fix. Default is \code{NULL}. If  both 'checksels' and 'files'  are \code{NULL}
+then all files in 'path' are converted.}
 
-\item{samp.rate}{Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.}
+\item{samp.rate}{Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}. 
+(remain unchanged).}
 
 \item{bit.depth}{Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
-Default is \code{NULL}.}
+Default is \code{NULL} (remain unchanged).}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{mono}{Logical indicating if stereo (2 channel) files should be converted to mono (1 channel).}
+\item{mono}{Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{NULL} (remain unchanged).}
 }
 \value{
 A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
@@ -33,20 +36,14 @@ sound files in a format that can be imported in R.
 This function aims to simplify the process of converting sound files that cannot be imported into R to 
 a format that can actually be imported. Problematic files can be determined using \code{\link{checksels}}. The  
 \code{\link{checksels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
-names to be "fixed" can be provided (argument 'files'). Internally the function calls sox \href{http://sox.sourceforge.net/sox.html}{sox}. 'sox' must be installed to be able to run this function.
+names to be "fixed" can be provided (argument 'files'). Internally the function calls sox \href{http://sox.sourceforge.net/sox.html}{sox}. 'sox' must be installed to be able to run this function. If  both 'checksels' and 'files'  are \code{NULL}
+then all files in 'path' are converted.
 }
 \examples{
 \dontrun{
 # Set temporary working directory
 # setwd(tempdir())
 
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav") 
-
-fixwavs(files = selec_table$sound.files)
 
 #check this folder
 getwd()
@@ -60,5 +57,4 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
-#last modification on oct-15-2018 (MAS)
 }

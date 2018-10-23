@@ -30,7 +30,7 @@
 #' # setwd(tempdir())
 #' 
 #' # save wav file examples
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' 
 #' # create first folder
 #' dir.create("folder1")
@@ -90,7 +90,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   # check path to working directory
   if (!is.null(dest.path))
   {if (class(try(setwd(dest.path), silent = TRUE)) == "try-error") stop("'dest.path' provided does not exist")} else 
-    dir.create(dest.path <- file.path(getwd(), "consolidated_folder"), showWarnings = FALSE)
+    dir.create(dest.path <- file.path(getwd(), "consolidated_files"), showWarnings = FALSE)
   
   # list files
   if (!is.null(files)){
@@ -124,7 +124,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
     new_name <- gsub("\\", "", new_name, fixed = TRUE)
     
   # create data frame with info from old and new names
-  X <- data.frame(original_dir = gsub("\\.", path, dirname(files)), old_name, new_name, file_size_bytes, stringsAsFactors = FALSE)
+  X <- data.frame(original_dir = gsub("\\.", path, dirname(files), fixed = TRUE), old_name, new_name, file_size_bytes, stringsAsFactors = FALSE)
   
   # label possible duplicates
   X$duplicate <- sapply(paste0(X$old_name, X$file_size_bytes), function(y) if (length(which(paste0(X$old_name, X$file_size_bytes) == y)) > 1) return("possible.dupl") else return(NA))

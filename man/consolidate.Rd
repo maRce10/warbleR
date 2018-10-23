@@ -47,7 +47,7 @@ other type of files (for instance '.txt' selection files).
 # setwd(tempdir())
 
 # save wav file examples
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
 # create first folder
 dir.create("folder1")
