@@ -98,7 +98,7 @@
 <p> </p>
             
             <h4 class="date"><center>
-“2018-10-16”
+“2018-10-23”
 </center></h4>
       
       
@@ -115,7 +115,7 @@
 <p> </p>
 <!-- <center> <h1><b>Acoustic (dis)similarity and coordinated singing</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2018-10-16 </center> -->
+<!-- <center> 2018-10-23 </center> -->
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
@@ -374,10 +374,10 @@ dm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dfDTW.ht
 </ul>
 <p><code>xcorr</code> requires margins half the duration of the signal on either side of the signal (e.g. before and after the start and end coordinates). Signals that are very close to either the start or end of a recording may throw errors. Additionally, when sound files have been modified by bandpass filters, some pairwise cross-correlations may not work and the correlation matrix may contain <code>NA</code> values. <code>xcorr</code> now contains an argument to remove columns of the matrix that contain <code>NA</code> values, which will reduce the data in the matrix but also allow the matrix to be used in subsequent analyses.</p>
 <p>Here our output is a matrix of peak correlation per pairwise comparison, with the recording-selection names as the matrix dimension names.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xcorr.html">xcorr</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>, <span class="dt">frange =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">10</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xcorr.html">xcorr</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>, <span class="dt">bp =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">10</span>))
 <span class="kw">str</span>(xc)</code></pre></div>
 <p>To visualize the cross-correlation across all pairwise comparisons, we need to feed the function <code>xcorr.graph</code> a list of <code>xcorr</code> output (<code>xcorr</code>must be run with <code>cor.mat = FALSE</code>). Here we save the graphical output of <code>xcorr.graph</code> for better ease of visualization.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xcorr.html">xcorr</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>, <span class="dt">frange =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="dt">cor.mat =</span> <span class="ot">FALSE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xcorr.html">xcorr</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>, <span class="dt">bp =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="dt">cor.mat =</span> <span class="ot">FALSE</span>)
 
 <span class="kw">jpeg</span>(<span class="st">"xcorr_graph.jpeg"</span>, <span class="dt">width =</span> <span class="dv">30</span>, <span class="dt">height =</span> <span class="dv">30</span>, <span class="dt">units =</span> <span class="st">"cm"</span>, <span class="dt">res =</span> <span class="dv">200</span>)
 <span class="kw"><a href="../reference/xcorr.graph.html">xcorr.graph</a></span>(xc, <span class="dt">cex.cor =</span> <span class="dv">1</span>, <span class="dt">cex.lab =</span> <span class="dv">1</span>, <span class="dt">cex.axis.lab =</span> <span class="dv">1</span>)

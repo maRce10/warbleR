@@ -1,3 +1,9 @@
+# *warbleR 1.1.16*
+
+## Bug fixes:
+
+* system() commands for windows in 'fix_wavs()' and 'resample_est()'
+
 # *warbleR 1.1.15*
 
 ## New functions:

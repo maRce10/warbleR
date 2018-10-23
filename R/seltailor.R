@@ -235,19 +235,28 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   if (!is.null(index))   X$tailored[!1:nrow(X) %in% index] <- "y"
   write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
   } else {
-    X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
-  if (any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
+    # tell user file already existed
+    write(file = "", x = "'seltailor_output.csv' found in working directory, resuming tailoring ...")
+
+        X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
+  
+        if(!is.null(ts.df))
+          if (any(!names(ts.df) %in% names(X)))
+            stop("'seltailor_output.csv' file in working directory does not contain frequency contour columns")  
+        
+        
+        
+        if (any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
   if (all(any(!is.na(X$tailored)),nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X))) {
     
     write(file = "", x = "all selections have been analyzed")
     stop() 
-  } else write(file = "", x = "'seltailor_output.csv' found in working directory, resuming tailoring ...")
-  
-  if(!is.null(ts.df))
-  {
-    # ncl <- intersect(names(ts.df2), names(X))
-    ncl <- ncl[!ncl %in% c("sound.files", "selec")]
-  }
+  } 
+        if(!is.null(ts.df))
+        {
+          # ncl <- intersect(names(ts.df2), names(X))
+          ncl <- ncl[!ncl %in% c("sound.files", "selec")]
+        }
   }
   
   dn <- 1:nrow(X)
