@@ -129,17 +129,18 @@ Image files with spectrograms showing the start and end of the detected signals.
   sound file and selection number.
 }
 \description{
-\code{autodetec} automatically detects the start and end of vocalizations in sound files  based
+\code{autodetec} automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes.
 }
 \details{
 This function determines the start and end of signals in the segments of the sound files listed 
   in the input data frame. Alternatively, if no data frame is provided, the function detects signals across
-  each entire sound file and creates long spectrograms highlighting the start and of the detected
-  signals for all sound files in the working directory. The input data frame should have the following 
-  columns: c("sound.files","selec","start","end"). The ouptut of \code{\link{manualoc}} can be used as the 
-  input data frame. This function uses a modified version of the \code{\link[seewave]{timer}} function from 
-  seewave package to detect signals.
+  each entire sound file. It can also create long spectrograms highlighting the start and of the detected
+  signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
+   working directory or the path to the sound files should be provided using the 'path' argument. The input 
+   data frame should have the following columns: c("sound.files","selec","start","end"). The ouptut of 
+   \code{\link{manualoc}} can be used as the input data frame. This function uses a modified version of the 
+   \code{\link[seewave]{timer}} function from seewave package to detect signals.
 }
 \examples{
 \dontrun{

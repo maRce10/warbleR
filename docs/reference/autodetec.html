@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Automatically detect vocalizations in sound files — autodetec" />
 
-<meta property="og:description" content="autodetec automatically detects the start and end of vocalizations in sound files  based
+<meta property="og:description" content="autodetec automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes." />
 <meta name="twitter:card" content="summary" />
 
@@ -121,7 +121,7 @@ on amplitude, duration, and frequency range attributes." />
 
     <div class="ref-description">
     
-    <p><code>autodetec</code> automatically detects the start and end of vocalizations in sound files  based
+    <p><code>autodetec</code> automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes.</p>
     
     </div>
@@ -319,11 +319,12 @@ graphical output.</p></td>
 
     <p>This function determines the start and end of signals in the segments of the sound files listed 
   in the input data frame. Alternatively, if no data frame is provided, the function detects signals across
-  each entire sound file and creates long spectrograms highlighting the start and of the detected
-  signals for all sound files in the working directory. The input data frame should have the following 
-  columns: c("sound.files","selec","start","end"). The ouptut of <code><a href='manualoc.html'>manualoc</a></code> can be used as the 
-  input data frame. This function uses a modified version of the <code><a href='http://www.rdocumentation.org/packages/seewave/topics/timer'>timer</a></code> function from 
-  seewave package to detect signals.</p>
+  each entire sound file. It can also create long spectrograms highlighting the start and of the detected
+  signals for all sound files in the working directory (if <code>img = TRUE</code>). Sound files should be located in the
+   working directory or the path to the sound files should be provided using the 'path' argument. The input 
+   data frame should have the following columns: c("sound.files","selec","start","end"). The ouptut of 
+   <code><a href='manualoc.html'>manualoc</a></code> can be used as the input data frame. This function uses a modified version of the 
+   <code><a href='http://www.rdocumentation.org/packages/seewave/topics/timer'>timer</a></code> function from seewave package to detect signals.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

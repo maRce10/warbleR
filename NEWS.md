@@ -1,5 +1,9 @@
 # *warbleR 1.1.16*
 
+## Changes and additions:
+
+* more info about file input in 'autodetec()' documentation
+
 ## Bug fixes:
 
 * system() commands for windows in 'fix_wavs()' and 'resample_est()'
