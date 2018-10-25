@@ -162,8 +162,19 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
   if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   
   #if bp is not vector or length!=2 stop
-  if (!is.null(bp)) {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
+  # if (!is.null(bp)) {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+  #   if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
+
+  # bp checking
+  if (bp[1] != "frange")
+  {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
+  } else
+  {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
+    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
+    if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
+    if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than low.f")
+  }
   
   # If length.out is not numeric
   if (!is.numeric(length.out)) stop("'length.out' must be a numeric vector of length 1") 
@@ -199,6 +210,11 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
     # Read sound files to get sample rate and length
     r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
+    
+    
+    # if bp is frange
+    if (bp[1] == "frange") bp <- c(min(X$bottom.freq[i]), max(X$top.freq[i])) 
+    # else frq.lim <- bp
     
     #in case bp its higher than can be due to sampling rate
     b <- bp 

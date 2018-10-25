@@ -3,6 +3,7 @@
 ## Changes and additions:
 
 * more info about file input in 'autodetec()' documentation
+* add 'frange' for bp in 'dfts()'
 
 ## Bug fixes:
 
