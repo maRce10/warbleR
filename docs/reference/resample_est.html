@@ -194,7 +194,7 @@ any further (bio)acoustic analysis.</p>
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># create extended selection table</span>
-<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selection_table.html'>selection_table</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selection_table.html'>selection_table</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># resample</span>
 <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>resample_est</span>(<span class='no'>X</span>)

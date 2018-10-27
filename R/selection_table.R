@@ -68,7 +68,7 @@
 #' sound files to run acoustic analysis. This can largely faciliate the storing and sharing of (bio)acoustic data.
 #' Extended selection table size will be a function of the number of selections \code{nrow(X)}, sampling rate, selection 
 #' duration and margin duration. As a guide, a selection table
-#' with 1000 selections similar to the ones in 'selec.table' (mean duration ~0.15
+#' with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.15
 #'  seconds) at 22.5 kHz sampling rate and the default margin (\code{mar = 0.1}) 
 #'  will generate a extended selection table of ~31 MB (~310 MB for a 10000 rows 
 #'  selection table). You can check the size of the output extended selection table
@@ -82,27 +82,30 @@
 #' # First set temporary folder
 #'  # setwd(tempdir())
 #' 
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", 
+#' "lbh_selec_table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
 #' # make selection table
-#' st <- selection_table(X = selec.table)
+#' st <- selection_table(X = lbh_selec_table)
 #'
 #' is_selection_table(st)
 #' 
 #' #' # make extended selection table
-#' st <- selection_table(X = selec.table, extended = TRUE, confirm.extended = FALSE)
+#' st <- selection_table(X = lbh_selec_table, extended = TRUE, 
+#' confirm.extended = FALSE)
 #' 
 #' is_extended_selection_table(st)
 #'
 #' ### make extended selection by song  
 #' # create a song variable
-#' selec.table$song <- as.numeric(selec.table$sound.files)
+#' lbh_selec_table$song <- as.numeric(lbh_selec_table$sound.files)
 #' 
-#' st <- selection_table(X = selec.table, extended = TRUE, confirm.extended = FALSE, by.song = "song")
+#' st <- selection_table(X = lbh_selec_table, extended = TRUE, 
+#' confirm.extended = FALSE, by.song = "song")
 #' }
 #' 
 #' @references {
@@ -321,9 +324,9 @@ make.selection.table <- selection_table
 #' @examples
 #' {
 #' # First set temporary folder
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' 
-#' is_selection_table(selec.table)
+#' is_selection_table(lbh_selec_table)
 #' 
 #' # setwd(tempdir())
 #' 
@@ -332,7 +335,7 @@ make.selection.table <- selection_table
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
-#' st <- selection_table(selec.table)
+#' st <- selection_table(lbh_selec_table)
 #' 
 #' is_selection_table(st)
 #' 
@@ -376,9 +379,9 @@ is_selection_table <- function(x) inherits(x, "selection_table")
 #' @examples
 #' {
 #' # First set temporary folder
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' 
-#' is_extended_selection_table(selec.table)
+#' is_extended_selection_table(lbh_selec_table)
 #' 
 #' # setwd(tempdir())
 #' 
@@ -387,7 +390,7 @@ is_selection_table <- function(x) inherits(x, "selection_table")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
-#' st <- selection_table(selec.table, extended = TRUE, confirm.extended = FALSE)
+#' st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE)
 #' 
 #' is_extended_selection_table(st)
 #' 
@@ -531,7 +534,7 @@ print.selection_table <- function(x, ...) {
 #' @name fix_extended_selection_table
 #' @examples{
 #' # First set temporary folder
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #'
 #' # setwd(tempdir())
 #'
@@ -541,7 +544,7 @@ print.selection_table <- function(x, ...) {
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #'
 #' # create extended selection table
-#' ext_st <- selection_table(selec.table, extended = TRUE, confirm.extended = FALSE)
+#' ext_st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE)
 #'
 #' # remove attributes
 #' st <- as.data.frame(ext_st)
@@ -612,7 +615,7 @@ rbind.selection_table <- function(..., deparse.level = 1) {
 }
 
 ## Example
-# data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+# data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #
 # # setwd(tempdir())
 #
@@ -622,7 +625,7 @@ rbind.selection_table <- function(..., deparse.level = 1) {
 # writeWave(Phae.long4,"Phae.long4.wav")
 # 
 # # create extended selection table
-# # st <- selection_table(selec.table)
+# # st <- selection_table(lbh_selec_table)
 # st1 <- st[1:5, ]
 # 
 # st2 <- st[6:10, ]
@@ -674,7 +677,7 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
 }
 
 ## Example
-# data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+# data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #
 # # setwd(tempdir())
 #
@@ -684,7 +687,7 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
 # writeWave(Phae.long4,"Phae.long4.wav")
 # 
 # # create extended selection table
-# # st <- selection_table(selec.table, extended = TRUE, confirm.extended = FALSE)
+# # st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE)
 # st1 <- st[1:5, ]
 # 
 # st2 <- st[6:10, ]

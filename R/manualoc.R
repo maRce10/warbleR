@@ -121,7 +121,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
   
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
  
   #### set arguments from options
   # get function arguments

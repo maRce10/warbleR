@@ -52,7 +52,7 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
 
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   #### set arguments from options
   # get function arguments

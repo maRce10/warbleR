@@ -56,19 +56,19 @@ It also returns the mean and variance for the first and second derivatives of th
 # Set temporary working directory
 # setwd(tempdir())
 
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
 # run function
-mel_st <- mfcc_stats(X = selec.table, pb = FALSE)
+mel_st <- mfcc_stats(X = lbh_selec_table, pb = FALSE)
 
 head(mel_st)
 
 # measure 12 coefficients 
-mel_st12 <- mfcc_stats(X = selec.table, numcep = 12, pb = FALSE)
+mel_st12 <- mfcc_stats(X = lbh_selec_table, numcep = 12, pb = FALSE)
 
  head(mel_st)
 }

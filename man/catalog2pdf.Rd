@@ -44,7 +44,7 @@ data(list = c("Phae.long1", "Phae.long2"))
 writeWave(Phae.long1,"Phae.long1.wav") 
 writeWave(Phae.long2,"Phae.long2.wav")
 
-catalog(X = selec.table, nrow = 2, ncol = 4)
+catalog(X = lbh_selec_table, nrow = 2, ncol = 4)
 
 # now create single pdf removing jpeg
 catalog2pdf(keep.img = FALSE)

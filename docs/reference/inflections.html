@@ -166,14 +166,14 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 <span class='co'># Set temporary working directory</span>
 
 <span class='co'># get warbleR sound file examples</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># measure frequency contours</span>
-<span class='no'>dom.freq.ts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dfts.html'>dfts</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>)
+<span class='no'>dom.freq.ts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dfts.html'>dfts</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>)
 
 <span class='co'># get number of inflections</span>
 <span class='fu'>inflections</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>dom.freq.ts</span>)

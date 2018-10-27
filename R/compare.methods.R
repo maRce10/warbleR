@@ -94,18 +94,18 @@
 #' # Set temporary working directory
 #' # setwd(tempdir())
 #' 
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' writeWave(Phae.long4,"Phae.long4.wav")
 #' 
-#' compare.methods(X = selec.table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+#' compare.methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
 #' methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg")
 #' 
 #' #remove progress bar
-#' compare.methods(X = selec.table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+#' compare.methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
 #' methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE)
 #'
@@ -116,8 +116,8 @@
 #' #compare SP and XCORR
 #' #first we need to create a larger data set as the PCA that summarizes the spectral parameters
 #' #needs more units (rows) that variables (columns)
-#' #so I just create a new selection table repeating 3 times selec.table
-#' st2 <- rbind(selec.table, selec.table, selec.table)
+#' #so I just create a new selection table repeating 3 times lbh_selec_table
+#' st2 <- rbind(lbh_selec_table, lbh_selec_table, lbh_selec_table)
 #' 
 #' #note that the selection labels should be also changed
 #' st2$selec <- 1:nrow(st2)
@@ -132,12 +132,12 @@
 #' methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg")
 #' 
 #' #alternatively we can provide our own SP matrix
-#' sp <- specan(selec.table, bp = c(0, 10))
+#' sp <- specan(lbh_selec_table, bp = c(0, 10))
 #' 
 #' #and selec just a few variables to avoid the problem of # observations vs # parameters in PCA
 #' sp <- sp[, 1:7]
 #' 
-#' compare.methods(X = selec.table, flim = c(0, 10), sp = sp, bp = c(0, 10), mar = 0.1, wl = 300,
+#' compare.methods(X = lbh_selec_table, flim = c(0, 10), sp = sp, bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
 #' methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
 #' 
@@ -159,7 +159,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
  
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options

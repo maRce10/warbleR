@@ -231,15 +231,15 @@ with the signal-to-noise values.</p>
 <span class='co'># First set temporary folder</span>
 <span class='co'># setwd(tempdir())</span>
 
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>,<span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>,<span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='st'>"Phae.long1.wav"</span>) <span class='co'>#save sound files </span>
 
 <span class='co'># specifying the correct margin is important</span>
 <span class='co'># use snrspecs to troubleshoot margins for sound files</span>
-<span class='fu'>sig2noise</span>(<span class='no'>selec.table</span>[<span class='fu'>grep</span>(<span class='st'>"Phae.long1"</span>, <span class='no'>selec.table</span>$<span class='no'>sound.files</span>), ], <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
+<span class='fu'>sig2noise</span>(<span class='no'>lbh_selec_table</span>[<span class='fu'>grep</span>(<span class='st'>"Phae.long1"</span>, <span class='no'>lbh_selec_table</span>$<span class='no'>sound.files</span>), ], <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
 
 <span class='co'># this smaller margin doesn't overlap neighboring signals</span>
-<span class='fu'>sig2noise</span>(<span class='no'>selec.table</span>[<span class='fu'>grep</span>(<span class='st'>"Phae.long1"</span>, <span class='no'>selec.table</span>$<span class='no'>sound.files</span>), ], <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+<span class='fu'>sig2noise</span>(<span class='no'>lbh_selec_table</span>[<span class='fu'>grep</span>(<span class='st'>"Phae.long1"</span>, <span class='no'>lbh_selec_table</span>$<span class='no'>sound.files</span>), ], <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
 }</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~00s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~00s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='output co'>#&gt;      sound.files channel selec   start     end bottom.freq top.freq sel.comment
 #&gt; 1 Phae.long1.wav       1     1 1.16935 1.34239      2.2201   8.6044         c24

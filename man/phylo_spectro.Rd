@@ -61,7 +61,7 @@ can be provided for further customization. Fitting spectrograms
 # setwd(tempdir())
 
 # save example sound files
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
@@ -70,7 +70,7 @@ writeWave(Phae.long3,"Phae.long3.wav")
 warbleR_options(wl = 200, ovlp = 90, flim = "frange")
 
 # subset example selection table
-X <- selec.table[1:8, ]
+X <- lbh_selec_table[1:8, ]
 
 # create random tree (need ape to be installed)
 set.seed(1)

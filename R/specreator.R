@@ -15,7 +15,9 @@
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param flim A numeric vector of length 2 for the frequency limit (in kHz) of 
-#'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
+#'   the spectrogram, as in \code{\link[seewave]{spectro}}. The function also 
+#'   accepts 'frange' (default) which produces spectrograms with a frequency 
+#'   limit around the range of each signal (adding a 1 kHz margin).  
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param pal A color palette function to be used to assign colors in the 
@@ -95,12 +97,12 @@
 #' # setwd(tempdir())
 #' 
 #' # load and save data
-#' data(list = c("Phae.long1", "Phae.long2","selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
 #' writeWave(Phae.long2, "Phae.long2.wav")
 #' 
 #' # make spectrograms
-#' specreator(X = selec.table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
+#' specreator(X = lbh_selec_table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
 #'  
 #' # check this folder
 #' getwd()
@@ -120,7 +122,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -269,8 +271,8 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
     par(mar = inner.mar)
     par(oma = outer.mar)
     
-    # Generate spectrogram using seewave 
-  spectro_wrblr_int(wave = read_wave(X = X, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning", 
+    # Generate spectrogram using spectro_wrblr_int (modified from seewave::spectro)
+  spectro_wrblr_int(wave = read_wave(X = X, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning",
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)

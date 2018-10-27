@@ -28,13 +28,13 @@
 #'  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
 #' @name cut_sels
 #' @details This function allow users to produce individual sound files from the selections
-#' listed in a selection table as in \code{\link{selec.table}}.
+#' listed in a selection table as in \code{\link{lbh_selec_table}}.
 #' @examples{ 
 #' # First set empty folder
 #' # setwd(tempdir())
 #' 
 #' # save wav file examples
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
@@ -42,9 +42,9 @@
 #' 
 #' # make spectrograms
 #' 
-#' cut_sels(selec.table)
+#' cut_sels(lbh_selec_table)
 #'  
-#' cut_sels(selec.table, overwrite = TRUE, labels = c("sound.files", "selec", "sel.comment"))
+#' cut_sels(lbh_selec_table, overwrite = TRUE, labels = c("sound.files", "selec", "sel.comment"))
 #'  
 #'  #check this folder!!
 #' getwd()
@@ -61,7 +61,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options

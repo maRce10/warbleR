@@ -259,18 +259,18 @@ if there are no frequenciesabove the amplitude theshold in between signal segmen
 <span class='co'># setwd(tempdir())</span>
 
 <span class='co'>#load data</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,  <span class='st'>"Phae.long3"</span>,  <span class='st'>"Phae.long4"</span>,<span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,  <span class='st'>"Phae.long3"</span>,  <span class='st'>"Phae.long4"</span>,<span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='st'>"Phae.long2.wav"</span>) <span class='co'>#save sound files </span>
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='st'>"Phae.long3.wav"</span>) <span class='co'>#save sound files </span>
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># without clip edges</span>
-<span class='fu'>sp.en.ts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+<span class='fu'>sp.en.ts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>10</span>,
  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>sp.en.range</span> <span class='kw'>=</span> <span class='fu'>c</span>(-<span class='fl'>25</span>, <span class='fl'>10</span>))
 
 <span class='co'># with clip edges and length.out 10</span>
-<span class='fu'>sp.en.ts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>12</span>), <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+<span class='fu'>sp.en.ts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>12</span>), <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 }</div><div class='output co'>#&gt; Creating spectrograms overlaid with dominant frequency measurements:   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; <span class='error'>Error in if (fl[2] &gt; ceiling(f/2000) - 1) fl[2] &lt;- ceiling(f/2000) - 1: missing value where TRUE/FALSE needed</span></div><div class='output co'>#&gt; </div><div class='input'>
 </div></pre>

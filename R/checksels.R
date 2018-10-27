@@ -44,12 +44,12 @@
 #' # setwd(tempdir())
 #' 
 #' # save wav file examples
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' 
-#' checksels(X = selec.table)
+#' checksels(X = lbh_selec_table)
 #' }
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
@@ -60,7 +60,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options

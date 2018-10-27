@@ -319,13 +319,13 @@ columns for the same selections included in 'X'.</p></td>
 <span class='co'>#Set temporary working directory</span>
 <span class='co'># setwd(tempdir())</span>
 
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
-<span class='fu'>seltailor</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>selec.table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>12</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>auto.next</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>seltailor</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>lbh_selec_table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>12</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>auto.next</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># Read output .csv file</span>
 <span class='no'>seltailor.df</span> <span class='kw'>&lt;-</span> <span class='fu'>read.csv</span>(<span class='st'>"seltailor_output.csv"</span>)

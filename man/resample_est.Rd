@@ -48,7 +48,7 @@ writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav") 
 
 # create extended selection table
-X <- selection_table(X = selec.table, extended = TRUE, confirm.extended = FALSE, pb = FALSE)
+X <- selection_table(X = lbh_selec_table, extended = TRUE, confirm.extended = FALSE, pb = FALSE)
 
 # resample
 Y <- resample_est(X)

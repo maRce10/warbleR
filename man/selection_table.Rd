@@ -90,7 +90,7 @@ This transforms selection tables into self-contained objects as they no longer n
 sound files to run acoustic analysis. This can largely faciliate the storing and sharing of (bio)acoustic data.
 Extended selection table size will be a function of the number of selections \code{nrow(X)}, sampling rate, selection 
 duration and margin duration. As a guide, a selection table
-with 1000 selections similar to the ones in 'selec.table' (mean duration ~0.15
+with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.15
  seconds) at 22.5 kHz sampling rate and the default margin (\code{mar = 0.1}) 
  will generate a extended selection table of ~31 MB (~310 MB for a 10000 rows 
  selection table). You can check the size of the output extended selection table
@@ -102,27 +102,30 @@ with 1000 selections similar to the ones in 'selec.table' (mean duration ~0.15
 # First set temporary folder
  # setwd(tempdir())
 
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", 
+"lbh_selec_table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
 # make selection table
-st <- selection_table(X = selec.table)
+st <- selection_table(X = lbh_selec_table)
 
 is_selection_table(st)
 
 #' # make extended selection table
-st <- selection_table(X = selec.table, extended = TRUE, confirm.extended = FALSE)
+st <- selection_table(X = lbh_selec_table, extended = TRUE, 
+confirm.extended = FALSE)
 
 is_extended_selection_table(st)
 
 ### make extended selection by song  
 # create a song variable
-selec.table$song <- as.numeric(selec.table$sound.files)
+lbh_selec_table$song <- as.numeric(lbh_selec_table$sound.files)
 
-st <- selection_table(X = selec.table, extended = TRUE, confirm.extended = FALSE, by.song = "song")
+st <- selection_table(X = lbh_selec_table, extended = TRUE, 
+confirm.extended = FALSE, by.song = "song")
 }
 
 }

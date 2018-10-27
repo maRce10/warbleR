@@ -210,19 +210,19 @@ It also returns the mean and variance for the first and second derivatives of th
 <span class='co'># Set temporary working directory</span>
 <span class='co'># setwd(tempdir())</span>
 
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># run function</span>
-<span class='no'>mel_st</span> <span class='kw'>&lt;-</span> <span class='fu'>mfcc_stats</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>mel_st</span> <span class='kw'>&lt;-</span> <span class='fu'>mfcc_stats</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>head</span>(<span class='no'>mel_st</span>)
 
 <span class='co'># measure 12 coefficients </span>
-<span class='no'>mel_st12</span> <span class='kw'>&lt;-</span> <span class='fu'>mfcc_stats</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>numcep</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>mel_st12</span> <span class='kw'>&lt;-</span> <span class='fu'>mfcc_stats</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>numcep</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
  <span class='fu'>head</span>(<span class='no'>mel_st</span>)
 }</div><div class='output co'>#&gt;      sound.files selec min.cc1 min.cc2 min.cc3 min.cc4  min.cc5  min.cc6

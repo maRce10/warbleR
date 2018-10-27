@@ -190,31 +190,31 @@ This functions aims to simplify the visual exploration of multiple vocalizations
 # Set temporary working directory
 # setwd(tempdir())
 # save sound file examples
-data(list = c("Phae.long1", "Phae.long2","selec.table"))
+data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 writeWave(Phae.long1,"Phae.long1.wav") 
 writeWave(Phae.long2,"Phae.long2.wav")
  writeWave(Phae.long3,"Phae.long3.wav")
  writeWave(Phae.long4,"Phae.long4.wav")
 
 
-catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
+catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
  orientation = "v", labels = c("sound.files", "selec"), legend = 0)
  
  #different time scales and tag palette
-catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
+catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = 0, 
  tag.pal = list(terrain.colors))
  
  #adding tags and changing spectro palette
-catalog(X = selec.table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
+catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, pal = reverse.heat.colors,
  orientation = "v",  labels = c("sound.files", "selec"), legend = 1, 
  tag.pal = list(terrain.colors), tags = "sound.files")
 
  #create a bigger selection table
- X <- rbind(selec.table, selec.table, selec.table, selec.table)
+ X <- rbind(lbh_selec_table, lbh_selec_table, lbh_selec_table, lbh_selec_table)
  X <- rbind(X, X)
  
  #create some simulated labels

@@ -176,7 +176,7 @@ The function is intended for a "quick and dirty" check of the .wav files in a se
 <span class='co'># setwd(tempdir())</span>
 
 <span class='co'># save wav file examples</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
@@ -186,7 +186,7 @@ The function is intended for a "quick and dirty" check of the .wav files in a se
 <span class='fu'>checkwavs</span>()
 
 <span class='co'># without selection data frame</span>
-<span class='fu'>checkwavs</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>)
+<span class='fu'>checkwavs</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>)
 }</div><div class='output co'>#&gt; All files can be readAll files can be readsmallest number of samples: 2838 (sound file:Phae.long2.wav; selection label: 2)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

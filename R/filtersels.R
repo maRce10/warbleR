@@ -38,18 +38,18 @@
 #' # setwd(tempdir())
 #' 
 #' # save wav file examples
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
 #' writeWave(Phae.long1,"Phae.long1.wav")
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' writeWave(Phae.long3,"Phae.long3.wav")
 #' 
-#' specreator(selec.table, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
+#' specreator(lbh_selec_table, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
 #' picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
 #' 
 #' #go to the working directory and delete some images
 #' 
 #' #filter selection data frame
-#' fmloc <- filtersels(X = selec.table)
+#' fmloc <- filtersels(X = lbh_selec_table)
 #' 
 #' #this data frame does not have the selections corresponding to the images that were deleted
 #' fmloc
@@ -60,7 +60,7 @@
 #' #go to the working directory and delete lspec images (the ones with several rows of spectrograms)
 #' 
 #' #filter selection data frame
-# fmloc2 <- filtersels(X = selec.table, lspec = TRUE)
+# fmloc2 <- filtersels(X = lbh_selec_table, lspec = TRUE)
 #' 
 #' }
 #' 
@@ -76,7 +76,7 @@ filtersels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "j
 
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   #### set arguments from options
   # get function arguments

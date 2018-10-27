@@ -37,7 +37,7 @@
 #' @examples
 #' \dontrun{
 #' #load data
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' 
 #' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 #' writeWave(Phae.long2, "Phae.long2.wav")
@@ -45,8 +45,8 @@
 #' writeWave(Phae.long4, "Phae.long4.wav")
 #' 
 #' # measure
-#' df <- df_ts(X = selec.table, threshold = 10, img = FALSE)
-#' se <- se_ts(X = selec.table, threshold = 10, img = FALSE)
+#' df <- df_ts(X = lbh_selec_table, threshold = 10, img = FALSE)
+#' se <- se_ts(X = lbh_selec_table, threshold = 10, img = FALSE)
 #' 
 #' # run function 
 #' multi_DTW(df, se)

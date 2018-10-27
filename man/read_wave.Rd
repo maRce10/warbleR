@@ -46,7 +46,7 @@ is also used internally by warbleR functions to read wave objects from extended 
 data(list = c("Phae.long1"))
 writeWave(Phae.long1,"Phae.long1.wav")
 
-read_wave(X = selec.table, index  =  1)
+read_wave(X = lbh_selec_table, index  =  1)
 }
 
 }

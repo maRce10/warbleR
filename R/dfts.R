@@ -76,18 +76,18 @@
 #' # setwd(tempdir())
 #' 
 #' #load data
-#' data(list = c("Phae.long1", "Phae.long2","selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 #' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # run function 
-#' dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE)
+#' dfts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE)
 #' 
 #' # note a NA in the row 4 column 3 (dfreq-1)
 #' # this can be removed by clipping edges (removing NAs at the start and/or end 
 #' # when no freq was detected) 
 #' 
-#' dfts(X = selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE, 
+#' dfts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE, 
 #' clip.edges = TRUE)
 #' }
 #' 
@@ -105,7 +105,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
   
   # reset working directory and default parameters
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -211,10 +211,8 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
     r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
     
-    
     # if bp is frange
-    if (bp[1] == "frange") bp <- c(min(X$bottom.freq[i]), max(X$top.freq[i])) 
-    # else frq.lim <- bp
+    if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])
     
     #in case bp its higher than can be due to sampling rate
     b <- bp 

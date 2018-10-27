@@ -68,14 +68,14 @@
 #' # setwd(tempdir())
 #' 
 #' # save sound file examples
-#' data(list = c("Phae.long1", "Phae.long2","selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 #' writeWave(Phae.long1,"Phae.long1.wav") 
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' 
 #' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
 #' 
 #' # including selections
-#' lspec(sxrow = 2, rows = 8, X = selec.table, pal = reverse.heat.colors, redo = TRUE, wl = 300)
+#' lspec(sxrow = 2, rows = 8, X = lbh_selec_table, pal = reverse.heat.colors, redo = TRUE, wl = 300)
 #' 
 #' #check this floder
 #' getwd()
@@ -92,7 +92,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)

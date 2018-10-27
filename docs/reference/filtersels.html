@@ -200,18 +200,18 @@ or the ones with no image.</p></td>
 <span class='co'># setwd(tempdir())</span>
 
 <span class='co'># save wav file examples</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
 
-<span class='fu'><a href='specreator.html'>specreator</a></span>(<span class='no'>selec.table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>11</span>), <span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>4</span>,<span class='fl'>4.5</span>,<span class='fl'>2</span>,<span class='fl'>1</span>), <span class='kw'>outer.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>1</span>),
+<span class='fu'><a href='specreator.html'>specreator</a></span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>11</span>), <span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>4</span>,<span class='fl'>4.5</span>,<span class='fl'>2</span>,<span class='fl'>1</span>), <span class='kw'>outer.mar</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>4</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>1</span>),
 <span class='kw'>picsize</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>cexlab</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 
 <span class='co'>#go to the working directory and delete some images</span>
 
 <span class='co'>#filter selection data frame</span>
-<span class='no'>fmloc</span> <span class='kw'>&lt;-</span> <span class='fu'>filtersels</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>)
+<span class='no'>fmloc</span> <span class='kw'>&lt;-</span> <span class='fu'>filtersels</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>)
 
 <span class='co'>#this data frame does not have the selections corresponding to the images that were deleted</span>
 <span class='no'>fmloc</span>

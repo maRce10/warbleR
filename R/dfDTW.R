@@ -77,12 +77,12 @@
 #' # setwd(tempdir())
 #' 
 #' #load data
-#' data(list = c("Phae.long1", "Phae.long2","selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 #' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
 #' writeWave(Phae.long1, "Phae.long1.wav")
 #' 
 #' # run function 
-#' dfDTW(selec.table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
+#' dfDTW(lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300)
 #' }
 #' 
 #' @references {

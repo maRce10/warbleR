@@ -201,7 +201,7 @@ overlap only the first one is kept.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function detects selections within a selection table that overlap in time. Selections must be 
-listed in a data frame similar to <code><a href='selec.table.html'>selec.table</a></code>.</p>
+listed in a data frame similar to <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -209,16 +209,16 @@ listed in a data frame similar to <code><a href='selec.table.html'>selec.table</
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='filtersels.html'>filtersels</a></code> <code><a href='selec.table.html'>selec.table</a></code></p></div>
+    <div class='dont-index'><p><code><a href='filtersels.html'>filtersels</a></code> <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
 <span class='co'>#no overlap</span>
-<span class='fu'>ovlp_sels</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>selec.table</span>)
+<span class='fu'>ovlp_sels</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>lbh_selec_table</span>)
 
-<span class='co'># modified selec.table to make the first and second selection overlap</span>
-<span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='no'>selec.table</span>
+<span class='co'># modified lbh_selec_table to make the first and second selection overlap</span>
+<span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='no'>lbh_selec_table</span>
 <span class='no'>Y</span>$<span class='no'>end</span>[<span class='fl'>4</span>] <span class='kw'>&lt;-</span> <span class='fl'>1.5</span>
 
  <span class='fu'>ovlp_sels</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>Y</span>)

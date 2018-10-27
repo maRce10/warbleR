@@ -195,7 +195,7 @@ that were removed are also saved.</p>
 <span class='co'># setwd(tempdir())</span>
 
 <span class='co'># save sound file examples</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span>))
 <span class='no'>sil</span> <span class='kw'>&lt;-</span> <span class='fu'>silence</span>(<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>22500</span>, <span class='kw'>duration</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>xunit</span> <span class='kw'>=</span> <span class='st'>"time"</span>)
 
 <span class='no'>wv1</span> <span class='kw'>&lt;-</span> <span class='fu'>pastew</span>(<span class='fu'>pastew</span>(<span class='no'>Phae.long1</span>, <span class='no'>sil</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>22500</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"Wave"</span>),

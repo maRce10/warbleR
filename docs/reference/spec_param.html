@@ -223,33 +223,33 @@ be provided. The following arguments accept can have varying values:</p><ul>
 # Set temporary working directory
 # setwd(tempdir())
 # save sound file examples
-data(list = c("Phae.long1", "selec.table"))
+data(list = c("Phae.long1", "lbh_selec_table"))
 writeWave(Phae.long1,"Phae.long1.wav") 
 
 # variable collevels
-spec_param(X = selec.table, wl = 164, ovlp = c(90), wn = c("flattop"), 
+spec_param(X = lbh_selec_table, wl = 164, ovlp = c(90), wn = c("flattop"), 
 length.out = 16, nrow = 4, ncol = 4, width = 20, height = 11.3, rm.axes = TRUE, 
 cex = 1, box = F, collev.min = c(-20, -150))
 
 # variable overlap and wn
-spec_param(X = selec.table, wl = 164, ovlp = c(50, 90), 
+spec_param(X = lbh_selec_table, wl = 164, ovlp = c(50, 90), 
 wn = c("hanning", "hamming", "rectangle", "bartlett", "blackman", "flattop"),
 length.out = 7, nrow = 6, ncol = 7, width = 20, height = 11.3, rm.axes = TRUE, 
 cex = 1, box = F)
 
 # variable wl and wn
-spec_param(X = selec.table, wl = c(100, 1000), ovlp = c(50, 90), wn = "all", 
+spec_param(X = lbh_selec_table, wl = c(100, 1000), ovlp = c(50, 90), wn = "all", 
 length.out = 5, nrow = 10, ncol = 14, width = 20, height = 11.3, rm.axes = TRUE, 
 cex = 0.7)
 
 # variable wl, collev.min and wn 
-spec_param(X = selec.table, wl = c(100, 1000), ovlp = 90, 
+spec_param(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90, 
 wn = c("hanning", "hamming", "rectangle"), collev.min = c(-110, -25), 
 length.out = 3, nrow = 10, ncol = 14, width = 20, height = 11.3, rm.axes = TRUE,
  cex = 0.7)
  
  # variable wl, wn and pal
- spec_param(X = selec.table, wl = c(100, 1000), ovlp = 90, 
+ spec_param(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90, 
  wn = c("hanning", "hamming", "rectangle"), 
  pal = c("reverse.gray.colors.2", "reverse.topo.colors", 
  "reverse.terrain.colors", "reverse.cm.colors"), 
@@ -257,7 +257,7 @@ length.out = 3, nrow = 10, ncol = 14, width = 20, height = 11.3, rm.axes = TRUE,
   rm.axes = TRUE, cex = 0.7, lab.mar = 2)
   
   # wl, wn and pal
-  spec_param(X = selec.table, wl = c(100, 1000), ovlp = 90,
+  spec_param(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90,
    wn = c("hanning", "hamming", "rectangle"), 
   pal = c("reverse.gray.colors.2", "reverse.topo.colors", 
   "reverse.terrain.colors", "reverse.cm.colors"), 

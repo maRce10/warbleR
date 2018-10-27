@@ -261,14 +261,14 @@ can be returned, depending on the length of each sound file.</p>
 <span class='co'># setwd(tempdir())</span>
 
 <span class='co'># save sound file examples</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 
 <span class='fu'>lspec</span>(<span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.heat.colors</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 
 <span class='co'># including selections</span>
-<span class='fu'>lspec</span>(<span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.heat.colors</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
+<span class='fu'>lspec</span>(<span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.heat.colors</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 
 <span class='co'>#check this floder</span>
 <span class='fu'>getwd</span>()

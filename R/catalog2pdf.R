@@ -30,7 +30,7 @@
 #' writeWave(Phae.long1,"Phae.long1.wav") 
 #' writeWave(Phae.long2,"Phae.long2.wav")
 #' 
-#' catalog(X = selec.table, nrow = 2, ncol = 4)
+#' catalog(X = lbh_selec_table, nrow = 2, ncol = 4)
 #' 
 #' # now create single pdf removing jpeg
 #' catalog2pdf(keep.img = FALSE)
@@ -47,7 +47,7 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
 {
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options

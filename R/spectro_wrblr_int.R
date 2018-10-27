@@ -2,7 +2,8 @@
 #internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
 # that allows to plot spectrograms using image() which substantially increases speed (although makes some options unavailable)
 #last modification on feb-09-2018 (MAS)
-spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 0, fast.spec = FALSE,
+spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, 
+          ovlp = 0, fast.spec = FALSE,
           complex = FALSE, norm = TRUE, correction = "none", fftw = FALSE, 
           dB = "max0", dBref = NULL, plot = TRUE, flog = FALSE, grid = TRUE, 
           osc = FALSE, scale = TRUE, cont = FALSE, collevels = NULL, 
@@ -41,6 +42,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp = 
   }
   
   input <- inputw(wave = wave, f = f)
+  
   if (!is.null(tlim) && trel && osc) {
     wave <- wave0 <- input$w
   } else {
@@ -162,14 +164,14 @@ if (rm.lwst) ylabel[1] <- ""
                }, ...)
       par(mar = c(0, 4.1, 1, 0), las = 1, cex.lab = cexlab + 
             0.2)
+      
       if (!fast.spec)
         seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 
                                                              xlab = "", ylab = flab), plot.axes = {
                                                                if (axisY) {
                                                                  axis(2, at = yat, labels = ylabel)
-                                                               }
-                                                               else {
+                                                               } else {
                                                                  NULL
                                                                }
                                                              }, color.palette = palette) else{
@@ -272,6 +274,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
       par(las = 1, col = colaxis, col.axis = colaxis, 
           col.lab = collab, bg = colbg, cex.axis = cexaxis, 
           cex.lab = cexlab, ...)
+  
       if (!fast.spec)
         seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
                             nlevels = 20, plot.title = title(main = main, 

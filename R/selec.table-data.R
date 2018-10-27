@@ -1,23 +1,9 @@
-#' Data frame of selections (i.e. selection table).
+#' Alternative name for \code{selec.table}
 #' 
-#' A data frame containing the start, end, low and hig frequency of 
-#' \emph{Phaethornis longirostris} (Long-billed Hermit) songs from the 
-#' example sound files included in this package. Same data than 'lbh_selec_table'.
-#' 'selec.table' will be reomved in future package version.
+#' Simulated coordinated singing events.
 #' 
-#' @format A data frame with 11 rows and 6 variables: \describe{ 
-#'  \item{sound.files}{recording names}
-#'  \item{channel}{channel in which signal is found}
-#'  \item{selec}{selection numbers within recording}
-#'  \item{start}{start times of selected signal}
-#'  \item{end}{end times of selected signal}
-#'  \item{bottom.freq}{lower limit of frequency range}
-#'  \item{top.freq}{upper limit of frequency range}
-#'  \item{sel.comment}{selection comments}
-#'  \item{rec.comment}{recording comments}
-#' }
-#' 
-#' @usage data(selec.table)
+#' @description \code{selec.table} alternative name for \code{lbh_selec_table}. \code{selec.table} will be deprecated in 
+#' future versions.
 #' 
 #' @source Marcelo Araya Salas, warbleR 
 "selec.table"

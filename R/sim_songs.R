@@ -76,7 +76,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   if (selec_table)
     {
     wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   on.exit(options(warn = .Options$warn), add = TRUE)
   

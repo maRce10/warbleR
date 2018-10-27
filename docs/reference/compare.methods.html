@@ -304,18 +304,18 @@ of the <code><a href='http://www.rdocumentation.org/packages/seewave/topics/spec
 <span class='co'># Set temporary working directory</span>
 <span class='co'># setwd(tempdir())</span>
 
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
-<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
+<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
 <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>,
 <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"XCORR"</span>, <span class='st'>"dfDTW"</span>), <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>)
 
 <span class='co'>#remove progress bar</span>
-<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
+<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
 <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>,
 <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"XCORR"</span>, <span class='st'>"dfDTW"</span>), <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -326,8 +326,8 @@ of the <code><a href='http://www.rdocumentation.org/packages/seewave/topics/spec
 <span class='co'>#compare SP and XCORR</span>
 <span class='co'>#first we need to create a larger data set as the PCA that summarizes the spectral parameters</span>
 <span class='co'>#needs more units (rows) that variables (columns)</span>
-<span class='co'>#so I just create a new selection table repeating 3 times selec.table</span>
-<span class='no'>st2</span> <span class='kw'>&lt;-</span> <span class='fu'>rbind</span>(<span class='no'>selec.table</span>, <span class='no'>selec.table</span>, <span class='no'>selec.table</span>)
+<span class='co'>#so I just create a new selection table repeating 3 times lbh_selec_table</span>
+<span class='no'>st2</span> <span class='kw'>&lt;-</span> <span class='fu'>rbind</span>(<span class='no'>lbh_selec_table</span>, <span class='no'>lbh_selec_table</span>, <span class='no'>lbh_selec_table</span>)
 
 <span class='co'>#note that the selection labels should be also changed</span>
 <span class='no'>st2</span>$<span class='no'>selec</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fu'>nrow</span>(<span class='no'>st2</span>)
@@ -342,12 +342,12 @@ of the <code><a href='http://www.rdocumentation.org/packages/seewave/topics/spec
 <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"dfDTW"</span>, <span class='st'>"SP"</span>), <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>)
 
 <span class='co'>#alternatively we can provide our own SP matrix</span>
-<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='specan.html'>specan</a></span>(<span class='no'>selec.table</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>))
+<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='specan.html'>specan</a></span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>))
 
 <span class='co'>#and selec just a few variables to avoid the problem of # observations vs # parameters in PCA</span>
 <span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='no'>sp</span>[, <span class='fl'>1</span>:<span class='fl'>7</span>]
 
-<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>sp</span> <span class='kw'>=</span> <span class='no'>sp</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
+<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>sp</span> <span class='kw'>=</span> <span class='no'>sp</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
 <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>,
 <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"XCORR"</span>, <span class='st'>"SP"</span>), <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>)
 

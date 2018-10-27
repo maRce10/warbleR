@@ -266,7 +266,7 @@ that the function with <code>add = FALSE</code> should be run first). Default is
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function highlights regions of the spectrogram with diferent colors. The regions to be 
-highlighted can be provided in a selection table (as the example data 'selec.table') or interactively ('interactive' argument).</p>
+highlighted can be provided in a selection table (as the example data 'lbh_selec_table') or interactively ('interactive' argument).</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -289,11 +289,11 @@ highlighted can be provided in a selection table (as the example data 'selec.tab
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># First set empty folder</span>
 <span class='co'># setwd(tempdir())</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='st'>"Phae.long1.wav"</span>) <span class='co'>#save sound files </span>
 
  <span class='co'># subset selection table</span>
- <span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='no'>selec.table</span>[<span class='no'>selec.table</span>$<span class='no'>sound.files</span> <span class='kw'>==</span> <span class='st'>"Phae.long1.wav"</span>,]
+ <span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='no'>lbh_selec_table</span>[<span class='no'>lbh_selec_table</span>$<span class='no'>sound.files</span> <span class='kw'>==</span> <span class='st'>"Phae.long1.wav"</span>,]
 
  <span class='co'># read wave file as an R object</span>
  <span class='no'>sgnl</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tuneR</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/tuneR/topics/readWave'>readWave</a></span>(<span class='fu'>as.character</span>(<span class='no'>st</span>$<span class='no'>sound.files</span>[<span class='fl'>1</span>]))

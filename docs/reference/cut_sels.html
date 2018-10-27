@@ -184,7 +184,7 @@ overwritten. Default is <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function allow users to produce individual sound files from the selections
-listed in a selection table as in <code><a href='selec.table.html'>selec.table</a></code>.</p>
+listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -203,7 +203,7 @@ listed in a selection table as in <code><a href='selec.table.html'>selec.table</
 <span class='co'># setwd(tempdir())</span>
 
 <span class='co'># save wav file examples</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
@@ -211,13 +211,13 @@ listed in a selection table as in <code><a href='selec.table.html'>selec.table</
 
 <span class='co'># make spectrograms</span>
 
-<span class='fu'>cut_sels</span>(<span class='no'>selec.table</span>)
+<span class='fu'>cut_sels</span>(<span class='no'>lbh_selec_table</span>)
 
-<span class='fu'>cut_sels</span>(<span class='no'>selec.table</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>, <span class='st'>"sel.comment"</span>))
+<span class='fu'>cut_sels</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>, <span class='st'>"sel.comment"</span>))
 
  <span class='co'>#check this folder!!</span>
 <span class='fu'>getwd</span>()
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++                                             | 9 % ~01s             |++++++++++                                        | 18% ~01s             |++++++++++++++                                    | 27% ~00s             |+++++++++++++++++++                               | 36% ~00s             |+++++++++++++++++++++++                           | 45% ~00s             |++++++++++++++++++++++++++++                      | 55% ~00s             |++++++++++++++++++++++++++++++++                  | 64% ~00s             |+++++++++++++++++++++++++++++++++++++             | 73% ~00s             |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++                                             | 9 % ~00s             |++++++++++                                        | 18% ~00s             |++++++++++++++                                    | 27% ~00s             |+++++++++++++++++++                               | 36% ~00s             |+++++++++++++++++++++++                           | 45% ~00s             |++++++++++++++++++++++++++++                      | 55% ~00s             |++++++++++++++++++++++++++++++++                  | 64% ~00s             |+++++++++++++++++++++++++++++++++++++             | 73% ~00s             |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt;    |                                                  | 0 % ~calculating     |+++++                                             | 9 % ~00s             |++++++++++                                        | 18% ~00s             |++++++++++++++                                    | 27% ~00s             |+++++++++++++++++++                               | 36% ~00s             |+++++++++++++++++++++++                           | 45% ~00s             |++++++++++++++++++++++++++++                      | 55% ~00s             |++++++++++++++++++++++++++++++++                  | 64% ~00s             |+++++++++++++++++++++++++++++++++++++             | 73% ~00s             |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='output co'>#&gt; [1] "/home/m/Dropbox/warbleR/docs/reference"</div><div class='input'>
 </div></pre>
   </div>

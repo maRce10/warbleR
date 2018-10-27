@@ -137,19 +137,19 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used
 {
 # First set temporary folder
 
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 
 # measure acoustic parameters
-sp_param <- specan(X = selec.table[1:8,], pb = FALSE)
+sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE)
 
 # measuring peakf
-sp_param <- specan(X = selec.table[1:8,], pb = FALSE, fast = FALSE)
+sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE)
 
 # measuring harmonic-related parameters using progress bar
-sp_param <- specan(X = selec.table[1:8,], harmonicity = TRUE)
+sp_param <- specan(X = lbh_selec_table[1:8,], harmonicity = TRUE)
 }
 
 }

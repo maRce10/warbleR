@@ -29,7 +29,7 @@
 #' # setwd(tempdir())
 #' 
 #' # save sound file examples
-#' data(list = c("Phae.long1", "Phae.long2","selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 #' sil <- silence(samp.rate = 22500, duration = 3, xunit = "time")
 #' 
 #' wv1 <- pastew(pastew(Phae.long1, sil, f = 22500, output = "Wave"), 
@@ -63,7 +63,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
 
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)

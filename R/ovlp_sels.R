@@ -38,10 +38,10 @@
 #' @examples
 #' {
 #' #no overlap
-#' ovlp_sels(X =  selec.table)
+#' ovlp_sels(X =  lbh_selec_table)
 #'
-#' # modified selec.table to make the first and second selection overlap
-#' Y <- selec.table
+#' # modified lbh_selec_table to make the first and second selection overlap
+#' Y <- lbh_selec_table
 #' Y$end[4] <- 1.5
 #'   
 #'  ovlp_sels(X =  Y)
@@ -53,8 +53,8 @@
 #'  ovlp_sels(X =  Y, index = TRUE)
 #' }
 #' @details This function detects selections within a selection table that overlap in time. Selections must be 
-#' listed in a data frame similar to \code{\link{selec.table}}.
-#' @seealso  \code{\link{filtersels}} \code{\link{selec.table}}
+#' listed in a data frame similar to \code{\link{lbh_selec_table}}.
+#' @seealso  \code{\link{filtersels}} \code{\link{lbh_selec_table}}
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.

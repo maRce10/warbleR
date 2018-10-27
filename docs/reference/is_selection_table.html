@@ -157,9 +157,9 @@ Check if object is of class "selection_table"</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
 <span class='co'># First set temporary folder</span>
-<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec.table"</span>))
+<span class='fu'>data</span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
 
-<span class='fu'>is_selection_table</span>(<span class='no'>selec.table</span>)
+<span class='fu'>is_selection_table</span>(<span class='no'>lbh_selec_table</span>)
 
 <span class='co'># setwd(tempdir())</span>
 
@@ -168,7 +168,7 @@ Check if object is of class "selection_table"</p>
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
-<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selection_table.html'>selection_table</a></span>(<span class='no'>selec.table</span>)
+<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selection_table.html'>selection_table</a></span>(<span class='no'>lbh_selec_table</span>)
 
 <span class='fu'>is_selection_table</span>(<span class='no'>st</span>)
 

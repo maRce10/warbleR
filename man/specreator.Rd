@@ -22,7 +22,9 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as t
 is 512.}
 
 \item{flim}{A numeric vector of length 2 for the frequency limit (in kHz) of 
-the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
+the spectrogram, as in \code{\link[seewave]{spectro}}. The function also 
+accepts 'frange' (default) which produces spectrograms with a frequency 
+limit around the range of each signal (adding a 1 kHz margin).}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options.}
@@ -131,12 +133,12 @@ high background noise levels.
 # setwd(tempdir())
 
 # load and save data
-data(list = c("Phae.long1", "Phae.long2","selec.table"))
+data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound files
 writeWave(Phae.long2, "Phae.long2.wav")
 
 # make spectrograms
-specreator(X = selec.table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
+specreator(X = lbh_selec_table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
  
 # check this folder
 getwd()

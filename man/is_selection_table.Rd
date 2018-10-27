@@ -25,9 +25,9 @@ An object of class \code{selection_table} created by \code{\link{selection_table
 \examples{
 {
 # First set temporary folder
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
-is_selection_table(selec.table)
+is_selection_table(lbh_selec_table)
 
 # setwd(tempdir())
 
@@ -36,7 +36,7 @@ writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
-st <- selection_table(selec.table)
+st <- selection_table(lbh_selec_table)
 
 is_selection_table(st)
 

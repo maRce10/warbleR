@@ -93,17 +93,17 @@ A plot is produced in the graphic device.
 }
 \details{
 This function highlights regions of the spectrogram with diferent colors. The regions to be 
-highlighted can be provided in a selection table (as the example data 'selec.table') or interactively ('interactive' argument).
+highlighted can be provided in a selection table (as the example data 'lbh_selec_table') or interactively ('interactive' argument).
 }
 \examples{
 \dontrun{ 
 # First set empty folder
 # setwd(tempdir())
-data(list = c("Phae.long1", "selec.table"))
+data(list = c("Phae.long1", "lbh_selec_table"))
 writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
 
  # subset selection table
- st <- selec.table[selec.table$sound.files == "Phae.long1.wav",]
+ st <- lbh_selec_table[lbh_selec_table$sound.files == "Phae.long1.wav",]
  
  # read wave file as an R object
  sgnl <- tuneR::readWave(as.character(st$sound.files[1]))

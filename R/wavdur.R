@@ -32,7 +32,7 @@ wavdur <- function(files = NULL, path = NULL) {
   
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   #### set arguments from options
   # get function arguments

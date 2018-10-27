@@ -136,13 +136,13 @@ This function produces an interactive spectrographic
 #Set temporary working directory
 # setwd(tempdir())
 
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 writeWave(Phae.long1,"Phae.long1.wav")
 writeWave(Phae.long2,"Phae.long2.wav")
 writeWave(Phae.long3,"Phae.long3.wav")
 writeWave(Phae.long4,"Phae.long4.wav")
 
-seltailor(X =  selec.table, flim = c(1,12), wl = 300, auto.next = TRUE)
+seltailor(X =  lbh_selec_table, flim = c(1,12), wl = 300, auto.next = TRUE)
 
 # Read output .csv file
 seltailor.df <- read.csv("seltailor_output.csv")

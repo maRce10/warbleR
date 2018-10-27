@@ -32,7 +32,7 @@
 #' writeWave(Phae.long4,"Phae.long4.wav") 
 #' 
 #' # create extended selection table
-#' X <- selection_table(X = selec.table, extended = TRUE, confirm.extended = FALSE, pb = FALSE)
+#' X <- selection_table(X = lbh_selec_table, extended = TRUE, confirm.extended = FALSE, pb = FALSE)
 #' 
 #' # resample
 #' Y <- resample_est(X)
@@ -49,7 +49,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
 {
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
 
   #check bit.depth
   if (length(bit.depth) >1) stop("'bit.depth' should have a single value")
@@ -140,6 +140,13 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
   
   # replace with resampled waves
   attributes(X)$wave.objects <- out
+  
+  if (any(X$top.freq > samp.rate / 2)) 
+  {
+    X$top.freq[X$top.freq > samp.rate / 2] <- samp.rate / 2
+  
+    write(file = "", x = "Some 'top.freq' values higher than nyquist frequency were set to samp.rate/2")  
+  }  
   
   return(X)
 }

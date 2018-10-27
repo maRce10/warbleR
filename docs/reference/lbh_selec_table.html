@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Alternative name for <code>lbh_selec_table</code> — lbh_selec_table • warbleR</title>
+<title>Data frame of selections (i.e. selection table). — lbh_selec_table • warbleR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Alternative name for <code>lbh_selec_table</code> — lbh_selec_table" />
+<meta property="og:title" content="Data frame of selections (i.e. selection table). — lbh_selec_table" />
 
 <meta property="og:description" content="lbh_selec_table alternative name for selec.table. selec.table will be deprecated in 
 future versions." />
@@ -114,7 +114,7 @@ future versions." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Alternative name for <code>lbh_selec_table</code></h1>
+    <h1>Data frame of selections (i.e. selection table).</h1>
     
     <div class="hidden name"><code>lbh_selec_table.Rd</code></div>
     </div>
@@ -126,15 +126,32 @@ future versions.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>lbh_selec_table</span></pre>
+    <pre class="usage"><span class='fu'>data</span>(<span class='no'>lbh_selec_table</span>)</pre>
         
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>An object of class <code>data.frame</code> with 11 rows and 9 columns.</p>
+    <p>A data frame with 11 rows and 6 variables:</p><dl class='dl-horizontal'>
+ <dt>sound.files</dt><dd><p>recording names</p></dd>
+ <dt>channel</dt><dd><p>channel in which signal is found</p></dd>
+ <dt>selec</dt><dd><p>selection numbers within recording</p></dd>
+ <dt>start</dt><dd><p>start times of selected signal</p></dd>
+ <dt>end</dt><dd><p>end times of selected signal</p></dd>
+ <dt>bottom.freq</dt><dd><p>lower limit of frequency range</p></dd>
+ <dt>top.freq</dt><dd><p>upper limit of frequency range</p></dd>
+ <dt>sel.comment</dt><dd><p>selection comments</p></dd>
+ <dt>rec.comment</dt><dd><p>recording comments</p></dd>
+</dl>
+    
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Marcelo Araya Salas, warbleR</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Simulated coordinated singing events.</p>
+    <p>A data frame containing the start, end, low and hig frequency of 
+<em>Phaethornis longirostris</em> (Long-billed Hermit) songs from the 
+example sound files included in this package. Same data than 'lbh_selec_table'.
+'lbh_selec_table' will be reomved in future package version.</p>
     
 
   </div>
@@ -143,6 +160,8 @@ future versions.</p>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
+
+      <li><a href="#source">Source</a></li>
 
       <li><a href="#details">Details</a></li>
           </ul>

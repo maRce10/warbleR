@@ -49,7 +49,7 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL,
   
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd))
+  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
