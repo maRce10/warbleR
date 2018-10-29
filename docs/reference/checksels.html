@@ -188,15 +188,15 @@ to avoid problems in any warbleR analysis downstream. It specifically checks if:
 <li><p>'sound.files' in 'X' correspond to .wav files in the working directory or in the provided 'path'
     (if no file is found returns an error, if some files are not found returns error info in the ouput data frame)</p></li>
 <li><p>time ('start', 'end') and frequency ('bottom.freq', 'top.freq', if provided) limit parameters are numeric and 
-   do not contain NAs (if not returns an error)</p></li>
+   don't contain NAs (if not returns an error)</p></li>
 <li><p>there are no duplicated selection labels ('selec') within a sound file (if not returns an error)</p></li>
 <li><p>sound files can be read (error info in the ouput data frame)</p></li>
 <li><p>the start and end time of the selections are found within the duration of the sound files (error info in the ouput data frame)</p></li>
 <li><p>sound files can be read (error info in the ouput data frame)</p></li>
 <li><p>sound files header is not corrupted (only if <code>header = TRUE</code>, error info in the ouput data frame)</p></li>
-<li><p>selection time position (start and end) exceeds sound file length (error info in the ouput data frame)</p></li>
-<li><p>'top.freq' higher than half the sample rate (nyquist frequency, error info in the ouput data frame)</p></li>
-<li><p>negative values found in time or frequency limits (error info in the ouput data frame)</p></li>
+<li><p>selection time position (start and end) doesn't exceeds sound file length (error info in the ouput data frame)</p></li>
+<li><p>'top.freq' is lower than half the sample rate (nyquist frequency, error info in the ouput data frame)</p></li>
+<li><p>negative values aren't found in time or frequency limit parameters (error info in the ouput data frame)</p></li>
 <li><p>'start' higher than 'end' or 'bottom.freq' higher than 'top.freq' (error info in the ouput data frame)</p></li>
 <li><p>'channel' value is not higher than number of channels in sound files (error info in the ouput data frame)</p></li>
 </ul><p>The function returns a data frame that includes the information in 'X' plus additional columns about the format of sound
