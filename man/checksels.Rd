@@ -30,7 +30,7 @@ when the selection is imported into R (as when using \code{\link[tuneR]{readWave
 is calculated and added as a column. Size is return in MB. Default is \code{FALSE}.}
 }
 \value{
-A data frame including the columns in the input data frame (X) and 7 additional columns:
+A data frame including the columns in the input data frame (X) and the following additional columns:
 \itemize{
    \item \code{check.res}: diagnose for each selection 
    \item \code{duration}: duration of selection in seconds
@@ -46,12 +46,30 @@ in a selection limits the minimum window length (wl argument in other functions)
 \code{checksels} checks whether selections can be read by subsequent functions.
 }
 \details{
-This function checks 1) if the selections listed in the data frame correspond to .wav files
-in the working directory, 2) if the sound files can be read and if so, 3) if the start and end time
-of the selections are found within the duration of the sound files. Note that the sound files 
-should be in the working directory (or the directory provided in 'path').
-This is useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}, \code{\link{xcorr}}, \code{\link{catalog}}, \code{\link{dfDTW}}). Note that corrupt files can be
-fixed using \code{\link{fixwavs}}) ('sox' must be installed to be able to run this function).
+This function checks the information in a selection data frame or selection table (i.e. data frame with annotations on sound files) 
+to avoid problems in any warbleR analysis downstream. It specifically checks if:
+\itemize{
+   \item 'X' is an object of class 'data.frame' or 'selection_table' (see \code{\link{selection_table}}) and contains 
+   the required columns to be used on any warbleR function ('sound.files', 'selec', 'start', 'end', if not returns an error) 
+   \item  'sound.files' in 'X' correspond to .wav files in the working directory or in the provided 'path'
+    (if no file is found returns an error, if some files are not found returns error info in the ouput data frame)
+   \item time ('start', 'end') and frequency ('bottom.freq', 'top.freq', if provided) limit parameters are numeric and 
+   do not contain NAs (if not returns an error)
+   \item there are no duplicated selection labels ('selec') within a sound file (if not returns an error)
+   \item sound files can be read (error info in the ouput data frame)
+   \item the start and end time of the selections are found within the duration of the sound files (error info in the ouput data frame)
+   \item sound files can be read (error info in the ouput data frame)
+   \item sound files header is not corrupted (only if \code{header = TRUE}, error info in the ouput data frame)    
+   \item selection time position (start and end) exceeds sound file length (error info in the ouput data frame)
+   \item 'top.freq' higher than half the sample rate (nyquist frequency, error info in the ouput data frame)
+   \item negative values found in time or frequency limits (error info in the ouput data frame)
+   \item 'start' higher than 'end' or 'bottom.freq' higher than 'top.freq' (error info in the ouput data frame)
+   \item 'channel' value is not higher than number of channels in sound files (error info in the ouput data frame)
+} 
+The function returns a data frame that includes the information in 'X' plus additional columns about the format of sound
+files (see 'Value') as well as the result of the checks ('check.res' column, value is 'OK' if everything is fine).
+Sound files should be in the working directory (or the directory provided in 'path'). Corrupt files can be fixed using 
+\code{\link{fixwavs}}.
 }
 \examples{
 {

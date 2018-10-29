@@ -2,7 +2,8 @@
 
 ## Changes and additions:
 
-* more info about file input in 'autodetec()' documentation
+* more error messages in check_sels()
+* more info about file input in 'auto_detec()' documentation
 * add 'frange' for bp in 'dfts()'
 
 ## Bug fixes:
