@@ -291,7 +291,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
                 
                 lines(y = rep(frli[2] - 0.7 * ((frli[2] - frli[1])/12), 2), x = c(Ysong$start[w], Ysong$end[w]), lwd = 5, col = adjustcolor("#E37222", 0.5), lend = 0)
                 if (!is.null(labels))    
-                    text(labels = Ysong[w, song], x = (Ysong$end[w] + Ysong$start[w]) / 2, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), adj = 0, cex = 2)      
+                    text(labels = Ysong[w, song], x = (Ysong$end[w] + Ysong$start[w]) / 2, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), adj = 0, cex = 1.5)      
                       }
             }
           } else { #for rows with incomplete spectro (final row)
@@ -331,7 +331,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
            
            lines(y = rep(frli[2] - 0.7 * ((frli[2] - frli[1])/12), 2), x = c(Ysong$start[w], Ysong$end[w])  - adjx, lwd = 5, col = adjustcolor("#E37222", 0.5), lend = 0)
         if (!is.null(labels)) 
-           text(labels = Ysong[w, song], x = ((Ysong$end[w] + Ysong$start[w]) / 2)  - adjx, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), adj = 0, cex = 2)      
+           text(labels = Ysong[w, song], x = ((Ysong$end[w] + Ysong$start[w]) / 2)  - adjx, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), adj = 0, cex = 1.5)      
          }
        
       }
