@@ -5,8 +5,8 @@
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1), 
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 #' cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, 
-#' fast.spec = FALSE, labels = "selec") 
-#' @param X 'selection_table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
+#' fast.spec = FALSE, labels = "selec", horizontal = FALSE) 
+#' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
 #' start and end of a selection and the selections are labeled with the selection number 
@@ -52,14 +52,15 @@
 #' decreasing darkness levels. 
 #' @param labels Character string with the name of the column(s) for selection 
 #' labeling. Default is 'selec'. Set to \code{NULL} to remove labels.
+#' @param horizontal Logical. Controls if the images are produced as horizontal or vertical pages. Default is \code{FALSE}.
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
 #' @name lspec
 #' @details The function creates spectrograms for complete sound files, printing
 #'   the name of the sound files and the "page" number (p1-p2...) at the upper 
-#'   right corner of the image files. If results from \code{\link{manualoc}} are 
-#'   supplied (or an equivalent data frame), the function delimits and labels the selections. 
+#'   right corner of the image files. If 'X' is
+#'   supplied, the function delimits and labels the selections. 
 #'   This function aims to facilitate visual inspection of multiple files as well as visual classification 
 #'   of vocalization units and the analysis of animal vocal sequences.
 #' @seealso \code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, 
@@ -90,7 +91,7 @@
 #last modification on mar-13-2018 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec") {
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE) {
   
   # reset working directory 
   wd <- getwd()
@@ -240,7 +241,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
     no.out <- lapply(1 : ceiling(dur / (li * sl)), function(j)  
       {
        imgfun(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".", it),  
-           res = 160, units = "in", width = 8.5, height = 11) 
+           res = 160, units = "in", width = if(horizontal) 11 else 8.5, height = if(horizontal) 8.5 else 11) 
       
       par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
       

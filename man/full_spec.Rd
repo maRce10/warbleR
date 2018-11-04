@@ -8,7 +8,7 @@ full_spec(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10,
   collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512,
   gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg",
   flist = NULL, redo = TRUE, path = NULL, pb = TRUE,
-  fast.spec = FALSE, labels = "selec")
+  fast.spec = FALSE, labels = "selec", horizontal = FALSE)
 }
 \description{
 alternative name for \code{\link{lspec}}

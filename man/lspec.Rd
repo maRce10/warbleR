@@ -7,10 +7,10 @@
 lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1), 
 ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, 
-fast.spec = FALSE, labels = "selec")
+fast.spec = FALSE, labels = "selec", horizontal = FALSE)
 }
 \arguments{
-\item{X}{'selection_table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
+\item{X}{'selection_table' object or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end). If given, two red dotted lines are plotted at the 
 start and end of a selection and the selections are labeled with the selection number 
@@ -73,6 +73,8 @@ decreasing darkness levels.}
 
 \item{labels}{Character string with the name of the column(s) for selection 
 labeling. Default is 'selec'. Set to \code{NULL} to remove labels.}
+
+\item{horizontal}{Logical. Controls if the images are produced as horizontal or vertical pages. Default is \code{FALSE}.}
 }
 \value{
 image files with spectrograms of whole sound files in the working directory. Multiple pages
@@ -85,8 +87,8 @@ can be returned, depending on the length of each sound file.
 \details{
 The function creates spectrograms for complete sound files, printing
   the name of the sound files and the "page" number (p1-p2...) at the upper 
-  right corner of the image files. If results from \code{\link{manualoc}} are 
-  supplied (or an equivalent data frame), the function delimits and labels the selections. 
+  right corner of the image files. If 'X' is
+  supplied, the function delimits and labels the selections. 
   This function aims to facilitate visual inspection of multiple files as well as visual classification 
   of vocalization units and the analysis of animal vocal sequences.
 }

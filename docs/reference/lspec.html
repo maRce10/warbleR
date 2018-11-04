@@ -129,14 +129,14 @@
     <pre class="usage"><span class='fu'>lspec</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>22</span>), <span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>collevels</span> <span class='kw'>=</span> <span class='fu'>seq</span>(-<span class='fl'>40</span>, <span class='fl'>0</span>, <span class='fl'>1</span>),
 <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>gr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>,
 <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='st'>"selec"</span>)</pre>
+<span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='st'>"selec"</span>, <span class='kw'>horizontal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>X</th>
-      <td><p>'selection_table' object or data frame with results from <code><a href='manualoc.html'>manualoc</a></code> or any data frame with columns
+      <td><p>'selection_table' object or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end). If given, two red dotted lines are plotted at the 
 start and end of a selection and the selections are labeled with the selection number 
@@ -234,6 +234,10 @@ decreasing darkness levels.</p></td>
       <td><p>Character string with the name of the column(s) for selection 
 labeling. Default is 'selec'. Set to <code>NULL</code> to remove labels.</p></td>
     </tr>
+    <tr>
+      <th>horizontal</th>
+      <td><p>Logical. Controls if the images are produced as horizontal or vertical pages. Default is <code>FALSE</code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -245,8 +249,8 @@ can be returned, depending on the length of each sound file.</p>
 
     <p>The function creates spectrograms for complete sound files, printing
   the name of the sound files and the "page" number (p1-p2...) at the upper 
-  right corner of the image files. If results from <code><a href='manualoc.html'>manualoc</a></code> are 
-  supplied (or an equivalent data frame), the function delimits and labels the selections. 
+  right corner of the image files. If 'X' is
+  supplied, the function delimits and labels the selections. 
   This function aims to facilitate visual inspection of multiple files as well as visual classification 
   of vocalization units and the analysis of animal vocal sequences.</p>
     
