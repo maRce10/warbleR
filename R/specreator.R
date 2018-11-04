@@ -70,7 +70,7 @@
 #' @param by.song Character string with the column name containing song labels. If
 #' provide a single spectrogram containinig all elements for each song will be produce. Note that 
 #' the function assumes that song labels are not repeated within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.
-#' @param sel.labels Character string with the name of the column for selection 
+#' @param sel.labels Character string with the name of the column(s) for selection 
 #' labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.
 #' @param title.labels Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.
 #' @param dest.path Character string containing the directory path where the cut sound files will be saved.
@@ -300,7 +300,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
           {
             polygon(x = rep(c(W$start[e], W$end[e]), each = 2), y = c(W$bottom.freq[e], W$top.freq[e], W$top.freq[e], W$bottom.freq[e]), lty = lty, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.15), lwd = 1.2)
           
-            if (!is.null(sel.labels)) text(labels= W[e, sel.labels], x = (W$end[e] + W$start[e])/2, y = W$top.freq[e], pos = 3)
+            if (!is.null(sel.labels)) text(labels= paste(W[e, labels], collapse = "-"), x = (W$end[e] + W$start[e])/2, y = W$top.freq[e], pos = 3)
             }  
         }
         

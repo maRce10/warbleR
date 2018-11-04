@@ -22,7 +22,7 @@ Default is \code{FALSE}.}
 \item{max.ovlp}{Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
 . Default is 0.}
 
-\item{relabel}{Logical. If \code{TRUE} then selections names (selec column) are reset.
+\item{relabel}{Logical. If \code{TRUE} then selections names (selec column) are reset within each sound files.
 Default is \code{FALSE}.}
 
 \item{drop}{Logical. If \code{TRUE}, when 2 or more selections overlap the function will remove 
@@ -56,7 +56,7 @@ overlap only the first one is kept.
 }
 \details{
 This function detects selections within a selection table that overlap in time. Selections must be 
-listed in a data frame similar to \code{\link{lbh_selec_table}}.
+listed in a data frame similar to \code{\link{lbh_selec_table}}. Note that row names are set to \code{1:nrow(X)}.
 }
 \examples{
 {

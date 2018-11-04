@@ -101,7 +101,7 @@ offer decreasing darkness levels.}
 provide a single spectrogram containinig all elements for each song will be produce. Note that 
 the function assumes that song labels are not repeated within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.}
 
-\item{sel.labels}{Character string with the name of the column for selection 
+\item{sel.labels}{Character string with the name of the column(s) for selection 
 labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.}
 
 \item{title.labels}{Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.}

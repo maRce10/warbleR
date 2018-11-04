@@ -7,7 +7,7 @@
 lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1), 
 ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, 
-fast.spec = FALSE)
+fast.spec = FALSE, labels = "selec")
 }
 \arguments{
 \item{X}{'selection_table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
@@ -70,6 +70,9 @@ This option is indicated for signals with high background noise levels. Palette 
 to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
+
+\item{labels}{Character string with the name of the column(s) for selection 
+labeling. Default is 'selec'. Set to \code{NULL} to remove labels.}
 }
 \value{
 image files with spectrograms of whole sound files in the working directory. Multiple pages

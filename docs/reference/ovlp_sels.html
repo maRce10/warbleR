@@ -154,7 +154,7 @@ Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>relabel</th>
-      <td><p>Logical. If <code>TRUE</code> then selections names (selec column) are reset.
+      <td><p>Logical. If <code>TRUE</code> then selections names (selec column) are reset within each sound files.
 Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
@@ -201,7 +201,7 @@ overlap only the first one is kept.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function detects selections within a selection table that overlap in time. Selections must be 
-listed in a data frame similar to <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>.</p>
+listed in a data frame similar to <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>. Note that row names are set to <code>1:nrow(X)</code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -229,12 +229,9 @@ listed in a data frame similar to <code><a href='lbh_selec_table.html'>lbh_selec
 <span class='co'># get index instead</span>
  <span class='fu'>ovlp_sels</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>Y</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 }</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt; No overlapping selections were found 
-#&gt; Selection table has been ordered by 'sound.files' and 'start'   |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt; 2 selections overlapped 
-#&gt; Selection table has been ordered by 'sound.files' and 'start'   |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt; 2 selections overlapped, 1 were removed 
-#&gt; Selection table has been ordered by 'sound.files' and 'start'   |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='output co'>#&gt; [1] 5</div></pre>
+#&gt; No overlapping selections were found   |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt; 2 selections overlapped   |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt; 2 selections overlapped, 1 were removed   |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='output co'>#&gt; [1] 4 5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

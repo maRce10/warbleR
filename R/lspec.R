@@ -5,7 +5,7 @@
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1), 
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 #' cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, 
-#' fast.spec = FALSE) 
+#' fast.spec = FALSE, labels = "selec") 
 #' @param X 'selection_table' object or data frame with results from \code{\link{manualoc}} or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
@@ -50,6 +50,8 @@
 #' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
+#' @param labels Character string with the name of the column(s) for selection 
+#' labeling. Default is 'selec'. Set to \code{NULL} to remove labels.
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -88,7 +90,7 @@
 #last modification on mar-13-2018 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE) {
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec") {
   
   # reset working directory 
   wd <- getwd()
@@ -139,13 +141,12 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   if (!is.null(flist)) files <- files[files %in% flist]
   if (length(files) == 0)  stop("selected .wav files are not in working directory")
   
-  #check that all files are in working directory
-  if (!is.null(X)) {manloc <- X
-  files<-files[files %in% X$sound.files]
-  }  else manloc <- NULL
-  
+  # if X provided  
   if (!is.null(X)) {
-  
+
+    #list only files in X
+    files <- files[files %in% X$sound.files]
+    
     #if X is not a data frame
     if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
     
@@ -165,7 +166,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   
   #if any start higher than end stop
   if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
-  }
+  }  else manloc <- NULL
  
 #if flim is not vector or length!=2 stop
   if (is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
@@ -214,23 +215,29 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   if (length(files) == 0) stop("all .wav files have been processed")
   
   #create function for making spectrograms
-  lspecFUN <-function(z, fl, sl, li, ml, malo) {
+  lspecFUN <-function(z, fl, sl, li, ml, X) {
     
-          #loop to print spectros  
     rec <- tuneR::readWave(z) #read wave file 
+    
     f <- rec@samp.rate #set sampling rate
-    frli<- fl #in case flim is higher than can be due to sampling rate
+    
+    #in case flim is higher than can be due to sampling rate
+    frli<- fl 
     if (frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
+    
+    #set duration    
+    dur <- seewave::duration(rec)
+    
+    #if duration is multiple of sl
+    if (!length(grep("[^[:digit:]]", as.character(dur/sl))))
+  rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
+    
     dur <- seewave::duration(rec) #set duration    
     
-    if (!length(grep("[^[:digit:]]", as.character(dur/sl))))  #if duration is multiple of sl
-      rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
-    dur <- seewave::duration(rec) #set duration    
-    
-    if (!is.null(malo)) ml <- ml[ml$sound.files == z,] #subset X data
+    if (!is.null(X)) Y <- X[X$sound.files == z,] #subset X data
     
     #loop over pages 
-    no.out <-lapply(1:ceiling(dur/(li*sl)), function(j)  
+    no.out <- lapply(1 : ceiling(dur / (li * sl)), function(j)  
       {
        imgfun(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".", it),  
            res = 160, units = "in", width = 8.5, height = 11) 
@@ -239,25 +246,34 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
       
       #creates spectrogram rows
       x <- 0
-      while(x <= li-1){
+      while(x <= li - 1){
+        
         x <- x + 1
-        if (all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){  #for rows with complete spectro
+        
+        #for rows with complete spectro
+        if (all(((x)*sl+li*(sl)*(j-1))-sl<dur & (x)*sl+li*(sl)*(j-1)<dur)){ 
           spectro_wrblr_int(rec, f = f, wl = wl, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), 
                   ovlp = ovlp, collevels = collevels, grid = gr, scale = FALSE, palette = pal, axisX = TRUE, fast.spec = fast.spec)
           if (x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
-          if (!is.null(malo))  {if (any(!is.na(ml$sel.comment))) {
-            l <- paste(ml$selec, "-'", ml$sel.comment, "'", sep="") 
-           l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]} else l <- ml$selec
-                               mapply(function(s, e, labels, fli = frli){
-                                 abline(v = c(s, e), col = "red", lty = 2)
-                                 text((s + e)/2,  fli[2] - 2*((fli[2] - fli[1])/12), labels = labels, font = 4)},
-                                 s = ml$start, e = ml$end,labels = l)} } else {
-                                   if (all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){ #for rows with incomplete spectro (final row)
-                                     spectro_wrblr_int(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
-                                                           listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
-                                                                                                   to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = wl, flim = frli, 
-                                             tlim = c(0, sl), ovlp = ovlp, collevels = collevels, grid = gr, scale = FALSE, palette = pal, axisX = FALSE, fast.spec = fast.spec)
+          if (!is.null(X))  {
+           for(e in 1:nrow(Y))  
+             {
+            ys <- if (is.null(Y$top.freq)) frli[c(1, 2, 2, 1)] else
+               c(Y$bottom.freq[e], Y$top.freq[e], Y$top.freq[e], Y$bottom.freq[e])
+             
+             polygon(x = rep(c(Y$start[e], Y$end[e]), each = 2), y = ys, lty = 2, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.12), lwd = 1.2)
+            
+            if (!is.null(labels)) 
+            text(labels = paste(Y[e, labels], collapse = "-"), x = (Y$end[e] + Y$start[e]) / 2, y = if (is.null(Y$top.freq)) frli[2] - 2*((frli[2] - frli[1])/12) else Y$top.freq[e], font = 4, pos = 3)
+             }
+            }
+          } else { #for rows with incomplete spectro (final row)
+      if (all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){
+        spectro_wrblr_int(seewave::pastew(seewave::noisew(f = f,  d = (x)*sl+li*(sl)*(j-1)-dur+1,  type = "unif",   
+      listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
+      to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = wl, flim = frli, 
+      tlim = c(0, sl), ovlp = ovlp, collevels = collevels, grid = gr, scale = FALSE, palette = pal, axisX = FALSE, fast.spec = fast.spec)
                                      
         if (x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
       last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)                             
@@ -268,15 +284,22 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
                                      
                                      #add X lines and labels
                                      
-                                     if (!is.null(malo)) { if (any(!is.na(ml$sel.comment))) {
-                                       l <- paste(ml$selec,"-'",ml$sel.comment,"'",sep="")
-                                       l[is.na(ml$sel.comment)] <- ml$selec[is.na(ml$sel.comment)]} else l <- ml$selec
-                                                          lise <- ((x)*sl+li*(sl)*(j-1))-sl
-                                                          mapply(function(s, e, labels, fli = frli, ls = lise){
-                                                            abline(v = c(s, e)-ls, col = "red", lty = 2)
-                                                            text(((s + e)/2)-ls, fli[2] - 2*((fli[2] - fli[1])/12), 
-                                                                 labels = labels, font = 4)}, 
-                                                             s = ml$start, e = ml$end, labels = l)}
+      if (!is.null(X)) {
+      # l <- Y$selec
+
+      adjx <- ((x)*sl+li*(sl)*(j-1))-sl
+      
+      for(e in 1:nrow(Y))  
+      {
+        ys <- if (is.null(Y$top.freq)) frli[c(1, 2, 2, 1)] else
+          c(Y$bottom.freq[e], Y$top.freq[e], Y$top.freq[e], Y$bottom.freq[e])
+        
+        polygon(x = rep(c(Y$start[e], Y$end[e]), each = 2) - adjx, y = ys, lty = 2, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.12), lwd = 1.2)
+        
+        if (!is.null(labels)) 
+          text(labels = paste(Y[e, labels], collapse = "-"), x = (Y$end[e] + Y$start[e]) / 2 - adjx, y = if (is.null(Y$top.freq)) frli[2] - 2*((frli[2] - frli[1])/12) else Y$top.freq[e], font = 4, pos = 3)
+      }
+      }
                                      
                                      #add axis to last spectro row
                                      axis(1, at = c(0:sl), labels = c((((x)*sl+li*(sl)*(j-1))-sl):((x)*sl+li*(sl)*(j-1))) , tick = TRUE)
@@ -304,7 +327,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   # run loop apply function
   sp <- pbapply::pblapply(X = files, cl = cl, FUN = function(i) 
   { 
-    lspecFUN(z = i, fl = flim, sl = sxrow, li = rows, ml = manloc, malo = X)
+    lspecFUN(z = i, fl = flim, sl = sxrow, li = rows, X = X)
   })  
 }
 
