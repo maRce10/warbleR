@@ -290,8 +290,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
               {
                 
                 lines(y = rep(frli[2] - 0.7 * ((frli[2] - frli[1])/12), 2), x = c(Ysong$start[w], Ysong$end[w]), lwd = 5, col = adjustcolor("#E37222", 0.5), lend = 0)
-                    
-                    text(labels = Ysong[w, song], x = (Ysong$end[w] + Ysong$start[w]) / 2, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), font = 4, pos = 3, cex = 2)      
+                if (!is.null(labels))    
+                    text(labels = Ysong[w, song], x = (Ysong$end[w] + Ysong$start[w]) / 2, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), adj = 0, cex = 2)      
                       }
             }
           } else { #for rows with incomplete spectro (final row)
@@ -321,7 +321,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
         polygon(x = rep(c(Y$start[e], Y$end[e]), each = 2) - adjx, y = ys, lty = 2, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.12), lwd = 1.2)
         
         if (!is.null(labels)) 
-          text(labels = paste(Y[e, labels], collapse = "-"), x = (Y$end[e] + Y$start[e]) / 2 - adjx, y = if (is.null(Y$top.freq)) frli[2] - 2*((frli[2] - frli[1])/12) else Y$top.freq[e], font = 4, pos = 3)
+          text(labels = paste(Y[e, labels], collapse = "-"), x = (Y$end[e] + Y$start[e]) / 2 - adjx, y = if (is.null(Y$top.freq)) frli[2] - 2*((frli[2] - frli[1])/12) else Y$top.freq[e], adj = 0, pos = 3)
       }
        
        # loop for songs  
@@ -330,8 +330,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
          {
            
            lines(y = rep(frli[2] - 0.7 * ((frli[2] - frli[1])/12), 2), x = c(Ysong$start[w], Ysong$end[w])  - adjx, lwd = 5, col = adjustcolor("#E37222", 0.5), lend = 0)
-           
-           text(labels = Ysong[w, song], x = ((Ysong$end[w] + Ysong$start[w]) / 2)  - adjx, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), font = 4, pos = 3, cex = 2)      
+        if (!is.null(labels)) 
+           text(labels = Ysong[w, song], x = ((Ysong$end[w] + Ysong$start[w]) / 2)  - adjx, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), adj = 0, cex = 2)      
          }
        
       }
