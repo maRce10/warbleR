@@ -128,8 +128,8 @@
 
     <pre class="usage"><span class='fu'>lspec</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>,<span class='fl'>22</span>), <span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>collevels</span> <span class='kw'>=</span> <span class='fu'>seq</span>(-<span class='fl'>40</span>, <span class='fl'>0</span>, <span class='fl'>1</span>),
 <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>gr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>,
-<span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='st'>"selec"</span>, <span class='kw'>horizontal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+<span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='st'>"selec"</span>, <span class='kw'>horizontal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>song</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,7 +205,7 @@ is 512.</p></td>
 if X is provided.</p></td>
     </tr>
     <tr>
-      <th>redo</th>
+      <th>overwrite</th>
       <td><p>Logical argument. If <code>TRUE</code> all selections will be analyzed again 
 when code is rerun. If <code>FALSE</code> only the selections that do not have a image 
 file in the working directory will be analyzed. Default is <code>FALSE</code>.</p></td>
@@ -237,6 +237,12 @@ labeling. Default is 'selec'. Set to <code>NULL</code> to remove labels.</p></td
     <tr>
       <th>horizontal</th>
       <td><p>Logical. Controls if the images are produced as horizontal or vertical pages. Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>song</th>
+      <td><p>Character string with the name of the column to used as a label a for higher 
+orgnization level in the song (similar to 'song_colm' in <code><a href='song_param.html'>song_param</a></code>). If supplied then lines above the selections belonging to the same
+'song' are plotted. Ignored if 'X' is not provided.</p></td>
     </tr>
     </table>
     
@@ -277,7 +283,8 @@ can be returned, depending on the length of each sound file.</p>
 <span class='fu'>lspec</span>(<span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.heat.colors</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 
 <span class='co'># including selections</span>
-<span class='fu'>lspec</span>(<span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.heat.colors</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
+<span class='fu'>lspec</span>(<span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.heat.colors</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+ <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 
 <span class='co'>#check this floder</span>
 <span class='fu'>getwd</span>()

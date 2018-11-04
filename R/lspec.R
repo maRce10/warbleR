@@ -4,8 +4,8 @@
 #'   rows.
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1), 
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
-#' cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, 
-#' fast.spec = FALSE, labels = "selec", horizontal = FALSE) 
+#' cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, 
+#' fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL) 
 #' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, two red dotted lines are plotted at the 
@@ -37,7 +37,7 @@
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
-#' @param redo Logical argument. If \code{TRUE} all selections will be analyzed again 
+#' @param overwrite Logical argument. If \code{TRUE} all selections will be analyzed again 
 #'   when code is rerun. If \code{FALSE} only the selections that do not have a image 
 #'   file in the working directory will be analyzed. Default is \code{FALSE}.
 #' @param path Character string containing the directory path where the sound files are located. 
@@ -53,6 +53,9 @@
 #' @param labels Character string with the name of the column(s) for selection 
 #' labeling. Default is 'selec'. Set to \code{NULL} to remove labels.
 #' @param horizontal Logical. Controls if the images are produced as horizontal or vertical pages. Default is \code{FALSE}.
+#' @param song Character string with the name of the column to used as a label a for higher 
+#' orgnization level in the song (similar to 'song_colm' in \code{\link{song_param}}). If supplied then lines above the selections belonging to the same
+#' 'song' are plotted. Ignored if 'X' is not provided. 
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -78,7 +81,8 @@
 #' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
 #' 
 #' # including selections
-#' lspec(sxrow = 2, rows = 8, X = lbh_selec_table, pal = reverse.heat.colors, redo = TRUE, wl = 300)
+#' lspec(sxrow = 2, rows = 8, X = lbh_selec_table, pal = reverse.heat.colors, overwrite = TRUE,
+#'  wl = 300)
 #' 
 #' #check this floder
 #' getwd()
@@ -91,7 +95,7 @@
 #last modification on mar-13-2018 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, redo = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE) {
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL) {
   
   # reset working directory 
   wd <- getwd()
@@ -155,7 +159,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   if (length(files) == 0) stop(".wav files in X are not in working directory")
   
   #if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
+  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")
   
   #check if all columns are found
   if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
@@ -167,7 +171,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   
   #if any start higher than end stop
   if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))  
-  }  else manloc <- NULL
+    } 
  
 #if flim is not vector or length!=2 stop
   if (is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
@@ -204,8 +208,16 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  # redo
-  if (!redo) 
+  ## calculate song level parameters
+  if (!is.null(X) & !is.null(song))
+  {
+    if (!any(names(X) == song)) stop(paste(song, "column not found"))
+    
+    Xsong <- song_param(X, song_colm = song, pb = FALSE)
+  }
+  
+  # overwrite
+  if (!overwrite) 
     files <- files[!gsub(".wav$","", list.files(pattern = "\\.wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
       unlist(sapply(strsplit(as.character(list.files(pattern = paste(it, "$", 
                                                                      sep = ""), ignore.case = TRUE)), "-p",fixed = TRUE), "[",1))]
@@ -236,7 +248,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
     dur <- seewave::duration(rec) #set duration    
     
     if (!is.null(X)) Y <- X[X$sound.files == z,] #subset X data
-    
+    if (!is.null(X) & !is.null(song)) Ysong <- Xsong[Xsong$sound.files == z, , drop = FALSE]
+      
     #loop over pages 
     no.out <- lapply(1 : ceiling(dur / (li * sl)), function(j)  
       {
@@ -258,7 +271,9 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
           if (x == 1) text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
                                                                                                           last = nchar(z)-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
           if (!is.null(X))  {
-           for(e in 1:nrow(Y))  
+          
+            # loop for elements
+             for(e in 1:nrow(Y))  
              {
             ys <- if (is.null(Y$top.freq)) frli[c(1, 2, 2, 1)] else
                c(Y$bottom.freq[e], Y$top.freq[e], Y$top.freq[e], Y$bottom.freq[e])
@@ -266,8 +281,18 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
              polygon(x = rep(c(Y$start[e], Y$end[e]), each = 2), y = ys, lty = 2, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.12), lwd = 1.2)
             
             if (!is.null(labels)) 
-            text(labels = paste(Y[e, labels], collapse = "-"), x = (Y$end[e] + Y$start[e]) / 2, y = if (is.null(Y$top.freq)) frli[2] - 2*((frli[2] - frli[1])/12) else Y$top.freq[e], font = 4, pos = 3)
+            text(labels = paste(Y[e, labels], collapse = "-"), x = (Y$end[e] + Y$start[e]) / 2, y = if (is.null(Y$top.freq)) frli[2] - 2*((frli[2] - frli[1])/12) else Y$top.freq[e], pos = 3)
              }
+            
+            # loop for songs  
+            if (!is.null(song))
+                  for(w in 1:nrow(Ysong))  
+              {
+                
+                lines(y = rep(frli[2] - 0.7 * ((frli[2] - frli[1])/12), 2), x = c(Ysong$start[w], Ysong$end[w]), lwd = 5, col = adjustcolor("#E37222", 0.5), lend = 0)
+                    
+                    text(labels = Ysong[w, song], x = (Ysong$end[w] + Ysong$start[w]) / 2, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), font = 4, pos = 3, cex = 2)      
+                      }
             }
           } else { #for rows with incomplete spectro (final row)
       if (all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1)>dur)){
@@ -286,9 +311,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
                                      #add X lines and labels
                                      
       if (!is.null(X)) {
-      # l <- Y$selec
-
-      adjx <- ((x)*sl+li*(sl)*(j-1))-sl
+       adjx <- ((x)*sl+li*(sl)*(j-1))-sl
       
       for(e in 1:nrow(Y))  
       {
@@ -300,6 +323,17 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
         if (!is.null(labels)) 
           text(labels = paste(Y[e, labels], collapse = "-"), x = (Y$end[e] + Y$start[e]) / 2 - adjx, y = if (is.null(Y$top.freq)) frli[2] - 2*((frli[2] - frli[1])/12) else Y$top.freq[e], font = 4, pos = 3)
       }
+       
+       # loop for songs  
+       if (!is.null(song))
+         for(w in 1:nrow(Ysong))  
+         {
+           
+           lines(y = rep(frli[2] - 0.7 * ((frli[2] - frli[1])/12), 2), x = c(Ysong$start[w], Ysong$end[w])  - adjx, lwd = 5, col = adjustcolor("#E37222", 0.5), lend = 0)
+           
+           text(labels = Ysong[w, song], x = ((Ysong$end[w] + Ysong$start[w]) / 2)  - adjx, y = frli[2] - 0.7 * ((frli[2] - frli[1])/12), font = 4, pos = 3, cex = 2)      
+         }
+       
       }
                                      
                                      #add axis to last spectro row
