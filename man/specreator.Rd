@@ -8,7 +8,7 @@ specreator(X, wl = 512, flim = "frange", wn = "hanning", pal  = reverse.gray.col
 ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
 cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, it = "jpeg", parallel = 1, 
-path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", 
+path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec",
 title.labels = NULL, dest.path = NULL, ...)
 }
 \arguments{

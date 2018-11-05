@@ -275,9 +275,11 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
             # loop for elements
              for(e in 1:nrow(Y))  
              {
+               # if freq columns are not provided   
             ys <- if (is.null(Y$top.freq)) frli[c(1, 2, 2, 1)] else
                c(Y$bottom.freq[e], Y$top.freq[e], Y$top.freq[e], Y$bottom.freq[e])
-             
+            
+            #plot polygon 
              polygon(x = rep(c(Y$start[e], Y$end[e]), each = 2), y = ys, lty = 2, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.12), lwd = 1.2)
             
             if (!is.null(labels)) 

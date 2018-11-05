@@ -5,7 +5,7 @@
 #' ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
 #' cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 #' col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, it = "jpeg", parallel = 1, 
-#' path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", 
+#' path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec",
 #' title.labels = NULL, dest.path = NULL, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
@@ -69,7 +69,7 @@
 #'   offer decreasing darkness levels.
 #' @param by.song Character string with the column name containing song labels. If
 #' provide a single spectrogram containinig all elements for each song will be produce. Note that 
-#' the function assumes that song labels are not repeated within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.
+#' the function assumes that each song has a unique label within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.
 #' @param sel.labels Character string with the name of the column(s) for selection 
 #' labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.
 #' @param title.labels Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.
@@ -287,27 +287,31 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
     # Plot lines to visualize selections (start and end of signal)
     if (line){  
       if (any(names(X) == "bottom.freq") & any(names(X) == "top.freq"))
-      {   if (!is.na(X$bottom.freq[i]) & !is.na(X$top.freq[i])) {
-        polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$bottom.freq[i], X$top.freq[i], X$top.freq[i], X$bottom.freq[i]), lty = lty, border = col, lwd = 1.2)
-        
+      {   
         if (!is.null(by.song))
         {
-          W <- Y[Y$sound.files == X$sound.files[i] & Y[, by.song] == X[i, by.song], ]
+          W <- Y[Y$sound.files == X$sound.files[i] & Y[, by.song] == X[i, by.song], ,  drop= FALSE]
           W$start <- W$start - X$start[i] + mar1
           W$end <- W$end - X$start[i] + mar1
+        } else 
+        { W <- X[i, , drop = FALSE]
+          W$start <- mar1    
+          W$end <- mar2
+          }
           
-          for(e in 1:nrow(W))  
+        for(e in 1:nrow(W))  
           {
-            polygon(x = rep(c(W$start[e], W$end[e]), each = 2), y = c(W$bottom.freq[e], W$top.freq[e], W$top.freq[e], W$bottom.freq[e]), lty = lty, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.15), lwd = 1.2)
+            # if freq columns are not provided
+            ys <- if (is.null(W$top.freq)) fl[c(1, 2, 2, 1)] else
+              c(W$bottom.freq[e], W$top.freq[e], W$top.freq[e], W$bottom.freq[e])
+            
+            #plot polygon
+            polygon(x = rep(c(W$start[e], W$end[e]), each = 2), y = ys, lty = lty, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.15), lwd = 1.2)
           
-            if (!is.null(sel.labels)) text(labels= paste(W[e, labels], collapse = "-"), x = (W$end[e] + W$start[e])/2, y = W$top.freq[e], pos = 3)
+            if (!is.null(sel.labels)) text(labels= paste(W[e, sel.labels], collapse = "-"), x = (W$end[e] + W$start[e])/2, y = if (is.null(W$top.freq)) fl[2] - 2*((fl[2] - fl[1])/12) else W$top.freq[e], pos = 3)
             }  
         }
-        
-        } else
-          abline(v = c(mar1, mar2), col= col, lty = lty)
-        
-        } else abline(v = c(mar1, mar2), col= col, lty = lty)
+      
     }
     dev.off()
   }
