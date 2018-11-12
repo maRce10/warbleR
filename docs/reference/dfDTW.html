@@ -217,7 +217,7 @@ image files. Default is <code>NULL</code>.</p></td>
       <th>clip.edges</th>
       <td><p>Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed. If 
-<code>TRUE</code> (default) this edges will be excluded and signal contour will be calculated on the
+<code>TRUE</code> (default) this edges will be excluded and contours will be calculated on the
 remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).</p></td>
     </tr>
     <tr>
@@ -304,11 +304,11 @@ The function uses the <code><a href='http://www.rdocumentation.org/packages/stat
 <span class='co'># run function </span>
 <span class='fu'>dfDTW</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>12</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 }</div><div class='output co'>#&gt; measuring dominant frequency contours (step 1 of 2):
-#&gt; Creating spectrograms overlaid with dominant frequency measurements:   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; </div><div class='output co'>#&gt;                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3
+#&gt; Creating spectrograms overlaid with dominant frequency measurements:   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt;                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3
 #&gt; Phae.long1.wav-1            0.000            7.277           11.403
 #&gt; Phae.long1.wav-2            7.277            0.000           11.782
 #&gt; Phae.long1.wav-3           11.403           11.782            0.000
-#&gt; Phae.long2.wav-1           27.192           27.229           25.185
+#&gt; Phae.long2.wav-1           26.383           29.081           26.065
 #&gt; Phae.long2.wav-2           29.855           35.805           28.627
 #&gt; Phae.long3.wav-1           16.505           16.586           17.323
 #&gt; Phae.long3.wav-2           26.436           26.297           24.198
@@ -317,22 +317,22 @@ The function uses the <code><a href='http://www.rdocumentation.org/packages/stat
 #&gt; Phae.long4.wav-2           33.217           32.438           32.369
 #&gt; Phae.long4.wav-3           30.887           31.487           31.159
 #&gt;                  Phae.long2.wav-1 Phae.long2.wav-2 Phae.long3.wav-1
-#&gt; Phae.long1.wav-1           27.192           29.855           16.505
-#&gt; Phae.long1.wav-2           27.229           35.805           16.586
-#&gt; Phae.long1.wav-3           25.185           28.627           17.323
-#&gt; Phae.long2.wav-1            0.000           16.631           15.144
-#&gt; Phae.long2.wav-2           16.631            0.000           14.920
-#&gt; Phae.long3.wav-1           15.144           14.920            0.000
-#&gt; Phae.long3.wav-2           12.486           10.799            9.600
-#&gt; Phae.long3.wav-3           13.015           11.293           10.950
-#&gt; Phae.long4.wav-1           28.814           28.505           34.867
-#&gt; Phae.long4.wav-2           29.096           30.846           32.413
-#&gt; Phae.long4.wav-3           29.463           32.099           29.364
+#&gt; Phae.long1.wav-1           26.383           29.855           16.505
+#&gt; Phae.long1.wav-2           29.081           35.805           16.586
+#&gt; Phae.long1.wav-3           26.065           28.627           17.323
+#&gt; Phae.long2.wav-1            0.000           13.813           14.622
+#&gt; Phae.long2.wav-2           13.813            0.000           14.920
+#&gt; Phae.long3.wav-1           14.622           14.920            0.000
+#&gt; Phae.long3.wav-2           12.140           10.799            9.600
+#&gt; Phae.long3.wav-3           13.703           11.293           10.950
+#&gt; Phae.long4.wav-1           21.670           28.505           34.867
+#&gt; Phae.long4.wav-2           24.228           30.846           32.413
+#&gt; Phae.long4.wav-3           22.703           32.099           29.364
 #&gt;                  Phae.long3.wav-2 Phae.long3.wav-3 Phae.long4.wav-1
 #&gt; Phae.long1.wav-1           26.436           29.014           39.506
 #&gt; Phae.long1.wav-2           26.297           30.795           36.721
 #&gt; Phae.long1.wav-3           24.198           28.689           41.315
-#&gt; Phae.long2.wav-1           12.486           13.015           28.814
+#&gt; Phae.long2.wav-1           12.140           13.703           21.670
 #&gt; Phae.long2.wav-2           10.799           11.293           28.505
 #&gt; Phae.long3.wav-1            9.600           10.950           34.867
 #&gt; Phae.long3.wav-2            0.000            8.625           28.420
@@ -344,7 +344,7 @@ The function uses the <code><a href='http://www.rdocumentation.org/packages/stat
 #&gt; Phae.long1.wav-1           33.217           30.887
 #&gt; Phae.long1.wav-2           32.438           31.487
 #&gt; Phae.long1.wav-3           32.369           31.159
-#&gt; Phae.long2.wav-1           29.096           29.463
+#&gt; Phae.long2.wav-1           24.228           22.703
 #&gt; Phae.long2.wav-2           30.846           32.099
 #&gt; Phae.long3.wav-1           32.413           29.364
 #&gt; Phae.long3.wav-2           30.684           30.048

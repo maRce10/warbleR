@@ -127,7 +127,7 @@ of signals selected by <code><a href='manualoc.html'>manualoc</a></code> or <cod
     </div>
 
     <pre class="usage"><span class='fu'>dfts</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>wl.freq</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>,
-<span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>threshold.time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>threshold.time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
 <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='st'>"dfts"</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
 <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>leglab</span> <span class='kw'>=</span> <span class='st'>"dfts"</span>, <span class='kw'>frange.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
  <span class='kw'>raw.contour</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>track.harm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adjust.wl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
@@ -174,7 +174,7 @@ frequency bandpass filter (in kHz). Default is c(0, 22).</p></td>
     </tr>
     <tr>
       <th>threshold</th>
-      <td><p>amplitude threshold (%) for dominant frequency detection. Default is 15. Note that amplitude 
+      <td><p>amplitude threshold (%) for dominant frequency detection. Default is 0. Note that amplitude 
 threshold for time and frequency domains can be defined independently. See "threshold.time" and "threshold.freq" 
 arguments.</p></td>
     </tr>
@@ -236,7 +236,7 @@ amplitude modulation. Default is 0.1.</p></td>
     <tr>
       <th>raw.contour</th>
       <td><p>Logical. If <code>TRUE</code> then a list with the original contours 
-(i.e. without interpolating values to make all contours of equal length) is returned.</p></td>
+(i.e. without interpolating values to make all contours of equal length) is returned (and no images are produced).</p></td>
     </tr>
     <tr>
       <th>track.harm</th>
@@ -265,9 +265,9 @@ input data frame showing the location of the dominant frequencies
 
     <p>This function extracts the dominant frequency values as a time series. 
 The function uses the <code><a href='http://www.rdocumentation.org/packages/stats/topics/approxfun'>approx</a></code> function to interpolate values between dominant frequency 
-measures. If there are no frequencies above the amplitude theshold at the begining or end 
+measures. If there are no frequencies above the amplitude threshold at the begining or end 
  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
- above the amplitude theshold in time windows in between the signal in which amplitude was 
+ above the amplitude threshold in time windows in between the signal in which amplitude was 
  detected then the values of the adjacent will be interpolated 
  to fill out the missing values (e.g. no NAs in between detected amplitude segments).</p>
     
@@ -308,51 +308,51 @@ measures. If there are no frequencies above the amplitude theshold at the begini
 }</div><div class='output co'>#&gt;       sound.files selec dfreq-1 dfreq-2 dfreq-3 dfreq-4 dfreq-5 dfreq-6 dfreq-7
 #&gt; 1  Phae.long1.wav     1   7.125   7.275   7.275   7.430   6.665   5.229   5.405
 #&gt; 2  Phae.long1.wav     2   6.900   7.146   7.241   7.399   7.500   7.528   6.052
-#&gt; 3  Phae.long1.wav     3   7.050   7.153   7.200   4.885   6.347   7.650   7.971
-#&gt; 4  Phae.long2.wav     1   4.950   5.020   5.413   5.534   5.550   5.648   6.008
-#&gt; 5  Phae.long2.wav     2   4.800   4.872   5.015   5.092   5.165   5.734   5.791
-#&gt; 6  Phae.long3.wav     1   6.975   4.800   4.875   5.775   6.225   6.525   6.375
-#&gt; 7  Phae.long3.wav     2   4.575   4.725   5.025   5.100   5.700   6.525   6.300
-#&gt; 8  Phae.long3.wav     3   4.650   4.725   5.400   5.400   5.400   6.000   5.850
-#&gt; 9  Phae.long4.wav     1   5.325   5.335   5.421   5.506   5.674   5.827   5.974
-#&gt; 10 Phae.long4.wav     2   8.025   5.408   5.491   5.597   5.793   6.003   6.215
-#&gt; 11 Phae.long4.wav     3   7.875   7.678   5.356   5.498   5.643   5.814   5.897
+#&gt; 3  Phae.long1.wav     3   6.975   6.243   6.621   4.885   6.347   7.650   7.971
+#&gt; 4  Phae.long2.wav     1   6.600   4.725   4.875   5.475   5.550   5.550   6.450
+#&gt; 5  Phae.long2.wav     2   4.650   4.867   5.015   5.092   5.165   5.672   5.775
+#&gt; 6  Phae.long3.wav     1   6.675   6.675   4.875   5.100   6.225   6.525   6.375
+#&gt; 7  Phae.long3.wav     2   6.450   6.600   5.025   5.100   5.700   6.525   6.300
+#&gt; 8  Phae.long3.wav     3   6.450   4.800   5.025   5.400   5.325   6.075   5.850
+#&gt; 9  Phae.long4.wav     1   7.875   5.335   5.421   5.506   5.674   5.827   5.912
+#&gt; 10 Phae.long4.wav     2   8.025   7.828   5.491   5.597   5.793   6.003   6.215
+#&gt; 11 Phae.long4.wav     3   7.875   7.686   5.416   5.498   5.643   5.814   5.897
 #&gt;    dfreq-8 dfreq-9 dfreq-10 dfreq-11 dfreq-12 dfreq-13 dfreq-14 dfreq-15
 #&gt; 1    5.475   5.532    8.079    6.600    6.481    6.460    6.453    6.065
 #&gt; 2    5.390   6.049    8.322    6.409    6.603    6.605    6.450    6.385
 #&gt; 3    6.305   8.035    8.449    6.959    6.525    6.525    6.455    6.282
-#&gt; 4    6.264   6.334    6.432    6.246    5.625    5.922    7.350    7.329
-#&gt; 5    5.946   3.828    5.121    5.289    5.946    6.600    6.641    6.675
-#&gt; 6    6.300   6.375    6.600    6.600    6.675    6.675    6.600    6.900
+#&gt; 4    6.225   6.300    6.375    6.525    5.625    5.625    7.350    7.350
+#&gt; 5    5.946   6.054    6.075    6.124    6.429    6.732    6.742    6.675
+#&gt; 6    6.300   6.375    6.600    6.600    6.675    6.675    6.600    6.675
 #&gt; 7    6.225   6.375    6.525    6.300    5.925    6.075    6.150    6.825
-#&gt; 8    5.850   5.850    5.850    6.225    6.150    6.900    6.150    6.675
-#&gt; 9    6.217   6.631    6.954    7.182    7.353    7.523    7.753    8.149
-#&gt; 10   6.517   6.910    7.115    7.358    7.585    7.704    7.978    8.242
+#&gt; 8    5.850   5.850    5.850    6.675    6.150    7.575    6.150    6.675
+#&gt; 9    6.215   6.698    6.954    7.182    7.353    7.523    7.753    8.149
+#&gt; 10   6.517   6.910    7.115    7.358    7.585    7.722    8.028    8.377
 #&gt; 11   6.251   6.561    6.879    7.058    7.285    7.422    7.728    7.909
 #&gt;    dfreq-16 dfreq-17 dfreq-18 dfreq-19 dfreq-20 dfreq-21 dfreq-22 dfreq-23
-#&gt; 1     6.106    5.136    4.712    4.849    6.926    6.758    6.861    7.019
-#&gt; 2     6.140    6.044    5.483    5.250    5.188    7.195    6.931    6.830
-#&gt; 3     6.075    5.379    5.638    4.562    6.944    6.781    6.750    7.001
-#&gt; 4     6.771    6.952    7.409    7.386    7.350    6.186    5.930    6.336
-#&gt; 5     7.109    7.575    7.203    6.647    6.626    6.745    6.900    6.918
+#&gt; 1     5.920    5.136    4.712    4.834    6.892    6.758    6.861    7.019
+#&gt; 2     6.140    6.075    5.506    5.322    4.355    5.529    6.931    6.830
+#&gt; 3     6.075    5.379    4.898    4.091    6.944    6.781    6.750    6.952
+#&gt; 4     6.750    6.975    7.500    7.350    7.350    5.475    6.300    6.375
+#&gt; 5     7.109    7.575    7.203    6.647    6.626    6.745    6.921    6.975
 #&gt; 6     6.450    6.600    6.825    6.375    6.375    6.600    6.675    6.675
 #&gt; 7     6.675    6.675    6.600    6.900    6.600    6.600    7.500    6.600
 #&gt; 8     6.300    6.375    6.750    6.375    6.450    6.675    6.675    6.600
 #&gt; 9     7.986    4.565    5.203    5.509    5.765    5.964    6.134    6.243
-#&gt; 10    6.173    4.916    5.346    5.594    5.915    6.010    6.163    6.391
-#&gt; 11    5.881    7.050    5.819    5.209    5.540    5.716    5.951    6.199
+#&gt; 10    8.749    6.393    5.328    5.594    5.915    6.010    6.163    6.391
+#&gt; 11    5.881    4.593    4.914    5.209    5.540    5.716    5.951    6.199
 #&gt;    dfreq-24 dfreq-25 dfreq-26 dfreq-27 dfreq-28 dfreq-29 dfreq-30
-#&gt; 1     7.120    7.179    7.032    6.903    7.125    7.174    7.125
-#&gt; 2     6.926    7.022    7.184    7.200    7.200    7.146    7.200
-#&gt; 3     7.050    7.275    7.275    7.146    7.236    7.210    7.200
-#&gt; 4     6.841    7.397    7.200    7.076    6.766    7.784    7.575
+#&gt; 1     7.120    7.179    7.032    6.830    7.148    7.200    7.200
+#&gt; 2     6.926    7.068    7.192    7.200    7.200    7.146    7.200
+#&gt; 3     7.050    7.275    7.275    7.275    7.107    7.097    7.125
+#&gt; 4     7.500    7.200    7.200    6.600    7.800    5.925    6.000
 #&gt; 5     6.882    6.525    6.515    6.559    7.438    6.600    6.600
-#&gt; 6     7.125    6.975    6.975    6.975    6.900    7.050    8.025
-#&gt; 7     6.600    6.600    6.600    6.600    6.900    6.900    6.975
-#&gt; 8     6.600    6.675    6.600    6.675    6.900    6.525    6.600
-#&gt; 9     6.776    6.947    6.680    5.522    4.428    3.941    3.525
-#&gt; 10    6.882    7.011    6.610    5.266    4.324    3.998    3.675
-#&gt; 11    6.610    6.822    7.076    5.648    4.772    4.120    3.900</div><div class='input'>
+#&gt; 6     7.125    6.975    6.975    6.975    6.900    7.050    7.725
+#&gt; 7     6.600    6.600    6.600    6.600    6.900    6.900    6.600
+#&gt; 8     6.600    6.675    6.600    6.675    6.900    6.975    6.600
+#&gt; 9     6.776    6.947    6.680    5.522    4.373    3.931    3.525
+#&gt; 10    6.882    7.011    6.610    5.162    4.293    3.931    3.675
+#&gt; 11    6.610    6.822    7.076    5.700    4.847    4.128    3.900</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
