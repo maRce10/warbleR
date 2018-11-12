@@ -316,15 +316,6 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     if (!fast) #only if fast is TRUE
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
-    #Fundamental frequency parameters
-  #   if (ff.method == "seewave")
-  #   ff <- seewave::fund(r, f = r@samp.rate, ovlp = ovlp, threshold = threshold, 
-  #                       fmax = b[2] * 1000, plot = FALSE)[, 2] else {
-  #                       if (!any(methods::slotNames(r) == "stereo")) r <- Wave(r) 
-  #     ff <- tuneR::FF(tuneR::periodogram(mono(r, "left"), width = wl, 
-  #       overlap = wl*ovlp/100), peakheight = (100 - threshold) / 100)/1000
-  #                                    }
-  
     #Dominant frecuency parameters
     y <- seewave::dfreq(r, f = r@samp.rate, wl = ifelse(wl >= length(r@left), length(r@left) - 1, wl), ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
     

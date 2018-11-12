@@ -149,7 +149,10 @@ phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, 
  # check tip labels match
  if (!identical(sort(as.character(X$tip.label)), sort(tree$tip.label))) stop("tree tip labels (tree$tip.label) and 'tip.label' column in 'X' do not match")
  
- # map arguments provided
+  #sort X as in tip labels
+  X <- X[match(tree$tip.label, X$tip.label), ]
+
+  # map arguments provided
  argus <- c(opt.argms, call.argms)
  
  ## SPECTROGRAMS (save in temporary directory)  

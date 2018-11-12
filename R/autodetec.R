@@ -87,7 +87,7 @@
 #' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
-#' @param ... Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
+#' @param ... Additional arguments to be passed internally \code{\link{specreator}} for customizing
 #' graphical output.
 #' @return Image files with spectrograms showing the start and end of the detected signals. It 
 #'   also returns a data frame containing the start and end of each signal by 

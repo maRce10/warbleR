@@ -120,7 +120,7 @@ to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
 
-\item{...}{Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
+\item{...}{Additional arguments to be passed internally \code{\link{specreator}} for customizing
 graphical output.}
 }
 \value{

@@ -99,7 +99,7 @@ offer decreasing darkness levels.}
 
 \item{by.song}{Character string with the column name containing song labels. If
 provide a single spectrogram containinig all elements for each song will be produce. Note that 
-the function assumes that song labels are not repeated within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.}
+the function assumes that each song has a unique label within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.}
 
 \item{sel.labels}{Character string with the name of the column(s) for selection 
 labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.}

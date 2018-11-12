@@ -59,7 +59,7 @@ image files. Default is \code{NULL}.}
 
 \item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed. If 
-\code{TRUE} (default) this edges will be excluded and signal contour will be calculated on the
+\code{TRUE} (default) this edges will be excluded and contours will be calculated on the
 remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).}
 
 \item{window.type}{\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).}

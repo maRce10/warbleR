@@ -120,7 +120,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   if (is.null(path)) path <- getwd()
   
   # reset working directory 
-  on.exit(setwd(getwd()))
+  on.exit(setwd(getwd()), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -152,6 +152,10 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   # set working directory
   setwd(path)
   
+  # if by song but column not found
+  if (!is.null(by.song))
+    if (!any(names(X) == by.song)) stop("'by.song' column not found")
+  
   # If parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -165,7 +169,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     X <- data.frame(sound.files, selec = 1, channel = 1, start = 0, end = wavdur(files = sound.files, path = path)$duration)
   }
   
-  if (pb) write(file = "", x ="checking selections:")
+  if (pb) write(file = "", x ="checking selections (step 1 of 2):")
   check.results <- checksels(X, path = path, wav.size = TRUE, pb = pb, ...)        
   
   if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check_sels() to locate problematic selections)")
@@ -226,7 +230,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         if (Sys.info()[1] == "Windows" & parallel > 1)
           cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
         
-        if (pb) write(file = "", x ="saving wave objects into extended selection table:")
+        if (pb) write(file = "", x ="saving wave objects into extended selection table (step 2 of 2):")
         
         attributes(X)$wave.objects <- pbapply::pblapply(1:nrow(Y), cl = cl, function(x) read_wave(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x],  path = path))
         

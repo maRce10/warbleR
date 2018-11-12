@@ -4,7 +4,7 @@
 \alias{xcorr}
 \title{Spectrogram cross-correlation}
 \usage{
-xcorr(X, wl =512, bp = NULL, ovlp=90, dens=0.9, wn='hanning', 
+xcorr(X, wl =512, bp = 'frange', ovlp=90, dens=0.9, wn='hanning', 
 cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
  cor.mat = TRUE)
 }
