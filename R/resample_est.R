@@ -47,6 +47,11 @@
 
 resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid.clip = TRUE, pb = FALSE, parallel = 1)
 {
+  
+  # error message if bioacoustics is not installed
+  if (!requireNamespace("bioacoustics",quietly = TRUE))
+    stop("must install 'bioacoustics' to use mp32wav()")
+  
   # reset working directory 
   wd <- getwd()
   on.exit(setwd(wd), add = TRUE)

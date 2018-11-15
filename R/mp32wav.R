@@ -47,6 +47,10 @@
 mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL, 
                     to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE) {
   
+  # error message if bioacoustics is not installed
+  if (!requireNamespace("bioacoustics",quietly = TRUE))
+    stop("must install 'bioacoustics' to use mp32wav()")
+  
   # reset working directory 
   wd <- getwd()
   on.exit(setwd(wd), add = TRUE)

@@ -192,7 +192,7 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
     which.frq.bins <- which(fspec$freq >= frq.lim[1] & fspec$freq <= frq.lim[2])
     frq.bins <- fspec$freq[which.frq.bins]
     n.frq.bins <- length(frq.bins)
-    amp <- round(fspec$amp[which.frq.bins, ],2)
+    amp <- round(fspec$amp[which.frq.bins, ], 2)
     
     # Create empty matrix for identifying selected cells
     on.mat <- matrix(0, nrow=n.frq.bins, ncol=n.t.bins)
@@ -294,13 +294,13 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
     n.frq.template <- max(pts[, 'frq'])
     
     # Translate pts matrix of indices into a vector index so indexing is faster within the lapplyfun call
-    pts.v <- (pts[, 't'] - 1)*n.frq.template + pts[, 'frq']
+    pts.v <- (pts[, 't'] - 1) * n.frq.template + pts[, 'frq']
     amp.template <- pts[, 'amp']
     amp.survey.v <- c(amp.survey)  
     
     # Perform analysis for each time value (bin) of survey 
     # Starting time value (bin) of correlation window
-    c.win.start <- as.list(1:(n.t.survey-n.t.template)*n.frq.template) # Starting position of subset of each survey amp matrix  
+    c.win.start <- as.list(1:(n.t.survey-n.t.template) * n.frq.template) # Starting position of subset of each survey amp matrix  
     score.survey <- sapply(X=c.win.start, FUN=function(x) 
     {
       # Unpack columns of survey amplitude matrix for correlation analysis
@@ -361,7 +361,8 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
     {      score.df <- data.frame(dyad = paste(score.df$sound.file1,score.df$sound.file2,sep = "/"), score.df)
     
     # calculate maximum correlation values
-    score.df <- aggregate(as.data.frame(score.df$score), by = list(score.df$dyad), FUN = max)}
+    score.df <- aggregate(as.data.frame(score.df$score), by = list(score.df$dyad), FUN = max)
+    }
     
     return(score.df)
   }

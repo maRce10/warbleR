@@ -153,7 +153,7 @@
 #' @import iterators
 #' @import bitops
 #' @import jpeg
-#' @importFrom bioacoustics resample
+# @importFrom bioacoustics resample
 #' @importFrom methods formalArgs new
 #' @importFrom pracma findpeaks
 #' @importFrom Sim.DiffProc BB GBM

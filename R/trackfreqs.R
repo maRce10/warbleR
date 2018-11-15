@@ -295,13 +295,13 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       
       #check if the info in sound.files and selec columns is the same for X and custom.contour
       #remove custom.contour selections not in X
-      custom.contour <- custom.contour[paste(custom.contour[,c("sound.files")], custom.contour[,c("selec")]) %in% paste(as.data.frame(X)[,c("sound.files")], as.data.frame(X)[,c("selec")])]
+      custom.contour <- custom.contour[paste(custom.contour[ , "sound.files"], custom.contour[ , "selec"]) %in% paste(as.data.frame(X)[ , "sound.files"], as.data.frame(X)[ , "selec"]), ]
       
       #stop if not the same number of selections
       if (nrow(X) > nrow(custom.contour)) stop("selection(s) in X but not in custom.contour")
       
       #order custom.contour as in X
-      custom.contour <- custom.contour[match(paste(custom.contour[,c("sound.files")], custom.contour[,c("selec")]), paste(as.data.frame(X)[,c("sound.files")], as.data.frame(X)[,c("selec")])),]      
+      custom.contour <- custom.contour[match(paste(custom.contour[ , "sound.files"], custom.contour[ , "selec"]), paste(as.data.frame(X)[ , "sound.files"], as.data.frame(X)[ , "selec"])), ]      
     
       # frange.detec <- FALSE
       }
