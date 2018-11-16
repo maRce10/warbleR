@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.1.15</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.1.16</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>mp32wav</span>(<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>mp32wav</span>(<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
 <span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dest.path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bit.depth</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -132,9 +132,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>samp.rate</th>
-      <td><p>Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). 
-Units should be kHz. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
-<code><a href='http://www.rdocumentation.org/packages/tuneR/topics/downsample'>downsample</a></code> function from tuneR, which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the <code><a href='fix_wavs.html'>fix_wavs</a></code> function (which uses SOX instead).</p></td>
+      <td><p>Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
+<code><a href='http://www.rdocumentation.org/packages/bioacoustics/topics/resample'>resample</a></code> function from the <a href='https://cran.r-project.org/package=bioacoustics'>bioacoustics package</a> (which should be installed), which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the <code><a href='fix_wavs.html'>fix_wavs</a></code> function (which uses <a href='http://sox.sourceforge.net/sox.html'>SOX</a> instead). Default is <code>NULL</code> (e.g. keep original sampling rate).</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -178,7 +177,8 @@ overwritten.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>convert all .mp3 files in working directory to .wav format. Function used internally to read .mp3 files (<code><a href='http://www.rdocumentation.org/packages/tuneR/topics/readMP3'>readMP3</a></code>) sometimes crashes.</p>
+    <p>The function will convert all mp3 files in  working directory or 'path' supplied to wav format. <a href='https://cran.r-project.org/package=bioacoustics'>bioacoustics package</a> must be installed when changing sampling rates (i.e. if 'samp.rate' is supplied).</p>
+<p>convert all .mp3 files in working directory to .wav format. Function used internally to read .mp3 files (<code><a href='http://www.rdocumentation.org/packages/tuneR/topics/readMP3'>readMP3</a></code>) sometimes crashes.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

@@ -44,6 +44,9 @@
 
 wav_info <- function(path = NULL, parallel = 1, pb = TRUE)
 {
+  # reset working directory 
+  wd <- getwd()
+  on.exit(setwd(wd), add = TRUE)
   
   # make a selection table from files
   st <- selection_table(whole.recs = TRUE, path = path, parallel = parallel, pb = pb)

@@ -4,13 +4,12 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav(samp.rate = 44.1, parallel = 1, path = NULL, 
+mp32wav(samp.rate = NULL, parallel = 1, path = NULL, 
 to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)
 }
 \arguments{
-\item{samp.rate}{Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). 
-Units should be kHz. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
-\code{\link[tuneR]{downsample}} function from tuneR, which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses SOX instead).}
+\item{samp.rate}{Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
+\code{\link[bioacoustics]{resample}} function from the \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} (which should be installed), which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{http://sox.sourceforge.net/sox.html}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied. 
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
@@ -39,6 +38,8 @@ overwritten.}
 \code{mp32wav} converts several .mp3 files in working directory to .wav format
 }
 \details{
+The function will convert all mp3 files in  working directory or 'path' supplied to wav format. \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} must be installed when changing sampling rates (i.e. if 'samp.rate' is supplied).
+
 convert all .mp3 files in working directory to .wav format. Function used internally to read .mp3 files (\code{\link[tuneR]{readMP3}}) sometimes crashes.
 }
 \examples{

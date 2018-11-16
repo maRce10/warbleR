@@ -1,7 +1,7 @@
 #' Calculate descriptive statistics on Mel-frequency cepstral coefficients
 #'
 #' \code{mfcc_stats} calculates descriptive statistics on Mel-frequency cepstral coefficients and its derivatives.
-#' @usage mfcc_stats(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL, numcep = 25, 
+#' @usage mfcc_stats(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL, numcep = 25, 
 #' nbands = 40, parallel = 1, pb = TRUE, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
@@ -11,14 +11,13 @@
 #' consecutive windows. Internally this is used to set the 'hoptime' argument in \code{\link[tuneR]{melfcc}}. Default is 50. 
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq
-#'   and top.freq columns will be used as bandpass limits. Default is c(0, 22).Lower limit of
-#'    bandpass is not applied to fundamental frequencies. 
+#'   frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in minimum of 'bottom.freq'
+#'   and maximum of 'top.freq' columns will be used as bandpass limits. 
 #' @param path Character string containing the directory path where the sound files are located. 
 #' @param numcep Numeric vector of length 1 controlling the number of cepstra to 
 #' return (see \code{\link[tuneR]{melfcc}}).
 #' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to use (see \code{\link[tuneR]{melfcc}}).
-#' If \code{NULL} (default) then the current working directory is used.
+#' If \code{NULL} (default) then the .
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
@@ -62,7 +61,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on Jul-30-2018 (MAS)
 
-mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL, 
+mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL, 
                          numcep = 25, nbands = 40, parallel = 1,  pb = TRUE, ...){
     
     # reset working directory 
@@ -130,7 +129,9 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL,
       if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
       if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
       if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than bottom.freq")
-    }
+    
+          bp <- c(min(X$bottom.freq), max(X$top.freq))
+      }
     
     if (!is_extended_selection_table(X)){
       #return warning if not all sound files were found

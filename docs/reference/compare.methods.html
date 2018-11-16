@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.1.15</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.1.16</span>
       </span>
     </div>
 
@@ -125,7 +125,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>,
-<span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"XCORR"</span>, <span class='st'>"dfDTW"</span>, <span class='st'>"ffDTW"</span>, <span class='st'>"SP"</span>),
+<span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>150</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+<span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"XCORR"</span>, <span class='st'>"dfDTW"</span>, <span class='st'>"ffDTW"</span>, <span class='st'>"SP"</span>, <span class='st'>"SPharm"</span>, <span class='st'>"MFCC"</span>),
 <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
 <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
  <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
@@ -182,11 +183,14 @@ frequency desired (the length of the time series). Default is 30.</p></td>
     <tr>
       <th>methods</th>
       <td><p>A character vector of length 2 giving the names of the acoustic distance
-methods that would be compared. The methods available are: cross-correlation (XCORR, from
-<code><a href='xcorr.html'>xcorr</a></code>), dynamic time warping on dominant frequency time series (dfDTW, from
- <code><a href='http://www.rdocumentation.org/packages/dtw/topics/dtw'>dtw</a></code> applied on <code><a href='dfts.html'>dfts</a></code> output), dynamic time warping on dominant 
- frequency time series (ffDTW, from <code><a href='http://www.rdocumentation.org/packages/dtw/topics/dtw'>dtw</a></code> applied on <code><a href='ffts.html'>ffts</a></code> output),
-  spectral parameters (SP, from <code><a href='specan.html'>specan</a></code>).</p></td>
+methods that would be compared. The methods available are:</p><ul>
+<li><p><code>XCORR</code>: cross-correlation (<code><a href='xcorr.html'>xcorr</a></code> function)</p></li>
+<li><p><code>dfDTW</code>: dynamic time warping on dominant frequency contours (<code><a href='dfDTW.html'>dfDTW</a></code> function)</p></li>
+<li><p><code>ffDTW</code>: dynamic time warping on fundamental frequency contours (<code><a href='ffDTW.html'>ffDTW</a></code> function)</p></li>
+<li><p><code>SP</code>: spectral parameters (<code><a href='specan.html'>specan</a></code> function)</p></li>
+<li><p><code>SPharm</code>: spectral parameters (<code><a href='specan.html'>specan</a></code> function with argument <code>harmonicity  = TRUE</code>)</p></li>
+<li><p><code>MFCC</code>: statistical descriptors of Mel frequency cepstral coefficients (<code><a href='mfcc_stats.html'>mfcc_stats</a></code> function)</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>it</th>
@@ -280,12 +284,10 @@ to be produced. The acoustic pairwise distance between signals is shown next
 to the arrows linking them. The font color of a distance value correspond to the font 
 color of the method that generated it, as shown in the scatterplots. Distances are 
 standardized, being 0 the distance of a signal to itself and 1 the farthest pairwise 
-distance in the pool of signals. Principal Component Analysis (<code><a href='http://www.rdocumentation.org/packages/stats/topics/princomp'>princomp</a></code>) 
+distance in the pool of signals. Principal Component Analysis (<code><a href='http://www.rdocumentation.org/packages/stats/topics/prcomp'>prcomp</a></code>) 
 is applied to calculate distances when using spectral parameters (SP). In that case the first 2 PC's are used. Classical 
 Multidimensional Scalling (also known as Principal Coordinates Analysis, 
-(<code><a href='http://www.rdocumentation.org/packages/stats/topics/cmdscale'>cmdscale</a></code>)) is used for all other methods. Note that SP can
-only be used with at least 22 selections (number of rows in input data frame) as
-PCA only works with more units than variables. The graphs are return as image files in the 
+(<code><a href='http://www.rdocumentation.org/packages/stats/topics/cmdscale'>cmdscale</a></code>)) is used for all other methods. The graphs are return as image files in the 
 working directory. The file name contains the methods being compared and the 
 rownumber of the selections. This function uses internally a modified version
 of the <code><a href='http://www.rdocumentation.org/packages/seewave/topics/spectro'>spectro</a></code> function from seewave package to create spectrograms.</p>
@@ -324,20 +326,12 @@ of the <code><a href='http://www.rdocumentation.org/packages/seewave/topics/spec
 
 
 <span class='co'>#compare SP and XCORR</span>
-<span class='co'>#first we need to create a larger data set as the PCA that summarizes the spectral parameters</span>
-<span class='co'>#needs more units (rows) that variables (columns)</span>
-<span class='co'>#so I just create a new selection table repeating 3 times lbh_selec_table</span>
-<span class='no'>st2</span> <span class='kw'>&lt;-</span> <span class='fu'>rbind</span>(<span class='no'>lbh_selec_table</span>, <span class='no'>lbh_selec_table</span>, <span class='no'>lbh_selec_table</span>)
-
-<span class='co'>#note that the selection labels should be also changed</span>
-<span class='no'>st2</span>$<span class='no'>selec</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fu'>nrow</span>(<span class='no'>st2</span>)
-<span class='co'>#now we can compare SP method against XCORR</span>
-<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>st2</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
+<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
 <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>,
 <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"XCORR"</span>, <span class='st'>"SP"</span>), <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>)
 
 <span class='co'>#compare SP method against dfDTW</span>
-<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>st2</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
+<span class='fu'>compare.methods</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>10</span>), <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>,
 <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>,
 <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"dfDTW"</span>, <span class='st'>"SP"</span>), <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>)
 

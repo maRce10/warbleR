@@ -2,9 +2,11 @@
 
 ## Changes and additions:
 
+* 2 new methods available in 'compare.methods()'
 * more error messages in check_sels()
 * more info about file input in 'auto_detec()' documentation
-* add 'frange' for bp in 'dfts()'
+* 'frange' available as bandpass in 'dfts()' and 'mfcc_stats()'
+* 'bioacoustics' dependency changed to 'suggested package'
 
 ## Bug fixes:
 

@@ -2,7 +2,8 @@
 #' 
 #' @description \code{compare.methods} creates graphs to visually assess performance of acoustic distance measurements 
 #' @usage compare.methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
-#' res = 150, n = 10, length.out = 30, methods = c("XCORR", "dfDTW", "ffDTW", "SP"), 
+#' res = 150, n = 10, length.out = 30, 
+#' methods = c("XCORR", "dfDTW", "ffDTW", "SP", "SPharm", "MFCC"), 
 #' it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
 #' clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
 #'  pal = reverse.gray.colors.2, img = TRUE, ...)
@@ -26,11 +27,15 @@
 #' @param length.out A character vector of length 1 giving the number of measurements of fundamental or dominant
 #' frequency desired (the length of the time series). Default is 30.
 #' @param methods A character vector of length 2 giving the names of the acoustic distance
-#' methods that would be compared. The methods available are: cross-correlation (XCORR, from
-#' \code{\link{xcorr}}), dynamic time warping on dominant frequency time series (dfDTW, from
-#'  \code{\link[dtw]{dtw}} applied on \code{\link{dfts}} output), dynamic time warping on dominant 
-#'  frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{ffts}} output),
-#'   spectral parameters (SP, from \code{\link{specan}}).
+#' methods that would be compared. The methods available are: 
+#' \itemize{
+#'    \item \code{XCORR}: cross-correlation (\code{\link{xcorr}} function)
+#'    \item \code{dfDTW}: dynamic time warping on dominant frequency contours (\code{\link{dfDTW}} function)
+#'    \item \code{ffDTW}: dynamic time warping on fundamental frequency contours (\code{\link{ffDTW}} function)
+#'    \item \code{SP}: spectral parameters (\code{\link{specan}} function)
+#'    \item \code{SPharm}: spectral parameters (\code{\link{specan}} function with argument \code{harmonicity  = TRUE})
+#'    \item \code{MFCC}: statistical descriptors of Mel frequency cepstral coefficients (\code{\link{mfcc_stats}} function)
+#'    }
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -79,12 +84,10 @@
 #' to the arrows linking them. The font color of a distance value correspond to the font 
 #' color of the method that generated it, as shown in the scatterplots. Distances are 
 #' standardized, being 0 the distance of a signal to itself and 1 the farthest pairwise 
-#' distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{princomp}}) 
+#' distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{prcomp}}) 
 #' is applied to calculate distances when using spectral parameters (SP). In that case the first 2 PC's are used. Classical 
 #' Multidimensional Scalling (also known as Principal Coordinates Analysis, 
-#' (\code{\link[stats]{cmdscale}})) is used for all other methods. Note that SP can
-#' only be used with at least 22 selections (number of rows in input data frame) as
-#' PCA only works with more units than variables. The graphs are return as image files in the 
+#' (\code{\link[stats]{cmdscale}})) is used for all other methods. The graphs are return as image files in the 
 #' working directory. The file name contains the methods being compared and the 
 #' rownumber of the selections. This function uses internally a modified version
 #' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms.
@@ -114,20 +117,12 @@
 #' 
 #' 
 #' #compare SP and XCORR
-#' #first we need to create a larger data set as the PCA that summarizes the spectral parameters
-#' #needs more units (rows) that variables (columns)
-#' #so I just create a new selection table repeating 3 times lbh_selec_table
-#' st2 <- rbind(lbh_selec_table, lbh_selec_table, lbh_selec_table)
-#' 
-#' #note that the selection labels should be also changed
-#' st2$selec <- 1:nrow(st2)
-#' #now we can compare SP method against XCORR
-#' compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+#' compare.methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
 #' methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
 #' 
 #' #compare SP method against dfDTW
-#' compare.methods(X = st2, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+#' compare.methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
 #' methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg")
 #' 
@@ -152,7 +147,7 @@
 #last modification on mar-13-2018 (MAS)
 
 compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
-    res = 150, n = 10, length.out = 30, methods = c("XCORR","dfDTW", "ffDTW", "SP"),
+    res = 150, n = 10, length.out = 30, methods = c("XCORR","dfDTW", "ffDTW", "SP", "SPharm", "MFCC"),
     it = "jpeg", parallel = 1, path = NULL, sp = NULL, pb = TRUE, grid = TRUE, 
     clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, 
     pal = reverse.gray.colors.2, img = TRUE, ...){  
@@ -209,8 +204,8 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   # methods 
   if (any(!is.character(methods),length(methods) > 2)) stop("'methods' must be a character vector of length 2")
-  if (length(methods[!methods %in% c("XCORR", "dfDTW", "ffDTW", "SP")]) > 0) 
-    stop(paste(methods[!methods %in% c("XCORR", "dfDTW", "ffDTW", "SP")],"is (are) not valid method"))
+  if (length(methods[!methods %in% c("XCORR", "dfDTW", "ffDTW", "SP", "SPharm", "MFCC")]) > 0) 
+    stop(paste(methods[!methods %in% c("XCORR", "dfDTW", "ffDTW", "SP", "SPharm", "MFCC")],"is (are) not valid method"))
   
   #if flim is not vector or length!=2 stop
   if (!is.null(flim))
@@ -264,10 +259,6 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   }  else X <- X[d,]
   }
   
-  # If SP is used need at least 24 selections
-  if ("SP" %in% methods & is.null(sp))
-  {if (nrow(X) < 24)  stop("SP can only be used with at least 24 selections (number of rows in input data frame) as PCA only works with more units than variables (NOTE that you can also input your own matrix with the 'sp' argument)")}
-  
   #check sp data frame
   if (!is.null(sp))
   {if (!is.data.frame(sp)) stop("'sp' must be a data frame") 
@@ -315,7 +306,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if ("ffDTW" %in% methods)
   {
    if (pb)  write(file = "", x ="measuring fundamental frequency contours:")
-    dtwmat <- ffts(X, wl = 512, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
+    dtwmat <- ffts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                   pb = pb, clip.edges = clip.edges, threshold = threshold)
   
   dtwmat <- dtwmat[,3:ncol(dtwmat)]
@@ -333,20 +324,43 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if ("SP" %in% methods)
   { if (is.null(sp)) {
     if (pb) write(file = "", x ="measuring spectral parameters:")
-    spmat <- specan(X, wl = 512, bp = flim, parallel = parallel, pb = pb, threshold = threshold)} else spmat <- sp
+    spmat <- specan(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = FALSE)} else spmat <- sp
   
-  sp <- princomp(scale(spmat[,3:ncol(spmat)]), cor = FALSE)$scores[ ,1:2]
+  PCsp <- prcomp(scale(spmat[,3:ncol(spmat)]), center = TRUE, scale. = TRUE, rank. = 2)$x
 
-  PCsp <- scale(sp)
-  
   disim.mats[[length(disim.mats) + 1]] <- PCsp
   }
   
-  #name mats changing order to match order in whic methods are ran
-  nms <- match(c("XCORR","dfDTW", "ffDTW", "SP"), methods)
+  if ("SPharm" %in% methods)
+  { 
+    if (pb) write(file = "", x ="measuring spectral parameters + harmonicity:")
+    spmat <- specan(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = TRUE)
+   
+    PCsp <- prcomp(scale(spmat[,3:ncol(spmat)]), center = TRUE, scale. = TRUE, rank. = 2)$x
+    
+    
+    disim.mats[[length(disim.mats) + 1]] <- PCsp
+  }
   
-  names(disim.mats) <- c("XCORR","dfDTW", "ffDTW", "SP")[!is.na(nms)] 
+  if ("MFCC" %in% methods)
+  { 
+    if (pb) write(file = "", x ="measuring cepstral coefficients:")
+    mfcc <- mfcc_stats(X, wl = wl, bp = bp, parallel = parallel, pb = pb)
+    
+    if (any(sapply(mfcc, anyNA))) stop("NAs generated when calculated MFCC's, try a higher 'wl'")
+
+    PCmfcc <- prcomp(mfcc[, 3:ncol(mfcc)], center = TRUE, scale. = TRUE, rank. = 2)$x
+    
+    disim.mats[[length(disim.mats) + 1]] <- PCmfcc
+  }
   
+  #name matchs changing order to match order in whic methods are ran
+  nms <- match(c("XCORR","dfDTW", "ffDTW", "SP", "SPharm", "MFCC"), methods)
+  
+  # add names
+  names(disim.mats) <- c("XCORR","dfDTW", "ffDTW", "SP", "SPharm", "MFCC")[!is.na(nms)] 
+  
+  #
   maxdist <-lapply(disim.mats, function(x) max(stats::dist(x)))
   
   X$labels <- 1:nrow(X)

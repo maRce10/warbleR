@@ -1,11 +1,10 @@
 #' Convert .mp3 files to .wav
 #' 
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
-#' @usage mp32wav(samp.rate = 44.1, parallel = 1, path = NULL, 
+#' @usage mp32wav(samp.rate = NULL, parallel = 1, path = NULL, 
 #' to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)  
-#' @param samp.rate Sampling rate at which the .wav files should be written. The maximum permitted is 44.1 kHz (default). 
-#' Units should be kHz. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
-#' \code{\link[tuneR]{downsample}} function from tuneR, which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses SOX instead).  
+#' @param samp.rate Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
+#' \code{\link[bioacoustics]{resample}} function from the \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} (which should be installed), which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{http://sox.sourceforge.net/sox.html}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).
 #' @param parallel Numeric. Controls whether parallel computing is applied. 
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the .mp3 files are located.   
@@ -21,6 +20,7 @@
 #' overwritten.
 #' @return .wav files saved in the working directory with same name as original mp3 files.
 #' @export
+#' @details The function will convert all mp3 files in  working directory or 'path' supplied to wav format. \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} must be installed when changing sampling rates (i.e. if 'samp.rate' is supplied).
 #' @name mp32wav
 #' @examples
 #' \dontrun{
@@ -44,12 +44,12 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
 #last modification on mar-13-2018 (MAS)
 
-mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL, 
+mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL, 
                     to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE) {
   
   # error message if bioacoustics is not installed
-  if (!requireNamespace("bioacoustics",quietly = TRUE))
-    stop("must install 'bioacoustics' to use mp32wav()")
+  if (!requireNamespace("bioacoustics",quietly = TRUE) & !is.null(samp.rate))
+    stop("must install 'bioacoustics' to use mp32wav() when changing sampling rate")
   
   # reset working directory 
   wd <- getwd()
@@ -120,7 +120,7 @@ mp32wav <- function(samp.rate = 44.1, parallel = 1, path = NULL,
    wv <- try(tuneR::readMP3(filename =  x), silent = TRUE)
    
    # downsample and filter if samp.rate different than mp3
-   if(class(wv) == "Wave")
+   if(class(wv) == "Wave" & !is.null(samp.rate))
    {
      if (wv@samp.rate != samp.rate * 1000) {
       

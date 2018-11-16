@@ -22,7 +22,7 @@
 #' \code{\link{checksels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
 #' names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 #' all sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
-#' ('converted_sound_files'). Internally the function calls \href{http://sox.sourceforge.net/sox.html}{sox}. 'sox' must be installed to be able to run this function. If  both 'checksels' and 'files'  are \code{NULL}
+#' ('converted_sound_files'). Internally the function calls \href{http://sox.sourceforge.net/sox.html}{SOX}. \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed to be able to run this function. If  both 'checksels' and 'files'  are \code{NULL}
 #' then all files in 'path' are converted. 
 #'   
 #' @examples

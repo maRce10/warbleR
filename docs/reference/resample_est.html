@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.1.15</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.1.16</span>
       </span>
     </div>
 
@@ -144,7 +144,7 @@
     </tr>
     <tr>
       <th>sox</th>
-      <td><p>Logical to control whether <a href='http://sox.sourceforge.net/sox.html'>sox</a> is used internally for resampling. Sox must be installed. Default is <code>FALSE</code>. sox is a better option if having aliasing issues after resampling.</p></td>
+      <td><p>Logical to control whether <a href='http://sox.sourceforge.net/sox.html'>SOX</a> is used internally for resampling. Sox must be installed. Default is <code>FALSE</code>. <a href='http://sox.sourceforge.net/sox.html'>SOX</a> is a better option if having aliasing issues after resampling.</p></td>
     </tr>
     <tr>
       <th>avoid.clip</th>
@@ -171,7 +171,8 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
     <p>This function aims to simplify the process of homogenizing sound 
 files (sampling rate and bit depth). This is a necessary step before running 
-any further (bio)acoustic analysis.</p>
+any further (bio)acoustic analysis. Either <a href='http://sox.sourceforge.net/sox.html'>SOX</a> (if <code>sox = TRUE</code>) or
+ or the <a href='https://cran.r-project.org/package=bioacoustics'>bioacoustics package</a> (if <code>sox = FALSE</code>) should be installed.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

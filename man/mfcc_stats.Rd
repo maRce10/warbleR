@@ -4,7 +4,7 @@
 \alias{mfcc_stats}
 \title{Calculate descriptive statistics on Mel-frequency cepstral coefficients}
 \usage{
-mfcc_stats(X, ovlp = 50, wl = 512, bp = c(0, 22), path = NULL, numcep = 25, 
+mfcc_stats(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL, numcep = 25, 
 nbands = 40, parallel = 1, pb = TRUE, ...)
 }
 \arguments{
@@ -19,9 +19,8 @@ consecutive windows. Internally this is used to set the 'hoptime' argument in \c
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq
-and top.freq columns will be used as bandpass limits. Default is c(0, 22).Lower limit of
- bandpass is not applied to fundamental frequencies.}
+frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in minimum of 'bottom.freq'
+and maximum of 'top.freq' columns will be used as bandpass limits.}
 
 \item{path}{Character string containing the directory path where the sound files are located.}
 
@@ -29,7 +28,7 @@ and top.freq columns will be used as bandpass limits. Default is c(0, 22).Lower 
 return (see \code{\link[tuneR]{melfcc}}).}
 
 \item{nbands}{Numeric vector of length 1 controlling the number of warped spectral bands to use (see \code{\link[tuneR]{melfcc}}).
-If \code{NULL} (default) then the current working directory is used.}
+If \code{NULL} (default) then the .}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
