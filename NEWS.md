@@ -1,16 +1,28 @@
 # *warbleR 1.1.16*
 
+## New functions:
+* sort_colms: moves required colms to left side of data frame. Originally found in Rraven package 
+
 ## Changes and additions:
 
+* 'min_indx' and 'max_indx' argument in 'song_param()' renamed as 'min_colm' and 'max_colm' and now take names instead of indexes
+* 'elm_colm' and  'elm_fun' argument to calculate element level parameters
+* 'unq.elemts' and 'mean.elemt.count' parameters added to 'song_param()' output
+* more error messages in check_sels()
+* more info about file input in 'auto_detec()' documentation
+* add 'frange' for bp in 'dfts()'
 * 2 new methods available in 'compare.methods()'
 * more error messages in check_sels()
 * more info about file input in 'auto_detec()' documentation
 * 'frange' available as bandpass in 'dfts()' and 'mfcc_stats()'
 * 'bioacoustics' dependency changed to 'suggested package'
 
+
 ## Bug fixes:
 
 * system() commands for windows in 'fix_wavs()' and 'resample_est()'
+
+</br>
 
 # *warbleR 1.1.15*
 

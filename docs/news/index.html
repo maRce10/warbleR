@@ -118,10 +118,23 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-16" class="anchor"></a><small> Unreleased </small><em>warbleR 1.1.16</em>
 </h1>
+<div id="new-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions" class="anchor"></a>New functions:</h2>
+<ul>
+<li>sort_colms: moves required colms to left side of data frame. Originally found in Rraven package</li>
+</ul>
+</div>
 <div id="changes-and-additions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-and-additions" class="anchor"></a>Changes and additions:</h2>
 <ul>
+<li>‘min_indx’ and ‘max_indx’ argument in ‘song_param()’ renamed as ‘min_colm’ and ‘max_colm’ and now take names instead of indexes</li>
+<li>‘elm_colm’ and ‘elm_fun’ argument to calculate element level parameters</li>
+<li>‘unq.elemts’ and ‘mean.elemt.count’ parameters added to ‘song_param()’ output</li>
+<li>more error messages in check_sels()</li>
+<li>more info about file input in ‘auto_detec()’ documentation</li>
+<li>add ‘frange’ for bp in ‘dfts()’</li>
 <li>2 new methods available in ‘compare.methods()’</li>
 <li>more error messages in check_sels()</li>
 <li>more info about file input in ‘auto_detec()’ documentation</li>
@@ -135,15 +148,16 @@
 <ul>
 <li>system() commands for windows in ‘fix_wavs()’ and ‘resample_est()’</li>
 </ul>
+<p></p>
 </div>
 </div>
     <div id="warbler-1-1-15" class="section level1">
 <h1 class="page-header">
 <a href="#warbler-1-1-15" class="anchor"></a><small> 2018-10-16 </small><em>warbleR 1.1.15</em>
 </h1>
-<div id="new-functions" class="section level2">
+<div id="new-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions" class="anchor"></a>New functions:</h2>
+<a href="#new-functions-1" class="anchor"></a>New functions:</h2>
 <ul>
 <li>resample_est: resample wave objects in a extended selection table</li>
 <li>phylo_spectro: add spectrograms to the tips of a phylogeny</li>
@@ -211,9 +225,9 @@
 <li>Change “http” to “https” protocol for accessing Xeno-Canto recordings in “querxc”</li>
 </ul>
 </div>
-<div id="new-functions-1" class="section level2">
+<div id="new-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-1" class="anchor"></a>New functions:</h2>
+<a href="#new-functions-2" class="anchor"></a>New functions:</h2>
 <ul>
 <li>selection_table: converts data frames into an object of classes ‘selection_table’ or ‘extended_selection_table’</li>
 <li>generic S3 methods for and ‘print’, ‘cbind’ and ‘[’ for classes ‘selection_table’ or ‘extended_selection_table’</li>
@@ -242,9 +256,9 @@
 <li>Replace internal “message” functions by “cat” (so warnings are printed in black, no red)</li>
 </ul>
 </div>
-<div id="new-functions-2" class="section level2">
+<div id="new-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-2" class="anchor"></a>New functions:</h2>
+<a href="#new-functions-3" class="anchor"></a>New functions:</h2>
 <ul>
 <li>track_harm: track harmonic frequency contour</li>
 <li>sim_song: simulate songs</li>
@@ -270,9 +284,9 @@
 <li>Problem with multiple tags in ‘catalog’</li>
 </ul>
 </div>
-<div id="new-functions-3" class="section level2">
+<div id="new-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-3" class="anchor"></a>New functions:</h2>
+<a href="#new-functions-4" class="anchor"></a>New functions:</h2>
 <ul>
 <li>rm_sil: removes silence segments (i.e. segments with very low amplitude values) from wave files</li>
 <li>consolidate: copies (sound) files scattered in several directories into a single folder</li>
@@ -302,9 +316,9 @@
 <li>Mew argument “bp” (bandpass) and “wl” in “sig2noise” function to calculate signal-to-noise ratio within a frequency range</li>
 </ul>
 </div>
-<div id="new-functions-4" class="section level2">
+<div id="new-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-4" class="anchor"></a>New functions:</h2>
+<a href="#new-functions-5" class="anchor"></a>New functions:</h2>
 <ul>
 <li>is.selection.table: checks if an object is of class ‘selection.table’</li>
 <li>make.selection.table: creates an object of class ‘selection.table’</li>
@@ -363,9 +377,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-6" class="anchor"></a><small> 2017-04-05 </small><em>warbleR 1.1.6</em>
 </h1>
-<div id="new-functions-5" class="section level2">
+<div id="new-functions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-5" class="anchor"></a>New functions:</h2>
+<a href="#new-functions-6" class="anchor"></a>New functions:</h2>
 <ul>
 <li>catalog: create song catalogs (i.e. images with multiple spectrograms in several rows/columns that can be color-labeled)</li>
 <li>catalog2pdf: convert several catalog jpeg’s images into single pdf files</li>
@@ -430,9 +444,9 @@
 <li>more detailed checksels output (now including, sampling rate, duration, number of samples and bits)</li>
 </ul>
 </div>
-<div id="new-functions-6" class="section level2">
+<div id="new-functions-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-6" class="anchor"></a>New functions:</h2>
+<a href="#new-functions-7" class="anchor"></a>New functions:</h2>
 <ul>
 <li>sp.en.ts: extracts the spectral entropy across signals as a time series iteratively</li>
 </ul>
@@ -461,9 +475,9 @@
 <li>bug fix to due to missing values (undetected) in amplitude detection in trackfreqs, ffts, dfts, ffDTW, and dfDTW</li>
 </ul>
 </div>
-<div id="new-functions-7" class="section level2">
+<div id="new-functions-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-7" class="anchor"></a>New functions:</h2>
+<a href="#new-functions-8" class="anchor"></a>New functions:</h2>
 <ul>
 <li>filtersels: subsets selection data frames based on manually filtered image files</li>
 <li>lspec2pdf: combines lspec images to single pdf files iteratively</li>

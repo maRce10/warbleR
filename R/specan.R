@@ -252,8 +252,11 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     # soungen measurements
     if (harmonicity)
     {
-    sg.param <- soundgen::analyze(x = as.numeric(r@left), samplingRate = r@samp.rate, silence = threshold / 100, overlap = ovlp, windowLength = wl / r@samp.rate * 1000, plot = FALSE, wn = wn, pitchCeiling = b[2] * 1000, cutFreq = b[2] * 1000, nFormants = nharmonics)
+      
+      sg.param <- try(soundgen::analyze(x = as.numeric(r@left), samplingRate = r@samp.rate, silence = threshold / 100, overlap = ovlp, windowLength = wl / r@samp.rate * 1000, plot = FALSE, wn = wn, pitchCeiling = b[2] * 1000, cutFreq = b[2] * 1000, nFormants = nharmonics), silent = TRUE)
     
+      if (class(sg.param) != "try-error"){
+      
   names(sg.param) <- gsub("^f", "h", names(sg.param))
     
   if (all(is.na(sg.param$pitch))) 
@@ -272,6 +275,14 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     maxfun<-max(ff, na.rm = TRUE) / 1000} else meanfun <- minfun <- maxfun <- NA
   
   fun.pars <- data.frame(t(c(meanfun = meanfun, minfun = minfun, maxfun = maxfun)))
+      } else {
+      
+      sg.param <- data.frame(t(rep(NA, (nharmonics * 2) + 2)))
+      
+      names(sg.param) <- c(paste0("h", rep(1:nharmonics, each = 2), c("_freq", "_width")), "harmonics", "HNR")
+      
+      fun.pars <- data.frame(meanfun = NA, minfun = NA, maxfun = NA)
+      }
   }
       
     #frequency spectrum analysis

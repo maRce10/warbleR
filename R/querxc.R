@@ -193,6 +193,10 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       # save results in a single data frame  
       results <- do.call(rbind, f)
       
+      # convert factors to characters
+      indx <- sapply(results, is.factor)
+      results[indx] <- lapply(results[indx], as.character)
+      
       #order columns
     results <- results[ ,order(match(names(results), nms))]
     
