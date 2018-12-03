@@ -18,7 +18,7 @@
 #' value is needed. Default is \code{NULL}.
 #' @param max_colm Character vector with the name(s) of the columns for which the maximum 
 #' value is needed. Default is \code{NULL}.
-#' @param elm_colm Character vector with the name(s) of the columns identifying the element labels (i.e. element types). If supplied 'unq.elms' and 'mean.elm.count' Default is \code{NULL}.
+#' @param elm_colm Character vector with the name(s) of the columns identifying the element labels (i.e. element types). If supplied 'unq.elms' and 'mean.elm.count' are returned. Default is \code{NULL}.
 #' @param elm_fun Function to be applied to the sequence of elements composing a song. Default is \code{NULL}. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.  
 #' If  \code{NULL} the mean of all numeric columns in 'X' is returned. 
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -43,7 +43,7 @@
 #'    \item \code{top.freq}: highest 'top.freq' from all song elements (in kHz)
 #'    \item \code{freq.range}: difference between song's 'top.freq' and 'bottom.freq' (in kHz)
 #'    \item \code{note.rate}: number of elements per second (NA if only 1 element)
-#'    \item \code{unq.elms}: number of unique elements (i.e. number element types, only if 'elm_colm' is supplied)
+#'    \item \code{elm.types}: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)
 #'    \item \code{mean.elm.count}: mean number of times element types are found (only if 'elm_colm' is supplied)
 #'    }
 #'    This function assumes that song labels are not repeated within a sound file.  
@@ -231,8 +231,8 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
     # add element parameters
     if (!is.null(elm_colm))
     { 
-      Z$unq.elms <- length(unique(Y[, elm_colm]))
-      Z$mean.elm.count <- Z$num.elms / Z$unq.elms
+      Z$elm.types <- length(unique(Y[, elm_colm]))
+      Z$mean.elm.count <- Z$num.elms / Z$elm.types
     
       # run element function
       if (!is.null(elm_fun))  
