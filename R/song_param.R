@@ -54,7 +54,7 @@
 #' @seealso \code{\link{fixwavs}}, \code{\link{autodetec}}, 
 #' @examples{
 #' # Set temporary working directory
-# setwd(tempdir())
+#' # setwd(tempdir())
 #' 
 #' # get warbleR sound file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))

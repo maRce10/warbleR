@@ -88,10 +88,6 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
       stop("number of samples lower than 'wl' (i.e. no enough samples) \n check 'adjust.wl' argument")
   } 
   
-  if (dfrq) seewave::dfreq(wave, f, wl, wn, ovlp, fftw, at, tlim, threshold, bandpass, 
-                 clip, plot, xlab, ylab, ylim) else {
-
-                
   if (!is.null(at) && ovlp != 0) 
     stop("The 'ovlp' argument cannot bue used in conjunction with the arguement 'at'.")
   if (!is.null(clip)) {
@@ -138,11 +134,24 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
       stop("The first element of 'bandpass' has to be inferior to the second element, i.e. bandpass[1] < bandpass[2]")
     if (bandpass[1] == bandpass[2]) 
       stop("The limits of the bandpass have to be different")
-    lowlimit <- round((wl * bandpass[1])/f)
-    upperlimit <- round((wl * bandpass[2])/f)
-    y1[-(lowlimit:upperlimit), ] <- 0
-  }
+    
+    # lowlimit <- round((wl * bandpass[1])/f)
+    # upperlimit <- round((wl * bandpass[2])/f)
+    # y1[-(lowlimit:upperlimit), ] <- 0
+  
+    # freq values for each freq window   (using mid point of each window)
+    freq.val <- ((1:nrow(y1) * f / wl) - (f / (wl * 2))) 
+    
+    y1[ freq.val < bandpass[1] | freq.val > bandpass[2]] <- 0
+    }
 
+  if (dfrq){
+    
+    maxi <- apply(y1, MARGIN = 2, FUN = max)
+    y2 <- apply(y1, MARGIN = 2, FUN = which.max)
+    
+  } else {
+  
   # find peaks close to first dom freq
   maxi <- NULL
   y2 <- NULL
@@ -165,6 +174,7 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
     y2[i] <- pks[which.min(pks[ , 3]), 2]    
     }
   }
+  }
   
   y2[which(maxi == 0)] <- NA
   if (!is.null(clip)) {
@@ -175,6 +185,8 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
   if (!is.null(at)) {
     y <- c(NA, y, NA)
   }
+                         
+  
   if (plot) {
     plot(x = x, y = y, xaxs = "i", xlab = xlab, yaxs = "i", 
          ylab = ylab, ylim = ylim, ...)
@@ -183,4 +195,4 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
   else return(cbind(x, y))
   }
   
-} 
+

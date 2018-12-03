@@ -16,7 +16,8 @@ track_freqs(X, wl = 512, wl.freq = 512, flim = c(0, 22),
   custom.contour = NULL, pb = TRUE, type = "p", leglab = c("Ffreq",
   "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE,
   ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1,
-  widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...)
+  widths = c(2, 1), freq.continuity = NULL, clip.edges = 2,
+  track.harm = FALSE, ...)
 }
 \description{
 alternative name for \code{\link{trackfreqs}}

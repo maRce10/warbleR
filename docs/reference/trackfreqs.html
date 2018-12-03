@@ -134,8 +134,8 @@ of signals selected by <code><a href='manualoc.html'>manualoc</a></code> or <cod
   <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"#E37222B3"</span>, <span class='st'>"#07889BB3"</span>), <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>21</span>, <span class='fl'>24</span>),  <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>lpos</span> <span class='kw'>=</span> <span class='st'>"topright"</span>,
   <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>custom.contour</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"p"</span>, <span class='kw'>leglab</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Ffreq"</span>, <span class='st'>"Dfreq"</span>), <span class='kw'>col.alpha</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-   <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ff.method</span> <span class='kw'>=</span> <span class='st'>"seewave"</span>, <span class='kw'>frange.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-   <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>1</span>), <span class='kw'>freq.continuity</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>...</span>)</pre>
+   <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ff.method</span> <span class='kw'>=</span> <span class='st'>"seewave"</span>, <span class='kw'>frange.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+   <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>1</span>), <span class='kw'>freq.continuity</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>track.harm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -378,6 +378,10 @@ outliers(i.e that differ from the frequency of the detections right before and a
       <th>clip.edges</th>
       <td><p>Integer vector of length 1 to control if how many 'frequency-wise discontinuous' detection would be remove at the start and end of signals (see 
 'freq.continuity' argument). Default is 2. Ignored if <code>freq.continuity = NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>track.harm</th>
+      <td><p>Logical to control if <code><a href='track_harm.html'>track_harm</a></code> or a modified version of <code><a href='http://www.rdocumentation.org/packages/seewave/topics/dfreq'>dfreq</a></code> is used for dominant frequency detection. Default is <code>FALSE</code> (use <code><a href='http://www.rdocumentation.org/packages/seewave/topics/dfreq'>dfreq</a></code>).</p></td>
     </tr>
     <tr>
       <th>...</th>

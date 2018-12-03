@@ -10,8 +10,8 @@
 #'   col = c("#E37222B3", "#07889BB3"), pch = c(21, 24),  mar = 0.05, lpos = "topright", 
 #'   it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
 #'   pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
-#'    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
-#'    fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...)
+#'    fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, 
+#'    widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, track.harm = FALSE, ...)
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can also be used as the input data frame. 
@@ -116,6 +116,7 @@
 #'  outliers(i.e that differ from the frequency of the detections right before and after) would be removed. Should be given in kHz. Default is \code{NULL}. 
 #' @param clip.edges Integer vector of length 1 to control if how many 'frequency-wise discontinuous' detection would be remove at the start and end of signals (see 
 #' 'freq.continuity' argument). Default is 2. Ignored if \code{freq.continuity = NULL}. 
+#' @param track.harm Logical to control if \code{\link{track_harm}} or a modified version of \code{\link[seewave]{dfreq}} is used for dominant frequency detection. Default is \code{FALSE} (use \code{\link[seewave]{dfreq}}).
 #' @param ... Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.
 #' @return Spectrograms of the signals listed in the input data frame showing the location of 
 #' the dominant and fundamental frequencies.
@@ -178,7 +179,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
                        it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, pb = TRUE,
                        type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, 
                        ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), 
-                       freq.continuity = NULL, clip.edges = 2, ...){     
+                       freq.continuity = NULL, clip.edges = 2, track.harm = FALSE, ...){     
   
   # reset working directory 
   wd <- getwd()
@@ -457,8 +458,8 @@ if (!frange.detec){
     # Calculate dominant frequency at each time point     
     if (contour %in% c("both", "df") & is.null(custom.contour))
 {    
-      dfreq1 <- seewave::dfreq(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
-                   threshold = threshold.time, tlim = c(mar1, mar2)) 
+      dfreq1 <- track_harm(r, f = f, wl = wl, ovlp = 70, plot = FALSE, bandpass = b * 1000, fftw = TRUE, 
+                   threshold = threshold.time, tlim = c(mar1, mar2), dfrq = !track.harm, adjust.wl = TRUE) 
       dfreq <- matrix(dfreq1[!is.na(dfreq1[,2]),], ncol = 2)  
 
  
@@ -558,7 +559,7 @@ if (!frange.detec){
   if (line){  
     if (any(names(X) == "bottom.freq") & any(names(X) == "top.freq"))
   {   if (!is.na(X$bottom.freq[i]) & !is.na(X$top.freq[i]))
-     if (!frange.detec) polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$bottom.freq[i], X$top.freq[i], X$top.freq[i], X$bottom.freq[i]), lty = 3, border = "blue", lwd = 1.2) else
+     if (!frange.detec) polygon(x = rep(c(mar1, mar2), each = 2), y = c(X$bottom.freq[i], X$top.freq[i], X$top.freq[i], X$bottom.freq[i]), lty = 3, border = col[6], lwd = 1.2) else
           abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     } else abline(v = c(mar1, mar2), col= col[6], lty = "dashed")
     }

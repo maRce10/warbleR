@@ -6,6 +6,7 @@
 ## Changes and additions:
 
 * 'min_indx' and 'max_indx' argument in 'song_param()' renamed as 'min_colm' and 'max_colm' and now take names instead of indexes
+* more accurate dominant frequency detection in 'dfts()', 'trackfreqs()' and 'specan()'
 * 'elm_colm' and  'elm_fun' argument to calculate element level parameters
 * 'unq.elemts' and 'mean.elemt.count' parameters added to 'song_param()' output
 * more error messages in check_sels()

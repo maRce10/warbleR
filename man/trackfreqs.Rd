@@ -12,8 +12,8 @@ trackfreqs(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
   col = c("#E37222B3", "#07889BB3"), pch = c(21, 24),  mar = 0.05, lpos = "topright", 
   it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
   pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, 
-   fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, 
-   fsmooth = 0.1, widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, ...)
+   fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, 
+   widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, track.harm = FALSE, ...)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
@@ -164,6 +164,8 @@ outliers(i.e that differ from the frequency of the detections right before and a
 
 \item{clip.edges}{Integer vector of length 1 to control if how many 'frequency-wise discontinuous' detection would be remove at the start and end of signals (see 
 'freq.continuity' argument). Default is 2. Ignored if \code{freq.continuity = NULL}.}
+
+\item{track.harm}{Logical to control if \code{\link{track_harm}} or a modified version of \code{\link[seewave]{dfreq}} is used for dominant frequency detection. Default is \code{FALSE} (use \code{\link[seewave]{dfreq}}).}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of \code{\link[seewave]{spectro}}, so it takes the same arguments.}
 }

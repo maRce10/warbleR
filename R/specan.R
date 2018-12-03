@@ -325,7 +325,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     #Dominant frecuency parameters
-    y <- dfreq_wrblr_int(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 1 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
+    y <- track_harm(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 1 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE,  dfrq = TRUE, adjust.wl = TRUE)[, 2]
     
     #remove NAs
     y <- y[!is.na(y)]
