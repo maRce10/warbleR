@@ -27,7 +27,7 @@ value is needed. Default is \code{NULL}.}
 \item{max_colm}{Character vector with the name(s) of the columns for which the maximum 
 value is needed. Default is \code{NULL}.}
 
-\item{elm_colm}{Character vector with the name(s) of the columns identifying the element labels (i.e. element types). If supplied 'unq.elemts' and 'mean.elemt.count' Default is \code{NULL}.}
+\item{elm_colm}{Character vector with the name(s) of the columns identifying the element labels (i.e. element types). If supplied 'unq.elms' and 'mean.elm.count' Default is \code{NULL}.}
 
 \item{elm_fun}{Function to be applied to the sequence of elements composing a song. Default is \code{NULL}. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.
 If  \code{NULL} the mean of all numeric columns in 'X' is returned.}
@@ -52,16 +52,16 @@ A data frame similar to the input 'X' data frame, but in this case each row corr
  'mean_colm' (otherwhise all numeric columns are used). Columns can be 
  weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters: 
 \itemize{
-   \item \code{duration}: length of song (in s)
-   \item \code{num.elmts}: number of elements (or song units)
+   \item \code{song.duration}: length of song (in s)
+   \item \code{num.elms}: number of elements (or song units)
    \item \code{start}: start time of song (in s)
    \item \code{end}: end time of song (in s)
    \item \code{bottom.freq}: lowest 'bottom.freq' from all song elements (in kHz)
    \item \code{top.freq}: highest 'top.freq' from all song elements (in kHz)
    \item \code{freq.range}: difference between song's 'top.freq' and 'bottom.freq' (in kHz)
    \item \code{note.rate}: number of elements per second (NA if only 1 element)
-   \item \code{unq.elmts}: number of unique elements (i.e. number element types, only if 'elm_colm' is supplied)
-   \item \code{mean.elemt.count}: mean number of times element types are found (only if 'elm_colm' is supplied)
+   \item \code{unq.elms}: number of unique elements (i.e. number element types, only if 'elm_colm' is supplied)
+   \item \code{mean.elm.count}: mean number of times element types are found (only if 'elm_colm' is supplied)
    }
    This function assumes that song labels are not repeated within a sound file.
 }
