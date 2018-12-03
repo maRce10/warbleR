@@ -238,7 +238,6 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
 
      #in case bp its higher than can be due to sampling rate
     if (b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
-    
     # add a bit above and below to ensure range limits are included
     bpfr <- b
     bpfr <- bpfr + c(-0.2, 0.2)  
@@ -252,7 +251,6 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     # soungen measurements
     if (harmonicity)
     {
-      
       sg.param <- try(soundgen::analyze(x = as.numeric(r@left), samplingRate = r@samp.rate, silence = threshold / 100, overlap = ovlp, windowLength = wl / r@samp.rate * 1000, plot = FALSE, wn = wn, pitchCeiling = b[2] * 1000, cutFreq = b[2] * 1000, nFormants = nharmonics), silent = TRUE)
     
       if (class(sg.param) != "try-error"){
@@ -300,8 +298,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     t.cont <- apply(m, MARGIN = 2, FUN = sum)
     t.cont <- t.cont/sum(t.cont)
     t.cont.cum <- cumsum(t.cont)
-    t.quartiles <- sapply(c(0.25, 0.5, 0.75), function(x) time[length(t.cont.cum[t.cont.cum <= 
-                                                                                       x]) + 1])
+    t.quartiles <- sapply(c(0.25, 0.5, 0.75), function(x) time[length(t.cont.cum[t.cont.cum <=x]) + 1])
     
     #save parameters
     meanfreq <- analysis$mean/1000
@@ -321,21 +318,26 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     entropy <- sp.ent * time.ent
     sfm <- analysis$sfm
     
-    options(warn = -1)
+    # options(warn = -1)
     
     #Frequency with amplitude peaks 
     if (!fast) #only if fast is TRUE
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     #Dominant frecuency parameters
-    y <- seewave::dfreq(r, f = r@samp.rate, wl = ifelse(wl >= length(r@left), length(r@left) - 1, wl), ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
+    y <- dfreq_wrblr_int(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 1 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE)[, 2]
     
     #remove NAs
     y <- y[!is.na(y)]
     
-    #remove values below and above bandpass
-    y <- y[y >= b[1] & y <= b[2] & y != 0]
+    # add half a frequency window size
+    # y <- y + r@samp.rate / (1000 * wl * 2)
     
+    #remove values below and above bandpass plus half a window size
+    y <- y[y >= b[1] & y <= b[2] & y != 0]
+    # y <- y[y >= b[1] - r@samp.rate / (1000 * wl * 2) & y <= b[2] & y != 0]
+    
+    #save results in individual objects for each measurement
     if (length(y) > 0)
     {
     meandom <- mean(y, na.rm = TRUE)
@@ -391,6 +393,8 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
   sp <- do.call(rbind, sp)
   
   row.names(sp) <- 1:nrow(sp)
+  
+  sp <- sort_colms(sp)
   
   return(sp)
   }

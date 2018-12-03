@@ -42,7 +42,7 @@
 #'    \item \code{bottom.freq}: lowest 'bottom.freq' from all song elements (in kHz)
 #'    \item \code{top.freq}: highest 'top.freq' from all song elements (in kHz)
 #'    \item \code{freq.range}: difference between song's 'top.freq' and 'bottom.freq' (in kHz)
-#'    \item \code{note.rate}: number of elements per second
+#'    \item \code{note.rate}: number of elements per second (NA if only 1 element)
 #'    \item \code{unq.elmts}: number of unique elements (i.e. number element types, only if 'elm_colm' is supplied)
 #'    \item \code{mean.elemt.count}: mean number of times element types are found (only if 'elm_colm' is supplied)
 #'    }
@@ -225,7 +225,7 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
     try(Z$top.freq <- max(Y$top.freq, na.rm = na.rm), silent = TRUE)
     try(Z$freq.range <- Z$top.freq - Z$bottom.freq, silent = TRUE)
     Z$duration <- Z$end - Z$start
-    Z$note.rate <- Z$num.elemts/Z$duration
+    Z$note.rate <- if(Z$num.elemts == 1) NA else Z$num.elemts/Z$duration
     
     # add element parameters
     if (!is.null(elm_colm))

@@ -98,7 +98,7 @@
 <p> </p>
             
             <h4 class="date"><center>
-“2018-11-27”
+“2018-12-02”
 </center></h4>
       
       
@@ -278,13 +278,12 @@ Phae.lon &lt;-<span class="st"> </span><span class="kw"><a href="../reference/qu
 <pre><code>[1] 79</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># How many signal types exist in the xeno-canto metadata?</span>
 <span class="kw">levels</span>(Phae.lon<span class="op">$</span>Vocalization_type)</code></pre></div>
-<pre><code>[1] "song"              "alarm call"        "flight call"       "song at lek"       "calls"             "call"              "lekking"          
-[8] "300"               "song, wing whirrs"</code></pre>
+<pre><code>NULL</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># How many recordings per signal type?</span>
 <span class="kw">table</span>(Phae.lon<span class="op">$</span>Vocalization_type)</code></pre></div>
 <pre><code>
-             song        alarm call       flight call       song at lek             calls              call           lekking               300 
-               65                 1                 2                 2                 1                 5                 1                 1 
+              300        alarm call              call             calls       flight call           lekking              song       song at lek 
+                1                 1                 5                 1                 2                 1                65                 2 
 song, wing whirrs 
                 1 </code></pre>
 <p> </p>
@@ -304,23 +303,23 @@ Phae.lon.LS &lt;-<span class="st"> </span>Phae.lon.song[<span class="kw">grep</s
 <span class="co"># Check resulting data frame, 6 recordings remain</span>
 <span class="kw">str</span>(Phae.lon.LS)</code></pre></div>
 <pre><code>'data.frame':   6 obs. of  17 variables:
- $ Recording_ID     : Factor w/ 79 levels "433645","402755",..: 13 14 15 16 17 18
- $ Genus            : Factor w/ 1 level "Phaethornis": 1 1 1 1 1 1
- $ Specific_epithet : Factor w/ 1 level "longirostris": 1 1 1 1 1 1
- $ Subspecies       : Factor w/ 3 levels "","baroni","cephalus": 1 1 1 1 1 1
- $ English_name     : Factor w/ 1 level "Long-billed Hermit": 1 1 1 1 1 1
- $ Recordist        : Factor w/ 18 levels "Oscar Campbell",..: 10 10 10 10 10 10
- $ Country          : Factor w/ 7 levels "Panama","Mexico",..: 5 5 5 5 5 5
- $ Locality         : Factor w/ 25 levels "Panama Rainforest Discovery Centre",..: 11 11 11 11 11 11
- $ Latitude         : Factor w/ 24 levels "9.1314","16.1332",..: 11 11 11 11 11 11
- $ Longitude        : Factor w/ 23 levels "-79.7235","-90.9381",..: 11 11 11 11 11 11
- $ Vocalization_type: Factor w/ 9 levels "song","alarm call",..: 1 1 1 1 1 1
- $ Audio_file       : Factor w/ 79 levels "//www.xeno-canto.org/433645/download",..: 13 14 15 16 17 18
- $ License          : Factor w/ 5 levels "//creativecommons.org/licenses/by-nc-sa/4.0/",..: 3 3 3 3 3 3
- $ Url              : Factor w/ 79 levels "https://www.xeno-canto.org/433645",..: 13 14 15 16 17 18
- $ Quality          : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1
- $ Time             : Factor w/ 62 levels "08:30","07:30",..: 12 13 14 15 16 17
- $ Date             : Factor w/ 36 levels "2018-07-10","2016-01-18",..: 11 12 12 12 13 14</code></pre>
+ $ Recording_ID     : chr  "154161" "154138" "154129" "154123" ...
+ $ Genus            : chr  "Phaethornis" "Phaethornis" "Phaethornis" "Phaethornis" ...
+ $ Specific_epithet : chr  "longirostris" "longirostris" "longirostris" "longirostris" ...
+ $ Subspecies       : chr  "" "" "" "" ...
+ $ English_name     : chr  "Long-billed Hermit" "Long-billed Hermit" "Long-billed Hermit" "Long-billed Hermit" ...
+ $ Recordist        : chr  "Marcelo Araya-Salas" "Marcelo Araya-Salas" "Marcelo Araya-Salas" "Marcelo Araya-Salas" ...
+ $ Country          : chr  "Costa Rica" "Costa Rica" "Costa Rica" "Costa Rica" ...
+ $ Locality         : chr  "La Selva Biological Station, Sarapiqui, Heredia" "La Selva Biological Station, Sarapiqui, Heredia" "La Selva Biological Station, Sarapiqui, Heredia" "La Selva Biological Station, Sarapiqui, Heredia" ...
+ $ Latitude         : chr  "10.430488" "10.430488" "10.430488" "10.430488" ...
+ $ Longitude        : chr  "-84.00628" "-84.00628" "-84.00628" "-84.00628" ...
+ $ Vocalization_type: chr  "song" "song" "song" "song" ...
+ $ Audio_file       : chr  "//www.xeno-canto.org/154161/download" "//www.xeno-canto.org/154138/download" "//www.xeno-canto.org/154129/download" "//www.xeno-canto.org/154123/download" ...
+ $ License          : chr  "//creativecommons.org/licenses/by-nc-sa/3.0/" "//creativecommons.org/licenses/by-nc-sa/3.0/" "//creativecommons.org/licenses/by-nc-sa/3.0/" "//creativecommons.org/licenses/by-nc-sa/3.0/" ...
+ $ Url              : chr  "https://www.xeno-canto.org/154161" "https://www.xeno-canto.org/154138" "https://www.xeno-canto.org/154129" "https://www.xeno-canto.org/154123" ...
+ $ Quality          : chr  "A" "A" "A" "A" ...
+ $ Time             : chr  "9:19" "14:18" "10:09" "6:49" ...
+ $ Date             : chr  "2010-07-13" "2010-05-21" "2010-05-21" "2010-05-21" ...</code></pre>
 <p> </p>
 <p>We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using <code>xcmaps</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># map in the RStudio graphics device (img = FALSE)</span>

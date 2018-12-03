@@ -284,7 +284,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   if (wav.size) res$wav.size <- round(res$bits  * res$channel * res$sample.rate * res$duration / 4) / 1024
   
   # inform result
-  if (all(res$check.res == "OK")) cat("all selections are OK") else cat(paste(sum(res$check.res == "OK"), "selection(s) are not OK"))
+  if (all(res$check.res == "OK")) cat("all selections are OK") else cat(paste(sum(res$check.res != "OK"), "selection(s) are not OK"))
 
   # return data frame
   return(res) 

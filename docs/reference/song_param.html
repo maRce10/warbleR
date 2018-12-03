@@ -209,7 +209,7 @@ measurements (i.e. song parameters). Names of numeric columns in 'X' can also be
 <li><p><code>bottom.freq</code>: lowest 'bottom.freq' from all song elements (in kHz)</p></li>
 <li><p><code>top.freq</code>: highest 'top.freq' from all song elements (in kHz)</p></li>
 <li><p><code>freq.range</code>: difference between song's 'top.freq' and 'bottom.freq' (in kHz)</p></li>
-<li><p><code>note.rate</code>: number of elements per second</p></li>
+<li><p><code>note.rate</code>: number of elements per second (NA if only 1 element)</p></li>
 <li><p><code>unq.elmts</code>: number of unique elements (i.e. number element types, only if 'elm_colm' is supplied)</p></li>
 <li><p><code>mean.elemt.count</code>: mean number of times element types are found (only if 'elm_colm' is supplied)</p></li>
 </ul><p>This function assumes that song labels are not repeated within a sound file.</p>
@@ -277,7 +277,7 @@ measurements (i.e. song parameters). Names of numeric columns in 'X' can also be
 #&gt;    sp.ent num.elemts freq.range duration note.rate
 #&gt; 1 0.93123          3     6.6376  1.97812    1.5166
 #&gt; 2 0.92571          2     6.6040  1.42361    1.4049
-#&gt; 3 0.91059          1     5.8155  0.13122    7.6208
+#&gt; 3 0.91059          1     5.8155  0.13122        NA
 #&gt; 4 0.90695          2     6.9983  1.98103    1.0096</div><div class='input'>
 </div></pre>
   </div>

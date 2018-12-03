@@ -159,8 +159,8 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     # Read sound files to get sample rate and length
     r <- read_wave(X = X, index = y, header = TRUE)
    
+    # read sample rate
     f <- r$sample.rate
-    
     
     # set margin to half of signal duration
     if (eq.dur) mar <- (X$end[y] - X$start[y])/2
@@ -194,7 +194,6 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     # Identify areas before and after signal over which to measure noise 
     noise1 <- seewave::cutw(r, from =  0, to = mar1, f = f)
     
-    
     noise2 <- seewave::cutw(r, from = mar2, to = seewave::duration(r), f = f)
     
     if (type == 1)
@@ -215,7 +214,8 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
                                     seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
         
         # Calculate mean signal amplitude 
-        sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))}
+        sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
+        }
     
     if (type == 3)
     {    # Calculate mean noise amplitude 
