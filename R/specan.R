@@ -329,14 +329,10 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     
     #remove NAs
     y <- y[!is.na(y)]
-    
-    # add half a frequency window size
-    # y <- y + r@samp.rate / (1000 * wl * 2)
-    
+
     #remove values below and above bandpass plus half a window size
     y <- y[y >= b[1] & y <= b[2] & y != 0]
-    # y <- y[y >= b[1] - r@samp.rate / (1000 * wl * 2) & y <= b[2] & y != 0]
-    
+
     #save results in individual objects for each measurement
     if (length(y) > 0)
     {

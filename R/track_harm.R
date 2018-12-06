@@ -142,7 +142,7 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
     # freq values for each freq window   (using mid point of each window)
     freq.val <- ((1:nrow(y1) * f / wl) - (f / (wl * 2))) 
     
-    y1[ freq.val < bandpass[1] | freq.val > bandpass[2]] <- 0
+    y1[freq.val < bandpass[1] | freq.val > bandpass[2]] <- 0
     }
 
   if (dfrq){
@@ -181,11 +181,14 @@ track_harm <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALS
     maxi <- apply(y1, MARGIN = 2, FUN = max)
     y2[which(maxi < clip)] <- NA
   }
-  y <- (f * y2)/(1000 * wl) - f/(1000 * wl)
+  # y <- (f * y2)/(1000 * wl) - f/(1000 * wl)
+  y <- freq.val[y2]
+  
   if (!is.null(at)) {
     y <- c(NA, y, NA)
   }
-                         
+    
+  y <- y / 1000                     
   
   if (plot) {
     plot(x = x, y = y, xaxs = "i", xlab = xlab, yaxs = "i", 
