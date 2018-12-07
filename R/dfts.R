@@ -267,11 +267,11 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
           #if more than one detection extrapolate else repeat value
         if (nrow(dfrq) > 1 | all(is.na(dfrq[, 3])))
           {
-          apdom <- try_na(approx(x = dfrq$relative.time[!is.na(dfrq$frequency)], y =  dfrq$frequency[!is.na(dfrq$frequency)], 
+          apdom <- try(approx(x = dfrq$relative.time[!is.na(dfrq$frequency)], y =  dfrq$frequency[!is.na(dfrq$frequency)], 
                                xout = seq(from = min(dfrq$relative.time, na.rm = TRUE),  to = max(dfrq$relative.time, na.rm = TRUE), 
-                                          length.out = length.out), method = "linear"))
+                                          length.out = length.out), method = "linear"), silent = TRUE)
         
-      if (is.na(apdom)) apdom <- list(x =  seq(from = 0,  to = X$end[i] - X$start[i], 
+      if (class(apdom) == "try-error") apdom <- list(x =  seq(from = 0,  to = X$end[i] - X$start[i], 
                                                length.out = length.out), y = rep(NA, length.out))
           
               } else
