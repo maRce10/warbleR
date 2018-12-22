@@ -3,7 +3,7 @@ Type: Package
 Title: Streamline Bioacoustic Analysis
 Version: 1.1.16
 Date: 2018-11-27
-Author: Marcelo Araya-Salas [aut, cre], Grace Smith-Vidaurre [aut]
+Author: Marcelo Araya-Salas [aut, cre], , comment = c(ORCID = "0000-0003-3594-619X")Grace Smith-Vidaurre [aut]
 Maintainer: Marcelo Araya-Salas <araya-salas@cornell.edu>
 Description: A tool to streamline the analysis of animal acoustic signal structure. The package offers functions for downloading avian vocalizations from the open-access online repository Xeno-Canto <https://www.xeno-canto.org>, manipulating sound files, detecting acoustic signals, assessing performance of methods that measure acoustic similarity, conducting cross-correlations, dynamic time warping, measuring acoustic parameters and analysing interactive vocal signals, among others. Most functions working iteratively allow parallelization to improve computational efficiency.
 License: GPL (>= 2)
@@ -18,5 +18,5 @@ VignetteBuilder: knitr
 RoxygenNote: 6.1.0
 Packaged: 2016-04-18 23:45:31 UTC; m
 Repository: CRAN
-Authors@R: c(person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "araya-salas@cornell.edu"), person("Grace", "Smith-Vidaurre", role = c("aut"), email = "gsmithvi@gmail.com"))
+Authors@R: c(person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "araya-salas@cornell.edu", comment = c(ORCID = "0000-0003-3594-619X")), person("Grace", "Smith-Vidaurre", role = c("aut"), email = "gsmithvi@gmail.com"))
 Date/Publication: 2016-04-19 08:12:11

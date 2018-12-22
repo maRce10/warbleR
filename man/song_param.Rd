@@ -59,7 +59,7 @@ A data frame similar to the input 'X' data frame, but in this case each row corr
    \item \code{bottom.freq}: lowest 'bottom.freq' from all song elements (in kHz)
    \item \code{top.freq}: highest 'top.freq' from all song elements (in kHz)
    \item \code{freq.range}: difference between song's 'top.freq' and 'bottom.freq' (in kHz)
-   \item \code{note.rate}: number of elements per second (NA if only 1 element)
+   \item \code{song.rate}: number of elements per second (NA if only 1 element)
    \item \code{elm.types}: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)
    \item \code{mean.elm.count}: mean number of times element types are found (only if 'elm_colm' is supplied)
    }

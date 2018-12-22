@@ -140,7 +140,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
   
   # reset working directory 
   wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
+  on.exit(setwd(wd))
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
