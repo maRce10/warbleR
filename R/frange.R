@@ -169,8 +169,9 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
     stop("The .wav files are not in the working directory")
   }  else {
     X <- X[d, ]
+    }
   }
-  }
+    
   # internal function to detect freq range
   frangeFUN <- function(X, i, img, bp, wl, fsmooth, threshold, wn, flim, ovlp, fast.spec, pal, widths) {
     r <- read_wave(X = X, index = i, header = TRUE)
@@ -202,9 +203,8 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
       pwc <- (13.16) * ((t[2]-t[1])/0.27) * xl * picsize else pwc <- (13.16) * xl * picsize
     
     #call image function
-    imgfun(filename = paste0(X$sound.files[i],"-", X$selec[i], "-", "frange.", it), 
+    imgfun(filename = paste0(X$sound.files[i],"-", X$selec[i], "-", "frange.", it),
            width = pwc, height = (10.16), units = "cm", res = res) 
-    
     
       frd_plot_wrblr_int(wave = r, detections = frng, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = paste(X$sound.files[i], X$selec[i], sep = "-"), all.detec = F)   
     
@@ -226,9 +226,11 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   fr <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
     # if bp is frange
-    if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else  b <- bp 
-
-    frangeFUN(X = X, i = i, img = img, bp = b, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths)
+   if (!is.null(bp))
+   {  if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else  b <- bp
+   }  else  b <- bp
+   
+  frangeFUN(X = X, i = i, img = img, bp = b, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, ovlp = ovlp, fast.spec = fast.spec, pal = pal, widths = widths)
   }) 
   
   fr <- do.call(rbind, fr)

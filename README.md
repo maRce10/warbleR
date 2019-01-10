@@ -1,10 +1,8 @@
 # warbleR
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
-[![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/warbleR)](http://www.r-pkg.org/pkg/warbleR)
-[![Total
-Downloads](http://cranlogs.r-pkg.org/badges/grand-total/warbleR)](http://www.r-pkg.org/badges/grand-total/warbleR)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/warbleR)](http://www.r-pkg.org/pkg/warbleR)
+[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/warbleR)](http://www.r-pkg.org/badges/grand-total/warbleR)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
 A tool to streamline the analysis of animal acoustic signal structure. The package offers functions for downloading avian vocalizations from the open-access online repository [Xeno-Canto](http://xeno-canto.org/), displaying the geographic extent of the recordings, manipulating sound files, detecting acoustic signals, assessing performance of methods that measure acoustic similarity, conducting cross-correlations, dynamic time warping, measuring acoustic parameters and analysing interactive vocal signals, among others. Functions working iteratively allow parallelization to improve computational efficiency.The code in warbleR can be executed by less experienced R users, but has also been thoroughly commented, which will facilitate further customization by advanced users.

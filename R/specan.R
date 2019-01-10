@@ -234,6 +234,8 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     # read wave object
     r <- read_wave(X = X, index = i)
     
+    if (length(r@left) < 7) stop(paste0("too few samples in selection row ", i, ", try check_sels() to find problematic selections"), call. = FALSE)
+    
     if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
 
      #in case bp its higher than can be due to sampling rate
