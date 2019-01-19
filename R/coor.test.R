@@ -12,13 +12,13 @@
 #' \itemize{
 #'  \item \code{keep.gaps} the position of both signals and gaps (i.e. intervals between signals) are randomized. Default.
 #'  \item \code{sample.gaps} gaps are simulated using a lognormal distribution with
-#'  mean and standard deviation derived from the observed gaps and signal position is randomized.
-#'  \item \code{keep.song.order} only the position of gaps (i.e. intervals between signals) is randomized.
+#'  mean and standard deviation derived from the observed gaps. Signal position is randomized.
+#'  \item \code{keep.song.order} only the position of gaps is randomized.
 #' }
 #' More details in Masco et al. (2015).
 #' @param less.than.chance Logical. If \code{TRUE} the test evaluates whether overlaps occur less often than expected by chance.
 #' If \code{FALSE} the opposite pattern is evaluted (whether overlaps occur more often than expected by chance). 
-#' Default is  \code{TRUE}.
+#' Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
@@ -34,7 +34,7 @@
 #' @return A data frame with the following columns:
 #' \itemize{
 #'    \item \code{sing.event}: singing event ID
-#'    \item \code{obs.overlap}: observed amount of overlap (counts or total duration, depending on overlap method (see 'ovlp.method' argument))
+#'    \item \code{obs.overlap}: observed amount of overlap (counts or total duration, depending on overlap method, see 'ovlp.method' argument)
 #'    \item \code{mean.random.ovlp}: mean amount of overlap expected by chance
 #'    \item \code{p.value}: p value 
 #'    \item \code{coor.score}: coordination score (\emph{sensu} Araya-Salas et al. 2017), 
@@ -53,14 +53,18 @@
 #' #load  simulated singing data (see data documentation)
 #' data(sim_coor_sing)
 #' 
+#' # set global options
+#' # this can also be set within the function call
+#' warbleR_options(iterations = 100, pb = FALSE)
+#' 
 #' # testing if coordination happens less than expected by chance
-#' coor.test(sim_coor_sing, iterations = 100, less.than.chance = TRUE)
+#' coor.test(sim_coor_sing)
 #' 
 #' # testing if coordination happens more than expected by chance
-#' coor.test(sim_coor_sing, iterations = 100, less.than.chance = FALSE)
+#' coor.test(sim_coor_sing, less.than.chance = FALSE)
 #' 
 #' # using "duration" method and "keep.song.order" as randomization procedure
-#' coor.test(sim_coor_sing, iterations = 100, ovlp.method =  "count", 
+#' coor.test(sim_coor_sing, ovlp.method =  "duration", 
 #' randomization = "keep.song.order")
 #' }
 #' 

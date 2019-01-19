@@ -149,15 +149,15 @@ individual (indiv), and start and end time of signal (start and end).</p></td>
       <td><p>Character string defining the procedure for signal randomization. Three methods are available:</p><ul>
 <li><p><code>keep.gaps</code> the position of both signals and gaps (i.e. intervals between signals) are randomized. Default.</p></li>
 <li><p><code>sample.gaps</code> gaps are simulated using a lognormal distribution with
- mean and standard deviation derived from the observed gaps and signal position is randomized.</p></li>
-<li><p><code>keep.song.order</code> only the position of gaps (i.e. intervals between signals) is randomized.</p></li>
+ mean and standard deviation derived from the observed gaps. Signal position is randomized.</p></li>
+<li><p><code>keep.song.order</code> only the position of gaps is randomized.</p></li>
 </ul><p>More details in Masco et al. (2015).</p></td>
     </tr>
     <tr>
       <th>less.than.chance</th>
       <td><p>Logical. If <code>TRUE</code> the test evaluates whether overlaps occur less often than expected by chance.
 If <code>FALSE</code> the opposite pattern is evaluted (whether overlaps occur more often than expected by chance). 
-Default is  <code>TRUE</code>.</p></td>
+Default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -192,7 +192,7 @@ A-B-A-B-A-B. Default is  <code>FALSE</code>.</p></td>
 
     <p>A data frame with the following columns:</p><ul>
 <li><p><code>sing.event</code>: singing event ID</p></li>
-<li><p><code>obs.overlap</code>: observed amount of overlap (counts or total duration, depending on overlap method (see 'ovlp.method' argument))</p></li>
+<li><p><code>obs.overlap</code>: observed amount of overlap (counts or total duration, depending on overlap method, see 'ovlp.method' argument)</p></li>
 <li><p><code>mean.random.ovlp</code>: mean amount of overlap expected by chance</p></li>
 <li><p><code>p.value</code>: p value</p></li>
 <li><p><code>coor.score</code>: coordination score (<em>sensu</em> Araya-Salas et al. 2017), 
@@ -227,21 +227,23 @@ and non-random song overlap. Bioacoustics.</p>
 <span class='co'>#load  simulated singing data (see data documentation)</span>
 <span class='fu'>data</span>(<span class='no'>sim_coor_sing</span>)
 
+<span class='co'># set global options</span>
+<span class='co'># this can also be set within the function call</span>
+<span class='fu'><a href='warbleR_options.html'>warbleR_options</a></span>(<span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
 <span class='co'># testing if coordination happens less than expected by chance</span>
-<span class='fu'>coor.test</span>(<span class='no'>sim_coor_sing</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>less.than.chance</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>coor.test</span>(<span class='no'>sim_coor_sing</span>)
 
 <span class='co'># testing if coordination happens more than expected by chance</span>
-<span class='fu'>coor.test</span>(<span class='no'>sim_coor_sing</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>less.than.chance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>coor.test</span>(<span class='no'>sim_coor_sing</span>, <span class='kw'>less.than.chance</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># using "duration" method and "keep.song.order" as randomization procedure</span>
-<span class='fu'>coor.test</span>(<span class='no'>sim_coor_sing</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>ovlp.method</span> <span class='kw'>=</span>  <span class='st'>"count"</span>,
+<span class='fu'>coor.test</span>(<span class='no'>sim_coor_sing</span>, <span class='kw'>ovlp.method</span> <span class='kw'>=</span>  <span class='st'>"duration"</span>,
 <span class='kw'>randomization</span> <span class='kw'>=</span> <span class='st'>"keep.song.order"</span>)
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~01s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~00s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++++++                                 | 33% ~01s             |++++++++++++++++++++++++++++++++++                | 67% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s</div><div class='output co'>#&gt;   sing.event obs.ovlp mean.random.ovlp p.value coor.score
-#&gt; 1     altern       20            36.98    0.00     -0.459
-#&gt; 2       ovlp       57            38.55    1.00      0.479
-#&gt; 3    uncoord       39            40.72    0.37     -0.042</div><div class='input'>
+}</div><div class='output co'>#&gt;   sing.event obs.ovlp mean.random.ovlp p.value coor.score
+#&gt; 1     altern 1.098593         3.294155    0.00     -0.667
+#&gt; 2       ovlp 5.991010         3.667173    1.00      0.634
+#&gt; 3    uncoord 3.097526         3.254747    0.42     -0.048</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
