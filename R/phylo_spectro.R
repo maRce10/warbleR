@@ -35,7 +35,7 @@
 #' @details The function add the spectrograms of sounds annotated in a selection table ('X' argument) onto the tips of a phylogenetic tree. 
 #' The 'tip.label' column in 'X' is used to match spectrograms and tree tips. The function uses internally the \code{\link[ape]{plot.phylo}} function to plot the tree 
 #' and the \code{\link{specreator}} function to create the spectrograms. Arguments for both of these functions
-#' can be provided for further customization. Fitting spectrograms  
+#' can be provided for further customization.
 #' @examples { 
 #' \donttest{
 #' # First set empty folder

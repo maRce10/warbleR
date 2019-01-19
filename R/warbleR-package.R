@@ -160,7 +160,7 @@
 #' @importFrom methods slotNames
 #' @importFrom dtw dtwDist
 #' @importFrom soundgen analyze
-#' @importFrom stats cor dist aggregate approx ave prcomp time ts predict smooth.spline complete.cases spline weighted.mean na.omit var
+#' @importFrom stats cor dist aggregate approx ave prcomp time ts predict smooth.spline complete.cases spline weighted.mean na.omit var sd rlnorm
 #' 
 #' @author Marcelo Araya-Salas & Grace Smith Vidaurre
 #'   

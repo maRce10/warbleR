@@ -90,15 +90,12 @@
                         <h4 class="author"><center>
 <a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a>
 </center></h4>
-                        <h4 class="author">
-<center>
+                        <h4 class="author"><center>
 <a href="http://smithvidaurre.weebly.com/">Grace Smith-Vidaurre, PhD Candidate</a>
-</center>
-</h4>
-<p> </p>
+</center></h4>
             
             <h4 class="date"><center>
-“2018-12-22”
+“2019-01-19”
 </center></h4>
       
       
@@ -115,7 +112,7 @@
 <p> </p>
 <!-- <center> <h1><b>Visual inspection and classification of signals</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2018-12-22 </center> -->
+<!-- <center> 2019-01-19 </center> -->
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
@@ -155,19 +152,19 @@
 <h2 class="hasAnchor">
 <a href="#prepare-for-analyses" class="anchor"></a><strong>Prepare for analyses</strong>
 </h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(warbleR)
-
-<span class="co"># set your working directory appropriately</span>
-<span class="co"># setwd("/path/to/working directory")</span>
-
-<span class="co"># run this if you have restarted RStudio between vignettes without saving your workspace (assuming that you are in your /home/username directory)</span>
-<span class="kw">setwd</span>(<span class="kw">file.path</span>(<span class="kw">getwd</span>(),<span class="st">"warbleR_example"</span>))
-
-<span class="co"># Check your location</span>
-<span class="kw">getwd</span>()</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(warbleR)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># set your working directory appropriately</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># setwd("/path/to/working directory")</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># run this if you have restarted RStudio between vignettes without saving your workspace (assuming that you are in your /home/username directory)</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">setwd</span>(<span class="kw">file.path</span>(<span class="kw">getwd</span>(),<span class="st">"warbleR_example"</span>))</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co"># Check your location</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">getwd</span>()</a></code></pre></div>
 <p>This vignette series will not always include all available <code>warbleR</code> functions, as existing functions are updated and new functions are added. To see all functions available in this package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The package must be loaded in your working environment</span>
-<span class="kw">ls</span>(<span class="st">"package:warbleR"</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># The package must be loaded in your working environment</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">ls</span>(<span class="st">"package:warbleR"</span>)</a></code></pre></div>
 </div>
 <div id="quality-control-filtering-of-selections" class="section level2">
 <h2 class="hasAnchor">
@@ -177,40 +174,40 @@
 <h3 class="hasAnchor">
 <a href="#find-overlapping-selections" class="anchor"></a>Find overlapping selections</h3>
 <p>Overlapping selections can be common after using <code>autodetec</code> to select signals, but can sometimes arise after selecting signals using other functions or software. The function below helps you detect overlapping signals in your selection table, and has arguments that you can play around with for overlap detection, renaming or deleting overlapping selections.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># To run this example:</span>
-<span class="co"># Open Phae_hisnr.csv and modify the start coordinate of the first selection and the end coordinate of the second selection so that the signals overlap</span>
-
-Phae.hisnr &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"Phae_hisnr.csv"</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)
-<span class="kw">str</span>(Phae.hisnr)
-<span class="kw">head</span>(Phae.hisnr, <span class="dt">n =</span> <span class="dv">15</span>)
-
-<span class="co"># yields a data frame with an additional column (ovlp_sels) that indicates which selections overlap</span>
-Phae.hisnr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ovlp_sels.html">ovlp_sels</a></span>(<span class="dt">X =</span> Phae.hisnr, <span class="dt">max.ovlp =</span> <span class="dv">0</span>)
-
-<span class="co"># run the function again but this time retain only the signals that don't overlap</span>
-Phae.hisnr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ovlp_sels.html">ovlp_sels</a></span>(<span class="dt">X =</span> Phae.hisnr, <span class="dt">max.ovlp =</span> <span class="dv">0</span>, <span class="dt">drop =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># To run this example:</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># Open Phae_hisnr.csv and modify the start coordinate of the first selection and the end coordinate of the second selection so that the signals overlap</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">Phae.hisnr &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"Phae_hisnr.csv"</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw">str</span>(Phae.hisnr)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw">head</span>(Phae.hisnr, <span class="dt">n =</span> <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># yields a data frame with an additional column (ovlp_sels) that indicates which selections overlap</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">Phae.hisnr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ovlp_sels.html">ovlp_sels</a></span>(<span class="dt">X =</span> Phae.hisnr, <span class="dt">max.ovlp =</span> <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co"># run the function again but this time retain only the signals that don't overlap</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">Phae.hisnr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ovlp_sels.html">ovlp_sels</a></span>(<span class="dt">X =</span> Phae.hisnr, <span class="dt">max.ovlp =</span> <span class="dv">0</span>, <span class="dt">drop =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 </div>
 <div id="make-spectrograms-of-selections" class="section level3">
 <h3 class="hasAnchor">
 <a href="#make-spectrograms-of-selections" class="anchor"></a>Make spectrograms of selections</h3>
 <p><code>specreator</code> generates spectrograms of individual selected signals. These image files can be used to filter out selections that were poorly made or represent signals that are not relevant to your analysis. This quality control step is important for visualizing your selected signals after any selection method, even if you imported your selections from <em>Raven</em> or <em>Syrinx</em>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/specreator.html">specreator</a></span>(Phae.hisnr, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">it =</span> <span class="st">"jpeg"</span>, <span class="dt">res =</span> <span class="dv">150</span>, <span class="dt">osci =</span> <span class="ot">TRUE</span>, <span class="dt">ovlp =</span> <span class="dv">90</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/specreator.html">specreator</a></span>(Phae.hisnr, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">it =</span> <span class="st">"jpeg"</span>, <span class="dt">res =</span> <span class="dv">150</span>, <span class="dt">osci =</span> <span class="ot">TRUE</span>, <span class="dt">ovlp =</span> <span class="dv">90</span>)</a></code></pre></div>
 <p>Inspect spectrograms and throw away image files that are poor quality to prepare for later steps. Make sure you are working in a directory that only has image files associated with this vignette. Delete the image files corresponding to recording <em>154070</em> selection <em>8</em> and <em>154070</em> selection <em>12</em>, as the start coordinates for these selections are not accurate.</p>
 </div>
 <div id="remove-selections-with-missing-image-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remove-selections-with-missing-image-files" class="anchor"></a>Remove selections with missing image files</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># remove selections after deleting corresponding image files</span>
-Phae.hisnr2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filtersels.html">filtersels</a></span>(Phae.hisnr, <span class="dt">it =</span> <span class="st">"jpeg"</span>, <span class="dt">incl.wav =</span> <span class="ot">TRUE</span>)
-<span class="kw">nrow</span>(Phae.hisnr2)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># remove selections after deleting corresponding image files</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">Phae.hisnr2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filtersels.html">filtersels</a></span>(Phae.hisnr, <span class="dt">it =</span> <span class="st">"jpeg"</span>, <span class="dt">incl.wav =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">nrow</span>(Phae.hisnr2)</a></code></pre></div>
 <p>After removing the poorest quality selections or signals, there are some other quality control steps that may be helpful.</p>
 </div>
 <div id="check-selections" class="section level3">
 <h3 class="hasAnchor">
 <a href="#check-selections" class="anchor"></a>Check selections</h3>
 <p>Can selections be read by downstream functions? The function <code>checksels</code> also yields a data frame with columns for duration, minimum samples, sampling rate, channels and bits.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># if selections can be read, "OK" will be printed to check.res column</span>
-<span class="kw"><a href="../reference/checksels.html">checksels</a></span>(Phae.hisnr2, <span class="dt">check.header =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># if selections can be read, "OK" will be printed to check.res column</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/checksels.html">checksels</a></span>(Phae.hisnr2, <span class="dt">check.header =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>If selections cannot be read, it is possible the sound files are corrupt. If so, use the <code>fixwavs</code> function to repair <em>wav</em> files.</p>
 </div>
 <div id="tailor-temporal-coordinates-of-selections" class="section level3">
@@ -221,11 +218,11 @@ Phae.hisnr2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference
 <p>For instance:</p>
 <p>The end of this signal is not well selected. <!-- <center> ![End coordinate not well-selected](Phaethornis-longirostris-154070.wav-8_badend.jpeg)</center> -->  </p>
 <p>The temporal coordinates for the tailored signals will be saved in a _ .csv_ file called <code>seltailor_output.csv</code>. You can rename this file and read it back into <code>R</code> to continue downstream analyses.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/seltailor.html">seltailor</a></span>(Phae.hisnr2, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="dt">wn =</span> <span class="st">"hanning"</span>, <span class="dt">mar =</span> <span class="fl">0.1</span>, <span class="dt">osci =</span> <span class="ot">TRUE</span>, <span class="dt">title =</span> <span class="kw">c</span>(<span class="st">"sound.files"</span>, <span class="st">"selec"</span>), <span class="dt">auto.next =</span> <span class="ot">TRUE</span>)
-
-<span class="co"># Read in seltailor output after renaming the csv file</span>
-Phae.hisnrt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"Phae_hisnrt.csv"</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)
-<span class="kw">str</span>(Phae.hisnrt)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/seltailor.html">seltailor</a></span>(Phae.hisnr2, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="dt">wn =</span> <span class="st">"hanning"</span>, <span class="dt">mar =</span> <span class="fl">0.1</span>, <span class="dt">osci =</span> <span class="ot">TRUE</span>, <span class="dt">title =</span> <span class="kw">c</span>(<span class="st">"sound.files"</span>, <span class="st">"selec"</span>), <span class="dt">auto.next =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co"># Read in seltailor output after renaming the csv file</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">Phae.hisnrt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">"Phae_hisnrt.csv"</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw">str</span>(Phae.hisnrt)</a></code></pre></div>
 <pre><code>'data.frame':   23 obs. of  6 variables:
  $ sound.files: Factor w/ 5 levels "Phaethornis-longirostris-154070.wav",..: 1 1 1 2 2 2 2 2 3 3 ...
  $ selec      : int  14 18 20 36 108 124 142 148 57 83 ...
@@ -246,12 +243,12 @@ Phae.hisnrt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span
 </h3>
 <p>The function <code>lspec</code>that we used in the last vignette can also be a tool for visually classifying signals. Long spectrograms can be printed to classify signals by hand, or comments accompanying the selections can be printed over selected signals (for instance, if you used with <code>manualoc</code> argument <code>selcomm</code> during the selection process).</p>
 <p>Here, we print the start and end of selections with a red dotted line, and the selection number printed over the signal. If a selection data frame contains a comments column, these will be printed with the selection number.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># highlight selected signals</span>
-<span class="kw"><a href="../reference/lspec.html">lspec</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">ovlp =</span> <span class="dv">10</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">it =</span> <span class="st">"jpeg"</span>)
-
-<span class="co"># concatenate lspec image files into a single PDF per recording</span>
-<span class="co"># lspec images must be jpegs </span>
-<span class="kw"><a href="../reference/lspec2pdf.html">lspec2pdf</a></span>(<span class="dt">keep.img =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># highlight selected signals</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/lspec.html">lspec</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">ovlp =</span> <span class="dv">10</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">it =</span> <span class="st">"jpeg"</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># concatenate lspec image files into a single PDF per recording</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># lspec images must be jpegs </span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw"><a href="../reference/lspec2pdf.html">lspec2pdf</a></span>(<span class="dt">keep.img =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>Check out the image file in your working directory. These will look very similar to the <code>lspec</code> images produced in vignette 1, but with red dotted lines indicating where the selected signals start and end.</p>
 </div>
 <div id="highlight-spectrogram-regions-with-color-spectro" class="section level3">
@@ -259,22 +256,22 @@ Phae.hisnrt &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span
 <a href="#highlight-spectrogram-regions-with-color-spectro" class="anchor"></a>Highlight spectrogram regions with <code>color.spectro</code>
 </h3>
 <p><code>color.spectro</code> allows you to highlight selections you’ve made within a short region of a spectrogram. In the example below we will use <code>color.spectro</code> to highlight neighboring songs. This function has a wide variety of uses, and could be especially useful for analysis of duets or coordinated singing bouts. This example is taken directly from the <code>color.spectro</code> documentation. If working with your own data frame of selections, make sure to calculate the frequency range for your selections beforehand using the function <code>frange</code>, which will come up in the next vignette.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we will use Phaethornis songs and selections from the warbleR package</span>
-<span class="kw">data</span>(<span class="dt">list =</span> <span class="kw">c</span>(<span class="st">"Phae.long1"</span>, <span class="st">"selec.table"</span>))
-<span class="kw">writeWave</span>(Phae.long1, <span class="st">"Phae.long1.wav"</span>) <span class="co">#save sound files </span>
-
-<span class="co"># subset selection table</span>
-<span class="co"># already contains the frequency range for these signals</span>
-st &lt;-<span class="st"> </span>selec.table[selec.table<span class="op">$</span>sound.files <span class="op">==</span><span class="st"> "Phae.long1.wav"</span>,]
- 
-<span class="co"># read wave file as an R object</span>
-sgnl &lt;-<span class="st"> </span>tuneR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tuneR/topics/readWave">readWave</a></span>(<span class="kw">as.character</span>(st<span class="op">$</span>sound.files[<span class="dv">1</span>]))
- 
-<span class="co"># create color column</span>
-st<span class="op">$</span>colors &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"red2"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>)
- 
-<span class="co"># highlight selections</span>
-<span class="kw"><a href="../reference/color.spectro.html">color.spectro</a></span>(<span class="dt">wave =</span> sgnl, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">ovlp =</span> <span class="dv">90</span>, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">8.6</span>), <span class="dt">collevels =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">90</span>, <span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">dB =</span> <span class="st">"B"</span>, <span class="dt">X =</span> st, <span class="dt">col.clm =</span> <span class="st">"colors"</span>, <span class="dt">base.col =</span> <span class="st">"skyblue"</span>,  <span class="dt">t.mar =</span> <span class="fl">0.07</span>, <span class="dt">f.mar =</span> <span class="fl">0.1</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># we will use Phaethornis songs and selections from the warbleR package</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">data</span>(<span class="dt">list =</span> <span class="kw">c</span>(<span class="st">"Phae.long1"</span>, <span class="st">"selec.table"</span>))</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">writeWave</span>(Phae.long1, <span class="st">"Phae.long1.wav"</span>) <span class="co">#save sound files </span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co"># subset selection table</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co"># already contains the frequency range for these signals</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">st &lt;-<span class="st"> </span>selec.table[selec.table<span class="op">$</span>sound.files <span class="op">==</span><span class="st"> "Phae.long1.wav"</span>,]</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"> </a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co"># read wave file as an R object</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">sgnl &lt;-<span class="st"> </span>tuneR<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tuneR/topics/readWave">readWave</a></span>(<span class="kw">as.character</span>(st<span class="op">$</span>sound.files[<span class="dv">1</span>]))</a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"> </a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co"># create color column</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">st<span class="op">$</span>colors &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"red2"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>)</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"> </a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co"># highlight selections</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="kw"><a href="../reference/color.spectro.html">color.spectro</a></span>(<span class="dt">wave =</span> sgnl, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">ovlp =</span> <span class="dv">90</span>, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">8.6</span>), <span class="dt">collevels =</span> <span class="kw">seq</span>(<span class="op">-</span><span class="dv">90</span>, <span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">dB =</span> <span class="st">"B"</span>, <span class="dt">X =</span> st, <span class="dt">col.clm =</span> <span class="st">"colors"</span>, <span class="dt">base.col =</span> <span class="st">"skyblue"</span>,  <span class="dt">t.mar =</span> <span class="fl">0.07</span>, <span class="dt">f.mar =</span> <span class="fl">0.1</span>)</a></code></pre></div>
 </div>
 <div id="optimize-spectrogram-display-parameters" class="section level3">
 <h3 class="hasAnchor">
@@ -309,47 +306,43 @@ st<span class="op">$</span>colors &lt;-<span class="st"> </span><span class="kw"
 </ul>
 <p><code>catalog</code> allows you to group signals into biologically relevant groups by coloring the background of selected spectrograms accordingly. There is also an option to add hatching to tag labels, as well as filling the catalog with spectrograms by rows or columns of the selection table data frame, among other additional arguments. Check out <a href="https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html">Marcelo’s post</a> on some recent updates to the <code>catalog</code> function.</p>
 <p>The <code>move.imgs</code> function can come in handy when creating multiple catalogs to avoid overwriting previous image files, or when working through rounds of other image files. In this case, the first catalog we create has signals labeled, tagged and grouped with respective color and hatching levels. The second catalog we create will not have any grouping of signals whatsoever, and could be used for a test of inter-observer reliability. <code>move.imgs</code> helps us move the first catalog into another directory to save it from being overwritten when creating the second catalog.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a column of recording IDs for friendlier catalog labels</span>
-rec_ID &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Phae.hisnrt), <span class="cf">function</span>(x){
-    <span class="kw">gsub</span>(<span class="dt">x =</span> <span class="kw">strsplit</span>(<span class="kw">as.character</span>(Phae.hisnrt<span class="op">$</span>sound.files[x]), <span class="dt">split =</span> <span class="st">"-"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>], <span class="dt">pattern =</span> <span class="st">".wav$"</span>, <span class="dt">replacement =</span> <span class="st">""</span>)
-})
-rec_ID
-
-Phae.hisnrt<span class="op">$</span>rec_ID &lt;-<span class="st"> </span>rec_ID
-<span class="kw">str</span>(Phae.hisnrt)
-
-<span class="co"># set color palette</span>
-<span class="co"># alpha controls transparency for softer colors</span>
-cmc &lt;-<span class="st"> </span><span class="cf">function</span>(n) <span class="kw">cm.colors</span>(n, <span class="dt">alpha =</span> <span class="fl">0.8</span>)
-
-<span class="kw"><a href="../reference/catalog.html">catalog</a></span>(<span class="dt">X =</span> Phae.hisnrt, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">10</span>, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">tag.pal =</span> <span class="kw">list</span>(cmc), <span class="dt">cex =</span> <span class="fl">0.8</span>, <span class="dt">same.time.scale =</span> <span class="ot">TRUE</span>, <span class="dt">mar =</span> <span class="fl">0.01</span>, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">gr =</span> <span class="ot">FALSE</span>, <span class="dt">labels =</span> <span class="st">"rec_ID"</span>, <span class="dt">tags =</span> <span class="st">"rec_ID"</span>, <span class="dt">hatching =</span> <span class="dv">1</span>, <span class="dt">group.tag =</span> <span class="st">"rec_ID"</span>, <span class="dt">spec.mar =</span> <span class="fl">0.4</span>, <span class="dt">lab.mar =</span> <span class="fl">0.8</span>, <span class="dt">max.group.cols =</span> <span class="dv">5</span>)
-
-<span class="kw"><a href="../reference/catalog2pdf.html">catalog2pdf</a></span>(<span class="dt">keep.img =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)
-
-<span class="co"># assuming we are working from the warbleR_example directory</span>
-<span class="co"># the ~/ format does not apply to Windows</span>
-<span class="co"># make sure you have already moved or deleted all other pdf files</span>
-<span class="kw"><a href="../reference/move.imgs.html">move.imgs</a></span>(<span class="dt">from =</span> <span class="st">"."</span>, <span class="dt">it =</span> <span class="st">"pdf"</span>, <span class="dt">create.folder =</span> <span class="ot">TRUE</span>, <span class="dt">folder.name =</span> <span class="st">"Catalog_image_files"</span>)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># create a column of recording IDs for friendlier catalog labels</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">rec_ID &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Phae.hisnrt), <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="kw">gsub</span>(<span class="dt">x =</span> <span class="kw">strsplit</span>(<span class="kw">as.character</span>(Phae.hisnrt<span class="op">$</span>sound.files[x]), <span class="dt">split =</span> <span class="st">"-"</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>], <span class="dt">pattern =</span> <span class="st">".wav$"</span>, <span class="dt">replacement =</span> <span class="st">""</span>)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">})</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">rec_ID</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">Phae.hisnrt<span class="op">$</span>rec_ID &lt;-<span class="st"> </span>rec_ID</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="kw">str</span>(Phae.hisnrt)</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co"># set color palette</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co"># alpha controls transparency for softer colors</span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12">cmc &lt;-<span class="st"> </span><span class="cf">function</span>(n) <span class="kw">cm.colors</span>(n, <span class="dt">alpha =</span> <span class="fl">0.8</span>)</a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="kw"><a href="../reference/catalog.html">catalog</a></span>(<span class="dt">X =</span> Phae.hisnrt, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">10</span>, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">tag.pal =</span> <span class="kw">list</span>(cmc), <span class="dt">cex =</span> <span class="fl">0.8</span>, <span class="dt">same.time.scale =</span> <span class="ot">TRUE</span>, <span class="dt">mar =</span> <span class="fl">0.01</span>, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">gr =</span> <span class="ot">FALSE</span>, <span class="dt">labels =</span> <span class="st">"rec_ID"</span>, <span class="dt">tags =</span> <span class="st">"rec_ID"</span>, <span class="dt">hatching =</span> <span class="dv">1</span>, <span class="dt">group.tag =</span> <span class="st">"rec_ID"</span>, <span class="dt">spec.mar =</span> <span class="fl">0.4</span>, <span class="dt">lab.mar =</span> <span class="fl">0.8</span>, <span class="dt">max.group.cols =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb11-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="kw"><a href="../reference/catalog2pdf.html">catalog2pdf</a></span>(<span class="dt">keep.img =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb11-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co"># assuming we are working from the warbleR_example directory</span></a>
+<a class="sourceLine" id="cb11-19" data-line-number="19"><span class="co"># the ~/ format does not apply to Windows</span></a>
+<a class="sourceLine" id="cb11-20" data-line-number="20"><span class="co"># make sure you have already moved or deleted all other pdf files</span></a>
+<a class="sourceLine" id="cb11-21" data-line-number="21"><span class="kw"><a href="../reference/move.imgs.html">move.imgs</a></span>(<span class="dt">from =</span> <span class="st">"."</span>, <span class="dt">it =</span> <span class="st">"pdf"</span>, <span class="dt">create.folder =</span> <span class="ot">TRUE</span>, <span class="dt">folder.name =</span> <span class="st">"Catalog_image_files"</span>)</a></code></pre></div>
 <center>
 <img src="Catalog_p1.jpeg" alt="Catalog with labels, tags and groups">
 </center>
 <p> </p>
 <p>You can also make lexicons for blind scoring, which could be useful for determining interobserver reliability.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># now create a catalog without labels, tags, groups or axes</span>
-Phae.hisnrt<span class="op">$</span>no_label &lt;-<span class="st"> ""</span>
-
-<span class="co"># catalog(X = Phae.hisnrt, flim = c(1, 10), nrow = 4, ncol = 3, height = 10, width = 10, cex = 0.8, same.time.scale = TRUE, mar = 0.01, wl = 300, spec.mar = 0.4, rm.axes = TRUE, labels = "no_label", lab.mar = 0.8, max.group.cols = 5, img.suffix = "nolabel")</span>
-
-<span class="kw"><a href="../reference/catalog.html">catalog</a></span>(<span class="dt">X =</span> Phae.hisnrt, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>), <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">10</span>, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">tag.pal =</span> <span class="kw">list</span>(cmc), <span class="dt">cex =</span> <span class="fl">0.8</span>, <span class="dt">same.time.scale =</span> <span class="ot">TRUE</span>, <span class="dt">mar =</span> <span class="fl">0.01</span>, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">gr =</span> <span class="ot">FALSE</span>, <span class="dt">labels =</span> <span class="st">"no_label"</span>, <span class="dt">spec.mar =</span> <span class="fl">0.4</span>, <span class="dt">lab.mar =</span> <span class="fl">0.8</span>, <span class="dt">max.group.cols =</span> <span class="dv">5</span>, <span class="dt">img.suffix =</span> <span class="st">"nolabels"</span>)
-
-<span class="kw"><a href="../reference/catalog2pdf.html">catalog2pdf</a></span>(<span class="dt">keep.img =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># now create a catalog without labels, tags, groups or axes</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">Phae.hisnrt<span class="op">$</span>no_label &lt;-<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># catalog(X = Phae.hisnrt, flim = c(1, 10), nrow = 4, ncol = 3, height = 10, width = 10, cex = 0.8, same.time.scale = TRUE, mar = 0.01, wl = 300, spec.mar = 0.4, rm.axes = TRUE, labels = "no_label", lab.mar = 0.8, max.group.cols = 5, img.suffix = "nolabel")</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="kw"><a href="../reference/catalog.html">catalog</a></span>(<span class="dt">X =</span> Phae.hisnrt, <span class="dt">flim =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">10</span>), <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">height =</span> <span class="dv">10</span>, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">tag.pal =</span> <span class="kw">list</span>(cmc), <span class="dt">cex =</span> <span class="fl">0.8</span>, <span class="dt">same.time.scale =</span> <span class="ot">TRUE</span>, <span class="dt">mar =</span> <span class="fl">0.01</span>, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">gr =</span> <span class="ot">FALSE</span>, <span class="dt">labels =</span> <span class="st">"no_label"</span>, <span class="dt">spec.mar =</span> <span class="fl">0.4</span>, <span class="dt">lab.mar =</span> <span class="fl">0.8</span>, <span class="dt">max.group.cols =</span> <span class="dv">5</span>, <span class="dt">img.suffix =</span> <span class="st">"nolabels"</span>)</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="kw"><a href="../reference/catalog2pdf.html">catalog2pdf</a></span>(<span class="dt">keep.img =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <!-- <center> ![Catalog without labels, tags and groups](Catalog_p2-nolabels.jpeg)</center> -->
 <!-- &nbsp;  -->
-</div>
-<div id="next-vignette-acoustic-dissimilarity-coordinated-singing-and-simulating-songs" class="section level3">
-<h3 class="hasAnchor">
-<a href="#next-vignette-acoustic-dissimilarity-coordinated-singing-and-simulating-songs" class="anchor"></a><strong>Next vignette: Acoustic (dis)similarity, coordinated singing and simulating songs</strong>
-</h3>
+<p>###<strong>Next vignette: Acoustic (dis)similarity, coordinated singing and simulating songs</strong></p>
 <p>Here we finished the second phase of the <code>warbleR</code> workflow, which includes various options for quality control filtering or visual classification of signals that you can leverage during acoustic analysis. After running the code in this vignette, you should now have an idea of how to:</p>
 <ul>
 <li>how to perform quality control filtering of your selected signals, including visual inspection and tailoring temporal coordinates of spectrograms</li>
@@ -362,25 +355,16 @@ Phae.hisnrt<span class="op">$</span>no_label &lt;-<span class="st"> ""</span>
 </li>
 </ul>
 <p>The next vignette will cover the third phase of the <em>warbleR</em> workflow, which includes methods to perform acoustic mesaurements as a batch process, an example of how to use these measurements for an analysis of geographic variation, coordinated singing analysis and a new function to simulate songs.</p>
-</div>
-</div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a><strong>Citation</strong>
-</h2>
+<p>##<strong>Citation</strong></p>
 <p>Please cite <code>warbleR</code> when you use the package:</p>
 <p>Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an R package to streamline analysis of animal acoustic signals. Methods Ecol Evol. 8, 184-191.</p>
-</div>
-<div id="reporting-bugs" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reporting-bugs" class="anchor"></a><strong>Reporting bugs</strong>
-</h2>
-<p>Please report any bugs <a href="https://github.com/maRce10/warbleR/issues">here</a>.  </p>
+<p>##<strong>Reporting bugs</strong> Please report any bugs <a href="https://github.com/maRce10/warbleR/issues">here</a>.  </p>
 <p><font size="5"><a name="References">References</a></font></p>
 <ol style="list-style-type: decimal">
 <li>Araya-Salas, M. and G. Smith-Vidaurre. 2016. warbleR: an R package to streamline analysis of animal acoustic signals. <em>Methods in Ecology and Evolution</em>. doi: 10.1111/2041-210X.12624</li>
 </ol>
 <p> </p>
+</div>
 </div>
   </div>
 
@@ -394,8 +378,6 @@ Phae.hisnrt<span class="op">$</span>no_label &lt;-<span class="st"> ""</span>
       <li><a href="#prepare-for-analyses"><strong>Prepare for analyses</strong></a></li>
       <li><a href="#quality-control-filtering-of-selections"><strong>Quality control filtering of selections</strong></a></li>
       <li><a href="#visual-classification-of-selected-signals"><strong>Visual classification of selected signals</strong></a></li>
-      <li><a href="#citation"><strong>Citation</strong></a></li>
-      <li><a href="#reporting-bugs"><strong>Reporting bugs</strong></a></li>
       </ul>
 </div>
       </div>

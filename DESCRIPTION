@@ -15,7 +15,7 @@ BugReports: https://github.com/maRce10/warbleR/issues
 NeedsCompilation: no
 Suggests: knitr, ggplot2, rmarkdown, Rraven, ape, bioacoustics
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Packaged: 2016-04-18 23:45:31 UTC; m
 Repository: CRAN
 Authors@R: c(person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "araya-salas@cornell.edu", comment = c(ORCID = "0000-0003-3594-619X")), person("Grace", "Smith-Vidaurre", role = c("aut"), email = "gsmithvi@gmail.com"))

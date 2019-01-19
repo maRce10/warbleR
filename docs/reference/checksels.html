@@ -226,7 +226,8 @@ Sound files should be in the working directory (or the directory provided in 'pa
 
 <span class='fu'>checksels</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>)
 }</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-#&gt; all selections are OK</div><div class='output co'>#&gt;       sound.files channel selec     start       end bottom.freq  top.freq
+#&gt; all selections are OK but some have very few samples (less than 20, potentially problematic for some analyses) 
+#&gt; Check 'min.n.samples' column</div><div class='output co'>#&gt;       sound.files channel selec     start       end bottom.freq  top.freq
 #&gt; 1  Phae.long1.wav       1     1 1.1693549 1.3423884    2.220105  8.604378
 #&gt; 2  Phae.long1.wav       1     2 2.1584085 2.3214565    2.169437  8.807053
 #&gt; 3  Phae.long1.wav       1     3 0.3433366 0.5182553    2.218294  8.756604

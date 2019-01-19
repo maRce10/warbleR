@@ -1,6 +1,6 @@
 #' Wrapper for "try" function
 #' 
-#' \code{try_na} silly wrapper for \code{\link[base]{try}} function that returns an NA if an error is found.
+#' \code{try_na} silly wrapper for \code{\link[base]{try}} function that returns an NA if an error is found. TO BE DEPRECATED IN FUTURE VERSIONS.
 #' @usage try_na(expr, silent = TRUE, outFile)
 #' @param expr An R expression to try.
 #' @param silent Logical to control whether the report of error messages is suppressed. Default is \code{TRUE}. 

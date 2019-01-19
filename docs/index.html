@@ -83,28 +83,28 @@
 
 <p>A tool to streamline the analysis of animal acoustic signal structure. The package offers functions for downloading avian vocalizations from the open-access online repository <a href="http://xeno-canto.org/">Xeno-Canto</a>, displaying the geographic extent of the recordings, manipulating sound files, detecting acoustic signals, assessing performance of methods that measure acoustic similarity, conducting cross-correlations, dynamic time warping, measuring acoustic parameters and analysing interactive vocal signals, among others. Functions working iteratively allow parallelization to improve computational efficiency.The code in warbleR can be executed by less experienced R users, but has also been thoroughly commented, which will facilitate further customization by advanced users.</p>
 <p>Install/load the package from CRAN as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-<span class="co"># From CRAN would be</span>
-<span class="co">#install.packages("warbleR")</span>
-
-<span class="co">#load package</span>
-<span class="kw">library</span>(warbleR)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># From CRAN would be</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#install.packages("warbleR")</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#load package</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(warbleR)</a></code></pre></div>
 <p>To install the latest developmental version from <a href="http://github.com/">github</a> you will need the R package <a href="https://cran.r-project.org/package=devtools">devtools</a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># From CRAN would be</span>
-<span class="co">#install.packages("warbleR")</span>
-
-<span class="co"># From github</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"maRce10/warbleR"</span>)
-
-<span class="co">#load package</span>
-<span class="kw">library</span>(warbleR)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># From CRAN would be</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#install.packages("warbleR")</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># From github</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"maRce10/warbleR"</span>)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#load package</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="kw">library</span>(warbleR)</a></code></pre></div>
 <p>The package vignettes provide detailed examples for most <a href="https://cran.r-project.org/package=warbleR">warbleR</a> functions. You can pull up the vignettes as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
-<span class="kw">vignette</span>(<span class="st">"warbleR_workflow_phase1"</span>)
-
-<span class="kw">vignette</span>(<span class="st">"warbleR_workflow_phase2"</span>)
-
-<span class="kw">vignette</span>(<span class="st">"warbleR_workflow_phase3"</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">vignette</span>(<span class="st">"warbleR_workflow_phase1"</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">vignette</span>(<span class="st">"warbleR_workflow_phase2"</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw">vignette</span>(<span class="st">"warbleR_workflow_phase3"</span>)</a></code></pre></div>
 <p>For details and example usage, visit the <a href="https://marce10.github.io/warbleR/index.html">warbleR package website</a>.</p>
 <p>A full description of the package can be found in this <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12624/epdf">journal article</a>.</p>
 <p>Please cite <a href="https://cran.r-project.org/package=warbleR">warbleR</a> as follows:</p>
