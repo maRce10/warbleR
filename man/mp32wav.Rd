@@ -38,7 +38,7 @@ overwritten.}
 \code{mp32wav} converts several .mp3 files in working directory to .wav format
 }
 \details{
-The function will convert all mp3 files in  working directory or 'path' supplied to wav format. \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} must be installed when changing sampling rates (i.e. if 'samp.rate' is supplied).
+The function will convert all mp3 files in  working directory or 'path' supplied to wav format. \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} must be installed when changing sampling rates (i.e. if 'samp.rate' is supplied). Note that sound files are normalized using \code{\link[tuneR]{normalize}} so they can be written by \code{\link[tuneR]{writeWave}}.
 
 convert all .mp3 files in working directory to .wav format. Function used internally to read .mp3 files (\code{\link[tuneR]{readMP3}}) sometimes crashes.
 }

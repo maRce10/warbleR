@@ -286,7 +286,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   # inform result
   if (all(res$check.res == "OK")) 
   {
-    if (any(res$min.n.samples > 20))
+    if (any(res$min.n.samples < 20))
       cat("all selections are OK but some have very few samples (less than 20, potentially problematic for some analyses) \nCheck 'min.n.samples' column") else
         cat("all selections are OK \n")   
   }

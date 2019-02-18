@@ -1,7 +1,6 @@
 #' Calculates acoustic parameters at the song level
 #'
-#' \code{song_param} calculates average or extreme values of acoustic parameters of
-#' elements in a song or other level of organization in the signals 
+#' \code{song_param} calculates descriptive statistics of songs or other higher levels of organization in the signals. 
 #' @usage song_param(X = NULL, song_colm = "song",mean_colm = NULL, min_colm = NULL, 
 #' max_colm = NULL, elm_colm = NULL, elm_fun = NULL, sd = FALSE, parallel = 1, pb = TRUE, 
 #' na.rm = FALSE, weight = NULL)
@@ -35,6 +34,7 @@
 #'  'mean_colm' (otherwhise all numeric columns are used). Columns can be 
 #'  weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters: 
 #' \itemize{
+#'    \item \code{elm.duration}: mean length of elements (in s)
 #'    \item \code{song.duration}: length of song (in s)
 #'    \item \code{num.elms}: number of elements (or song units)
 #'    \item \code{start}: start time of song (in s)
@@ -43,6 +43,8 @@
 #'    \item \code{top.freq}: highest 'top.freq' from all song elements (in kHz)
 #'    \item \code{freq.range}: difference between song's 'top.freq' and 'bottom.freq' (in kHz)
 #'    \item \code{song.rate}: number of elements per second (NA if only 1 element)
+#'    \item \code{gap.duration}: length of gaps (i.e. silences) in between elements
+#'    (in s, NA if only 1 element)
 #'    \item \code{elm.types}: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)
 #'    \item \code{mean.elm.count}: mean number of times element types are found (only if 'elm_colm' is supplied)
 #'    }
@@ -50,8 +52,9 @@
 #' 
 #' @export
 #' @name song_param
-#' @details The function removes silence segments (i.e. segments with very low amplitude values) from wave files. 
-#' @seealso \code{\link{fixwavs}}, \code{\link{autodetec}}, 
+#' @details The function calculates average or extreme values of acoustic parameters of
+#' elements in a song or other level of organization in the signals.
+#' @seealso \code{\link{specan}} 
 #' @examples{
 #' # Set temporary working directory
 #' # setwd(tempdir())
@@ -162,7 +165,7 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
-  if (is.null(X$duration)) X$duration <- X$end - X$start
+  # if (is.null(X$duration)) X$duration <- X$end - X$start
 
   if (!any(names(X) %in% weight) & !is.null(weight)) stop("'weight' column not found")
   
@@ -221,12 +224,13 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
     Z$num.elms <- nrow(Y)
     Z$start <- min(Y$start)
     Z$end <- max(Y$end)
+    Z$elm.duration <- mean(Y$end - Y$start)
     try(Z$bottom.freq <- min(Y$bottom.freq, na.rm = na.rm), silent = TRUE)
     try(Z$top.freq <- max(Y$top.freq, na.rm = na.rm), silent = TRUE)
     try(Z$freq.range <- Z$top.freq - Z$bottom.freq, silent = TRUE)
     Z$song.duration <- Z$end - Z$start
-    # Z$elm.duration <- mean(Y$end - Y$start)
     Z$song.rate <- if(Z$num.elms == 1) NA else Z$num.elms / Z$song.duration
+    Z$gap.duration <- if(Z$num.elms == 1) NA else mean(Y$start[2:nrow(Y)] - Y$end[1:(nrow(Y) - 1)])
     
     # add element parameters
     if (!is.null(elm_colm))

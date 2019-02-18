@@ -4,7 +4,7 @@
 \alias{sp.en.ts}
 \title{Extract the spectral entropy across signals as a time series}
 \usage{
-sp.en.ts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = NULL,
+sp.en.ts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = "frange",
   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "sp.en.ts",
    pb = TRUE, clip.edges = FALSE, leglab = "sp.en.ts", sp.en.range = c(2, 10), ...)
 }
@@ -29,7 +29,8 @@ desired (the length of the time series).}
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz). Default is \code{NULL}.}
+frequency bandpass filter (in kHz). If 'frange' (default) then the
+'bottom.freq' and 'top.freq' columns are used bandpass limits.}
 
 \item{threshold}{amplitude threshold (\%) for dominant frequency detection. Default is 15.}
 
@@ -93,7 +94,7 @@ writeWave(Phae.long3, "Phae.long3.wav") #save sound files
 writeWave(Phae.long4, "Phae.long4.wav")
 
 # without clip edges
-sp.en.ts(X = lbh_selec_table, threshold = 10, bp = NULL, clip.edges = FALSE, length.out = 10,
+sp.en.ts(X = lbh_selec_table, threshold = 10, clip.edges = FALSE, length.out = 10,
  type = "b", sp.en.range = c(-25, 10))
 
 # with clip edges and length.out 10

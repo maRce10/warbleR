@@ -32,7 +32,8 @@ frequency desired (the length of the time series).}
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz). Default is c(0, 22).}
+frequency bandpass filter (in kHz). Default is c(0, 22). If 'frange' then the
+'bottom.freq' and 'top.freq' columns are used bandpass limits.}
 
 \item{threshold}{amplitude threshold (\%) for dominant frequency detection. Default is 0. Note that amplitude 
 threshold for time and frequency domains can be defined independently. See "threshold.time" and "threshold.freq" 

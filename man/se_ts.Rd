@@ -5,7 +5,7 @@
 \title{alternative name for \code{\link{sp.en.ts}}}
 \usage{
 se_ts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
-  bp = NULL, threshold = 15, img = TRUE, parallel = 1,
+  bp = "frange", threshold = 15, img = TRUE, parallel = 1,
   path = NULL, img.suffix = "sp.en.ts", pb = TRUE,
   clip.edges = FALSE, leglab = "sp.en.ts", sp.en.range = c(2, 10),
   ...)

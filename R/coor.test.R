@@ -25,7 +25,7 @@
 #' @param rm.incomp Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
 #'  \code{FALSE}.
 #' @param cutoff Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
-#' this criterium are removed if \code{rm.incomp = TRUE}. If \code{rm.incomp = FALSE} cutoff is ignored. Default is 2. 
+#' this criterium are removed. Default is 2. 
 #' Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
 #' should be available in each singing event.
 #' @param rm.solo Logical. Controls if signals that are not intercalated at the start or end of the 
@@ -40,7 +40,7 @@
 #'    \item \code{coor.score}: coordination score (\emph{sensu} Araya-Salas et al. 2017), 
 #'    calculated as: 
 #'    \deqn{(obs.overlap - mean.random.ovlp) / mean.random.ovlp} 
-#'    Positive values indicate a tendency to overlap while negative values indicate a tendency to alternate.
+#'    Positive values indicate a tendency to overlap while negative values indicate a tendency to alternate. NA values will be returned when events cannot be randomized (e.g. too few signals). 
 #'    }
 #' @export
 #' @name coor.test
@@ -129,18 +129,50 @@ coor.test <- function(X = NULL, iterations = 1000, ovlp.method = "count",
   
   #remove hidden levels
   X <- droplevels(X)
+
+  #remove solo singing
+  if (rm.solo)
+   {
+    rmslX <- lapply(unique(X$sing.event), function(x)
+     {  
+    Y <- X[X$sing.event == x, ]
+     
+    Y <- Y[order(Y$start), ]
+    
+     fst <- max(c(which(Y$start==min(Y$start[Y$indiv==unique(Y$indiv)[1]])),
+                 which(Y$start==min(Y$start[Y$indiv==unique(Y$indiv)[2]])))) - 1
+    
+    lst <- min(c(which(Y$start==max(Y$start[Y$indiv==unique(Y$indiv)[1]])),
+                 which(Y$start==max(Y$start[Y$indiv==unique(Y$indiv)[2]])))) + 1
+    
+    Y <- Y[fst:lst, ]
+  })
+  
+    X <- do.call(rbind, rmslX)
+   
+  }
   
   #stop if some events do not have 2 individuals 
   qw <- as.data.frame(tapply(X$sing.event, list(X$sing.event, X$indiv), length))
-  qw[is.na(qw)] <- 0
+  qw2 <- qw 
+  qw2[qw2 > 0] <- 1
+  indiv.cnt <- apply(qw2, 1, sum, na.rm = TRUE)
+  sng.cnt <- apply(qw, 1, function(x) any(na.omit(x) < cutoff))
    
-   #complete singing events
-    if (rm.incomp) cse <- qw[,1] >= cutoff & qw[,2] >= cutoff else cse <- qw[,1] >= 1 & qw[,2] >= 1
-    
-if (rm.incomp)   {X <- X[X$sing.event %in% unique(X$sing.event)[cse], ]
-if (any(!cse)) warning("Some events didn't have 2 individuals and were excluded")
-} else
-  if (any(!cse)) stop("Some singing events don't have 2 interacting individuals ('indiv' colum)")
+  #complete singing events
+    if (any(indiv.cnt != 2))
+      if (rm.incomp){
+      X <- X[X$sing.event %in% names(indiv.cnt)[indiv.cnt == 2], ]
+      warning("Some events didn't have 2 individuals and were excluded")
+      } else warning("Some singing events don't have 2 interacting individuals ('indiv' column)")
+  
+
+# deal with cutoff value    
+  if (any(sng.cnt))
+    {
+    X <- X[X$sing.event %in% names(indiv.cnt)[!sng.cnt], ]
+    warning("Some individuals didn't have more songs that the 'cutoff' and the event were excluded")
+  } 
 
     #if nothing was left
     if (nrow(X) == 0) stop("No events left after removing incomplete events")
@@ -164,19 +196,19 @@ if (any(!cse)) warning("Some events didn't have 2 individuals and were excluded"
     Y <- Y[order(Y$start), ]
   
     #remove solo singing
-    if (rm.solo)
-    {  
-      fst <- max(c(which(Y$start==min(Y$start[Y$indiv==unique(Y$indiv)[1]])),
-                   which(Y$start==min(Y$start[Y$indiv==unique(Y$indiv)[2]])))) - 1
-      
-      lst <- min(c(which(Y$start==max(Y$start[Y$indiv==unique(Y$indiv)[1]])),
-                   which(Y$start==max(Y$start[Y$indiv==unique(Y$indiv)[2]])))) + 1
-      
-      Y <- Y[fst:lst, ]
-    }
+    # if (rm.solo)
+    # {  
+    #   fst <- max(c(which(Y$start==min(Y$start[Y$indiv==unique(Y$indiv)[1]])),
+    #                which(Y$start==min(Y$start[Y$indiv==unique(Y$indiv)[2]])))) - 1
+    #   
+    #   lst <- min(c(which(Y$start==max(Y$start[Y$indiv==unique(Y$indiv)[1]])),
+    #                which(Y$start==max(Y$start[Y$indiv==unique(Y$indiv)[2]])))) + 1
+    #   
+    #   Y <- Y[fst:lst, ]
+    # }
    
-    Y1<-Y[Y$indiv==unique(Y$indiv)[1], ]
-    Y2<-Y[Y$indiv==unique(Y$indiv)[2], ]
+    Y1 <- Y[Y$indiv==unique(Y$indiv)[1], ]
+    Y2 <- Y[Y$indiv==unique(Y$indiv)[2], ]
     
     #null model
     #duration of signals
@@ -186,7 +218,6 @@ if (any(!cse)) warning("Some events didn't have 2 individuals and were excluded"
     #duration of gaps
     gap1 <- sapply(1:(nrow(Y1) - 1),function(x) {Y1$start[x + 1] - Y1$end[x]})
     gap2 <- sapply(1:(nrow(Y2) - 1),function(x) {Y2$start[x + 1] - Y2$end[x]})   
-    
     
     # randomize
     rnd.dfs <- lapply(1:iterations, function(x){
@@ -328,16 +359,22 @@ if (any(!cse)) warning("Some events didn't have 2 individuals and were excluded"
       # run loop apply function
       cote <- pbapply::pblapply(X = unique(X$sing.event), cl = cl, FUN = function(h) 
       { 
-        ovlp <- sapply(rndmFUN(X[X$sing.event == h, ]), coortestFUN)
-        # coortestFUN(sub = X[X$sing.event == h, ])
-      
+        ovlp <- try(sapply(rndmFUN(X[X$sing.event == h, ]), coortestFUN))
+        
+        if(class(ovlp) != "try-error")
+        {  
+        # get observed overlap
         obs.overlaps <- ovlp[1]
+      
+        # get random overlap
         rov <- ovlp[-1]
         mean.random.ovlps <- mean(rov)
         
+        # calculate p-value
         if (less.than.chance) p <- length(rov[rov <= obs.overlaps])/iterations else p <- length(rov[rov >= obs.overlaps])/iterations
         
         l <- data.frame(sing.event = h, obs.ovlp = obs.overlaps, mean.random.ovlp = mean.random.ovlps, p.value = p, coor.score = round((obs.overlaps - mean.random.ovlps)/mean.random.ovlps, 3))
+        } else l <- data.frame(sing.event = h, obs.ovlp = NA, mean.random.ovlp = NA, p.value = NA, coor.score = NA)
         
         return(l)
         }

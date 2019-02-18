@@ -52,6 +52,7 @@ A data frame similar to the input 'X' data frame, but in this case each row corr
  'mean_colm' (otherwhise all numeric columns are used). Columns can be 
  weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters: 
 \itemize{
+   \item \code{elm.duration}: mean length of elements (in s)
    \item \code{song.duration}: length of song (in s)
    \item \code{num.elms}: number of elements (or song units)
    \item \code{start}: start time of song (in s)
@@ -60,17 +61,19 @@ A data frame similar to the input 'X' data frame, but in this case each row corr
    \item \code{top.freq}: highest 'top.freq' from all song elements (in kHz)
    \item \code{freq.range}: difference between song's 'top.freq' and 'bottom.freq' (in kHz)
    \item \code{song.rate}: number of elements per second (NA if only 1 element)
+   \item \code{gap.duration}: length of gaps (i.e. silences) in between elements
+   (in s, NA if only 1 element)
    \item \code{elm.types}: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)
    \item \code{mean.elm.count}: mean number of times element types are found (only if 'elm_colm' is supplied)
    }
    This function assumes that song labels are not repeated within a sound file.
 }
 \description{
-\code{song_param} calculates average or extreme values of acoustic parameters of
-elements in a song or other level of organization in the signals
+\code{song_param} calculates descriptive statistics of songs or other higher levels of organization in the signals.
 }
 \details{
-The function removes silence segments (i.e. segments with very low amplitude values) from wave files.
+The function calculates average or extreme values of acoustic parameters of
+elements in a song or other level of organization in the signals.
 }
 \examples{
 {
@@ -120,7 +123,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{fixwavs}}, \code{\link{autodetec}},
+\code{\link{specan}}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

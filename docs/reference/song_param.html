@@ -32,8 +32,7 @@
 
 <meta property="og:title" content="Calculates acoustic parameters at the song level — song_param" />
 
-<meta property="og:description" content="song_param calculates average or extreme values of acoustic parameters of
-elements in a song or other level of organization in the signals" />
+<meta property="og:description" content="song_param calculates descriptive statistics of songs or other higher levels of organization in the signals." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -121,8 +120,7 @@ elements in a song or other level of organization in the signals" />
 
     <div class="ref-description">
     
-    <p><code>song_param</code> calculates average or extreme values of acoustic parameters of
-elements in a song or other level of organization in the signals</p>
+    <p><code>song_param</code> calculates descriptive statistics of songs or other higher levels of organization in the signals.</p>
     
     </div>
 
@@ -202,6 +200,7 @@ measurements (i.e. song parameters). Names of numeric columns in 'X' can also be
  values for numeric columns for each song. Columns that will be averaged can be defined with
  'mean_colm' (otherwhise all numeric columns are used). Columns can be 
  weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters:</p><ul>
+<li><p><code>elm.duration</code>: mean length of elements (in s)</p></li>
 <li><p><code>song.duration</code>: length of song (in s)</p></li>
 <li><p><code>num.elms</code>: number of elements (or song units)</p></li>
 <li><p><code>start</code>: start time of song (in s)</p></li>
@@ -210,13 +209,16 @@ measurements (i.e. song parameters). Names of numeric columns in 'X' can also be
 <li><p><code>top.freq</code>: highest 'top.freq' from all song elements (in kHz)</p></li>
 <li><p><code>freq.range</code>: difference between song's 'top.freq' and 'bottom.freq' (in kHz)</p></li>
 <li><p><code>song.rate</code>: number of elements per second (NA if only 1 element)</p></li>
+<li><p><code>gap.duration</code>: length of gaps (i.e. silences) in between elements
+   (in s, NA if only 1 element)</p></li>
 <li><p><code>elm.types</code>: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)</p></li>
 <li><p><code>mean.elm.count</code>: mean number of times element types are found (only if 'elm_colm' is supplied)</p></li>
 </ul><p>This function assumes that song labels are not repeated within a sound file.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function removes silence segments (i.e. segments with very low amplitude values) from wave files.</p>
+    <p>The function calculates average or extreme values of acoustic parameters of
+elements in a song or other level of organization in the signals.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -275,11 +277,11 @@ measurements (i.e. song parameters). Names of numeric columns in 'X' can also be
 #&gt; 2 Phae.long2.wav     1 0.15960 1.58321   8.8880      2.2840    2 12.2151
 #&gt; 3 Phae.long3.wav     1 0.62655 0.75777   8.8223      3.0068    2 10.4118
 #&gt; 4 Phae.long3.wav     1 0.12336 2.10439   9.3152      2.3169    3  8.1652
-#&gt;    sp.ent num.elms freq.range song.duration song.rate
-#&gt; 1 0.93123        3     6.6376       1.97812    1.5166
-#&gt; 2 0.92571        2     6.6040       1.42361    1.4049
-#&gt; 3 0.91059        1     5.8155       0.13122        NA
-#&gt; 4 0.90695        2     6.9983       1.98103    1.0096</div><div class='input'>
+#&gt;    sp.ent num.elms elm.duration freq.range song.duration song.rate gap.duration
+#&gt; 1 0.93123        3      0.17033     6.6376       1.97812    1.5166     -0.58105
+#&gt; 2 0.92571        2      0.12936     6.6040       1.42361    1.4049      1.16489
+#&gt; 3 0.91059        1      0.13122     5.8155       0.13122        NA           NA
+#&gt; 4 0.90695        2      0.13070     6.9983       1.98103    1.0096     -1.98103</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -38,7 +38,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \code{FALSE}.}
 
 \item{cutoff}{Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
-this criterium are removed if \code{rm.incomp = TRUE}. If \code{rm.incomp = FALSE} cutoff is ignored. Default is 2. 
+this criterium are removed. Default is 2. 
 Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
 should be available in each singing event.}
 
@@ -56,7 +56,7 @@ A data frame with the following columns:
    \item \code{coor.score}: coordination score (\emph{sensu} Araya-Salas et al. 2017), 
    calculated as: 
    \deqn{(obs.overlap - mean.random.ovlp) / mean.random.ovlp} 
-   Positive values indicate a tendency to overlap while negative values indicate a tendency to alternate.
+   Positive values indicate a tendency to overlap while negative values indicate a tendency to alternate. NA values will be returned when events cannot be randomized (e.g. too few signals). 
    }
 }
 \description{

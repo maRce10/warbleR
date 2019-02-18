@@ -22,7 +22,7 @@
 ## Bug fixes:
 
 * system() commands for windows in 'fix_wavs()' and 'resample_est()'
-
+* normalization when downsapling in 'mp32wav()' was required
 </br>
 
 # *warbleR 1.1.15*

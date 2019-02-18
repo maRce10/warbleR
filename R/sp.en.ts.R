@@ -2,7 +2,7 @@
 #' 
 #' \code{sp.en.ts} spectral entropy across signals as a time series.
 #' of signals selected by \code{\link{manualoc}} or \code{\link{sp.en.ts}}.
-#' @usage sp.en.ts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = NULL,
+#' @usage sp.en.ts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = "frange",
 #'   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "sp.en.ts",
 #'    pb = TRUE, clip.edges = FALSE, leglab = "sp.en.ts", sp.en.range = c(2, 10), ...)
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data 
@@ -20,7 +20,8 @@
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. 
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz). Default is \code{NULL}.
+#'   frequency bandpass filter (in kHz). If 'frange' (default) then the
+#'   'bottom.freq' and 'top.freq' columns are used bandpass limits.
 #' @param threshold amplitude threshold (\%) for dominant frequency detection. Default is 15.
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -72,7 +73,7 @@
 #' writeWave(Phae.long4, "Phae.long4.wav")
 #' 
 #' # without clip edges
-#' sp.en.ts(X = lbh_selec_table, threshold = 10, bp = NULL, clip.edges = FALSE, length.out = 10,
+#' sp.en.ts(X = lbh_selec_table, threshold = 10, clip.edges = FALSE, length.out = 10,
 #'  type = "b", sp.en.range = c(-25, 10))
 #' 
 #' # with clip edges and length.out 10
@@ -87,7 +88,7 @@
 #last modification on mar-13-2018 (MAS)
 
 sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
-                  bp = NULL, threshold = 15, img = TRUE, parallel = 1,
+                  bp = "frange", threshold = 15, img = TRUE, parallel = 1,
                   path = NULL, img.suffix = "sp.en.ts", pb = TRUE, clip.edges = FALSE,
                   leglab = "sp.en.ts", sp.en.range = c(2, 10), ...){     
 
@@ -149,9 +150,16 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   options( show.error.messages = TRUE)
   
-  #if bp is not vector or length!=2 stop
-  if (!is.null(bp)) {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
+  # bp checking
+  if (bp[1] != "frange")
+  {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
+  } else
+  {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
+    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
+    if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
+    if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than low.f")
+  }
   
   #if sp.en.range is not vector or length!=2 stop
   if (!is.vector(sp.en.range)) stop("'sp.en.range' must be a numeric vector of length 2") else
@@ -190,6 +198,9 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     r <- read_wave(X = X, index = i, header = TRUE)
     f <- r$sample.rate
 
+    # if bp is frange
+    if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])
+    
     #in case bp its higher than can be due to sampling rate
     b<- bp 
     if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 

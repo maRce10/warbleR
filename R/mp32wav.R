@@ -20,7 +20,7 @@
 #' overwritten.
 #' @return .wav files saved in the working directory with same name as original mp3 files.
 #' @export
-#' @details The function will convert all mp3 files in  working directory or 'path' supplied to wav format. \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} must be installed when changing sampling rates (i.e. if 'samp.rate' is supplied).
+#' @details The function will convert all mp3 files in  working directory or 'path' supplied to wav format. \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} must be installed when changing sampling rates (i.e. if 'samp.rate' is supplied). Note that sound files are normalized using \code{\link[tuneR]{normalize}} so they can be written by \code{\link[tuneR]{writeWave}}.
 #' @name mp32wav
 #' @examples
 #' \dontrun{
@@ -48,7 +48,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
                     to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE) {
   
   # error message if bioacoustics is not installed
-  if (!requireNamespace("bioacoustics",quietly = TRUE) & !is.null(samp.rate))
+  if (!requireNamespace("bioacoustics", quietly = TRUE) & !is.null(samp.rate))
     stop("must install 'bioacoustics' to use mp32wav() when changing sampling rate")
   
   # reset working directory 
@@ -133,7 +133,6 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
       }
 
     # normalize 
-     if (bit.depth != wv@bit)
        wv <- tuneR::normalize(object = wv, unit = as.character(bit.depth))
      
    wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
