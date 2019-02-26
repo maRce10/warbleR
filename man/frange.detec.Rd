@@ -4,8 +4,9 @@
 \alias{frange.detec}
 \title{Detect frequency range on wave objects}
 \usage{
-frange.detec(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning",
- flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, 
+frange.detec(wave, wl = 512, fsmooth = 0.1, threshold = 10, 
+dB.threshold = NULL, wn = "hanning", flim = c(0, 22), bp = NULL, 
+fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, 
  widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 }
 \arguments{
@@ -19,8 +20,14 @@ and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{pl
 sliding window in kHz. This help to average amplitude "hills" to minimize the effect of
 amplitude modulation. Default is 0.1.}
 
-\item{threshold}{Amplitude threshold (\%) for fundamental frequency and 
-dominant frequency detection. Default is 10.}
+\item{threshold}{Amplitude threshold (\%) for frequency range detection. The frequency range (not the cummulative amplitude) is represented as percentage (100\% = highest amplitude). Default is 10. Ignored if 'dB.threshold' is supplied.}
+
+\item{dB.threshold}{Amplitude threshold for frequency range detection (in dB). The
+value indicates the decrease in dB in relation to the highest amplitude (e.g. 
+the peak frequency) in which range will be detected. For instance a 
+\code{dB.threshold = 20} means that the amplitude threshold would be 20 dB below
+the highest amplitude. If provided 'threshold' is ignored. Default is \code{NULL}. 
+Note that the power spectrum is normalized when using a dB scale, so it looks different than the one produced when no dB scale is used (e.g. when using 'threshold' argument).}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}).}
@@ -65,8 +72,8 @@ A data frame with 2 columns for low and high frequency values. A plot is produce
 \details{
 This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
 \itemize{  
- \item bottom.freq = the start frequency of the first amplitude "hill"  
- \item top.freq = the end frequency of the last amplitude "hill"  
+ \item bottom.freq = the start frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.  
+ \item top.freq = the end frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.
   }
   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
   produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.

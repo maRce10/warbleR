@@ -116,9 +116,6 @@ coor.test <- function(X = NULL, iterations = 1000, ovlp.method = "count",
   
   if (!is.data.frame(X))  stop("X is not a data frame")
   
-  #stop if some events have less than 10 observations
-  if (any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
-  
   #stop if some cells are not labeled
   if (any(is.na(X$sing.event))) stop("NA's in singing event names ('sing.event' column) not allowed")
   
@@ -163,7 +160,7 @@ coor.test <- function(X = NULL, iterations = 1000, ovlp.method = "count",
     if (any(indiv.cnt != 2))
       if (rm.incomp){
       X <- X[X$sing.event %in% names(indiv.cnt)[indiv.cnt == 2], ]
-      warning("Some events didn't have 2 individuals and were excluded")
+      warning("Some events didn't have 2 interacting individuals and were excluded")
       } else warning("Some singing events don't have 2 interacting individuals ('indiv' column)")
   
 

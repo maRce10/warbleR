@@ -1,8 +1,9 @@
 #' Detect frequency range on wave objects
 #' 
 #' \code{frange.detec} detects the frequency range of acoustic signals on wave objects.
-#' @usage frange.detec(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning",
-#'  flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, 
+#' @usage frange.detec(wave, wl = 512, fsmooth = 0.1, threshold = 10, 
+#' dB.threshold = NULL, wn = "hanning", flim = c(0, 22), bp = NULL, 
+#' fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, 
 #'  widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 #' @param wave A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -11,8 +12,13 @@
 #' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
 #'  sliding window in kHz. This help to average amplitude "hills" to minimize the effect of
 #'  amplitude modulation. Default is 0.1.
-#' @param threshold Amplitude threshold (\%) for fundamental frequency and 
-#'   dominant frequency detection. Default is 10.
+#' @param threshold Amplitude threshold (\%) for frequency range detection. The frequency range (not the cummulative amplitude) is represented as percentage (100\% = highest amplitude). Default is 10. Ignored if 'dB.threshold' is supplied.
+#' @param dB.threshold Amplitude threshold for frequency range detection (in dB). The
+#' value indicates the decrease in dB in relation to the highest amplitude (e.g. 
+#' the peak frequency) in which range will be detected. For instance a 
+#' \code{dB.threshold = 20} means that the amplitude threshold would be 20 dB below
+#' the highest amplitude. If provided 'threshold' is ignored. Default is \code{NULL}. 
+#' Note that the power spectrum is normalized when using a dB scale, so it looks different than the one produced when no dB scale is used (e.g. when using 'threshold' argument).
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}). 
 #' @param flim A numeric vector of length 2 for the frequency limit of 
@@ -42,8 +48,8 @@
 #' @name frange.detec
 #' @details This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
 #' \itemize{  
-#'  \item bottom.freq = the start frequency of the first amplitude "hill"  
-#'  \item top.freq = the end frequency of the last amplitude "hill"  
+#'  \item bottom.freq = the start frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.  
+#'  \item top.freq = the end frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.
 #'   }
 #'   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
 #'   produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
@@ -65,7 +71,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on apr-28-2017 (MAS)
 
-frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
+frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, dB.threshold = NULL, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 {
   # close screens
   on.exit(invisible(close.screen(all.screens = TRUE)))
@@ -91,12 +97,10 @@ frange.detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "ha
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  
-  frng <- frd_wrblr_int(wave = wave, wl = wl, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = flim, bp = bp, ovlp = ovlp)
-  
+  frng <- frd_wrblr_int(wave = wave, wl = wl, fsmooth = fsmooth, threshold = threshold, dB.threshold = dB.threshold, wn = wn, bp = bp, ovlp = ovlp)
   
   if (plot)
-    frd_plot_wrblr_int(wave = wave, detections = frng, wl = wl, threshold = threshold, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = main, all.detec = all.detec)   
+    frd_plot_wrblr_int(wave = wave, detections = frng, wl = wl, wn = wn, flim = flim, bp = bp, fast.spec = fast.spec, ovlp = ovlp, pal = pal, widths = widths, main = main, all.detec = all.detec)   
 
     # return low and high freq
  if (all.detec) return(frng$detections) else return(frng$frange)

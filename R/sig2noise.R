@@ -183,6 +183,9 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     # add band-pass frequnecy filter
     if (!is.null(bp)) {
+      
+      if (bp[1] == "frange") bp <- c(X$bottom.freq[y], X$top.freq[y])
+      
       r <- seewave::ffilter(r, f = f, from = bp[1] * 1000, ovlp = 0,
                             to = bp[2] * 1000, bandpass = TRUE, wl = wl, 
                             output = "Wave")
@@ -228,7 +231,6 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
         sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
         sigamp <- sigamp - noisamp
     }
-    
     
     # Calculate signal-to-noise ratio
     snr <- sigamp / noisamp

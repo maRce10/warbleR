@@ -386,7 +386,7 @@ if (!frange.detec){
         
       }
 } else {
-  frng <- frd_wrblr_int(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, flim = fl, bp = b, ovlp = ovlp)
+  frng <- frd_wrblr_int(wave = seewave::cutw(r, from = mar1, to = mar2, output = "Wave"), wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, bp = b, ovlp = ovlp)
   
   if (!all(is.na(frng$frange))) b <- as.numeric(frng$frange) 
   

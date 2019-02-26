@@ -1,6 +1,6 @@
 #internal warbleR function, not to be called by users. Plots detected frequency range.
 
-frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, all.detec = F) {
+frd_plot_wrblr_int <- function(wave, detections, wl = 512, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, all.detec = F) {
   
   # attach freq and amplitude values
   z <- detections$af.mat[,1]
@@ -33,7 +33,7 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
                c(widths[1]/sum(widths), 1, 0 , 0.93),
                c(0, 1,  0.93 , 1)) #3 
       
-    invisible(close.screen(all.screens = TRUE))  
+    try(invisible(close.screen(all.screens = TRUE)), silent = TRUE)  
     split.screen(m)
     screen(1)
     par(mar = c(3.4, 3.4, 0.5, 0))
@@ -42,14 +42,14 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     spectro_wrblr_int2(wave = wave, f = f, flim = flim, fast.spec = fast.spec, palette = pal, ovlp = ovlp, wl = wl, grid = F, tlab = "", flab = "", wn = wn)
   
     #add gray polygon on detected frequency bands
-    lapply(seq_len(length(min.start)), function(e)
+    out <- lapply(seq_len(length(min.start)), function(e)
     {
       rect(xleft = 0, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = dur, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("#07889B", alpha.f = 0.1), border = adjustcolor("gray", 0.2)) 
       
     })
       
     #add line highlighting freq range
-      abline(h = c(min.start, max.end), col = "#80C3FF", lty = 3, lwd = 2) 
+    abline(h = c(min.start, max.end), col = "#80C3FF", lty = 3, lwd = 2) 
     
     # add axis labels
     mtext(side = 1, text = "Time (s)", line = 2.3)
@@ -61,12 +61,28 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     
     plot(z, zf, type = "l", ylim = flim, yaxs = "i", xaxs = "i", yaxt = "n", xlab = "", col = "white", xaxt = "n")
     
+    minf <- min(detections$af.mat[,1])
+    maxf <- max(detections$af.mat[,1])
+    
     # add axis& labels
-    axis(1, at = seq(0.2, 1, by = 0.4))
+    if (detections$type == "percentage")
+    {
+      axis(1, at = seq(0.2, 1, by = 0.4))
     mtext(side = 1, text = "Amplitude (%)", line = 2.3)
     
+    }  else
+    {
+      axis(1, at = round(seq(0, maxf, by = 30), 0))
+      mtext(side = 1, text = "Amplitude (dB)", line = 2.3)
+      
+        }
+    
     # fix amplitude values to close polygon (just for ploting)
-    z3 <- c(0, z, 0)
+    z3 <- c(minf, z, minf)
+    
+    # fix amplitude values to close polygon (just for ploting)
+    # z3 <- c(0, z, 0)
+    
     
     #addd  extremes to make polygon close fine
     zf3 <- c(lims[1], zf, lims[2])
@@ -77,17 +93,16 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     # add border line
     points(z3, zf3, type = "l", col = adjustcolor("gray", 0.3))
     
-    # add bacground color
-    rect(xleft = 0, ybottom = flim[1], xright = 1, ytop = flim[2], col = adjustcolor("#4D69FF", 0.05))
+    # add background color
+    rect(xleft = minf, ybottom = flim[1], xright = maxf, ytop = flim[2], col = adjustcolor("#4D69FF", 0.05))
 
     #add gray polygon on detected frequency bands
     lapply(seq_len(length(min.start)), function(e)
     {
-      rect(xleft = 0, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = 1, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("#07889B", alpha.f = 0.1), border = adjustcolor("gray", 0.2)) 
+      rect(xleft = minf, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = maxf, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("#07889B", alpha.f = 0.1), border = adjustcolor("gray", 0.2)) 
       
     })
     
-        
     # add gray boxes in filtered out freq bands
     if (!is.null(bp))
     {  rect(xleft = 0, ybottom = bp[2], xright = 1, ytop = flim[2], col = adjustcolor("gray", 0.5)) 
@@ -95,7 +110,7 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, threshold = 10, wn = 
     }
     
     # add line to highligh freq range
-    abline(v = threshold/100, col = adjustcolor("#07889B", 0.7), lty = 3, lwd = 2)
+    abline(v = ifelse(detections$type == "percentage", detections$threshold / 100, detections$threshold), col = adjustcolor("#07889B", 0.7), lty = 3, lwd = 2)
     abline(h = c(min.start, max.end), col = "#80C3FF", lty = 3, lwd = 2)
     
     

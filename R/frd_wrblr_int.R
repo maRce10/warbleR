@@ -1,18 +1,16 @@
 #internal warbleR function, not to be called by users. Detects frequency range.
 
-frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning", flim = c(0, 22), bp = NULL, ovlp = 50)
+frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "hanning", bp = NULL, ovlp = 50, dB.threshold = NULL)
 {
   # get sampling rate
   f <-  wave@samp.rate
-  
-  # fix flim
-  flim <- c(0, floor(f/2000))
-  if (flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1 
   
   if(wl >= length(wave@left))  wl <- length(wave@left) - 1 
   if (wl %% 2 != 0) wl <- wl - 1
   
   # mean spectrum
+  if (is.null(dB.threshold)){
+    
   spc <- meanspec(wave, plot = FALSE, wl = wl, f = f, wn = wn, ovlp = ovlp)
   
   # get frequency windows length for smoothing
@@ -70,21 +68,85 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
     strt <- strt - (step / 2)
     
   meanpeakf <- zf[which.max(z)] + (step / 2)
+  } else {
   
-  options(warn = -1)
-  min.strt <- ifelse(length(strt) == 1, strt, min(strt, na.rm = TRUE))
-  max.nd <- ifelse(length(nd) == 1, nd, max(nd, na.rm = TRUE))
+  spc <- meanspec(wave, plot = FALSE, wl = wl, f = f, wn = wn, ovlp = ovlp, dB = "max0", dBref = 2*10e-5)
+ 
+  # get frequency windows length for smoothing
+  step <- wave@samp.rate/wl/1000
+  
+  fsmooth <- fsmooth/step
+  
+  # number of samples
+  n <- nrow(spc)
+  
+  # smoothing parameter
+  FWL <- fsmooth - 1
+  
+  # smooth 
+  z <- apply(as.matrix(1:(n - FWL)), 1, function(y) sum(spc[y:(y + FWL), 2]))
+  zf <- seq(min(spc[,1]), max(spc[,1]), length.out = length(z))
+  
+  if (!is.null(bp)) { 
+    #remove range outsde bp
+    z <- z[zf > bp[1] & zf < bp[2]]
+    zf <- zf[zf > bp[1] & zf < bp[2]]
+  }
+  
+  z1 <- rep(0, length(z))
+  z1[z > max(z) - dB.threshold] <- 1 
+  z2 <- z1[2:length(z1)] - z1[1:(length(z1) - 1)]
+  
+  # add 0 to get same length than z
+  z2 <- c(0, z2)
+  
+  #determine start and end of amplitude hills  
+  strt <- zf[z2 == 1]
+  nd <- zf[z2 == -1]
+  
+  #add NAs when some ends or starts where not found
+  if (length(strt) != length(nd))
+  {if (z1[1] == 0) nd <- c(nd, NA) else strt <- c(NA, strt)}
+  
+  if (length(strt) == 1){
+    if (z1[1] == 1 & z1[length(z1)] == 1  & strt > nd){    
+      strt <- c(NA, strt)
+      nd <- c(nd , NA)
+    }
+  }  
+  
+  # step <- mean(zf[-1] - zf[1:(length(zf) - 1)])
+  
+  # substract half a step to calculate mid point between the 2 freq windows in which the theshold has passed
+  nd <- nd - (step / 2)
+  strt <- strt - (step / 2)
+  meanpeakf <- zf[which.max(z)] + (step / 2)
+
+   }
+
+  # fix range
+  # only start lower than peakf
+  strt <- strt[strt <= meanpeakf]
+  
+  # only ends higher than peakf
+  nd <- nd[nd >= meanpeakf]
+  
+  # options(warn = -1)
+  # min.strt <- ifelse(length(strt) == 1, strt, min(strt, na.rm = TRUE))
+  min.strt <- ifelse(length(strt) == 1, strt, strt[which.min(meanpeakf - strt)])
+  # max.nd <- ifelse(length(nd) == 1, nd, max(nd, na.rm = TRUE))
+  max.nd <- ifelse(length(nd) == 1, nd, nd[which.min(nd - meanpeakf)])
   
   if (!any(is.na(c(min.strt, max.nd)))) {
     if (min.strt > max.nd){
-    min.strt <- NA
-    max.nd <- NA
-  }
+      min.strt <- NA
+      max.nd <- NA
     }
-
-  rl <- list(frange = data.frame(bottom.freq = min.strt, top.freq = max.nd), af.mat = cbind(z, zf), meanpeakf = meanpeakf, detections = cbind(start.freq = strt, end.freq = nd))
+  }
   
-  # return low and high freq
+  rl <- list(frange = data.frame(bottom.freq = min.strt, top.freq = max.nd), af.mat = cbind(z, zf), meanpeakf = meanpeakf, detections = cbind(start.freq = strt, end.freq = nd), threshold = ifelse(is.null(dB.threshold), threshold, max(z) - dB.threshold), type = ifelse(is.null(dB.threshold), "percentage", "dB"))
+  
+  # return rl list
   return(rl)
 }
 

@@ -248,7 +248,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
   
     # freq range to measure peak freq  
     # wl is adjusted when very short signals
-    frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold, wn = wn, flim = b, bp = bpfr, ovlp = ovlp)
+    frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold, wn = wn, bp = bpfr, ovlp = ovlp)
   
     # soungen measurements
     if (harmonicity)

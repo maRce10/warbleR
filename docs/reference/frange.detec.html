@@ -124,8 +124,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>frange.detec</span>(<span class='no'>wave</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>,
- <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>,
+    <pre class="usage"><span class='fu'>frange.detec</span>(<span class='no'>wave</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+<span class='kw'>dB.threshold</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>,
  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>1</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>all.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -149,8 +150,16 @@ amplitude modulation. Default is 0.1.</p></td>
     </tr>
     <tr>
       <th>threshold</th>
-      <td><p>Amplitude threshold (%) for fundamental frequency and 
-dominant frequency detection. Default is 10.</p></td>
+      <td><p>Amplitude threshold (%) for frequency range detection. The frequency range (not the cummulative amplitude) is represented as percentage (100% = highest amplitude). Default is 10. Ignored if 'dB.threshold' is supplied.</p></td>
+    </tr>
+    <tr>
+      <th>dB.threshold</th>
+      <td><p>Amplitude threshold for frequency range detection (in dB). The
+value indicates the decrease in dB in relation to the highest amplitude (e.g. 
+the peak frequency) in which range will be detected. For instance a 
+<code>dB.threshold = 20</code> means that the amplitude threshold would be 20 dB below
+the highest amplitude. If provided 'threshold' is ignored. Default is <code>NULL</code>. 
+Note that the power spectrum is normalized when using a dB scale, so it looks different than the one produced when no dB scale is used (e.g. when using 'threshold' argument).</p></td>
     </tr>
     <tr>
       <th>wn</th>
@@ -215,8 +224,8 @@ working directory). Default is <code>TRUE</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:</p><ul>
-<li><p>bottom.freq = the start frequency of the first amplitude "hill"</p></li>
-<li><p>top.freq = the end frequency of the last amplitude "hill"</p></li>
+<li><p>bottom.freq = the start frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.</p></li>
+<li><p>top.freq = the end frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.</p></li>
 </ul><p>If <code>plot = TRUE</code> a graph including a spectrogram and a frequency spectrum is 
   produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.</p>
     

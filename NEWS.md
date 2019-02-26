@@ -5,6 +5,7 @@
 
 ## Changes and additions:
 
+* 'dB.threshold' argument in 'frange()' and 'frange_detec()' for detecting frequency range based on a dB scale 
 * 'min_indx' and 'max_indx' argument in 'song_param()' renamed as 'min_colm' and 'max_colm' and now take names instead of indexes
 * more accurate dominant frequency detection in 'dfts()', 'trackfreqs()' and 'specan()'
 * 'elm_colm' and  'elm_fun' argument to calculate element level parameters

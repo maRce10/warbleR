@@ -161,7 +161,7 @@ dfDTW <-  function(X = NULL, wl = 512, wl.freq = 512, length.out = 20, wn = "han
   if (any(is.na(mat))) stop("missing values in time series (frequency was not detected at
                            the start and/or end of the signal)")
   
-  if (!pb & is.null(ts.df)) write(file = "", x = "calculating DTW distances (step 2 of 2, no progress bar):")
+  if (pb & is.null(ts.df)) write(file = "", x = "calculating DTW distances (step 2 of 2, no progress bar):")
   dm <- dtw::dtwDist(mat, mat, window.type = window.type, open.end = open.end)    
   
   rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
