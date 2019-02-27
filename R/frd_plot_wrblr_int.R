@@ -61,8 +61,8 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, wn = "hanning", flim 
     
     plot(z, zf, type = "l", ylim = flim, yaxs = "i", xaxs = "i", yaxt = "n", xlab = "", col = "white", xaxt = "n")
     
-    minf <- min(detections$af.mat[,1])
-    maxf <- max(detections$af.mat[,1])
+    minz <- min(z)
+    maxz <- max(z)
     
     # add axis& labels
     if (detections$type == "percentage")
@@ -72,17 +72,13 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, wn = "hanning", flim 
     
     }  else
     {
-      axis(1, at = round(seq(0, maxf, by = 30), 0))
+      axis(1, at = round(seq(0, maxz, by = 10), 0))
       mtext(side = 1, text = "Amplitude (dB)", line = 2.3)
       
         }
     
     # fix amplitude values to close polygon (just for ploting)
-    z3 <- c(minf, z, minf)
-    
-    # fix amplitude values to close polygon (just for ploting)
-    # z3 <- c(0, z, 0)
-    
+    z3 <- c(minz, z, minz)
     
     #addd  extremes to make polygon close fine
     zf3 <- c(lims[1], zf, lims[2])
@@ -94,19 +90,19 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, wn = "hanning", flim 
     points(z3, zf3, type = "l", col = adjustcolor("gray", 0.3))
     
     # add background color
-    rect(xleft = minf, ybottom = flim[1], xright = maxf, ytop = flim[2], col = adjustcolor("#4D69FF", 0.05))
+    rect(xleft = minz, ybottom = flim[1], xright = maxz, ytop = flim[2], col = adjustcolor("#4D69FF", 0.05))
 
     #add gray polygon on detected frequency bands
     lapply(seq_len(length(min.start)), function(e)
     {
-      rect(xleft = minf, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = maxf, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("#07889B", alpha.f = 0.1), border = adjustcolor("gray", 0.2)) 
+      rect(xleft = minz, ybottom = ifelse(is.na(min.start[e]), lims[1], min.start[e]), xright = maxz, ytop = ifelse(is.na(max.end[e]), lims[2], max.end[e]), col = adjustcolor("#07889B", alpha.f = 0.1), border = adjustcolor("gray", 0.2)) 
       
     })
     
     # add gray boxes in filtered out freq bands
     if (!is.null(bp))
-    {  rect(xleft = 0, ybottom = bp[2], xright = 1, ytop = flim[2], col = adjustcolor("gray", 0.5)) 
-      rect(xleft = 0, ybottom = flim[1], xright = 1, ytop = bp[1], col = adjustcolor("gray", 0.5))
+    {  rect(xleft = minz, ybottom = bp[2], xright = maxz, ytop = flim[2], col = adjustcolor("gray", 0.5)) 
+      rect(xleft = minz, ybottom = flim[1], xright = maxz, ytop = bp[1], col = adjustcolor("gray", 0.5))
     }
     
     # add line to highligh freq range

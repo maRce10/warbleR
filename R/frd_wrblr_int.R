@@ -16,17 +16,24 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   # get frequency windows length for smoothing
   step <- wave@samp.rate/wl/1000
   
-  fsmooth <- fsmooth/step
-  
   # number of samples
   n <- nrow(spc)
   
   # smoothing parameter
-  FWL <- fsmooth - 1
+  if (!is.null(fsmooth))
+  {
+    fsmooth <- fsmooth/step
+    
+    FWL <- fsmooth - 1
   
   # smooth 
   z <- apply(as.matrix(1:(n - FWL)), 1, function(y) sum(spc[y:(y + FWL), 2]))
   zf <- seq(min(spc[,1]), max(spc[,1]), length.out = length(z))
+  } else 
+  {
+    z <- spc[ , 2]
+    zf <- spc[ , 1]
+  }
   
   if (!is.null(bp)) { 
     #remove range outsde bp
@@ -75,17 +82,27 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   # get frequency windows length for smoothing
   step <- wave@samp.rate/wl/1000
   
-  fsmooth <- fsmooth/step
-  
   # number of samples
   n <- nrow(spc)
-  
+
   # smoothing parameter
-  FWL <- fsmooth - 1
+  if (!is.null(fsmooth))
+  {
+    fsmooth <- fsmooth/step
+    
+    FWL <- fsmooth - 1
+    
+    # smooth 
+    z <- apply(as.matrix(1:(n - FWL)), 1, function(y) sum(spc[y:(y + FWL), 2]))
+    zf <- seq(min(spc[,1]), max(spc[,1]), length.out = length(z))
   
-  # smooth 
-  z <- apply(as.matrix(1:(n - FWL)), 1, function(y) sum(spc[y:(y + FWL), 2]))
-  zf <- seq(min(spc[,1]), max(spc[,1]), length.out = length(z))
+    z <- (max(spc[ , 2]) - min(spc[ , 2]))/(max(z) - min(z)) * (z - max(z))+max(spc[ , 2])
+    
+    } else 
+  {
+    z <- spc[ , 2]
+    zf <- spc[ , 1]
+  }
   
   if (!is.null(bp)) { 
     #remove range outsde bp
@@ -131,10 +148,8 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   # only ends higher than peakf
   nd <- nd[nd >= meanpeakf]
   
-  # options(warn = -1)
-  # min.strt <- ifelse(length(strt) == 1, strt, min(strt, na.rm = TRUE))
+  # get freq range
   min.strt <- ifelse(length(strt) == 1, strt, strt[which.min(meanpeakf - strt)])
-  # max.nd <- ifelse(length(nd) == 1, nd, max(nd, na.rm = TRUE))
   max.nd <- ifelse(length(nd) == 1, nd, nd[which.min(nd - meanpeakf)])
   
   if (!any(is.na(c(min.strt, max.nd)))) {
@@ -144,6 +159,11 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
     }
   }
   
+  # force nd and strt the same length adding NAs
+  if(length(nd) > length(strt)) strt <- c(strt, rep(NA, length(nd) - length(strt)))
+  if(length(strt) > length(nd)) nd <- c(nd, rep(NA, length(strt) - length(nd)))
+  
+  # save everything in a list
   rl <- list(frange = data.frame(bottom.freq = min.strt, top.freq = max.nd), af.mat = cbind(z, zf), meanpeakf = meanpeakf, detections = cbind(start.freq = strt, end.freq = nd), threshold = ifelse(is.null(dB.threshold), threshold, max(z) - dB.threshold), type = ifelse(is.null(dB.threshold), "percentage", "dB"))
   
   # return rl list
