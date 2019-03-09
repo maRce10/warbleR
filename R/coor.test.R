@@ -168,7 +168,7 @@ coor.test <- function(X = NULL, iterations = 1000, ovlp.method = "count",
   if (any(sng.cnt))
     {
     X <- X[X$sing.event %in% names(indiv.cnt)[!sng.cnt], ]
-    warning("Some individuals didn't have more songs that the 'cutoff' and the event were excluded")
+    warning("Some individuals didn't have more songs that the 'cutoff' and the events were excluded")
   } 
 
     #if nothing was left
@@ -360,17 +360,22 @@ coor.test <- function(X = NULL, iterations = 1000, ovlp.method = "count",
         
         if(class(ovlp) != "try-error")
         {  
-        # get observed overlap
+        # get observed overlap (first element)
         obs.overlaps <- ovlp[1]
       
-        # get random overlap
+        # get random overlap (all except the first element)
         rov <- ovlp[-1]
         mean.random.ovlps <- mean(rov)
         
         # calculate p-value
         if (less.than.chance) p <- length(rov[rov <= obs.overlaps])/iterations else p <- length(rov[rov >= obs.overlaps])/iterations
         
-        l <- data.frame(sing.event = h, obs.ovlp = obs.overlaps, mean.random.ovlp = mean.random.ovlps, p.value = p, coor.score = round((obs.overlaps - mean.random.ovlps)/mean.random.ovlps, 3))
+        # coordination score
+        if (obs.overlaps == 0 & mean.random.ovlps == 0)
+          coor.score <- 0 else
+          coor.score <- round((obs.overlaps - mean.random.ovlps) / mean.random.ovlps, 3)
+        
+        l <- data.frame(sing.event = h, obs.ovlp = obs.overlaps, mean.random.ovlp = mean.random.ovlps, p.value = p, coor.score)
         } else l <- data.frame(sing.event = h, obs.ovlp = NA, mean.random.ovlp = NA, p.value = NA, coor.score = NA)
         
         return(l)

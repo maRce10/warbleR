@@ -102,12 +102,9 @@ coor.graph <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1,  res= 8
     
     #stop if some events do not have 2 individuals 
     qw <- as.data.frame((tapply(X$sing.event, list(X$sing.event, X$indiv), length)))
-  
-  qw[qw > 0] <- 1
-  
-  if (any(apply(qw, 1, sum) != 2)) stop("Some singing events don't have 2 interating individuals ('indiv' colum)")
-  
-  
+    qw <- tapply(X$indiv, X$sing.event, function(x) length(unique(x)))
+    
+  if (any(qw != 2)) stop("Some singing events don't have 2 interacting individuals ('indiv' column)")
   
   #if xl is not vector or length!=1 stop
   if (is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
