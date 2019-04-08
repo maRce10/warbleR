@@ -18,8 +18,7 @@
 #' @param max_colm Character vector with the name(s) of the columns for which the maximum 
 #' value is needed. Default is \code{NULL}.
 #' @param elm_colm Character vector with the name(s) of the columns identifying the element labels (i.e. element types). If supplied 'unq.elms' and 'mean.elm.count' are returned. Default is \code{NULL}.
-#' @param elm_fun Function to be applied to the sequence of elements composing a song. Default is \code{NULL}. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.  
-#' If  \code{NULL} the mean of all numeric columns in 'X' is returned. 
+#' @param elm_fun Function to be applied to the sequence of elements composing a song. Default is \code{NULL}. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param sd Logical value indicating whether standard deviaton is also returned for

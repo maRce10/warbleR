@@ -240,6 +240,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
 
      #in case bp its higher than can be due to sampling rate
     if (b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
+    
     # add a bit above and below to ensure range limits are included
     bpfr <- b
     bpfr <- bpfr + c(-0.2, 0.2)  
@@ -320,8 +321,6 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     entropy <- sp.ent * time.ent
     sfm <- analysis$sfm
     
-    # options(warn = -1)
-    
     #Frequency with amplitude peaks 
     if (!fast) #only if fast is TRUE
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
@@ -349,9 +348,15 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     } else meandom <- mindom <- maxdom <- dfrange <- startdom <- enddom <- modindx <- NA
     
     duration <- (X$end[i] - X$start[i])
+    
     if (!is.na(enddom) && !is.na(startdom))
     dfslope <- (enddom -startdom)/duration else dfslope <- NA
+    
+    # extract mean peak freq
     meanpeakf <- frng$meanpeakf 
+    
+    #set to mean peak freq if length is  0
+    if (length(meanpeakf) == 0) meanpeakf <- NA
     
     #save results
     dfres <- data.frame(sound.files = X$sound.files[i], selec = X$selec[i], duration, meanfreq, sd, freq.median, freq.Q25, freq.Q75, freq.IQR, time.median, time.Q25, time.Q75, time.IQR, skew, kurt, sp.ent, time.ent, entropy, sfm, 

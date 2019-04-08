@@ -134,7 +134,7 @@
       <th>X</th>
       <td><p>object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). The ouptut of <code><a href='manual_loc.html'>manual_loc</a></code> can also be used as the input data frame.</p></td>
+(start and end). The ouptut of <code>manual_loc</code> can also be used as the input data frame.</p></td>
     </tr>
     <tr>
       <th>mar</th>
@@ -145,18 +145,18 @@ the start and end points of selection over which to measure noise.</p></td>
       <th>parallel</th>
       <td><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). It can also be
-set globally using the 'parallel' option (see <code><a href='warbleR_options.html'>warbleR_options</a></code>).</p></td>
+set globally using the 'parallel' option (see <code>warbleR_options</code>).</p></td>
     </tr>
     <tr>
       <th>path</th>
       <td><p>Character string containing the directory path where the sound files are located.
 If <code>NULL</code> (default) then the current working directory is used. It can also be
-set globally using the 'wav.path' option (see <code><a href='warbleR_options.html'>warbleR_options</a></code>).</p></td>
+set globally using the 'wav.path' option (see <code>warbleR_options</code>).</p></td>
     </tr>
     <tr>
       <th>pb</th>
       <td><p>Logical argument to control if progress bar is shown. Default is <code>TRUE</code>. It can also be
-set globally using the 'pb' option (see <code><a href='warbleR_options.html'>warbleR_options</a></code>).</p></td>
+set globally using the 'pb' option (see <code>warbleR_options</code>).</p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -196,14 +196,14 @@ itself. Default is <code>TRUE</code>.</p></td>
       <th>wl</th>
       <td><p>A numeric vector of length 1 specifying the window length of the spectrogram for applying bandpass. Default 
   is 10. Ignored if <code>bp = NULL</code>. It can also be
-set globally using the 'wl' option (see <code><a href='warbleR_options.html'>warbleR_options</a></code>).
+set globally using the 'wl' option (see <code>warbleR_options</code>).
  Note that lower values will increase time resolution, which is more important for signal-to-noise ratio calculations.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data frame similar to <code><a href='autodetec.html'>autodetec</a></code> output, but also includes a new variable 
+    <p>Data frame similar to <code>autodetec</code> output, but also includes a new variable 
 with the signal-to-noise values.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -218,7 +218,7 @@ with the signal-to-noise values.</p>
   margins overlap with another acoustic signal nearby, the signal-to-noise 
   ratio (SNR) will be inaccurate. Any SNR less than or equal to one suggests 
   background noise is equal to or overpowering the acoustic signal.
-  <code><a href='snrspecs.html'>snrspecs</a></code> can be used to troubleshoot different noise margins.</p>
+  <code>snrspecs</code> can be used to troubleshoot different noise margins.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

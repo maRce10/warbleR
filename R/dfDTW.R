@@ -72,7 +72,7 @@
 #'  frequency  measures. If 'img' is  \code{TRUE} the function also produces image files
 #'  with the spectrograms of the signals listed in the input data frame showing the
 #'  location of the dominant frequencies.
-#' @examples{
+#' @examples {
 #' # set the temp directory
 #' # setwd(tempdir())
 #' 

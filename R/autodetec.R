@@ -10,8 +10,8 @@
 #'   fast.spec = FALSE, ...)
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
-#' (start and end). The ouptut of \code{\link{manual_loc}} can 
-#' also be used as the input data frame.
+#' (start and end). If provided the detection will be conducted only within 
+#' the selections in 'X'.
 #' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting 
 #'   signals (in \%).
 #' @param envt Character vector of length 1 specifying the type of envelope to
@@ -94,8 +94,8 @@
 #'   sound file and selection number.
 #' @export
 #' @name autodetec
-#' @details This function determines the start and end of signals in the segments of the sound files listed 
-#'   in the input data frame. Alternatively, if no data frame is provided, the function detects signals across
+#' @details This function determines the start and end of signals in the sound file selections listed 
+#'   in the input data frame ('X'). Alternatively, if no data frame is provided, the function detects signals across
 #'   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
 #'   signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
 #'    working directory or the path to the sound files should be provided using the 'path' argument. The input 

@@ -1,8 +1,5 @@
 pandoc: 2.2.1
 pkgdown: 1.1.0
 pkgdown_sha: ~
-articles:
-  warbleR_workflow_01: warbleR_workflow_01.html
-  warbleR_workflow_02: warbleR_workflow_02.html
-  warbleR_workflow_03: warbleR_workflow_03.html
+articles: []
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>lspec2pdf</code> combines <code><a href='lspec.html'>lspec</a></code> images in .jpeg format to a single pdf file. — lspec2pdf • warbleR</title>
+<title><code>lspec2pdf</code> combines <code>lspec</code> images in .jpeg format to a single pdf file. — lspec2pdf • warbleR</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="<code>lspec2pdf</code> combines <code><a href='lspec.html'>lspec</a></code> images in .jpeg format to a single pdf file. — lspec2pdf" />
+<meta property="og:title" content="<code>lspec2pdf</code> combines <code>lspec</code> images in .jpeg format to a single pdf file. — lspec2pdf" />
 
 <meta property="og:description" content="lspec2pdf combines lspec images in .jpeg format to a single pdf file." />
 <meta name="twitter:card" content="summary" />
@@ -113,14 +113,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>lspec2pdf</code> combines <code><a href='lspec.html'>lspec</a></code> images in .jpeg format to a single pdf file.</h1>
+    <h1><code>lspec2pdf</code> combines <code>lspec</code> images in .jpeg format to a single pdf file.</h1>
     
     <div class="hidden name"><code>lspec2pdf.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>lspec2pdf</code> combines <code><a href='lspec.html'>lspec</a></code> images in .jpeg format to a single pdf file.</p>
+    <p><code>lspec2pdf</code> combines <code>lspec</code> images in .jpeg format to a single pdf file.</p>
     
     </div>
 
@@ -157,7 +157,7 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function combines  spectrograms for complete sound files from the <code><a href='lspec.html'>lspec</a></code> function into
+    <p>The function combines  spectrograms for complete sound files from the <code>lspec</code> function into
 a single pdf (for each sound file).</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -166,7 +166,7 @@ a single pdf (for each sound file).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='lspec.html'>lspec</a></code>, <code><a href='catalog2pdf.html'>catalog2pdf</a></code>, 
+    <div class='dont-index'><p><code>lspec</code>, <code>catalog2pdf</code>, 
 <a href='https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html'>blog post on spectrogram pdfs</a></p></div>
     
 
@@ -180,7 +180,7 @@ a single pdf (for each sound file).</p>
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
 
-<span class='fu'><a href='lspec.html'>lspec</a></span>(<span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.heat.colors</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>)
+<span class='fu'>lspec</span>(<span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.heat.colors</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>)
 
 <span class='co'>#now create single pdf removing jpeg</span>
 <span class='fu'>lspec2pdf</span>(<span class='kw'>keep.img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)

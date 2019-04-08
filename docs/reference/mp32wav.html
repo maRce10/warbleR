@@ -133,7 +133,7 @@
     <tr>
       <th>samp.rate</th>
       <td><p>Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
-<code><a href='http://www.rdocumentation.org/packages/bioacoustics/topics/resample'>resample</a></code> function from the <a href='https://cran.r-project.org/package=bioacoustics'>bioacoustics package</a> (which should be installed), which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the <code><a href='fix_wavs.html'>fix_wavs</a></code> function (which uses <a href='http://sox.sourceforge.net/sox.html'>SOX</a> instead). Default is <code>NULL</code> (e.g. keep original sampling rate).</p></td>
+<code><a href='http://www.rdocumentation.org/packages/bioacoustics/topics/resample'>resample</a></code> function from the <a href='https://cran.r-project.org/package=bioacoustics'>bioacoustics package</a> (which should be installed), which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the <code>fix_wavs</code> function (which uses <a href='http://sox.sourceforge.net/sox.html'>SOX</a> instead). Default is <code>NULL</code> (e.g. keep original sampling rate).</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -191,7 +191,7 @@ overwritten.</p></td>
 <span class='co'># setwd(tempdir())</span>
 
 <span class='co'>#Then download mp3 files from xeno-canto</span>
-<span class='fu'><a href='querxc.html'>querxc</a></span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>"Phaethornis aethopygus"</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>"Phaethornis aethopygus"</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># Convert all files to .wav format</span>
 <span class='fu'>mp32wav</span>()

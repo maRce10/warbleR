@@ -169,7 +169,7 @@ default) or a tabular data frame (<code>FALSE</code>) is returned.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='trackfreqs.html'>trackfreqs</a></code> for customizing
+      <td><p>Additional arguments to be passed to <code>trackfreqs</code> for customizing
 graphical output.</p></td>
     </tr>
     </table>
@@ -195,16 +195,16 @@ The function uses the <code><a href='http://www.rdocumentation.org/packages/stat
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='specreator.html'>specreator</a></code> for creating spectrograms from selections,
- <code><a href='snrspecs.html'>snrspecs</a></code> for creating spectrograms to 
-  optimize noise margins used in <code><a href='sig2noise.html'>sig2noise</a></code> and <code><a href='dfts.html'>dfts</a></code>, <code><a href='ffts.html'>ffts</a></code>, <code><a href='ffDTW.html'>ffDTW</a></code> for frequency contour overlaid spectrograms.
+    <div class='dont-index'><p><code>specreator</code> for creating spectrograms from selections,
+ <code>snrspecs</code> for creating spectrograms to 
+  optimize noise margins used in <code>sig2noise</code> and <code>dfts</code>, <code>ffts</code>, <code>ffDTW</code> for frequency contour overlaid spectrograms.
  <a href='https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html'>blog post on DTW similarity</a></p>
-<p>Other spectrogram creators: <code><a href='color.spectro.html'>color.spectro</a></code>,
-  <code><a href='dfDTW.html'>dfDTW</a></code>, <code><a href='dfts.html'>dfts</a></code>,
-  <code><a href='ffDTW.html'>ffDTW</a></code>, <code><a href='ffts.html'>ffts</a></code>,
-  <code><a href='phylo_spectro.html'>phylo_spectro</a></code>, <code><a href='snrspecs.html'>snrspecs</a></code>,
-  <code><a href='sp.en.ts.html'>sp.en.ts</a></code>, <code><a href='specreator.html'>specreator</a></code>,
-  <code><a href='trackfreqs.html'>trackfreqs</a></code></p></div>
+<p>Other spectrogram creators: <code>color.spectro</code>,
+  <code>dfDTW</code>, <code>dfts</code>,
+  <code>ffDTW</code>, <code>ffts</code>,
+  <code>phylo_spectro</code>, <code>snrspecs</code>,
+  <code>sp.en.ts</code>, <code>specreator</code>,
+  <code>trackfreqs</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -218,8 +218,8 @@ The function uses the <code><a href='http://www.rdocumentation.org/packages/stat
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># measure</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='df_ts.html'>df_ts</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='se_ts.html'>se_ts</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>df_ts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'>se_ts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># run function </span>
 <span class='fu'>multi_DTW</span>(<span class='no'>df</span>, <span class='no'>se</span>)

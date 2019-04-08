@@ -1,7 +1,7 @@
 #' Add spectrograms onto phylogenetic trees
 #' 
 #' \code{phylo_spectro} Add spectrograms to the tips of an objects of class phylo.
-#' @usage phylo_spectro(X, tree, type = "fan", par.mar = rep(1, 4), 
+#' @usage phylo_spectro(X, tree, type = "phylogram", par.mar = rep(1, 4), 
 #' size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, ...) 
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
 #' (sound.files), selection number (selec), and start and end time of signals (start and end). 
@@ -96,7 +96,7 @@
 #' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
 #last modification on oct-1-2018 (MAS)
 
-phylo_spectro <- function(X, tree, type = "fan", par.mar = rep(1, 4), size = 1, offset = 0, 
+phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size = 1, offset = 0, 
                          path = NULL, ladder = NULL, horizontal = TRUE, ...) {
 
   # error message if ape is not installed

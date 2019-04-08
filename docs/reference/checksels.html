@@ -134,7 +134,7 @@
       <th>X</th>
       <td><p>'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections. The ouptut of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can 
+end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections. The ouptut of <code>manualoc</code> or <code>autodetec</code> can 
 be used as the input data frame.</p></td>
     </tr>
     <tr>
@@ -183,7 +183,7 @@ in a selection limits the minimum window length (wl argument in other functions)
 
     <p>This function checks the information in a selection data frame or selection table (i.e. data frame with annotations on sound files) 
 to avoid problems in any warbleR analysis downstream. It specifically checks if:</p><ul>
-<li><p>'X' is an object of class 'data.frame' or 'selection_table' (see <code><a href='selection_table.html'>selection_table</a></code>) and contains 
+<li><p>'X' is an object of class 'data.frame' or 'selection_table' (see <code>selection_table</code>) and contains 
    the required columns to be used on any warbleR function ('sound.files', 'selec', 'start', 'end', if not returns an error)</p></li>
 <li><p>'sound.files' in 'X' correspond to .wav files in the working directory or in the provided 'path'
     (if no file is found returns an error, if some files are not found returns error info in the ouput data frame)</p></li>
@@ -202,7 +202,7 @@ to avoid problems in any warbleR analysis downstream. It specifically checks if:
 </ul><p>The function returns a data frame that includes the information in 'X' plus additional columns about the format of sound
 files (see 'Value') as well as the result of the checks ('check.res' column, value is 'OK' if everything is fine).
 Sound files should be in the working directory (or the directory provided in 'path'). Corrupt files can be fixed using 
-<code><a href='fixwavs.html'>fixwavs</a></code>.</p>
+<code>fixwavs</code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -210,7 +210,7 @@ Sound files should be in the working directory (or the directory provided in 'pa
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='checkwavs.html'>checkwavs</a></code></p></div>
+    <div class='dont-index'><p><code>checkwavs</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

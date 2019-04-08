@@ -133,7 +133,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>X</th>
-      <td><p>Data frame output from <code><a href='querxc.html'>querxc</a></code>.</p></td>
+      <td><p>Data frame output from <code>querxc</code>.</p></td>
     </tr>
     <tr>
       <th>img</th>
@@ -167,7 +167,7 @@ If <code>TRUE</code> then the Recording_ID is used as label.</p></td>
 
     <p>This function creates maps for visualizing the geographic spread of recordings from the open-access
 online repository  <a href='http://www.xeno-canto.org/'>Xeno-Canto</a>. The function takes the output of 
-<code><a href='querxc.html'>querxc</a></code> as input. Maps can be displayed in the graphic devide or saved as images in the
+<code>querxc</code> as input. Maps can be displayed in the graphic devide or saved as images in the
 working directory.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -178,7 +178,7 @@ working directory.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># search in xeno-canto</span>
-<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='querxc.html'>querxc</a></span>(<span class='st'>"Phaethornis anthophilus"</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'>querxc</span>(<span class='st'>"Phaethornis anthophilus"</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'>#create image in R graphic device</span>
 <span class='fu'>xcmaps</span>(<span class='no'>X</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)

@@ -155,7 +155,7 @@ for sound file name (sound.files), selection number (selec), and start and end t
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># create extended selection table</span>
-<span class='no'>ext_st</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selection_table.html'>selection_table</a></span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>ext_st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># remove attributes</span>
 <span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='no'>ext_st</span>)

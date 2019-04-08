@@ -133,7 +133,7 @@ against the time sliding.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>X</th>
-      <td><p>Output from <code><a href='xcorr.html'>xcorr</a></code> function.</p></td>
+      <td><p>Output from <code>xcorr</code> function.</p></td>
     </tr>
     <tr>
       <th>cex.cor</th>
@@ -164,7 +164,7 @@ Default is <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function generates pairwise plots of the spectrogram cross-correlation scores
-by sliding step. The function takes the output of <code><a href='xcorr.html'>xcorr</a></code> (when cor.mat is <code>FALSE</code> in <code><a href='xcorr.html'>xcorr</a></code>) as input. The colors of 
+by sliding step. The function takes the output of <code>xcorr</code> (when cor.mat is <code>FALSE</code> in <code>xcorr</code>) as input. The colors of 
 the lines in the lower triangle of the plot matrix represent the strenght of the similarity between
 the two signals. The x axis shows the time difference between the two signals for each sliding step
 (0 means perfectly centered signals). Note that large number of signals may not display well in the 
@@ -177,7 +177,7 @@ default graphic device. In such cases saving the plot as and image file is advic
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='xcorr.html'>xcorr</a></code></p></div>
+    <div class='dont-index'><p><code>xcorr</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -192,7 +192,7 @@ default graphic device. In such cases saving the plot as and image file is advic
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='st'>"Phae.long2.wav"</span>)
 
  <span class='co'>#run cross correlation first</span>
- <span class='no'>xcor</span><span class='kw'>&lt;-</span><span class='fu'><a href='xcorr.html'>xcorr</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>[<span class='fl'>1</span>:<span class='fl'>5</span>,], <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>300</span>, <span class='kw'>bp</span><span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>ovlp</span><span class='kw'>=</span><span class='fl'>90</span>, <span class='kw'>dens</span><span class='kw'>=</span><span class='fl'>0.8</span>,
+ <span class='no'>xcor</span><span class='kw'>&lt;-</span><span class='fu'>xcorr</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>[<span class='fl'>1</span>:<span class='fl'>5</span>,], <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>300</span>, <span class='kw'>bp</span><span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>ovlp</span><span class='kw'>=</span><span class='fl'>90</span>, <span class='kw'>dens</span><span class='kw'>=</span><span class='fl'>0.8</span>,
  <span class='kw'>wn</span><span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
  <span class='co'>#plot pairwise scores</span>

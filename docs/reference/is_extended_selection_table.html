@@ -141,20 +141,20 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>An object of class <code>extended_selection_table</code> created by <code><a href='selection_table.html'>selection_table</a></code> is a list with the following elements:</p><ul>
+    <p>An object of class <code>extended_selection_table</code> created by <code>selection_table</code> is a list with the following elements:</p><ul>
 <li><p><code>selections</code>: data frame containing the frequency/time coordinates of the selections, sound file names, and any  additional information</p></li>
-<li><p><code>check.resutls</code>: results of the checks on data consistency using <a href='checksels.html'>checksels</a></p></li>
+<li><p><code>check.resutls</code>: results of the checks on data consistency using checksels</p></li>
 <li><p><code>wave.objects</code>: list of wave objects corresponding to each selection</p></li>
 <li><p><code>by.song</code>: a list with 1) a logical argument defining if the 'extended_selection_table' was created 'by song'
- and 2) the name of the song column (see <code><a href='selection_table.html'>selection_table</a></code>)</p></li>
+ and 2) the name of the song column (see <code>selection_table</code>)</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='selection_table.html'>selection_table</a></code>, <code><a href='selection_table.html'>selection_table</a></code>
+    <div class='dont-index'><p><code>selection_table</code>, <code>selection_table</code>
 Check if object is of class "extended_selection_table"</p>
 <p><code>is_extended_selection_table</code> Check if the object belongs to the class "extended_selection_table"</p>
-<p><code><a href='selection_table.html'>selection_table</a></code>; <code><a href='is_selection_table.html'>is_selection_table</a></code></p></div>
+<p><code>selection_table</code>; <code>is_selection_table</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -171,7 +171,7 @@ Check if object is of class "extended_selection_table"</p>
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
-<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selection_table.html'>selection_table</a></span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>is_extended_selection_table</span>(<span class='no'>st</span>)
 

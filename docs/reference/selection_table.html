@@ -138,8 +138,8 @@ files, 2) "selec": unique selection identifier (within a sound file), 3) "start"
 end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
 not provided the first channel (i.e. left channel) would be used by default. 
 Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input to double check selections. 
-The ouptut of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can 
-be used as the input object for other <code><a href='warbleR.html'>warbleR</a></code> functions.</p></td>
+The ouptut of <code>manualoc</code> or <code>autodetec</code> can 
+be used as the input object for other <code>warbleR</code> functions.</p></td>
     </tr>
     <tr>
       <th>max.dur</th>
@@ -163,7 +163,7 @@ a extended selection table. If provided 'X' is ignored.</p></td>
       <td><p>Logical. If <code>TRUE</code>, the function will create an object of class 'extended_selection_table' 
 which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is 
 and self-contained format that does not require the original sound files for running most acoustic analysis in 
-<code><a href='warbleR.html'>warbleR</a></code>. This can largely faciliate the storing and sharing of (bio)acoustic data. Default 
+<code>warbleR</code>. This can largely faciliate the storing and sharing of (bio)acoustic data. Default 
 is if <code>FALSE</code>. An extended selection table won't be created if there is any issue with the selection. See 
 'details'.</p></td>
     </tr>
@@ -199,7 +199,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='checksels.html'>checksels</a></code> for customizing
+      <td><p>Additional arguments to be passed to <code>checksels</code> for customizing
 checking routine.</p></td>
     </tr>
     </table>
@@ -207,7 +207,7 @@ checking routine.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class selection_table which includes the original data frame plus the following additional attributes:</p><ul>
-<li><p>1) A data frame with the output of <code><a href='checksels.html'>checksels</a></code> run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
+<li><p>1) A data frame with the output of <code>checksels</code> run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
 errors due to missing or mislabeled data, or selection out of the ranges of the original sound files.</p></li>
 <li><p>2) A list indicating if the selection table has been created by song (see 'by.song argument).</p></li>
 <li><p>3) If a extended selection table is created a list containing the wave objects for each selection (or song if 'by.song').</p></li>
@@ -223,8 +223,8 @@ in the working directory</p></li>
 <li><p>3) if the start and end time of the selections are found within the duration of the sound files</p></li>
 </ul><p>If no errors are found the a selection table or extended selection table will be generated. 
 Note that the sound files should be in the working directory (or the directory provided in 'path').
-This is useful for avoiding errors in dowstream functions (e.g. <code><a href='specan.html'>specan</a></code>, <code><a href='xcorr.html'>xcorr</a></code>, <code><a href='catalog.html'>catalog</a></code>, <code><a href='dfDTW.html'>dfDTW</a></code>). Note also that corrupt files can be
-fixed using <code><a href='fixwavs.html'>fixwavs</a></code> ('sox' must be installed to be able to run this function).
+This is useful for avoiding errors in dowstream functions (e.g. <code>specan</code>, <code>xcorr</code>, <code>catalog</code>, <code>dfDTW</code>). Note also that corrupt files can be
+fixed using <code>fixwavs</code> ('sox' must be installed to be able to run this function).
 The 'selection_table' class can be input in subsequent functions.</p>
 <p>When <code>extended = TRUE</code> the function will generate an object of class 'extended_selection_table' which 
 will also contains the wave objects for each of the selections in the data frame.
@@ -245,7 +245,7 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='checkwavs.html'>checkwavs</a></code>, <a href='https://marce10.github.io/2018/05/15/Extended_selection_tables.html'>blog post on extended selection tables</a></p></div>
+    <div class='dont-index'><p><code>checkwavs</code>, <a href='https://marce10.github.io/2018/05/15/Extended_selection_tables.html'>blog post on extended selection tables</a></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -263,13 +263,13 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
 <span class='co'># make selection table</span>
 <span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>)
 
-<span class='fu'><a href='is_selection_table.html'>is_selection_table</a></span>(<span class='no'>st</span>)
+<span class='fu'>is_selection_table</span>(<span class='no'>st</span>)
 
 <span class='co'>#' # make extended selection table</span>
 <span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
 <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='is_extended_selection_table.html'>is_extended_selection_table</a></span>(<span class='no'>st</span>)
+<span class='fu'>is_extended_selection_table</span>(<span class='no'>st</span>)
 
 <span class='co'>### make extended selection by song  </span>
 <span class='co'># create a song variable</span>

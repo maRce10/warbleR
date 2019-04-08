@@ -132,7 +132,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>X</th>
-      <td><p>object of class 'extended_selection_table' (see <code><a href='selection_table.html'>selection_table</a></code>).</p></td>
+      <td><p>object of class 'extended_selection_table' (see <code>selection_table</code>).</p></td>
     </tr>
     <tr>
       <th>samp.rate</th>
@@ -180,7 +180,7 @@ any further (bio)acoustic analysis. Either <a href='http://sox.sourceforge.net/s
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='mp32wav.html'>mp32wav</a></code>, <code><a href='fix_wavs.html'>fix_wavs</a></code></p></div>
+    <div class='dont-index'><p><code>mp32wav</code>, <code>fix_wavs</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -195,7 +195,7 @@ any further (bio)acoustic analysis. Either <a href='http://sox.sourceforge.net/s
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>,<span class='st'>"Phae.long4.wav"</span>)
 
 <span class='co'># create extended selection table</span>
-<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='selection_table.html'>selection_table</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>X</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># resample</span>
 <span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='fu'>resample_est</span>(<span class='no'>X</span>)

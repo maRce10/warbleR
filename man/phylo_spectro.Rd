@@ -4,7 +4,7 @@
 \alias{phylo_spectro}
 \title{Add spectrograms onto phylogenetic trees}
 \usage{
-phylo_spectro(X, tree, type = "fan", par.mar = rep(1, 4), 
+phylo_spectro(X, tree, type = "phylogram", par.mar = rep(1, 4), 
 size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, ...)
 }
 \arguments{

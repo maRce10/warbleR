@@ -29,8 +29,7 @@ value is needed. Default is \code{NULL}.}
 
 \item{elm_colm}{Character vector with the name(s) of the columns identifying the element labels (i.e. element types). If supplied 'unq.elms' and 'mean.elm.count' are returned. Default is \code{NULL}.}
 
-\item{elm_fun}{Function to be applied to the sequence of elements composing a song. Default is \code{NULL}. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.
-If  \code{NULL} the mean of all numeric columns in 'X' is returned.}
+\item{elm_fun}{Function to be applied to the sequence of elements composing a song. Default is \code{NULL}. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.}
 
 \item{sd}{Logical value indicating whether standard deviaton is also returned for
 variables in which averages are reported. Default is \code{FALSE}.}
