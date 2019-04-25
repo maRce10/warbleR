@@ -270,7 +270,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   #set collevels for spec_param
   if (collevels[1] != "collev.min") 
-    X$collev.min <- collevels[1] else collevels <- seq(-40, 0, 1)
+    X$collev.min <- collevels[1]  else collevels <- NULL
   
   #nrow must be equal or higher than 2
   if (nrow < 2) stop("number of rows must be equal or higher than 2")
@@ -343,7 +343,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
-  if (any(X$end - X$start<0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
+  if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))
   
   #if it argument is not "jpeg" or "tiff"
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
@@ -568,7 +568,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     fl <- flim
     if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1
     return(data.frame(fl1 = fl[1], fl2 = fl[2], mardur = t[2] - t[1]))
-    print(fl)
     })
   
   
@@ -785,7 +784,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           if (!is.null(group.tag))
             plot(x=-1, y=-1, axes = FALSE,col = spec.bg, xlab = "", ylab = "", xaxt = "n", yaxt = "n", type = "n",
                  panel.first={points(0, 0, pch=16, cex=1e6, col = spec.bg)})
-          
           
           # draw spectro
           if (fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)

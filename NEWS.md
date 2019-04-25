@@ -5,7 +5,8 @@
 
 ## Changes and additions:
 
-*global options (from warbleR_options()) are now taken by wav_info() 
+* fix_wavs() now can use bioacoustics package or SOX for resampling
+* global options (from warbleR_options()) are now taken by wav_info() 
 * 'coor.test()' now returns 0 for coordination score when the ratio is undefined 
 * 'dB.threshold' argument in 'frange()' and 'frange_detec()' for detecting frequency range based on a dB scale 
 * 'min_indx' and 'max_indx' argument in 'song_param()' renamed as 'min_colm' and 'max_colm' and now take names instead of indexes

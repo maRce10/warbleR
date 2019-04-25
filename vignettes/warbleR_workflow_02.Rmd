@@ -123,7 +123,7 @@ ls("package:warbleR")
 
 ### Find overlapping selections
 
-Overlapping selections can be common after using `autodetec` to select signals, but can sometimes arise after selecting signals using other functions or software. The function below helps you detect overlapping signals in your selection table, and has arguments that you can play around with for overlap detection, renaming or deleting overlapping selections.
+Overlapping selections can sometimes arise after selecting signals using other functions or software. The function below helps you detect overlapping signals in your selection table, and has arguments that you can play around with for overlap detection, renaming or deleting overlapping selections.
 ```{r, echo=TRUE, eval=FALSE}
 
 # To run this example:

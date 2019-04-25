@@ -49,7 +49,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   
   # error message if bioacoustics is not installed
   if (!requireNamespace("bioacoustics", quietly = TRUE) & !is.null(samp.rate))
-    stop("must install 'bioacoustics' to use mp32wav() when changing sampling rate")
+    stop("must install 'bioacoustics' to use mp32wav() for changing sampling rate")
   
   # reset working directory 
   wd <- getwd()
@@ -106,7 +106,6 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   if (length(files) == 0) stop("no 'mp3' files in working directory")
   
   #exclude the ones that already have a .wav version
- 
   if (!overwrite) 
     {wavs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
   files <- files[!substr(files, 0, nchar(files) - 4) %in% substr(wavs, 0, nchar(wavs) - 4)]
@@ -135,10 +134,11 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
     # normalize 
        wv <- tuneR::normalize(object = wv, unit = as.character(bit.depth))
      
-   wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
-   }
+     }
    
-   return(wv)
+   wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
+   
+   return(NULL)
    }
 
  # set pb options 

@@ -19,7 +19,6 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
     stop("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
   sel.tab <- X
   
-  
   if (is.list(palette)) palette <- unlist(palette[[1]])
   if (is.null(palette)) palette <- spectro.colors  
   if (!is.function(palette)) palette <- get(palette)
