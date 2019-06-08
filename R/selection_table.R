@@ -197,7 +197,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         check.results$mar.after <- check.results$mar.before <- rep(mar, nrow(X))
         
         # get sound file duration
-        dur <- wavdur(files = as.character(X$sound.files))$duration
+        dur <- wav_dur(files = as.character(X$sound.files), path = path)$duration
         
         #reset margin signals if lower than 0 or higher than duration
         for(i in 1:nrow(X))  
@@ -212,11 +212,18 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
           Y <-Y[, names(Y) %in% c("sound.files", by.song, "start", "end")]
           
           check.results$song <- X[, by.song]          
-
-          Y$mar.before <- sapply(unique(Y[ , by.song]), function(x) check.results$mar.before[which.min(check.results$orig.start[check.results$song == x])])
           
-          Y$mar.after <- sapply(unique(Y[ , by.song]), function(x) check.results$mar.after[which.max(check.results$orig.end[check.results$song == x])])
-        } else {
+          # temporal column to match songs by sound file
+          check.results$song.TEMP <- paste(X$sound.files, X[, by.song], sep = "-")   
+          Y$song.TEMP <- paste(Y$sound.files, Y[, by.song], sep = "-")   
+          
+          Y$mar.before <- sapply(unique(Y$song.TEMP), function(x) check.results$mar.before[which.min(check.results$orig.start[check.results$song.TEMP == x])])
+          
+          Y$mar.after <- sapply(unique(Y$song.TEMP), function(x) check.results$mar.after[which.max(check.results$orig.end[check.results$song.TEMP == x])])
+        
+          # remove temporal column
+          check.results$song.TEMP <- NULL
+          } else {
           Y <- X
           Y$mar.before <- check.results$mar.before
           Y$mar.after <- check.results$mar.after

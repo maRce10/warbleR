@@ -185,36 +185,58 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 <span class='co'>#get info</span>
 <span class='fu'>wav_info</span>()
-}</div><div class='output co'>#&gt; all selections are OK </div><div class='output co'>#&gt;             sound.files duration sample.rate channels bits wav.size samples
-#&gt; 1         Cryp.soui.wav  8.00044         9.0        1   16 0.281250   72004
-#&gt; 2  Phae.long1-1-c24.wav  0.27307        22.5        1   16 0.024414    6144
-#&gt; 3      Phae.long1-1.wav  0.27307        22.5        1   16 0.024414    6144
-#&gt; 4  Phae.long1-2-c25.wav  0.26307        22.5        1   16 0.023438    5919
-#&gt; 5      Phae.long1-2.wav  0.26307        22.5        1   16 0.023438    5919
-#&gt; 6  Phae.long1-3-c26.wav  0.27493        22.5        1   16 0.024414    6186
-#&gt; 7      Phae.long1-3.wav  0.27493        22.5        1   16 0.024414    6186
-#&gt; 8      Phae.long1.2.wav  2.50004        22.5        2   16 0.219727   56251
-#&gt; 9        Phae.long1.wav  2.50004        22.5        1   16 0.219727   56251
-#&gt; 10 Phae.long2-1-c27.wav  0.23258        22.5        1   16 0.020508    5233
-#&gt; 11     Phae.long2-1.wav  0.23258        22.5        1   16 0.020508    5233
-#&gt; 12 Phae.long2-2-c28.wav  0.22613        22.5        1   16 0.019531    5088
-#&gt; 13     Phae.long2-2.wav  0.22613        22.5        1   16 0.019531    5088
-#&gt; 14       Phae.long2.wav  1.70004        22.5        1   16 0.149414   38251
-#&gt; 15 Phae.long3-1-c29.wav  0.23124        22.5        1   16 0.020508    5203
-#&gt; 16     Phae.long3-1.wav  0.23124        22.5        1   16 0.020508    5203
-#&gt; 17 Phae.long3-2-c30.wav  0.23018        22.5        1   16 0.020508    5179
-#&gt; 18     Phae.long3-2.wav  0.23018        22.5        1   16 0.020508    5179
-#&gt; 19 Phae.long3-3-c31.wav  0.23120        22.5        1   16 0.020508    5202
-#&gt; 20     Phae.long3-3.wav  0.23120        22.5        1   16 0.020508    5202
-#&gt; 21       Phae.long3.wav  2.20000        22.5        1   16 0.193359   49500
-#&gt; 22 Phae.long4-1-c32.wav  0.24542        22.5        1   16 0.021484    5522
-#&gt; 23     Phae.long4-1.wav  0.24542        22.5        1   16 0.021484    5522
-#&gt; 24 Phae.long4-2-c33.wav  0.24418        22.5        1   16 0.021484    5494
-#&gt; 25     Phae.long4-2.wav  0.24418        22.5        1   16 0.021484    5494
-#&gt; 26 Phae.long4-3-c34.wav  0.24511        22.5        1   16 0.021484    5515
-#&gt; 27     Phae.long4-3.wav  0.24511        22.5        1   16 0.021484    5515
-#&gt; 28       Phae.long4.wav  3.20000        22.5        1   16 0.281250   72000
-#&gt; 29              wv1.wav  7.20009        22.5        1   16 0.632812  162002</div><div class='input'>
+}</div><div class='output co'>#&gt; all selections are OK but some have very few samples (less than 20, potentially problematic for some analyses) 
+#&gt; Check 'min.n.samples' column</div><div class='output co'>#&gt;             sound.files   duration sample.rate channels bits wav.size samples
+#&gt; 1       Cryp.soui-1.wav 1.00000000         9.0        1   16 0.035156    9000
+#&gt; 2       Cryp.soui-2.wav 1.00000000         9.0        1   16 0.035156    9000
+#&gt; 3       Cryp.soui-3.wav 1.00000000         9.0        1   16 0.035156    9000
+#&gt; 4       Cryp.soui-4.wav 1.00000000         9.0        1   16 0.035156    9000
+#&gt; 5       Cryp.soui-5.wav 1.00000000         9.0        1   16 0.035156    9000
+#&gt; 6       Cryp.soui-6.wav 1.00000000         9.0        1   16 0.035156    9000
+#&gt; 7       Cryp.soui-7.wav 1.00000000         9.0        1   16 0.035156    9000
+#&gt; 8       Cryp.soui-8.wav 1.00000000         9.0        1   16 0.035156    9000
+#&gt; 9       Cryp.soui-9.wav 0.00044444         9.0        1   16 0.000000       4
+#&gt; 10        Cryp.soui.wav 8.00044444         9.0        1   16 0.281250   72004
+#&gt; 11 Phae.long1-1-c24.wav 0.27306667        22.5        1   16 0.024414    6144
+#&gt; 12     Phae.long1-1.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 13 Phae.long1-2-c25.wav 0.26306667        22.5        1   16 0.023438    5919
+#&gt; 14     Phae.long1-2.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 15 Phae.long1-3-c26.wav 0.27493333        22.5        1   16 0.024414    6186
+#&gt; 16     Phae.long1-3.wav 0.50004444        22.5        1   16 0.043945   11251
+#&gt; 17   Phae.long1.2-1.wav 1.00000000        22.5        2   16 0.087891   22500
+#&gt; 18   Phae.long1.2-2.wav 1.00000000        22.5        2   16 0.087891   22500
+#&gt; 19   Phae.long1.2-3.wav 0.50004444        22.5        2   16 0.043945   11251
+#&gt; 20     Phae.long1.2.wav 2.50004444        22.5        2   16 0.219727   56251
+#&gt; 21       Phae.long1.wav 2.50004444        22.5        1   16 0.219727   56251
+#&gt; 22 Phae.long2-1-c27.wav 0.23257778        22.5        1   16 0.020508    5233
+#&gt; 23     Phae.long2-1.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 24 Phae.long2-2-c28.wav 0.22613333        22.5        1   16 0.019531    5088
+#&gt; 25     Phae.long2-2.wav 0.70004444        22.5        1   16 0.061523   15751
+#&gt; 26       Phae.long2.wav 1.70004444        22.5        1   16 0.149414   38251
+#&gt; 27 Phae.long3-1-c29.wav 0.23124444        22.5        1   16 0.020508    5203
+#&gt; 28     Phae.long3-1.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 29 Phae.long3-2-c30.wav 0.23017778        22.5        1   16 0.020508    5179
+#&gt; 30     Phae.long3-2.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 31 Phae.long3-3-c31.wav 0.23120000        22.5        1   16 0.020508    5202
+#&gt; 32     Phae.long3-3.wav 0.20000000        22.5        1   16 0.017578    4500
+#&gt; 33       Phae.long3.wav 2.20000000        22.5        1   16 0.193359   49500
+#&gt; 34 Phae.long4-1-c32.wav 0.24542222        22.5        1   16 0.021484    5522
+#&gt; 35     Phae.long4-1.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 36 Phae.long4-2-c33.wav 0.24417778        22.5        1   16 0.021484    5494
+#&gt; 37     Phae.long4-2.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 38 Phae.long4-3-c34.wav 0.24511111        22.5        1   16 0.021484    5515
+#&gt; 39     Phae.long4-3.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 40     Phae.long4-4.wav 0.20000000        22.5        1   16 0.017578    4500
+#&gt; 41       Phae.long4.wav 3.20000000        22.5        1   16 0.281250   72000
+#&gt; 42            wv1-1.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 43            wv1-2.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 44            wv1-3.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 45            wv1-4.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 46            wv1-5.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 47            wv1-6.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 48            wv1-7.wav 1.00000000        22.5        1   16 0.087891   22500
+#&gt; 49            wv1-8.wav 0.20008889        22.5        1   16 0.017578    4502
+#&gt; 50              wv1.wav 7.20008889        22.5        1   16 0.632812  162002</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

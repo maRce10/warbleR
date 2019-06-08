@@ -162,8 +162,8 @@ for acoustic analysis located in the first columns. The priority order for colum
 <span class='no'>selec.table</span> <span class='kw'>&lt;-</span> <span class='no'>selec.table</span>[, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>selec.table</span>))]
 
  <span class='co'>#check names</span>
- <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>selec.table</span>)</div><div class='output co'>#&gt; [1] "sound.files" "rec.comment" "sel.comment" "start"       "end"        
-#&gt; [6] "selec"       "bottom.freq" "channel"     "top.freq"   </div><div class='input'>
+ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>selec.table</span>)</div><div class='output co'>#&gt; [1] "selec"       "sound.files" "rec.comment" "end"         "top.freq"   
+#&gt; [6] "bottom.freq" "sel.comment" "start"       "channel"    </div><div class='input'>
  <span class='no'>selec.table</span> <span class='kw'>&lt;-</span> <span class='fu'>sort_colms</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>)
 
  <span class='co'>#check names again</span>

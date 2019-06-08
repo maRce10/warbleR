@@ -270,7 +270,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     res$check.res <- ifelse(res$top.freq - res$bottom.freq <= 0, gsub("OK\\|", "", paste(res$check.res, "'bottom.freq' is equal or higher than the 'top.freq'", sep = "|")), res$check.res)
     } 
   
-  # if start higher than end
+  # if start higher or equal than end
   res$check.res <- ifelse(res$end - res$start <= 0, gsub("OK\\|", "", paste(res$check.res, "'start' is equal or higher than the 'end'", sep = "|")), res$check.res)
   
   # if start is negative

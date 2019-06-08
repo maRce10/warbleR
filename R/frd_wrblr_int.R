@@ -35,10 +35,15 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
     zf <- spc[ , 1]
   }
   
+  #remove range outside bp
   if (!is.null(bp)) { 
-    #remove range outsde bp
-    z <- z[zf > bp[1] & zf < bp[2]]
-    zf <- zf[zf > bp[1] & zf < bp[2]]
+     # if there are complete freq bins within freq range
+    if (any(zf > bp[1] & zf < bp[2])) 
+    fbins <- which(zf > bp[1] & zf < bp[2]) else # select the one that contains the freq range
+    fbins <- which.max(ifelse(zf - bp[1] > 0, NA, zf - bp[1])):which.max(ifelse(zf - bp[2] > 0, NA, zf - bp[1]))
+    
+    z <- z[fbins]
+    zf <- zf[fbins]
   }
   
   # make minimum amplitude 0
@@ -46,6 +51,7 @@ frd_wrblr_int <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, wn = "h
   z[z < 0] <- 0
   
   # normalize amplitude from 0 to 1
+  if(length(z) > 1)
   z <- z/max(z)
   
   #get freqs crossing threshold

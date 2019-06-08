@@ -2,6 +2,7 @@
 
 ## New functions:
 * sort_colms: moves required colms to left side of data frame. Originally found in Rraven package 
+* split_wavs: splits sound files in shorter segments
 
 ## Changes and additions:
 
@@ -27,6 +28,7 @@
 
 * system() commands for windows in 'fix_wavs()' and 'resample_est()'
 * normalization when downsapling in 'mp32wav()' was required
+* error when creating extended selection tables 'by song' and 'song' column tags are repeated across sound files (selection_table())
 </br>
 
 # *warbleR 1.1.15*

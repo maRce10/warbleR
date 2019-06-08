@@ -78,7 +78,8 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \seealso{
 \code{\link{filtersels}}
 
-Other data manipulation: \code{\link{open_wd}}
+Other data manipulation: \code{\link{open_wd}},
+  \code{\link{split_wavs}}
 }
 \author{
 Marcelo Araya-Salas (\email{araya-salas@cornell.edu})

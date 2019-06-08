@@ -28,7 +28,7 @@
 #' @param weight Character vector defining 1 or more numeric vectors to weight average
 #' measurements (i.e. song parameters). Names of numeric columns in 'X' can also be used. See \code{\link[stats]{weighted.mean}}. 
 #'  for more details.  Default is \code{NULL} (unweighted average).
-#' @return A data frame similar to the input 'X' data frame, but in this case each row corresponds to a single song. The data frame contains the mean
+#' @return A data frame similar to the input 'X' data frame, but in this case each row corresponds to a single song. The data frame contains the mean or extreme
 #'  values for numeric columns for each song. Columns that will be averaged can be defined with
 #'  'mean_colm' (otherwhise all numeric columns are used). Columns can be 
 #'  weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters: 
@@ -42,7 +42,7 @@
 #'    \item \code{top.freq}: highest 'top.freq' from all song elements (in kHz)
 #'    \item \code{freq.range}: difference between song's 'top.freq' and 'bottom.freq' (in kHz)
 #'    \item \code{song.rate}: number of elements per second (NA if only 1 element)
-#'    \item \code{gap.duration}: length of gaps (i.e. silences) in between elements
+#'    \item \code{gap.duration}: average length of gaps (i.e. silences) in between elements
 #'    (in s, NA if only 1 element)
 #'    \item \code{elm.types}: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)
 #'    \item \code{mean.elm.count}: mean number of times element types are found (only if 'elm_colm' is supplied)
@@ -230,6 +230,11 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
     Z$song.duration <- Z$end - Z$start
     Z$song.rate <- if(Z$num.elms == 1) NA else Z$num.elms / Z$song.duration
     Z$gap.duration <- if(Z$num.elms == 1) NA else mean(Y$start[2:nrow(Y)] - Y$end[1:(nrow(Y) - 1)])
+    
+    if(sd) {
+      Z$sd.gap.duration <- if(Z$num.elms == 1) NA else sd(Y$start[2:nrow(Y)] - Y$end[1:(nrow(Y) - 1)])
+      Z$sd.elm.duration <- sd(Y$end - Y$start)
+      }
     
     # add element parameters
     if (!is.null(elm_colm))

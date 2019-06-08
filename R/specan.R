@@ -250,8 +250,8 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     # freq range to measure peak freq  
     # wl is adjusted when very short signals
     frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold, wn = wn, bp = bpfr, ovlp = ovlp)
-  
-    # soungen measurements
+    
+      # soungen measurements
     if (harmonicity)
     {
       sg.param <- try(soundgen::analyze(x = as.numeric(r@left), samplingRate = r@samp.rate, silence = threshold / 100, overlap = ovlp, windowLength = wl / r@samp.rate * 1000, plot = FALSE, wn = wn, pitchCeiling = b[2] * 1000, cutFreq = b[2] * 1000, nFormants = nharmonics), silent = TRUE)
@@ -326,7 +326,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     #Dominant frecuency parameters
-    y <- track_harm(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 1 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE,  dfrq = TRUE, adjust.wl = TRUE)[, 2]
+    y <- track_harm(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 2 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE,  dfrq = TRUE, adjust.wl = TRUE)[, 2]
     
     #remove NAs
     y <- y[!is.na(y)]
