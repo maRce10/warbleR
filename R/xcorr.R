@@ -324,12 +324,18 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
+  # shuffle template index so are not compared in sequence, which makes progress bar more precise
   ord.shuf <- sample(1:(nrow(X)-1))
+  
+  # run function over templates with a loop
   a <- pbapply::pblapply(X = ord.shuf, cl = cl, FUN = function(j) 
   {
+    # read sound file
     a <- read_wave(X = X, index = j, header = TRUE)  
     
-    margin <-(max(with(X, end[j:nrow(X)] - start[j:nrow(X)])))/2
+    # calculate margin before and after signal
+    margin <- (max(X$end[j:nrow(X)] - X$start[j:nrow(X)]))/2
+    
     start <-X$start[j] - margin
     if (start < 0) {
       end <-X$end[j] + margin -start

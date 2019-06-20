@@ -155,7 +155,6 @@ frange <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thresho
   #wrap img creating function
   if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
-
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {

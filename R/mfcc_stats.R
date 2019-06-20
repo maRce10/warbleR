@@ -176,7 +176,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     
        # put them in a data frame  
     outdf <- data.frame(t(c(apply(m, 2, min), apply(m, 2, max), apply(m, 2, stats::median), apply(m, 2, mean), 
-      apply(m, 2, stats::var), apply(m, 2, Sim.DiffProc::skewness), apply(m, 2, Sim.DiffProc::kurtosis))))
+      apply(m, 2, stats::var), apply(m, 2, Sim.DiffProc::skewness), apply(m, 2, Sim.DiffProc::kurtosis))), stringsAsFactors = FALSE)
     
       # name columns
     names(outdf) <- paste(rep(c("min", "max", "median", "mean", "var", "skew", "kurt"), each = numcep), paste0("cc", 1:numcep), sep = ".")
@@ -186,7 +186,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
       m3 <- deltas(m2)
       vm.d <- c(mean.d1.cc = mean(c(m2)), var.d1.cc = stats::var(c(m2)), mean.d2.cc = mean(c(m3)), var.d2.cc = stats::var(c(m3)))
       
-      return(cbind(X[i, c("sound.files", "selec")], outdf, t(vm.d)))
+      return(cbind(X[i, c("sound.files", "selec")], outdf, t(vm.d), stringsAsFactors = FALSE))
     }
   
     # set pb options 
@@ -207,6 +207,13 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     
     # fix row names
     row.names(ccs) <- 1:nrow(ccs)
+    
+    # convert to numeric in case there is any non-numeric value
+    # if(anyNA(ccs)){
+      ccs$sound.files <- X$sound.files  
+      ccs$selec <- X$selec
+      ccs[, -c(1, 2)] <-  data.frame(apply(ccs[, -c(1, 2)], 2, as.numeric))
+    # }  
     
     return(ccs)
 }

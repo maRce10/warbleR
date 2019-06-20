@@ -26,6 +26,7 @@
 
 ## Bug fixes:
 
+* x_corr() on extended selection tables with extra column names generated and error
 * system() commands for windows in 'fix_wavs()' and 'resample_est()'
 * normalization when downsapling in 'mp32wav()' was required
 * error when creating extended selection tables 'by song' and 'song' column tags are repeated across sound files (selection_table())
