@@ -22,6 +22,7 @@
 * more info about file input in 'auto_detec()' documentation
 * 'frange' available as bandpass in 'dfts()' and 'mfcc_stats()'
 * 'bioacoustics' dependency changed to 'suggested package'
+* 'mfcc_stats()' return NAs instead of error when MFCC can't be calculated
 
 
 ## Bug fixes:

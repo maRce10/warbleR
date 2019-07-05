@@ -43,7 +43,7 @@
 #' \itemize{
 #'    \item \code{duration}: length of signal (in s)
 #'    \item \code{meanfreq}: mean frequency (in kHz). Mean of frequency spectrum (i.e. weighted average of frequency by amplitude within supplied band pass).  
-#'    \item \code{sd}: standard deviation of frequency weighted by amplitude
+#'    \item \code{sd}: standard deviation of frequency (in kHz).  
 #'    \item \code{freq.median}: median frequency. The frequency at which the signal is divided in two frequency
 #'    intervals of equal energy (in kHz) 
 #'    \item \code{freq.Q25}: first quartile frequency. The frequency at which the signal is divided in two 

@@ -16,8 +16,7 @@
 #' @param path Character string containing the directory path where the sound files are located. 
 #' @param numcep Numeric vector of length 1 controlling the number of cepstra to 
 #' return (see \code{\link[tuneR]{melfcc}}).
-#' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to use (see \code{\link[tuneR]{melfcc}}).
-#' If \code{NULL} (default) then the .
+#' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to use (see \code{\link[tuneR]{melfcc}}). Default is 40.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
@@ -171,22 +170,34 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
       if (bpfr[2] > ceiling(r@samp.rate/2000) - 1) bpfr[2] <- ceiling(r@samp.rate/2000) - 1 
     
       # measure MFCCs  
-      m <- melfcc(r, wintime = wl / r@samp.rate, hoptime = wl / r@samp.rate * (1 - (ovlp / 100)), 
-                   numcep = numcep, nbands = nbands, minfreq = bpfr[1] * 1000, maxfreq = bpfr[2] * 1000, ...)  
+      m <- try(melfcc(r, wintime = wl / r@samp.rate, hoptime = wl / r@samp.rate * (1 - (ovlp / 100)), 
+                   numcep = numcep, nbands = nbands, minfreq = bpfr[1] * 1000, maxfreq = bpfr[2] * 1000, ...), silent = TRUE)  
     
+    clm.nms <- paste(rep(c("min", "max", "median", "mean", "var", "skew", "kurt"), each = numcep), paste0("cc", 1:numcep), sep = ".")  
+      
+    # if cepstral coefs were calculated
+    if (class(m) != "try-error") {
        # put them in a data frame  
     outdf <- data.frame(t(c(apply(m, 2, min), apply(m, 2, max), apply(m, 2, stats::median), apply(m, 2, mean), 
       apply(m, 2, stats::var), apply(m, 2, Sim.DiffProc::skewness), apply(m, 2, Sim.DiffProc::kurtosis))), stringsAsFactors = FALSE)
     
       # name columns
-    names(outdf) <- paste(rep(c("min", "max", "median", "mean", "var", "skew", "kurt"), each = numcep), paste0("cc", 1:numcep), sep = ".")
-    
+    names(outdf) <- clm.nms
+  
       # measure MFCC first and second derivatives var and mean
       m2 <- deltas(m)
       m3 <- deltas(m2)
       vm.d <- c(mean.d1.cc = mean(c(m2)), var.d1.cc = stats::var(c(m2)), mean.d2.cc = mean(c(m3)), var.d2.cc = stats::var(c(m3)))
       
-      return(cbind(X[i, c("sound.files", "selec")], outdf, t(vm.d), stringsAsFactors = FALSE))
+      out.df <- cbind(X[i, c("sound.files", "selec")], outdf, t(vm.d), stringsAsFactors = FALSE)
+      
+      } else  {
+        out.df <-  data.frame(X[i, c("sound.files", "selec")], t(rep(NA, length(clm.nms) + 4)))
+        
+        names(out.df)[-c(1:2)] <- c(clm.nms, "mean.d1.cc", "var.d1.cc", "mean.d2.cc", "var.d2.cc")
+      }
+    
+    return(out.df)
     }
   
     # set pb options 

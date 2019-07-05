@@ -27,8 +27,7 @@ and maximum of 'top.freq' columns will be used as bandpass limits.}
 \item{numcep}{Numeric vector of length 1 controlling the number of cepstra to 
 return (see \code{\link[tuneR]{melfcc}}).}
 
-\item{nbands}{Numeric vector of length 1 controlling the number of warped spectral bands to use (see \code{\link[tuneR]{melfcc}}).
-If \code{NULL} (default) then the .}
+\item{nbands}{Numeric vector of length 1 controlling the number of warped spectral bands to use (see \code{\link[tuneR]{melfcc}}). Default is 40.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
