@@ -31,7 +31,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 }
 \value{
 All (sound) files are consolidated (copied) to a single directory ("consolidated_files"). The function returns a data frame with each of the files that were copied in a row and the following information:
-#' \itemize{
+\itemize{
  \item \code{original_dir} the path to the original file 
  \item \code{old_name} the name of the original file
  \item \code{new_name} the name of the new file. This will be tthe same as 'old_name' if the name was not duplicated (i.e. no files in other directories with the same name).

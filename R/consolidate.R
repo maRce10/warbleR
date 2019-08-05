@@ -18,7 +18,7 @@
 #' @param save.csv Logical. Controls whether a data frame containing sound file information is saved in the new directory. Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to the internal \code{\link[base]{file.copy}} function for customizing file copying. 
 #' @return All (sound) files are consolidated (copied) to a single directory ("consolidated_files"). The function returns a data frame with each of the files that were copied in a row and the following information:
-#' #' \itemize{
+#' \itemize{
 #'  \item \code{original_dir} the path to the original file 
 #'  \item \code{old_name} the name of the original file
 #'  \item \code{new_name} the name of the new file. This will be tthe same as 'old_name' if the name was not duplicated (i.e. no files in other directories with the same name).

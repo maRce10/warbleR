@@ -3,7 +3,6 @@ title: <center><font size="7"><b>warbleR&#58; Import sound files and select sign
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
 - <center><a href="http://smithvidaurre.weebly.com/">Grace Smith-Vidaurre, PhD Candidate</a> </center>
- &nbsp; 
 date:  <center>"`r Sys.Date()`"</center>
 output:
   rmarkdown::html_document:
@@ -17,6 +16,8 @@ vignette: >
   \usepackage[utf8]{inputenc}
   %\VignetteIndexEntry{1. Import sound files and select signals}
   %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- <script> -->
@@ -366,7 +367,7 @@ After _mp3_ files have been converted, we need to check that the _wav_ files are
 # getwd()
 
 # here we are downsampling the original sampling rate of 44.1 kHz to speed up downstream analyses in the vignette series
-mp32wav(samp.rate = 22050) 
+mp32wav(samp.rate = 22.05) 
 
 # Use checkwavs to see if wav files can be read
 checkwavs() 

@@ -234,6 +234,8 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
     Y <- X
     X <- song_param(X = Y, song_colm = by.song, pb = FALSE)
     X$selec <- 1
+    
+    # fix extended selection table again
     if (is_extended_selection_table(Y)) X <- fix_extended_selection_table(X, Y)
     } else Y <- NULL
   
