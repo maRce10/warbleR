@@ -58,27 +58,22 @@
 #' @name checksels
 #' @export
 #' @examples{
-#' # First set temporary folder
-#' # setwd(tempdir())
-#' 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
-#' checksels(X = lbh_selec_table)
+#' checksels(X = lbh_selec_table, path = tempdir())
 #' }
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on jul-5-2016 (MAS)
 
 checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE, 
                       pb = TRUE, wav.size = FALSE){
   
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
+  # reset pbapply pb
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options
@@ -106,9 +101,9 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   #if X is not a data frame
   if (all(!any(is.data.frame(X), is_selection_table(X)))) stop("X is not of a class 'data.frame' or 'selection_table'")
@@ -140,7 +135,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     }}
   
   #check if files are in working directory
-  files <- file.exists(as.character(unique(X$sound.files)))
+  files <- file.exists(file.path(path, unique(X$sound.files)))
   if (all(!files)) 
     stop("no .wav files found")
   
@@ -163,18 +158,18 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in 'top.freq' and/or 'bottom.freq' \n")  
   
   # function to run over each sound file
-  csFUN <- function(x, X){
+  csFUN <- function(x, X, pth){
     Y <- as.data.frame(X[X$sound.files == x, , drop = FALSE])
     
-    if (file.exists(as.character(x))){
-      rec <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
+    if (file.exists(file.path(pth, x))){
+      rec <- try(suppressWarnings(warbleR::read_wave(X= x, path = pth, header = TRUE)), silent = TRUE)
       
       # if it was read
       if (!class(rec) == "try-error")
       {
         if (check.header) # look for mismatchs between file header & file content  
         {
-          recfull <- try(suppressWarnings(tuneR::readWave(as.character(x), header = FALSE)), silent = TRUE)
+          recfull <- try(suppressWarnings(warbleR::read_wave(X = x, path = pth, header = FALSE)), silent = TRUE)
           if (any(methods::slotNames(recfull) == "stereo")) 
           {
             if (rec$channels == 2) channel.check <- ifelse(recfull@stereo, FALSE, TRUE) else
@@ -252,7 +247,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   # run loop apply function
   out <- pbapply::pblapply(X = unique(X$sound.files), cl = cl, FUN = function(x) 
   { 
-    csFUN(x, X)
+    csFUN(x, X, pth = path)
   }) 
   
   res <- do.call(rbind, out)

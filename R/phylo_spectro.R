@@ -39,16 +39,16 @@
 #' @examples { 
 #' \donttest{
 #' # First set empty folder
-#' # setwd(tempdir())
+#' 
 #' 
 #' # save example sound files
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
 #' # set spectrogram options (can be done at the phylo_spectro() function too)
-#' warbleR_options(wl = 200, ovlp = 90, flim = "frange")
+#' warbleR_options(wl = 200, ovlp = 90, flim = "frange", wav.path = tempdir())
 #' 
 #' # subset example selection table
 #' X <- lbh_selec_table[1:8, ]
@@ -93,7 +93,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on oct-1-2018 (MAS)
 
 phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size = 1, offset = 0, 
@@ -107,17 +107,13 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
   if (!horizontal) cat("Currently only horizontal spectrograms are allowed")
   horizontal <- TRUE
   
-  ## save curent working directory and use a temporary one for saving images
-  wd <- getwd() # save
-  on.exit(setwd(wd), add = TRUE) # restores directory at the end
-  if (is.null(path)) path <- wd # set  directory
-  
-  # set temporary working directory to save images  
-  setwd(path)
+  #check path if not provided set to working directory
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
   
   ## save par current setting and restores it later
   opar <- par # save
-  on.exit(opar, add = TRUE) # restore
+  on.exit(opar) # restore
   
   #### set arguments from options
   # get function arguments
@@ -267,7 +263,7 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
   for(y in 1:nrow(X)) {
     
     # read images    
-    imgs[[1 + length(imgs)]] <- jpeg::readJPEG(source = file.path(tempdir(), paste0(X$sound.files[y], "-", X$selec[y], ".jpeg")))
+    imgs[[1 + length(imgs)]] <- jpeg::readJPEG(source = file.path(tempdir(),  paste0(X$sound.files[y], "-", X$selec[y], ".jpeg")))
     
     # get image dimensions
     dims <- dim(imgs[[length(imgs)]])

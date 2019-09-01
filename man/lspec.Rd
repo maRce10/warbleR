@@ -98,22 +98,22 @@ The function creates spectrograms for complete sound files, printing
 }
 \examples{
 \dontrun{
-# Set temporary working directory
-# setwd(tempdir())
+# Save to temporary working directory
+
 
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav") 
-writeWave(Phae.long2,"Phae.long2.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
-lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
+lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, path = tempdir())
 
 # including selections
 lspec(sxrow = 2, rows = 8, X = lbh_selec_table, pal = reverse.heat.colors, overwrite = TRUE,
- wl = 300)
+ wl = 300, path = tempdir())
 
 #check this floder
-getwd()
+,tempdir()
 }
 
 }
@@ -127,5 +127,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

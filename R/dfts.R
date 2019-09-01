@@ -73,29 +73,28 @@
 #'  to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
 #' 
 #' @examples{
-#' # set the temp directory
-#' # setwd(tempdir())
-#' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-#' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
-#' writeWave(Phae.long1, "Phae.long1.wav")
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 #' 
 #' # run function 
-#' dfts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE)
+#' dfts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE,
+#'  path = tempdir())
 #' 
 #' # note a NA in the row 4 column 3 (dfreq-1)
 #' # this can be removed by clipping edges (removing NAs at the start and/or end 
 #' # when no freq was detected) 
 #' 
 #' dfts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE, 
-#' clip.edges = TRUE)
+#' clip.edges = TRUE, 
+#' path = tempdir())
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on march-12-2018 (MAS)
 
 dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
@@ -103,10 +102,6 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
                   img = TRUE, parallel = 1,
                   path = NULL, img.suffix = "dfts", pb = TRUE, clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1, raw.contour = FALSE, 
                   track.harm = FALSE, adjust.wl = TRUE, ...){     
-  
-  # reset working directory and default parameters
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -138,9 +133,8 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -187,7 +181,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X)){
-   recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+   recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
@@ -212,7 +206,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
   dftsFUN <- function(X, i, bp, wl, threshold.time, threshold.freq, fsmooth, wl.freq, frange.dtc, raw.contour, track.harm, adjust.wl){
     
     # Read sound files to get sample rate and length
-    r <- read_wave(X = X, index = i, header = TRUE)
+    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
     f <- r$sample.rate
     
     # if bp is frange
@@ -223,7 +217,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
     if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
-    r <- read_wave(X = X, index = i)
+    r <- warbleR::read_wave(X = X, path = path, index = i)
     
     if (frange.dtc){
       frng <- frd_wrblr_int(wave = r, wl = wl.freq, fsmooth = fsmooth, threshold = threshold.freq, wn = wn, bp = b/ 1000, ovlp = ovlp)

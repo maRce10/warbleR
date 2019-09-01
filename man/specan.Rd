@@ -135,21 +135,19 @@ The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used
 }
 \examples{
 {
-# First set temporary folder
-
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 
 # measure acoustic parameters
-sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE)
+sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE, path = tempdir())
 
 # measuring peakf
-sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE)
+sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE, path = tempdir())
 
 # measuring harmonic-related parameters using progress bar
-sp_param <- specan(X = lbh_selec_table[1:8,], harmonicity = TRUE)
+sp_param <- specan(X = lbh_selec_table[1:8,], harmonicity = TRUE, path = tempdir())
 }
 
 }
@@ -159,5 +157,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
 }

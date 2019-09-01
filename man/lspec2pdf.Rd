@@ -30,21 +30,18 @@ a single pdf (for each sound file).
 }
 \examples{
 \dontrun{
-# Set temporary working directory
-# setwd(tempdir())
-
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2"))
-writeWave(Phae.long1,"Phae.long1.wav") 
-writeWave(Phae.long2,"Phae.long2.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
-lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, it = "jpeg")
+lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, it = "jpeg", path = tempdir())
 
 #now create single pdf removing jpeg
-lspec2pdf(keep.img = FALSE)
+lspec2pdf(keep.img = FALSE, path = tempdir())
 
 # check this floder
-getwd()
+ tempdir()
 }
 
 }
@@ -58,5 +55,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

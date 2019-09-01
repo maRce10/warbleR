@@ -144,26 +144,26 @@ This function determines the start and end of signals in the sound file selectio
 }
 \examples{
 \dontrun{
-# Set temporary working directory
-# setwd(tempdir())
+# Save to temporary working directory
+
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav") 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
 
 ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1,
 bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
-wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE)
+wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE, path = tempdir())
 
 #run it with different settings
 ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, redo = TRUE,
 bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
-wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
+wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE, path = tempdir())
 
 #check this folder!!
-getwd()
+tempdir()
 }
 
 }
@@ -173,6 +173,6 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}). Implements a
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}). Implements a
 modified version of the timer function from seewave.
 }

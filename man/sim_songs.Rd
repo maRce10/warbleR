@@ -55,7 +55,7 @@ Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.}
 ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.}
 
 \item{selec_table}{Logical. If \code{TRUE} a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
-is saved as a ".wav" file in the working directory. Defaul is \code{FALSE}.}
+is saved as a ".wav" file in the working directory. Default is \code{FALSE}.}
 
 \item{file_name}{Character string for naming the ".wav" file. Ignored if 
 'selec_table' is \code{FALSE}. If not provided the date-time stamp will be used.}
@@ -98,5 +98,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{querxc}} for for downloading bird vocalizations from an online repository.
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

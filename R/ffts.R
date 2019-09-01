@@ -57,31 +57,21 @@
 #'  detected then the values of this adjacent segments will be interpolated 
 #'  to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
 #' @examples{
-#' # set the temp directory
-#' # setwd(tempdir())
-#' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
-#' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
 #' 
 #' # run function 
-#' ffts(lbh_selec_table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300)
-#' 
-#' # Fundamental frequency is not accurate for noisy signals, works better with pure tones
-#' 
+#' ffts(lbh_selec_table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300, path = tempdir())
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on oct-26-2016 (MAS)
 
 ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
                  bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1,
                  path = NULL, img.suffix = "ffts", pb = TRUE, clip.edges = FALSE,
                  leglab = "ffts", ff.method = "seewave", ...){     
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -111,9 +101,8 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
   
     #if X is not a data frame
     if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -145,7 +134,7 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
-  {recs.wd <- list.files(path = getwd(), pattern = "\\.wav$", ignore.case = TRUE)
+  {recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
@@ -167,14 +156,14 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   fftsFUN <- function(X, i, bp, wl, threshold){
     
     # Read sound files to get sample rate and length
-    r <- read_wave(X = X, index = i, header = TRUE)
+    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
     f <- r$sample.rate
     
     b<- bp 
     if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
-    r <- read_wave(X = X, index = i)
+    r <- warbleR::read_wave(X = X, path = path, index = i)
     
     # calculate fundamental frequency at each time point     
     if (ff.method == "seewave")

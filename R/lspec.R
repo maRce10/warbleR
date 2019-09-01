@@ -70,36 +70,32 @@
 #' \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
+#' # Save to temporary working directory
+#' 
 #' 
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav") 
-#' writeWave(Phae.long2,"Phae.long2.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' 
-#' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300)
+#' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, path = tempdir())
 #' 
 #' # including selections
 #' lspec(sxrow = 2, rows = 8, X = lbh_selec_table, pal = reverse.heat.colors, overwrite = TRUE,
-#'  wl = 300)
+#'  wl = 300, path = tempdir())
 #' 
 #' #check this floder
-#' getwd()
+#' ,tempdir()
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on mar-13-2018 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
                   wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL) {
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -129,15 +125,15 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   #if sel.comment column not found create it
   if (is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
   
   #read files
-  files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)  
+  files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
   if (length(files) == 0) stop("no .wav files in working directory")
@@ -201,9 +197,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
-  #wrap img creating function
-  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
-  
   #if parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -218,8 +211,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   
   # overwrite
   if (!overwrite) 
-    files <- files[!gsub(".wav$","", list.files(pattern = "\\.wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
-      unlist(sapply(strsplit(as.character(list.files(pattern = paste(it, "$", 
+    files <- files[!gsub(".wav$","", list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
+      unlist(sapply(strsplit(as.character(list.files(path = path, pattern = paste(it, "$", 
                                                                      sep = ""), ignore.case = TRUE)), "-p",fixed = TRUE), "[",1))]
   
   files <- files[!is.na(files)]
@@ -230,7 +223,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   #create function for making spectrograms
   lspecFUN <-function(z, fl, sl, li, ml, X) {
     
-    rec <- tuneR::readWave(z) #read wave file 
+    rec <- warbleR::read_wave(X = z, path = path) #read wave file 
     
     f <- rec@samp.rate #set sampling rate
     
@@ -253,7 +246,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
     #loop over pages 
     no.out <- lapply(1 : ceiling(dur / (li * sl)), function(j)  
       {
-       imgfun(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".", it),  
+      img_wrlbr_int(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".", it), path = path,  
            res = 160, units = "in", width = if(horizontal) 11 else 8.5, height = if(horizontal) 8.5 else 11) 
       
       par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)

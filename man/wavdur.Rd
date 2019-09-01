@@ -23,15 +23,12 @@ This function returns the duration (in seconds) of sound files.
 }
 \examples{
 {
-# Set temporary working directory
-# setwd(tempdir())
-
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 
-wavdur()
+wavdur(path = tempdir())
 }
 
 }
@@ -41,5 +38,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

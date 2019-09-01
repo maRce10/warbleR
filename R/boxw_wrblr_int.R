@@ -31,5 +31,5 @@ boxw_wrblr_int <- function(xys =NULL, bty = "o", col = "black", lwd = 1, lty = 1
     lines(x = cmb[1:2,i], y = cmb[3:4,i],  xpd = TRUE, col = col, lwd = lwd, lty = lty)
 }
   
-# author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+# author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on aug-3-2017 (MAS)

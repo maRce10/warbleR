@@ -38,6 +38,6 @@ Other data manipulation: \code{\link{move.imgs}},
   \code{\link{split_wavs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
 \concept{data manipulation}

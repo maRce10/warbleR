@@ -24,31 +24,24 @@
 #' @seealso \code{\link{checksels}} \code{\link{seltailor}}
 #' @name checkwavs
 #' @examples{
-#' # First set temporary folder
-#' # setwd(tempdir())
-#' 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' # without selection data frame
-#' checkwavs()
+#' checkwavs(path = tempdir())
 #' 
 #' # without selection data frame
-#' checkwavs(X = lbh_selec_table)
+#' checkwavs(X = lbh_selec_table, path = tempdir())
 #' }
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on jul-5-2016 (MAS)
 
 checkwavs <- function(X = NULL, path = NULL) { 
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   #### set arguments from options
   # get function arguments
@@ -75,12 +68,12 @@ checkwavs <- function(X = NULL, path = NULL) {
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   #return warning if not all sound files were found
-  files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(files) == 0) stop("no .wav files in working directory") 
   
   
@@ -117,7 +110,7 @@ checkwavs <- function(X = NULL, path = NULL) {
   }
   
   a <- sapply(files, function(x) {
-    r <- try(suppressWarnings(tuneR::readWave(as.character(x), header = TRUE)), silent = TRUE)
+    r <- try(suppressWarnings(warbleR::read_wave(X = x, path = path, header = TRUE)), silent = TRUE)
     if (class(r) == "try-error") return (NA) else
       return(r$sample.rate)  }) 
   

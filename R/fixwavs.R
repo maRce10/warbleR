@@ -28,16 +28,16 @@
 #'   
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
+#' # Save to temporary working directory
+#' 
 #' 
 # data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-# writeWave(Phae.long1,"Phae.long1.wav")
-# writeWave(Phae.long2,"Phae.long2.wav")
-# writeWave(Phae.long3,"Phae.long3.wav")
-# writeWave(Phae.long4,"Phae.long4.wav")
+# writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+# writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+# writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+# writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 # 
-# fixwavs(files = lbh_selec_table$sound.files)
+# fixwavs(files = lbh_selec_table$sound.files, path = tempdir())
 #' 
 #' #check this folder
 #' getwd()
@@ -46,7 +46,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 # last modification on oct-22-2018 (MAS)
 
 fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL, path = NULL, mono = FALSE, sox = FALSE)
@@ -55,10 +55,6 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
   # error message if bioacoustics is not installed
   if (!requireNamespace("bioacoustics", quietly = TRUE) & !is.null(samp.rate))
     stop("must install 'bioacoustics' to use mp32wav() for changing sampling rate")
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   #### set arguments from options
   # get function arguments
@@ -85,12 +81,11 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
   
   #  If  both 'checksels' and 'files'  are NULL
-  if (is.null(checksels) & is.null(files)) files <- list.files(pattern = ".wav$", ignore.case = TRUE)  
+  if (is.null(checksels) & is.null(files)) files <- list.files(path = path, pattern = ".wav$", ignore.case = TRUE)  
 
     if (!is.null(checksels))
   {fls <-unique(checksels$sound.files[checksels$check.res == "Sound file can't be read" | checksels$check.res == "file header corrupted"])
@@ -117,13 +112,13 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
     
 if (!is.null(samp.rate) & is.null(bit.depth)) bit.depth <- 16
 
-dir.create(file.path(getwd(), "converted_sound_files"), showWarnings = FALSE)
+dir.create(file.path(path, "converted_sound_files"), showWarnings = FALSE)
   
 
 fix_bio_FUN <- function(x) {
 
-    # read mp3
-    wv <- try(tuneR::readWave(filename =  x), silent = TRUE)
+    # read waves
+    wv <- try(warbleR::read_wave(X = x, path = path), silent = TRUE)
 
     # downsample and filter if samp.rate different than mp3
     if(class(wv) == "Wave" & !is.null(samp.rate))
@@ -142,7 +137,7 @@ fix_bio_FUN <- function(x) {
     wv <- tuneR::normalize(object = wv, unit = as.character(bit.depth))
     }
 
-    wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(getwd(), "converted_sound_files", paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
+    wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, "converted_sound_files", paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
     
     return(NULL)
 }

@@ -1,6 +1,6 @@
 #' A wrapper for tuneR's readWave that read sound files listed within selection tables
 #' 
-#' \code{read_wave} A wrapper for tuneR's \code{\link[tuneR]{readWave}} function that read sound files listed within selection tables
+#' \code{read_wave} A wrapper for tuneR's \code{\link[tuneR]{readWave}} function that read sound files listed in data frames and selection tables
 #' @usage read_wave(X, index, from = X$start[index], to = X$end[index], channel = NULL, 
 #' header = FALSE, path = NULL) 
 #' @param X 'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
@@ -17,32 +17,38 @@
 #' @return An object of class "Wave".
 #' @export
 #' @name read_wave
-#' @details The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files listed within selection tables
-#' ignores file extension mismatches, a common mistake when reading wave files. It 
+#' @details The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files listed within selection tables. It 
 #' is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details).
 #' @examples
 #' {
-#' # First set temporary folder
-#' # setwd(tempdir())
-#' 
 #' # write wave files with lower case file extension
 #' data(list = c("Phae.long1"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 #' 
-#' read_wave(X = lbh_selec_table, index  =  1)
+#' warbleR::read_wave(X = lbh_selec_table, index  =  1, path = tempdir())
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on may-7-2018 (MAS)
 
 read_wave <- function (X, index, from = X$start[index], to = X$end[index], channel = NULL, header = FALSE, path = NULL) 
 {
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X), is.character(X), is.factor(X))) stop("X is not of a class 'data.frame', 'selection_table', 'extended_selection_table' or a sound file")
+  
+  if (is.character(X) | is.factor(X)) {
+    if (is.null(path)) 
+      path <- getwd()
+    
+    if (is.na(try_na(from))) from <- 0
+    if (is.na(try_na(to))) to <- Inf
+    
+  object <- tuneR::readWave(filename = file.path(path, X), from = from, to = to, header = header, units = "seconds")  
+  } else {
   
   # check columns
   if (!all(c("sound.files", 
@@ -61,13 +67,14 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], chann
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-      if (!dir.exists(path)) stop("'path' provided does not exist") else
-      {
-        on.exit(setwd(getwd()))
-        setwd(path)
-        }
+      if (!dir.exists(path)) 
+        stop("'path' provided does not exist") 
+  
+  # convert attr(X, "check.results")$sound.files to character if factor
+  if (is.factor(attr(X, "check.results")$sound.files )) 
+    attr(X, "check.results")$sound.files  <- as.character(attr(X, "check.results")$sound.files)
     
-  filename <- as.character(X$sound.files[index])
+  filename <- file.path(path, X$sound.files[index])
   
   if (header)
     {
@@ -96,6 +103,6 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], chann
         
     }
     }
-
+  }
  return(object)
 }

@@ -126,23 +126,21 @@ of the \code{\link[seewave]{spectro}} function from seewave package to create sp
 }
 \examples{
 \dontrun{
-# Set temporary working directory
-# setwd(tempdir())
-
+# Save to temporary working directory
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 compare.methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg")
+methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", path = tempdir())
 
 #remove progress bar
 compare.methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE)
+methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE, path = tempdir())
 
 #check this folder!
 getwd()
@@ -180,7 +178,7 @@ methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
 \href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}). It uses 
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}). It uses 
 internally a modified version of the \code{\link[seewave]{spectro}} function from 
 seewave package to create spectrograms.
 }

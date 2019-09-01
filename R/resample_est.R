@@ -22,17 +22,15 @@
 #'  or the \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} (if \code{sox = FALSE}) should be installed.
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav") 
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
 #' 
 #' # create extended selection table
-#' X <- selection_table(X = lbh_selec_table, extended = TRUE, confirm.extended = FALSE, pb = FALSE)
+#' X <- selection_table(X = lbh_selec_table, extended = TRUE, confirm.extended = FALSE, pb = FALSE, 
+#' path = tempdir())
 #' 
 #' # resample
 #' Y <- resample_est(X)
@@ -42,7 +40,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #' #last modification on oct-15-2018 (MAS)
 
 resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid.clip = TRUE, pb = FALSE, parallel = 1)
@@ -51,10 +49,6 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
   # error message if bioacoustics is not installed
   if (!requireNamespace("bioacoustics",quietly = TRUE) & !sox)
     stop("must install 'bioacoustics' to use mp32wav() when 'sox = FALSE'")
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
 
   #check bit.depth
   if (length(bit.depth) >1) stop("'bit.depth' should have a single value")
@@ -115,11 +109,11 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
     return(x)
     
     }) else {
-     setwd(tempdir())
+     
       
       out <- pbapply::pblapply(attributes(X)$wave.objects, function(x){
       
-        tuneR::writeWave(extensible = FALSE, object = x, filename = "temp.R.file.wav")
+        tuneR::writeWave(extensible = FALSE, object = x, filename = file.path(tempdir(), "temp.R.file.wav"))
    
         cll <- paste0("sox 'temp.R.file.wav' -t wavpcm ", "-b ", bit.depth, " 'temp.R.file2.wav' rate ", samp.rate * 1000, " dither -s") 
         
@@ -131,7 +125,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
         
         out <- suppressWarnings(system(cll, ignore.stdout = FALSE, intern = TRUE)) 
         
-        x <- tuneR::readWave(filename = "temp.R.file2.wav")
+        x <- warbleR::read_wave(X = "temp.R.file2.wav", path = tempdir())
         
         return(x)
         })

@@ -133,23 +133,20 @@ This function produces an interactive spectrographic
 }
 \examples{
 \dontrun{
-#Set temporary working directory
-# setwd(tempdir())
-
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-seltailor(X =  lbh_selec_table, flim = c(1,12), wl = 300, auto.next = TRUE)
+seltailor(X =  lbh_selec_table, flim = c(1,12), wl = 300, auto.next = TRUE, path = tempdir())
 
 # Read output .csv file
-seltailor.df <- read.csv("seltailor_output.csv")
+seltailor.df <- read.csv(file.path(tempdir(), "seltailor_output.csv"))
 seltailor.df
 
 # check this directory for .csv file after stopping function
-getwd()
+tempdir()
 }
 }
 \references{
@@ -161,5 +158,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{manualoc}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

@@ -43,9 +43,6 @@ The function removes silence segments (i.e. segments with very low amplitude val
 }
 \examples{
 {
-# Set temporary working directory
-# setwd(tempdir())
-
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 sil <- silence(samp.rate = 22500, duration = 3, xunit = "time")
@@ -57,16 +54,14 @@ Phae.long2, f = 22500, output = "Wave")
 env(wv1)
 
  #save wave file
- writeWave(object = wv1, filename = "wv1.wav", extensible = FALSE)
+ writeWave(object = wv1, filename = file.path(tempdir(), "wv1.wav"),
+  extensible = FALSE)
 
 #remove silence
-rm_sil(flist = "wv1.wav", pb = FALSE)
-
-# OR this if tempdir was used instead
-# rm_sil(path = tempdir(), flist = "wv1.wav", pb = FALSE)
+rm_sil(flist = "wv1.wav", pb = FALSE, path = tempdir())
 
 #check this floder
-getwd()
+tempdir()
 }
 
 }
@@ -79,5 +74,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{fixwavs}}, \code{\link{autodetec}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

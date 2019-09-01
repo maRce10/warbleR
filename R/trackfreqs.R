@@ -133,42 +133,42 @@
 #'   Note that, unlike other warbleR functions that measure frequency contours, track_freqs do not interpolate frequency values.
 #' @examples
 #' {
-#' #Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' #load data
 #' data("Cryp.soui")
-#' writeWave(Cryp.soui, "Cryp.soui.wav") #save sound files 
+#' writeWave(Cryp.soui, file.path(tempdir(), "Cryp.soui.wav")) #save sound files 
 #' 
 #' #autodetec location of signals
 #' ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2,
-#' maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav")
+#' maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav", 
+#' path = tempdir())
 #' 
-#' #track dominant frequency graphs with freq reange detection
+#' #track dominant frequency graphs with freq range detection
 #' trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
-#' bp = c(1, 3), contour = "df", wl = 300, frange = TRUE)
+#' bp = c(1, 3), contour = "df", wl = 300, frange = TRUE, 
+#' path = tempdir())
 #'
 #' #using users frequency data (custom.contour argument) 
 #' #first get contours using dfts
 #' df <- dfts(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, img = FALSE,
-#' bp = c(1, 3),  wl = 300)
+#' bp = c(1, 3),  wl = 300, path = tempdir())
 #'
 #'# now input the dfts output into trackfreqs         
-#'trackfreqs(X = ad[!is.na(ad$start),], custom.contour = df ,flim = c(0, 5), ovlp = 90, it = "tiff")
+#'trackfreqs(X = ad[!is.na(ad$start),], custom.contour = df ,flim = c(0, 5), ovlp = 90, it = "tiff", 
+#'path = tempdir())
 #' 
 #'# Check this folder
-#' getwd()
+#' tempdir()
 #'
 #'#track both frequencies 
 #'trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
-#' bp = c(1, 3), contour = "both", wl = 300)
+#' bp = c(1, 3), contour = "both", wl = 300, path = tempdir())
 #' 
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on mar-13-2018 (MAS)
 
 trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
@@ -180,11 +180,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
                        type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE, fast.spec = FALSE, 
                        ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), 
                        freq.continuity = NULL, clip.edges = 2, track.harm = FALSE, ...){     
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
-  
+
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
@@ -213,9 +209,8 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       assign(names(opt.argms)[q], opt.argms[[q]])
 
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -253,9 +248,6 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
   #if ff.method argument  
   if (!any(ff.method == "seewave", ff.method == "tuneR")) stop(paste("ff.method", ff.method, "is not recognized"))  
   
-  #wrap img creating function
-  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
-  
   #if type not l b or p
   if (!any(type %in% c("p", "l", "b"))) stop(paste("Type", type, "not allowed"))  
   
@@ -273,7 +265,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
     #return warning if not all sound files were found
   if (!is_extended_selection_table(X))  
     {
-  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                     ".wav file(s) not found"))
@@ -322,7 +314,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
     trackfreFUN <- function(X, i, mar, flim, xl, picsize, wl, wl.freq, cexlab, inner.mar, outer.mar, res, bp, cex, threshold.time, threshold.freq, pch, custom.contour){
       
       # Read sound files, initialize frequency and time limits for spectrogram
-      r <- read_wave(X = X, index = i, header = TRUE)
+      r <- read_wave(X = X, path = path, index = i, header = TRUE)
       f <- r$sample.rate
       t <- c(X$start[i] - mar, X$end[i] + mar)
       
@@ -341,7 +333,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       
       
       # read rec segment
-      r <- read_wave(X = X, index = i, from = t[1], to = t[2])
+      r <- read_wave(X = X, path = path, index = i, from = t[1], to = t[2])
       
       #in case bp its higher than can be due to sampling rate
       if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])
@@ -358,7 +350,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
         pwc <- (10.16) * ((t[2]-t[1])/0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
       
       #call image function
-      imgfun(filename = paste0(X$sound.files[i],"-", X$selec[i], "-", img.suffix2), 
+      img_wrlbr_int(filename = paste0(X$sound.files[i],"-", X$selec[i], "-", img.suffix2), path = path,
              width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
       
       # Change relative heights of rows for spectrogram when osci = TRUE

@@ -78,24 +78,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -214,14 +196,14 @@ The function uses the <code><a href='https://www.rdocumentation.org/packages/sta
 <span class='co'>#load data</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
 
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='st'>"Phae.long1.wav"</span>) <span class='co'>#save sound files </span>
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='st'>"Phae.long2.wav"</span>)
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='st'>"Phae.long3.wav"</span>)
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='st'>"Phae.long4.wav"</span>)
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>)) <span class='co'>#save sound files </span>
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
 
 <span class='co'># measure</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='df_ts.html'>df_ts</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='se_ts.html'>se_ts</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='df_ts.html'>df_ts</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
+<span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='se_ts.html'>se_ts</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
 
 <span class='co'># run function </span>
 <span class='fu'>multi_DTW</span>(<span class='no'>df</span>, <span class='no'>se</span>)
@@ -245,7 +227,7 @@ The function uses the <code><a href='https://www.rdocumentation.org/packages/sta
     </ul>
 
     <h2>Author</h2>
-    <p>Marcelo Araya-Salas (<a href='mailto:araya-salas@cornell.edu'>araya-salas@cornell.edu</a>)</p>
+    <p>Marcelo Araya-Salas (<a href='mailto:marceloa27@gmail.com'>marceloa27@gmail.com</a>)</p>
   </div>
 </div>
 

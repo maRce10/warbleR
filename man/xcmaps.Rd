@@ -4,7 +4,8 @@
 \alias{xcmaps}
 \title{Maps of 'Xeno-Canto' recordings by species}
 \usage{
-xcmaps(X, img = TRUE, it = "jpeg", res = 100, labels = F)
+xcmaps(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
+ path = NULL)
 }
 \arguments{
 \item{X}{Data frame output from \code{\link{querxc}}.}
@@ -21,6 +22,10 @@ presentation quality.}
 
 \item{labels}{A logical argument defining whether dots depicting recording locations are labeled.
 If \code{TRUE} then the Recording_ID is used as label.}
+
+\item{path}{Character string with the directory path where the image files will be saved. 
+If \code{NULL} (default) then the current working directory is used.
+Ignored if \code{img = FALSE}.}
 }
 \value{
 A map of 'Xeno-Canto' recordings per species (image file), or a faceted
@@ -43,10 +48,6 @@ X <- querxc("Phaethornis anthophilus", download = FALSE)
 
 #create image in R graphic device
 xcmaps(X, img = FALSE)
-
-#or save it as a file in the working directory
-xcmaps(X)
-
 }
 
 }
@@ -56,5 +57,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
 }

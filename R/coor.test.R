@@ -81,7 +81,7 @@
 #' Overlap Null model Generator (SONG): a new tool for distinguishing between random
 #' and non-random song overlap. Bioacoustics.
 #' } 
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on apr-11-2018 (MAS)
 
 coor.test <- function(X = NULL, iterations = 1000, ovlp.method = "count",

@@ -9,7 +9,7 @@
 #' @param path Character string containing the directory path where the sound files are located. 
 #' 'wav.path' set by \code{\link{warbleR_options}} is ignored. 
 #' If \code{NULL} (default) then the current working directory is used. 
-#' @param dest.path Character string containing the directory path where the cut sound files will be saved.
+#' @param dest.path Character string containing the directory path where the sound files will be saved.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param file.ext Character string defining the file extension for the files to be consolidated. Default is \code{'.wav$'} ignoring case.
@@ -27,46 +27,41 @@
 #' }
 #' If \code{csv = TRUE} (default)
 #' a 'file_names_info.csv' file with the same iformation as the output data frame is also saved in the consolidated directory.  
-#' @family selection manipulation, sound file manipulation
+#' @family sound file manipulation
 #' @seealso \code{\link{fixwavs}} for making sound files readable in R 
 #' @name consolidate
 #' @details This function allows users to put files scattered in several directories into a 
 #' single one. By default it works on sound files in '.wav' format but can work with
 #' other type of files (for instance '.txt' selection files).
 #' @examples{ 
-#' # First set empty folder
-#' # setwd(tempdir())
-#' 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' 
-#' # create first folder
-#' dir.create("folder1")
-#' writeWave(Phae.long1, file.path("folder1","Phae.long1.wav"))
-#' writeWave(Phae.long2, file.path("folder1","Phae.long2.wav"))
+#' # create first folder with 2 sound files
+#' dir.create(file.path(tempdir(), "folder1"))
+#' writeWave(Phae.long1, file.path(tempdir(), "folder1", "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "folder1", "Phae.long2.wav"))
 #' 
-#' # create second folder
-#' dir.create("folder2")
-#' writeWave(Phae.long3, file.path("folder2","Phae.long3.wav"))
-#' writeWave(Phae.long4, file.path("folder2","Phae.long4.wav"))
+#' # create second folder with 2 sound files
+#' dir.create(file.path(tempdir(), "folder2"))
+#' writeWave(Phae.long3, file.path(tempdir(), "folder2", "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "folder2", "Phae.long4.wav"))
 #' 
 #' # consolidate in a single folder
-#' consolidate()
+#' # consolidate(path = tempdir(), dest.path = tempdir())
 #' 
-#' # or if tempdir was used
-#' # consolidate(path = tempdir())
+#' # check this folder
+#' tempdir()
 #' }
 #' 
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on jan-29-2018 (MAS)
 
 consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", 
                         parallel = 1, save.csv = TRUE, ...){
   
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
+  # reset pb
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options
@@ -91,14 +86,15 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   # check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   # check path to working directory
   if (!is.null(dest.path))
-  {if (class(try(setwd(dest.path), silent = TRUE)) == "try-error") stop("'dest.path' provided does not exist")} else 
-    dir.create(dest.path <- file.path(getwd(), "consolidated_files"), showWarnings = FALSE)
+  {
+    if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist")} else 
+    dir.create(dest.path <- file.path(path, "consolidated_files"), showWarnings = FALSE)
   
   # list files
   if (!is.null(files)){

@@ -137,31 +137,32 @@
 #' \code{\link{catalog2pdf}}
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav") 
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#'  writeWave(Phae.long3,"Phae.long3.wav")
-#'  writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#'  writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#'  writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' 
 #' catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
-#'  orientation = "v", labels = c("sound.files", "selec"), legend = 0)
+#'  orientation = "v", labels = c("sound.files", "selec"), legend = 0, 
+#'  path = tempdir())
 #'  
 #'  #different time scales and tag palette
 #' catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 0, 
-#'  tag.pal = list(terrain.colors))
+#'  tag.pal = list(terrain.colors), 
+#'  path = tempdir())
 #'  
 #'  #adding tags and changing spectro palette
 #' catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, pal = reverse.heat.colors,
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 1, 
-#'  tag.pal = list(terrain.colors), tags = "sound.files")
+#'  tag.pal = list(terrain.colors), tags = "sound.files", 
+#'  path = tempdir())
 #' 
 #'  #create a bigger selection table
 #'  X <- rbind(lbh_selec_table, lbh_selec_table, lbh_selec_table, lbh_selec_table)
@@ -175,26 +176,30 @@
 #' catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
-#'  collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
+#'  collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"), 
+#'  path = tempdir())
 #' 
 #' # with legend
 #' catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
 #'  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
 #'  width = 20, collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors),
-#'   tags = c("songtype", "indiv"))
+#'   tags = c("songtype", "indiv"), 
+#'   path = tempdir())
 #'   
 #'   # horizontal orientation
 #' catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
 #'  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
 #'  orientation = "h",  labels = c("sound.files", "selec"), legend = 3, 
 #'  width = 20, collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors),
-#'   tags = c("songtype", "indiv"))
+#'   tags = c("songtype", "indiv"), 
+#'   path = tempdir())
+#' 
 #' check this floder
-#' getwd()
+#' tempdir()
 #' }
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on feb-09-2017 (MAS)
 
 catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, collevels = seq(-40, 0, 1), 
@@ -208,10 +213,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
                     max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
                     by.row = TRUE, box = TRUE)
 {
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+
+  # reset pbapply options
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
   
   #### set arguments from options
   # get function arguments
@@ -241,15 +245,14 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
   
   #read files
   if (!is_extended_selection_table(X))
     {
     #return warning if not all sound files were found
-    recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+    recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
       if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)))
         (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
                ".wav file(s) not found"))
@@ -347,9 +350,6 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   #if it argument is not "jpeg" or "tiff"
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
-  
-  #wrap img creating function
-  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
@@ -551,7 +551,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   #calculate time and freq ranges based on all recs
   rangs <- lapply(1:nrow(X), function(i){
-   r <- read_wave(X = X, index = i, header = TRUE)
+   r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
    f <- r$sample.rate
 
     # change mar to prop.mar (if provided)
@@ -706,8 +706,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
       #start graphic device
       if (!is.null(img.suffix)) img.suffix <- paste0("-", img.suffix)
       if (!is.null(img.prefix)) img.prefix <- paste0(img.prefix, "-")
-      imgfun(filename = paste0(img.prefix, "Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res)
-      
+      img_wrlbr_int(filename = paste0(img.prefix, "Catalog_p", page, img.suffix, ".", it), units = "in", width = width, height = height, res = res, path = path)
       
       # sort by row
       if (by.row)
@@ -751,7 +750,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         
         if (fig.type[i] == "spec")  #plot spectros
         {     #Read sound files, initialize frequency and time limits for spectrogram
-         r <- read_wave(X = X3, index = i, header = TRUE)
+         r <- warbleR::read_wave(X = X3, index = i, header = TRUE)
          f <- r$sample.rate
           
           # change mar to prop.mar (if provided)
@@ -764,8 +763,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
           if (t[2] > r$samples/f) t[2] <- r$samples/f
           
-          # rec <- tuneR::readWave(as.character(X3$sound.files[i]), from = t[1], to = t[2], units = "seconds")
-          rec <- read_wave(X = X3, index = i, from = t[1], to = t[2])
+          rec <- warbleR::read_wave(X = X3, index = i, from = t[1], to = t[2])
           
           #add xaxis to bottom spectros
           if (!same.time.scale & !rm.axes) {

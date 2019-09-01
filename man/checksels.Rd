@@ -73,16 +73,13 @@ Sound files should be in the working directory (or the directory provided in 'pa
 }
 \examples{
 {
-# First set temporary folder
-# setwd(tempdir())
-
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 
-checksels(X = lbh_selec_table)
+checksels(X = lbh_selec_table, path = tempdir())
 }
 }
 \references{
@@ -92,5 +89,5 @@ checksels(X = lbh_selec_table)
 \code{\link{checkwavs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

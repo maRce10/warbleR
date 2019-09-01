@@ -19,46 +19,38 @@
 #' \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2"))
-#' writeWave(Phae.long1,"Phae.long1.wav") 
-#' writeWave(Phae.long2,"Phae.long2.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' 
-#' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, it = "jpeg")
+#' lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, it = "jpeg", path = tempdir())
 #' 
 #' #now create single pdf removing jpeg
-#' lspec2pdf(keep.img = FALSE)
+#' lspec2pdf(keep.img = FALSE, path = tempdir())
 #' 
 #' # check this floder
-#' getwd()
+#'  tempdir()
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on mar-12-2018 (MAS)
 
 lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE)
 {
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
-  
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #check path to working directory
-  if (!is.null(path))
-  {wd <- getwd()
-    if (class(try(setwd(path), silent = TRUE)) == "try-error") stop("'path' provided does not exist") else 
-  setwd(path)} #set working directory
+  if (!is.null(path)) 
+    path <- getwd() else
+    if (!dir.exists(path)) stop("'path' provided does not exist")
   
   #list jpeg files
-  imgs <- list.files(pattern = "\\.jpeg$", ignore.case = TRUE)
+  imgs <- list.files(path = path, pattern = "\\.jpeg$", ignore.case = TRUE)
   if (length(imgs) == 0) stop("No .jpeg files were found in the working directory")
   
   #remove images that don't have the pX.jpeg ending
@@ -71,8 +63,8 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
   # no.out <- parallel::mclapply(unique(or.sf), mc.cores = parallel, function(x)
     l2pdfFUN <- function(i, overwrite, keep.img)
     {
-    if (any(!overwrite & !file.exists(paste0(i, ".pdf")), overwrite))
-{    pdf(file = paste0(i, ".pdf"), width = 8.5, height = 11)
+    if (any(!overwrite & !file.exists(file.path(path, paste0(i, ".pdf"))), overwrite))
+{    pdf(file = file.path(path, paste0(i, ".pdf")), width = 8.5, height = 11)
     
     #order imgs so they look order in the pdf
     subimgs <- imgs[or.sf == i]
@@ -118,8 +110,6 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
   { 
     l2pdfFUN(i, overwrite, keep.img)
   }) 
-  
-  if (!is.null(path)) setwd(wd)
 }
 
 

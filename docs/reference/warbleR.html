@@ -32,25 +32,7 @@
 
 <meta property="og:title" content="warbleR: A package to streamline bioacoustic analysis — warbleR" />
 
-<meta property="og:description" content="warbleR is a package designed to streamline analysis of animal acoustic signals in R. This 
-package allows users to collect open-access avian vocalizations data or input their 
-own data into a workflow that facilitates spectrographic visualization 
-and measurement of acoustic parameters. warbleR makes fundamental sound 
-analysis tools from the R package seewave, as well as new tools not yet 
-offered in the R environment, readily available for batch process analysis. The functions 
-facilitate searching and downloading avian vocalizations from  
-Xeno-Canto, creating maps of Xeno-Canto recordings,
- converting .mp3 files to .wav files, checking .wav files, automatically detecting acoustic signals, selecting 
-them manually, printing spectrograms of whole recordings or individual signals, measuring signal 
-to noise ratio, cross-correlation and performing acoustic measurements.     
-The warbleR package offers three overarching categories of
-  functions:  
-
-Obtaining avian vocalization data
-Sound file management
-Streamlined 
-  (bio)acoustic analysis in R
-" />
+<meta property="og:description" content="warbleR is intended to facilitate the analysis of the structure of animal acoustic signals in R. Users can collect open-access avian recordings or enter their own data into a workflow that facilitates spectrographic visualization and measurement of acoustic parameters. warbleR makes use of the fundamental sound analysis tools of the seewave package, and offers new tools for acoustic structure analysis. These tools are available for batch analysis of acoustic signals." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -96,24 +78,6 @@ Streamlined
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -140,38 +104,38 @@ Streamlined
 
     <div class="ref-description">
     
-    <p>warbleR is a package designed to streamline analysis of animal acoustic signals in R. This 
-package allows users to collect open-access avian vocalizations data or input their 
-own data into a workflow that facilitates spectrographic visualization 
-and measurement of acoustic parameters. warbleR makes fundamental sound 
-analysis tools from the R package seewave, as well as new tools not yet 
-offered in the R environment, readily available for batch process analysis. The functions 
-facilitate searching and downloading avian vocalizations from  
-<a href='http://www.xeno-canto.org'>Xeno-Canto</a>, creating maps of <a href='http://www.xeno-canto.org'>Xeno-Canto</a> recordings,
- converting .mp3 files to .wav files, checking .wav files, automatically detecting acoustic signals, selecting 
-them manually, printing spectrograms of whole recordings or individual signals, measuring signal 
-to noise ratio, cross-correlation and performing acoustic measurements.</p>     
-<p>The warbleR package offers three overarching categories of
-  functions:</p>  
-<p></p><ul>
-<li><p>Obtaining avian vocalization data</p></li>
-<li><p>Sound file management</p></li>
-<li><p>Streamlined 
-  (bio)acoustic analysis in R</p></li>
-</ul>
+    <p>warbleR is intended to facilitate the analysis of the structure of animal acoustic signals in R. Users can collect open-access avian recordings or enter their own data into a workflow that facilitates spectrographic visualization and measurement of acoustic parameters. warbleR makes use of the fundamental sound analysis tools of the seewave package, and offers new tools for acoustic structure analysis. These tools are available for batch analysis of acoustic signals.</p>
     
     </div>
 
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>License: GPL (&gt;= 2)</p>
+    <p>The main features of the package are:</p><ul>
+<li><p>The use of loops to apply tasks through acoustic signals referenced in a selection box</p></li>
+<li><p>The production of images in the working folder with spectrograms that allow to organize data and verify acoustic analyzes</p></li>
+</ul>
+    <p>The package offers functions to:</p><ul>
+<li><p>Explore and download Xeno Canto recordings</p></li>
+<li><p>Explore, organize and manipulate multiple sound files</p></li>
+<li><p>Detect signals automatically (in frequency and time)</p></li>
+<li><p>Create spectrograms of complete recordings or individual signals</p></li>
+<li><p>Run different measures of acoustic signal structure</p></li>
+<li><p>Evaluate the performance of measurement methods</p></li>
+<li><p>Catalog signals</p></li>
+<li><p>Characterize different structural levels in acoustic signals</p></li>
+<li><p>Statistical analysis of duet coordination</p></li>
+<li><p>Consolidate databases and annotation tables</p></li>
+</ul>
+    <p>Most of the functions allow the parallelization of tasks, which distributes the tasks among several processors to improve computational efficiency. Tools to evaluate the performance of the analysis at each step are also available. In addition, warbleR satisfies the need for rigorous open source bioacoustic analysis, which facilitates opportunities for use in research and innovation of additional custom analyzes.</p>     
+<p>The warbleR package offers three overarching categories of
+  functions:</p>
+<p>License: GPL (&gt;= 2)</p>
     
     <h2 class="hasAnchor" id="obtaining-animal-vocalization-data"><a class="anchor" href="#obtaining-animal-vocalization-data"></a>Obtaining animal vocalization data</h2>
 
     
-    <p><code><a href='querxc.html'>querxc</a></code>: Download recordings and/or metadata from 'Xeno-Canto'</p> 
-<p><code><a href='quer_ml.html'>quer_ml</a></code>: Download recordings and/or metadata from Macaulay Library</p>  
+    <p><code><a href='querxc.html'>querxc</a></code>: Download recordings and/or metadata from 'Xeno-Canto'</p>  
 <p><code><a href='sim_songs.html'>sim_songs</a></code>: Simulate animal vocalizations</p>
     
     <h2 class="hasAnchor" id="managing-sound-files"><a class="anchor" href="#managing-sound-files"></a>Managing sound files</h2>
@@ -262,7 +226,7 @@ to noise ratio, cross-correlation and performing acoustic measurements.</p>
 
     <h2>Author</h2>
     <p>Marcelo Araya-Salas &amp; Grace Smith Vidaurre</p>  
-<p>Maintainer: Marcelo Araya-Salas (<a href='mailto:araya-salas@cornell.edu'>araya-salas@cornell.edu</a>)</p>
+<p>Maintainer: Marcelo Araya-Salas (<a href='mailto:marceloa27@gmail.com'>marceloa27@gmail.com</a>)</p>
   </div>
 </div>
 

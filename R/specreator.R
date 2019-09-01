@@ -74,7 +74,7 @@
 #' labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.
 #' @param title.labels Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.
 #' @param dest.path Character string containing the directory path where the cut sound files will be saved.
-#' If \code{NULL} (default) then the current working directory is used.
+#' If \code{NULL} (default) then the folder containing the sound files will be used instead.
 #' @param ... Additional arguments to be passed to the internal spectrogram 
 #' creating function for customizing graphical output. The function is a modified 
 #' version of \code{\link[seewave]{spectro}}, so it takes the same arguments. 
@@ -93,25 +93,22 @@
 #' high background noise levels. 
 #' @examples
 #' { 
-#' # First set empty folder
-#' # setwd(tempdir())
-#' 
 #' # load and save data
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
-#' writeWave(Phae.long2, "Phae.long2.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' 
 #' # make spectrograms
-#' specreator(X = lbh_selec_table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
+#' specreator(X = lbh_selec_table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300, path = tempdir())
 #'  
 #' # check this folder
-#' getwd()
+#' tempdir()
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) and Grace Smith Vidaurre
 #last modification on mar-13-2018 (MAS)
 
 specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
@@ -119,10 +116,6 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
                         cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE,  gr = FALSE,
                        sc = FALSE, line = TRUE, col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, 
                        it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...){
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -153,10 +146,10 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") else setwd(path)
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
 
-  #check dest.path to working directory
-  if (is.null(dest.path)) dest.path <- getwd() else 
+    #check dest.path to working directory
+  if (is.null(dest.path)) dest.path <- path else 
     if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist") 
   
   #if X is not a data frame
@@ -191,15 +184,11 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
     if (any(X$top.freq - X$bottom.freq <= 0)) stop("top.freq should be higher than bottom.freq")
   }
   
-  
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
   # error if not title.labels character
   if (!is.character(title.labels) & !is.null(title.labels)) stop("'title.labels' must be a character string")
-  
-  #wrap img creating function
-  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
   
   #missing label columns
   if (!all(title.labels %in% colnames(X)))
@@ -209,7 +198,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {
-    recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+    recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
            ".wav file(s) not found"))
@@ -243,7 +232,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- read_wave(X = X, index = i, header = TRUE)
+    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -270,7 +259,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
     
     if (is.null(by.song)) fn <- paste(X$sound.files[i], "-", X$selec[i], ".", it, sep = "") else fn <- paste(X$sound.files[i], "-", X[i, by.song], ".", it, sep = "")
    
-     imgfun(filename = file.path(dest.path, fn), 
+    img_wrlbr_int(filename = fn, path = dest.path, 
            width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
     
     # Change relative heights of rows for spectrogram when osci = TRUE
@@ -284,7 +273,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
     par(oma = outer.mar)
     
     # Generate spectrogram using spectro_wrblr_int (modified from seewave::spectro)
-  spectro_wrblr_int(wave = read_wave(X = X, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning",
+  spectro_wrblr_int(wave = warbleR::read_wave(X = X, path = path, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning",
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)

@@ -9,7 +9,6 @@
 #' for acoustic analysis located in the first columns. 
 #' @details The function returns the data from the input data frame with the most relevant information
 #' for acoustic analysis located in the first columns. The priority order for column names is: "sound.files", "channel", "selec", "start", "end", "top.freq", and "bottom.freq".
-#' @seealso \code{\link[Rraven]{match_wav_case}}; \code{\link[Rraven]{relabel_colms}} 
 #' @export
 #' @name sort_colms
 #' @examples
@@ -27,7 +26,7 @@
 #'  #check names again
 #'  names(selec.table)
 #'   
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on mar-10-2018
 
 sort_colms <- function(X){

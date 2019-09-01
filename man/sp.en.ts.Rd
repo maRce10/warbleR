@@ -83,22 +83,20 @@ if there are no frequenciesabove the amplitude theshold in between signal segmen
 }
 \examples{
 {
-# set the temp directory
-# setwd(tempdir())
-
 #load data
 data(list = c("Phae.long1", "Phae.long2",  "Phae.long3",  "Phae.long4","lbh_selec_table"))
-writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
-writeWave(Phae.long1, "Phae.long1.wav")
-writeWave(Phae.long3, "Phae.long3.wav") #save sound files 
-writeWave(Phae.long4, "Phae.long4.wav")
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav")) #save sound files 
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # without clip edges
 sp.en.ts(X = lbh_selec_table, threshold = 10, clip.edges = FALSE, length.out = 10,
- type = "b", sp.en.range = c(-25, 10))
+ type = "b", sp.en.range = c(-25, 10), path = tempdir())
 
 # with clip edges and length.out 10
-sp.en.ts(X = lbh_selec_table, threshold = 10, bp = c(2, 12), clip.edges = TRUE, length.out = 10)
+sp.en.ts(X = lbh_selec_table, threshold = 10, bp = c(2, 12), clip.edges = TRUE, length.out = 10, 
+path = tempdir())
 
 }
 
@@ -121,6 +119,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{trackfreqs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
 \concept{spectrogram creators}

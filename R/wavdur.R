@@ -11,28 +11,21 @@
 #' @details This function returns the duration (in seconds) of sound files.
 #' @examples
 #' {
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
-#' wavdur()
+#' wavdur(path = tempdir())
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) 
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) 
 #last modification on jul-5-2016 (MAS)
 
 wavdur <- function(files = NULL, path = NULL) { 
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   #### set arguments from options
   # get function arguments
@@ -59,21 +52,21 @@ wavdur <- function(files = NULL, path = NULL) {
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   #stop if files is not a character vector
   if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
    if (is.null(files))
-  files <- list.files(pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director    
+  files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director    
   
    #stop if no wav files are found
    if (length(files) == 0) stop("no .wav files in working directory") 
   
   a <- sapply(files, function(x) {
-    rec <- tuneR::readWave(as.character(x),header = TRUE)
+    rec <- warbleR::read_wave(X = x, path = path, header = TRUE)
     return(rec$samples/rec$sample.rate)  
   })
    return(data.frame(sound.files = files, duration = a, row.names = NULL))

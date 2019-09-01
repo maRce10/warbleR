@@ -54,21 +54,20 @@
 #'   \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
 #' @examples
 #' {
-#' # First set temporary folder
-#' # setwd(tempdir())
-#' 
 #' data(list = c("Phae.long1","lbh_selec_table"))
-#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
 #' 
 #' # specifying the correct margin is important
 #' # use snrspecs to troubleshoot margins for sound files
-#' sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.2)
+#' sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.2, 
+#' path = tempdir())
 #' 
 #' # this smaller margin doesn't overlap neighboring signals
-#' sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.1)
+#' sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.1, 
+#' path = tempdir())
 #' }
 #' 
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) and Grace Smith Vidaurre
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' \href{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}{Wikipedia: Signal-to-noise ratio}
 #' }
@@ -76,10 +75,6 @@
 
 sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
                       in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10){
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -109,9 +104,8 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
                 assign(names(opt.argms)[q], opt.argms[[q]])
  
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist")
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -136,7 +130,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   #return warning if not all sound files were found
   if (!any(class(X) == "extended_selection_table"))
   {
-  fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
@@ -157,7 +151,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   snr_FUN <- function(y, mar, bp, wl, type, before, in.dB, lim.dB){
     
     # Read sound files to get sample rate and length
-    r <- read_wave(X = X, index = y, header = TRUE)
+    r <- warbleR::read_wave(X = X, path = path, index = y, header = TRUE)
    
     # read sample rate
     f <- r$sample.rate
@@ -179,7 +173,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     if (enn > r$samples/f) enn <- r$samples/f
     
-    r <- read_wave(X = X, index = y, from = stn, to = enn)
+    r <- warbleR::read_wave(X = X, path = path, index = y, from = stn, to = enn)
     
     # add band-pass frequnecy filter
     if (!is.null(bp)) {

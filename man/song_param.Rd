@@ -76,20 +76,17 @@ elements in a song or other level of organization in the signals.
 }
 \examples{
 {
-# Set temporary working directory
-# setwd(tempdir())
-
 # get warbleR sound file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 
 # add a 'song' column
 lbh_selec_table$song <- rep(1:4, each = 3)[1:11]
 
 # measure acoustic parameters
-sp <- specan(lbh_selec_table[1:8, ], bp = c(1, 11), 300, fast = TRUE)
+sp <- specan(lbh_selec_table[1:8, ], bp = c(1, 11), 300, fast = TRUE, path = tempdir())
 
 # add song data
 sp <- merge(sp, lbh_selec_table[1:8, ], by = c("sound.files", "selec"))
@@ -125,5 +122,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{specan}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

@@ -79,24 +79,22 @@
 #' @name selection_table
 #' @examples
 #' {
-#' # First set temporary folder
-#'  # setwd(tempdir())
-#' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", 
 #' "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' # make selection table
-#' st <- selection_table(X = lbh_selec_table)
+#' st <- selection_table(X = lbh_selec_table, path = tempdir())
 #'
 #' is_selection_table(st)
 #' 
 #' #' # make extended selection table
 #' st <- selection_table(X = lbh_selec_table, extended = TRUE, 
-#' confirm.extended = FALSE)
+#' confirm.extended = FALSE, 
+#' path = tempdir())
 #' 
 #' is_extended_selection_table(st)
 #'
@@ -105,26 +103,22 @@
 #' lbh_selec_table$song <- as.numeric(lbh_selec_table$sound.files)
 #' 
 #' st <- selection_table(X = lbh_selec_table, extended = TRUE, 
-#' confirm.extended = FALSE, by.song = "song")
+#' confirm.extended = FALSE, by.song = "song", path = tempdir())
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
                             extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, ...)
 {
-  if (is.null(path)) path <- getwd()
-  
-  # reset working directory 
-  on.exit(setwd(getwd()), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
-  
+   
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(selection_table)
@@ -149,8 +143,9 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  # set working directory
-  setwd(path)
+  #check path if not provided set to working directory
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
   
   # if by song but column not found
   if (!is.null(by.song))
@@ -170,7 +165,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
   
   if (pb) write(file = "", x ="checking selections (step 1 of 2):")
-  check.results <- checksels(X, path = path, wav.size = TRUE, pb = pb, ...)        
+  check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, ...)        
   
   if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check_sels() to locate problematic selections)")
   
@@ -239,7 +234,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         
         if (pb) write(file = "", x ="saving wave objects into extended selection table (step 2 of 2):")
         
-        attributes(X)$wave.objects <- pbapply::pblapply(1:nrow(Y), cl = cl, function(x) read_wave(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x],  path = path))
+        attributes(X)$wave.objects <- pbapply::pblapply(1:nrow(Y), cl = cl, function(x) warbleR::read_wave(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x],  path = path))
         
         # reset for new dimensions  
         check.results$start <- X$start <- check.results$mar.before
@@ -334,25 +329,24 @@ make.selection.table <- selection_table
 #' @name is_selection_table
 #' @examples
 #' {
-#' # First set temporary folder
+#' # load data
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' 
 #' is_selection_table(lbh_selec_table)
 #' 
-#' # setwd(tempdir())
+#' # save wave files in temporary directory
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
-#' 
-#' st <- selection_table(lbh_selec_table)
+#' st <- selection_table(lbh_selec_table, path = tempdir())
 #' 
 #' is_selection_table(st)
 #' 
 #' class(st)
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on may-9-2018 (MAS)
 
 is_selection_table <- function(x) inherits(x, "selection_table")
@@ -389,25 +383,22 @@ is_selection_table <- function(x) inherits(x, "selection_table")
 #' @name is_extended_selection_table
 #' @examples
 #' {
-#' # First set temporary folder
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' 
 #' is_extended_selection_table(lbh_selec_table)
 #' 
-#' # setwd(tempdir())
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
-#' 
-#' st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE)
+#' st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE, path = tempdir())
 #' 
 #' is_extended_selection_table(st)
 #' 
 #' class(st)
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on may-9-2018 (MAS)
 
 is_extended_selection_table <- function(x) inherits(x, "extended_selection_table")
@@ -544,18 +535,16 @@ print.selection_table <- function(x, ...) {
 #' @export
 #' @name fix_extended_selection_table
 #' @examples{
-#' # First set temporary folder
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #'
-#' # setwd(tempdir())
-#'
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
 #' # create extended selection table
-#' ext_st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE)
+#' ext_st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE, 
+#' path = tempdir())
 #'
 #' # remove attributes
 #' st <- as.data.frame(ext_st)
@@ -569,7 +558,7 @@ print.selection_table <- function(x, ...) {
 #' # check class
 #' class(st)
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on may-14-2018 (MAS)
 
 fix_extended_selection_table <- function(X, Y){
@@ -628,12 +617,12 @@ rbind.selection_table <- function(..., deparse.level = 1) {
 ## Example
 # data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #
-# # setwd(tempdir())
+# 
 #
-# writeWave(Phae.long1,"Phae.long1.wav")
-# writeWave(Phae.long2,"Phae.long2.wav")
-# writeWave(Phae.long3,"Phae.long3.wav")
-# writeWave(Phae.long4,"Phae.long4.wav")
+# writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+# writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+# writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+# writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 # 
 # # create extended selection table
 # # st <- selection_table(lbh_selec_table)
@@ -690,12 +679,12 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
 ## Example
 # data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #
-# # setwd(tempdir())
+# 
 #
-# writeWave(Phae.long1,"Phae.long1.wav")
-# writeWave(Phae.long2,"Phae.long2.wav")
-# writeWave(Phae.long3,"Phae.long3.wav")
-# writeWave(Phae.long4,"Phae.long4.wav")
+# writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+# writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+# writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+# writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 # 
 # # create extended selection table
 # # st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE)

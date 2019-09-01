@@ -76,18 +76,17 @@ Signal-to-noise ratio (SNR) is a measure of the level of a desired signal compar
 }
 \examples{
 {
-# First set temporary folder
-# setwd(tempdir())
-
 data(list = c("Phae.long1","lbh_selec_table"))
-writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
 
 # specifying the correct margin is important
 # use snrspecs to troubleshoot margins for sound files
-sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.2)
+sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.2, 
+path = tempdir())
 
 # this smaller margin doesn't overlap neighboring signals
-sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.1)
+sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.1, 
+path = tempdir())
 }
 
 }
@@ -97,5 +96,5 @@ sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], ma
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
 }

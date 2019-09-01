@@ -43,24 +43,21 @@
 #' \href{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html}{blog post on accessing Xeno-Canto recordings} 
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' # search without downloading
 #' df1 <- querxc(qword = 'Phaethornis anthophilus', download = FALSE)
 #' View(df1)
 #'
 #' # downloading files
-#'querxc(qword = 'Phaethornis anthophilus', download = TRUE)
+#'querxc(qword = 'Phaethornis anthophilus', download = TRUE, path = tempdir())
 #'
 #' # check this folder
-#' getwd()
+#' tempdir()
 #' 
 #' ## search using xeno-canto advance query ###
 #' orth.pap <- querxc(qword = 'gen:orthonyx cnt:papua loc:tari', download = FALSE)
 #'  
 #' # download file using the output data frame as input
-#' querxc(X = orth.pap)
+#' querxc(X = orth.pap, path = tempdir())
 #' 
 #' # use quotes for queries with more than 1 word (e.g. Costa Rica),note that the 
 #' # single quotes are used for the whole 'qword' and double quotes for the 2-word term inside
@@ -75,15 +72,11 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) 
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) 
 #last modification on nov-16-2016 (MAS)
 
 querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
                    parallel = 1, path = NULL, pb = TRUE) {
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -113,9 +106,9 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   #check internet connection
   a <- try(RCurl::getURL("www.xeno-canto.org"), silent = TRUE)
@@ -239,7 +232,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     
     xcFUN <-  function(results, x){
       if (!file.exists(results$sound.files[x]))
-        download.file(url = paste("https://www.xeno-canto.org/download.php?XC=", results$Recording_ID[x], sep=""), destfile = results$sound.files[x],
+        download.file(url = paste("https://www.xeno-canto.org/download.php?XC=", results$Recording_ID[x], sep=""), destfile = file.path(path, results$sound.files[x]),
                       quiet = TRUE,  mode = "wb", cacheOK = TRUE,
                       extra = getOption("download.file.extra"))
       return (NULL)
@@ -259,7 +252,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
 if (pb) write(file = "", x ="double-checking downloaded files")
    
    #check if some files have no data
-    fl <- list.files(pattern = ".mp3$")
+    fl <- list.files(path = path, pattern = ".mp3$")
     size0 <- fl[file.size(fl) == 0]
    
     #if so redo those files

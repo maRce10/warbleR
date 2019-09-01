@@ -54,21 +54,18 @@
 #' @name manualoc
 #' @examples
 #' \dontrun{
-#' #Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
-#' manualoc(wl = 300)
+#' manualoc(wl = 300, path = tempdir())
 #' # need to use the buttoms to manipulate function
 #' # check working directory for .csv file after stopping function
 #' #check here:
-#' getwd()
+#' tempdir()
 #' }
 #' @details This function may work very slowly with middle and large size sound files. We strongly suggest using
 #'  other software tools (e.g. Raven, Avisoft) to create selection tables manually. 
@@ -111,17 +108,13 @@
 #'  
 #' @seealso  \code{\link{seltailor}}
 #'    
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) 
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) 
 #last modification on jul-5-2016 (MAS)
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 
                      selcomm = FALSE, osci = FALSE, player = NULL, pal = reverse.gray.colors.2,
                      path = NULL, flist = NULL, fast.spec = FALSE, ext.window = TRUE, width = 15, height = 5)
 {
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
  
   #### set arguments from options
   # get function arguments
@@ -148,9 +141,9 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   options(show.error.messages = TRUE) 
   files <- list.files(pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director
@@ -163,14 +156,14 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
   if (!is.null(flist)) files <- files[files %in% flist]
   if (length(files) == 0) stop("Files in 'flist' not in working directory")
   
-  if (!file.exists(file.path(getwd(), "manualoc_output.csv")))
+  if (!file.exists(file.path(path, "manualoc_output.csv")))
   {results <- data.frame(matrix(nrow = 0, ncol = 6))
    colnames(results) <- c("sound.files", "selec", "start", "end", "sel.comment", "rec.comment")
-   write.csv(results, "manualoc_output.csv", row.names = FALSE)} else
-   {if (nrow(read.csv("manualoc_output.csv")) == 0)
+   write.csv(results, file.path(path, "manualoc_output.csv"), row.names = FALSE)} else
+   {if (nrow(read.csv(file.path(path, "manualoc_output.csv"))) == 0)
    {results <- data.frame(matrix(nrow = 0, ncol = 6))
     colnames(results) <- c("sound.files", "selec", "start", "end", "sel.comment", "rec.comment")} else
-   {results <- read.csv("manualoc_output.csv")  
+   {results <- read.csv(file.path(path, "manualoc_output.csv"))  
     files <- setdiff(files, results$sound.files)}} 
   
   if (length(files) == 0) { stop("all .wav files in working directory have been analyzed")}
@@ -190,7 +183,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
     ovlp <- 0 # for spectro display
     prev <- NULL #for going to previous view
     recs <- vector() #store results
-    rec <- tuneR::readWave(file.path(getwd(), files[wavs]))
+    rec <- warbleR::read_wave(X = files[wavs], path = path)
     if (title) main <- files[wavs] else main <- NULL
     f <- rec@samp.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
@@ -357,8 +350,9 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
                                   selec <- 1:length(start)
                                   results <- rbind(results, data.frame(sound.files = files[wavs], selec, start, end, sel.comment, rec.comment))
                                   results$sound.files <- as.character(results$sound.files)
-                                  write.csv(results, "manualoc_output.csv", row.names = FALSE)
-                                  dev.off()}
+                                  write.csv(results, file.path(path, "manualoc_output.csv"), row.names = FALSE)
+                                  dev.off()
+                                  }
        
        stop("Stopped by user")}
       
@@ -376,11 +370,11 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       if (length(start) > 0) { selec <- 1:length(start)
                               results <- rbind(results, data.frame(sound.files = files[wavs], selec, start, end, sel.comment, rec.comment))
                               results$sound.files <- as.character(results$sound.files)
-                              write.csv(results, "manualoc_output.csv", row.names = FALSE)} else {
+                              write.csv(results, file.path(path, "manualoc_output.csv"), row.names = FALSE)} else {
                                 results <- rbind(results, data.frame(sound.files = files[wavs], selec = NA, start = NA,
                                                                      end = NA, sel.comment = NA, rec.comment))
                                 results$sound.files <- as.character(results$sound.files)
-                                write.csv(results, "manualoc_output.csv", row.names = FALSE)}    
+                                write.csv(results, file.path(path, "manualoc_output.csv"), row.names = FALSE)}    
       break}
       
       #previous view
@@ -408,7 +402,7 @@ manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccom
       # dev.off()
       }
     
-    if (!file.exists(file.path(getwd(), files[wavs + 1])))
+    if (!file.exists(file.path(path, files[wavs + 1])))
     {try(dev.off(), silent = TRUE)
      cat("This was the last sound file")
      break}

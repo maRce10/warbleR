@@ -105,32 +105,32 @@
 #'   
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
+#' # Save to temporary working directory
+#' 
 #' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav") 
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
 #' 
 #' ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1,
 #' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
-#' wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE)
+#' wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE, path = tempdir())
 #' 
 #' #run it with different settings
 #' ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, redo = TRUE,
 #' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
-#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE)
+#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE, path = tempdir())
 #' 
 #' #check this folder!!
-#' getwd()
+#' tempdir()
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}). Implements a
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}). Implements a
 #' modified version of the timer function from seewave. 
 #last modification on jul-5-2016 (MAS)
 
@@ -143,9 +143,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   
   
   # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
   
   #### set arguments from options
   # get function arguments
@@ -171,13 +169,12 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-}  
+  #check path if not provided set to working directory
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
 
   #if files not found
-  if (length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files found") 
+  if (length(list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files found") 
   
   #if bp is not vector or length!=2 stop
   if (!is.null(bp))
@@ -247,9 +244,6 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
   
-  #wrap img creating function
-  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
-  
   #if envt is not vector or length!=1 stop
   if (any(envt %in% c("abs", "hil"))){if (!length(envt) == 1) stop("'envt' must be a numeric vector of length 1")
   } else stop("'envt' must be either 'abs' or 'hil'" )
@@ -287,7 +281,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
     
     #return warning if not all sound files were found
-    fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+    fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                     ".wav file(s) not found"))
@@ -297,8 +291,8 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     if (length(d) == 0) stop("The .wav files are not in the working directory") else X <- X[d,]  
   xprov <- T #to replace X if not provided
      } else  { 
-       if (!is.null(flist)) X <- warbleR::wavdur(files = flist) else
-         X <- warbleR::wavdur()
+       if (!is.null(flist)) X <- warbleR::wavdur(files = flist, path = path) else
+         X <- warbleR::wavdur(path = path)
   X$start <- 0
   X$selec <- 1
   names(X)[2] <- "end"  
@@ -308,7 +302,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     
     #redo the ones that have no images in folder
   if (!redo) {
-    imgfs <- list.files(pattern = "\\.jpeg$|\\.tiff$")
+    imgfs <- list.files(path = path, pattern = "\\.jpeg$|\\.tiff$")
     done <- sapply(1:nrow(X), function(x){
       any(grep(paste(gsub(".wav","", X$sound.files[x]),X$selec[x], sep = "-"), imgfs,  invert = FALSE))
       })
@@ -323,8 +317,8 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   #create function to detec signals          
   adFUN <- function(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
   {
-     song <- tuneR::readWave(as.character(X$sound.files[i]),from=X$start[i],to=X$end[i],units="seconds")
-    
+     song <- warbleR::read_wave(X = X, path = path, index = i)
+         
      if (length(song@left) > wl + 2)
     { 
     f <- song@samp.rate
@@ -396,14 +390,13 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     
     if (!ls & img & nrow(time.song) > 0) {
       if (set) 
-        fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+        fna <- paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
                    "-", X$selec[i], "-autodetec","-th" ,threshold , "-env.", envt,"-bp", bp[1],".",bp[2], "-smo", smo, "-midu", mindur,
                    "-mxdu", maxdur, "-pw", power, sep = "") else
-        fna<-paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                "-", X$selec[i], "-autodetec", sep = "")                  
-  
-        imgfun(filename = paste(fna, paste0(".", it), sep = "-"), 
-        width = (10.16) * xl * picsize, height = (10.16) * picsize, units = "cm", res = res)
+        fna <- paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+                "-", X$selec[i], "-autodetec", sep = "")  
+                   
+        img_wrlbr_int(filename = paste(fna, paste0(".", it), sep = "-"), path = path, res = res, units = "cm", width = (10.16) * xl * picsize, height = (10.16) * picsize)
         
      spectro_wrblr_int(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,  colwave = "#07889B", fast.spec = fast.spec,
               scale = FALSE, palette = pal, flim = fl, ...)
@@ -470,7 +463,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
        cex = 1
          
       #loop to print spectros (modified from lspec function)
-      rec <- tuneR::readWave(as.character(z)) #read wave file 
+      rec <- warbleR::read_wave(z) #read wave file 
       f <- rec@samp.rate #set sampling rate
       frli<- fl #in case flim is higher than can be due to sampling rate
       if (frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
@@ -485,13 +478,10 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
         if (set) fna<-paste(substring(z, first = 1, last = nchar(as.character(z))-4),
                             "-autodetec.ls","-th" ,threshold , "-env.", envt, "-bp", bp[1],".",bp[2], "-smo", smo, "-midu", mindur,
                            "-mxdu", maxdur, "-pw", power, sep = "") else
-        fna<-paste(substring(z, first = 1, last = nchar(as.character(z))-4), "-autodetec.ls", sep = "")
+        fna <- paste(substring(z, first = 1, last = nchar(as.character(z))-4), "-autodetec.ls", sep = "")
           
-        if (it == "tiff") tiff(filename = paste(fna, "-p", j, ".tiff", sep = ""),  
-             res = 160, units = "in", width = 8.5, height = 11) else
-               jpeg(filename = paste(fna, "-p", j, ".jpeg", sep = ""),  
-               res = 160, units = "in", width = 8.5, height = 11)
-
+      img_wrlbr_int(filename = paste(fna, "-p", j, ".tiff", sep = ""),  path = path, res = 160, units = "in", width = 8.5, height = 11)
+                           
         par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
         
         #creates spectrogram rows
@@ -521,9 +511,6 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     
     #add axis to last spectro row
   axis(1, at = c(0:sl), labels = c((((x)*sl+li*(sl)*(j-1))-sl):((x)*sl+li*(sl)*(j-1))) , tick = TRUE)
-        
-  
-  
   
   if (nrow(Y) > 0)
   {

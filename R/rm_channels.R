@@ -20,32 +20,25 @@
 #' and original files are not modified. 
 #' @seealso \code{\link{fixwavs}}, \code{\link{rm_sil}}, 
 #' @examples{
-#' # Set temporary working directory
-# setwd(tempdir())
-#' 
 #' # save sound file examples
 #' data("Phae.long1")
 #' Phae.long1.2 <- stereo(Phae.long1, Phae.long1)
 #' 
-#' writeWave(Phae.long1.2, "Phae.long1.2.wav")
+#' writeWave(Phae.long1.2, file.path(tempdir(), "Phae.long1.2.wav"))
 #' 
-#' rm_channels(channels = 1)
+#' rm_channels(channels = 1, path = tempdir())
 #' 
 #' #check this floder
-#' open_wd()
+#' tempdir()
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on Jul-30-2018 (MAS)
 
 rm_channels <- function(files = NULL, channels, path = NULL, parallel = 1, pb = TRUE){
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   #### set arguments from options
   # get function arguments
@@ -72,12 +65,10 @@ rm_channels <- function(files = NULL, channels, path = NULL, parallel = 1, pb = 
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else if (!dir.exists(path)) stop("'path' provided does not exist")
   
   #read files
-  fls <- list.files(pattern = "\\.wav$", ignore.case = TRUE)  
+  fls <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
   if (length(fls) == 0) stop("no .wav files in working directory")
@@ -86,10 +77,10 @@ rm_channels <- function(files = NULL, channels, path = NULL, parallel = 1, pb = 
   if (!is.null(files)) fls <- fls[fls %in% files]
   if (length(fls) == 0)  stop(".wav files are not in working directory")
   
-  dir.create("converted_sound_files")
+  dir.create(file.path(path, "converted_sound_files"))
   
   mcwv_FUN <- function(x,  channels) {
-    wv <- tuneR::readWave(x, toWaveMC = TRUE)  
+    wv <- tuneR::readWave(file.path(path, x), toWaveMC = TRUE)  
     
     if (nchannel(wv) >= max(channels))
       {
@@ -97,7 +88,7 @@ rm_channels <- function(files = NULL, channels, path = NULL, parallel = 1, pb = 
         
         if (nchannel(wv) <= 2) wv <- Wave(wv)
         
-        writeWave(object = wv, filename = file.path(getwd(), "converted_sound_files", x), extensible = FALSE)
+        writeWave(object = wv, filename = file.path(path, "converted_sound_files", x), extensible = FALSE)
       
         a <- 0
         }  else a <- 1

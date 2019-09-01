@@ -75,24 +75,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -132,6 +114,9 @@
 <h2 class="hasAnchor">
 <a href="#changes-and-additions" class="anchor"></a>Changes and additions:</h2>
 <ul>
+<li>‘to’ replaced by ‘dest.path’ argument removed in mp32wav()</li>
+<li>read_wave() can also read regular .wav files</li>
+<li>quer_ml() temporarily removed while ebird-macaulay API is updated</li>
 <li>fix_wavs() now can use bioacoustics package or SOX for resampling</li>
 <li>global options (from warbleR_options()) are now taken by wav_info()</li>
 <li>‘coor.test()’ now returns 0 for coordination score when the ratio is undefined</li>

@@ -53,14 +53,14 @@ The function uses the \code{\link[stats]{approx}} function to interpolate values
 #load data
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
-writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
-writeWave(Phae.long2, "Phae.long2.wav")
-writeWave(Phae.long3, "Phae.long3.wav")
-writeWave(Phae.long4, "Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # measure
-df <- df_ts(X = lbh_selec_table, threshold = 10, img = FALSE)
-se <- se_ts(X = lbh_selec_table, threshold = 10, img = FALSE)
+df <- df_ts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
+se <- se_ts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
 
 # run function 
 multi_DTW(df, se)
@@ -86,6 +86,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{trackfreqs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
 \concept{spectrogram creators}

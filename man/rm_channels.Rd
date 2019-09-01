@@ -35,18 +35,16 @@ and original files are not modified.
 }
 \examples{
 {
-# Set temporary working directory
-
 # save sound file examples
 data("Phae.long1")
 Phae.long1.2 <- stereo(Phae.long1, Phae.long1)
 
-writeWave(Phae.long1.2, "Phae.long1.2.wav")
+writeWave(Phae.long1.2, file.path(tempdir(), "Phae.long1.2.wav"))
 
-rm_channels(channels = 1)
+rm_channels(channels = 1, path = tempdir())
 
 #check this floder
-open_wd()
+tempdir()
 }
 
 }
@@ -59,5 +57,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{fixwavs}}, \code{\link{rm_sil}},
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

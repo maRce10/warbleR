@@ -78,24 +78,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -207,24 +189,21 @@ or download the associated sound files. Complex queries can be done by using sea
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Set temporary working directory</span>
-<span class='co'># setwd(tempdir())</span>
-
 <span class='co'># search without downloading</span>
 <span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/View'>View</a></span>(<span class='no'>df1</span>)
 
 <span class='co'># downloading files</span>
-<span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
 
 <span class='co'># check this folder</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>()
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>()
 
 <span class='co'>## search using xeno-canto advance query ###</span>
 <span class='no'>orth.pap</span> <span class='kw'>&lt;-</span> <span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'gen:orthonyx cnt:papua loc:tari'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># download file using the output data frame as input</span>
-<span class='fu'>querxc</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>orth.pap</span>)
+<span class='fu'>querxc</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>orth.pap</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
 
 <span class='co'># use quotes for queries with more than 1 word (e.g. Costa Rica),note that the </span>
 <span class='co'># single quotes are used for the whole 'qword' and double quotes for the 2-word term inside</span>
@@ -254,7 +233,7 @@ or download the associated sound files. Complex queries can be done by using sea
     </ul>
 
     <h2>Author</h2>
-    <p>Marcelo Araya-Salas (<a href='mailto:araya-salas@cornell.edu'>araya-salas@cornell.edu</a>)</p>
+    <p>Marcelo Araya-Salas (<a href='mailto:marceloa27@gmail.com'>marceloa27@gmail.com</a>)</p>
   </div>
 </div>
 

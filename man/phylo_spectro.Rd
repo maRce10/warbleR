@@ -58,16 +58,16 @@ can be provided for further customization.
 { 
 \donttest{
 # First set empty folder
-# setwd(tempdir())
+
 
 # save example sound files
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 
 # set spectrogram options (can be done at the phylo_spectro() function too)
-warbleR_options(wl = 200, ovlp = 90, flim = "frange")
+warbleR_options(wl = 200, ovlp = 90, flim = "frange", wav.path = tempdir())
 
 # subset example selection table
 X <- lbh_selec_table[1:8, ]
@@ -126,6 +126,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{trackfreqs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
 \concept{spectrogram creators}

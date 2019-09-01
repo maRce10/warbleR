@@ -73,23 +73,20 @@
 #' @name seltailor
 #' @examples
 #' \dontrun{
-#' #Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
-#' seltailor(X =  lbh_selec_table, flim = c(1,12), wl = 300, auto.next = TRUE)
+#' seltailor(X =  lbh_selec_table, flim = c(1,12), wl = 300, auto.next = TRUE, path = tempdir())
 #' 
 #' # Read output .csv file
-#' seltailor.df <- read.csv("seltailor_output.csv")
+#' seltailor.df <- read.csv(file.path(tempdir(), "seltailor_output.csv"))
 #' seltailor.df
 #' 
 #' # check this directory for .csv file after stopping function
-#' getwd()
+#' tempdir()
 #' }
 #' @details This function produces an interactive spectrographic
 #'  view in which users can select new time/frequency 
@@ -122,7 +119,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on jul-5-2016 (MAS)
 
 seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
@@ -133,9 +130,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
                        ts.df = NULL, col = "#E37222", alpha = 0.7, auto.contour = FALSE, ...)
 {
   
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
+  # reset warnings
   on.exit(options(warn = .Options$warn), add = TRUE)
   
   #### set arguments from options
@@ -164,9 +159,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   # no autonext if ts.df provided
   if (auto.next & !is.null(ts.df)) {
@@ -220,7 +215,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   if (any(!title %in% names(X))) stop(paste('title column(s)', title[!title %in% names(X)], "not found"))
   
   # stop if not all sound files were found
-  fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  fs <- list.files(path = path,pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     stop(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                ".wav file(s) not found"))
@@ -238,7 +233,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     # tell user file already existed
     write(file = "", x = "'seltailor_output.csv' found in working directory, resuming tailoring ...")
 
-        X <- read.csv("seltailor_output.csv", stringsAsFactors = FALSE)  
+        X <- read.csv(file.path(path, "seltailor_output.csv"), stringsAsFactors = FALSE)  
   
         if(!is.null(ts.df))
           if (any(!names(ts.df) %in% names(X)))
@@ -279,7 +274,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     j <- dn[h]
     
     if (exists("prev.plot")) rm(prev.plot)
-    rec <- tuneR::readWave(as.character(X$sound.files[j]), header = TRUE)
+    rec <- warbleR::read_wave(X$sound.files[j], path = path, header = TRUE)
     main <- do.call(paste, as.list(X[j, names(X) %in% title])) 
     
     f <- rec$sample.rate #for spectro display
@@ -298,7 +293,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     par(mfrow = c(1,1), mar = c(3, 3, 1.8, 0.1))
     
     #create spectrogram
-    spectro_wrblr_int(tuneR::readWave(as.character(X$sound.files[j]),from =  tlim[1], to = tlim[2], units = "seconds"), 
+    spectro_wrblr_int(warbleR::read_wave(X = X$sound.files[j], path = path, from =  tlim[1], to = tlim[2]), 
                       f = f, wl = wl, ovlp = ovlp, wn = wn, heights = c(3, 2), 
                       osc = osci, palette =  pal, main = NULL, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "#07889B", collevels = collevels,
                       flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, 

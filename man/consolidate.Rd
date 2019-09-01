@@ -15,7 +15,7 @@ should include the full file path. Optional.}
 'wav.path' set by \code{\link{warbleR_options}} is ignored. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{dest.path}{Character string containing the directory path where the cut sound files will be saved.
+\item{dest.path}{Character string containing the directory path where the sound files will be saved.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
@@ -51,27 +51,24 @@ other type of files (for instance '.txt' selection files).
 }
 \examples{
 { 
-# First set empty folder
-# setwd(tempdir())
-
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
-# create first folder
-dir.create("folder1")
-writeWave(Phae.long1, file.path("folder1","Phae.long1.wav"))
-writeWave(Phae.long2, file.path("folder1","Phae.long2.wav"))
+# create first folder with 2 sound files
+dir.create(file.path(tempdir(), "folder1"))
+writeWave(Phae.long1, file.path(tempdir(), "folder1", "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "folder1", "Phae.long2.wav"))
 
-# create second folder
-dir.create("folder2")
-writeWave(Phae.long3, file.path("folder2","Phae.long3.wav"))
-writeWave(Phae.long4, file.path("folder2","Phae.long4.wav"))
+# create second folder with 2 sound files
+dir.create(file.path(tempdir(), "folder2"))
+writeWave(Phae.long3, file.path(tempdir(), "folder2", "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "folder2", "Phae.long4.wav"))
 
 # consolidate in a single folder
-consolidate()
+# consolidate(path = tempdir(), dest.path = tempdir())
 
-# or if tempdir was used
-# consolidate(path = tempdir())
+# check this folder
+tempdir()
 }
 
 }
@@ -80,10 +77,8 @@ consolidate()
 }
 \seealso{
 \code{\link{fixwavs}} for making sound files readable in R
-
-Other selection manipulation, sound file manipulation: \code{\link{cut_sels}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
-\concept{selection manipulation, sound file manipulation}
+\concept{sound file manipulation}

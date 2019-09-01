@@ -187,31 +187,32 @@ This functions aims to simplify the visual exploration of multiple vocalizations
 }
 \examples{
 \dontrun{
-# Set temporary working directory
-# setwd(tempdir())
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav") 
-writeWave(Phae.long2,"Phae.long2.wav")
- writeWave(Phae.long3,"Phae.long3.wav")
- writeWave(Phae.long4,"Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+ writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 
 catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
- orientation = "v", labels = c("sound.files", "selec"), legend = 0)
+ orientation = "v", labels = c("sound.files", "selec"), legend = 0, 
+ path = tempdir())
  
  #different time scales and tag palette
 catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = 0, 
- tag.pal = list(terrain.colors))
+ tag.pal = list(terrain.colors), 
+ path = tempdir())
  
  #adding tags and changing spectro palette
 catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, pal = reverse.heat.colors,
  orientation = "v",  labels = c("sound.files", "selec"), legend = 1, 
- tag.pal = list(terrain.colors), tags = "sound.files")
+ tag.pal = list(terrain.colors), tags = "sound.files", 
+ path = tempdir())
 
  #create a bigger selection table
  X <- rbind(lbh_selec_table, lbh_selec_table, lbh_selec_table, lbh_selec_table)
@@ -225,23 +226,27 @@ catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scal
 catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
- collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"))
+ collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"), 
+ path = tempdir())
 
 # with legend
 catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
  orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
  width = 20, collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors),
-  tags = c("songtype", "indiv"))
+  tags = c("songtype", "indiv"), 
+  path = tempdir())
   
   # horizontal orientation
 catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
  ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
  orientation = "h",  labels = c("sound.files", "selec"), legend = 3, 
  width = 20, collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors),
-  tags = c("songtype", "indiv"))
+  tags = c("songtype", "indiv"), 
+  path = tempdir())
+
 check this floder
-getwd()
+tempdir()
 }
 }
 \references{
@@ -253,5 +258,5 @@ getwd()
 \code{\link{catalog2pdf}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

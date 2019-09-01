@@ -24,20 +24,16 @@
 #' @examples
 #' {
 #' #load data
-#' #First set temporary working directory]
-#' # setwd(tempdir())
-#' 
-#' #load data
 #' data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table"))
-#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
-#' writeWave(Phae.long2, "Phae.long2.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #'
 #'  #run cross correlation first
 #'  xcor<-xcorr(X = lbh_selec_table[1:5,], wl =300, bp= c(2, 9), ovlp=90, dens=0.8,
-#'  wn= "hanning", cor.method = "pearson", cor.mat = FALSE) 
+#'  wn= "hanning", cor.method = "pearson", cor.mat = FALSE, path = tempdir()) 
 #'  
 #'  #plot pairwise scores
-#'   #xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
+#'  xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
 #' }
 #' 
 #' @references {
@@ -47,11 +43,14 @@
 #' }
 
 #' @seealso \code{\link{xcorr}}
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 
 xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = FALSE, labs = NULL) {
   
-  #if X is not provided or is not a list
+  opar <- par()
+  on.exit(par(opar))
+
+    #if X is not provided or is not a list
   if (!is.list(X))  stop("X is not a list. It should be the output of 'xcorr' function (set argument 'cormat' in 'xcorr' to FALSE)")
   
   #if cex.cor is not vector or length!=1 stop
@@ -136,7 +135,7 @@ xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = 
   #plot selection name in diagonal
   for(i in mat[diag(mat)]){
     screen(i) 
-    par(mar = rep(0.2,4))
+    par(mar = rep(0.2, 4))
     plot(1, 1, col ="white",   xlab = "", ylab = "", tck=0.1,  yaxt = "n", xaxt = "n")
     # axis(side = 1, line =-1, at = c(-1, 0, 1),tick = FALSE)
     rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "ivory")
@@ -163,7 +162,7 @@ xcorr.graph <- function(X, cex.cor = 1, cex.lab = 1,  cex.axis.lab=1, rel.cex = 
         outer = TRUE, line = -1.3, cex.lab= cex.axis.lab)
   title(xlab = "Sliding time difference",
         outer = TRUE, line = -0.9, cex.lab= cex.axis.lab)
-  on.exit(close.screen(all.screens = TRUE))
+
 }
 
 

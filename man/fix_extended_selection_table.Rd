@@ -18,18 +18,16 @@ for sound file name (sound.files), selection number (selec), and start and end t
 }
 \examples{
 {
-# First set temporary folder
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
-# setwd(tempdir())
-
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # create extended selection table
-ext_st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE)
+ext_st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE, 
+path = tempdir())
 
 # remove attributes
 st <- as.data.frame(ext_st)
@@ -45,5 +43,5 @@ class(st)
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

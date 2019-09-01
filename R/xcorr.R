@@ -43,22 +43,19 @@
 #' from the awesome R package `monitoR`.   
 #' @examples
 #' {
-#' #First set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","lbh_selec_table"))
-#' writeWave(Phae.long1, "Phae.long1.wav") #save sound files
-#' writeWave(Phae.long2, "Phae.long2.wav")
-#' writeWave(Phae.long3, "Phae.long3.wav")
-#' writeWave(Phae.long4, "Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
 #'xcor <- xcorr(X = lbh_selec_table, wl = 300, bp = c(2, 9), ovlp = 90,
-#'dens = 1, wn = 'hanning', cor.method = "pearson")
+#'dens = 1, wn = 'hanning', cor.method = "pearson", path = tempdir())
 #' 
 #' }
 #' @seealso \code{\link{xcorr.graph}}
-#' @author Marcelo Araya-Salas \email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas \email{marceloa27@@gmail.com})
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
@@ -71,11 +68,6 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
                   wn ='hanning', cor.method = "pearson", parallel = 1, 
                   path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = TRUE)
 {
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
-  
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
@@ -104,9 +96,9 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist")
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -156,7 +148,7 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   
   if (!is_extended_selection_table(X)){
     #return warning if not all sound files were found
-    fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+    fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
       write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                                  ".wav file(s) not found"))
@@ -179,7 +171,7 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   
   tempFUN <- function(X, x, wl, ovlp, wn, frq.lim)
   {
-    clip <- read_wave(X = X, index = x)
+    clip <- warbleR::read_wave(X = X, path = path, index = x)
     samp.rate <- clip@samp.rate
     
     # Fourier transform
@@ -331,7 +323,7 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   a <- pbapply::pblapply(X = ord.shuf, cl = cl, FUN = function(j) 
   {
     # read sound file
-    a <- read_wave(X = X, index = j, header = TRUE)  
+    a <- warbleR::read_wave(X = X, path = path, index = j, header = TRUE)  
     
     # calculate margin before and after signal
     margin <- (max(X$end[j:nrow(X)] - X$start[j:nrow(X)]))/2
@@ -343,7 +335,7 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
         end <-X$end[j] + margin
     if (end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate - 0.001
     
-    survey <- read_wave(X = X, index = j, from = start, to = end)
+    survey <- warbleR::read_wave(X = X, path = path, index = j, from = start, to = end)
     
     score.L <- lapply((1+j):length(ltemp), function(i) try(FUNXC(i, cor.mat, survey, wl, ovlp, wn,  j, X), silent = T))
     

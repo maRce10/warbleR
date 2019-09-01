@@ -2,7 +2,8 @@
 #' 
 #' \code{xcmaps} creates maps to visualize the geographic spread of 'Xeno-Canto'
 #'   recordings.
-#' @usage xcmaps(X, img = TRUE, it = "jpeg", res = 100, labels = F)   
+#' @usage xcmaps(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
+#'  path = NULL)   
 #' @param X Data frame output from \code{\link{querxc}}.
 #' @param img A logical argument specifying whether an image file of each species
 #'   map should be returned, default is \code{TRUE}.
@@ -13,6 +14,9 @@
 #'   presentation quality.
 #' @param labels A logical argument defining whether dots depicting recording locations are labeled.
 #' If \code{TRUE} then the Recording_ID is used as label.
+#' @param path Character string with the directory path where the image files will be saved. 
+#' If \code{NULL} (default) then the current working directory is used.
+#' Ignored if \code{img = FALSE}. 
 #' @return A map of 'Xeno-Canto' recordings per species (image file), or a faceted
 #'   plot of species map(s) in the active graphic device.
 #' @export
@@ -28,18 +32,15 @@
 #' 
 #' #create image in R graphic device
 #' xcmaps(X, img = FALSE)
-#' 
-#' #or save it as a file in the working directory
-#' xcmaps(X)
-#' 
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) and Grace Smith Vidaurre
 
-xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = F) {
+xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
+                   path = NULL) {
 
   #### set arguments from options
   # get function arguments
@@ -62,11 +63,16 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = F) {
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
+  #check path if not provided set to working directory
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") 
+  
   #stop if X is not a data frame
   if (!is.data.frame(X))  stop("X is not a data frame")
 
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed")) 
+  
   # Initialize species names (common name)
   spn <- length(unique(X$English_name))
     
@@ -91,9 +97,9 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = F) {
      
      if (img){
        prop <- abs((min(lon) - buf)-(max(lon) + buf))/abs((min(lat) - buf)-(max(lat) + buf)) * 1.15
-       if (it == "tiff") tiff(filename = paste("Map of ", i, " recordings", ".tiff", sep = ""), 
-                             width = 480 * prop) else
-         jpeg(filename = paste("Map of ", i, " recordings", ".jpeg", sep = ""), width = 480 * prop)
+       
+       img_wrlbr_int(filename = paste("Map of ", i, " recordings", it, sep = ""), 
+                             width = 480 * prop, path = path) 
 
        #change margins
        par(mar= rep(2,4))

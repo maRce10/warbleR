@@ -38,9 +38,6 @@ selec.table <- selec.table[, sample(1:ncol(selec.table))]
  names(selec.table)
   
 }
-\seealso{
-\code{\link[Rraven]{match_wav_case}}; \code{\link[Rraven]{relabel_colms}}
-}
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

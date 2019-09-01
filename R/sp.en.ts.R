@@ -62,39 +62,33 @@
 #' 
 #' @examples
 #' {
-#' # set the temp directory
-#' # setwd(tempdir())
-#' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2",  "Phae.long3",  "Phae.long4","lbh_selec_table"))
-#' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
-#' writeWave(Phae.long1, "Phae.long1.wav")
-#' writeWave(Phae.long3, "Phae.long3.wav") #save sound files 
-#' writeWave(Phae.long4, "Phae.long4.wav")
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav")) #save sound files 
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' # without clip edges
 #' sp.en.ts(X = lbh_selec_table, threshold = 10, clip.edges = FALSE, length.out = 10,
-#'  type = "b", sp.en.range = c(-25, 10))
+#'  type = "b", sp.en.range = c(-25, 10), path = tempdir())
 #' 
 #' # with clip edges and length.out 10
-#' sp.en.ts(X = lbh_selec_table, threshold = 10, bp = c(2, 12), clip.edges = TRUE, length.out = 10)
+#' sp.en.ts(X = lbh_selec_table, threshold = 10, bp = c(2, 12), clip.edges = TRUE, length.out = 10, 
+#' path = tempdir())
 #' 
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on mar-13-2018 (MAS)
 
 sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 
                   bp = "frange", threshold = 15, img = TRUE, parallel = 1,
                   path = NULL, img.suffix = "sp.en.ts", pb = TRUE, clip.edges = FALSE,
                   leglab = "sp.en.ts", sp.en.range = c(2, 10), ...){     
-
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -124,9 +118,9 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -172,7 +166,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {
-  recs.wd <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
                   ".wav file(s) not found"))
@@ -195,7 +189,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   sp.en.tsFUN <- function(X, i, bp, wl, threshold, sp.en.range){
     
     # Read sound files to get sample rate and length
-    r <- read_wave(X = X, index = i, header = TRUE)
+    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
     f <- r$sample.rate
 
     # if bp is frange
@@ -206,7 +200,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
     b <- b * 1000}
     
-      r <- read_wave(X = X, index = i)
+      r <- warbleR::read_wave(X = X, path = path, index = i)
     
       #filter if this was needed
       if (!is.null(bp)) r <- ffilter(wave = r, from = b[1], to = b[2]) 

@@ -78,24 +78,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-    <li>
-      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -232,20 +214,17 @@ elements in a song or other level of organization in the signals.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
-<span class='co'># Set temporary working directory</span>
-<span class='co'># setwd(tempdir())</span>
-
 <span class='co'># get warbleR sound file examples</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>,<span class='st'>"Phae.long1.wav"</span>)
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>,<span class='st'>"Phae.long2.wav"</span>)
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>,<span class='st'>"Phae.long3.wav"</span>)
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
 
 <span class='co'># add a 'song' column</span>
 <span class='no'>lbh_selec_table</span>$<span class='no'>song</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>3</span>)[<span class='fl'>1</span>:<span class='fl'>11</span>]
 
 <span class='co'># measure acoustic parameters</span>
-<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='specan.html'>specan</a></span>(<span class='no'>lbh_selec_table</span>[<span class='fl'>1</span>:<span class='fl'>8</span>, ], <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>11</span>), <span class='fl'>300</span>, <span class='kw'>fast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='specan.html'>specan</a></span>(<span class='no'>lbh_selec_table</span>[<span class='fl'>1</span>:<span class='fl'>8</span>, ], <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>11</span>), <span class='fl'>300</span>, <span class='kw'>fast</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
 
 <span class='co'># add song data</span>
 <span class='no'>sp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/merge'>merge</a></span>(<span class='no'>sp</span>, <span class='no'>lbh_selec_table</span>[<span class='fl'>1</span>:<span class='fl'>8</span>, ], <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>))
@@ -269,7 +248,7 @@ elements in a song or other level of organization in the signals.</p>
 <span class='co'># with two weights no progress bar</span>
 <span class='fu'>song_param</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>sp</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"duration"</span>, <span class='st'>"dfrange"</span>), <span class='kw'>song_colm</span> <span class='kw'>=</span> <span class='st'>"song"</span>,
 <span class='kw'>mean_colm</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"kurt"</span>, <span class='st'>"sp.ent"</span>), <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++                                           | 12% ~00s             |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++                               | 38% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++                  | 62% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating     |+++++++                                           | 12% ~00s             |+++++++++++++                                     | 25% ~01s             |+++++++++++++++++++                               | 38% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++                  | 62% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
@@ -302,7 +281,7 @@ elements in a song or other level of organization in the signals.</p>
     </ul>
 
     <h2>Author</h2>
-    <p>Marcelo Araya-Salas (<a href='mailto:araya-salas@cornell.edu'>araya-salas@cornell.edu</a>)</p>
+    <p>Marcelo Araya-Salas (<a href='mailto:marceloa27@gmail.com'>marceloa27@gmail.com</a>)</p>
   </div>
 </div>
 

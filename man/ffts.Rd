@@ -82,19 +82,13 @@ The function uses the \code{\link[stats]{approx}} function to interpolate values
 }
 \examples{
 {
-# set the temp directory
-# setwd(tempdir())
-
 #load data
 data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
-writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
 
 # run function 
-ffts(lbh_selec_table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300)
-
-# Fundamental frequency is not accurate for noisy signals, works better with pure tones
-
+ffts(lbh_selec_table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300, path = tempdir())
 }
 }
 \seealso{
@@ -108,6 +102,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{trackfreqs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
 \concept{spectrogram creators}

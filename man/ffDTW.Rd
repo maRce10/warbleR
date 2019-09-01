@@ -81,16 +81,14 @@ The function uses the \code{\link[stats]{approx}} function to interpolate values
 }
 \examples{
 {
-# set the temp directory
-# setwd(tempdir())
-
 #load data
 data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
-writeWave(Phae.long1, "Phae.long1.wav")
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 
 # run function 
-ffDTW(lbh_selec_table[1:4,], length.out = 30, flim = c(1, 12), img = TRUE, bp = c(1, 9), wl = 300)
+ffDTW(lbh_selec_table[1:4,], length.out = 30, flim = c(1, 12), img = TRUE, bp = c(1, 9), wl = 300, 
+path = tempdir())
 }
 
 }
@@ -114,6 +112,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{trackfreqs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
 \concept{spectrogram creators}

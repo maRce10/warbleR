@@ -94,23 +94,21 @@
 #' @seealso \href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
+#' # Save to temporary working directory
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' compare.methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
-#' methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg")
+#' methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", path = tempdir())
 #' 
 #' #remove progress bar
 #' compare.methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
-#' methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE)
+#' methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE, path = tempdir())
 #'
 #' #check this folder!
 #' getwd()
@@ -141,7 +139,7 @@
 #' }
 #' 
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}). It uses 
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}). It uses 
 #' internally a modified version of the \code{\link[seewave]{spectro}} function from 
 #' seewave package to create spectrograms.
 #last modification on mar-13-2018 (MAS)
@@ -152,9 +150,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, 
     pal = reverse.gray.colors.2, img = TRUE, ...){  
  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
+  # reset pb
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options
@@ -185,9 +181,9 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -247,7 +243,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {
-    fs <- list.files(path = getwd(), pattern = "\\.wav$", ignore.case = TRUE)
+    fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
@@ -268,8 +264,6 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
-  #wrap img creating function
-  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
 
   #create empty list for method results
   disim.mats <- list()
@@ -400,7 +394,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     X <- X[rs,]
   
        if (img)
-  imgfun(filename = paste("comp.meth-", names(disim.mats)[1],"-",names(disim.mats)[2], "-", paste(X$labels, collapse = "-"), paste0(".", it), sep = ""), width = 16.25, height =  16.25, units = "cm", res = res)
+         img_wrlbr_int(filename = paste("comp.meth-", names(disim.mats)[1],"-",names(disim.mats)[2], "-", paste(X$labels, collapse = "-"), paste0(".", it), sep = ""), path = path, width = 16.25, height =  16.25, units = "cm", res = res)
   
   graphics::split.screen(m)
   
@@ -421,7 +415,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     par(mar = rep(0, 4))
     if (x < 5) 
     { 
-      r <-  read_wave(X = X, index = x, header = TRUE)
+      r <-  warbleR::read_wave(X = X, path = path, index = x, header = TRUE)
       tlim <- c((X$end[x] - X$start[x])/2 + X$start[x] - mxdur/2, (X$end[x] - X$start[x])/2 + X$start[x] + mxdur/2)
       
       mar1 <- X$start[x]-tlim[1]
@@ -445,7 +439,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       
       if (flim[2] > ceiling(r$sample.rate/2000) - 1) flim[2] <- ceiling(r$sample.rate/2000) - 1
       
-      r <- read_wave(X = X, index = x, from = tlim[1], to = tlim[2])
+      r <- warbleR::read_wave(X = X, path = path, index = x, from = tlim[1], to = tlim[2])
       
       spectro_wrblr_int2(wave = r, f = r@samp.rate, flim = flim, wl = wl, ovlp = ovlp, axisX = FALSE, axisY = FALSE, tlab = FALSE, flab = FALSE, palette = pal, grid = grid, ...)
       box(lwd = 2)

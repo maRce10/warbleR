@@ -2,10 +2,8 @@ Package: warbleR
 Type: Package
 Title: Streamline Bioacoustic Analysis
 Version: 1.1.16
-Date: 2019-02-26
-Author: Marcelo Araya-Salas [aut, cre], , comment = c(ORCID = "0000-0003-3594-619X")Grace Smith-Vidaurre [aut]
-Maintainer: Marcelo Araya-Salas <araya-salas@cornell.edu>
-Description: A tool to streamline the analysis of animal acoustic signal structure. The package offers functions for downloading avian vocalizations from the open-access online repository Xeno-Canto <https://www.xeno-canto.org>, manipulating sound files, detecting acoustic signals, assessing performance of methods that measure acoustic similarity, conducting cross-correlations, dynamic time warping, measuring acoustic parameters and analysing interactive vocal signals, among others. Most functions working iteratively allow parallelization to improve computational efficiency.
+Date: 2019-09-01
+Description: warbleR is intended to facilitate the analysis of the structure of animal acoustic signals in R. Users can collect open-access avian recordings or enter their own data into a workflow that facilitates spectrographic visualization and measurement of acoustic parameters. warbleR makes use of the basic sound analysis tools from the package , and offers new tools for acoustic structure analysis. The main features of the package are the use of loops to apply tasks through acoustic signals referenced in a selection (annotation) table and the production of spectrograms in image files that allow to organize data and verify acoustic analyzes. The package offers functions to explore, organize and manipulate multiple sound files, explore and download XenoCanto recordings, detect signals automatically, create spectrograms of complete recordings or individual signals, run different measures of acoustic signal structure, evaluate the performance of measurement methods, catalog signals, characterize different structural levels in acoustic signals, run statistical analysis of duet coordination and consolidate databases and annotation tables, among others.
 License: GPL (>= 2)
 Imports: bitops, dtw, fftw, graphics, grDevices, iterators, jpeg, monitoR, parallel, pbapply, RCurl, rjson, stats, utils, methods, pracma, Sim.DiffProc, soundgen
 Depends: R (>= 3.2.1), maps, tuneR, seewave (>= 2.0.1), NatureSounds
@@ -13,10 +11,10 @@ LazyData: TRUE
 URL: https://marce10.github.io/warbleR
 BugReports: https://github.com/maRce10/warbleR/issues
 NeedsCompilation: no
-Suggests: knitr, ggplot2, rmarkdown, Rraven, ape, bioacoustics
+Suggests: knitr, ggplot2, rmarkdown, ape, bioacoustics
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Packaged: 2016-04-18 23:45:31 UTC; m
 Repository: CRAN
-Authors@R: c(person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "araya-salas@cornell.edu", comment = c(ORCID = "0000-0003-3594-619X")), person("Grace", "Smith-Vidaurre", role = c("aut"), email = "gsmithvi@gmail.com"))
+Authors@R: c(person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "marceloa27@gmail.com", comment = c(ORCID = "0000-0003-3594-619X")), person("Grace", "Smith-Vidaurre", role = c("aut"), email = "gsmithvi@gmail.com"))
 Date/Publication: 2016-04-19 08:12:11

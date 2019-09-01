@@ -6,6 +6,9 @@
 
 ## Changes and additions:
 
+* 'to' replaced by 'dest.path' argument removed in mp32wav() 
+* read_wave() can also read regular .wav files
+* quer_ml() temporarily removed while ebird-macaulay API is updated
 * fix_wavs() now can use bioacoustics package or SOX for resampling
 * global options (from warbleR_options()) are now taken by wav_info() 
 * 'coor.test()' now returns 0 for coordination score when the ratio is undefined 

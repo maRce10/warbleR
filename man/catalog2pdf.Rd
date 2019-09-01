@@ -36,21 +36,18 @@ The function combines catalog images in .jpeg format from the \code{\link{catalo
 }
 \examples{
 \dontrun{
-# Set temporary working directory
-# setwd(tempdir())
-
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2"))
-writeWave(Phae.long1,"Phae.long1.wav") 
-writeWave(Phae.long2,"Phae.long2.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
 catalog(X = lbh_selec_table, nrow = 2, ncol = 4)
 
 # now create single pdf removing jpeg
-catalog2pdf(keep.img = FALSE)
+catalog2pdf(keep.img = FALSE, path = tempdir())
 
 # check this floder
-getwd()
+tempdir()
 }
 }
 \references{
@@ -61,5 +58,5 @@ getwd()
 \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

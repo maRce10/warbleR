@@ -55,20 +55,17 @@
 #' elements in a song or other level of organization in the signals.
 #' @seealso \code{\link{specan}} 
 #' @examples{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' # get warbleR sound file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
 #' # add a 'song' column
 #' lbh_selec_table$song <- rep(1:4, each = 3)[1:11]
 #' 
 #' # measure acoustic parameters
-#' sp <- specan(lbh_selec_table[1:8, ], bp = c(1, 11), 300, fast = TRUE)
+#' sp <- specan(lbh_selec_table[1:8, ], bp = c(1, 11), 300, fast = TRUE, path = tempdir())
 #' 
 #' # add song data
 #' sp <- merge(sp, lbh_selec_table[1:8, ], by = c("sound.files", "selec"))
@@ -97,7 +94,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on may-8-2018 (MAS)
 
 song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm = NULL, max_colm = NULL,  elm_colm = NULL, elm_fun = NULL,
@@ -256,7 +253,7 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
     names(Z)[names(Z) %in% min_colm] <- paste0("min.", min_colm)
     
     if (!is.null(max_colm)) 
-    names(Z)[names(Z) %in% max_colm] <- paste0("max.", min_colm)
+    names(Z)[names(Z) %in% max_colm] <- paste0("max.", max_colm)
     
     return(Z)  
   }

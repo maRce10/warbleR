@@ -22,32 +22,27 @@
 #' \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs}
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2"))
-#' writeWave(Phae.long1,"Phae.long1.wav") 
-#' writeWave(Phae.long2,"Phae.long2.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' 
 #' catalog(X = lbh_selec_table, nrow = 2, ncol = 4)
 #' 
 #' # now create single pdf removing jpeg
-#' catalog2pdf(keep.img = FALSE)
+#' catalog2pdf(keep.img = FALSE, path = tempdir())
 #' 
 #' # check this floder
-#' getwd()
+#' tempdir()
 #' }
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 # last modification on mar-13-2018 (MAS)
 
 catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
                         pb = TRUE, by.img.suffix = FALSE, ...)
 {
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
+  # reset pbapply options
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options
@@ -72,12 +67,12 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
-  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
+    
   #list jpeg files
-  imgs <- list.files(pattern = "\\.jpeg$|\\.jpeg$", ignore.case = TRUE)
+  imgs <- list.files(pattern = "\\.jpeg$|\\.jpeg$", path = path, ignore.case = TRUE)
   if (length(imgs) == 0) stop("No .jpeg files were found in the working directory")
   
   #remove images that don't have the catalog_pX.jpeg ending
@@ -116,7 +111,7 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
     
     #start graphic device     
    if (!is.logical(i))
-     grDevices::pdf(file = paste0(i, ".pdf"), width = 10, height = dimprop * 10, ...) else  grDevices::pdf(file = "Catalog.pdf", width = 10, height = dimprop * 10, ...)     
+     grDevices::pdf(file = file.path(path, paste0(i, ".pdf")), width = 10, height = dimprop * 10, ...) else  grDevices::pdf(file = file.path(path, "Catalog.pdf"), width = 10, height = dimprop * 10, ...)     
     #plot
     img <- jpeg::readJPEG(subimgs[1])
     par(mar = rep(0, 4), oma = rep(0, 4), pty = "m")

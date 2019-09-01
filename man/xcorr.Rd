@@ -65,18 +65,15 @@ from the awesome R package `monitoR`.
 }
 \examples{
 {
-#First set temporary working directory
-# setwd(tempdir())
-
 #load data
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","lbh_selec_table"))
-writeWave(Phae.long1, "Phae.long1.wav") #save sound files
-writeWave(Phae.long2, "Phae.long2.wav")
-writeWave(Phae.long3, "Phae.long3.wav")
-writeWave(Phae.long4, "Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 xcor <- xcorr(X = lbh_selec_table, wl = 300, bp = c(2, 9), ovlp = 90,
-dens = 1, wn = 'hanning', cor.method = "pearson")
+dens = 1, wn = 'hanning', cor.method = "pearson", path = tempdir())
 
 }
 }
@@ -91,5 +88,5 @@ H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-cor
 \code{\link{xcorr.graph}}
 }
 \author{
-Marcelo Araya-Salas \email{araya-salas@cornell.edu})
+Marcelo Araya-Salas \email{marceloa27@gmail.com})
 }

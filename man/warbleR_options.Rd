@@ -53,20 +53,18 @@ It specifies the number of cores to be used in iterative functions.
 }
 \examples{
 {
-# First set temporary folder
-# setwd(tempdir())
-
+# load data and save in temporary working directory
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # sig2noise with progress bar (by default is TRUE)
-a <- sig2noise(X = lbh_selec_table, mar = 0.1)
+a <- sig2noise(X = lbh_selec_table, mar = 0.1, path = tempdir())
 
 # set progress bar to FALSE with warbleR_options
-warbleR_options(pb = FALSE)
+warbleR_options(pb = FALSE, path = tempdir())
 
 # sig2noise without progress bar
 a <- sig2noise(X = lbh_selec_table, mar = 0.1)
@@ -79,5 +77,5 @@ a <- sig2noise(X = lbh_selec_table, mar = 0.1)
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

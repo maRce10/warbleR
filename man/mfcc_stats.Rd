@@ -51,22 +51,19 @@ It also returns the mean and variance for the first and second derivatives of th
 }
 \examples{
 {
-# Set temporary working directory
-# setwd(tempdir())
-
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # run function
-mel_st <- mfcc_stats(X = lbh_selec_table, pb = FALSE)
+mel_st <- mfcc_stats(X = lbh_selec_table, pb = FALSE, path = tempdir())
 
 head(mel_st)
 
 # measure 12 coefficients 
-mel_st12 <- mfcc_stats(X = lbh_selec_table, numcep = 12, pb = FALSE)
+mel_st12 <- mfcc_stats(X = lbh_selec_table, numcep = 12, pb = FALSE, path = tempdir())
 
  head(mel_st)
 }
@@ -84,5 +81,5 @@ Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban
 \code{\link{fixwavs}}, \code{\link{rm_sil}},
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

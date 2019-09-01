@@ -107,7 +107,7 @@ labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{
 \item{title.labels}{Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.}
 
 \item{dest.path}{Character string containing the directory path where the cut sound files will be saved.
-If \code{NULL} (default) then the current working directory is used.}
+If \code{NULL} (default) then the folder containing the sound files will be used instead.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram 
 creating function for customizing graphical output. The function is a modified 
@@ -129,19 +129,16 @@ high background noise levels.
 }
 \examples{
 { 
-# First set empty folder
-# setwd(tempdir())
-
 # load and save data
 data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long1, "Phae.long1.wav") #save sound files
-writeWave(Phae.long2, "Phae.long2.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
 # make spectrograms
-specreator(X = lbh_selec_table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300)
+specreator(X = lbh_selec_table, flim = c(0, 11), res = 300, mar = 0.05, wl = 300, path = tempdir())
  
 # check this folder
-getwd()
+tempdir()
 }
 
 }
@@ -163,6 +160,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{trackfreqs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
 }
 \concept{spectrogram creators}

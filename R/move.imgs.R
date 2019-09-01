@@ -29,35 +29,36 @@
 #' of the \code{\link{warbleR}} function. It copies/cuts files between directories.
 #' @examples
 #' {
-#' #Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' #load data
 #' data("Cryp.soui")
-#' writeWave(Cryp.soui, "Cryp.soui.wav") #save sound files 
+#' writeWave(Cryp.soui, file.path(tempdir(), "Cryp.soui.wav")) #save sound files 
 #' 
 #' #autodetec location of signals
 #' ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2,
-#' maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav")
+#' maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav", path = tempdir())
 #' 
 #' #track dominant frequency graphs with freq reange detection
 #' trackfreqs(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
-#' bp = c(1, 3), contour = "df", wl = 300, frange = TRUE)
+#' bp = c(1, 3), contour = "df", wl = 300, frange = TRUE, path = tempdir())
+#' 
+#' # create folder to move image files
+#' dir.create(file.path(tempdir(), "imgs"))
 #'
 #' #copy files
-#' move.imgs(cut = FALSE)
+#' move.imgs(cut = FALSE, from = tempdir(), to = file.path(tempdir(), "imgs"))
 #'
-#' #cut files
-#' move.imgs(cut = TRUE, to = "image_files")
+#' # cut files
+#' move.imgs(cut = TRUE, from = tempdir(), 
+#' to = file.path(tempdir(), "imgs"), overwrite = TRUE)
 #' 
 #'# Check this folder
-#' getwd()
+#' tempdir()
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on feb-09-2017 (MAS)
 
 move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite = FALSE, create.folder = TRUE, folder.name = "image_files", parallel = 1, pb = TRUE)
@@ -82,9 +83,6 @@ move.imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
-  
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
   
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]

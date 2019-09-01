@@ -38,20 +38,16 @@ default graphic device. In such cases saving the plot as and image file is advic
 \examples{
 {
 #load data
-#First set temporary working directory]
-# setwd(tempdir())
-
-#load data
 data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table"))
-writeWave(Phae.long1, "Phae.long1.wav") #save sound files
-writeWave(Phae.long2, "Phae.long2.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
  #run cross correlation first
  xcor<-xcorr(X = lbh_selec_table[1:5,], wl =300, bp= c(2, 9), ovlp=90, dens=0.8,
- wn= "hanning", cor.method = "pearson", cor.mat = FALSE) 
+ wn= "hanning", cor.method = "pearson", cor.mat = FALSE, path = tempdir()) 
  
  #plot pairwise scores
-  #xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
+ xcorr.graph(X = xcor, cex.cor = 2, cex.lab = 1, rel.cex = FALSE)
 }
 
 }
@@ -66,5 +62,5 @@ H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-cor
 \code{\link{xcorr}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

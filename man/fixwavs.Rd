@@ -44,8 +44,8 @@ then all files in 'path' are converted.
 }
 \examples{
 \dontrun{
-# Set temporary working directory
-# setwd(tempdir())
+# Save to temporary working directory
+
 
 
 #check this folder
@@ -59,5 +59,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

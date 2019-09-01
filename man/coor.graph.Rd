@@ -50,17 +50,8 @@ depicting the time of overlap.
 }
 \examples{
 {
-
-# First set temporary folder
-# setwd(tempdir())
-
 # load simulate singing events  (see data documentation)
 data(sim.coor.sing)
-
-# make coor.graphs in tiff format
-coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, xl =2, res =80, 
-it = "tiff", img = TRUE)
-
 
 #' # make coor.graphs in graphic device format
 cgs <- coor.graph(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
@@ -73,5 +64,5 @@ cgs
 {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

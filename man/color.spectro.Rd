@@ -97,16 +97,14 @@ highlighted can be provided in a selection table (as the example data 'lbh_selec
 }
 \examples{
 \dontrun{ 
-# First set empty folder
-# setwd(tempdir())
 data(list = c("Phae.long1", "lbh_selec_table"))
-writeWave(Phae.long1, "Phae.long1.wav") #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
 
  # subset selection table
  st <- lbh_selec_table[lbh_selec_table$sound.files == "Phae.long1.wav",]
  
  # read wave file as an R object
- sgnl <- tuneR::readWave(as.character(st$sound.files[1]))
+ sgnl <- tuneR::readWave(file.path(tempdir(), st$sound.files[1]))
  
  # create color column
  st$colors <- c("red2", "blue", "green")
@@ -138,6 +136,6 @@ Other spectrogram creators: \code{\link{dfDTW}},
   \code{\link{trackfreqs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
 }
 \concept{spectrogram creators}

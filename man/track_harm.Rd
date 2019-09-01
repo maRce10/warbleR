@@ -61,21 +61,6 @@ This is a modified version of seewave's \code{\link[seewave]{dfreq}} function th
 contour of a dominant harmonic even when the highest amplitude jumps between harmonics. The arguments and default values of the
 original \code{\link[seewave]{dfreq}} function have been kept unchanged to facilitate switching between the 2 functions.
 }
-\examples{
-{
-#Set temporary working directory
-# setwd(tempdir())
-
-#load data
-
-# Check this folder
-getwd()
-
-#track both frequencies 
-
-}
-
-}
 \references{
 {
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
@@ -85,5 +70,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{trackfreqs}} for tracking frequencies iteratively on selections tables.
 }
 \author{
-Jerome Sueur, modified by Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Jerome Sueur, modified by Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

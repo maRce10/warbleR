@@ -59,22 +59,20 @@
 #' @seealso dfDTW \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}}
 #' @examples
 #' {
-#' # set the temp directory
-#' # setwd(tempdir())
-#' 
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-#' writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
-#' writeWave(Phae.long1, "Phae.long1.wav")
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 #' 
 #' # run function 
-#' ffDTW(lbh_selec_table[1:4,], length.out = 30, flim = c(1, 12), img = TRUE, bp = c(1, 9), wl = 300)
+#' ffDTW(lbh_selec_table[1:4,], length.out = 30, flim = c(1, 12), img = TRUE, bp = c(1, 9), wl = 300, 
+#' path = tempdir())
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on oct-26-2016 (MAS)
 
 ffDTW <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 

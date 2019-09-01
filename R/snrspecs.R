@@ -74,33 +74,31 @@
 #'   when osci or sc = \code{TRUE}, this may take some optimization by the user.
 #' @examples
 #' \dontrun{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#'  
 #' data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table"))
-#' writeWave(Phae.long1, "Phae.long1.wav") #save sound.files
-#' writeWave(Phae.long2, "Phae.long2.wav") 
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound.files
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) 
 #' 
 #' # make Phae.long1 and Phae.long2 spectrograms
 #' # snrmar needs to be smaller before moving on to sig2noise()
 #' 
 #' snrspecs(lbh_selec_table, flim = c(0, 14), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
-#' picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg", wl = 300)
+#' picsize = 2, res = 300, cexlab = 2, mar = 0.2, snrmar = 0.1, it = "jpeg", wl = 300, 
+#' path = tempdir())
 #' 
 #' # make only Phae.long1 spectrograms
 #' # snrmar now doesn't overlap neighboring signals
 #' 
 #' snrspecs(lbh_selec_table[grepl(c("Phae.long1"), lbh_selec_table$sound.files), ], flim = c(3, 14),
 #' inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), picsize = 2, res = 300, cexlab = 2,
-#' mar = 0.2, snrmar = 0.01, wl = 300)
+#' mar = 0.2, snrmar = 0.01, wl = 300, path = tempdir())
 #' 
-#' #check this folder!!
-#' getwd()
+#' #check this folder!
+#' tempdir()
 #' }
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' \href{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}{Wikipedia: Signal-to-noise ratio}
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) and Grace Smith Vidaurre
 #last modification on aug-06-2018 (MAS)
 
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
@@ -109,10 +107,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
                      xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg",
                      parallel = 1, path = NULL, pb = TRUE){
  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
-  
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
@@ -141,9 +135,9 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist")
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -165,9 +159,6 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
-  #wrap img creating function
-  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
-  
   #if any selections longer than 20 secs stop
   if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   options( show.error.messages = TRUE)
@@ -175,7 +166,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   { 
-  fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
@@ -194,7 +185,7 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     snrspeFUN <- function(i, X, wl, flim, ovlp, inner.mar, outer.mar, picsize, res, cexlab, xl, mar, snrmar, before, eq.dur){
     
     # Read sound files to get sample rate and length
-    r <- read_wave(X = X, index = i, header = TRUE)
+    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
     f <- r$sample.rate
     
     fl<- flim #in case flim its higher than can be due to sampling rate
@@ -221,13 +212,13 @@ snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
     
     if (en > r$samples/f) en <- r$samples/f
     
-    r <- read_wave(X = X, index = i, from = st, to = en)
+    r <- warbleR::read_wave(X = X, path = path, index = i, from = st, to = en)
     
     
 # Spectrogram width can be proportional to signal duration
     if (propwidth) pwc <- (10.16) * ((en-st)/0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
     
-          imgfun(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "snr.", it, sep = ""), 
+    img_wrlbr_int(filename = paste(X$sound.files[i],"-", X$selec[i], "-", "snr.", it, sep = ""), path = path,
            width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
 
     # Change relative heights of rows for spectrogram when osci = TRUE

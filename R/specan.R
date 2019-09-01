@@ -110,37 +110,30 @@
 #'  Additional parameters can be provided to the internal function \code{\link[soundgen]{analyze}}, which measures parameters related to harmonicity.
 #' @examples
 #' {
-#' # First set temporary folder
-# setwd(tempdir())
-#' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
 #' # measure acoustic parameters
-#' sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE)
+#' sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE, path = tempdir())
 #' 
 #' # measuring peakf
-#' sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE)
+#' sp_param <- specan(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE, path = tempdir())
 #' 
 #' # measuring harmonic-related parameters using progress bar
-#' sp_param <- specan(X = lbh_selec_table[1:8,], harmonicity = TRUE)
+#' sp_param <- specan(X = lbh_selec_table[1:8,], harmonicity = TRUE, path = tempdir())
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) and Grace Smith Vidaurre
 #last modification on mar-13-2018 (MAS)
 
 specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
                    parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
                    wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...){
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd))
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -170,9 +163,9 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -207,7 +200,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
   
   if (!is_extended_selection_table(X)){
   #return warning if not all sound files were found
-  fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+  fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   ".wav file(s) not found"))
@@ -232,7 +225,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
   spFUN <- function(i, X, bp, wl, threshold) { 
     
     # read wave object
-    r <- read_wave(X = X, index = i)
+    r <- warbleR::read_wave(X = X, path = path, index = i)
     
     if (length(r@left) < 7) stop(paste0("too few samples in selection row ", i, ", try check_sels() to find problematic selections"), call. = FALSE)
     

@@ -25,9 +25,6 @@
 #' @details The function removes silence segments (i.e. segments with very low amplitude values) from wave files. 
 #' @seealso \code{\link{fixwavs}}, \code{\link{autodetec}} 
 #' @examples{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 #' sil <- silence(samp.rate = 22500, duration = 3, xunit = "time")
@@ -39,32 +36,26 @@
 #' env(wv1)
 #'
 #'  #save wave file
-#'  writeWave(object = wv1, filename = "wv1.wav", extensible = FALSE)
+#'  writeWave(object = wv1, filename = file.path(tempdir(), "wv1.wav"),
+#'   extensible = FALSE)
 #' 
 #' #remove silence
-#' rm_sil(flist = "wv1.wav", pb = FALSE)
-#' 
-#' # OR this if tempdir was used instead
-#' # rm_sil(path = tempdir(), flist = "wv1.wav", pb = FALSE)
+#' rm_sil(flist = "wv1.wav", pb = FALSE, path = tempdir())
 #' 
 #' #check this floder
-#' getwd()
+#' tempdir()
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on mar-13-2018 (MAS)
 
 rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
                    flist = NULL, parallel = 1, pb = TRUE)
 {
 
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
-  
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
@@ -93,12 +84,11 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist")  
   
   #read files
-  files <- list.files(pattern = "\\.wav$", ignore.case = TRUE)  
+  files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
   if (length(files) == 0) stop("no .wav files in working directory")
@@ -110,9 +100,6 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
   
-  #wrap img creating function
-  if (it == "jpeg") imgfun <- jpeg else imgfun <- tiff
-  
   #if parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
@@ -122,19 +109,19 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
   #stop if files are not in working directory
   if (length(files) == 0) stop("all .wav files have been processed")
   
-  dir.create(file.path(getwd(), "silence-removed_files"), showWarnings = FALSE)
+  dir.create(file.path(path, "silence-removed_files"), showWarnings = FALSE)
   
   rm.sil.FUN <- function(fl, f = 5000, msd = min.sil.dur, flm = flim, mg = img) {
     
     # read wave
-    wv <- readWave(fl)  
+    wv <- warbleR::read_wave(X = fl, path = path)  
     
     #in case flim is higher than can be due to sampling rate
     if (flm[2] > ceiling(wv@samp.rate/2000) - 1) flm[2] <- ceiling(wv@samp.rate/2000) - 1 
     
     #downsample to speed up process
     if (wv@samp.rate > f + 1000) wv1 <- downsample(object = wv, samp.rate =  f) else wv1 <- wv
-    writeWave(wv1, file.path(tempdir(), fl))
+    writeWave(wv1, file.path(tempdir(),  fl))
   
     ad <- autodetec(threshold = 0.06, ssmooth = 1500, parallel = 1, pb = FALSE, img = FALSE, flist = fl, path = tempdir())
     
@@ -150,7 +137,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     
     if (mg)
     {
-      imgfun(filename = file.path(getwd(), "silence-removed_files", paste0(fl, ".rm.silence.", it)),  res = 160, units = "in", width = 8.5, height = 4) 
+      img_wrlbr_int(filename = paste0(fl, ".rm.silence.", it), path = file.path(path, "silence-removed_files"),  res = 160, units = "in", width = 8.5, height = 4) 
     
       par(mar = c(4, 4, 1, 1))
       spectro_wrblr_int(wv, ovlp = 0, grid = FALSE, scale = FALSE, palette = monitoR::gray.3, axisX = TRUE, fast.spec = TRUE, flim = flm)
@@ -173,8 +160,8 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     
     #cut silence from file
     if (nrow(ad) > 1) {for(z in (nrow(ad) - 1):1)   wv <- deletew(wave = wv, from = ad$end[z], to = ad$start[z + 1], plot = FALSE, output = "Wave")
-    writeWave(object = wv, filename = file.path(getwd(), "silence-removed_files", fl), extensible = FALSE)
-    } else  file.copy(from = wv, to = file.path(getwd(), "silence-removed_files", fl))
+    writeWave(object = wv, filename = file.path(path, "silence-removed_files", fl), extensible = FALSE)
+    } else  file.copy(from = wv, to = file.path(path, "silence-removed_files", fl))
     }
   
   if (pb) cat("searching for silence segments in wave files:")

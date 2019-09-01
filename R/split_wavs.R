@@ -19,20 +19,17 @@
 #' @details This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}} ).
 #' @examples
 #' {
-#' #Set temporary working directory
-#' # setwd(tempdir())
-#' 
-#' #load data
+#' #load data and save to temporary working directory
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
 #' #split files in 1 s files
-#' split_wavs(sgmt.dur = 1)
+#' split_wavs(sgmt.dur = 1, path = tempdir())
 #' 
 #' # Check this folder
-#' getwd()
+#' tempdir()
 #' }
 #' 
 #' @references {
@@ -41,10 +38,6 @@
 #' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on jun-07-2019 (MAS)
 split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, parallel = 1, pb = TRUE){
-  
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
   
   #### set arguments from options
   # get function arguments
@@ -71,15 +64,16 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist")
+  
   
   #stop if files is not a character vector
   if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
   if (is.null(files))
-    files <- list.files(pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director    
+    files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director    
   
   #stop if no wav files are found
   if (length(files) == 0) stop("no .wav files in working directory") 
@@ -140,11 +134,10 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
     # split using a loop only the ones that are shorter than segments
   a <- pbsapply(which(split.df$org.sound.files != split.df$sound.files), cl =  cl, function(x) {
     
-    clip <- tuneR::readWave(filename = as.character(split.df$org.sound.files[x]), from = split.df$start[x], to = split.df$end[x], units = "seconds")
+    clip <- warbleR::read_wave(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path)
     
-    #try(
-      tuneR::writeWave(extensible = FALSE, object = clip, filename = split.df$sound.files[x])
-      #, silent = TRUE)
+      tuneR::writeWave(extensible = FALSE, object = clip, filename = file.path(path, split.df$sound.files[x]))
+
     
     return(NULL)  
   })

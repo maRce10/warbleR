@@ -35,7 +35,7 @@
 #' @param shape Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
 #' ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.
 #' @param selec_table Logical. If \code{TRUE} a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
-#' is saved as a ".wav" file in the working directory. Defaul is \code{FALSE}.
+#' is saved as a ".wav" file in the working directory. Default is \code{FALSE}.
 #' @param file_name Character string for naming the ".wav" file. Ignored if 
 #' 'selec_table' is \code{FALSE}. If not provided the date-time stamp will be used.
 #' @param path Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is \code{FALSE}. 
@@ -64,7 +64,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on feb-22-2018 (MAS)
 
 sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, samp.rate = 44.1, 
@@ -75,10 +75,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   # reset working directory 
   if (selec_table)
     {
-    wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
-  
-  on.exit(options(warn = .Options$warn), add = TRUE)
+  on.exit(options(warn = .Options$warn))
   
   #### set arguments from options
   # get function arguments
@@ -105,9 +102,9 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path))  path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-    setwd(path)
-  }  
+  if (is.null(path))  path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
   }
   

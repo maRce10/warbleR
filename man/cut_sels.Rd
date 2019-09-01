@@ -22,7 +22,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{dest.path}{Character string containing the directory path where the cut sound files will be saved.
-If \code{NULL} (default) then the current working directory is used.}
+If \code{NULL} (default) then the directory containing the sound files will be used instead.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
@@ -47,24 +47,18 @@ listed in a selection table as in \code{\link{lbh_selec_table}}.
 }
 \examples{
 { 
-# First set empty folder
-# setwd(tempdir())
-
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-# make spectrograms
-
-cut_sels(lbh_selec_table)
+# cut selections
+cut_sels(lbh_selec_table, path = tempdir())
  
-cut_sels(lbh_selec_table, overwrite = TRUE, labels = c("sound.files", "selec", "sel.comment"))
- 
- #check this folder!!
-getwd()
+#check this folder!!
+tempdir()
 }
 
 }
@@ -76,10 +70,8 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \seealso{
 \code{\link{seltailor}} for tailoring selections 
  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
-
-Other selection manipulation, sound file manipulation: \code{\link{consolidate}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
 }
-\concept{selection manipulation, sound file manipulation}
+\concept{selection manipulation}

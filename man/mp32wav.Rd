@@ -5,7 +5,7 @@
 \title{Convert .mp3 files to .wav}
 \usage{
 mp32wav(samp.rate = NULL, parallel = 1, path = NULL, 
-to = NULL, dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)
+ dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)
 }
 \arguments{
 \item{samp.rate}{Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
@@ -17,11 +17,8 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{path}{Character string containing the directory path where the .mp3 files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{to}{Character string containing the directory path where the .wav files will be saved. 
-If \code{NULL} (default) then the current working directory is used. Will be deprecated in future versions.}
-
 \item{dest.path}{Character string containing the directory path where the .wav files will be saved. 
-If \code{NULL} (default) then the current working directory is used. Same as 'to' (will replace it in future versions).}
+If \code{NULL} (default) then the folder containing the sound files will be used.}
 
 \item{bit.depth}{Character string containing the units to be used for amplitude normalization. Check 
 \code{\link[tuneR]{normalize}} for details. Default is 16.}
@@ -44,17 +41,14 @@ convert all .mp3 files in working directory to .wav format. Function used intern
 }
 \examples{
 \dontrun{
-# First set temporary folder
-# setwd(tempdir())
- 
-#Then download mp3 files from xeno-canto
-querxc(qword = "Phaethornis aethopygus", download = TRUE)
+# download mp3 files from xeno-canto
+querxc(qword = "Phaethornis aethopygus", download = TRUE, path = tempdir())
 
 # Convert all files to .wav format
-mp32wav()
+mp32wav(path = tempdir(), dest.path = tempdir())
 
 #check this folder!!
-getwd()
+tempdir()
 }
 
 }
@@ -64,5 +58,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
 }

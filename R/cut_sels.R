@@ -14,7 +14,7 @@
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param dest.path Character string containing the directory path where the cut sound files will be saved.
-#' If \code{NULL} (default) then the current working directory is used.
+#' If \code{NULL} (default) then the directory containing the sound files will be used instead.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param labels String vector. Provides the column names that will be used as labels to
 #'  create sound file names. Note that they should provide unique names (otherwise 
@@ -23,45 +23,37 @@
 #' overwritten. Default is \code{FALSE}.
 #' @param ... Additional arguments to be passed to the internal \code{\link[tuneR]{writeWave}}  function for customizing sound file output (e.g. normalization). 
 #' @return Sound files of the signals listed in the input data frame.
-#' @family selection manipulation, sound file manipulation
+#' @family selection manipulation
 #' @seealso \code{\link{seltailor}} for tailoring selections 
 #'  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
 #' @name cut_sels
 #' @details This function allow users to produce individual sound files from the selections
 #' listed in a selection table as in \code{\link{lbh_selec_table}}.
 #' @examples{ 
-#' # First set empty folder
-#' # setwd(tempdir())
-#' 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
-#' # make spectrograms
-#' 
-#' cut_sels(lbh_selec_table)
+#' # cut selections
+#' cut_sels(lbh_selec_table, path = tempdir())
 #'  
-#' cut_sels(lbh_selec_table, overwrite = TRUE, labels = c("sound.files", "selec", "sel.comment"))
-#'  
-#'  #check this folder!!
-#' getwd()
+#' #check this folder!!
+#' tempdir()
 #' }
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu}) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) and Grace Smith Vidaurre
 #last modification on mar-12-2018 (MAS)
 
 cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
                      labels = c("sound.files", "selec"), overwrite = FALSE, ...){
   
-  # reset working directory 
-  wd <- getwd()
-  on.exit(setwd(wd), add = TRUE)
+  # reset pb
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   #### set arguments from options
@@ -89,15 +81,14 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-  setwd(path)
-  }  
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") 
   
-  #check path to working directory
+  #check path to destiny directory
   if (!is.null(dest.path))
-  {if (class(try(setwd(dest.path), silent = TRUE)) == "try-error") stop("'dest.path' provided does not exist")} else dest.path <- getwd()
-     #set working directory
-  
+  {if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist")} else dest.path <- path
+   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
@@ -151,7 +142,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   cutFUN <- function(X, i, mar, labels, dest.path){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- read_wave(X = X, index = i, header = TRUE, path = path)
+    r <- warbleR::read_wave(X = X, index = i, header = TRUE, path = path)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -163,7 +154,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     if (t[2] > r$samples/f) t[2] <- r$samples/f
     
     # Cut wave
-    wvcut <- read_wave(X = X, index = i, from = t[1], to = t[2])
+    wvcut <- warbleR::read_wave(X = X, path = path, index = i, from = t[1], to = t[2])
 
     # save cut
     if (overwrite) unlink(file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")))

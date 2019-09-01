@@ -99,24 +99,22 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
 }
 \examples{
 {
-# First set temporary folder
- # setwd(tempdir())
-
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", 
 "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # make selection table
-st <- selection_table(X = lbh_selec_table)
+st <- selection_table(X = lbh_selec_table, path = tempdir())
 
 is_selection_table(st)
 
 #' # make extended selection table
 st <- selection_table(X = lbh_selec_table, extended = TRUE, 
-confirm.extended = FALSE)
+confirm.extended = FALSE, 
+path = tempdir())
 
 is_extended_selection_table(st)
 
@@ -125,7 +123,7 @@ is_extended_selection_table(st)
 lbh_selec_table$song <- as.numeric(lbh_selec_table$sound.files)
 
 st <- selection_table(X = lbh_selec_table, extended = TRUE, 
-confirm.extended = FALSE, by.song = "song")
+confirm.extended = FALSE, by.song = "song", path = tempdir())
 }
 
 }
@@ -138,5 +136,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{checkwavs}}, \href{https://marce10.github.io/2018/05/15/Extended_selection_tables.html}{blog post on extended selection tables}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

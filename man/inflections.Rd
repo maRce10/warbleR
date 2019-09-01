@@ -25,17 +25,15 @@ The function counts the number of inflections in a frequency contour.
 }
 \examples{
 {
-# Set temporary working directory
-
 # get warbleR sound file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav") 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
 
 # measure frequency contours
-dom.freq.ts <- dfts(X = lbh_selec_table)
+dom.freq.ts <- dfts(X = lbh_selec_table, path = tempdir())
 
 # get number of inflections
 inflections(X = dom.freq.ts)
@@ -51,5 +49,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{dfts}}, \code{\link{trackfreqs}},
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

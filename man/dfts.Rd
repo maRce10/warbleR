@@ -104,23 +104,22 @@ measures. If there are no frequencies above the amplitude threshold at the begin
 }
 \examples{
 {
-# set the temp directory
-# setwd(tempdir())
-
 #load data
 data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long2, "Phae.long2.wav") #save sound files 
-writeWave(Phae.long1, "Phae.long1.wav")
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 
 # run function 
-dfts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE)
+dfts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE,
+ path = tempdir())
 
 # note a NA in the row 4 column 3 (dfreq-1)
 # this can be removed by clipping edges (removing NAs at the start and/or end 
 # when no freq was detected) 
 
 dfts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), wl = 300, pb = FALSE, 
-clip.edges = TRUE)
+clip.edges = TRUE, 
+path = tempdir())
 }
 
 }
@@ -140,6 +139,6 @@ Other spectrogram creators: \code{\link{color.spectro}},
   \code{\link{trackfreqs}}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
 \concept{spectrogram creators}

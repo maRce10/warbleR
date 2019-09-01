@@ -52,32 +52,33 @@ This function subsets selections (or sound files if \code{lspec} is \code{TRUE})
 }
 \examples{
 \dontrun{ 
-# First set temporary folder
-# setwd(tempdir())
-
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "lbh_selec_table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 
 specreator(lbh_selec_table, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1), 
-picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300)
+picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300, path = tempdir())
 
-#go to the working directory and delete some images
+#go to the working directory (tempdir()) and delete some images
 
 #filter selection data frame
-fmloc <- filtersels(X = lbh_selec_table)
+fmloc <- filtersels(X = lbh_selec_table, path = tempdir())
 
 #this data frame does not have the selections corresponding to the images that were deleted
 fmloc
 
 #now using lspec images
-lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, ovlp = 10)
+lspec(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, ovlp = 10, 
+path = tempdir())
 
-#go to the working directory and delete lspec images (the ones with several rows of spectrograms)
+# go to the working directory (tempdir()) and delete lspec 
+# images (the ones with several rows of spectrograms)
 
 #filter selection data frame
+fmloc2 <- filtersels(X = lbh_selec_table, lspec = TRUE, 
+path = tempdir())
 
 }
 
@@ -88,5 +89,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

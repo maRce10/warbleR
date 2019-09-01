@@ -58,24 +58,21 @@ or download the associated sound files. Complex queries can be done by using sea
 }
 \examples{
 \dontrun{
-# Set temporary working directory
-# setwd(tempdir())
-
 # search without downloading
 df1 <- querxc(qword = 'Phaethornis anthophilus', download = FALSE)
 View(df1)
 
 # downloading files
-querxc(qword = 'Phaethornis anthophilus', download = TRUE)
+querxc(qword = 'Phaethornis anthophilus', download = TRUE, path = tempdir())
 
 # check this folder
-getwd()
+tempdir()
 
 ## search using xeno-canto advance query ###
 orth.pap <- querxc(qword = 'gen:orthonyx cnt:papua loc:tari', download = FALSE)
  
 # download file using the output data frame as input
-querxc(X = orth.pap)
+querxc(X = orth.pap, path = tempdir())
 
 # use quotes for queries with more than 1 word (e.g. Costa Rica),note that the 
 # single quotes are used for the whole 'qword' and double quotes for the 2-word term inside
@@ -98,5 +95,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \href{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html}{blog post on accessing Xeno-Canto recordings}
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }

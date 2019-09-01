@@ -31,22 +31,19 @@
 #' It also returns the mean and variance for the first and second derivatives of the coefficients. These parameters are commonly used in acoustic signal processing and detection (e.g. Salamon et al 2014). 
 #' @seealso \code{\link{fixwavs}}, \code{\link{rm_sil}}, 
 #' @examples{
-#' # Set temporary working directory
-#' # setwd(tempdir())
-#' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-#' writeWave(Phae.long1,"Phae.long1.wav")
-#' writeWave(Phae.long2,"Phae.long2.wav")
-#' writeWave(Phae.long3,"Phae.long3.wav")
-#' writeWave(Phae.long4,"Phae.long4.wav")
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' # run function
-#' mel_st <- mfcc_stats(X = lbh_selec_table, pb = FALSE)
+#' mel_st <- mfcc_stats(X = lbh_selec_table, pb = FALSE, path = tempdir())
 #' 
 #' head(mel_st)
 #' 
 #' # measure 12 coefficients 
-#' mel_st12 <- mfcc_stats(X = lbh_selec_table, numcep = 12, pb = FALSE)
+#' mel_st12 <- mfcc_stats(X = lbh_selec_table, numcep = 12, pb = FALSE, path = tempdir())
 #'
 #'  head(mel_st)
 #' }
@@ -57,15 +54,11 @@
 #' 
 #' Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban sound research. In Proceedings of the 22nd ACM international conference on Multimedi. 1041-1044.
 #' }
-#' @author Marcelo Araya-Salas (\email{araya-salas@@cornell.edu})
+#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on Jul-30-2018 (MAS)
 
 mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL, 
                          numcep = 25, nbands = 40, parallel = 1,  pb = TRUE, ...){
-    
-    # reset working directory 
-    wd <- getwd()
-    on.exit(setwd(wd), add = TRUE)
     
     # set pb options 
     on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -95,9 +88,9 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
         assign(names(opt.argms)[q], opt.argms[[q]])
     
     #check path to working directory
-    if (is.null(path)) path <- getwd() else {if (!dir.exists(path)) stop("'path' provided does not exist") else
-      setwd(path)
-    }  
+    if (is.null(path)) path <- getwd() else 
+      if (!dir.exists(path)) 
+        stop("'path' provided does not exist") 
     
     #if X is not a data frame
     if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -134,7 +127,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     
     if (!is_extended_selection_table(X)){
       #return warning if not all sound files were found
-      fs <- list.files(pattern = "\\.wav$", ignore.case = TRUE)
+      fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
       if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
         write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                                    ".wav file(s) not found"))
@@ -155,7 +148,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     mfcc_FUN <- function(i, X, bp, wl, numcep, nbands){
   
       # read wave file
-      r <- read_wave(X = X, index = i)
+      r <- warbleR::read_wave(X = X, path = path, index = i)
       
       # set bandpass
       if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp

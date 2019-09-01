@@ -30,23 +30,19 @@ If \code{NULL} (default) then the current working directory is used.}
 An object of class "Wave".
 }
 \description{
-\code{read_wave} A wrapper for tuneR's \code{\link[tuneR]{readWave}} function that read sound files listed within selection tables
+\code{read_wave} A wrapper for tuneR's \code{\link[tuneR]{readWave}} function that read sound files listed in data frames and selection tables
 }
 \details{
-The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files listed within selection tables
-ignores file extension mismatches, a common mistake when reading wave files. It 
+The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files listed within selection tables. It 
 is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details).
 }
 \examples{
 {
-# First set temporary folder
-# setwd(tempdir())
-
 # write wave files with lower case file extension
 data(list = c("Phae.long1"))
-writeWave(Phae.long1,"Phae.long1.wav")
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 
-read_wave(X = lbh_selec_table, index  =  1)
+warbleR::read_wave(X = lbh_selec_table, index  =  1, path = tempdir())
 }
 
 }
@@ -56,5 +52,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \author{
-Marcelo Araya-Salas (\email{araya-salas@cornell.edu})
+Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 }
