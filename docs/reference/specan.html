@@ -79,6 +79,24 @@ are provided." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -291,7 +309,7 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
 
 <span class='co'># measuring harmonic-related parameters using progress bar</span>
 <span class='no'>sp_param</span> <span class='kw'>&lt;-</span> <span class='fu'>specan</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>[<span class='fl'>1</span>:<span class='fl'>8</span>,], <span class='kw'>harmonicity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
-}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |+++++++                                           | 12% ~24s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |+++++++++++++                                     | 25% ~20s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |+++++++++++++++++++                               | 38% ~16s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |+++++++++++++++++++++++++                         | 50% ~12s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++                  | 62% ~08s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++            | 75% ~05s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~03s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 21s</div><div class='input'>
+}</div><div class='output co'>#&gt;    |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |+++++++                                           | 12% ~20s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |+++++++++++++                                     | 25% ~16s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |+++++++++++++++++++                               | 38% ~13s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |+++++++++++++++++++++++++                         | 50% ~10s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++                  | 62% ~07s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++            | 75% ~04s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~02s          </div><div class='output co'>#&gt; <span class='warning'>Warning: "interpolWin" reset to 34 : interpolation must be able to bridge merged voiced fragments</span></div><div class='output co'>#&gt;    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 17s</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

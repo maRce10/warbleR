@@ -78,6 +78,24 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -241,7 +259,7 @@ can be provided for further customization.</p>
 <span class='no'>xcorr_mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='xcorr.html'>xcorr</a></span>(<span class='no'>X</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>))</div><div class='output co'>#&gt; creating templates (step 1 of 2):
 #&gt;    |                                                  | 0 % ~calculating     |+++++++                                           | 12% ~00s             |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++                               | 38% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++                  | 62% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 #&gt; running cross-correlation (step 2 of 2):
-#&gt;    |                                                  | 0 % ~calculating     |++++++++                                          | 14% ~03s             |+++++++++++++++                                   | 29% ~02s             |++++++++++++++++++++++                            | 43% ~02s             |+++++++++++++++++++++++++++++                     | 57% ~01s             |++++++++++++++++++++++++++++++++++++              | 71% ~01s             |+++++++++++++++++++++++++++++++++++++++++++       | 86% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s</div><div class='input'>
+#&gt;    |                                                  | 0 % ~calculating     |++++++++                                          | 14% ~03s             |+++++++++++++++                                   | 29% ~03s             |++++++++++++++++++++++                            | 43% ~02s             |+++++++++++++++++++++++++++++                     | 57% ~01s             |++++++++++++++++++++++++++++++++++++              | 71% ~01s             |+++++++++++++++++++++++++++++++++++++++++++       | 86% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s</div><div class='input'>
 <span class='no'>xc.tree</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ape</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ape/topics/chronoMPL'>chronoMPL</a></span>(<span class='kw pkg'>ape</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ape/topics/as.phylo'>as.phylo</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/hclust'>hclust</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/dist'>as.dist</a></span>(<span class='fl'>1</span> - <span class='no'>xcorr_mat</span>))))
 
 <span class='no'>X</span>$<span class='no'>tip.label</span> <span class='kw'>&lt;-</span> <span class='no'>xc.tree</span>$<span class='no'>tip.label</span>
