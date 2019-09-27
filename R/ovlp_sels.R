@@ -121,7 +121,7 @@ ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE
     if (!all(priority %in% unique(X[, priority.col]))) stop("Not all levels of 'priority.col' included in 'priority'") 
   }
 
-  # relabel rows
+  # save rowname
   X$...ROWNAME... <- rownames(X) 
   
  # function that runs on a data frame for a single sound file 
@@ -261,12 +261,15 @@ if (index) return(which(!is.na(out$ovlp.sels))) else{
   # rename rows
   rownames(out) <- out$...ROWNAME...
   
+  # remove ...ROWNAME...
+  out$...ROWNAME... <- NULL
+  
   #set indx.row to NA when no ovlp.sels
   if (indx.row)
   out$indx.row[is.na(out$ovlp.sels)] <- NA
      
   # re order as in 'X' and remove ...ROWNAME... column
-  out <- out[na.omit(match(paste(X$sound.files, X$selec), paste(out$sound.files, out$selec))), names(out) != "...ROWNAME..."]
+  out <- out[na.omit(match(paste(X$sound.files, X$selec), paste(out$sound.files, out$selec))), ]
 
   return(out)   
 }

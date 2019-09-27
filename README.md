@@ -52,18 +52,6 @@ library(warbleR)
 
 ```
 
-The package vignettes provide detailed examples for most [warbleR](https://cran.r-project.org/package=warbleR) functions. You can pull up the vignettes as follows:
-
-```r
-
-vignette("warbleR_workflow_phase1")
-
-vignette("warbleR_workflow_phase2")
-
-vignette("warbleR_workflow_phase3")
-
-```
-
 For details and example usage, visit the [warbleR package website](https://marce10.github.io/warbleR/index.html).
 
 A full description of the package can be found in this [journal article](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12624/epdf).

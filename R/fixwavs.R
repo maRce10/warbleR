@@ -98,8 +98,7 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
     stop(paste(paste(c("sound.files", "check.res")[!(c("sound.files", "check.res") %in% colnames(checksels))], collapse=", "), "column(s) not found in data frame (does not seem to be the output of checksels)"))
   } else fls <- unique(files)
 
-  
-  if (length(list.files(pattern = "\\.wav$", ignore.case = TRUE)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
+  if (length(list.files(pattern = "\\.wav$", ignore.case = TRUE, path = path)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files in 'path' provided") 
   
   if (!is.null(samp.rate)) 
     if (!is.vector(samp.rate)) stop("'samp.rate' must be a numeric vector of length 1") else 
