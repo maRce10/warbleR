@@ -29,9 +29,7 @@ Most of the functions allow the parallelization of tasks, which distributes the 
 Install/load the package from CRAN as follows:
 
 ```r
-
-# From CRAN would be
-#install.packages("warbleR")
+install.packages("warbleR")
 
 #load package
 library(warbleR)
@@ -41,10 +39,6 @@ library(warbleR)
 To install the latest developmental version from [github](http://github.com/) you will need the R package [devtools](https://cran.r-project.org/package=devtools):
 
 ```r
-# From CRAN would be
-#install.packages("warbleR")
-
-# From github
 devtools::install_github("maRce10/warbleR")
 
 #load package
