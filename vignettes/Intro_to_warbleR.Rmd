@@ -486,48 +486,8 @@ The function runs much faster in the extended selection tables. Performance gain
 
 ### Sharing acoustic data
 
-This new object class allows to share complete data sets, including acoustic data. For example, the following code downloads the data used in [Araya-Salas *et al* (2017)](https://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/araya-salas_smith-vidaurre___webster_2017._table_s1._recording_metadata.xlsx) (can also be downloaded from [here](https://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/extended.selection. table.araya-salas.et.al.2017.bioacoustics.100.sels.rds)):
-
-```{r extn.sel_19}
-
-URL <- "https://marceloarayasalas.weebly.com/uploads/2/5/5/2/25524573/extended.selection.table.araya-salas.et.al.2017.bioacoustics.100.sels.rds"
-
-dat <- readRDS(gzcon(url(URL)))
-
-nrow(dat)
-
-format(object.size(dat), units = "auto")
-
-```
-
-The total size of the 100 sound files from which these selections were taken adds up to 1.1 GB. The size of the extended selection table is only 10.1 MB.
-
-This data is ready to be used:
-
-```{r, eval = F}
-sp <- specan(dat, bp = c(2, 10))
-
-head(sp)
-```
-
-```{r, extn_sel_20, echo= FALSE}
-
-sp <- specan(dat, bp = c(2, 10))
-
-kbl <- kable(sp[1:6, ], align = "c", row.names = F,  format = "html")
-
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
-
-kbl <- scroll_box(kbl, width = "740px",
-box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL)
-
-kbl
-
-```
-
-
-This format is also used by the **NatureSounds** package, which contains an extended selection table with long-billed hermit hummingbirds vocalizations from 10 different song types:
-
+This new object class allows to share complete data sets, including acoustic data. For example, the **NatureSounds** package contains an extended selection table with long-billed hermit hummingbirds vocalizations from 10 different song types:
+  
 ```{r}
 
 data("Phae.long.est")

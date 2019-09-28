@@ -2,7 +2,7 @@
 
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/warbleR)](http://www.r-pkg.org/pkg/warbleR)
-[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/warbleR)](http://www.r-pkg.org/badges/grand-total/warbleR)
+[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
 [warbleR](https://cran.r-project.org/package=warbleR) is intended to facilitate the analysis of the structure of animal acoustic signals in R. Users can collect open-access avian recordings or enter their own data into a workflow that facilitates spectrographic visualization and measurement of acoustic parameters. [warbleR](https://cran.r-project.org/package=warbleR) makes use of the fundamental sound analysis tools of the seewave package, and offers new tools for acoustic structure analysis. These tools are available for batch analysis of acoustic signals.
