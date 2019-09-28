@@ -37,6 +37,9 @@
 read_wave <- function (X, index, from = X$start[index], to = X$end[index], channel = NULL, header = FALSE, path = NULL) 
 {
   
+  # if is extended then index must be provided
+  if (is_extended_selection_table(X) & missing(index)) stop('"index" needed when an extended selection table is provided')
+  
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X), is.character(X), is.factor(X))) stop("X is not of a class 'data.frame', 'selection_table', 'extended_selection_table' or a sound file")
   

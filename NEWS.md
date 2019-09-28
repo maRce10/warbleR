@@ -1,3 +1,10 @@
+# *warbleR 1.1.17*
+
+## Changes and additions:
+
+* arguments 'custom1' and 'custom2' in autodetect() to let users enter their own data
+* new vignette 'Introduction to warbleR'
+
 # *warbleR 1.1.16*
 
 ## New functions:

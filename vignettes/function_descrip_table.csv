@@ -1,0 +1,58 @@
+Function,Obtener-preparar grabaciones,Anotar,Organizar anotaciones,Medir estructura,Verificar,Inspección visual,Análisis estadístico,Otros,Description,Works on,Output
+check_wavs,x,,,,,,,,verify if sound files can be read,multiple wave files,data frame
+consolidate,x,,,,,,,,consolidate sound files in a single folder,multiple wave files,data frame and wave files
+fix_wavs,x,,,,,,,,fix waves that cannot be read in R,multiple wave files,wave files
+mp32wav,x,,,,,,,,convert multiple mp3 files to wav format,multiple mp3 files,wave files
+quer_xc,x,,,,,,,,Search and download mp3 files from Xeno-Canto,Scientific names/data frame,mp3 files
+resample_est,x,,,,,,,,resample wave objects in ext. selection tables,extended selection tables,extended selection tables
+rm_channels,x,,,,,,,,remove channels in multiple wave files,multiple wave files,wave files
+rm_sil,x,,,,,,,,remove silences in multiple wave files,multiple wave files,wave files
+wav_dur,x,,,,,,,,measures duration in multiple wave files,multiple wave files,data frame
+wav_info,x,,,,,,,,extract recording parameters from multiple wave files,multiple wave files,data frame
+manual_loc,,x,,,,,,,manual annotation of wave files,multiple wave files,"data frame, .csv file"
+auto_detec,,x,,,,,,,automatic annotation of wave files,multiple wave files,"data frame, images"
+freq_range,,x,,x,,,,,detect frequency range in selection tables,multiple wave files,data frame
+sel_tailor,,x,x,,,,,,interactive tailoring of selections,selection tables,selection tables
+sort_colms,,,x,,,,,,order columns in an intuitive way,selection tables,selection tables
+check_sels,,,,,x,,,,double-check selection tables,selection tables,selection tables
+cut_sels,,,x,,,,,,save selections as individual wave files,selection tables,wave files
+filter_sels,,,x,,,,,,subset selection tables based on filtered image files,"selection tables, ext. selection tables, images","selection tables, ext. selection tables"
+fix_extended_selection_table,,,x,,,,,,add wave objects to extended selection tables,selection tables,extended selection tables
+is_extended_selection_table,,,,,,,,x,check if object is extended selection tables,data frame,TRUE/FALSE
+is_selection_table,,,,,,,,x,check if object is selection tables,data frame,TRUE/FALSE
+ovlp_sels,,,,,x,,,,finds (time) overlapping selections,"selection tables, ext. selection tables","selection tables, ext. selection tables"
+selection_table,,,x,,,,,,create selection tables and extended selection tables,selection tables,"selection tables, ext. selection tables"
+song_param,,,x,x,,,,,measures acoustic parameters at higher structural levels of organization,"selection tables, ext. selection tables","data frame, selection tables"
+compare_methods,,,,x,,,,,compare the performance of methods to measure acoustic structure,"selection tables, ext. selection tables",images
+dfDTW,,,,x,,,,,measures dynamic time warping (DTW) on dominant frequency contours,"selection tables, ext. selection tables","(di)similarity matrix, images"
+dfts,,,,x,,,,,mesaures dominant frequency contours,"selection tables, ext. selection tables",data frame with frequency contours
+ffDTW,,,,x,,,,,measures dynamic time warping (DTW) on fundamental frequency contours,"selection tables, ext. selection tables","(di)similarity matrix, images"
+ffts,,,,x,,,,,mesaures fundamental frequency contours,"selection tables, ext. selection tables",data framewith frequency contours
+inflections,,,,x,,,,,measures number of inflections in frequency contours,data frame with frequency contours,data frame
+mfcc_stats,,,,x,,,,,measures statistical descriptors of Mel cepstral coefficients,"selection tables, ext. selection tables",data frame
+multi_DTW,,,,x,,,,,measures dynamic time warping (DTW) on multiple contours,"selection tables, ext. selection tables",(di)similarity matrix
+sig2noise,,,,x,,,,,measures signal-to-noise ratio,"selection tables, ext. selection tables","selection tables, ext. selection tables"
+se_ts,,,,x,,,,,measures spectral entropy contours,"selection tables, ext. selection tables",data frame with frequency contours
+spec_an,,,,x,,,,,measures spectrographic parameters,"selection tables, ext. selection tables",data frame
+x_corr,,,,x,,,,,measurec spectrographic cross-correlation,"selection tables, ext. selection tables",(di)similarity matrix
+catalog,,,,,x,,,,creates spectrogram catalog,"selection tables, ext. selection tables",images
+catalog2pdf,,,,,x,,,x,convert catalogs to .pdf,images,images
+move_imgs,,,,,,,,x,moves images among folders,images,images
+snr_specs,,,,,,x,,,plots spectrograms highlighting areas where signal-to-noise ratio is measured,"selection tables, ext. selection tables",images
+spectrograms,,,,,x,x,,,create spectrogram images,"selection tables, ext. selection tables",images
+track_freqs,,,,,,x,,,create spectrogram images including frequency contours,"selection tables, ext. selection tables",images
+track_harm,,,,,,,,x,measures harmonics with highest energy,wave object,data frame with frequency contours
+xc_maps,,,,,,,,x,created maps from Xeno-Canto recordings,data frame,images
+coor_graph,,,,,,x,,,create schematic plots of coordinated signals,data frame,images
+coor_test,,,,,,,x,,test statistical significance of vocal coordination,data frame,data frame
+full_spec,,,,,x,x,,,create spectrograms of whole sound files,"multiple wave files, selection tables, ext. selection tables",images
+full_spec2pdf,,,,,x,,,x,convert full spectrograms to .pfg,images,images
+xcorr_graph,,,,,,x,,,plot results from spectrographic cross-correlation,x_corr output,images
+color_spectro,,,,,,,,x,highlight signals with colors in a spectrogram,wave object,plot in R
+freq_range_detec,,,,,,,,x,detect frequency range in wave objetcs,wave object,"data frame, plot in R"
+open_wd,,,,,,,,x,open working directory,,
+phylo_spectro,,,,,,,,x,plots phylogenetic trees with spectrograms,selection tables,plot in R
+read_wave,,,,,,,,x,read wave files and wave objects,"selection tables, ext. selection tables",wave object
+sim_songs,,,,,,,,x,simulate songs,,"wave object, wave file and selection table"
+spec_param,,,,,,,,x,creates mosaic plots with spectrograms with different display parameters,"selection tables, ext. selection tables",images
+warbleR_options,,,,,,,,x,define global parameters for warbleR functions,,

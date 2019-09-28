@@ -314,7 +314,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
     trackfreFUN <- function(X, i, mar, flim, xl, picsize, wl, wl.freq, cexlab, inner.mar, outer.mar, res, bp, cex, threshold.time, threshold.freq, pch, custom.contour){
       
       # Read sound files, initialize frequency and time limits for spectrogram
-      r <- read_wave(X = X, path = path, index = i, header = TRUE)
+      r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
       f <- r$sample.rate
       t <- c(X$start[i] - mar, X$end[i] + mar)
       
@@ -333,7 +333,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
       
       
       # read rec segment
-      r <- read_wave(X = X, path = path, index = i, from = t[1], to = t[2])
+      r <- warbleR::read_wave(X = X, path = path, index = i, from = t[1], to = t[2])
       
       #in case bp its higher than can be due to sampling rate
       if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])

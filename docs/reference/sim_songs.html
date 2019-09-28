@@ -8,21 +8,25 @@
 
 <title>Simulate animal vocalizations — sim_songs • warbleR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +34,11 @@
 
 
 
-<meta property="og:title" content="Simulate animal vocalizations — sim_songs" />
 
+<meta property="og:title" content="Simulate animal vocalizations — sim_songs" />
 <meta property="og:description" content="sim_songs simulate animal vocalizations in a wave object under brownian motion frequency drift." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -45,6 +50,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -63,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
       </span>
     </div>
 
@@ -71,7 +77,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -85,6 +91,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Intro_to_warbleR.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
     <li>
       <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
     </li>
@@ -100,7 +109,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -110,6 +118,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -121,16 +130,14 @@
     </div>
 
     <div class="ref-description">
-    
     <p><code>sim_songs</code> simulate animal vocalizations in a wave object under brownian motion frequency drift.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>durs</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>amps</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>), <span class='kw'>gaps</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>freqs</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+    <pre class="usage"><span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>durs</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>amps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>), <span class='kw'>gaps</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>freqs</span> <span class='kw'>=</span> <span class='fl'>5</span>,
 <span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>sig2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bgn</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>diff_fun</span> <span class='kw'>=</span> <span class='st'>"GBM"</span>,
 <span class='kw'>fin</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>fout</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"linear"</span>, <span class='kw'>selec_table</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
 <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -169,7 +176,7 @@ It should either be a single value (which would  be used for all subunits) or a 
     <tr>
       <th>sig2</th>
       <td><p>Numeric vector of length 1 defining the sigma value of the brownian motion model. Higher values will produce faster 
-frequency modulations. Ignored if <code>diff_fun == "BB"</code>. Default is 0.1. Check the <code><a href='https://www.rdocumentation.org/packages/Sim.DiffProc/topics/ABM'>BB</a></code> 
+frequency modulations. Ignored if <code>diff_fun == "BB"</code>. Default is 0.1. Check the <code><a href='https://rdrr.io/pkg/Sim.DiffProc/man/ABM.html'>BB</a></code> 
 for more details.</p></td>
     </tr>
     <tr>
@@ -185,12 +192,12 @@ noise at the same amplitude than the song subunits. Default is 0.5.</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>Numeric vector of length 1. This allows users to get the same results in different runs (using  <code><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></code> internally). Default is <code>NULL</code>.</p></td>
+      <td><p>Numeric vector of length 1. This allows users to get the same results in different runs (using  <code><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></code> internally). Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>diff_fun</th>
       <td><p>Character vector of length 1 controlling the function used to simulate the brownian motion process of 
-frequency drift across time. Only "BB" and "GBM" are accepted at this time.Check the <code><a href='https://www.rdocumentation.org/packages/Sim.DiffProc/topics/ABM'>BB</a></code> 
+frequency drift across time. Only "BB" and "GBM" are accepted at this time.Check the <code><a href='https://rdrr.io/pkg/Sim.DiffProc/man/ABM.html'>BB</a></code> 
 for more details.</p></td>
     </tr>
     <tr>
@@ -224,24 +231,20 @@ is saved as a ".wav" file in the working directory. Default is <code>FALSE</code
 If <code>NULL</code> (default) then the current working directory is used.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A wave object containing the simulated songs. If 'selec_table' is <code>TRUE</code> the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This functions uses a brownian motion stochastic process to simulate animal vocalizations (i.e. frequency traces across time). 
 Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='querxc.html'>querxc</a></code> for for downloading bird vocalizations from an online repository.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
@@ -249,13 +252,13 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
  <span class='no'>sm_sng</span> <span class='kw'>&lt;-</span> <span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
  <span class='co'># plot spectro</span>
- <span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/seewave/topics/spectro'>spectro</a></span>(<span class='no'>sm_sng</span>)
+ <span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span>(<span class='no'>sm_sng</span>)
 
  <span class='co'># simulate a song with 5 elements and 2 extra harmonics</span>
 <span class='no'>sm_sng2</span> <span class='kw'>&lt;-</span> <span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
  <span class='co'># plot spectro</span>
- <span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/seewave/topics/spectro'>spectro</a></span>(<span class='no'>sm_sng2</span>)
+ <span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span>(<span class='no'>sm_sng2</span>)
 }</div><div class='img'><img src='sim_songs-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='sim_songs-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
@@ -263,15 +266,10 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -280,19 +278,23 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Marcelo Araya-Salas, Grace Smith-Vidaurre.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

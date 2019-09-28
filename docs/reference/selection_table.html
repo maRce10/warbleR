@@ -8,21 +8,25 @@
 
 <title>Create 'selection_table' and 'extended_selection_table' objects — selection_table • warbleR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +34,11 @@
 
 
 
-<meta property="og:title" content="Create 'selection_table' and 'extended_selection_table' objects — selection_table" />
 
+<meta property="og:title" content="Create 'selection_table' and 'extended_selection_table' objects — selection_table" />
 <meta property="og:description" content="selection_table converts data frames into an object of classes 'selection_table' or 'extended_selection_table'." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -45,6 +50,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -63,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
       </span>
     </div>
 
@@ -71,7 +77,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -85,6 +91,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Intro_to_warbleR.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
     <li>
       <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
     </li>
@@ -100,7 +109,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -110,6 +118,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -121,15 +130,13 @@
     </div>
 
     <div class="ref-description">
-    
     <p><code>selection_table</code> converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>selection_table</span>(<span class='no'>X</span>, <span class='kw'>max.dur</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>whole.recs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
 <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>by.song</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
 <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -205,7 +212,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 checking routine.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class selection_table which includes the original data frame plus the following additional attributes:</p><ul>
@@ -215,7 +222,6 @@ errors due to missing or mislabeled data, or selection out of the ranges of the 
 <li><p>3) If a extended selection table is created a list containing the wave objects for each selection (or song if 'by.song').</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function creates and object of class 'selection_table' or 'extended_selection_table' (if <code>extended = TRUE</code>, see below). First, the function checks:</p><ul>
@@ -232,79 +238,71 @@ The 'selection_table' class can be input in subsequent functions.</p>
 will also contains the wave objects for each of the selections in the data frame.
 This transforms selection tables into self-contained objects as they no longer need the original
 sound files to run acoustic analysis. This can largely faciliate the storing and sharing of (bio)acoustic data.
-Extended selection table size will be a function of the number of selections <code><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow(X)</a></code>, sampling rate, selection 
+Extended selection table size will be a function of the number of selections <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(X)</a></code>, sampling rate, selection 
 duration and margin duration. As a guide, a selection table
 with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.15
  seconds) at 22.5 kHz sampling rate and the default margin (<code>mar = 0.1</code>) 
  will generate a extended selection table of ~31 MB (~310 MB for a 10000 rows 
  selection table). You can check the size of the output extended selection table
- with the <code><a href='https://www.rdocumentation.org/packages/utils/topics/object.size'>object.size</a></code> function. Note that extended selection table created 'by.song' could be 
+ with the <code><a href='https://rdrr.io/r/utils/object.size.html'>object.size</a></code> function. Note that extended selection table created 'by.song' could be 
  considerable larger.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='checkwavs.html'>checkwavs</a></code>, <a href='https://marce10.github.io/2018/05/15/Extended_selection_tables.html'>blog post on extended selection tables</a></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>,
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>,
 <span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
 
 <span class='co'># make selection table</span>
-<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
+<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
 <span class='fu'><a href='is_selection_table.html'>is_selection_table</a></span>(<span class='no'>st</span>)
 
 <span class='co'>#' # make extended selection table</span>
 <span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
 <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
+<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
 <span class='fu'><a href='is_extended_selection_table.html'>is_extended_selection_table</a></span>(<span class='no'>st</span>)
 
 <span class='co'>### make extended selection by song  </span>
 <span class='co'># create a song variable</span>
-<span class='no'>lbh_selec_table</span>$<span class='no'>song</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric</a></span>(<span class='no'>lbh_selec_table</span>$<span class='no'>sound.files</span>)
+<span class='no'>lbh_selec_table</span>$<span class='no'>song</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>lbh_selec_table</span>$<span class='no'>sound.files</span>)
 
 <span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>by.song</span> <span class='kw'>=</span> <span class='st'>"song"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>())
+<span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>by.song</span> <span class='kw'>=</span> <span class='st'>"song"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 }</div><div class='output co'>#&gt; checking selections (step 1 of 2):
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #&gt; all selections are OK 
 #&gt; checking selections (step 1 of 2):
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #&gt; all selections are OK 
 #&gt; saving wave objects into extended selection table (step 2 of 2):
-#&gt;    |                                                  | 0 % ~calculating     |+++++                                             | 9 % ~00s             |++++++++++                                        | 18% ~00s             |++++++++++++++                                    | 27% ~00s             |+++++++++++++++++++                               | 36% ~00s             |+++++++++++++++++++++++                           | 45% ~00s             |++++++++++++++++++++++++++++                      | 55% ~00s             |++++++++++++++++++++++++++++++++                  | 64% ~00s             |+++++++++++++++++++++++++++++++++++++             | 73% ~00s             |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt;   |                                                  | 0 % ~calculating    |+++++                                             | 9 % ~00s            |++++++++++                                        | 18% ~00s            |++++++++++++++                                    | 27% ~00s            |+++++++++++++++++++                               | 36% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++++                  | 64% ~00s            |+++++++++++++++++++++++++++++++++++++             | 73% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #&gt; checking selections (step 1 of 2):
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #&gt; all selections are OK 
 #&gt; saving wave objects into extended selection table (step 2 of 2):
-#&gt;    |                                                  | 0 % ~calculating     |+++++++++++++                                     | 25% ~00s             |+++++++++++++++++++++++++                         | 50% ~00s             |++++++++++++++++++++++++++++++++++++++            | 75% ~00s             |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s</div><div class='input'>
+#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -313,19 +311,23 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Marcelo Araya-Salas, Grace Smith-Vidaurre.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

@@ -135,11 +135,11 @@
 #last modification on jul-5-2016 (MAS)
 
 autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth = NULL, power = 1, 
-                    bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 
-                    ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
-                    img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1, 
-                    path = NULL, pb = TRUE, pal = reverse.gray.colors.2,
-                    fast.spec = FALSE, ...){
+                      bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, flim = c(0,22), 
+                      ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
+                      img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1, 
+                      path = NULL, pb = TRUE, pal = reverse.gray.colors.2,
+                      fast.spec = FALSE, ...){
   
   
   # reset working directory 
@@ -172,7 +172,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   #check path if not provided set to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) stop("'path' provided does not exist") 
-
+  
   #if files not found
   if (length(list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files found") 
   
@@ -190,7 +190,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   if (!is.null(msmooth)) {
     if (!is.vector(msmooth)) stop("'msmooth' must be a numeric vector of length 2") else {
       if (!length(msmooth) == 2) stop("'msmooth' must be a numeric vector of length 2")}}   
-
+  
   #if ssmooth is not vector or length!=1 stop
   if (!is.null(ssmooth)) {
     if (!is.vector(ssmooth)) stop("'ssmooth' must be a numeric vector of length 1") else {
@@ -230,11 +230,11 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   if (is.null(threshold))  stop("'threshold' must be a numeric vector of length 1") else {
     if (!is.vector(threshold)) stop("'threshold' must be a numeric vector of length 1") else{
       if (!length(threshold) == 1) stop("'threshold' must be a numeric vector of length 1")}}  
- 
+  
   #if flist is not character vector
   if (!is.null(flist) & is.null(X) & any(!is.character(flist), !is.vector(flist))) stop("'flist' must be a character vector") 
   
-   #if parallel is not numeric
+  #if parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
@@ -269,7 +269,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     #check if all columns are found
     if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
       stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
-        "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+                                                                     "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
     
     #if there are NAs in start or end stop
     if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
@@ -284,142 +284,142 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
-                    ".wav file(s) not found"))
+                ".wav file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% fs) 
     if (length(d) == 0) stop("The .wav files are not in the working directory") else X <- X[d,]  
-  xprov <- T #to replace X if not provided
-     } else  { 
-       if (!is.null(flist)) X <- warbleR::wavdur(files = flist, path = path) else
-         X <- warbleR::wavdur(path = path)
-  X$start <- 0
-  X$selec <- 1
-  names(X)[2] <- "end"  
-  xprov <- F #to replace X if not provided
-  if (nrow(X) == 0) stop("Files in 'flist' not in working directory")
+    xprov <- T #to replace X if not provided
+  } else  { 
+    if (!is.null(flist)) X <- warbleR::wavdur(files = flist, path = path) else
+      X <- warbleR::wavdur(path = path)
+    X$start <- 0
+    X$selec <- 1
+    names(X)[2] <- "end"  
+    xprov <- F #to replace X if not provided
+    if (nrow(X) == 0) stop("Files in 'flist' not in working directory")
   }
-    
-    #redo the ones that have no images in folder
+  
+  #redo the ones that have no images in folder
   if (!redo) {
     imgfs <- list.files(path = path, pattern = "\\.jpeg$|\\.tiff$")
     done <- sapply(1:nrow(X), function(x){
       any(grep(paste(gsub(".wav","", X$sound.files[x]),X$selec[x], sep = "-"), imgfs,  invert = FALSE))
-      })
+    })
     X <- X[!done, ]
     if (nrow(X) == 0) stop("All selections have been analyzed (redo = FALSE)")
-    }    
+  }    
   
-      # if parallel was not called 
-    if (pb) if (!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
-      cat("Detecting signals in sound files:")
-    
+  # if parallel was not called 
+  if (pb) if (!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
+    cat("Detecting signals in sound files:")
+  
   #create function to detec signals          
   adFUN <- function(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
   {
-     song <- warbleR::read_wave(X = X, path = path, index = i)
-         
-     if (length(song@left) > wl + 2)
+    song <- warbleR::read_wave(X = X, path = path, index = i)
+    
+    if (length(song@left) > wl + 2)
     { 
-    f <- song@samp.rate
-    fl<- flim #in case flim is higher than can be due to sampling rate
-    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
-    
-    #filter frequnecies below 1000 Hz
-    if (!is.null(bp))
-    f.song<-seewave::ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = TRUE, wl = wl, output="Wave") else
-    f.song<-song
-    
-    #detect songs based on amplitude (modified from seewave::timer function)
-    input <- seewave::inputw(wave = f.song, f = f)
-    wave <- input$w
-    f <- input$f
-    rm(input)
-    n <- length(wave)
-    thres <- threshold/100
-    wave1 <- seewave::env(wave = wave, f = f, msmooth = msmooth, ssmooth = ssmooth,  
-                 envt = envt, norm = TRUE, plot = FALSE)
-    
-    n1 <- length(wave1)
-    f1 <- f * (n1/n)
-    if (power != 1) 
-      wave1 <- wave1^power
-    wave2 <- ifelse(wave1 <= thres, yes = 1, no = 2)
-    n2 <- length(wave2)
-    wave4 <- apply(as.matrix(1:(n2 - 1)), 1, function(x) wave2[x] + 
-                     wave2[x + 1])
-    n4 <- length(wave4)
-    wave4[c(1, n4)] <- 3
-    wave5 <- which(wave4 == 3)
-    wave5[-1] <- wave5[-1] + 1
-    f4 <- f * (n4/n)
-    wave4 <- ts(wave4, start = 0, end = n4/f4, frequency = f4)
-    positions <- time(wave4)[wave5]
-    npos <- length(positions)
-    durations <- apply(as.matrix(1:(npos - 1)), 1, function(x) positions[x + 
-                                                                           1] - positions[x])
-    if (wave2[1] == 1 & npos > 2) {
-      signal <- durations[seq(2, npos - 1, by = 2)]
-      start.signal <- positions[seq(2, npos - 1, by = 2)]
-    }  else {
-      signal <- durations[seq(1, npos - 1, by = 2)]
-      start.signal <- positions[seq(1, npos - 1, by = 2)]
+      f <- song@samp.rate
+      fl<- flim #in case flim is higher than can be due to sampling rate
+      if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+      
+      #filter frequnecies below 1000 Hz
+      if (!is.null(bp))
+        f.song<-seewave::ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = TRUE, wl = wl, output="Wave") else
+          f.song<-song
+      
+      #detect songs based on amplitude (modified from seewave::timer function)
+      input <- seewave::inputw(wave = f.song, f = f)
+      wave <- input$w
+      f <- input$f
+      rm(input)
+      n <- length(wave)
+      thres <- threshold/100
+      wave1 <- seewave::env(wave = wave, f = f, msmooth = msmooth, ssmooth = ssmooth,  
+                            envt = envt, norm = TRUE, plot = FALSE)
+      
+      n1 <- length(wave1)
+      f1 <- f * (n1/n)
+      if (power != 1) 
+        wave1 <- wave1^power
+      wave2 <- ifelse(wave1 <= thres, yes = 1, no = 2)
+      n2 <- length(wave2)
+      wave4 <- apply(as.matrix(1:(n2 - 1)), 1, function(x) wave2[x] + 
+                       wave2[x + 1])
+      n4 <- length(wave4)
+      wave4[c(1, n4)] <- 3
+      wave5 <- which(wave4 == 3)
+      wave5[-1] <- wave5[-1] + 1
+      f4 <- f * (n4/n)
+      wave4 <- ts(wave4, start = 0, end = n4/f4, frequency = f4)
+      positions <- time(wave4)[wave5]
+      npos <- length(positions)
+      durations <- apply(as.matrix(1:(npos - 1)), 1, function(x) positions[x + 
+                                                                             1] - positions[x])
+      if (wave2[1] == 1 & npos > 2) {
+        signal <- durations[seq(2, npos - 1, by = 2)]
+        start.signal <- positions[seq(2, npos - 1, by = 2)]
+      }  else {
+        signal <- durations[seq(1, npos - 1, by = 2)]
+        start.signal <- positions[seq(1, npos - 1, by = 2)]
+      }
+      aut.det <- list(s = signal, s.start = start.signal)
+      
+      #put time of detection in data frame
+      time.song <- data.frame(sound.files = X$sound.files[i], duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
+      
+      #remove signals based on duration  
+      if (!is.null(mindur)) time.song <-time.song[time.song$duration > mindur,]
+      if (!is.null(maxdur)) time.song <-time.song[time.song$duration < maxdur,]
+      
+      if (nrow(time.song) > 0) 
+      {if (xprov) time.song$selec <- paste(X$selec[i], 1:nrow(time.song), sep = "-") else
+        time.song$selec <- 1:nrow(time.song)}
+      
+      #if nothing was detected
+      if (nrow(time.song)==0)
+        time.song <- data.frame(sound.files = X$sound.files[i], duration = NA,selec = NA,start = NA, end = NA) 
+      
+      time.song1 <- time.song
+      
+      time.song$start[is.na(time.song$start)] <- -2
+      time.song$start[is.na(time.song$start)] <- -1
+      
+      
+      if (!ls & img & nrow(time.song) > 0) {
+        if (set) 
+          fna <- paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+                       "-", X$selec[i], "-autodetec","-th" ,threshold , "-env.", envt,"-bp", bp[1],".",bp[2], "-smo", smo, "-midu", mindur,
+                       "-mxdu", maxdur, "-pw", power, sep = "") else
+                         fna <- paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
+                                      "-", X$selec[i], "-autodetec", sep = "")  
+                       
+                       img_wrlbr_int(filename = paste(fna, paste0(".", it), sep = "-"), path = path, res = res, units = "cm", width = (10.16) * xl * picsize, height = (10.16) * picsize)
+                       
+                       spectro_wrblr_int(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,  colwave = "#07889B", fast.spec = fast.spec,
+                                         scale = FALSE, palette = pal, flim = fl, ...)
+                       rm(song)
+                       if (nrow(time.song)>0)
+                       {sapply(1:nrow(time.song), function(j)  abline(v = c(time.song$start[j]-X$start[i], time.song$end[j] - X$start[i]),col = adjustcolor("#E37222", alpha.f = 0.7), lwd = 2, lty = "dotted"))
+                         
+                         sapply(1:nrow(time.song), function(j)  text(time.song$start[j]+time.song$duration[j]/2-X$start[i],
+                                                                     rep(c(((fl[2]-fl[1])*0.85)+fl[1],((fl[2]-fl[1])*0.9)+fl[1],((fl[2]-fl[1])*0.95)+fl[1]),
+                                                                         nrow(time.song))[j],paste(X$selec[i], j, sep = "-"),cex=1))} 
+                       
+                       
+                       
+                       dev.off()
+      }  
     }
-    aut.det <- list(s = signal, s.start = start.signal)
-    
-    #put time of detection in data frame
-    time.song <- data.frame(sound.files = X$sound.files[i], duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
-   
-    #remove signals based on duration  
-    if (!is.null(mindur)) time.song <-time.song[time.song$duration > mindur,]
-    if (!is.null(maxdur)) time.song <-time.song[time.song$duration < maxdur,]
-    
-    if (nrow(time.song) > 0) 
-    {if (xprov) time.song$selec <- paste(X$selec[i], 1:nrow(time.song), sep = "-") else
-      time.song$selec <- 1:nrow(time.song)}
-   
-    #if nothing was detected
-    if (nrow(time.song)==0)
-      time.song <- data.frame(sound.files = X$sound.files[i], duration = NA,selec = NA,start = NA, end = NA) 
-    
-    time.song1 <- time.song
-    
-    time.song$start[is.na(time.song$start)] <- -2
-    time.song$start[is.na(time.song$start)] <- -1
     
     
-    if (!ls & img & nrow(time.song) > 0) {
-      if (set) 
-        fna <- paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                   "-", X$selec[i], "-autodetec","-th" ,threshold , "-env.", envt,"-bp", bp[1],".",bp[2], "-smo", smo, "-midu", mindur,
-                   "-mxdu", maxdur, "-pw", power, sep = "") else
-        fna <- paste(substring(X$sound.files[i], first = 1, last = nchar(as.character(X$sound.files[i]))-4),
-                "-", X$selec[i], "-autodetec", sep = "")  
-                   
-        img_wrlbr_int(filename = paste(fna, paste0(".", it), sep = "-"), path = path, res = res, units = "cm", width = (10.16) * xl * picsize, height = (10.16) * picsize)
-        
-     spectro_wrblr_int(song, f = f, wl = wl, collevels=seq(-45,0,1),grid = FALSE, main = as.character(X$sound.files[i]), osc = osci,  colwave = "#07889B", fast.spec = fast.spec,
-              scale = FALSE, palette = pal, flim = fl, ...)
-      rm(song)
-      if (nrow(time.song)>0)
-      {sapply(1:nrow(time.song), function(j)  abline(v = c(time.song$start[j]-X$start[i], time.song$end[j] - X$start[i]),col = adjustcolor("#E37222", alpha.f = 0.7), lwd = 2, lty = "dotted"))
-    
-      sapply(1:nrow(time.song), function(j)  text(time.song$start[j]+time.song$duration[j]/2-X$start[i],
-                                                 rep(c(((fl[2]-fl[1])*0.85)+fl[1],((fl[2]-fl[1])*0.9)+fl[1],((fl[2]-fl[1])*0.95)+fl[1]),
-                                                     nrow(time.song))[j],paste(X$selec[i], j, sep = "-"),cex=1))} 
-    
-    
-
- dev.off()
- }  
-  }
- 
-  
     #remove duration column
-  time.song1 <- time.song1[,grep("duration",colnames(time.song1), invert = TRUE)]
-  
-  return(time.song1)
-  on.exit(rm(time.song1))
+    time.song1 <- time.song1[,grep("duration",colnames(time.song1), invert = TRUE)]
+    
+    return(time.song1)
+    on.exit(rm(time.song1))
   }
   
   #Apply over each sound file
@@ -441,7 +441,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   if (!is.null(ssmooth) & !is.null(smadj))
   {if (smadj == "start" | smadj == "both") results$start <- results$start-((threshold*2.376025e-07)-1.215234e-05)*ssmooth 
   if (smadj == "end" | smadj == "both")  results$end <- results$end-((threshold*-2.369313e-07)+1.215129e-05)*ssmooth }  
-
+  
   results1 <- results
   
   #remove NAs so the ones with no detections are printed
@@ -450,20 +450,20 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   
   # long spectrograms
   if (ls & img) {  
-   if (any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("Producing long spectrogram:")
+    if (any(parallel == 1, Sys.info()[1] == "Linux") & pb) cat("Producing long spectrogram:")
     
     #function for long spectrograms (based on lspec function)
     lspeFUN2 <- function(X, z, fl = flim, sl = sxrow, li = rows, fli = fli, pal, fast.spec) {
-    #subset for a sound file    
-    Y <- X[!is.na(X$start) & X$sound.files == z, ]
+      #subset for a sound file    
+      Y <- X[!is.na(X$start) & X$sound.files == z, ]
       
-     #reset graphic parameters    
-       collev = seq(-40, 0, 1)
-       gr = FALSE
-       cex = 1
-         
+      #reset graphic parameters    
+      collev = seq(-40, 0, 1)
+      gr = FALSE
+      cex = 1
+      
       #loop to print spectros (modified from lspec function)
-      rec <- warbleR::read_wave(z) #read wave file 
+      rec <- warbleR::read_wave(z, path = path) #read wave file 
       f <- rec@samp.rate #set sampling rate
       frli<- fl #in case flim is higher than can be due to sampling rate
       if (frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
@@ -477,19 +477,19 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
       for (j in 1:ceiling(dur/(li*sl))){
         if (set) fna<-paste(substring(z, first = 1, last = nchar(as.character(z))-4),
                             "-autodetec.ls","-th" ,threshold , "-env.", envt, "-bp", bp[1],".",bp[2], "-smo", smo, "-midu", mindur,
-                           "-mxdu", maxdur, "-pw", power, sep = "") else
-        fna <- paste(substring(z, first = 1, last = nchar(as.character(z))-4), "-autodetec.ls", sep = "")
-          
-      img_wrlbr_int(filename = paste(fna, "-p", j, ".tiff", sep = ""),  path = path, res = 160, units = "in", width = 8.5, height = 11)
-                           
-        par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
-        
-        #creates spectrogram rows
-        x <- 0
-        while(x <= li-1){
-          x <- x + 1
+                            "-mxdu", maxdur, "-pw", power, sep = "") else
+                              fna <- paste(substring(z, first = 1, last = nchar(as.character(z))-4), "-autodetec.ls", sep = "")
+                            
+                            img_wrlbr_int(filename = paste(fna, "-p", j, ".tiff", sep = ""),  path = path, res = 160, units = "in", width = 8.5, height = 11)
+                            
+                            par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
+                            
+                            #creates spectrogram rows
+                            x <- 0
+                            while(x <= li-1){
+                              x <- x + 1
           if (all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1) < dur)){  #for rows with complete spectro
-            spectro_wrblr_int(rec, f = f, wl = 512, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = TRUE,
+            spectro_wrblr_int(rec, f = f, wl = wl, flim = frli, tlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = TRUE,
                     fast.spec = fast.spec, ...)
             if (x == 1)  text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1, 
        last = nchar(as.character(z))-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
@@ -504,7 +504,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   if (all(((x)*sl+li*(sl)*(j-1))-sl < dur & (x)*sl+li*(sl)*(j-1) > dur)){ 
     spectro_wrblr_int(seewave::pastew(seewave::noisew(f = f, d = (x)*sl+li*(sl)*(j-1)-dur+1, type = "unif",   
     listen = FALSE,  output = "Wave"), seewave::cutw(wave = rec, f = f, from = ((x)*sl+li*(sl)*(j-1))-sl,
-     to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = 512, flim = frli, 
+     to = dur, output = "Wave"), f =f,  output = "Wave"), f = f, wl = wl, flim = frli, 
      tlim = c(0, sl), collevels = collev, grid = gr, scale = FALSE, palette = pal, axisX = FALSE, fast.spec = fast.spec, ...)
                                        
     if (x == 1)  text((sl-0.01*sl) + (li*sl)*(j - 1), frli[2] - (frli[2]-frli[1])/10, paste(substring(z, first = 1,                                                                                              last = nchar(as.character(z))-4), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)

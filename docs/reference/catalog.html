@@ -8,21 +8,25 @@
 
 <title>Create catalog of vocal signals — catalog • warbleR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +34,11 @@
 
 
 
-<meta property="og:title" content="Create catalog of vocal signals — catalog" />
 
+<meta property="og:title" content="Create catalog of vocal signals — catalog" />
 <meta property="og:description" content="catalog produces spectrograms of selections (signals) split into multiple rows and columns." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -45,6 +50,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -63,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
       </span>
     </div>
 
@@ -71,7 +77,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -85,6 +91,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Intro_to_warbleR.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
     <li>
       <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
     </li>
@@ -100,7 +109,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -110,6 +118,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -121,22 +130,20 @@
     </div>
 
     <div class="ref-description">
-    
     <p><code>catalog</code> produces spectrograms of selections (signals) split into multiple rows and columns.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>catalog</span>(<span class='no'>X</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>same.time.scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>collevels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>40</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>prop.mar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>catalog</span>(<span class='no'>X</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>same.time.scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+<span class='kw'>collevels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>40</span>, <span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>prop.mar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
 <span class='kw'>lab.mar</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>gr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>,
 <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-<span class='kw'>orientation</span> <span class='kw'>=</span> <span class='st'>"v"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tags</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tag.pal</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>temp.colors</span>, <span class='no'>heat.colors</span>, <span class='no'>topo.colors</span>),
+<span class='kw'>orientation</span> <span class='kw'>=</span> <span class='st'>"v"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>), <span class='kw'>height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tags</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tag.pal</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>temp.colors</span>, <span class='no'>heat.colors</span>, <span class='no'>topo.colors</span>),
 <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>leg.wd</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img.prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>tag.widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>hatching</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>5</span>), <span class='kw'>group.tag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>tag.widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>hatching</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>5</span>), <span class='kw'>group.tag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
 <span class='kw'>spec.mar</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>spec.bg</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>max.group.cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sub.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
 <span class='kw'>rm.axes</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>by.row</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>box</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -149,7 +156,7 @@ and start and end time of signal (start and end). Default is <code>NULL</code>.<
       <th>flim</th>
       <td><p>A numeric vector of length 2 indicating the highest and lowest 
 frequency limits (kHz) of the spectrogram, as in 
-<code><a href='https://www.rdocumentation.org/packages/seewave/topics/spectro'>spectro</a></code>. Default is c(0,22).</p></td>
+<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is c(0,22).</p></td>
     </tr>
     <tr>
       <th>nrow</th>
@@ -174,7 +181,7 @@ similar to other acoustic analysis software packages.</p></td>
     <tr>
       <th>ovlp</th>
       <td><p>Numeric vector of length 1 specifying % of overlap between two 
-consecutive windows, as in <code><a href='https://www.rdocumentation.org/packages/seewave/topics/spectro'>spectro</a></code>. Default is 50. High values of ovlp 
+consecutive windows, as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is 50. High values of ovlp 
 slow down the function but produce more accurate selection limits (when X is provided).</p></td>
     </tr>
     <tr>
@@ -205,7 +212,7 @@ is 512.</p></td>
     </tr>
     <tr>
       <th>wn</th>
-      <td><p>Character vector of length 1 specifying the window function name. See <code><a href='https://www.rdocumentation.org/packages/seewave/topics/ftwindow'>ftwindow</a></code>
+      <td><p>Character vector of length 1 specifying the window function name. See <code><a href='https://rdrr.io/pkg/seewave/man/ftwindow.html'>ftwindow</a></code>
 for name options. Default is "hanning".</p></td>
     </tr>
     <tr>
@@ -215,7 +222,7 @@ for name options. Default is "hanning".</p></td>
     <tr>
       <th>pal</th>
       <td><p>Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
-<code><a href='https://www.rdocumentation.org/packages/seewave/topics/spectro'>spectro</a></code> for more palettes. Palettes as <code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>gray.2</a></code> may work better when <code>fast.spec = TRUE</code>.</p></td>
+<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code> for more palettes. Palettes as <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code> may work better when <code>fast.spec = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>it</th>
@@ -235,10 +242,10 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
       <th>fast.spec</th>
       <td><p>Logical. If <code>TRUE</code> then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-This option is indicated for signals with high background noise levels. Palette colors <code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>gray.1</a></code>, <code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>gray.2</a></code>, 
-<code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>gray.3</a></code>, <code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>topo.1</a></code> and <code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>rainbow.1</a></code> (which should be imported from the package monitoR) seem
-to work better with 'fast.spec' spectograms. Palette colors <code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>gray.1</a></code>, <code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>gray.2</a></code>, 
-<code><a href='https://www.rdocumentation.org/packages/monitoR/topics/specCols'>gray.3</a></code> offer 
+This option is indicated for signals with high background noise levels. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
+<code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>topo.1</a></code> and <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>rainbow.1</a></code> (which should be imported from the package monitoR) seem
+to work better with 'fast.spec' spectograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
+<code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code> offer 
 decreasing darkness levels.</p></td>
     </tr>
     <tr>
@@ -273,7 +280,7 @@ for vertical orientation.</p></td>
     </tr>
     <tr>
       <th>tag.pal</th>
-      <td><p>List of color palette function for tags. Should be of length 1, 2 or 3.  Default is <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(temp.colors, heat.colors, topo.colors)</a></code>.</p></td>
+      <td><p>List of color palette function for tags. Should be of length 1, 2 or 3.  Default is <code><a href='https://rdrr.io/r/base/list.html'>list(temp.colors, heat.colors, topo.colors)</a></code>.</p></td>
     </tr>
     <tr>
       <th>legend</th>
@@ -324,7 +331,7 @@ patterns are used to make tags with similar colors more distinguishable. Four va
       <th>breaks</th>
       <td><p>Numeric vector of length 1 or 2 controling the number of intervals in which a 
 numeric tag will be divided. The numbers control the first and second tags respectively. 
-Ignored if tags are not numeric. Default is <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(5, 5)</a></code>.</p></td>
+Ignored if tags are not numeric. Default is <code><a href='https://rdrr.io/r/base/c.html'>c(5, 5)</a></code>.</p></td>
     </tr>
     <tr>
       <th>group.tag</th>
@@ -337,7 +344,7 @@ This tags cannot be included in the legend so it would be better to use the labe
       <th>spec.mar</th>
       <td><p>Numeric vector of length 1 to add space at the top, left and right sides of
 the spectrogram. Useful to better display the grouping of selections when 'group.tag' is 
-provided. Internally applied for setting 'mar' using <code><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></code>.</p></td>
+provided. Internally applied for setting 'mar' using <code><a href='https://rdrr.io/r/graphics/par.html'>par</a></code>.</p></td>
     </tr>
     <tr>
       <th>spec.bg</th>
@@ -375,12 +382,11 @@ corresponding labels and tags.
 are</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Image files with spectrograms of whole sound files in the working directory. Multiple pages
 can be returned, depending on the length of each sound file.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This functions aims to simplify the visual exploration of multiple vocalizations. The function plots a
@@ -392,96 +398,26 @@ can be returned, depending on the length of each sound file.</p>
   This files can be put together in a single pdf file with <code><a href='catalog2pdf.html'>catalog2pdf</a></code>.
   We recommend using low resolution (~60-100) and smaller dimensions (width &amp; height &lt; 10) if
   aiming to generate pdfs (otherwise pdfs could be pretty big).</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='https://marce10.github.io/2017/03/17/Creating_song_catalogs.html'>blog post on catalogs</a>,
 <a href='https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html'>blog post on customizing catalogs</a>, 
 <code><a href='catalog2pdf.html'>catalog2pdf</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-# save sound file examples
-data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
- writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
- writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
-
-
-catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = T,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
- orientation = "v", labels = c("sound.files", "selec"), legend = 0, 
- path = tempdir())
- 
- #different time scales and tag palette
-catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
- orientation = "v",  labels = c("sound.files", "selec"), legend = 0, 
- tag.pal = list(terrain.colors), 
- path = tempdir())
- 
- #adding tags and changing spectro palette
-catalog(X = lbh_selec_table, flim = c(1, 10), nrow = 4, ncol = 2, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, pal = reverse.heat.colors,
- orientation = "v",  labels = c("sound.files", "selec"), legend = 1, 
- tag.pal = list(terrain.colors), tags = "sound.files", 
- path = tempdir())
-
- #create a bigger selection table
- X <- rbind(lbh_selec_table, lbh_selec_table, lbh_selec_table, lbh_selec_table)
- X <- rbind(X, X)
- 
- #create some simulated labels
- X$songtype <- sample(letters[13:15], nrow(X), replace = T)
- X$indiv <- sample(letters[1:12], nrow(X), replace = T)
-
-# 12 columns in 5 rows, 2 tags
-catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, 
- orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
- collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors), tags = c("songtype", "indiv"), 
- path = tempdir())
-
-# with legend
-catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
- orientation = "v",  labels = c("sound.files", "selec"), legend = 3, 
- width = 20, collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors),
-  tags = c("songtype", "indiv"), 
-  path = tempdir())
-  
-  # horizontal orientation
-catalog(X = X, flim = c(1, 10), nrow = 5, ncol = 12, same.time.scale = F,
- ovlp = 90, parallel = 1, mar = 0.01, wl = 200, gr = FALSE,
- orientation = "h",  labels = c("sound.files", "selec"), legend = 3, 
- width = 20, collevels = seq(-65, 0, 5), tag.pal = list(terrain.colors),
-  tags = c("songtype", "indiv"), 
-  path = tempdir())
-
-check this floder
-tempdir()
-# }
-</pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -490,19 +426,23 @@ tempdir()
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Marcelo Araya-Salas, Grace Smith-Vidaurre.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
