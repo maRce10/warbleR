@@ -28,7 +28,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \code{wpd_features} Measure wavelet packet decomposition features.
 }
 \details{
-Measures wavelet packet decomposition features. STLL IN DEVELOPMENT. USING UNDER YOUR OWN RISK.
+Measures wavelet packet decomposition features. STLL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
 }
 \examples{
 {

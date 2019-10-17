@@ -15,7 +15,7 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @export
 #' @name wpd_features
-#' @details Measures wavelet packet decomposition features. STLL IN DEVELOPMENT. USING UNDER YOUR OWN RISK.
+#' @details Measures wavelet packet decomposition features. STLL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
 #' @seealso \code{\link{mfcc_stats}}, \code{\link{mfcc_stats}}
 #' @examples 
 #' {

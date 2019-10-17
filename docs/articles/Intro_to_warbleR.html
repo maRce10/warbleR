@@ -82,7 +82,7 @@
 
       
 
-      </header><script src="Intro_to_warbleR_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1><center>
@@ -96,7 +96,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2019-09-28”
+“2019-10-17”
 </center></h4>
       
       
@@ -2218,8 +2218,6 @@ NA
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">dtw.dist &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dfDTW.html">dfDTW</a></span>(ext_st, <span class="dt">img =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb34-3" data-line-number="3">dtw.dist</a></code></pre></div>
-<pre><code>measuring dominant frequency contours (step 1 of 2):
-measuring dominant frequency:calculating DTW distances (step 2 of 2, no progress bar):</code></pre>
 <div style="border: 1px solid #ddd; padding: 1px; overflow-x: scroll; width:740px; ">
 <table class="table table table-striped">
 <thead><tr>
@@ -2688,28 +2686,28 @@ Phae.long4.wav_3-1
 <h3 class="hasAnchor">
 <a href="#performance" class="anchor"></a>Performance</h3>
 <p>The use of <em>extended_selection_table</em> objects can improve performance (in our case, measured as time). Here we use <strong>microbenchmark</strong> to compare the performance of <code><a href="../reference/sig2noise.html">sig2noise()</a></code> and <strong>ggplot2</strong> to plot the results. First, a selection table with 1000 selections is created simply by repeating the sample data frame several times and then is converted to an extended selection table:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># create long selection table</span></a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">lng.selec.table &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(rbind, <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span>(<span class="dv">10</span>, lbh_selec_table, </a>
-<a class="sourceLine" id="cb36-3" data-line-number="3">                        <span class="dt">simplify =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb36-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="co"># relabels selec</span></a>
-<a class="sourceLine" id="cb36-6" data-line-number="6">lng.selec.table<span class="op">$</span>selec &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(lng.selec.table)</a>
-<a class="sourceLine" id="cb36-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb36-8" data-line-number="8"><span class="co"># create extended selection table</span></a>
-<a class="sourceLine" id="cb36-9" data-line-number="9">lng_ext_st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selection_table.html">selection_table</a></span>(<span class="dt">X =</span> lng.selec.table, <span class="dt">pb =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb36-10" data-line-number="10">                        <span class="dt">extended =</span> <span class="ot">TRUE</span>, <span class="dt">confirm.extended =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb36-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb36-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb36-13" data-line-number="13"><span class="co"># load packages</span></a>
-<a class="sourceLine" id="cb36-14" data-line-number="14"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(microbenchmark)</a>
-<a class="sourceLine" id="cb36-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb36-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb36-17" data-line-number="17"><span class="co"># check performance</span></a>
-<a class="sourceLine" id="cb36-18" data-line-number="18">mbmrk.snr &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span>(<span class="dt">extended =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng_ext_st, </a>
-<a class="sourceLine" id="cb36-19" data-line-number="19">      <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">regular =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng.selec.table, </a>
-<a class="sourceLine" id="cb36-20" data-line-number="20">                    <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">times =</span> <span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb36-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb36-22" data-line-number="22"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(mbmrk.snr) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"sig2noise"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># create long selection table</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">lng.selec.table &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(rbind, <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span>(<span class="dv">10</span>, lbh_selec_table, </a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">                        <span class="dt">simplify =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="co"># relabels selec</span></a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">lng.selec.table<span class="op">$</span>selec &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(lng.selec.table)</a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb35-8" data-line-number="8"><span class="co"># create extended selection table</span></a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">lng_ext_st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selection_table.html">selection_table</a></span>(<span class="dt">X =</span> lng.selec.table, <span class="dt">pb =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb35-10" data-line-number="10">                        <span class="dt">extended =</span> <span class="ot">TRUE</span>, <span class="dt">confirm.extended =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb35-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb35-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb35-13" data-line-number="13"><span class="co"># load packages</span></a>
+<a class="sourceLine" id="cb35-14" data-line-number="14"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(microbenchmark)</a>
+<a class="sourceLine" id="cb35-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb35-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb35-17" data-line-number="17"><span class="co"># check performance</span></a>
+<a class="sourceLine" id="cb35-18" data-line-number="18">mbmrk.snr &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span>(<span class="dt">extended =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng_ext_st, </a>
+<a class="sourceLine" id="cb35-19" data-line-number="19">      <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">regular =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng.selec.table, </a>
+<a class="sourceLine" id="cb35-20" data-line-number="20">                    <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">times =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb35-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb35-22" data-line-number="22"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(mbmrk.snr) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"sig2noise"</span>)</a></code></pre></div>
 <p> </p>
 <p><img src="microbenchmark.png" width="700px" style="display: block; margin: auto;">  </p>
 <p>The function runs much faster in the extended selection tables. Performance gain is likely to improve when longer recordings and data sets are used (that is, to compensate for computer overload).</p>
@@ -2719,18 +2717,18 @@ Phae.long4.wav_3-1
 <h3 class="hasAnchor">
 <a href="#sharing-acoustic-data" class="anchor"></a>Sharing acoustic data</h3>
 <p>This new object class allows to share complete data sets, including acoustic data. For example, the <strong>NatureSounds</strong> package contains an extended selection table with long-billed hermit hummingbirds vocalizations from 10 different song types:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"Phae.long.est"</span>)</a>
-<a class="sourceLine" id="cb37-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb37-3" data-line-number="3">Phae.long.est</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"Phae.long.est"</span>)</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">Phae.long.est</a></code></pre></div>
 <pre><code>object of class 'extended_selection_table' 
  contains a selection table data frame with 100 rows and 8 columns: 
-                    sound.files selec start     end bottom.freq top.freq lek lek.song.type
-31 0.BR1.2012.7.27.5.55.wav_3-4     1   0.1 0.25771      2.3227   11.673 BR1        BR1-D1
-32   0.BR1.2012.7.27.5.55.wav_1     1   0.1 0.25480      2.3680   11.718 BR1        BR1-D1
-33 0.BR1.2012.7.27.5.55.wav_3-3     1   0.1 0.25556      2.5492   11.900 BR1        BR1-D1
-34   0.BR1.2012.7.27.5.55.wav_4     1   0.1 0.26021      2.6398   11.990 BR1        BR1-D1
-35 0.BR1.2012.7.27.5.55.wav_2-2     1   0.1 0.26156      2.2774   11.628 BR1        BR1-D1
-36   0.BR1.2012.7.27.5.55.wav_3     1   0.1 0.25803      2.6398   11.990 BR1        BR1-D1
+                    sound.files selec start       end bottom.freq top.freq lek lek.song.type
+31 0.BR1.2012.7.27.5.55.wav_3-4     1   0.1 0.2577134    2.322680 11.67318 BR1        BR1-D1
+32   0.BR1.2012.7.27.5.55.wav_1     1   0.1 0.2547964    2.367977 11.71848 BR1        BR1-D1
+33 0.BR1.2012.7.27.5.55.wav_3-3     1   0.1 0.2555617    2.549166 11.89967 BR1        BR1-D1
+34   0.BR1.2012.7.27.5.55.wav_4     1   0.1 0.2602050    2.639761 11.99026 BR1        BR1-D1
+35 0.BR1.2012.7.27.5.55.wav_2-2     1   0.1 0.2615598    2.277383 11.62788 BR1        BR1-D1
+36   0.BR1.2012.7.27.5.55.wav_3     1   0.1 0.2580350    2.639761 11.99026 BR1        BR1-D1
 ... and 94 more rows 
 100 wave objects (as attributes): 
 [1] "0.BR1.2012.7.27.5.55.wav_3-4" "0.BR1.2012.7.27.5.55.wav_1"   "0.BR1.2012.7.27.5.55.wav_3-3"
@@ -2738,7 +2736,7 @@ Phae.long4.wav_3-1
 ... and 94 more 
 and a data frame (check.results) generated by checkres() (as attribute) 
 the selection table was created by element (see 'class_extended_selection_table')</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.long.est<span class="op">$</span>lek.song.type)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.long.est<span class="op">$</span>lek.song.type)</a></code></pre></div>
 <pre><code>
 BR1-D1 CCL-G1 CCL-K2 DAR-A1 HC2-E1 HC2-F2 SAT-G2 SJA-C3 SUR-E4 TR1-E1 
     10     10     10     10     10     10     10     10     10     10 </code></pre>
@@ -3849,22 +3847,18 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] kableExtra_1.1.0   knitr_1.24         warbleR_1.1.17     NatureSounds_1.0.1 seewave_2.1.4     
-[6] tuneR_1.3.3        maps_3.3.0        
+[1] knitr_1.24         warbleR_1.1.17     NatureSounds_1.0.1 seewave_2.1.4      tuneR_1.3.3       
+[6] maps_3.3.0        
 
 loaded via a namespace (and not attached):
- [1] xfun_0.9          pbapply_1.4-2     colorspace_1.4-1  vctrs_0.2.0       viridisLite_0.3.0
- [6] htmltools_0.3.6   yaml_2.2.0        rlang_0.4.0       pracma_2.2.5      pkgdown_1.4.1    
-[11] pillar_1.4.2      glue_1.3.1        jpeg_0.1-8        stringr_1.4.0     munsell_0.5.0    
-[16] rvest_0.3.4       memoise_1.1.0     evaluate_0.14     fftw_1.0-5        parallel_3.6.1   
-[21] highr_0.8         Rcpp_1.0.2        readr_1.3.1       backports_1.1.4   scales_1.0.0     
-[26] desc_1.2.0        webshot_0.5.1     soundgen_1.5.0    Sim.DiffProc_4.4  fs_1.3.1         
-[31] Deriv_3.8.5       rjson_0.2.20      hms_0.5.1         digest_0.6.21     stringi_1.4.3    
-[36] dtw_1.21-3        rprojroot_1.3-2   tools_3.6.1       bitops_1.0-6      magrittr_1.5     
-[41] RCurl_1.95-4.12   proxy_0.4-23      tibble_2.1.3      crayon_1.3.4      pkgconfig_2.0.2  
-[46] zeallot_0.1.0     MASS_7.3-51.4     xml2_1.2.2        assertthat_0.2.1  rmarkdown_1.15   
-[51] httr_1.4.1        rstudioapi_0.10   iterators_1.0.12  R6_2.4.0          signal_0.7-6     
-[56] compiler_3.6.1   </code></pre>
+ [1] Rcpp_1.0.2       pracma_2.2.5     compiler_3.6.1   bitops_1.0-6     iterators_1.0.12
+ [6] tools_3.6.1      Sim.DiffProc_4.4 digest_0.6.21    evaluate_0.14    memoise_1.1.0   
+[11] fftw_1.0-5       rlang_0.4.0      rstudioapi_0.10  yaml_2.2.0       parallel_3.6.1  
+[16] pkgdown_1.4.1    xfun_0.9         stringr_1.4.0    desc_1.2.0       fs_1.3.1        
+[21] rprojroot_1.3-2  R6_2.4.0         dtw_1.21-3       jpeg_0.1-8       pbapply_1.4-2   
+[26] rmarkdown_1.15   magrittr_1.5     backports_1.1.4  htmltools_0.3.6  MASS_7.3-51.4   
+[31] assertthat_0.2.1 Deriv_3.8.5      stringi_1.4.3    proxy_0.4-23     signal_0.7-6    
+[36] RCurl_1.95-4.12  crayon_1.3.4     rjson_0.2.20    </code></pre>
 </div>
   </div>
 
