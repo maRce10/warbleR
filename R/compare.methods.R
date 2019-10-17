@@ -36,7 +36,6 @@
 #'    \item \code{SP}: spectral parameters (\code{\link{specan}} function)
 #'    \item \code{SPharm}: spectral parameters (\code{\link{specan}} function with argument \code{harmonicity  = TRUE})
 #'    \item \code{MFCC}: statistical descriptors of Mel frequency cepstral coefficients (\code{\link{mfcc_stats}} function)
-#'    \item \code{custom}: allows users to enter their own measurements into the function. See 'custom1' and 'custom2' arguments)
 #'    }
 #'  Default \code{NULL}. 
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
@@ -91,11 +90,11 @@
 #' color of the method that generated it, as shown in the scatterplots. Distances are 
 #' standardized, being 0 the distance of a signal to itself and 1 the farthest pairwise 
 #' distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{prcomp}}) 
-#' is applied to calculate distances when using spectral parameters (SP). In that case the first 2 PC's are used. Classical 
+#' is applied to calculate distances when using spectral parameters (SP) and descriptors of cepstral coefficients (MFCC). In those cases the first 2 PC's are used. Classical 
 #' Multidimensional Scalling (also known as Principal Coordinates Analysis, 
-#' (\code{\link[stats]{cmdscale}})) is used for all other methods. The graphs are return as image files in the 
+#' (\code{\link[stats]{cmdscale}})) is used for cross-correlation (XCORR) and any dynamic time warping method. The graphs are return as image files in the 
 #' working directory. The file name contains the methods being compared and the 
-#' rownumber of the selections. This function uses internally a modified version
+#' row number of the selections. This function uses internally a modified version
 #' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms. Custom data can also be compared against the avialable methods (or against each other) using the arguments 'custom1' and 'custom2'.
 #' @seealso \href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
 #' @examples

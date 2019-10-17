@@ -73,13 +73,17 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals.
 #'  Methods in Ecology and Evolution, 8(2), 184-191.
 #' 
-#' Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.\
+#' Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
 #'  (2017) To overlap or not to overlap: context-dependent coordinated singing in 
 #'  lekking long-billed hermits. Anim Behav.
 #' 
 #' Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song 
 #' Overlap Null model Generator (SONG): a new tool for distinguishing between random
 #' and non-random song overlap. Bioacoustics.
+#' 
+#' Rivera-Caceres K, E Quiros-Guerrero E, M Araya-Salas, C Templeton & W Searcy. (2018). Early development of vocal interaction rules in a duetting songbird. Royal Society Open Science. 5, 171791.
+#' 
+#' Rivera-Caceres K, E Quiros-Guerrero, M Araya-Salas & W Searcy. (2016). Neotropical wrens learn new duet as adults. Proceedings of the Royal Society B. 285, 20161819
 #' } 
 #' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on apr-11-2018 (MAS)

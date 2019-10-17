@@ -138,6 +138,10 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
+  # error message if ape is not installed
+  if (!requireNamespace("soundgen",quietly = TRUE))
+    stop("must install 'soundgen' when  harmonicity = TRUE")
+  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(specan)

@@ -175,7 +175,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     r <- warbleR::read_wave(X = X, path = path, index = y, from = stn, to = enn)
     
-    # add band-pass frequnecy filter
+    # add band-pass frequency filter
     if (!is.null(bp)) {
       
       if (bp[1] == "frange") bp <- c(X$bottom.freq[y], X$top.freq[y])
