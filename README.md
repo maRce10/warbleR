@@ -1,6 +1,6 @@
 # warbleR
 
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
+[![CRAN Status Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/warbleR)](http://www.r-pkg.org/pkg/warbleR)
 [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
@@ -10,7 +10,7 @@
 The main features of the package are:
 
  - The use of loops to apply tasks through acoustic signals referenced in a selection box
- - The production of images in the working folder with spectrograms that allow to organize data and verify acoustic analyzes
+ - The production of images in the working directory with spectrograms to allow users organize data and verify acoustic analyzes
 
 The package offers functions to:
  - Explore and download Xeno ‐ Canto recordings

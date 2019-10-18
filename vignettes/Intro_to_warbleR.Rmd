@@ -39,15 +39,23 @@ The [warbleR](https://cran.r-project.org/package=warbleR) package is intended to
 
 &nbsp;
 
-<div class = "alert alert-success">
-<font size = "3">
+<font size = "3">The main features of the package are:
 
-The main features of the package are:
+ - The use of loops to apply tasks through acoustic signals referenced in a selection table:
 
-- The use of loops to apply tasks through acoustic signals referenced in a selection table
-- Production of images in the working directory with spectrograms that allow you to organize data and verify acoustic analyzes </font>
+&nbsp;
 
-</div>
+<center><img src = "loop_warbleR_optim.gif" alt = "life cycle"></center>
+
+&nbsp;
+
+ - The production of images in the working directory with spectrograms that let users organize data and verify acoustic analyzes: </font>
+
+&nbsp;
+
+<center><img src = "loop_warbleR_images_optim.gif" alt = "life cycle"></center>
+
+&nbsp;
 
 
 The package offers functions for:
