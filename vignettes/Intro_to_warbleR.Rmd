@@ -1,8 +1,7 @@
 ---
 title: <center><font size="7"><b>Introduction to warbleR</b></font></center>
 author: 
-- <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
-- <center><a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
+- <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> & <a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
  &nbsp; 
 date:  <center>"`r Sys.Date()`"</center>
 output:
@@ -45,15 +44,15 @@ The [warbleR](https://cran.r-project.org/package=warbleR) package is intended to
 
 &nbsp;
 
-<center><img src = "loop_warbleR_optim.gif" alt = "life cycle"></center>
+<center><img src = "loop_warbleR_optim.gif" alt = "warbleR measuring loop" width= "500"></center>
 
 &nbsp;
 
- - The production of images in the working directory with spectrograms that let users organize data and verify acoustic analyzes: </font>
+ - The production of image files with spectrograms that let users organize data and verify acoustic analyzes: </font>
 
 &nbsp;
 
-<center><img src = "loop_warbleR_images_optim.gif" alt = "life cycle"></center>
+<center><img src = "loop_warbleR_images_optim.gif" alt = "warbleR image loop" width = "500"></center>
 
 &nbsp;
 
