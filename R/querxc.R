@@ -177,7 +177,23 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
           return(x)
         })
         
-        e <- do.call(rbind, d2)
+        
+        # determine all column names in all pages
+        cnms <- unique(unlist(lapply(d2, names)))    
+        
+        # add columns that are missing to each selection table
+        d3 <- lapply(d2, function(X)
+        {
+          nms <- names(X)
+          if (length(nms) != length(cnms))  
+            for(i in cnms[!cnms %in% nms]) {
+              X <- data.frame(X,  NA, stringsAsFactors = FALSE, check.names = FALSE)
+              names(X)[ncol(X)] <- i
+            }
+          return(X)
+        })
+        
+        e <- do.call(rbind, d3)
         
         return(e)
       }
@@ -190,13 +206,18 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       indx <- sapply(results, is.factor)
       results[indx] <- lapply(results[indx], as.character)
       
-      #order columns
+    #order columns
     results <- results[ ,order(match(names(results), nms))]
     
-    names(results) <- c("Recording_ID", "Genus", "Specific_epithet", "Subspecies", "English_name", "Recordist", 
-                        "Country", "Locality", "Latitude", "Longitude", "Vocalization_type", "Audio_file", "License",
-                        "Url", "Quality", "Time", "Date")[1:ncol(results)]
+    names(results)[match(c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "alt", "type", "file", "lic", "url", "q", "length", "time", "date", "uploaded", "rmk", "bird.seen", "playback.used"), names(results))] <- c("Recording_ID", "Genus", "Specific_epithet", "Subspecies", "English_name", "Recordist", 
+                        "Country", "Locality", "Latitude", "Longitude", "Altitude", "Vocalization_type", "Audio_file", "License",
+                        "Url", "Quality", "Length", "Time", "Date", "Uploaded", "Remarks", "Bird_seen","Playback_used")[which(c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "alt", "type", "file", "lic", "url", "q", "length", "time", "date", "uploaded", "rmk", "bird.seen", "playback.used") %in% names(results))]
   
+    # rename also columns
+    names(results) <- gsub("also", "Other_species", names(results))
+    # rename
+    names(results) <- gsub("sono.", "Spectrogram_", names(results))
+    
     #remove duplicates
     results <- results[!duplicated(results$Recording_ID), ]
     

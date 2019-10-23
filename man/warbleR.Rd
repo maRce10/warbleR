@@ -11,7 +11,7 @@ warbleR is intended to facilitate the analysis of the structure of animal acoust
 \details{
 The main features of the package are:
   \itemize{
-  \item The use of loops to apply tasks through acoustic signals referenced in a selection box
+  \item The use of loops to apply tasks through acoustic signals referenced in a selection table
   \item The production of images in the working folder with spectrograms that allow to organize data and verify acoustic analyzes
   }
   

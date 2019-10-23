@@ -2,7 +2,6 @@
 title: <center><font size="7"><b>Introduction to warbleR</b></font></center>
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> & <a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
- &nbsp; 
 date:  <center>"`r Sys.Date()`"</center>
 output:
   rmarkdown::html_document:

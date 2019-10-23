@@ -96,7 +96,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2019-10-19”
+“2019-10-23”
 </center></h4>
       
       
@@ -300,7 +300,7 @@
 <a class="sourceLine" id="cb20-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co"># Check resulting data frame, 6 recordings remain</span></a>
 <a class="sourceLine" id="cb20-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(Phae.lon.LS)</a></code></pre></div>
-<pre><code>'data.frame':   3 obs. of  17 variables:
+<pre><code>'data.frame':   3 obs. of  31 variables:
  $ Recording_ID     : chr  "154138" "154129" "154072"
  $ Genus            : chr  "Phaethornis" "Phaethornis" "Phaethornis"
  $ Specific_epithet : chr  "longirostris" "longirostris" "longirostris"
@@ -314,10 +314,27 @@
  $ Vocalization_type: chr  "song" "song" "song"
  $ Audio_file       : chr  "//www.xeno-canto.org/154138/download" "//www.xeno-canto.org/154129/download" "//www.xeno-canto.org/154072/download"
  $ License          : chr  "//creativecommons.org/licenses/by-nc-sa/3.0/" "//creativecommons.org/licenses/by-nc-sa/3.0/" "//creativecommons.org/licenses/by-nc-sa/3.0/"
- $ Url              : chr  "https://www.xeno-canto.org/154138" "https://www.xeno-canto.org/154129" "https://www.xeno-canto.org/154072"
+ $ Url              : chr  "//www.xeno-canto.org/154138" "//www.xeno-canto.org/154129" "//www.xeno-canto.org/154072"
  $ Quality          : chr  "A" "A" "A"
  $ Time             : chr  "14:18" "10:09" "7:05"
- $ Date             : chr  "2010-05-21" "2010-05-21" "2010-05-28"</code></pre>
+ $ Date             : chr  "2010-05-21" "2010-05-21" "2010-05-28"
+ $ Altitude         : chr  "" "" ""
+ $ Spectrogram_small: chr  "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154138-small.png" "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154129-small.png" "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154072-small.png"
+ $ Spectrogram_med  : chr  "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154138-med.png" "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154129-med.png" "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154072-med.png"
+ $ Spectrogram_large: chr  "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154138-large.png" "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154129-large.png" "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154072-large.png"
+ $ Spectrogram_full : chr  "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154138-full.png" "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154129-full.png" "//www.xeno-canto.org/sounds/uploaded/EMCWQLLKEW/ffts/XC154072-full.png"
+ $ Length           : chr  "2:58" "2:25" "3:09"
+ $ Uploaded         : chr  "2013-11-11" "2013-11-11" "2013-11-11"
+ $ Other_species    : chr  "" "" ""
+ $ Remarks          : chr  "Recording equipment: Marantz Pmd 660+sennheiser ME67. Comments: individuo-AK; lek-Sura. Primera parte de grabac"| __truncated__ "Recording equipment: Marantz Pmd 660+sennheiser ME67. Comments: individuo-AK; lek-Sura. video 511, revisar. 9 m"| __truncated__ "Recording equipment: Marantz Pmd 660+sennheiser ME67. Comments: individuo-VA; lek-CCL. en percha ded VA, probab"| __truncated__
+ $ Bird_seen        : chr  "yes" "yes" "yes"
+ $ Playback_used    : chr  "no" "no" "no"
+ $ Other_species1   : Named chr  NA NA NA
+  ..- attr(*, "names")= chr  NA NA NA
+ $ Other_species2   : Named chr  NA NA NA
+  ..- attr(*, "names")= chr  NA NA NA
+ $ Other_species3   : Named chr  NA NA NA
+  ..- attr(*, "names")= chr  NA NA NA</code></pre>
 <p> </p>
 <p>We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using <code>xcmaps</code>.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># map in the RStudio graphics device (img = FALSE)</span></a>
