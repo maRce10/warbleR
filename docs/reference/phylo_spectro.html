@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -160,7 +160,7 @@ If <code>NULL</code> (default) then the current working directory is used. Tip l
       <th>par.mar</th>
       <td><p>Numeric vector with 4 elements, default is <code><a href='https://rdrr.io/r/base/rep.html'>rep(1, 4)</a></code>. Specifies the number of lines 
 in inner plot margins where axis labels fall, with form c(bottom, left, top, right). 
-See <code><a href='https://rdrr.io/r/graphics/par.html'>par</a></code>. See 'inner.par' argument for controling spectrogram margins.</p></td>
+See <code><a href='https://rdrr.io/r/graphics/par.html'>par</a></code>. See 'inner.par' argument for controlling spectrogram margins.</p></td>
     </tr>
     <tr>
       <th>size</th>
@@ -178,7 +178,7 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     </tr>
     <tr>
       <th>ladder</th>
-      <td><p>Character string controling whether the phylogeny is ladderized (i.e. the internal structure of the 
+      <td><p>Character string controlling whether the phylogeny is ladderized (i.e. the internal structure of the 
 tree is reorganized to get the ladderized effect when plotted). Only 'left' of 'right' values are accepted. Default is 
 <code>NULL</code> (no ladderization). See <code><a href='https://rdrr.io/pkg/ape/man/ladderize.html'>ladderize</a></code> for more details.</p></td>
     </tr>
@@ -271,10 +271,11 @@ can be provided for further customization.</p>
 <span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='fl'>4</span>), <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"fan"</span>, <span class='kw'>show.tip.label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
 <span class='kw'>edge.color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>edge.width</span> <span class='kw'>=</span> <span class='fl'>2</span>)
   <span class='co'># }</span>
-}</div><div class='img'><img src='phylo_spectro-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='phylo_spectro-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='phylo_spectro-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; creating templates (step 1 of 2):
+}</div><div class='img'><img src='phylo_spectro-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='phylo_spectro-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='phylo_spectro-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 'bp' has been deprecated and will be ignored
+#&gt; creating spectrogram matrices (step 1 of 2):
 #&gt;   |                                                  | 0 % ~calculating    |+++++++                                           | 12% ~00s            |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++                               | 38% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++                  | 62% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #&gt; running cross-correlation (step 2 of 2):
-#&gt;   |                                                  | 0 % ~calculating    |++++++++                                          | 14% ~03s            |+++++++++++++++                                   | 29% ~02s            |++++++++++++++++++++++                            | 43% ~01s            |+++++++++++++++++++++++++++++                     | 57% ~01s            |++++++++++++++++++++++++++++++++++++              | 71% ~01s            |+++++++++++++++++++++++++++++++++++++++++++       | 86% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=02s  </div><div class='img'><img src='phylo_spectro-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='phylo_spectro-5.png' alt='' width='700' height='433' /></div></pre>
+#&gt;   |                                                  | 0 % ~calculating    |++                                                | 4 % ~00s            |++++                                              | 7 % ~00s            |++++++                                            | 11% ~00s            |++++++++                                          | 14% ~00s            |+++++++++                                         | 18% ~00s            |+++++++++++                                       | 21% ~00s            |+++++++++++++                                     | 25% ~00s            |+++++++++++++++                                   | 29% ~00s            |+++++++++++++++++                                 | 32% ~00s            |++++++++++++++++++                                | 36% ~00s            |++++++++++++++++++++                              | 39% ~00s            |++++++++++++++++++++++                            | 43% ~00s            |++++++++++++++++++++++++                          | 46% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |+++++++++++++++++++++++++++                       | 54% ~00s            |+++++++++++++++++++++++++++++                     | 57% ~00s            |+++++++++++++++++++++++++++++++                   | 61% ~00s            |+++++++++++++++++++++++++++++++++                 | 64% ~00s            |++++++++++++++++++++++++++++++++++                | 68% ~00s            |++++++++++++++++++++++++++++++++++++              | 71% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++          | 79% ~00s            |++++++++++++++++++++++++++++++++++++++++++        | 82% ~00s            |+++++++++++++++++++++++++++++++++++++++++++       | 86% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++     | 89% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++++   | 93% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++++++ | 96% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='img'><img src='phylo_spectro-4.png' alt='' width='700' height='433' /></div><div class='img'><img src='phylo_spectro-5.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

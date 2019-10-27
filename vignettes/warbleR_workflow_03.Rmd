@@ -259,7 +259,7 @@ str(se)
 
 The function `trackfreqs` allows you to create spectrograms and visualize the accuracy of dominant frequency and fundamental frequency measurements. 
 
-Use `trackfreqs` on all the recordings for which you want to exract frequency contours as a time series, or later, calculate other frequency measurements. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.
+Use `trackfreqs` on all the recordings for which you want to extract frequency contours as a time series, or later, calculate other frequency measurements. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.
 
 Running `trackfreqs` can allow you to decide which frequency parameters to use in subsequent analyses, namely `specan` and dynamic time warping methods. Also, ff the frequency measurements look acceptable with the bandpass setting used in `trackfreqs`, use that same bandpass while running `specan`.
 
@@ -280,7 +280,7 @@ Note that the fundamental frequency measurements are not always very accurate, s
 
 ### Extract fundamental or dominant frequency contours as a time series 
 
-These functions return a data frame that contains estimated frequency contours as a time series across each signal in the input data frame. You can also specify if you want to create image files with the estimated frequency contours plotted over spectrograms. You can change argument settings to better visualize the signals or change the estimation of the frequency contour. For instance, the argument `threshold` (as in `autodetec`) controls the ampltitude threshold for estimating frequency values at each time point. Note that the fundamental frequency contour estimation can often have errors, and tends to perform best with more tonal signals. The frequency contours are those that can be visualized using `trackfreqs`.
+These functions return a data frame that contains estimated frequency contours as a time series across each signal in the input data frame. You can also specify if you want to create image files with the estimated frequency contours plotted over spectrograms. You can change argument settings to better visualize the signals or change the estimation of the frequency contour. For instance, the argument `threshold` (as in `autodetec`) controls the amplitude threshold for estimating frequency values at each time point. Note that the fundamental frequency contour estimation can often have errors, and tends to perform best with more tonal signals. The frequency contours are those that can be visualized using `trackfreqs`.
 
 ```{r, echo=FALSE, eval=FALSE}
 
@@ -339,7 +339,7 @@ str(df_df)
 
 ### Manually tailor frequency contours with seltailor
 
-The functions above to track/extract dominant and fundamental frequency contours perform best with more tonal signals. The frequency measurements for signals with harmonic structure tend to jump around, and might not always match your own visual tracking of frequency contours. If this is the case, you can use the function `seltailor` to fix freqeuency contours where individual frequency measurements are clearly far off from the frequency contour detected by the human eye. The `seltailor` function is the same used in vignette 2 in this series, but by changing a few arguments, you can use `seltailor` to fix frequency contours.
+The functions above to track/extract dominant and fundamental frequency contours perform best with more tonal signals. The frequency measurements for signals with harmonic structure tend to jump around, and might not always match your own visual tracking of frequency contours. If this is the case, you can use the function `seltailor` to fix frequency contours where individual frequency measurements are clearly far off from the frequency contour detected by the human eye. The `seltailor` function is the same used in vignette 2 in this series, but by changing a few arguments, you can use `seltailor` to fix frequency contours.
 
 Note that manually fixing frequency contours might not make sense, depending on your question and/or the contour in question. For instance, a dominant frequency contour for a harmonic signal that jumps around and does not form a smooth contour may in fact be the truth, rather than mis-estimation of the contour. On the other hand, fundamental frequencies can be more easily traced by the human eye across a signal, so using `seltailor` to fix a frequency contour that jumps around the signal makes more sense. 
 
@@ -405,7 +405,7 @@ In this graphic, the acoustic pairwise distance between signals is shown next to
 
 Also note that the graphs contain 2 scatterplots (1 per method) of the acoustic space of all signals in the input data frame `X`. The position of the 4 signals in the spectrograms is highlighted in the acoustic space scatterplot. These graphics allow you to directly assess if the distances between signals in the acoustic space accurately represent the spectrographic similarity (e.g. how similar their acoustic structure looks in the spectrograms).
 
-You can run `compare.methods` for any combination of the quantative methods for assessing acoustic (dis)similarity mentioned above. Importantly, to include the SP method (spectral parameters measured by the function `specan`), you need a large enough dataset, as the PCA that summarizes the spectral parameters needs more units (rows) that variables (columns).
+You can run `compare.methods` for any combination of the quantitative methods for assessing acoustic (dis)similarity mentioned above. Importantly, to include the SP method (spectral parameters measured by the function `specan`), you need a large enough dataset, as the PCA that summarizes the spectral parameters needs more units (rows) that variables (columns).
 
 ### Measure acoustic parameters with specan
 
@@ -488,7 +488,7 @@ str(dm)
 
 ```
 
-Check out [Marcelo's blog](https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html) for a great example of how to evaluate whether or not the dynamic time warping (dis)similiarty measurements accurately represents acoustic differences. 
+Check out [Marcelo's blog](https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html) for a great example of how to evaluate whether or not the dynamic time warping (dis)similarity measurements accurately represents acoustic differences. 
 
 ### Spectrographic cross-correlation
 
@@ -503,27 +503,12 @@ Here our output is a matrix of peak correlation per pairwise comparison, with th
 
 ```{r, eval=FALSE, echo=TRUE}
 
-xc <- xcorr(Phae.hisnrt, wl = 300, na.rm = FALSE, bp = c(2,10))
+xc <- xcorr(Phae.hisnrt, wl = 300, na.rm = FALSE)
 str(xc)
 
 ```
 
-To visualize the cross-correlation across all pairwise comparisons, we need to feed the function `xcorr.graph` a list of `xcorr` output (`xcorr`must be run with `cor.mat = FALSE`). Here we save the graphical output of `xcorr.graph` for better ease of visualization. 
-
-```{r, eval=FALSE, echo=TRUE} 
-
-xc <- xcorr(Phae.hisnrt, wl = 300, na.rm = FALSE, bp = c(2,10), cor.mat = FALSE)
-
-jpeg("xcorr_graph.jpeg", width = 30, height = 30, units = "cm", res = 200)
-xcorr.graph(xc, cex.cor = 1, cex.lab = 1, cex.axis.lab = 1)
-dev.off()
-
-```
-
-<center> ![xcorr.graph image](xcorr_graph.jpeg)</center>
-&nbsp; 
-
-In this image, red values in the upper triangle indicate high peak correlations and therefore greater similiarty between signals. The faceted line plots in the lower triangle are another way of visualizing similarity between signals. The x-axis is the time difference between signals at each sliding step of the cross-correlation, with 0 representing perfectly centered signals. Plots with peaks at 0 represent signals that are more similar. 
+To visualize the cross-correlation across all pairwise comparisons, we need can use the function `corrplot` from the package of the same name.
 
 
 ## Analysis of geographic variation using `specan` measurements
@@ -656,7 +641,7 @@ This vignette concludes the `warbleR` vignette series. After running the code in
   * use different methods for acoustic (dis)similarity analysis
     * `specan`- 29 parameters (across signals or song types)
     * `dfDTW`and `ffDTW` - dynamic time warping on frequency contours
-    * `xcorr`- spectrographic cross-corrrelation
+    * `xcorr`- spectrographic cross-correlation
   * carry out steps for an analysis of geographic variation in vocalizations
   * perform coordinated singing analysis
   * simulate songs for other research questions

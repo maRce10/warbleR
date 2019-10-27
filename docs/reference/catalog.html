@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -192,7 +192,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     <tr>
       <th>mar</th>
       <td><p>Numeric vector of length 1. Specifies the margins (in seconds) adjacent to the start and end points of selections,
-dealineating spectrogram limits. Default is 0.05.</p></td>
+delineating spectrogram limits. Default is 0.05.</p></td>
     </tr>
     <tr>
       <th>prop.mar</th>
@@ -244,7 +244,7 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
 <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>topo.1</a></code> and <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>rainbow.1</a></code> (which should be imported from the package monitoR) seem
-to work better with 'fast.spec' spectograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
+to work better with 'fast.spec' spectrograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
 <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code> offer 
 decreasing darkness levels.</p></td>
     </tr>
@@ -284,7 +284,7 @@ for vertical orientation.</p></td>
     </tr>
     <tr>
       <th>legend</th>
-      <td><p>A numeric vector of length 1 controling a legend for color tags is added.
+      <td><p>A numeric vector of length 1 controlling a legend for color tags is added.
 Ignored if no tags are provided. Four values are allowed:</p><ul>
 <li><p><code>0</code>: No label</p></li>
 <li><p><code>1</code>: Label for the first color tag</p></li>
@@ -315,11 +315,11 @@ species or sites and ensure they will be grouped together when sorted by file na
     </tr>
     <tr>
       <th>tag.widths</th>
-      <td><p>A numeric vector of length 2 to control de relative width of the color tags (when 2 tags are provided).</p></td>
+      <td><p>A numeric vector of length 2 to control the relative width of the color tags (when 2 tags are provided).</p></td>
     </tr>
     <tr>
       <th>hatching</th>
-      <td><p>A numeric vector of length 1 controling cross-hatching is used for color tags. Several cross-hatching 
+      <td><p>A numeric vector of length 1 controlling cross-hatching is used for color tags. Several cross-hatching 
 patterns are used to make tags with similar colors more distinguishable. Four values are allowed:</p><ul>
 <li><p><code>0</code>: No cross-hatching</p></li>
 <li><p><code>1</code>: Cross-hatching the first color tag</p></li>
@@ -329,7 +329,7 @@ patterns are used to make tags with similar colors more distinguishable. Four va
     </tr>
     <tr>
       <th>breaks</th>
-      <td><p>Numeric vector of length 1 or 2 controling the number of intervals in which a 
+      <td><p>Numeric vector of length 1 or 2 controlling the number of intervals in which a 
 numeric tag will be divided. The numbers control the first and second tags respectively. 
 Ignored if tags are not numeric. Default is <code><a href='https://rdrr.io/r/base/c.html'>c(5, 5)</a></code>.</p></td>
     </tr>
@@ -355,7 +355,7 @@ provided. Internally applied for setting 'mar' using <code><a href='https://rdrr
       <td><p>Numeric vector of length 1 indicating the number of different colors 
 that will be used for group tags (see 'group.tag' argument). If provided (and the number is 
 smaller than the number of levels in the 'group.tag' column) the colors will be recycled, 
-athough ensuring that adjacent groups do not share the same color. Useful when the 
+although ensuring that adjacent groups do not share the same color. Useful when the 
 'group.tag' has many levels and the colors assigned become very similar. Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>

@@ -6,9 +6,9 @@
 #' labels = c("sound.files", "selec"), overwrite = FALSE, ...)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end).
-#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
+#' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
-#' dealineating spectrogram limits. Default is 0.05.
+#' delineating spectrogram limits. Default is 0.05.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 

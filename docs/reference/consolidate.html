@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -183,11 +183,11 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     <p>All (sound) files are consolidated (copied) to a single directory ("consolidated_files"). The function returns a data frame with each of the files that were copied in a row and the following information:</p><ul>
 <li><p><code>original_dir</code> the path to the original file</p></li>
 <li><p><code>old_name</code> the name of the original file</p></li>
-<li><p><code>new_name</code> the name of the new file. This will be tthe same as 'old_name' if the name was not duplicated (i.e. no files in other directories with the same name).</p></li>
+<li><p><code>new_name</code> the name of the new file. This will be the same as 'old_name' if the name was not duplicated (i.e. no files in other directories with the same name).</p></li>
 <li><p><code>file_size_bytes</code> size of the file in bytes.</p></li>
 <li><p><code>duplicate</code> indicates whether a file is likely to be duplicated (i.e. if files with the same name were found in other directories). If so it will be labeled as 'possible.dupl', otherwise it will contain NAs.</p></li>
 </ul><p>If <code>csv = TRUE</code> (default)
-a 'file_names_info.csv' file with the same iformation as the output data frame is also saved in the consolidated directory.</p>
+a 'file_names_info.csv' file with the same information as the output data frame is also saved in the consolidated directory.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function allows users to put files scattered in several directories into a 
@@ -220,7 +220,7 @@ other type of files (for instance '.txt' selection files).</p>
 
 <span class='co'># check this folder</span>
 <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div><div class='output co'>#&gt; [1] "/tmp/Rtmp8RV9ib"</div><div class='input'>
+}</div><div class='output co'>#&gt; [1] "/tmp/RtmpGLg4PD"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

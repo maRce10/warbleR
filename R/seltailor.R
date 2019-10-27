@@ -10,7 +10,7 @@
 #'   alpha = 0.7, auto.contour = FALSE, ...)
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+#' end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512.
 #' @param flim A numeric vector of length 2 specifying the frequency limit (in kHz) of 
@@ -28,7 +28,7 @@
 #' @param ovlp Numeric vector of length 1 specifying the percent overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
 #' @param auto.next Logical argument to control whether the functions moves automatically to the 
-#' next selection. The time interval before moving to the next selection is controled by the 'pause' argument. Ignored if \code{ts.df = TRUE}. 
+#' next selection. The time interval before moving to the next selection is controlled by the 'pause' argument. Ignored if \code{ts.df = TRUE}. 
 #' @param pause Numeric vector of length 1. Controls the duration of the waiting period before 
 #' moving to the next selection (in seconds). Default is 1. 
 #' @param comments Logical argument specifying if 'sel.comment' (when in data frame) should be included 
@@ -41,14 +41,14 @@
 #' increases performance (much faster), although some options become unavailable, as sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
 #' @param ext.window Logical. If \code{TRUE} then and external graphic window is used. Default 
 #' dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.
-#' @param width Numeric of length 1 controling the width of the external graphic window. Ignored
+#' @param width Numeric of length 1 controlling the width of the external graphic window. Ignored
 #' if \code{ext.window = FALSE}. Default is 15.
-#' @param height Numeric of length 1 controling the height of the external graphic window.
+#' @param height Numeric of length 1 controlling the height of the external graphic window.
 #' Ignored if \code{ext.window = FALSE}. Default is 5.
 #' @param index Numeric vector indicating which selections (rows) of 'X' should be tailored. 
 #'  Default is \code{NULL}. Ignored when the process is resumed. This can be useful when combined
@@ -107,10 +107,10 @@
 #'  original time/frequency coordinates are kept. When resuming the process (after "stop" and re-running 
 #'  the function in the same working directory), the function will continue working on the
 #'  selections that have not been analyzed. The function also displays a progress bar right on
-#'  top of the sepctrogram. The zoom can be adjusted by setting the \code{mar} argument.
+#'  top of the spectrogram. The zoom can be adjusted by setting the \code{mar} argument.
 #'  To fix contours a data.frame containing the 'sound.files' and 'selec' columns as in 'X' as well 
-#'  as the frequency values at each contour step must be provided. The function plots points correponding to the 
-#'  time/frequency coordinates of each element of the contour. Cliking on the spectrogram will substitute the 
+#'  as the frequency values at each contour step must be provided. The function plots points corresponding to the 
+#'  time/frequency coordinates of each element of the contour. Clicking on the spectrogram will substitute the 
 #'  frequency value of the points. The contour point closest in time to the "click" will be replaced by the 
 #'  frequency value of the "click". 
 #'  

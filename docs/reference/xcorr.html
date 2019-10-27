@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="Spectrogram cross-correlation — xcorr" />
-<meta property="og:description" content="xcorr estimates the similarity of two spectrograms by means of cross-correlation" />
+<meta property="og:description" content="xcorr estimates the similarity of two spectrograms by means of spectrographic cross-correlation" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -130,12 +130,12 @@
     </div>
 
     <div class="ref-description">
-    <p><code>xcorr</code> estimates the similarity of two spectrograms by means of cross-correlation</p>
+    <p><code>xcorr</code> estimates the similarity of two spectrograms by means of spectrographic cross-correlation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='st'>'frange'</span>, <span class='kw'>ovlp</span><span class='kw'>=</span><span class='fl'>90</span>, <span class='kw'>dens</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
+    <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>dens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
 <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+ <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,9 +152,7 @@ is 512.</p></td>
     </tr>
     <tr>
       <th>bp</th>
-      <td><p>A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
-in which to compare the signals or "frange" (default) to indicate that values in 'bottom.freq'
-and 'top.freq' columns will be used as frequency limits. Default is <code>NULL</code>.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>ovlp</th>
@@ -164,8 +162,7 @@ slow down the function but produce more accurate results.</p></td>
     </tr>
     <tr>
       <th>dens</th>
-      <td><p>Numeric vector of length 1 specifying the approximate density of points in which to sample amplitude. 
-See <code>makeTemplate</code>. Deafult is 0.9.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>wn</th>
@@ -187,9 +184,7 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     </tr>
     <tr>
       <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>. Note that progress bar is not accurate as the number of pairwise comparisons decreases on 
-each iteration. The first iteration runs n-1 comparisons while the last one 
-only 1 (<code>n = nrow(X)</code>).</p></td>
+      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
@@ -199,6 +194,10 @@ results. This means that all selections with at least 1 cross-correlation that f
     <tr>
       <th>cor.mat</th>
       <td><p>Logical. If <code>TRUE</code> only the correlation matrix is returned. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>compare.matrix</th>
+      <td><p>A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. <code><a href='https://rdrr.io/r/base/paste.html'>paste(X$sound.files, X$selec, sep = "-")</a></code>). Default is <code>NULL</code>. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.</p></td>
     </tr>
     </table>
 
@@ -214,28 +213,36 @@ This method "slides" one spectrogram over the other calculating a correlation of
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
 of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. 
-The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).
-This function is a modified version of the <code><a href='https://rdrr.io/pkg/monitoR/man/templateMatching.html'>corMatch</a></code> and <code>makeTemplate</code> 
-from the awesome R package `monitoR`.</p>
+The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.H. Khanna, S.L.L. Gaunt &amp; D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='xcorr.graph.html'>xcorr.graph</a></code></p></div>
+    <div class='dont-index'><p><code><a href='mfcc_stats.html'>mfcc_stats</a></code>, <code><a href='specan.html'>specan</a></code>, <code><a href='df_DTW.html'>df_DTW</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
 <span class='co'>#load data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>,<span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>)) <span class='co'>#save sound files</span>
+
+<span class='co'>#save sound files</span>
+<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
+<span class='co'># run cross correlation</span>
+<span class='no'>xcor</span> <span class='kw'>&lt;-</span> <span class='fu'>xcorr</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
-<span class='no'>xcor</span> <span class='kw'>&lt;-</span> <span class='fu'>xcorr</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>,
-<span class='kw'>dens</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>'hanning'</span>, <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='co'># using the 'compare.matrix' argument to specify pairwise comparisons</span>
+<span class='co'># create matrix with ID of signals to compare</span>
+<span class='no'>cmp.mt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(
+<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>lbh_selec_table</span>$<span class='no'>sound.files</span>[<span class='fl'>1</span>:<span class='fl'>10</span>], <span class='no'>lbh_selec_table</span>$<span class='no'>selec</span>[<span class='fl'>1</span>:<span class='fl'>10</span>], <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"-"</span>),
+<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>lbh_selec_table</span>$<span class='no'>sound.files</span>[<span class='fl'>2</span>:<span class='fl'>11</span>], <span class='no'>lbh_selec_table</span>$<span class='no'>selec</span>[<span class='fl'>2</span>:<span class='fl'>11</span>], <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"-"</span>))
 
+<span class='co'># run cross-correlation on the selected pairwise comparisongs</span>
+<span class='no'>xcor</span> <span class='kw'>&lt;-</span> <span class='fu'>xcorr</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='no'>cmp.mt</span>,
+<span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

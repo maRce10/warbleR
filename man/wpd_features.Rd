@@ -9,7 +9,7 @@ wpd_features(X, normalize = TRUE, threshold = 1.3, path = NULL, pb = TRUE, paral
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
+end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
 also be used as the input data frame.}
 
 \item{normalize}{Logical to determine if features are normalized by signal duration.}
@@ -28,7 +28,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \code{wpd_features} Measure wavelet packet decomposition features.
 }
 \details{
-Measures wavelet packet decomposition features. STLL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
+Measures wavelet packet decomposition features. STILL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
 }
 \examples{
 {

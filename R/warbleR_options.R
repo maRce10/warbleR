@@ -21,7 +21,7 @@
 #'   frequency bandpass filter (in kHz).
 #'    \item \code{collevels}:  A numeric vector of length 3. Specifies levels to partition the 
 #'   amplitude range of the spectrogram (in dB) as in \code{\link[seewave]{spectro}}. The more levels the higher the
-#'   resolution of the spectrogram. THe lower the first value the darker the spectrograms.
+#'   resolution of the spectrogram. The lower the first value the darker the spectrograms.
 #'    \item \code{flim}: A numeric vector of length 2 for the frequency limit in kHz of 
 #'   the spectrogram, as in \code{\link[seewave]{spectro}}.
 #'    \item \code{it}: A character vector of length 1 giving the image type to be used. Currently only

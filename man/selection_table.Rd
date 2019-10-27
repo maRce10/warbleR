@@ -14,7 +14,7 @@ files, 2) "selec": unique selection identifier (within a sound file), 3) "start"
 end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
 not provided the first channel (i.e. left channel) would be used by default. 
 Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input to double check selections. 
-The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+The output of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 be used as the input object for other \code{\link{warbleR}} functions.}
 
 \item{max.dur}{the maximum duration of expected for a selection  (ie. end - start). If surpassed then an error message 
@@ -31,14 +31,14 @@ a extended selection table. If provided 'X' is ignored.}
 \item{extended}{Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table' 
 which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is 
 and self-contained format that does not require the original sound files for running most acoustic analysis in 
-\code{\link{warbleR}}. This can largely faciliate the storing and sharing of (bio)acoustic data. Default 
+\code{\link{warbleR}}. This can largely facilitate the storing and sharing of (bio)acoustic data. Default 
 is if \code{FALSE}. An extended selection table won't be created if there is any issue with the selection. See 
 'details'.}
 
 \item{confirm.extended}{Logical. If \code{TRUE} then the size of the 'extended_selection_table' 
 will be estimated and the user will be asked for confirmation (in the console)
 before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
-generating objects too big to be dealth with by R. See 'details' for more information about extended selection table size.}
+generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size.}
 
 \item{mar}{Numeric vector of length 1 specifying the margins (in seconds) 
 adjacent to the start and end points of the selections when creating extended 
@@ -80,14 +80,14 @@ in the working directory
    }
 If no errors are found the a selection table or extended selection table will be generated. 
 Note that the sound files should be in the working directory (or the directory provided in 'path').
-This is useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}, \code{\link{xcorr}}, \code{\link{catalog}}, \code{\link{dfDTW}}). Note also that corrupt files can be
+This is useful for avoiding errors in downstream functions (e.g. \code{\link{specan}}, \code{\link{xcorr}}, \code{\link{catalog}}, \code{\link{dfDTW}}). Note also that corrupt files can be
 fixed using \code{\link{fixwavs}} ('sox' must be installed to be able to run this function).
 The 'selection_table' class can be input in subsequent functions. 
 
 When \code{extended = TRUE} the function will generate an object of class 'extended_selection_table' which 
 will also contains the wave objects for each of the selections in the data frame.
 This transforms selection tables into self-contained objects as they no longer need the original
-sound files to run acoustic analysis. This can largely faciliate the storing and sharing of (bio)acoustic data.
+sound files to run acoustic analysis. This can largely facilitate the storing and sharing of (bio)acoustic data.
 Extended selection table size will be a function of the number of selections \code{nrow(X)}, sampling rate, selection 
 duration and margin duration. As a guide, a selection table
 with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.15

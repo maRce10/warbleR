@@ -23,7 +23,7 @@ is 512.}
 \item{ovlp}{Numeric vector of length 1 specifying the percent overlap between two 
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
-\item{dB}{Character vector of length 1 controling the amplitude weights as in 
+\item{dB}{Character vector of length 1 controlling the amplitude weights as in 
 \code{\link[seewave]{spectro}}. Default is 'max0'.}
 
 \item{collevels}{Numeric. Levels used to partition amplitude range as in \code{\link[seewave]{spectro}}.
@@ -36,11 +36,11 @@ and 'X' are provided.}
 \item{col.clm}{Character vector of length 1 indicating the name of the column in 'X' that contains the
 color names for each selection. Ignored if \code{X == NULL} or \code{interactive != NULL}. Default is \code{NULL}.}
 
-\item{base.col}{Character vector of length 1 specifying the color of the bacground spectrogram. 
+\item{base.col}{Character vector of length 1 specifying the color of the background spectrogram. 
 Default is 'black'.}
 
 \item{bg.col}{Character vector of length 1 specifying the background color for both base
-and hlighlighted spectrograms. Default is 'white'.}
+and highlighted spectrograms. Default is 'white'.}
 
 \item{cexlab}{Numeric vector of length 1 specifying the relative size of axis 
 labels. See \code{\link[seewave]{spectro}}. Default is 1.}
@@ -70,7 +70,7 @@ the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
 
@@ -78,7 +78,7 @@ decreasing darkness levels.}
 
 \item{f.mar}{Numeric vector of length 1. Specifies the margins adjacent to the low and high frequencies to be added when highlighting selection. Default is \code{NULL}.}
 
-\item{interactive}{Numeric. Allow user to interactively select the signals to be highlighted by cliking 
+\item{interactive}{Numeric. Allow user to interactively select the signals to be highlighted by clicking 
 on the graphic device. Users must select the opposite corners of a square delimiting the spectrogram region
 to be highlighted. Controls the number of signals that users would be able to select (2 clicks per signal).}
 
@@ -92,7 +92,7 @@ A plot is produced in the graphic device.
 \code{color.spectro} highlights spectrogram regions specified by users
 }
 \details{
-This function highlights regions of the spectrogram with diferent colors. The regions to be 
+This function highlights regions of the spectrogram with different colors. The regions to be 
 highlighted can be provided in a selection table (as the example data 'lbh_selec_table') or interactively ('interactive' argument).
 }
 \examples{

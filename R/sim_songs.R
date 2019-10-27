@@ -8,14 +8,14 @@
 #' @param n Number of song subunits (e.g. elements). Default is 1.
 #' @param durs Numeric vector with the duration of subunits in seconds. It should either be a single value (which would 
 #' be used for all subunits) or a vector of length \code{n}. 
-#' @param harms NUmeric vector of length 1 specifyin the number of harmonics to simulate. 1 indicates that only the fundamental
+#' @param harms NUmeric vector of length 1 specifying the number of harmonics to simulate. 1 indicates that only the fundamental
 #' frequency harmonic will be simulated.
 #' @param amps Numeric vector with the relative amplitude of each of the harmonics (including the fundamental frequency).
 #' @param gaps Nueric vector with the duration of gaps (silence between subunits) in seconds. It should either be a single value
 #'  (which would  be used for all subunits) or a vector  of length \code{n + 1}. 
-#' @param freqs Nueric vector with the initial frequency of the subunits (and ending frequency if \code{diff_fun == "BB"}) in kHz. 
+#' @param freqs Numeric vector with the initial frequency of the subunits (and ending frequency if \code{diff_fun == "BB"}) in kHz. 
 #' It should either be a single value (which would  be used for all subunits) or a vector of length \code{n}. 
-#' @param samp.rate Numerirc vector of length 1. Sets the sampling frequency of the wave object (in kHz). Default is 44.1.
+#' @param samp.rate Numeric vector of length 1. Sets the sampling frequency of the wave object (in kHz). Default is 44.1.
 #' @param sig2 Numeric vector of length 1 defining the sigma value of the brownian motion model. Higher values will produce faster 
 #' frequency modulations. Ignored if \code{diff_fun == "BB"}. Default is 0.1. Check the \code{\link[Sim.DiffProc]{BB}} 
 #' for more details. 

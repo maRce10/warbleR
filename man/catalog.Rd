@@ -43,7 +43,7 @@ slow down the function but produce more accurate selection limits (when X is pro
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins (in seconds) adjacent to the start and end points of selections,
-dealineating spectrogram limits. Default is 0.05.}
+delineating spectrogram limits. Default is 0.05.}
 
 \item{prop.mar}{Numeric vector of length 1. Specifies the margins adjacent to the 
 start and end points of selections as a proportion of the duration of the signal. If
@@ -75,7 +75,7 @@ If \code{NULL} (default) then the current working directory is used.}
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
 
@@ -99,7 +99,7 @@ for vertical orientation.}
 
 \item{tag.pal}{List of color palette function for tags. Should be of length 1, 2 or 3.  Default is \code{list(temp.colors, heat.colors, topo.colors)}.}
 
-\item{legend}{A numeric vector of length 1 controling a legend for color tags is added.
+\item{legend}{A numeric vector of length 1 controlling a legend for color tags is added.
 Ignored if no tags are provided. Four values are allowed: 
 \itemize{
    \item \code{0}: No label
@@ -122,9 +122,9 @@ species or sites.}
 image files. Default is \code{NULL} (no prefix). Useful to label catalogs from different individuals, 
 species or sites and ensure they will be grouped together when sorted by file name.}
 
-\item{tag.widths}{A numeric vector of length 2 to control de relative width of the color tags (when 2 tags are provided).}
+\item{tag.widths}{A numeric vector of length 2 to control the relative width of the color tags (when 2 tags are provided).}
 
-\item{hatching}{A numeric vector of length 1 controling cross-hatching is used for color tags. Several cross-hatching 
+\item{hatching}{A numeric vector of length 1 controlling cross-hatching is used for color tags. Several cross-hatching 
 patterns are used to make tags with similar colors more distinguishable. Four values are allowed: 
 \itemize{
    \item \code{0}: No cross-hatching
@@ -133,7 +133,7 @@ patterns are used to make tags with similar colors more distinguishable. Four va
    \item \code{3}: Cross-hatching both color tags
    }}
 
-\item{breaks}{Numeric vector of length 1 or 2 controling the number of intervals in which a 
+\item{breaks}{Numeric vector of length 1 or 2 controlling the number of intervals in which a 
 numeric tag will be divided. The numbers control the first and second tags respectively. 
 Ignored if tags are not numeric. Default is \code{c(5, 5)}.}
 
@@ -151,7 +151,7 @@ provided. Internally applied for setting 'mar' using \code{\link[graphics]{par}}
 \item{max.group.cols}{Numeric vector of length 1 indicating the number of different colors 
 that will be used for group tags (see 'group.tag' argument). If provided (and the number is 
 smaller than the number of levels in the 'group.tag' column) the colors will be recycled, 
-athough ensuring that adjacent groups do not share the same color. Useful when the 
+although ensuring that adjacent groups do not share the same color. Useful when the 
 'group.tag' has many levels and the colors assigned become very similar. Default is \code{NULL}.}
 
 \item{sub.legend}{Logical. If \code{TRUE} then only the levels present on each

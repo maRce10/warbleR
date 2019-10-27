@@ -8,7 +8,7 @@
 #' open.end = FALSE, scale = FALSE, ...)
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
-#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
+#' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param length.out A numeric vector of length 1 giving the number of measurements of fundamental 
@@ -31,7 +31,7 @@
 #' @param clip.edges Logical argument to control whether edges (start or end of signal) in
 #' which amplitude values above the threshold were not detected will be removed. If 
 #' \code{TRUE} (default) this edges will be excluded and signal contour will be calculated on the
-#' remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).
+#' remaining values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).
 #' @param window.type	\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).
 #' @param open.end \code{\link[dtw]{dtw}} control parameter. Performs 
 #' open-ended alignments (see \code{\link[dtw]{dtw}}).
@@ -53,7 +53,7 @@
 #' The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental
 #'  frequency  measures. If 'img' is  \code{TRUE} the function also produces image files
 #'  with the spectrograms of the signals listed in the input data frame showing the
-#'  location of the fundamental frequencies. Note that if no amplitude is detected at the begining or end 
+#'  location of the fundamental frequencies. Note that if no amplitude is detected at the beginning or end 
 #'  of the signals then NAs will be generated. On the other hand, if amplitude is not detected in between signal
 #'  segments in which amplitude was detected then the values of this adjacent segments will be interpolated to fill out the missing values (e.g. no NAs in between detected amplitude segments). 
 #' @seealso dfDTW \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}}

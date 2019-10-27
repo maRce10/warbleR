@@ -112,7 +112,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   
   #check internet connection
   a <- try(RCurl::getURL("www.xeno-canto.org"), silent = TRUE)
-  if (substr(a[1],0,5) == "Error") stop("No connection to xeno-canto.org (check your internet connection!)")
+  if (class(a) == "try-error") stop("No connection to xeno-canto.org (check your internet connection!)")
   
   if (a == "Could not connect to the database")  stop("xeno-canto.org website is apparently down")
   
@@ -177,7 +177,6 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
           return(x)
         })
         
-        
         # determine all column names in all pages
         cnms <- unique(unlist(lapply(d2, names)))    
         
@@ -199,8 +198,23 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       }
       ) 
         
+        # determine all column names in all pages
+        cnms <- unique(unlist(lapply(f, names)))    
+        
+        # add columns that are missing to each selection table
+        f2 <- lapply(f, function(X)
+        {
+          nms <- names(X)
+          if (length(nms) != length(cnms))  
+            for(i in cnms[!cnms %in% nms]) {
+              X <- data.frame(X,  NA, stringsAsFactors = FALSE, check.names = FALSE)
+              names(X)[ncol(X)] <- i
+            }
+          return(X)
+        })  
+        
       # save results in a single data frame  
-      results <- do.call(rbind, f)
+      results <- do.call(rbind, f2)
       
       # convert factors to characters
       indx <- sapply(results, is.factor)

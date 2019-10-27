@@ -10,13 +10,13 @@ nbands = 40, parallel = 1, pb = TRUE, ...)
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
+end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
 be used as the input data frame.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows. Internally this is used to set the 'hoptime' argument in \code{\link[tuneR]{melfcc}}. Default is 50.}
 
-\item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.}
+\item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independently in the frequency domain.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in minimum of 'bottom.freq'
@@ -74,7 +74,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 
 Lyon, R. H., & Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis. Journal of Mechanical Design, 104(2), 303-306.
 
-Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban sound research. In Proceedings of the 22nd ACM international conference on Multimedi. 1041-1044.
+Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban sound research. In Proceedings of the 22nd ACM international conference on Multimedia. 1041-1044.
 }
 }
 \seealso{

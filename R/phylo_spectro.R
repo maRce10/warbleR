@@ -13,13 +13,13 @@
 #' (as in \code{\link[ape]{plot.phylo}}). Only 'phylogram' (default) and 'fan' are allowed.
 #' @param par.mar Numeric vector with 4 elements, default is \code{rep(1, 4)}. Specifies the number of lines 
 #' in inner plot margins where axis labels fall, with form c(bottom, left, top, right). 
-#' See \code{\link[graphics]{par}}. See 'inner.par' argument for controling spectrogram margins.
+#' See \code{\link[graphics]{par}}. See 'inner.par' argument for controlling spectrogram margins.
 #' @param size Numeric vector of length 1 controlling the relative size of spectrograms. Higher numbers increase the height of spectrograms. Default is 1. 
 #' Numbers between range \code{c(>0, Inf)} are allowed. 
 #' @param offset Numeric vector of length 1 controlling the space between tips and spectrograms. Default is 0.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param ladder Character string controling whether the phylogeny is ladderized (i.e. the internal structure of the 
+#' @param ladder Character string controlling whether the phylogeny is ladderized (i.e. the internal structure of the 
 #' tree is reorganized to get the ladderized effect when plotted). Only 'left' of 'right' values are accepted. Default is 
 #' \code{NULL} (no ladderization). See \code{\link[ape]{ladderize}} for more details.
 #' @param horizontal Logical. Controls whether spectrograms in a fan phylogeny are place in a horizontal position 
@@ -102,6 +102,10 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
   # error message if ape is not installed
   if (!requireNamespace("ape",quietly = TRUE))
     stop("must install 'ape' to use phylo_spectro()")
+  
+  # error message if jpeg package is not installed
+  if (!requireNamespace("jpeg",quietly = TRUE))
+    stop("must install 'jpeg' to use this function")
   
   # currenlt only horizontal is allowed
   if (!horizontal) cat("Currently only horizontal spectrograms are allowed")

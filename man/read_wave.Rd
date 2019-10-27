@@ -19,7 +19,7 @@ selection number (selec), and start and end time of signals (start and end).
 \item{to}{Where to stop reading, in seconds. Default is \code{X$end[index]}.}
 
 \item{channel}{Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). If 
-\code{NULL} or highes than the number of channels in a wave then the first channel is used.}
+\code{NULL} or higher than the number of channels in a wave then the first channel is used.}
 
 \item{header}{If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.}
 

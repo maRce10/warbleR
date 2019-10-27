@@ -7,15 +7,15 @@
 #' wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
+#' end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' be used as the input data frame.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in bottom.freq
 #'   and top.freq columns will be used as bandpass limits.  Lower limit of
 #'    bandpass filter is not applied to fundamental frequencies. 
-#' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.
+#' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independently in the frequency domain.
 #' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
-#' for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+#' for measurements on the frequency spectrum. Default is 512. Higher values would provide 
 #' more accurate measurements. Note that this allows to increase measurement precision independently in the time and frequency domain. If \code{NULL} (default) then the 'wl' value is used. 
 #' @param threshold amplitude threshold (\%) for fundamental frequency and 
 #'   dominant frequency detection. Default is 15.
@@ -100,7 +100,7 @@
 #' }
 #' @export
 #' @name specan
-#' @details The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used 
+#' @details The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used 
 #'  directly without any additional modification. The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
 #'  each selection in the data frame. Most parameters are produced internally by 
 #'  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
@@ -322,7 +322,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     if (!fast) #only if fast is TRUE
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
-    #Dominant frecuency parameters
+    #Dominant frequency parameters
     y <- track_harm(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 2 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE,  dfrq = TRUE, adjust.wl = TRUE)[, 2]
     
     #remove NAs

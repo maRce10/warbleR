@@ -11,7 +11,7 @@ na.rm = FALSE, weight = NULL)
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above.}
 
 \item{song_colm}{Character string with the column name containing song labels. 
@@ -31,7 +31,7 @@ value is needed. Default is \code{NULL}.}
 
 \item{elm_fun}{Function to be applied to the sequence of elements composing a song. Default is \code{NULL}. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.}
 
-\item{sd}{Logical value indicating whether standard deviaton is also returned for
+\item{sd}{Logical value indicating whether standard deviation is also returned for
 variables in which averages are reported. Default is \code{FALSE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
@@ -48,7 +48,7 @@ measurements (i.e. song parameters). Names of numeric columns in 'X' can also be
 \value{
 A data frame similar to the input 'X' data frame, but in this case each row corresponds to a single song. The data frame contains the mean or extreme
  values for numeric columns for each song. Columns that will be averaged can be defined with
- 'mean_colm' (otherwhise all numeric columns are used). Columns can be 
+ 'mean_colm' (otherwise all numeric columns are used). Columns can be 
  weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters: 
 \itemize{
    \item \code{elm.duration}: mean length of elements (in s)

@@ -6,7 +6,7 @@
 #' @param ts.df1 Optional. Data frame with frequency contour time series of signals to be compared.
 #' @param ts.df2 Optional. Data frame with frequency contour time series of signals to be compared.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not availble in Windows OS.
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not available in Windows OS.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is only used
 #' when parallel = 1.
 #' @param window.type	\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).

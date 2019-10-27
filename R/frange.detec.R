@@ -12,7 +12,7 @@
 #' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
 #'  sliding window in kHz. This help to average amplitude "hills" to minimize the effect of
 #'  amplitude modulation. Default is 0.1.
-#' @param threshold Amplitude threshold (\%) for frequency range detection. The frequency range (not the cummulative amplitude) is represented as percentage (100\% = highest amplitude). Default is 10. Ignored if 'dB.threshold' is supplied.
+#' @param threshold Amplitude threshold (\%) for frequency range detection. The frequency range (not the cumulative amplitude) is represented as percentage (100\% = highest amplitude). Default is 10. Ignored if 'dB.threshold' is supplied.
 #' @param dB.threshold Amplitude threshold for frequency range detection (in dB). The
 #' value indicates the decrease in dB in relation to the highest amplitude (e.g. 
 #' the peak frequency) in which range will be detected. For instance a 
@@ -30,7 +30,7 @@
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
@@ -52,7 +52,7 @@
 #'  \item top.freq = the end frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.
 #'   }
 #'   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is 
-#'   produced in the graphic device. The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
+#'   produced in the graphic device. The graph would include gray areas in the frequency ranges excluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
 #' @seealso \code{\link{frange}}, \code{\link{autodetec}}
 #' @examples
 #' {

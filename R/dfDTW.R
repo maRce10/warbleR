@@ -10,7 +10,7 @@
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data 
 #' frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
-#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
+#' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param length.out A numeric vector of length 1 giving the number of measurements of dominant 
@@ -18,7 +18,7 @@
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
-#' for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+#' for measurements on the frequency spectrum. Default is 512. Higher values would provide 
 #' more accurate measurements.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. 
@@ -40,7 +40,7 @@
 #' @param clip.edges Logical argument to control whether edges (start or end of signal) in
 #' which amplitude values above the threshold were not detected will be removed. If 
 #' \code{TRUE} (default) this edges will be excluded and contours will be calculated on the
-#' remainging values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).
+#' remaining values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).
 #' @param window.type	\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).
 #' @param open.end \code{\link[dtw]{dtw}} control parameter. Performs 
 #' open-ended alignments (see \code{\link[dtw]{dtw}}).

@@ -11,7 +11,7 @@
 #'   the spectrogram, as in the function \code{\link[seewave]{spectro}}. 
 #'   Default is c(0,12).
 #' @param seltime A numeric vector of length 1 indicating the time interval in seconds at which 
-#' the spectrograms are produced with higher resolution (ovlp = 70) and oscilograms (if osci = \code{TRUE}). 
+#' the spectrograms are produced with higher resolution (ovlp = 70) and oscillograms (if osci = \code{TRUE}). 
 #'  Default is 1 second.
 #' @param tdisp A numeric vector of length 1 specifying the length in seconds of the total sound file to 
 #' be displayed. Default is \code{NULL} which displays the full sound file.
@@ -39,14 +39,14 @@
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels.
 #' @param ext.window Logical. If \code{TRUE} then and external graphic window is used. Default 
 #' dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.
-#' @param width Numeric of length 1 controling the width of the external graphic window. Ignored
+#' @param width Numeric of length 1 controlling the width of the external graphic window. Ignored
 #' if \code{ext.window = FALSE}. Default is 15.
-#' @param height Numeric of length 1 controling the height of the external graphic window.
+#' @param height Numeric of length 1 controlling the height of the external graphic window.
 #' Ignored if \code{ext.window = FALSE}. Default is 5. 
 #' @return .csv file saved in the working directory with start and end time of 
 #'   selections.
@@ -103,8 +103,8 @@
 #'   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
 #'   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
 #'   cm.colors. The function is slow when working on files of length > 5min. In most cases other
-#'   sound analysis softwares for manually selecting acoustic signals (e.g. Raven, Syrinx) should
-#'   be prefered.
+#'   sound analysis software for manually selecting acoustic signals (e.g. Raven, Syrinx) should
+#'   be preferred.
 #'  
 #' @seealso  \code{\link{seltailor}}
 #'    

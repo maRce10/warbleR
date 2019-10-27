@@ -139,11 +139,9 @@ License: GPL (>= 2)
   
   \code{\link{catalog2pdf}}: Combine catalog images to single pdf files
   
-  \code{\link{coor.graph}}: Creat graphs of coordinated singing 
+  \code{\link{coor.graph}}: Create graphs of coordinated singing 
   
   \code{\link{color.spectro}}: Highlight spectrogram regions
-  
-  \code{\link{xcorr.graph}}: Pairwise cross-correlation of multiple signals
   
   \code{\link{lspec}}: Produce spectrograms of whole recordings split into 
   multiple rows

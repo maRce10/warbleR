@@ -23,7 +23,7 @@
 #' @name xcmaps
 #' @details This function creates maps for visualizing the geographic spread of recordings from the open-access
 #' online repository  \href{http://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of 
-#' \code{\link{querxc}} as input. Maps can be displayed in the graphic devide or saved as images in the
+#' \code{\link{querxc}} as input. Maps can be displayed in the graphic device or saved as images in the
 #' working directory.
 #' @examples
 #' \dontrun{
@@ -42,6 +42,10 @@
 xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
                    path = NULL) {
 
+  # error message if wavethresh is not installed
+  if (!requireNamespace("maps",quietly = TRUE))
+    stop("must install 'maps' to use this function")
+  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(xcmaps)
@@ -128,7 +132,7 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
        mtext(i, side =3, line = 1, cex = 1.4, font = 4)
        
        #add axes
-       map.axes()
+       maps::map.axes()
        
        #add contour lines
        maps::map("world", xlim = c(min(lon) - buf, max(lon) + buf), interior = FALSE,
@@ -142,7 +146,7 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
         text(lon, lat, labels = X$Recording_ID, cex = 0.7, pos = 4)
       
       # add scale
-       map.scale(ratio = FALSE, relwidth = 0.4)   
+       maps::map.scale(ratio = FALSE, relwidth = 0.4)   
        dev.off()
      
        } else {
@@ -177,7 +181,7 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
          mtext(i, side =3, line = 1, cex = 1, font = 4)
          
          #add axes
-         map.axes()
+         maps::map.axes()
          
          #add contour lines
          maps::map("world", xlim = c(min(lon) - buf, max(lon) + buf), interior = FALSE,
@@ -192,7 +196,7 @@ xcmaps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
         text(lon, lat, labels = X$Recording_ID, cex = 0.7, pos = 4)
          
          # add scale
-       map.scale(ratio = FALSE, relwidth = 0.4)
+         maps::map.scale(ratio = FALSE, relwidth = 0.4)
       }    
     }
   }

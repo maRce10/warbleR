@@ -10,7 +10,7 @@
 #' @param from Where to start reading, in seconds. Default is \code{X$start[index]}.
 #' @param to Where to stop reading, in seconds. Default is \code{X$end[index]}.
 #' @param channel Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). If 
-#' \code{NULL} or highes than the number of channels in a wave then the first channel is used.
+#' \code{NULL} or higher than the number of channels in a wave then the first channel is used.
 #' @param header If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.

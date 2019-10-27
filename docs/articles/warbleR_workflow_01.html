@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2019-10-23”
+“2019-10-27”
 </center></h4>
       
       
@@ -250,58 +250,125 @@
 <a class="sourceLine" id="cb7-2" data-line-number="2">Phae &lt;-<span class="st"> </span><span class="kw"><a href="../reference/querxc.html">querxc</a></span>(<span class="dt">qword =</span> <span class="st">"Phaethornis"</span>, <span class="dt">download =</span> <span class="ot">FALSE</span>) </a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># Check out the structure of resulting the data frame</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(Phae)</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co"># Query xeno-canto for all Phaethornis longirostris recordings</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8">Phae.lon &lt;-<span class="st"> </span><span class="kw"><a href="../reference/querxc.html">querxc</a></span>(<span class="dt">qword =</span> <span class="st">"Phaethornis longirostris"</span>, <span class="dt">download =</span> <span class="ot">FALSE</span>) </a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co"># Check out the structure of resulting the data frame</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(Phae.lon)</a></code></pre></div>
-<pre><code>85 recordings found!</code></pre>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(Phae)</a></code></pre></div>
+<pre><code>'data.frame':   899 obs. of  36 variables:
+ $ Recording_ID     : int  406968 403856 403854 387711 275252 261696 261695 261694 261693 261692 ...
+ $ Genus            : chr  "Phaethornis" "Phaethornis" "Phaethornis" "Phaethornis" ...
+ $ Specific_epithet : chr  "yaruqui" "yaruqui" "yaruqui" "yaruqui" ...
+ $ Subspecies       : chr  "" "" "" "" ...
+ $ English_name     : chr  "White-whiskered Hermit" "White-whiskered Hermit" "White-whiskered Hermit" "White-whiskered Hermit" ...
+ $ Recordist        : chr  "Myornis" "Myornis" "Myornis" "Jerome Fischer" ...
+ $ Country          : chr  "Colombia" "Colombia" "Colombia" "Ecuador" ...
+ $ Locality         : chr  "La Chocoana, Guachalito, Nuquí, Chocó" "La Chocoana, Guachalito, Nuquí, Chocó" "La Chocoana, Guachalito, Nuquí, Chocó" "Amagusa Reserve Pichincha" ...
+ $ Latitude         : num  5.627 5.627 5.627 0.161 0.75 ...
+ $ Longitude        : num  -77.4 -77.4 -77.4 -78.9 -78.9 ...
+ $ Vocalization_type: chr  "flight call" "flight call" "flight call" "song" ...
+ $ Audio_file       : chr  "//www.xeno-canto.org/406968/download" "//www.xeno-canto.org/403856/download" "//www.xeno-canto.org/403854/download" "//www.xeno-canto.org/387711/download" ...
+ $ License          : chr  "//creativecommons.org/licenses/by-nc-sa/4.0/" "//creativecommons.org/licenses/by-nc-sa/4.0/" "//creativecommons.org/licenses/by-nc-sa/4.0/" "//creativecommons.org/licenses/by-nc-sa/4.0/" ...
+ $ Url              : chr  "//www.xeno-canto.org/406968" "//www.xeno-canto.org/403856" "//www.xeno-canto.org/403854" "//www.xeno-canto.org/387711" ...
+ $ Quality          : chr  "A" "A" "A" "A" ...
+ $ Time             : chr  "?" "?" "?" "09:00" ...
+ $ Date             : chr  "2018-08-00" "2017-08-00" "2017-08-00" "2017-09-24" ...
+ $ Altitude         : chr  "30" "10" "10" "1300" ...
+ $ Spectrogram_small: chr  "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC406968-small.png" "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC403856-small.png" "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC403854-small.png" "//www.xeno-canto.org/sounds/uploaded/JPBSNBUUEF/ffts/XC387711-small.png" ...
+ $ Spectrogram_med  : chr  "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC406968-med.png" "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC403856-med.png" "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC403854-med.png" "//www.xeno-canto.org/sounds/uploaded/JPBSNBUUEF/ffts/XC387711-med.png" ...
+ $ Spectrogram_large: chr  "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC406968-large.png" "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC403856-large.png" "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC403854-large.png" "//www.xeno-canto.org/sounds/uploaded/JPBSNBUUEF/ffts/XC387711-large.png" ...
+ $ Spectrogram_full : chr  "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC406968-full.png" "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC403856-full.png" "//www.xeno-canto.org/sounds/uploaded/OXSIOLJJUP/ffts/XC403854-full.png" "//www.xeno-canto.org/sounds/uploaded/JPBSNBUUEF/ffts/XC387711-full.png" ...
+ $ Length           : chr  "0:02" "0:04" "0:01" "0:50" ...
+ $ Uploaded         : chr  "2018-03-23" "2018-02-28" "2018-02-28" "2017-09-27" ...
+ $ Other_species    : chr  "" "Coereba flaveola" "" "" ...
+ $ Remarks          : chr  "In forest." "Forest border." "Forest border." "" ...
+ $ Bird_seen        : chr  "yes" "yes" "yes" "yes" ...
+ $ Playback_used    : chr  "no" "no" "no" "no" ...
+ $ Other_species1   : chr  NA NA NA NA ...
+ $ Other_species2   : chr  NA NA NA NA ...
+ $ Other_species3   : chr  NA NA NA NA ...
+ $ Other_species4   : chr  NA NA NA NA ...
+ $ Other_species5   : chr  NA NA NA NA ...
+ $ Other_species6   : chr  NA NA NA NA ...
+ $ Other_species7   : chr  NA NA NA NA ...
+ $ Other_species8   : chr  NA NA NA NA ...</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Query xeno-canto for all Phaethornis longirostris recordings</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">Phae.lon &lt;-<span class="st"> </span><span class="kw"><a href="../reference/querxc.html">querxc</a></span>(<span class="dt">qword =</span> <span class="st">"Phaethornis longirostris"</span>, <span class="dt">download =</span> <span class="ot">FALSE</span>) </a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># Check out the structure of resulting the data frame</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(Phae.lon)</a></code></pre></div>
+<pre><code>'data.frame':   85 obs. of  31 variables:
+ $ Recording_ID     : int  497036 495384 433645 402755 355350 282529 274377 271499 154138 154129 ...
+ $ Genus            : chr  "Phaethornis" "Phaethornis" "Phaethornis" "Phaethornis" ...
+ $ Specific_epithet : chr  "longirostris" "longirostris" "longirostris" "longirostris" ...
+ $ Subspecies       : chr  "" "cephalus" "" "" ...
+ $ English_name     : chr  "Long-billed Hermit" "Long-billed Hermit" "Long-billed Hermit" "Long-billed Hermit" ...
+ $ Recordist        : chr  "Jerome Fischer" "Guy Kirwan" "Oscar Campbell" "Marilyn Castillo" ...
+ $ Country          : chr  "Panama" "Panama" "Panama" "Mexico" ...
+ $ Locality         : chr  "Achiote Road, Colón Province" "Panama Rainforest Discovery Centre" "Panama Rainforest Discovery Centre" "Boca de Chajul, Marqués de Comillas, Chiapas" ...
+ $ Latitude         : num  9.2 9.13 9.13 16.13 8.94 ...
+ $ Longitude        : num  -80 -79.7 -79.7 -90.9 -78.5 ...
+ $ Vocalization_type: chr  "song" "call" "song" "alarm call" ...
+ $ Audio_file       : chr  "//www.xeno-canto.org/497036/download" "//www.xeno-canto.org/495384/download" "//www.xeno-canto.org/433645/download" "//www.xeno-canto.org/402755/download" ...
+ $ License          : chr  "//creativecommons.org/licenses/by-nc-sa/4.0/" "//creativecommons.org/licenses/by-nc-sa/4.0/" "//creativecommons.org/licenses/by-nc-sa/4.0/" "//creativecommons.org/licenses/by-nc-nd/4.0/" ...
+ $ Url              : chr  "//www.xeno-canto.org/497036" "//www.xeno-canto.org/495384" "//www.xeno-canto.org/433645" "//www.xeno-canto.org/402755" ...
+ $ Quality          : chr  "no score" "A" "A" "A" ...
+ $ Time             : chr  "09:30" "09:00" "08:30" "07:30" ...
+ $ Date             : chr  "2019-02-10" "2019-07-04" "2018-07-10" "2016-01-18" ...
+ $ Altitude         : chr  "30" "70" "70" "180" ...
+ $ Spectrogram_small: chr  "//www.xeno-canto.org/sounds/uploaded/JPBSNBUUEF/ffts/XC497036-small.png" "//www.xeno-canto.org/sounds/uploaded/BZVYBRUAAE/ffts/XC495384-small.png" "//www.xeno-canto.org/sounds/uploaded/RFRTVEHIZX/ffts/XC433645-small.png" "//www.xeno-canto.org/sounds/uploaded/CHRIDPJVMH/ffts/XC402755-small.png" ...
+ $ Spectrogram_med  : chr  "//www.xeno-canto.org/sounds/uploaded/JPBSNBUUEF/ffts/XC497036-med.png" "//www.xeno-canto.org/sounds/uploaded/BZVYBRUAAE/ffts/XC495384-med.png" "//www.xeno-canto.org/sounds/uploaded/RFRTVEHIZX/ffts/XC433645-med.png" "//www.xeno-canto.org/sounds/uploaded/CHRIDPJVMH/ffts/XC402755-med.png" ...
+ $ Spectrogram_large: chr  "//www.xeno-canto.org/sounds/uploaded/JPBSNBUUEF/ffts/XC497036-large.png" "//www.xeno-canto.org/sounds/uploaded/BZVYBRUAAE/ffts/XC495384-large.png" "//www.xeno-canto.org/sounds/uploaded/RFRTVEHIZX/ffts/XC433645-large.png" "//www.xeno-canto.org/sounds/uploaded/CHRIDPJVMH/ffts/XC402755-large.png" ...
+ $ Spectrogram_full : chr  "//www.xeno-canto.org/sounds/uploaded/JPBSNBUUEF/ffts/XC497036-full.png" "//www.xeno-canto.org/sounds/uploaded/BZVYBRUAAE/ffts/XC495384-full.png" "//www.xeno-canto.org/sounds/uploaded/RFRTVEHIZX/ffts/XC433645-full.png" "//www.xeno-canto.org/sounds/uploaded/CHRIDPJVMH/ffts/XC402755-full.png" ...
+ $ Length           : chr  "0:27" "0:49" "0:58" "0:03" ...
+ $ Uploaded         : chr  "2019-09-13" "2019-09-01" "2018-09-09" "2018-02-14" ...
+ $ Other_species    : chr  "" "" "" "" ...
+ $ Remarks          : chr  "" "Lek with up to three different individuals. Focal bird was perched 1.5 m above ground on a 45-degree angle twig." "Male seen on lek; 3 feet above ground in gap in undergrowth. Calling incessantly and quivering tail as doing so"| __truncated__ "" ...
+ $ Bird_seen        : chr  "yes" "yes" "yes" "yes" ...
+ $ Playback_used    : chr  "no" "no" "no" "no" ...
+ $ Other_species1   : chr  NA NA NA NA ...
+ $ Other_species2   : chr  NA NA NA NA ...
+ $ Other_species3   : chr  NA NA NA NA ...</code></pre>
 <p> </p>
 <p>You can then use the function <code>xcmaps</code> to visualize the geographic spread of the queried recordings. <code>xcmaps</code> will create an image file of a map per species in your current directory if <code>img = TRUE</code>. If <code>img = FALSE</code>, maps will be displayed in the graphics device.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Image type default is jpeg, but tiff files have better resolution</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># When the data frame contains multiple species, this will yield one map per species</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw"><a href="../reference/xcmaps.html">xcmaps</a></span>(<span class="dt">X =</span> Phae, <span class="dt">img =</span> <span class="ot">TRUE</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>) <span class="co"># all species in the genus</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="../reference/xcmaps.html">xcmaps</a></span>(<span class="dt">X =</span> Phae.lon, <span class="dt">img =</span> <span class="ot">FALSE</span>) <span class="co"># a single species</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># Image type default is jpeg, but tiff files have better resolution</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co"># When the data frame contains multiple species, this will yield one map per species</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw"><a href="../reference/xcmaps.html">xcmaps</a></span>(<span class="dt">X =</span> Phae, <span class="dt">img =</span> <span class="ot">TRUE</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>) <span class="co"># all species in the genus</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw"><a href="../reference/xcmaps.html">xcmaps</a></span>(<span class="dt">X =</span> Phae.lon, <span class="dt">img =</span> <span class="ot">FALSE</span>) <span class="co"># a single species</span></a></code></pre></div>
 <div id="filter-xeno-canto-recordings-by-quality-signal-type-and-locality" class="section level3">
 <h3 class="hasAnchor">
 <a href="#filter-xeno-canto-recordings-by-quality-signal-type-and-locality" class="anchor"></a>Filter <a href="http://www.xeno-canto.org/">xeno-canto</a> recordings by quality, signal type and locality</h3>
 <p>In most cases, you will need to filter the <em>xeno-canto</em> metadata by type of signal you want to analyze. When you subset the metadata, you can input the filtered metadata back into <code>querxc</code> to download only the selected recordings. There are many ways to filter data in R, and the example below can be modified to fit your own data.</p>
 <p>Here, before downloading the sound files themselves from <em>xeno-canto</em>, we want to ensure that we select high quality sound files that contain songs (rather than other acoustic signal types) and were also recorded at La Selva Biological Station in Costa Rica.</p>
 <p> </p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># How many recordings are available for Phaethornis longirostris?</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.lon) </a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># How many recordings are available for Phaethornis longirostris?</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.lon) </a></code></pre></div>
 <pre><code>[1] 85</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># How many signal types exist in the xeno-canto metadata?</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(Phae.lon<span class="op">$</span>Vocalization_type)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># How many signal types exist in the xeno-canto metadata?</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(Phae.lon<span class="op">$</span>Vocalization_type)</a></code></pre></div>
 <pre><code>NULL</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># How many recordings per signal type?</span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.lon<span class="op">$</span>Vocalization_type)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># How many recordings per signal type?</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.lon<span class="op">$</span>Vocalization_type)</a></code></pre></div>
 <pre><code>
               300        alarm call              call             calls       flight call         lek, song           lekking              song 
                 1                 1                 6                 1                 2                 2                 1                68 
       song at lek song, wing whirrs 
                 2                 1 </code></pre>
 <p> </p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># Filter the metadata to select the signals we want to retain</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co"># First by quality</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">Phae.lon &lt;-<span class="st"> </span>Phae.lon[Phae.lon<span class="op">$</span>Quality <span class="op">==</span><span class="st"> "A"</span>, ]</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.lon)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># Filter the metadata to select the signals we want to retain</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co"># First by quality</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">Phae.lon &lt;-<span class="st"> </span>Phae.lon[Phae.lon<span class="op">$</span>Quality <span class="op">==</span><span class="st"> "A"</span>, ]</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.lon)</a></code></pre></div>
 <pre><code>[1] 12</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># Then by signal type</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">Phae.lon.song &lt;-<span class="st"> </span>Phae.lon[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"song"</span>, Phae.lon<span class="op">$</span>Vocalization_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>), ]</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.lon.song)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># Then by signal type</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">Phae.lon.song &lt;-<span class="st"> </span>Phae.lon[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"song"</span>, Phae.lon<span class="op">$</span>Vocalization_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>), ]</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.lon.song)</a></code></pre></div>
 <pre><code>[1] 9</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># Finally by locality</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">Phae.lon.LS &lt;-<span class="st"> </span>Phae.lon.song[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"La Selva Biological Station, Sarapiqui, Heredia"</span>, Phae.lon.song<span class="op">$</span>Locality, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>), ]</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co"># Check resulting data frame, 6 recordings remain</span></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(Phae.lon.LS)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Finally by locality</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">Phae.lon.LS &lt;-<span class="st"> </span>Phae.lon.song[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"La Selva Biological Station, Sarapiqui, Heredia"</span>, Phae.lon.song<span class="op">$</span>Locality, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>), ]</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co"># Check resulting data frame, 6 recordings remain</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(Phae.lon.LS)</a></code></pre></div>
 <pre><code>'data.frame':   3 obs. of  31 variables:
- $ Recording_ID     : chr  "154138" "154129" "154072"
+ $ Recording_ID     : int  154138 154129 154072
  $ Genus            : chr  "Phaethornis" "Phaethornis" "Phaethornis"
  $ Specific_epithet : chr  "longirostris" "longirostris" "longirostris"
  $ Subspecies       : chr  "" "" ""
@@ -309,8 +376,8 @@
  $ Recordist        : chr  "Marcelo Araya-Salas" "Marcelo Araya-Salas" "Marcelo Araya-Salas"
  $ Country          : chr  "Costa Rica" "Costa Rica" "Costa Rica"
  $ Locality         : chr  "La Selva Biological Station, Sarapiqui, Heredia" "La Selva Biological Station, Sarapiqui, Heredia" "La Selva Biological Station, Sarapiqui, Heredia"
- $ Latitude         : chr  "10.430488" "10.430488" "10.430488"
- $ Longitude        : chr  "-84.00628" "-84.00628" "-84.00628"
+ $ Latitude         : num  10.4 10.4 10.4
+ $ Longitude        : num  -84 -84 -84
  $ Vocalization_type: chr  "song" "song" "song"
  $ Audio_file       : chr  "//www.xeno-canto.org/154138/download" "//www.xeno-canto.org/154129/download" "//www.xeno-canto.org/154072/download"
  $ License          : chr  "//creativecommons.org/licenses/by-nc-sa/3.0/" "//creativecommons.org/licenses/by-nc-sa/3.0/" "//creativecommons.org/licenses/by-nc-sa/3.0/"
@@ -329,23 +396,20 @@
  $ Remarks          : chr  "Recording equipment: Marantz Pmd 660+sennheiser ME67. Comments: individuo-AK; lek-Sura. Primera parte de grabac"| __truncated__ "Recording equipment: Marantz Pmd 660+sennheiser ME67. Comments: individuo-AK; lek-Sura. video 511, revisar. 9 m"| __truncated__ "Recording equipment: Marantz Pmd 660+sennheiser ME67. Comments: individuo-VA; lek-CCL. en percha ded VA, probab"| __truncated__
  $ Bird_seen        : chr  "yes" "yes" "yes"
  $ Playback_used    : chr  "no" "no" "no"
- $ Other_species1   : Named chr  NA NA NA
-  ..- attr(*, "names")= chr  NA NA NA
- $ Other_species2   : Named chr  NA NA NA
-  ..- attr(*, "names")= chr  NA NA NA
- $ Other_species3   : Named chr  NA NA NA
-  ..- attr(*, "names")= chr  NA NA NA</code></pre>
+ $ Other_species1   : chr  NA NA NA
+ $ Other_species2   : chr  NA NA NA
+ $ Other_species3   : chr  NA NA NA</code></pre>
 <p> </p>
 <p>We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using <code>xcmaps</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># map in the RStudio graphics device (img = FALSE)</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/xcmaps.html">xcmaps</a></span>(Phae.lon.LS, <span class="dt">img =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co"># map in the RStudio graphics device (img = FALSE)</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw"><a href="../reference/xcmaps.html">xcmaps</a></span>(Phae.lon.LS, <span class="dt">img =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p> </p>
 <p>Once you’re sure you want the recordings, use <code>querxc</code> to download the files. Also, save the metadata as a <em>.csv</em> file.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># Download sound files</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="../reference/querxc.html">querxc</a></span>(<span class="dt">X =</span> Phae.lon.LS) </a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co"># Save the metadata object as a .csv file </span></a>
-<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span>(Phae.lon.LS, <span class="st">"Phae_lon.LS.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># Download sound files</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="../reference/querxc.html">querxc</a></span>(<span class="dt">X =</span> Phae.lon.LS) </a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co"># Save the metadata object as a .csv file </span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span>(Phae.lon.LS, <span class="st">"Phae_lon.LS.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p> </p>
 </div>
 <div id="convert-xeno-canto-mp3-recordings-to-wav-format" class="section level3">
@@ -354,14 +418,14 @@
 <p><a href="http://www.xeno-canto.org/">xeno-canto</a> maintains recordings in <em>mp3</em> format due to file size restrictions. However, we require <em>wav</em> format for all downstream analyses. Compression from <em>wav</em> to <em>mp3</em> and back involves information losses, but recordings that have undergone this transformation have been successfully used in research <a href="#References"> <sup>[3]</sup></a>.</p>
 <p>To convert <em>mp3</em> to <em>wav</em>, we can use the warbleR function <code>mp32wav</code>, which relies on a underlying function from the <a href="https://cran.r-project.org/package=tuneR"><code>tuneR</code></a> package. This function does not always work (and it remains unclear as to why!). This bug should be fixed in future versions of <code>tuneR</code>. If RStudio aborts when running <code>mp32wav</code>, use an <em>mp3</em> to <em>wav</em> converter online, or download the open source software <code>Audacity</code> (available for Mac, Linux and Windows users).</p>
 <p>After <em>mp3</em> files have been converted, we need to check that the <em>wav</em> files are not corrupted and can be read into RStudio (some <em>wav</em> files can’t be read due to format or permission issues).</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co"># Always check you're in the right directory beforehand</span></a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="co"># getwd()</span></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co"># here we are downsampling the original sampling rate of 44.1 kHz to speed up downstream analyses in the vignette series</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="kw"><a href="../reference/mp32wav.html">mp32wav</a></span>(<span class="dt">samp.rate =</span> <span class="fl">22.05</span>) </a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co"># Use checkwavs to see if wav files can be read</span></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="kw"><a href="../reference/checkwavs.html">checkwavs</a></span>() </a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co"># Always check you're in the right directory beforehand</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="co"># getwd()</span></a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co"># here we are downsampling the original sampling rate of 44.1 kHz to speed up downstream analyses in the vignette series</span></a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="kw"><a href="../reference/mp32wav.html">mp32wav</a></span>(<span class="dt">samp.rate =</span> <span class="fl">22.05</span>) </a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="co"># Use checkwavs to see if wav files can be read</span></a>
+<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="kw"><a href="../reference/checkwavs.html">checkwavs</a></span>() </a></code></pre></div>
 <p> </p>
 </div>
 </div>
@@ -373,46 +437,46 @@
 <p>Depending on your question(s), you can combine your own sound files and those from <code>xeno-canto</code> into a single data set (after ground-truthing). This is made possible by the fact that <code>warbleR</code> functions will read in all sound files present in your working directory.</p>
 <p>For the main case study in this vignette, we will move forwards with only the <code>xeno-canto</code> sound files. We will use the example sound files when demonstrating <code>warbleR</code> functions that are not mandatory for the case study but may be useful for your own workflow (e.g. <code>consolidate</code> below).</p>
 <p>To continue the workflow, remove all example <em>wav</em> files from your working directory</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># Make sure you are in the right working directory</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co"># Note that all the example sound files begin with the pattern "Phae.long"</span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">wavs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">"wav$"</span>)</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">wavs</a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6">rm &lt;-<span class="st"> </span>wavs[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"Phae.long"</span>, wavs)]</a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.remove</a></span>(rm)</a>
-<a class="sourceLine" id="cb25-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb25-10" data-line-number="10"><span class="co"># Check that the right wav files were removed</span></a>
-<a class="sourceLine" id="cb25-11" data-line-number="11"><span class="co"># Only xeno-cant wav files should remain</span></a>
-<a class="sourceLine" id="cb25-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">"wav$"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Make sure you are in the right working directory</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="co"># Note that all the example sound files begin with the pattern "Phae.long"</span></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">wavs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">"wav$"</span>)</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">wavs</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6">rm &lt;-<span class="st"> </span>wavs[<span class="kw"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"Phae.long"</span>, wavs)]</a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.remove</a></span>(rm)</a>
+<a class="sourceLine" id="cb27-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb27-10" data-line-number="10"><span class="co"># Check that the right wav files were removed</span></a>
+<a class="sourceLine" id="cb27-11" data-line-number="11"><span class="co"># Only xeno-cant wav files should remain</span></a>
+<a class="sourceLine" id="cb27-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">"wav$"</span>)</a></code></pre></div>
 <div id="consolidate-sound-files-across-various-directories" class="section level3">
 <h3 class="hasAnchor">
 <a href="#consolidate-sound-files-across-various-directories" class="anchor"></a>Consolidate sound files across various directories</h3>
 <p>Since <code>warbleR</code> handles sound files in working directories, it’s good practice to keep sound files associated with the same project in a single directory. If you’re someone who likes to make a new directory for every batch of recordings or new analysis associated with the same project, you may find the <code>consolidate</code> function useful.</p>
 <p>In case you have your own recordings in <em>wav</em> format and have skipped previous sections, you must specify the location of the sound files you will use prior to running downstream functions by setting your working directory again.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co"># For this example, set your working directory to an empty temporary directory</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>())</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co"># Here we will simulate the problem of having files scattered in multiple directories</span></a>
-<a class="sourceLine" id="cb26-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="co"># Load .wav file examples from the NatureSounds package</span></a>
-<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Phae.long1"</span>, <span class="st">"Phae.long2"</span>, <span class="st">"Phae.long3"</span>))</a>
-<a class="sourceLine" id="cb26-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb26-9" data-line-number="9"><span class="co"># Create first folder inside the temporary directory and write new .wav files inside this new folder</span></a>
-<a class="sourceLine" id="cb26-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="st">"folder1"</span>)</a>
-<a class="sourceLine" id="cb26-11" data-line-number="11"><span class="kw">writeWave</span>(Phae.long1, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"folder1"</span>,<span class="st">"Phae_long1.wav"</span>))</a>
-<a class="sourceLine" id="cb26-12" data-line-number="12"><span class="kw">writeWave</span>(Phae.long2, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"folder1"</span>,<span class="st">"Phae_long2.wav"</span>))</a>
-<a class="sourceLine" id="cb26-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb26-14" data-line-number="14"><span class="co"># Create second folder inside the temporary directory and write new .wav files inside this second new folder</span></a>
-<a class="sourceLine" id="cb26-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="st">"folder2"</span>)</a>
-<a class="sourceLine" id="cb26-16" data-line-number="16"><span class="kw">writeWave</span>(Phae.long3, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"folder2"</span>,<span class="st">"Phae_long3.wav"</span>))</a>
-<a class="sourceLine" id="cb26-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb26-18" data-line-number="18"><span class="co"># Consolidate the scattered files into a single folder, and make a .csv file that contains metadata (location, old and new names in the case that files were renamed)</span></a>
-<a class="sourceLine" id="cb26-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span>(<span class="kw"><a href="../reference/consolidate.html">consolidate</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="dt">save.csv =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb26-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb26-21" data-line-number="21"><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">path =</span> <span class="st">"./consolidated_folder"</span>)</a>
-<a class="sourceLine" id="cb26-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb26-23" data-line-number="23"><span class="co"># set your working directory back to "/home/user/warbleR_example" for the rest of the vignette, or to whatever working directory you were using originally</span></a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># For this example, set your working directory to an empty temporary directory</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>())</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co"># Here we will simulate the problem of having files scattered in multiple directories</span></a>
+<a class="sourceLine" id="cb28-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="co"># Load .wav file examples from the NatureSounds package</span></a>
+<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Phae.long1"</span>, <span class="st">"Phae.long2"</span>, <span class="st">"Phae.long3"</span>))</a>
+<a class="sourceLine" id="cb28-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb28-9" data-line-number="9"><span class="co"># Create first folder inside the temporary directory and write new .wav files inside this new folder</span></a>
+<a class="sourceLine" id="cb28-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="st">"folder1"</span>)</a>
+<a class="sourceLine" id="cb28-11" data-line-number="11"><span class="kw">writeWave</span>(Phae.long1, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"folder1"</span>,<span class="st">"Phae_long1.wav"</span>))</a>
+<a class="sourceLine" id="cb28-12" data-line-number="12"><span class="kw">writeWave</span>(Phae.long2, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"folder1"</span>,<span class="st">"Phae_long2.wav"</span>))</a>
+<a class="sourceLine" id="cb28-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb28-14" data-line-number="14"><span class="co"># Create second folder inside the temporary directory and write new .wav files inside this second new folder</span></a>
+<a class="sourceLine" id="cb28-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="st">"folder2"</span>)</a>
+<a class="sourceLine" id="cb28-16" data-line-number="16"><span class="kw">writeWave</span>(Phae.long3, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"folder2"</span>,<span class="st">"Phae_long3.wav"</span>))</a>
+<a class="sourceLine" id="cb28-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb28-18" data-line-number="18"><span class="co"># Consolidate the scattered files into a single folder, and make a .csv file that contains metadata (location, old and new names in the case that files were renamed)</span></a>
+<a class="sourceLine" id="cb28-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span>(<span class="kw"><a href="../reference/consolidate.html">consolidate</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="dt">save.csv =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb28-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb28-21" data-line-number="21"><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">path =</span> <span class="st">"./consolidated_folder"</span>)</a>
+<a class="sourceLine" id="cb28-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb28-23" data-line-number="23"><span class="co"># set your working directory back to "/home/user/warbleR_example" for the rest of the vignette, or to whatever working directory you were using originally</span></a></code></pre></div>
 </div>
 </div>
 <div id="make-long-spectrograms-of-whole-recordings" class="section level2">
@@ -422,34 +486,34 @@
 <p><code>lspec</code> produces image files with spectrograms of whole sound files split into multiple rows. It is a useful tool for filtering by visual inspection.</p>
 <p><code>lspec</code> allows you to visually inspect the quality of the recording (e.g. amount of background noise) or the type, number, and completeness of the vocalizations of interest. You can discard the image files and recordings that you no longer want to analyze.</p>
 <p>First, adjust the function arguments as needed. We can work on a subset of the recordings by specifying their names with the <code>flist</code> argument.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Create a vector of all the recordings in the directory</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">wavs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">"wav$"</span>)</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co"># Print this object to see all sound files</span></a>
-<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co"># 6 sound files from xeno-canto</span></a>
-<a class="sourceLine" id="cb27-6" data-line-number="6">wavs </a>
-<a class="sourceLine" id="cb27-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co"># Select a subset of recordings to explore lspec() arguments </span></a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"><span class="co"># Based on the list of wav files we created above</span></a>
-<a class="sourceLine" id="cb27-10" data-line-number="10">sub &lt;-<span class="st"> </span>wavs[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">5</span>)]</a>
-<a class="sourceLine" id="cb27-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb27-12" data-line-number="12"><span class="co"># How long are these files? this will determine number of pages returned by lspec</span></a>
-<a class="sourceLine" id="cb27-13" data-line-number="13"><span class="kw"><a href="../reference/wavdur.html">wavdur</a></span>(sub)</a>
-<a class="sourceLine" id="cb27-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb27-15" data-line-number="15"><span class="co"># ovlp = 10 to speed up function</span></a>
-<a class="sourceLine" id="cb27-16" data-line-number="16"><span class="co"># tiff image files are better quality and are faster to produce</span></a>
-<a class="sourceLine" id="cb27-17" data-line-number="17"><span class="kw"><a href="../reference/lspec.html">lspec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">ovlp =</span> <span class="dv">10</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>)</a>
-<a class="sourceLine" id="cb27-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb27-19" data-line-number="19"><span class="co"># We can zoom in on the frequency axis by changing flim, </span></a>
-<a class="sourceLine" id="cb27-20" data-line-number="20"><span class="co"># the number of seconds per row, and number of rows</span></a>
-<a class="sourceLine" id="cb27-21" data-line-number="21"><span class="kw"><a href="../reference/lspec.html">lspec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">ovlp =</span> <span class="dv">10</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co"># Create a vector of all the recordings in the directory</span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">wavs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">"wav$"</span>)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co"># Print this object to see all sound files</span></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co"># 6 sound files from xeno-canto</span></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6">wavs </a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co"># Select a subset of recordings to explore lspec() arguments </span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co"># Based on the list of wav files we created above</span></a>
+<a class="sourceLine" id="cb29-10" data-line-number="10">sub &lt;-<span class="st"> </span>wavs[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">5</span>)]</a>
+<a class="sourceLine" id="cb29-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb29-12" data-line-number="12"><span class="co"># How long are these files? this will determine number of pages returned by lspec</span></a>
+<a class="sourceLine" id="cb29-13" data-line-number="13"><span class="kw"><a href="../reference/wavdur.html">wavdur</a></span>(sub)</a>
+<a class="sourceLine" id="cb29-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb29-15" data-line-number="15"><span class="co"># ovlp = 10 to speed up function</span></a>
+<a class="sourceLine" id="cb29-16" data-line-number="16"><span class="co"># tiff image files are better quality and are faster to produce</span></a>
+<a class="sourceLine" id="cb29-17" data-line-number="17"><span class="kw"><a href="../reference/lspec.html">lspec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">ovlp =</span> <span class="dv">10</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>)</a>
+<a class="sourceLine" id="cb29-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb29-19" data-line-number="19"><span class="co"># We can zoom in on the frequency axis by changing flim, </span></a>
+<a class="sourceLine" id="cb29-20" data-line-number="20"><span class="co"># the number of seconds per row, and number of rows</span></a>
+<a class="sourceLine" id="cb29-21" data-line-number="21"><span class="kw"><a href="../reference/lspec.html">lspec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">ovlp =</span> <span class="dv">10</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>)</a></code></pre></div>
 <p>Once satisfied with the argument settings we can make long spectrograms for all the sound files.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># Make long spectrograms for the xeno-canto sound files</span></a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="../reference/lspec.html">lspec</a></span>(<span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">ovlp =</span> <span class="dv">10</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">it =</span> <span class="st">"jpeg"</span>, <span class="dt">flist =</span> fl)</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co"># Concatenate lspec image files into a single PDF per recording</span></a>
-<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co"># lspec images must be jpegs to do this</span></a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="kw"><a href="../reference/lspec2pdf.html">lspec2pdf</a></span>(<span class="dt">keep.img =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co"># Make long spectrograms for the xeno-canto sound files</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw"><a href="../reference/lspec.html">lspec</a></span>(<span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">ovlp =</span> <span class="dv">10</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">it =</span> <span class="st">"jpeg"</span>, <span class="dt">flist =</span> fl)</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co"># Concatenate lspec image files into a single PDF per recording</span></a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co"># lspec images must be jpegs to do this</span></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="kw"><a href="../reference/lspec2pdf.html">lspec2pdf</a></span>(<span class="dt">keep.img =</span> <span class="ot">FALSE</span>, <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>The pdf image files (in the working directory) for the <em>xeno-canto</em> recordings should look like this:</p>
 <!-- <center> ![lspec image example](Phaethornis-longirostris-154072-p1.jpg)</center>  -->
 <p> </p>
@@ -467,33 +531,33 @@
 <a href="#automatically-detect-signals-with-autodetec" class="anchor"></a>Automatically detect signals with <code>autodetec</code>
 </h3>
 <p><code>autodetec</code> has 2 types of output:** + data frame with recording name, selection, start and end times. The last two are temporal coordinates that will be passed on to downstream functions to measure acoustic parameters + a spectrogram per recording, with red dotted lines marking the start and end of each detected signal, saved in your working directory</p>
-<p>Check out the <code>autodetec</code> documentation for more information. The argument <code>threshold</code> is one of the most important detection parameters, as well as information about signal frequency range and duration. <em>Phaenthornis longirostris</em> songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s.</p>
+<p>Check out the <code>autodetec</code> documentation for more information. The argument <code>threshold</code> is one of the most important detection parameters, as well as information about signal frequency range and duration. <em>Phaethornis longirostris</em> songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s.</p>
 <p>If you need to detect all or most of the signals within the recording, play around with different arguments to increase detection accuracy. Since you may need to do several rounds of optimization, we recommend using subsets of your recordings to speed up the process. If the species you study produces stereotyped signals, like <em>Phaethornis longirostris</em>, just a few signals are needed per recording, and a low-accuracy detection could yield enough selections.</p>
 <p><code>autodetec</code> does not replace visual inspection of selected signals. Ensure that you set aside the time to inspect all selected signals for accuracy. You will often need to run detection functions several times, and in the process you will get to know your signals better (if you don’t already).</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co"># Select a subset of sound files</span></a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co"># Reinitialize the wav object</span></a>
-<a class="sourceLine" id="cb29-3" data-line-number="3">wavs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">".wav$"</span>, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb29-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co"># Set a seed so we all have the same results</span></a>
-<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb29-7" data-line-number="7">sub &lt;-<span class="st"> </span>wavs[<span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(wavs), <span class="dv">3</span>)]</a>
-<a class="sourceLine" id="cb29-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co"># Run autodetec() on subset of recordings</span></a>
-<a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co"># The data frame object output is printed to the console, we are not saving this in an object yet, since we are just playing around with argument settings</span></a>
-<a class="sourceLine" id="cb29-11" data-line-number="11"><span class="co"># you can run this in parallel to speed up computation time</span></a>
-<a class="sourceLine" id="cb29-12" data-line-number="12"><span class="kw"><a href="../reference/autodetec.html">autodetec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">10</span>), <span class="dt">threshold =</span> <span class="dv">10</span>, <span class="dt">mindur =</span> <span class="fl">0.05</span>, <span class="dt">maxdur =</span> <span class="fl">0.5</span>, <span class="dt">envt=</span><span class="st">"abs"</span>, <span class="dt">ssmooth =</span> <span class="dv">300</span>, <span class="dt">ls =</span> <span class="ot">TRUE</span>, <span class="dt">res =</span> <span class="dv">100</span>, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">set =</span> <span class="ot">TRUE</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">redo =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co"># Select a subset of sound files</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co"># Reinitialize the wav object</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">wavs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="dt">pattern =</span> <span class="st">".wav$"</span>, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co"># Set a seed so we all have the same results</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">sub &lt;-<span class="st"> </span>wavs[<span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(wavs), <span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb31-9" data-line-number="9"><span class="co"># Run autodetec() on subset of recordings</span></a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co"># The data frame object output is printed to the console, we are not saving this in an object yet, since we are just playing around with argument settings</span></a>
+<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="co"># you can run this in parallel to speed up computation time</span></a>
+<a class="sourceLine" id="cb31-12" data-line-number="12"><span class="kw"><a href="../reference/autodetec.html">autodetec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">10</span>), <span class="dt">threshold =</span> <span class="dv">10</span>, <span class="dt">mindur =</span> <span class="fl">0.05</span>, <span class="dt">maxdur =</span> <span class="fl">0.5</span>, <span class="dt">envt=</span><span class="st">"abs"</span>, <span class="dt">ssmooth =</span> <span class="dv">300</span>, <span class="dt">ls =</span> <span class="ot">TRUE</span>, <span class="dt">res =</span> <span class="dv">100</span>, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">set =</span> <span class="ot">TRUE</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">redo =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>Check out the image files in your working directory. Note that some songs were correctly detected but other undesired sounds were also detected. In most cases, the undesired selections have a shorter duration than our target signals.</p>
-<p>We won’t save the <code>autodetec</code> ouput in an object until we’re satisfied with the detection. To improve our detection we should play around with argument values. Also note that the image files produced by <code>autodetec</code> contain the values used for the different arguments, which can help you better compare between runs. Below are some detection parameters that work well for these <em>Phaethornis longirotris </em> recordings:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="../reference/autodetec.html">autodetec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">threshold =</span> <span class="dv">20</span>, <span class="dt">mindur =</span> <span class="fl">0.09</span>, <span class="dt">maxdur =</span> <span class="fl">0.22</span>, <span class="dt">envt =</span> <span class="st">"abs"</span>, <span class="dt">ssmooth =</span> <span class="dv">900</span>, <span class="dt">ls =</span> <span class="ot">TRUE</span>, <span class="dt">res =</span> <span class="dv">100</span>, <span class="dt">flim=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">set =</span><span class="ot">TRUE</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">redo =</span> <span class="ot">TRUE</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>, <span class="dt">img =</span> <span class="ot">TRUE</span>, <span class="dt">smadj =</span> <span class="st">"end"</span>)</a></code></pre></div>
+<p>We won’t save the <code>autodetec</code> ouput in an object until we’re satisfied with the detection. To improve our detection we should play around with argument values. Also note that the image files produced by <code>autodetec</code> contain the values used for the different arguments, which can help you better compare between runs. Below are some detection parameters that work well for these <em>Phaethornis longirostris </em> recordings:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="../reference/autodetec.html">autodetec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">threshold =</span> <span class="dv">20</span>, <span class="dt">mindur =</span> <span class="fl">0.09</span>, <span class="dt">maxdur =</span> <span class="fl">0.22</span>, <span class="dt">envt =</span> <span class="st">"abs"</span>, <span class="dt">ssmooth =</span> <span class="dv">900</span>, <span class="dt">ls =</span> <span class="ot">TRUE</span>, <span class="dt">res =</span> <span class="dv">100</span>, <span class="dt">flim=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">set =</span><span class="ot">TRUE</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">redo =</span> <span class="ot">TRUE</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>, <span class="dt">img =</span> <span class="ot">TRUE</span>, <span class="dt">smadj =</span> <span class="st">"end"</span>)</a></code></pre></div>
 <p>This seems to provide a good detection for most recordings (recording ID 154161):</p>
 <center>
 <img src="154161-autodetec.th15.jpg" alt="autodetec image example">
 </center>
 <p> </p>
 <p>Once we’re satisfied with the detection, we can run the <code>autodetec</code> on all the recordings, removing the argument <code>flist</code> (so <code>autodetec</code> runs over all <em>wav</em> files in the working directory). We will also save the temporal output in an object.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">Phae.ad &lt;-<span class="st"> </span><span class="kw"><a href="../reference/autodetec.html">autodetec</a></span>(<span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">threshold =</span> <span class="dv">20</span>, <span class="dt">mindur =</span> <span class="fl">0.09</span>, <span class="dt">maxdur =</span> <span class="fl">0.22</span>, <span class="dt">envt =</span> <span class="st">"abs"</span>, <span class="dt">ssmooth =</span> <span class="dv">900</span>, <span class="dt">ls =</span> <span class="ot">TRUE</span>, <span class="dt">res =</span> <span class="dv">100</span>, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">set =</span><span class="ot">TRUE</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">redo =</span> <span class="ot">TRUE</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>, <span class="dt">img =</span> <span class="ot">TRUE</span>, <span class="dt">smadj =</span> <span class="st">"end"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">Phae.ad &lt;-<span class="st"> </span><span class="kw"><a href="../reference/autodetec.html">autodetec</a></span>(<span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">threshold =</span> <span class="dv">20</span>, <span class="dt">mindur =</span> <span class="fl">0.09</span>, <span class="dt">maxdur =</span> <span class="fl">0.22</span>, <span class="dt">envt =</span> <span class="st">"abs"</span>, <span class="dt">ssmooth =</span> <span class="dv">900</span>, <span class="dt">ls =</span> <span class="ot">TRUE</span>, <span class="dt">res =</span> <span class="dv">100</span>, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">set =</span><span class="ot">TRUE</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">redo =</span> <span class="ot">TRUE</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>, <span class="dt">img =</span> <span class="ot">TRUE</span>, <span class="dt">smadj =</span> <span class="st">"end"</span>)</a></code></pre></div>
 <p>Let’s look at the number of selections per sound file:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.ad<span class="op">$</span>sound.files)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.ad<span class="op">$</span>sound.files)</a></code></pre></div>
 </div>
 <div id="use-snr-to-filter-automatically-selected-signals" class="section level3">
 <h3 class="hasAnchor">
@@ -503,20 +567,20 @@
 <h4 class="hasAnchor">
 <a href="#optimize-snr-measurements" class="anchor"></a>Optimize SNR measurements</h4>
 <p><code>snrspecs</code> is a function in the family of spectrogram creators that allows you to pick a margin for measuring noise. These margins are very important for calculating SNR, especially when working with signals separated by short gaps (e.g. duets).</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># A margin that's too large causes other signals to be included in the noise measurement</span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="co"># Re-initialize X as needed, for either autodetec or manualoc output</span></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co"># Try this with 10% of the selections first</span></a>
-<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="co"># Set a seed first, so we all have the same results</span></a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb33-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb33-8" data-line-number="8">X &lt;-<span class="st"> </span>Phae.ad[<span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.ad),(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.ad)<span class="op">*</span><span class="fl">0.05</span>)), ]</a>
-<a class="sourceLine" id="cb33-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(X)</a>
-<a class="sourceLine" id="cb33-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb33-11" data-line-number="11"><span class="kw"><a href="../reference/snrspecs.html">snrspecs</a></span>(<span class="dt">X =</span> X, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">snrmar =</span> <span class="fl">0.5</span>, <span class="dt">mar =</span> <span class="fl">0.7</span>, <span class="dt">it =</span> <span class="st">"jpeg"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># A margin that's too large causes other signals to be included in the noise measurement</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="co"># Re-initialize X as needed, for either autodetec or manualoc output</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co"># Try this with 10% of the selections first</span></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="co"># Set a seed first, so we all have the same results</span></a>
+<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">X &lt;-<span class="st"> </span>Phae.ad[<span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.ad),(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.ad)<span class="op">*</span><span class="fl">0.05</span>)), ]</a>
+<a class="sourceLine" id="cb35-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(X)</a>
+<a class="sourceLine" id="cb35-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb35-11" data-line-number="11"><span class="kw"><a href="../reference/snrspecs.html">snrspecs</a></span>(<span class="dt">X =</span> X, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">snrmar =</span> <span class="fl">0.5</span>, <span class="dt">mar =</span> <span class="fl">0.7</span>, <span class="dt">it =</span> <span class="st">"jpeg"</span>)</a></code></pre></div>
 <p>Check out the image files in your working directory. This margin overlaps neighboring signals, so a smaller margin would be better.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># This smaller margin is better</span></a>
-<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="kw"><a href="../reference/snrspecs.html">snrspecs</a></span>(<span class="dt">X =</span> X, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">snrmar =</span> <span class="fl">0.04</span>, <span class="dt">mar =</span> <span class="fl">0.7</span>, <span class="dt">it =</span> <span class="st">"jpeg"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># This smaller margin is better</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="kw"><a href="../reference/snrspecs.html">snrspecs</a></span>(<span class="dt">X =</span> X, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">snrmar =</span> <span class="fl">0.04</span>, <span class="dt">mar =</span> <span class="fl">0.7</span>, <span class="dt">it =</span> <span class="st">"jpeg"</span>)</a></code></pre></div>
 <!-- <center> ![snrpecs image example](Phaethornis-longirostris-154161.wav-113-snr2.jpeg) </center> -->
 <p> </p>
 </div>
@@ -524,16 +588,16 @@
 <h4 class="hasAnchor">
 <a href="#calculate-snr-for-automatically-selected-signals" class="anchor"></a>Calculate SNR for automatically selected signals</h4>
 <p>Once we’ve picked an SNR margin we can move forward with the SNR calculation. We will measure SNR on every other selection to speed up the process.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">Phae.snr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(<span class="dt">X =</span> Phae.ad[<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.ad), <span class="dv">2</span>), ], <span class="dt">mar =</span> <span class="fl">0.04</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">Phae.snr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(<span class="dt">X =</span> Phae.ad[<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(Phae.ad), <span class="dv">2</span>), ], <span class="dt">mar =</span> <span class="fl">0.04</span>)</a></code></pre></div>
 <p>As we just need a few songs to characterize individuals (here sound files are equivalent to different individuals), we can choose selections with the highest SNR per sound file. In this example, we will choose 5 selections per recording with the highest SNRs.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">Phae.hisnr &lt;-<span class="st"> </span>Phae.snr[<span class="kw"><a href="https://rdrr.io/r/stats/ave.html">ave</a></span>(<span class="op">-</span>Phae.snr<span class="op">$</span>SNR, Phae.snr<span class="op">$</span>sound.files, <span class="dt">FUN =</span> rank) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">5</span>, ]</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="co"># save the selections as a physical file</span></a>
-<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span>(Phae.hisnr, <span class="st">"Phae_hisnr.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb36-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="co"># Double check the number of selection per sound files</span></a>
-<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="co"># Only the xeno-canto sound files will have 5 selections, the other sound files started off with less than 5 selections</span></a>
-<a class="sourceLine" id="cb36-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.hisnr<span class="op">$</span>sound.files)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">Phae.hisnr &lt;-<span class="st"> </span>Phae.snr[<span class="kw"><a href="https://rdrr.io/r/stats/ave.html">ave</a></span>(<span class="op">-</span>Phae.snr<span class="op">$</span>SNR, Phae.snr<span class="op">$</span>sound.files, <span class="dt">FUN =</span> rank) <span class="op">&lt;=</span><span class="st"> </span><span class="dv">5</span>, ]</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co"># save the selections as a physical file</span></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span>(Phae.hisnr, <span class="st">"Phae_hisnr.csv"</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co"># Double check the number of selection per sound files</span></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co"># Only the xeno-canto sound files will have 5 selections, the other sound files started off with less than 5 selections</span></a>
+<a class="sourceLine" id="cb38-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.hisnr<span class="op">$</span>sound.files)</a></code></pre></div>
 <p> </p>
 </div>
 </div>
@@ -544,14 +608,14 @@
 <p>Note: <code>manualoc</code> will be deprecated in future versions of <code>warbleR</code></p>
 <p><code>manualoc</code> is a function that provides an interactive interface to select signals. Check out the <code>manualoc</code> documentation prior to running this example. This function makes a selection table as a <em>.csv</em> file in your working directory.</p>
 <p><code>manualoc</code> now opens an external graphics device for selecting signals. You can stop the function at any point by clicking twice on the <code>stop</code> button.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="co"># Run manualoc() with frequency range set for Phaethornis longirostris</span></a>
-<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="co"># Recording comments are enabled to mark recording quality</span></a>
-<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="co"># Selection comments enabled to include visual classifications</span></a>
-<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="kw"><a href="../reference/manualoc.html">manualoc</a></span>(<span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">reccomm =</span> <span class="ot">TRUE</span>, <span class="dt">selcomm =</span> <span class="ot">TRUE</span>, <span class="dt">osci =</span> <span class="ot">TRUE</span>, <span class="dt">seltime =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb37-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="co"># Read manualoc() output back into R as an object</span></a>
-<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="co"># This data frame object can be used as input for later functions</span></a>
-<a class="sourceLine" id="cb37-8" data-line-number="8">manualoc_out &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">"manualoc_output.csv"</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co"># Run manualoc() with frequency range set for Phaethornis longirostris</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="co"># Recording comments are enabled to mark recording quality</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="co"># Selection comments enabled to include visual classifications</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="kw"><a href="../reference/manualoc.html">manualoc</a></span>(<span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">reccomm =</span> <span class="ot">TRUE</span>, <span class="dt">selcomm =</span> <span class="ot">TRUE</span>, <span class="dt">osci =</span> <span class="ot">TRUE</span>, <span class="dt">seltime =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"><span class="co"># Read manualoc() output back into R as an object</span></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="co"># This data frame object can be used as input for later functions</span></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">manualoc_out &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">"manualoc_output.csv"</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>##<strong>Next vignette: Visual inspection and signal classification</strong></p>
 <p>Here we have given examples of how to begin the <code>warbleR</code> workflow. Note that there are many different ways to begin the workflow, depending on your question and source of data. After running the code in this first vignette, you should now have an idea of:</p>
 <ul>

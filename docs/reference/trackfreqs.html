@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="Spectrograms with frequency measurements — trackfreqs" />
-<meta property="og:description" content="trackfreqs creates spectrograms to visualize dominant and fundametal frequency measurements (contours)
+<meta property="og:description" content="trackfreqs creates spectrograms to visualize dominant and fundamental frequency measurements (contours)
 of signals selected by manualoc or autodetec." />
 <meta name="twitter:card" content="summary" />
 
@@ -70,7 +70,7 @@ of signals selected by manualoc or autodetec." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -131,7 +131,7 @@ of signals selected by manualoc or autodetec." />
     </div>
 
     <div class="ref-description">
-    <p><code>trackfreqs</code> creates spectrograms to visualize dominant and fundametal frequency measurements (contours)
+    <p><code>trackfreqs</code> creates spectrograms to visualize dominant and fundamental frequency measurements (contours)
 of signals selected by <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code>.</p>
     </div>
 
@@ -153,7 +153,7 @@ of signals selected by <code><a href='manualoc.html'>manualoc</a></code> or <cod
       <th>X</th>
       <td><p>object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
-The ouptut of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can also be used as the input data frame.</p></td>
+The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can also be used as the input data frame.</p></td>
     </tr>
     <tr>
       <th>wl</th>
@@ -163,7 +163,7 @@ is 512.</p></td>
     <tr>
       <th>wl.freq</th>
       <td><p>A numeric vector of length 1 specifying the window length of the spectrogram
-for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+for measurements on the frequency spectrum. Default is 512. Higher values would provide 
 more accurate measurements.</p></td>
     </tr>
     <tr>
@@ -276,7 +276,7 @@ dominant or fundamental frequencies or both should be plotted. Default is "both"
     <tr>
       <th>col</th>
       <td><p>Vector of length 1 or 2 specifying colors of points plotted to mark 
-fundamental and dominant frequency measurements respetively (if both are plotted). Default is <code><a href='https://rdrr.io/r/base/c.html'>c("#E37222B3",
+fundamental and dominant frequency measurements respectively (if both are plotted). Default is <code><a href='https://rdrr.io/r/base/c.html'>c("#E37222B3",
 "#07889BB3")</a></code>. Extreme values (lowest and highest) are highlighted in yellow.</p></td>
     </tr>
     <tr>
@@ -292,7 +292,7 @@ to set spectrogram limits. Default is 0.05.</p></td>
     <tr>
       <th>lpos</th>
       <td><p>Character vector of length 1 or numeric vector of length 2, 
-specifiying position of legend. If the former, any keyword accepted by 
+specifying position of legend. If the former, any keyword accepted by 
 xy.coords can be used (see below). If the latter, the first value will be the x 
 coordinate and the second value the y coordinate for the legend's position.
 Default is "topright".</p></td>
@@ -321,7 +321,7 @@ image files. Default is <code>NULL</code>.</p></td>
       <th>custom.contour</th>
       <td><p>A data frame with frequency contours for exactly the same sound files and selection as in X. 
 The frequency values are assumed to be equally spaced in between the start and end of the signal. The 
-first 2 colums of the data frame should contain the 'sound.files' and 'selec' columns and should be 
+first 2 columns of the data frame should contain the 'sound.files' and 'selec' columns and should be 
 identical to the corresponding columns in X (same order).</p></td>
     </tr>
     <tr>
@@ -352,7 +352,7 @@ in the output image.</p></td>
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
 <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>topo.1</a></code> and <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>rainbow.1</a></code> (which should be imported from the package monitoR) seem
-to work better with 'fast' spectograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
+to work better with 'fast' spectrograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
 <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code> offer 
 decreasing darkness levels.</p></td>
     </tr>

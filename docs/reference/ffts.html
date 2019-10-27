@@ -70,7 +70,7 @@ of signals selected by manualoc or autodetec." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ of signals selected by <code><a href='manualoc.html'>manualoc</a></code> or <cod
       <td><p>object of class 'selection_table', 'extended_selection_table' or data 
 frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
-The ouptut of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can be used as the input data frame.</p></td>
+The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can be used as the input data frame.</p></td>
     </tr>
     <tr>
       <th>wl</th>
@@ -206,7 +206,7 @@ image files.</p></td>
       <td><p>Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed. If 
 <code>TRUE</code> this edges will be excluded and signal contour will be calculated on the
-remainging values. Default is <code>FALSE</code>. 
+remaining values. Default is <code>FALSE</code>. 
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 in the output image.</p></td>
     </tr>
@@ -238,7 +238,7 @@ input data frame showing the location of the fundamental frequencies
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function extracts the fundamental frequency values as a time series. 
-The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>approx</a></code> function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude theshold at the begining or end 
+The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>approx</a></code> function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude threshold at the beginning or end 
  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
  above the amplitude theshold in between signal segments in which amplitude was 
  detected then the values of this adjacent segments will be interpolated 

@@ -47,14 +47,14 @@
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
 #' @param labels Character string with the name of the column(s) for selection 
 #' labeling. Default is 'selec'. Set to \code{NULL} to remove labels.
 #' @param horizontal Logical. Controls if the images are produced as horizontal or vertical pages. Default is \code{FALSE}.
 #' @param song Character string with the name of the column to used as a label a for higher 
-#' orgnization level in the song (similar to 'song_colm' in \code{\link{song_param}}). If supplied then lines above the selections belonging to the same
+#' organization level in the song (similar to 'song_colm' in \code{\link{song_param}}). If supplied then lines above the selections belonging to the same
 #' 'song' are plotted. Ignored if 'X' is not provided. 
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 

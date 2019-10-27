@@ -9,11 +9,11 @@ checkwavs(X = NULL, path = NULL)
 \arguments{
 \item{X}{Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 also be used as the input data frame. If provided the function also returns the
 smallest number of samples from the listed selections, which limits the minimum window 
 length (wl argument in other functions) that can be used in batch analyses. 
-This could be useful for avoiding errors in dowstream functions (e.g. \code{\link{specan}}).}
+This could be useful for avoiding errors in downstream functions (e.g. \code{\link{specan}}).}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
@@ -32,7 +32,7 @@ If X is provided it also returns the smallest number of samples from
 the selections listed in X (if all files can be read). Note that corrupt files can be
 fixed using \code{\link{fixwavs}}) ('sox' must be installed to be able to run this function).
 The function is intended for a "quick and dirty" check of the .wav files in a selections data
- frame. For a more thourough analysis see \code{\link{checksels}}.
+ frame. For a more thorough analysis see \code{\link{checksels}}.
 }
 \examples{
 {

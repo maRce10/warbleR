@@ -5,7 +5,7 @@
 #' wav.size = FALSE)
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+#' end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).

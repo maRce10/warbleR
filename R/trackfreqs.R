@@ -1,6 +1,6 @@
 #' Spectrograms with frequency measurements
 #' 
-#' \code{trackfreqs} creates spectrograms to visualize dominant and fundametal frequency measurements (contours)
+#' \code{trackfreqs} creates spectrograms to visualize dominant and fundamental frequency measurements (contours)
 #' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 #' @usage trackfreqs(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
 #'   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
@@ -14,11 +14,11 @@
 #'    widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, track.harm = FALSE, ...)
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
-#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can also be used as the input data frame. 
+#' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can also be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
-#' for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+#' for measurements on the frequency spectrum. Default is 512. Higher values would provide 
 #' more accurate measurements.
 #' @param flim A numeric vector of length 2 for the frequency limit of 
 #'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
@@ -65,14 +65,14 @@
 #' @param contour Character vector, one of "df", "ff" or "both", specifying whether the
 #'  dominant or fundamental frequencies or both should be plotted. Default is "both". 
 #' @param col Vector of length 1 or 2 specifying colors of points plotted to mark 
-#'   fundamental and dominant frequency measurements respetively (if both are plotted). Default is \code{c("#E37222B3",
+#'   fundamental and dominant frequency measurements respectively (if both are plotted). Default is \code{c("#E37222B3",
 #'   "#07889BB3")}. Extreme values (lowest and highest) are highlighted in yellow.
 #' @param pch Numeric vector of length 1 or 2 specifying plotting characters for 
 #'   the frequency measurements. Default is c(21, 24).
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the selections
 #'  to set spectrogram limits. Default is 0.05.
 #' @param lpos Character vector of length 1 or numeric vector of length 2, 
-#'   specifiying position of legend. If the former, any keyword accepted by 
+#'   specifying position of legend. If the former, any keyword accepted by 
 #'   xy.coords can be used (see below). If the latter, the first value will be the x 
 #'   coordinate and the second value the y coordinate for the legend's position.
 #'   Default is "topright".
@@ -86,7 +86,7 @@
 #' image files. Default is \code{NULL}.
 #' @param custom.contour A data frame with frequency contours for exactly the same sound files and selection as in X. 
 #' The frequency values are assumed to be equally spaced in between the start and end of the signal. The 
-#' first 2 colums of the data frame should contain the 'sound.files' and 'selec' columns and should be 
+#' first 2 columns of the data frame should contain the 'sound.files' and 'selec' columns and should be 
 #' identical to the corresponding columns in X (same order). 
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param type A character vector of length 1 indicating the type of frequency contour plot to be drawn. 
@@ -99,7 +99,7 @@
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
 #' @param ff.method Character. Selects the method used to calculate the fundamental

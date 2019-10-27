@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@
       <th>X</th>
       <td><p>object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The ouptut of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can
+end time of selections. The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can
 also be used as the input data frame.</p></td>
     </tr>
     <tr>
@@ -222,7 +222,7 @@ presentation quality.</p></td>
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
 <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>topo.1</a></code> and <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>rainbow.1</a></code> (which should be imported from the package monitoR) seem
-to work better with 'fast.spec' spectograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
+to work better with 'fast.spec' spectrograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
 <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code> offer 
 decreasing darkness levels.</p></td>
     </tr>
@@ -283,7 +283,7 @@ with the corresponding bandpass value (hence ignored when <code>bp = NULL</code>
 <li><p>bottom.freq = the start frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.</p></li>
 <li><p>top.freq = the end frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.</p></li>
 </ul><p>If <code>img = TRUE</code> a graph including a spectrogram and a frequency spectrum is 
-  generated for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range. The function <code><a href='frange.detec.html'>frange.detec</a></code> is used internally.</p>
+  generated for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges excluded by the bandpass ('bp' argument), dotted lines highlighting the detected range. The function <code><a href='frange.detec.html'>frange.detec</a></code> is used internally.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
@@ -302,7 +302,7 @@ with the corresponding bandpass value (hence ignored when <code>bp = NULL</code>
 <span class='fu'>frange</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>112</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>13</span>, <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>1</span>),
 <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"tiff"</span>, <span class='kw'>line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>10.5</span>),
 <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>11</span>), <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
-}</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt;   |+++++                                             | 9 % ~01s          </div><div class='output co'>#&gt;   |++++++++++                                        | 18% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++                                    | 27% ~00s          </div><div class='output co'>#&gt;   |+++++++++++++++++++                               | 36% ~00s          </div><div class='output co'>#&gt;   |+++++++++++++++++++++++                           | 45% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++                      | 55% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++++++                  | 64% ~00s          </div><div class='output co'>#&gt;   |+++++++++++++++++++++++++++++++++++++             | 73% ~00s          </div><div class='output co'>#&gt;   |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=01s  </div><div class='output co'>#&gt;       sound.files channel selec   start     end sel.comment rec.comment
+}</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt;   |+++++                                             | 9 % ~01s          </div><div class='output co'>#&gt;   |++++++++++                                        | 18% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++                                    | 27% ~00s          </div><div class='output co'>#&gt;   |+++++++++++++++++++                               | 36% ~00s          </div><div class='output co'>#&gt;   |+++++++++++++++++++++++                           | 45% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++                      | 55% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++++++                  | 64% ~00s          </div><div class='output co'>#&gt;   |+++++++++++++++++++++++++++++++++++++             | 73% ~00s          </div><div class='output co'>#&gt;   |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt;       sound.files channel selec   start     end sel.comment rec.comment
 #&gt; 1  Phae.long1.wav       1     1 1.16935 1.34239         c24          NA
 #&gt; 2  Phae.long1.wav       1     2 2.15841 2.32146         c25          NA
 #&gt; 3  Phae.long1.wav       1     3 0.34334 0.51826         c26          NA

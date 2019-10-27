@@ -1,33 +1,29 @@
 #' Spectrogram cross-correlation 
 #' 
-#' \code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
-#' @usage xcorr(X, wl =512, bp = 'frange', ovlp=90, dens=0.9, wn='hanning', 
+#' \code{xcorr} estimates the similarity of two spectrograms by means of spectrographic cross-correlation
+#' @usage xcorr(X, wl =512, bp = NULL, ovlp = 90, dens = NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
-#'  cor.mat = TRUE)
+#'  cor.mat = TRUE, compare.matrix = NULL)
 #' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #' is 512.
-#' @param bp A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
-#' in which to compare the signals or "frange" (default) to indicate that values in 'bottom.freq'
-#' and 'top.freq' columns will be used as frequency limits. Default is \code{NULL}.
+#' @param bp DEPRECATED. 
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
 #' slow down the function but produce more accurate results.
-#' @param dens Numeric vector of length 1 specifying the approximate density of points in which to sample amplitude. 
-#' See \code{\link[monitoR]{makeTemplate}}. Deafult is 0.9.
+#' @param dens DEPRECATED.
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}. 
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is not accurate as the number of pairwise comparisons decreases on 
-#' each iteration. The first iteration runs n-1 comparisons while the last one 
-#' only 1 (\code{n = nrow(X)}).
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
 #' @param cor.mat Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.
+#' @param compare.matrix A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.
 #' @return If corr.mat is \code{TRUE} the function returns a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison. Otherwise it will return a list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum correlation for each pairwise comparison, and 3) the frequency range. 
@@ -39,22 +35,30 @@
 #' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
 #' of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. 
 #' The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).
-#' This function is a modified version of the \code{\link[monitoR]{corMatch}} and \code{\link[monitoR]{makeTemplate}} 
-#' from the awesome R package `monitoR`.   
 #' @examples
 #' {
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","lbh_selec_table"))
-#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+#' 
+#' #save sound files
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
-#'
-#'xcor <- xcorr(X = lbh_selec_table, wl = 300, bp = c(2, 9), ovlp = 90,
-#'dens = 1, wn = 'hanning', cor.method = "pearson", path = tempdir())
+#' # run cross correlation
+#' xcor <- xcorr(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
 #' 
+#' # using the 'compare.matrix' argument to specify pairwise comparisons
+#' # create matrix with ID of signals to compare
+#' cmp.mt <- cbind(
+#' paste(lbh_selec_table$sound.files[1:10], lbh_selec_table$selec[1:10], sep = "-"), 
+#' paste(lbh_selec_table$sound.files[2:11], lbh_selec_table$selec[2:11], sep = "-"))
+#' 
+#' # run cross-correlation on the selected pairwise comparisongs
+#' xcor <- xcorr(X = lbh_selec_table, compare.matrix = cmp.mt, 
+#' wl = 300, ovlp = 90, path = tempdir())
 #' }
-#' @seealso \code{\link{xcorr.graph}}
+#' @seealso \code{\link{mfcc_stats}}, \code{\link{specan}}, \code{\link{df_DTW}}
 #' @author Marcelo Araya-Salas \email{marceloa27@@gmail.com})
 #' 
 #' @references {
@@ -62,11 +66,11 @@
 #' 
 #' H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 #' }
-# last modification on may-7-2018 (MAS)
+# last modification on oct-25-2019 (MAS)
 
-xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9, 
+xcorr <- function(X = NULL, wl = 512, bp = NULL, ovlp = 90, dens = NULL, 
                   wn ='hanning', cor.method = "pearson", parallel = 1, 
-                  path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = TRUE)
+                  path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = TRUE, compare.matrix = NULL)
 {
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -103,32 +107,20 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
+  # if is extended all should have the same sampling rate
+  if (is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("all wave objects in the extended selection table must have the same sampling rate (they can be homogenized using resample_est())")
+  
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
   
   #stop if only 1 selection
   if (nrow(X) == 1) stop("you need more than one selection to do cross-correlation")
   
-  # bp checking
-  if (is.null(bp)) stop("'bp' must be provided")
+  # bp deprecated
+  if (!is.null(bp))  write(file = "", x = "'bp' has been deprecated and will be ignored")
   
-  if (bp[1] != "frange")
-  {
-    if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") 
-    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")
-    
-    #set freq limits
-    frq.lim <- bp
-  } else  
-  { 
-    if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
-    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
-    if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
-    if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than low.f")      
-    
-    #set freq limits
-    frq.lim <- c(min(X$bottom.freq), max(X$top.freq))   
-  }
+  # dens deprecated
+  if (!is.null(dens))  write(file = "", x = "'dens' has been deprecated and will be ignored")
   
   
   #if wl is not vector or length!=1 stop
@@ -140,11 +132,6 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   if (!is.numeric(ovlp)) stop("'ovlp' must be a numeric vector of length 1") else {
     if (!is.vector(ovlp)) stop("'ovlp' must be a numeric vector of length 1") else{
       if (!length(ovlp) == 1) stop("'ovlp' must be a numeric vector of length 1")}} 
-  
-  #if dens is not vector or length!=1 stop
-  if (!is.numeric(dens)) stop("'dens' must be a numeric vector of length 1") else {
-    if (!is.vector(dens)) stop("'dens' must be a numeric vector of length 1") else{
-      if (!length(dens) == 1) stop("'dens' must be a numeric vector of length 1")}} 
   
   if (!is_extended_selection_table(X)){
     #return warning if not all sound files were found
@@ -166,69 +153,8 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  #create templates
-  if (pb) write(file = "", x ="creating templates (step 1 of 2):")
-  
-  tempFUN <- function(X, x, wl, ovlp, wn, frq.lim)
-  {
-    clip <- warbleR::read_wave(X = X, path = path, index = x)
-    samp.rate <- clip@samp.rate
-    
-    # Fourier transform
-    t.survey <- seewave::duration(clip)
-    fspec <- seewave::spectro(wave = clip, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
-    
-    # Filter amplitudes 
-    t.bins <- fspec$time
-    n.t.bins <- length(t.bins)
-    which.frq.bins <- which(fspec$freq >= frq.lim[1] & fspec$freq <= frq.lim[2])
-    frq.bins <- fspec$freq[which.frq.bins]
-    n.frq.bins <- length(frq.bins)
-    amp <- round(fspec$amp[which.frq.bins, ], 2)
-    
-    # Create empty matrix for identifying selected cells
-    on.mat <- matrix(0, nrow=n.frq.bins, ncol=n.t.bins)
-    
-    # Bin steps
-    t.step <- t.bins[2] - t.bins[1]
-    frq.step <- frq.bins[2] - frq.bins[1]
-    
-    # Set cells that meet criteria to 1 in bin.amp
-    on.mat <- on.mat + sample(c(1, 0), length(on.mat), TRUE, c(dens, 1-dens))
-    
-    # Then find locations of 
-    pts <- which(on.mat == 1, arr.ind = TRUE)
-    pts <- pts[, 2:1]
-    colnames(pts) <- c('t', 'frq')
-    pts[, 'frq'] <- pts[, 'frq'] + min(which.frq.bins) - 1
-    pt.on <- pts
-    
-    # Get amplitudes
-    pts <- pt.on
-    pts.trimmed <- pts
-    pts.trimmed[, 'frq'] <- pts.trimmed[, 'frq'] - min(which.frq.bins) + 1
-    pt.amp <- amp[pts.trimmed[, 2:1, drop=FALSE]]
-    pts <- cbind(pts, pt.amp)
-    colnames(pts) <- c('t', 'frq', 'amp')
-    
-    
-    t.shift <- min(pts[, 1])
-    first.t.bin <- t.shift*t.step - t.step
-    pts[, 't'] <- pts[, 't'] - t.shift + 1
-    
-    n.t.bins <- diff(range(pts[, 't']))
-    n.frq.bins <- diff(range(pts[, 'frq']))
-    duration <- n.t.bins * t.step
-    frq.lim <- range(pts[, 'frq']) * frq.step
-    
-    template <- list(X$sound.files[x], X$selec[x], samp.rate = as.integer(samp.rate), 
-                     pts = pts, t.step = t.step, frq.step = frq.step, n.t.bins = as.integer(n.t.bins), 
-                     first.t.bin = first.t.bin, n.frq.bins = as.integer(n.frq.bins), duration = duration)
-    names(template)<-c("sound.files", "selec", "samp.rate", "pts", "t.step", "frq.step", "n.t.bins","first.t.bin",
-                       "n.frq.bins", "duration")
-    
-    return(template)
-  }
+  #create spectrograms
+  if (pb) write(file = "", x ="creating spectrogram matrices (step 1 of 2):")
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
@@ -237,78 +163,71 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-  # run loop apply function for templates
-  ltemp <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(x) 
-    tempFUN(X, x, wl, ovlp, wn, frq.lim)
-  )   
+  # keep only selections in supplied compare.matrix to improve performance
+  if (!is.null(compare.matrix))
+  X <- X[paste(X$sound.files, X$selec, sep = "-") %in% unique(c(compare.matrix)), ]
+    
+  # get spectrogram for each selection
+  spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(j) {
+    
+    clp <- warbleR::read_wave(X = X, index = j, path = path)
+    
+    spc <- seewave::spectro(wave = clp, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE, fftw = TRUE, norm = TRUE)
+    
+  })
   
-  names(ltemp) <- paste(X$sound.files,X$selec,sep = "-")
+  # check sampling rate is the same for all selections if not a selection table
+  if (!is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop("sampling rate must be the same for all selections")
   
-  #correlation function
-  FUNXC <- function(i, cor.mat, survey ,wl, ovlp, wn, j, X)
-  {
-    template <- ltemp[[i]]
+    # add selection name
+  names(spcs) <- paste(X$sound.files, X$selec, sep = "-")
+
+  # create function to calculate correlation between 2 spectrograms
+  XC_FUN <- function(spc1, spc2){
     
-    # Perform Fourier transform on survey
-    survey.spec <- seewave::spectro(wave = survey, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE)
+    #set freq limits as min and max of both spectros combined
+    frq.lim <- c(min(spc1$freq, spc2$freq), max(spc1$freq, spc2$freq))
     
-    # NTS arbitrary adjustment to eliminate -Inf
-    survey.spec$amp[is.infinite(survey.spec$amp)] <- min(survey.spec$amp[!is.infinite(survey.spec$amp)]) - 10
-    frq.bins <- survey.spec$freq
-    t.bins <- survey.spec$time
-    t.survey <- seewave::duration(survey)
-    t.step <- t.bins[2] - t.bins[1]
-    frq.step <- frq.bins[2] - frq.bins[1]
+    # filter frequency
+    spc1$amp <- spc1$amp[which(spc1$freq >= frq.lim[1] & spc1$freq <= frq.lim[2]), ]
+    spc2$amp <- spc2$amp[which(spc2$freq >= frq.lim[1] & spc2$freq <= frq.lim[2]), ]
     
-    pts <- template$pts[, c(2:1, 3)]
-    
-    # Adjust pts if step sizes differ
-    if (!isTRUE(all.equal(template$t.step, t.step, tolerance=t.step/1E4))) {
-      pts[, 't'] <- round(pts[, 't'] * template$t.step/t.step)
-    }
-    if (!isTRUE(all.equal(template$frq.step, frq.step, tolerance=frq.step/1E6))) {
-      pts[, 'frq'] <- round(pts[, 'frq'] * template$frq.step/frq.step)
+    # define short and long envelope for sliding one (short) over the other (long)
+    if(ncol(spc1[[3]]) > ncol(spc2[[3]])) {
+      lg.spc <- spc1[[3]]
+      shrt.spc <- spc2[[3]]
+    } else {
+      lg.spc <- spc2[[3]]
+      shrt.spc <- spc1[[3]]
     }
     
-    # Determine the frequency limits from the template points
-    frq.lim <- frq.bins[range(pts[, 'frq'])] 
+    # get length of shortest minus 1 (1 if same length so it runs a single correlation)
+    shrt.lgth <- ncol(shrt.spc) - 1
     
-    # Get number of time windows/bins in frequency domain data
-    n.t.survey <- length(survey.spec$time)
+    # steps for sliding one signal over the other  
+    stps <- ncol(lg.spc) - ncol(shrt.spc)
     
-    #  down amplitude matrix based on filter frequencies 
-    which.frq.bins <- which(survey.spec$freq >= frq.lim[1] & survey.spec$freq <= frq.lim[2])
-    amp.survey <- survey.spec$amp[which.frq.bins, ]
+    # set sequence of steps, if <= 1 then just 1 step
+    if (stps <= 1) stps <- 1 else stps <- 1:stps 
     
-    # Shift frq indices in pts. The t indices already start at 1.
-    pts[, 'frq'] <- pts[, 'frq'] - min(which.frq.bins) + 1
-    n.t.template <- max(pts[, 't'])
-    n.frq.template <- max(pts[, 'frq'])
+    # calculate correlations at each step
+    cors <- sapply(stps, function(x) {
+      warbleR::try_na(cor(c(lg.spc[, x:(x + shrt.lgth)]), c(shrt.spc), method = cor.method, use='pairwise.complete.obs'))
+    })
     
-    # Translate pts matrix of indices into a vector index so indexing is faster within the lapplyfun call
-    pts.v <- (pts[, 't'] - 1) * n.frq.template + pts[, 'frq']
-    amp.template <- pts[, 'amp']
-    amp.survey.v <- c(amp.survey)  
-    
-    # Perform analysis for each time value (bin) of survey 
-    # Starting time value (bin) of correlation window
-    c.win.start <- as.list(1:(n.t.survey-n.t.template) * n.frq.template) # Starting position of subset of each survey amp matrix  
-    score.survey <- sapply(X=c.win.start, FUN=function(x) 
-    {
-      # Unpack columns of survey amplitude matrix for correlation analysis
-      try_na(cor(amp.template, amp.survey.v[x + pts.v], method=cor.method, use='complete.obs')) 
-    }
-    )
-    
-    # Collect score results and time (center of time bins) in data frame
-    if (any(!is.na(score.survey)))
-      score.L <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j], sep= "-"),sound.file2 = paste(template$sound.files,template$selec, sep= "-"), time=survey.spec$time[1:(n.t.survey-n.t.template)+n.t.template/2][!is.na(score.survey)], 
-                            score=score.survey[!is.na(score.survey)]) else 
-                              
-                              score.L <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j], sep= "-"), sound.file2 = paste(template$sound.files,template$selec, sep= "-"), time=survey.spec$time[1:(n.t.survey-n.t.template)+n.t.template/2][1], 
-                                                    score= NA)
-    return(score.L)
+    return(cors)
   }
+  
+  # generate all possible combinations of selections, keep one with the orignal order of rows to create cor.table output
+  if (is.null(compare.matrix))
+  spc.cmbs.org <- spc.cmbs <- t(combn(names(spcs), 2)) else
+    spc.cmbs.org <- spc.cmbs <- compare.matrix
+  
+  # shuffle spectrograms index so are not compared in sequence, which makes progress bar more precise when some selections are much longer than others
+  ord.shuf <- sample(1:nrow(spc.cmbs))
+  
+  # sampling rate must be the same
+  spc.cmbs <- spc.cmbs[ord.shuf, , drop = FALSE]
   
   #run cross-correlation
   if (pb) write(file = "", x ="running cross-correlation (step 2 of 2):")
@@ -316,80 +235,32 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-  # shuffle template index so are not compared in sequence, which makes progress bar more precise
-  ord.shuf <- sample(1:(nrow(X)-1))
+  # get correlation
+  xcrrs <- pbapply::pblapply(X = 1:nrow(spc.cmbs), cl = cl, FUN = function(j) {
+    
+    XC_FUN(spc1 = spcs[[spc.cmbs[j, 1]]], spcs[[spc.cmbs[j, 2]]])
+  })
   
-  # run function over templates with a loop
-  a <- pbapply::pblapply(X = ord.shuf, cl = cl, FUN = function(j) 
-  {
-    # read sound file
-    a <- warbleR::read_wave(X = X, path = path, index = j, header = TRUE)  
-    
-    # calculate margin before and after signal
-    margin <- (max(X$end[j:nrow(X)] - X$start[j:nrow(X)]))/2
-    
-    start <-X$start[j] - margin
-    if (start < 0) {
-      end <-X$end[j] + margin -start
-      start <- 0} else
-        end <-X$end[j] + margin
-    if (end > a$samples/a$sample.rate) end <- a$samples/a$sample.rate - 0.001
-    
-    survey <- warbleR::read_wave(X = X, path = path, index = j, from = start, to = end)
-    
-    score.L <- lapply((1+j):length(ltemp), function(i) try(FUNXC(i, cor.mat, survey, wl, ovlp, wn,  j, X), silent = T))
-    
-    if (any(!sapply(score.L, is.data.frame))) {
-      if (j != (length(ltemp)-1))
-      {
-        combs <- t(combn(paste(X$sound.files, X$selec,sep = "-"), 2))
-        combs <- combs[combs[,1] == paste(X$sound.files[j], X$selec[j],sep = "-"),]
-        comDF <- data.frame(sound.file1 = combs[,1], sound.file2 = combs[,2], time = 0, score = NA, stringsAsFactors = FALSE)
-        
-        score.L <-lapply(1:length(score.L), function(x) {
-          if (is.data.frame(score.L[[x]])) return(score.L[[x]]) else
-            return(comDF[x,])
-        })
-      } else  score.L[[1]] <- data.frame(sound.file1 = paste(X$sound.files[j], X$selec[j],sep = "-"), sound.file2 = paste(X$sound.files[j + 1], X$selec[j + 1], sep = "-"), time = 0, score = NA, stringsAsFactors = FALSE)
-    }
-    score.df <- do.call("rbind", score.L)
-    
-    
-    if (cor.mat)  
-    {      score.df <- data.frame(dyad = paste(score.df$sound.file1,score.df$sound.file2,sep = "/"), score.df)
-    
-    # calculate maximum correlation values
-    score.df <- aggregate(as.data.frame(score.df$score), by = list(score.df$dyad), FUN = max)
-    }
-    
-    return(score.df)
-  }
-  )
+  # order as originally
+  xcrrs <- xcrrs[order(ord.shuf)]
   
-  a <- a[order(ord.shuf)]
+  # extract maximum correlation
+  mx.xcrrs <- sapply(xcrrs, max)
   
-  # put together correlation results in a single data frame
-  b <- do.call("rbind", a)
-  rm(a)
-  
-  if (!cor.mat)
-  {b <- data.frame(dyad = paste(b$sound.file1,b$sound.file2,sep = "/"), b)
-  
-  # calculate maximum correlation values
-  scores <- aggregate(as.data.frame(b$score), by = list(b$dyad), FUN = max)
-  } else scores <- b
-  
-  names(scores)[2] <- "scores"
+  # only create correlation matrix if compare matrix was not supplied
+  if (is.null(compare.matrix)){
   
   #create a similarity matrix with the max xcorr
   mat <- matrix(nrow = nrow(X), ncol = nrow(X))
-  mat[]<-1
+  mat[] <- 1
   colnames(mat) <- rownames(mat) <- paste(X$sound.files, X$selec, sep = "-")
   
-  mat[lower.tri(mat, diag=FALSE)] <- scores$scores
+  # add max correlations
+  mat[lower.tri(mat, diag=FALSE)] <- mx.xcrrs
   mat <- t(mat)
-  mat[lower.tri(mat, diag=FALSE)] <- scores$scores
-  
+  mat[lower.tri(mat, diag=FALSE)] <- mx.xcrrs
+
+  # remove NA's if any
   if (na.rm)
   {
     com.case <- intersect(rownames(mat)[stats::complete.cases(mat)], colnames(mat)[stats::complete.cases(t(mat))])
@@ -399,19 +270,31 @@ xcorr <- function(X = NULL, wl = 512, bp = 'frange', ovlp = 90, dens = 0.9,
     #remove them from mat
     mat <- mat[rownames(mat) %in% com.case, colnames(mat) %in% com.case]
     if (nrow(mat) == 0) stop("Not selections remained after removing NAs (na.rm = TRUE)")
+  } 
+  
+  # create correlation data matrix (keeps all correlation values, not only the maximum)
+  if (!cor.mat) {
+    cor.lst <- lapply(1:nrow(spc.cmbs.org), function(x) 
+      data.frame(
+        dyad = paste(spc.cmbs.org[x, ], collapse = "/"), 
+        sound.file1 = spc.cmbs.org[x, 1], 
+        sound.file2 = spc.cmbs.org[x, 2], 
+        time = seq(0, length(xcrrs[[x]]) * spcs[[1]]$time[2], length.out = length(xcrrs[[x]])),
+        score = xcrrs[[x]]))
+  
+    # put together in a single dataframe
+    cor.table <- do.call(rbind, cor.lst)
     
-    #clean correlation data
-    if (!cor.mat)
-      b <- b[b$sound.file1 %in% com.case & b$sound.file2 %in% com.case, ]
-    
-  }  
+    # remove missing values
+  if (na.rm) 
+    cor.table <- cor.table[cor.table$sound.file1 %in% com.case & cor.table$sound.file2 %in% com.case, ]
+  } 
   
   #list results
   if (cor.mat) return(mat) else
-  {c <- list(b, mat, frq.lim)
-  names(c) <- c("correlation.data", "max.xcorr.matrix", "frq.lim") 
-  
-  return(c)}
+  return(list(correlation.data = cor.table, max.xcorr.matrix = mat))
+} else
+  return(data.frame(compare.matrix, score = mx.xcrrs))
   
 }
 

@@ -11,7 +11,7 @@ wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...)
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
+end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
 be used as the input data frame.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
@@ -19,10 +19,10 @@ frequency bandpass filter (in kHz) or "frange" (default) to indicate that values
 and top.freq columns will be used as bandpass limits.  Lower limit of
  bandpass filter is not applied to fundamental frequencies.}
 
-\item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independenlty in the frequency domain.}
+\item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independently in the frequency domain.}
 
 \item{wl.freq}{A numeric vector of length 1 specifying the window length of the spectrogram
-for measurements on the frecuency spectrum. Default is 512. Higher values would provide 
+for measurements on the frequency spectrum. Default is 512. Higher values would provide 
 more accurate measurements. Note that this allows to increase measurement precision independently in the time and frequency domain. If \code{NULL} (default) then the 'wl' value is used.}
 
 \item{threshold}{amplitude threshold (\%) for fundamental frequency and 
@@ -124,7 +124,7 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
 are provided.
 }
 \details{
-The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used 
+The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used 
  directly without any additional modification. The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
  each selection in the data frame. Most parameters are produced internally by 
  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},

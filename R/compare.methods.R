@@ -44,7 +44,7 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used. 
-#' @param sp TO BE DEPRECATED. Use "custom1" and "custom2" argumentsinstead.
+#' @param sp TO BE DEPRECATED. Use "custom1" and "custom2" arguments instead.
 #' @param custom1 Data frame containing user parameters. The data frame must have 4 columns: the first 2 columns are 'sound.files'
 #' and "selec' columns as in 'X', the other 2 (columns 3 and 4) are
 #' 2 numeric columns to be used as the 2 parameters representing custom measurements. If the data has more than 2 parameters try using PCA (i.e. \code{\link[stats]{prcomp}} function)to summarize it in 2 dimensions before using it as an input. Default is \code{NULL}.
@@ -54,7 +54,7 @@
 #' @param clip.edges Logical argument to control whether edges (start or end of signal) in
 #' which amplitude values above the threshold were not detected will be removed when using dfDTW and 
 #' ffDTW methods. If \code{TRUE} this edges will be excluded and signal contour will be calculated on the
-#' remainging values. Default is \code{TRUE}. 
+#' remaining values. Default is \code{TRUE}. 
 #' @param threshold amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
 #' and SP methods. Default is 15.
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
@@ -95,7 +95,7 @@
 #' (\code{\link[stats]{cmdscale}})) is used for cross-correlation (XCORR) and any dynamic time warping method. The graphs are return as image files in the 
 #' working directory. The file name contains the methods being compared and the 
 #' row number of the selections. This function uses internally a modified version
-#' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms. Custom data can also be compared against the avialable methods (or against each other) using the arguments 'custom1' and 'custom2'.
+#' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms. Custom data can also be compared against the available methods (or against each other) using the arguments 'custom1' and 'custom2'.
 #' @seealso \href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
 #' @examples
 #' \dontrun{

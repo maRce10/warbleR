@@ -1,6 +1,6 @@
 #' Randomization test for singing coordination 
 #' 
-#' Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing (or any other simultaneously ocurring behavior).
+#' Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing (or any other simultaneously occurring behavior).
 #' @usage coor.test(X, iterations = 1000, ovlp.method = "count",
 #' randomization = "keep.gaps", less.than.chance = TRUE, parallel = 1, pb = TRUE, 
 #' rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE)
@@ -17,7 +17,7 @@
 #' }
 #' More details in Masco et al. (2015).
 #' @param less.than.chance Logical. If \code{TRUE} the test evaluates whether overlaps occur less often than expected by chance.
-#' If \code{FALSE} the opposite pattern is evaluted (whether overlaps occur more often than expected by chance). 
+#' If \code{FALSE} the opposite pattern is evaluated (whether overlaps occur more often than expected by chance). 
 #' Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -28,7 +28,7 @@
 #' this criterium are removed. Default is 2. 
 #' Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
 #' should be available in each singing event.
-#' @param rm.solo Logical. Controls if signals that are not intercalated at the start or end of the 
+#' @param rm.solo Logical. Controls if signals that are not alternated at the start or end of the 
 #' sequence are removed (if \code{TRUE}). For instance, the sequence of signals A-A-A-B-A-B-A-B-B-B (in which A and B represent different individuals, as in the 'indiv' column) would be subset to 
 #' A-B-A-B-A-B. Default is  \code{FALSE}.
 #' @return A data frame with the following columns:
@@ -75,7 +75,7 @@
 #' 
 #' Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
 #'  (2017) To overlap or not to overlap: context-dependent coordinated singing in 
-#'  lekking long-billed hermits. Anim Behav.
+#'  lekking long-billed hermits. Animal Behavior  124, 57-65.
 #' 
 #' Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song 
 #' Overlap Null model Generator (SONG): a new tool for distinguishing between random

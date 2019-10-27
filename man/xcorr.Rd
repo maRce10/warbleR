@@ -4,9 +4,9 @@
 \alias{xcorr}
 \title{Spectrogram cross-correlation}
 \usage{
-xcorr(X, wl =512, bp = 'frange', ovlp=90, dens=0.9, wn='hanning', 
+xcorr(X, wl =512, bp = NULL, ovlp = 90, dens = NULL, wn='hanning', 
 cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
- cor.mat = TRUE)
+ cor.mat = TRUE, compare.matrix = NULL)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
@@ -15,16 +15,13 @@ selection number (selec), and start and end time of signal (start and end).}
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
 
-\item{bp}{A numeric vector of length 2 setting the upper and lower frequency limits (in kHz) 
-in which to compare the signals or "frange" (default) to indicate that values in 'bottom.freq'
-and 'top.freq' columns will be used as frequency limits. Default is \code{NULL}.}
+\item{bp}{DEPRECATED.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
 slow down the function but produce more accurate results.}
 
-\item{dens}{Numeric vector of length 1 specifying the approximate density of points in which to sample amplitude. 
-See \code{\link[monitoR]{makeTemplate}}. Deafult is 0.9.}
+\item{dens}{DEPRECATED.}
 
 \item{wn}{A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}.}
 
@@ -36,14 +33,14 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Note that progress bar is not accurate as the number of pairwise comparisons decreases on 
-each iteration. The first iteration runs n-1 comparisons while the last one 
-only 1 (\code{n = nrow(X)}).}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.}
 
 \item{cor.mat}{Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.}
+
+\item{compare.matrix}{A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.}
 }
 \value{
 If corr.mat is \code{TRUE} the function returns a matrix with 
@@ -51,7 +48,7 @@ the maximum (peak) correlation for each pairwise comparison. Otherwise it will r
 the maximum correlation for each pairwise comparison, and 3) the frequency range.
 }
 \description{
-\code{xcorr} estimates the similarity of two spectrograms by means of cross-correlation
+\code{xcorr} estimates the similarity of two spectrograms by means of spectrographic cross-correlation
 }
 \details{
 This function calculates the pairwise similarity of multiple signals by means of spectrogram cross-correlation.
@@ -60,21 +57,29 @@ The function runs pairwise cross-correlations on several signals and returns a l
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
 of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. 
 The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).
-This function is a modified version of the \code{\link[monitoR]{corMatch}} and \code{\link[monitoR]{makeTemplate}} 
-from the awesome R package `monitoR`.
 }
 \examples{
 {
 #load data
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+
+#save sound files
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+# run cross correlation
+xcor <- xcorr(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
 
-xcor <- xcorr(X = lbh_selec_table, wl = 300, bp = c(2, 9), ovlp = 90,
-dens = 1, wn = 'hanning', cor.method = "pearson", path = tempdir())
+# using the 'compare.matrix' argument to specify pairwise comparisons
+# create matrix with ID of signals to compare
+cmp.mt <- cbind(
+paste(lbh_selec_table$sound.files[1:10], lbh_selec_table$selec[1:10], sep = "-"), 
+paste(lbh_selec_table$sound.files[2:11], lbh_selec_table$selec[2:11], sep = "-"))
 
+# run cross-correlation on the selected pairwise comparisongs
+xcor <- xcorr(X = lbh_selec_table, compare.matrix = cmp.mt, 
+wl = 300, ovlp = 90, path = tempdir())
 }
 }
 \references{
@@ -85,7 +90,7 @@ H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-cor
 }
 }
 \seealso{
-\code{\link{xcorr.graph}}
+\code{\link{mfcc_stats}}, \code{\link{specan}}, \code{\link{df_DTW}}
 }
 \author{
 Marcelo Araya-Salas \email{marceloa27@gmail.com})

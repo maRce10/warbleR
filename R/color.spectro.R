@@ -14,7 +14,7 @@
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param ovlp Numeric vector of length 1 specifying the percent overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.
-#' @param dB Character vector of length 1 controling the amplitude weights as in 
+#' @param dB Character vector of length 1 controlling the amplitude weights as in 
 #' \code{\link[seewave]{spectro}}. Default is 'max0'.
 #' @param collevels Numeric. Levels used to partition amplitude range as in \code{\link[seewave]{spectro}}.
 #' Default is \code{NULL}.
@@ -23,10 +23,10 @@
 #' and 'X' are provided.
 #' @param col.clm Character vector of length 1 indicating the name of the column in 'X' that contains the
 #' color names for each selection. Ignored if \code{X == NULL} or \code{interactive != NULL}. Default is \code{NULL}.
-#' @param base.col Character vector of length 1 specifying the color of the bacground spectrogram. 
+#' @param base.col Character vector of length 1 specifying the color of the background spectrogram. 
 #' Default is 'black'.
 #' @param bg.col Character vector of length 1 specifying the background color for both base
-#' and hlighlighted spectrograms. Default is 'white'.
+#' and highlighted spectrograms. Default is 'white'.
 #' @param cexlab Numeric vector of length 1 specifying the relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}. Default is 1.
 #' @param cexaxis Numeric vector of length 1 specifying the relative size of axis. See 
@@ -45,12 +45,12 @@
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
 #' @param t.mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points to be added when highlighting selection. Default is \code{NULL}.
 #' @param f.mar Numeric vector of length 1. Specifies the margins adjacent to the low and high frequencies to be added when highlighting selection. Default is \code{NULL}.
-#' @param interactive Numeric. Allow user to interactively select the signals to be highlighted by cliking 
+#' @param interactive Numeric. Allow user to interactively select the signals to be highlighted by clicking 
 #' on the graphic device. Users must select the opposite corners of a square delimiting the spectrogram region
 #' to be highlighted. Controls the number of signals that users would be able to select (2 clicks per signal).   
 #' @param add Logical. If \code{TRUE} new highlighting can be applied to the current plot (which means
@@ -62,7 +62,7 @@
 #'   creating spectrograms to optimize noise margins used in \code{\link{sig2noise}}
 #' @export
 #' @name color.spectro
-#' @details This function highlights regions of the spectrogram with diferent colors. The regions to be 
+#' @details This function highlights regions of the spectrogram with different colors. The regions to be 
 #' highlighted can be provided in a selection table (as the example data 'lbh_selec_table') or interactively ('interactive' argument).
 #' @examples
 #' \dontrun{ 

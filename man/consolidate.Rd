@@ -34,12 +34,12 @@ All (sound) files are consolidated (copied) to a single directory ("consolidated
 \itemize{
  \item \code{original_dir} the path to the original file 
  \item \code{old_name} the name of the original file
- \item \code{new_name} the name of the new file. This will be tthe same as 'old_name' if the name was not duplicated (i.e. no files in other directories with the same name).
+ \item \code{new_name} the name of the new file. This will be the same as 'old_name' if the name was not duplicated (i.e. no files in other directories with the same name).
  \item \code{file_size_bytes} size of the file in bytes.
  \item \code{duplicate} indicates whether a file is likely to be duplicated (i.e. if files with the same name were found in other directories). If so it will be labeled as 'possible.dupl', otherwise it will contain NAs. 
 }
 If \code{csv = TRUE} (default)
-a 'file_names_info.csv' file with the same iformation as the output data frame is also saved in the consolidated directory.
+a 'file_names_info.csv' file with the same information as the output data frame is also saved in the consolidated directory.
 }
 \description{
 \code{consolidate} copies (sound) files scattered in several directories into a single one.

@@ -34,7 +34,7 @@ much less accurate. Will be deprecated in future versions. Default is NULL.}
 
 \item{power}{A numeric vector of length 1 indicating a power factor applied 
 to the amplitude envelope. Increasing power will reduce low amplitude 
-modulations and increase high amplide modulations, in order to reduce 
+modulations and increase high amplitude modulations, in order to reduce 
 background noise. Default is 1 (no change).}
 
 \item{bp}{Numeric vector of length 2 giving the lower and upper limits of a
@@ -53,7 +53,7 @@ spectrogram width. Default is 1.}
 \item{picsize}{Numeric argument of length 1. Controls the relative size of 
 the spectrogram. Default is 1.}
 
-\item{res}{Numeric argument of length 1 controling resolution of images.
+\item{res}{Numeric argument of length 1 controlling resolution of images.
 Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 presentation quality.}
 
@@ -88,7 +88,7 @@ file in the working directory will be analyzed. Default is \code{FALSE}.}
 \item{it}{A character vector of length 1  giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
-\item{set}{A logical argument indicating wheter the settings of the autodetection 
+\item{set}{A logical argument indicating whether the settings of the autodetection 
 process should be included in the image file name. If \code{TRUE}, threshold (th), envelope (envt), bandpass (bp),
 power (pw), smooth (smo, either mmsooth[1] or ssmooth), maxdur (mxdu), and mindur (midu) are included.}
 
@@ -116,7 +116,7 @@ If \code{NULL} (default) then the current working directory is used.}
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
 
@@ -138,7 +138,7 @@ This function determines the start and end of signals in the sound file selectio
   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
   signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
    working directory or the path to the sound files should be provided using the 'path' argument. The input 
-   data frame should have the following columns: c("sound.files","selec","start","end"). The ouptut of 
+   data frame should have the following columns: c("sound.files","selec","start","end"). The output of 
    \code{\link{manualoc}} can be used as the input data frame. This function uses a modified version of the 
    \code{\link[seewave]{timer}} function from seewave package to detect signals.
 }

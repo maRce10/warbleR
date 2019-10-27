@@ -17,7 +17,7 @@ the spectrogram, as in the function \code{\link[seewave]{spectro}}.
 Default is c(0,12).}
 
 \item{seltime}{A numeric vector of length 1 indicating the time interval in seconds at which 
-the spectrograms are produced with higher resolution (ovlp = 70) and oscilograms (if osci = \code{TRUE}). 
+the spectrograms are produced with higher resolution (ovlp = 70) and oscillograms (if osci = \code{TRUE}). 
  Default is 1 second.}
 
 \item{tdisp}{A numeric vector of length 1 specifying the length in seconds of the total sound file to 
@@ -56,17 +56,17 @@ if X is provided.}
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-to work better with 'fast' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
 
 \item{ext.window}{Logical. If \code{TRUE} then and external graphic window is used. Default 
 dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.}
 
-\item{width}{Numeric of length 1 controling the width of the external graphic window. Ignored
+\item{width}{Numeric of length 1 controlling the width of the external graphic window. Ignored
 if \code{ext.window = FALSE}. Default is 15.}
 
-\item{height}{Numeric of length 1 controling the height of the external graphic window.
+\item{height}{Numeric of length 1 controlling the height of the external graphic window.
 Ignored if \code{ext.window = FALSE}. Default is 5.}
 }
 \value{
@@ -114,8 +114,8 @@ This function may work very slowly with middle and large size sound files. We st
   reverse.gray.colors.1, reverse.gray.colors.2, reverse.heat.colors, reverse.terrain.colors,
   reverse.topo.colors, reverse.cm.colors, heat.colors, terrain.colors, topo.colors,
   cm.colors. The function is slow when working on files of length > 5min. In most cases other
-  sound analysis softwares for manually selecting acoustic signals (e.g. Raven, Syrinx) should
-  be prefered.
+  sound analysis software for manually selecting acoustic signals (e.g. Raven, Syrinx) should
+  be preferred.
 }
 \examples{
 \dontrun{

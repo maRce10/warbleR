@@ -4,7 +4,7 @@
 #' @usage wpd_features(X, normalize = TRUE, threshold = 1.3, path = NULL, pb = TRUE, parallel = 1)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
+#' end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' also be used as the input data frame.
 #' @param normalize Logical to determine if features are normalized by signal duration.
 #' @param threshold Amplitude threshold (\%) for frequency range detection. The frequency range (not the cumulative amplitude) is represented as percentage (100\% = highest amplitude). Default is 10.
@@ -15,7 +15,7 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @export
 #' @name wpd_features
-#' @details Measures wavelet packet decomposition features. STLL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
+#' @details Measures wavelet packet decomposition features. STILL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
 #' @seealso \code{\link{mfcc_stats}}, \code{\link{mfcc_stats}}
 #' @examples 
 #' {
@@ -41,10 +41,9 @@ wpd_features <- function(X, normalize = TRUE, threshold = 1.3, path = NULL, pb =
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
-  # error message if ape is not installed
+  # error message if wavethresh is not installed
   if (!requireNamespace("wavethresh",quietly = TRUE))
     stop("must install 'wavethresh' to use this function")
-  
   
   #### set arguments from options
   # get function arguments

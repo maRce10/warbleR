@@ -21,7 +21,7 @@ If \code{NULL} (default) then the current working directory is used. Tip labels 
 
 \item{par.mar}{Numeric vector with 4 elements, default is \code{rep(1, 4)}. Specifies the number of lines 
 in inner plot margins where axis labels fall, with form c(bottom, left, top, right). 
-See \code{\link[graphics]{par}}. See 'inner.par' argument for controling spectrogram margins.}
+See \code{\link[graphics]{par}}. See 'inner.par' argument for controlling spectrogram margins.}
 
 \item{size}{Numeric vector of length 1 controlling the relative size of spectrograms. Higher numbers increase the height of spectrograms. Default is 1. 
 Numbers between range \code{c(>0, Inf)} are allowed.}
@@ -31,7 +31,7 @@ Numbers between range \code{c(>0, Inf)} are allowed.}
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{ladder}{Character string controling whether the phylogeny is ladderized (i.e. the internal structure of the 
+\item{ladder}{Character string controlling whether the phylogeny is ladderized (i.e. the internal structure of the 
 tree is reorganized to get the ladderized effect when plotted). Only 'left' of 'right' values are accepted. Default is 
 \code{NULL} (no ladderization). See \code{\link[ape]{ladderize}} for more details.}
 

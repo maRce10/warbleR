@@ -42,6 +42,10 @@
 catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
                         pb = TRUE, by.img.suffix = FALSE, ...)
 {
+  # error message if jpeg package is not installed
+  if (!requireNamespace("jpeg",quietly = TRUE))
+    stop("must install 'jpeg' to use this function")
+  
   # reset pbapply options
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   

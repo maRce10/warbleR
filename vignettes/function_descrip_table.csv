@@ -47,7 +47,6 @@ coor_graph,,,,,,x,,,create schematic plots of coordinated signals,data frame,ima
 coor_test,,,,,,,x,,test statistical significance of vocal coordination,data frame,data frame
 full_spec,,,,,x,x,,,create spectrograms of whole sound files,"multiple wave files, selection tables, ext. selection tables",images
 full_spec2pdf,,,,,x,,,x,convert full spectrograms to .pfg,images,images
-xcorr_graph,,,,,,x,,,plot results from spectrographic cross-correlation,x_corr output,images
 color_spectro,,,,,,,,x,highlight signals with colors in a spectrogram,wave object,plot in R
 freq_range_detec,,,,,,,,x,detect frequency range in wave objetcs,wave object,"data frame, plot in R"
 open_wd,,,,,,,,x,open working directory,,

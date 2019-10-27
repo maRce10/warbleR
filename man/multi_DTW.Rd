@@ -16,7 +16,7 @@ window.type = "none", open.end = FALSE, scale = FALSE, dist.mat = TRUE, ...)
 when parallel = 1.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not availble in Windows OS.}
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not available in Windows OS.}
 
 \item{window.type}{\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).}
 

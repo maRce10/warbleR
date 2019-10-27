@@ -30,7 +30,7 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param mar Numeric vector of length 1. Specifies the margins (in seconds) adjacent to the start and end points of selections,
-#' dealineating spectrogram limits. Default is 0.05.
+#' delineating spectrogram limits. Default is 0.05.
 #' @param prop.mar Numeric vector of length 1. Specifies the margins adjacent to the 
 #' start and end points of selections as a proportion of the duration of the signal. If
 #' provided 'mar' argument is ignored. Default is \code{NULL}. Useful when having high 
@@ -52,7 +52,7 @@
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
 #' @param res Numeric argument of length 1. Controls image resolution. Default is 100 (faster)
@@ -68,7 +68,7 @@
 #'  for vertical orientation.
 #' @param tags String vector. Provides the column names that will be used for the color tagging legend above. Tags can also be numeric. Continuous variables would be break down in 10 color classes.
 #' @param tag.pal List of color palette function for tags. Should be of length 1, 2 or 3.  Default is \code{list(temp.colors, heat.colors, topo.colors)}.
-#' @param legend A numeric vector of length 1 controling a legend for color tags is added.
+#' @param legend A numeric vector of length 1 controlling a legend for color tags is added.
 #' Ignored if no tags are provided. Four values are allowed: 
 #' \itemize{
 #'    \item \code{0}: No label
@@ -86,8 +86,8 @@
 #' @param img.prefix A character vector of length 1 with a prefix (label) to add at the beginning of the names of 
 #' image files. Default is \code{NULL} (no prefix). Useful to label catalogs from different individuals, 
 #' species or sites and ensure they will be grouped together when sorted by file name.
-#' @param tag.widths A numeric vector of length 2 to control de relative width of the color tags (when 2 tags are provided).
-#' @param hatching A numeric vector of length 1 controling cross-hatching is used for color tags. Several cross-hatching 
+#' @param tag.widths A numeric vector of length 2 to control the relative width of the color tags (when 2 tags are provided).
+#' @param hatching A numeric vector of length 1 controlling cross-hatching is used for color tags. Several cross-hatching 
 #' patterns are used to make tags with similar colors more distinguishable. Four values are allowed: 
 #' \itemize{
 #'    \item \code{0}: No cross-hatching
@@ -95,7 +95,7 @@
 #'    \item \code{2}: Cross-hatching the second color tag
 #'    \item \code{3}: Cross-hatching both color tags
 #'    }
-#' @param breaks Numeric vector of length 1 or 2 controling the number of intervals in which a 
+#' @param breaks Numeric vector of length 1 or 2 controlling the number of intervals in which a 
 #' numeric tag will be divided. The numbers control the first and second tags respectively. 
 #' Ignored if tags are not numeric. Default is \code{c(5, 5)}. 
 #' @param group.tag Character vector of length 1 indicating the column name to be used to color
@@ -109,7 +109,7 @@
 #' @param max.group.cols Numeric vector of length 1 indicating the number of different colors 
 #' that will be used for group tags (see 'group.tag' argument). If provided (and the number is 
 #' smaller than the number of levels in the 'group.tag' column) the colors will be recycled, 
-#' athough ensuring that adjacent groups do not share the same color. Useful when the 
+#' although ensuring that adjacent groups do not share the same color. Useful when the 
 #' 'group.tag' has many levels and the colors assigned become very similar. Default is \code{NULL}.
 #' @param sub.legend Logical. If \code{TRUE} then only the levels present on each
 #' page are shown in the legend. Default is \code{FALSE}.

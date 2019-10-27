@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ files, 2) "selec": unique selection identifier (within a sound file), 3) "start"
 end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
 not provided the first channel (i.e. left channel) would be used by default. 
 Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input to double check selections. 
-The ouptut of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can 
+The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can 
 be used as the input object for other <code><a href='warbleR.html'>warbleR</a></code> functions.</p></td>
     </tr>
     <tr>
@@ -172,7 +172,7 @@ a extended selection table. If provided 'X' is ignored.</p></td>
       <td><p>Logical. If <code>TRUE</code>, the function will create an object of class 'extended_selection_table' 
 which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is 
 and self-contained format that does not require the original sound files for running most acoustic analysis in 
-<code><a href='warbleR.html'>warbleR</a></code>. This can largely faciliate the storing and sharing of (bio)acoustic data. Default 
+<code><a href='warbleR.html'>warbleR</a></code>. This can largely facilitate the storing and sharing of (bio)acoustic data. Default 
 is if <code>FALSE</code>. An extended selection table won't be created if there is any issue with the selection. See 
 'details'.</p></td>
     </tr>
@@ -181,7 +181,7 @@ is if <code>FALSE</code>. An extended selection table won't be created if there 
       <td><p>Logical. If <code>TRUE</code> then the size of the 'extended_selection_table' 
 will be estimated and the user will be asked for confirmation (in the console)
 before proceeding. Ignored if 'extended' is <code>FALSE</code>. This is used to prevent
-generating objects too big to be dealth with by R. See 'details' for more information about extended selection table size.</p></td>
+generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size.</p></td>
     </tr>
     <tr>
       <th>mar</th>
@@ -231,13 +231,13 @@ in the working directory</p></li>
 <li><p>3) if the start and end time of the selections are found within the duration of the sound files</p></li>
 </ul><p>If no errors are found the a selection table or extended selection table will be generated. 
 Note that the sound files should be in the working directory (or the directory provided in 'path').
-This is useful for avoiding errors in dowstream functions (e.g. <code><a href='specan.html'>specan</a></code>, <code><a href='xcorr.html'>xcorr</a></code>, <code><a href='catalog.html'>catalog</a></code>, <code><a href='dfDTW.html'>dfDTW</a></code>). Note also that corrupt files can be
+This is useful for avoiding errors in downstream functions (e.g. <code><a href='specan.html'>specan</a></code>, <code><a href='xcorr.html'>xcorr</a></code>, <code><a href='catalog.html'>catalog</a></code>, <code><a href='dfDTW.html'>dfDTW</a></code>). Note also that corrupt files can be
 fixed using <code><a href='fixwavs.html'>fixwavs</a></code> ('sox' must be installed to be able to run this function).
 The 'selection_table' class can be input in subsequent functions.</p>
 <p>When <code>extended = TRUE</code> the function will generate an object of class 'extended_selection_table' which 
 will also contains the wave objects for each of the selections in the data frame.
 This transforms selection tables into self-contained objects as they no longer need the original
-sound files to run acoustic analysis. This can largely faciliate the storing and sharing of (bio)acoustic data.
+sound files to run acoustic analysis. This can largely facilitate the storing and sharing of (bio)acoustic data.
 Extended selection table size will be a function of the number of selections <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(X)</a></code>, sampling rate, selection 
 duration and margin duration. As a guide, a selection table
 with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.15

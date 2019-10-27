@@ -8,11 +8,11 @@
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data 
 #' frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
-#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can  also be used as the input data frame. 
+#' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can  also be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512. Note that this is particularly important for measuring spectral entropy. Low values (~100) 
 #'   generate a very detail contour of the variation in spectral entropy that is probably not useful for 
-#'   assesing signal similarity.
+#'   assessing signal similarity.
 #' @param length.out A character vector of length 1 giving the number of measurements of spectral entropy 
 #'  desired (the length of the time series).
 #' @param wn Character vector of length 1 specifying window name. Default is 
@@ -33,7 +33,7 @@
 #' @param clip.edges Logical argument to control whether edges (start or end of signal) in
 #' which amplitude values above the threshold were not detected will be removed. If 
 #' \code{TRUE} this edges will be excluded and signal contour will be calculated on the
-#' remainging values. Default is \code{FALSE}. 
+#' remaining values. Default is \code{FALSE}. 
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
 #' @param sp.en.range Numeric vector of length 2. Range of frequency in which to display the entropy values 
@@ -53,9 +53,9 @@
 #' @name sp.en.ts
 #' @details This function spectral entropy across signals as a time series. 
 #' The function uses the \code{\link[stats]{approx}} function to interpolate values between spectral 
-#' entropy measures (calculated with \code{\link[seewave]{csh}}). If there are no frequencies above the amplitude theshold 
-#' at the begining or end  of the signals then NAs will be generated. On the other hand, 
-#' if there are no frequenciesabove the amplitude theshold in between signal segments in which amplitude was 
+#' entropy measures (calculated with \code{\link[seewave]{csh}}). If there are no frequencies above the amplitude threshold 
+#' at the beginning or end  of the signals then NAs will be generated. On the other hand, 
+#' if there are no frequencies above the amplitude theshold in between signal segments in which amplitude was 
 #'  detected then the values of this adjacent segments will be interpolated 
 #'  to fill out the missing values (e.g. no NAs in between detected amplitude segments). Missing values at the start
 #'  of end can be removed with "clip.edges".

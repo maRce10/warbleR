@@ -8,7 +8,7 @@
 #' img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can
+#' end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' also be used as the input data frame.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) 
@@ -42,7 +42,7 @@
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast.spec' spectograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
+#' to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
 #' @param pal Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
@@ -70,7 +70,7 @@
 #'  \item top.freq = the end frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.
 #'   }
 #'   If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
-#'   generated for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges exluded by the bandpass ('bp' argument), dotted lines highlighting the detected range. The function \code{\link{frange.detec}} is used internally.
+#'   generated for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges excluded by the bandpass ('bp' argument), dotted lines highlighting the detected range. The function \code{\link{frange.detec}} is used internally.
 #' @seealso \code{\link{frange.detec}}, \code{\link{autodetec}}
 #' @examples 
 #' {

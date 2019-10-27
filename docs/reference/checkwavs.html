@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -142,11 +142,11 @@
       <th>X</th>
       <td><p>Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The ouptut of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can 
+end time of selections. The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can 
 also be used as the input data frame. If provided the function also returns the
 smallest number of samples from the listed selections, which limits the minimum window 
 length (wl argument in other functions) that can be used in batch analyses. 
-This could be useful for avoiding errors in dowstream functions (e.g. <code><a href='specan.html'>specan</a></code>).</p></td>
+This could be useful for avoiding errors in downstream functions (e.g. <code><a href='specan.html'>specan</a></code>).</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -167,7 +167,7 @@ If X is provided it also returns the smallest number of samples from
 the selections listed in X (if all files can be read). Note that corrupt files can be
 fixed using <code><a href='fixwavs.html'>fixwavs</a></code>) ('sox' must be installed to be able to run this function).
 The function is intended for a "quick and dirty" check of the .wav files in a selections data
- frame. For a more thourough analysis see <code><a href='checksels.html'>checksels</a></code>.</p>
+ frame. For a more thorough analysis see <code><a href='checksels.html'>checksels</a></code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>

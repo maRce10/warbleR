@@ -9,7 +9,7 @@ filtersels(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "jpeg",
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
-files, 2) "sel": number of the selections. The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+files, 2) "sel": number of the selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 be used as the input data frame.}
 
 \item{path}{Character string containing the directory path where the image files are located. 

@@ -1,9 +1,9 @@
 #' Data frame of selections (i.e. selection table).
 #' 
-#' A data frame containing the start, end, low and hig frequency of 
+#' A data frame containing the start, end, low and high frequency of 
 #' \emph{Phaethornis longirostris} (Long-billed Hermit) songs from the 
 #' example sound files included in this package. Same data than 'lbh_selec_table'.
-#' 'lbh_selec_table' will be reomved in future package version.
+#' 'lbh_selec_table' will be removed in future package version.
 #' 
 #' @format A data frame with 11 rows and 6 variables: \describe{ 
 #'  \item{sound.files}{recording names}

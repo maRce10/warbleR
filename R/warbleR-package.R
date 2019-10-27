@@ -123,11 +123,9 @@
 #'   
 #'   \code{\link{catalog2pdf}}: Combine catalog images to single pdf files
 #'   
-#'   \code{\link{coor.graph}}: Creat graphs of coordinated singing 
+#'   \code{\link{coor.graph}}: Create graphs of coordinated singing 
 #'   
 #'   \code{\link{color.spectro}}: Highlight spectrogram regions
-#'   
-#'   \code{\link{xcorr.graph}}: Pairwise cross-correlation of multiple signals
 #'   
 #'   \code{\link{lspec}}: Produce spectrograms of whole recordings split into 
 #'   multiple rows
@@ -144,7 +142,6 @@
 #' @exportClass selection_table
 #' @exportClass extended_selection_table
 #' @import NatureSounds
-#' @import maps
 #' @import rjson
 #' @import RCurl
 #' @import pbapply
@@ -155,10 +152,7 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
-#' @import iterators
-#' @import bitops
-#' @import jpeg
-# @importFrom bioacoustics resample
+#' @importFrom maps map map.axes
 #' @importFrom methods formalArgs new
 #' @importFrom pracma findpeaks
 #' @importFrom Sim.DiffProc BB GBM

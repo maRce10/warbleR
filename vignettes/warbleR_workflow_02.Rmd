@@ -327,7 +327,7 @@ This is how it works:
   * A legend can be added to help match colors with tag levels
     * different color palettes can be used for each tag
   * The duration of the signals can be "fixed" such that all the spectrograms have the same duration 
-    * faciltates comparisons 
+    * facilitates comparisons 
   * You can control the number of rows and columns as well as the width and height of the output image
 
 `catalog` allows you to group signals into biologically relevant groups by coloring the background of selected spectrograms accordingly. There is also an option to add hatching to tag labels, as well as filling the catalog with spectrograms by rows or columns of the selection table data frame, among other additional arguments. Check out [Marcelo's post](https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html) on some recent updates to the `catalog` function. 
@@ -395,9 +395,9 @@ Here we finished the second phase of the `warbleR` workflow, which includes vari
   * use different methods for visual classification of signals, including:
     * long spectrograms
     * highlighted regions within spectrograms
-    * catalogues or lexicons of individual signals
+    * catalogs or lexicons of individual signals
 
-The next vignette will cover the third phase of the _warbleR_ workflow, which includes methods to perform acoustic mesaurements as a batch process, an example of how to use these measurements for an analysis of geographic variation, coordinated singing analysis and a new function to simulate songs.
+The next vignette will cover the third phase of the _warbleR_ workflow, which includes methods to perform acoustic measurements as a batch process, an example of how to use these measurements for an analysis of geographic variation, coordinated singing analysis and a new function to simulate songs.
 
 ##**Citation**
 

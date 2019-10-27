@@ -109,6 +109,7 @@ knitr::opts_chunk$set(eval = !is_check, comment = "")
 #website to fix gifs
 #https://ezgif.com/optimize
 
+vgn.path <- getwd()
 ```
 
 
@@ -235,6 +236,24 @@ Phae <- querxc(qword = "Phaethornis", download = FALSE)
 # Check out the structure of resulting the data frame
 str(Phae)
 
+```
+
+```{r, eval = TRUE, echo = FALSE, message = FALSE}
+
+# Phae <- querxc(qword = "Phaethornis", download = FALSE) 
+
+# write.csv(Phae, file = "~/Dropbox/warbleR/vignettes/Phae.XC.csv", row.names = FALSE)
+
+Phae <- read.csv(file.path(vgn.path, "Phae.XC.csv"), stringsAsFactors = FALSE)
+
+# Check out the structure of resulting the data frame
+str(Phae)
+
+
+```
+
+```{r, eval=FALSE}
+
 # Query xeno-canto for all Phaethornis longirostris recordings
 Phae.lon <- querxc(qword = "Phaethornis longirostris", download = FALSE) 
 
@@ -243,12 +262,18 @@ str(Phae.lon)
 
 ```
 
-```{r, eval=TRUE, echo=FALSE, message=FALSE}
+```{r, eval = TRUE, echo = FALSE, message = FALSE}
 
-Phae.lon <- querxc(qword = "Phaethornis longirostris", download = FALSE) 
+# Phae.lon <- querxc(qword = "Phaethornis longirostris", download = FALSE)
+
+# write.csv(Phae.lon, file = "~/Dropbox/warbleR/vignettes/Phae.lon.XC.csv", row.names = FALSE)
+
+Phae.lon <- read.csv(file.path(vgn.path, "Phae.lon.XC.csv"), stringsAsFactors = FALSE)
+
+# Check out the structure of resulting the data frame
+str(Phae.lon)
 
 ```
-
 &nbsp; 
 
 You can then use the function `xcmaps` to visualize the geographic spread of the queried recordings. `xcmaps` will create an image file of a map per species in your current directory if `img = TRUE`. If `img = FALSE`, maps will be displayed in the graphics device. 
@@ -543,7 +568,7 @@ Both functions are fastest with shorter recordings, but there are ways to deal w
     + data frame with recording name, selection, start and end times. The last two are temporal coordinates that will be passed on to downstream functions to measure acoustic parameters
     + a spectrogram per recording, with red dotted lines marking the start and end of each detected signal, saved in your working directory
     
-Check out the `autodetec` documentation for more information. The argument `threshold` is one of the most important detection parameters, as well as information about signal frequency range and duration. _Phaenthornis longirostris_ songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s. 
+Check out the `autodetec` documentation for more information. The argument `threshold` is one of the most important detection parameters, as well as information about signal frequency range and duration. _Phaethornis longirostris_ songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s. 
 
 If you need to detect all or most of the signals within the recording, play around with different arguments to increase detection accuracy. Since you may need to do several rounds of optimization, we recommend using subsets of your recordings to speed up the process. If the species you study produces stereotyped signals, like _Phaethornis longirostris_, just a few signals are needed per recording, and a low-accuracy detection could yield enough selections.
 
@@ -569,7 +594,7 @@ autodetec(flist = sub, bp = c(1, 10), threshold = 10, mindur = 0.05, maxdur = 0.
 
 Check out the image files in your working directory. Note that some songs were correctly detected but other undesired sounds were also detected. In most cases, the undesired selections have a shorter duration than our target signals.
 
-We won't save the `autodetec` ouput in an object until we're satisfied with the detection. To improve our detection we should play around with argument values. Also note that the image files produced by `autodetec` contain the values used for the different arguments, which can help you better compare between runs. Below are some detection parameters that work well for these _Phaethornis longirotris _ recordings:
+We won't save the `autodetec` ouput in an object until we're satisfied with the detection. To improve our detection we should play around with argument values. Also note that the image files produced by `autodetec` contain the values used for the different arguments, which can help you better compare between runs. Below are some detection parameters that work well for these _Phaethornis longirostris _ recordings:
 
 ```{r, eval=FALSE, echo = TRUE}
 

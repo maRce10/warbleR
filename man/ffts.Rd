@@ -12,7 +12,7 @@ ffts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data 
 frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
-The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
+The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
@@ -47,7 +47,7 @@ image files.}
 \item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed. If 
 \code{TRUE} this edges will be excluded and signal contour will be calculated on the
-remainging values. Default is \code{FALSE}. 
+remaining values. Default is \code{FALSE}. 
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 in the output image.}
 
@@ -74,7 +74,7 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function extracts the fundamental frequency values as a time series. 
-The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude theshold at the begining or end 
+The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude threshold at the beginning or end 
  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
  above the amplitude theshold in between signal segments in which amplitude was 
  detected then the values of this adjacent segments will be interpolated 

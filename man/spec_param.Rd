@@ -11,7 +11,7 @@ spec_param(X, length.out = 5, ovlp = 90, wl = c(100, 1000), wn = "hanning",
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with a single row and columns for sound file name (sound.files), selection number (selec), 
 and start and end time of signal (start and end). Default is \code{NULL}.}
 
-\item{length.out}{Numeric vector of length 1 controling the number of sublevels of
+\item{length.out}{Numeric vector of length 1 controlling the number of sublevels of
 the numeric arguments for which a range has been provided. Ranges are allowed for
 'ovlp', 'wl', and 'collev.min' arguments.}
 

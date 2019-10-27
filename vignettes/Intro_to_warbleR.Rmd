@@ -316,7 +316,7 @@ class(st)
 
 ### Extended selection tables
 
-When the `extended = TRUE` argument the function generates an object of the *extended_selection_table* class that also contains a list of 'wave' objects corresponding to each of the selections in the data. Therefore, the function **transforms the selection table into self-contained objects** since the original sound files are no longer needed to perform most of the acoustic analysis in **warbleR**. This can greatly facilitate the storage and exchange of (bio)acoustic data. In addition, it also speeds up anaylisis, since it is not necessary to read the sound files every time the data is analyzed.
+When the `extended = TRUE` argument the function generates an object of the *extended_selection_table* class that also contains a list of 'wave' objects corresponding to each of the selections in the data. Therefore, the function **transforms the selection table into self-contained objects** since the original sound files are no longer needed to perform most of the acoustic analysis in **warbleR**. This can greatly facilitate the storage and exchange of (bio)acoustic data. In addition, it also speeds up analysis, since it is not necessary to read the sound files every time the data is analyzed.
 
 Now, as mentioned earlier, you need the `selection_table()` function to create an extended selection table. You must also set the argument `extended = TRUE` (otherwise, the class would be a selection table). The following code converts the sample data into an extended selection table:
 
@@ -356,7 +356,7 @@ is_extended_selection_table(ext_st)
 ```
 &nbsp;
 
-You can subset the selection in the same way that any other data frame and it will stil keep its attributes:
+You can subset the selection in the same way that any other data frame and it will still keep its attributes:
 
 ```{r extn_sel_6}
 
@@ -1925,15 +1925,8 @@ kbl
    <td style="text-align:center;font-style: italic;"> multiple wave files, selection tables, ext. selection tables </td>
    <td style="text-align:center;font-style: italic;"> images </td>
   </tr>
-  <tr>
-   <td style="text-align:center;font-weight: bold;"> <a href="https://marce10.github.io/warbleR/reference/xcorr_graph.html" style="     ">xcorr_graph</a> </td>
-   <td style="text-align:center;font-style: italic;"> plot results from spectrographic cross-correlation </td>
-   <td style="text-align:center;font-style: italic;"> x_corr output </td>
-   <td style="text-align:center;font-style: italic;"> images </td>
-  </tr>
 </tbody>
 </table>
-
 &nbsp; 
 
 ### Additional functions
@@ -2074,7 +2067,7 @@ kbl
 
 ## References
 
-1. Araya-Salas M, G Smith-vidaurre & M Webster. 2017. Assessing the effect of sound file compression and background noise on measures of acoustic signal structure. Bioacoustics 4622, 1–17
+1. Araya-Salas M, G Smith-Vidaurre & M Webster. 2017. Assessing the effect of sound file compression and background noise on measures of acoustic signal structure. Bioacoustics 4622, 1–17
 1. Araya-Salas M, Smith-Vidaurre G (2017) warbleR: An R package to streamline analysis of animal acoustic signals. Methods Ecol Evol 8:184–191.
 
 &nbsp; 

@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2019-10-23”
+“2019-10-27”
 </center></h4>
       
       
@@ -113,7 +113,7 @@
 <p> </p>
 <!-- <center> <h1><b>Acoustic (dis)similarity and coordinated singing</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2019-10-23 </center> -->
+<!-- <center> 2019-10-27 </center> -->
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
@@ -237,7 +237,7 @@
 <a href="#visualizing-frequency-contours-with-trackfreqs" class="anchor"></a>Visualizing frequency contours with <code>trackfreqs</code>
 </h4>
 <p>The function <code>trackfreqs</code> allows you to create spectrograms and visualize the accuracy of dominant frequency and fundamental frequency measurements.</p>
-<p>Use <code>trackfreqs</code> on all the recordings for which you want to exract frequency contours as a time series, or later, calculate other frequency measurements. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.</p>
+<p>Use <code>trackfreqs</code> on all the recordings for which you want to extract frequency contours as a time series, or later, calculate other frequency measurements. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.</p>
 <p>Running <code>trackfreqs</code> can allow you to decide which frequency parameters to use in subsequent analyses, namely <code>specan</code> and dynamic time warping methods. Also, ff the frequency measurements look acceptable with the bandpass setting used in <code>trackfreqs</code>, use that same bandpass while running <code>specan</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Note that the dominant frequency measurements are almost always more accurate</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/trackfreqs.html">trackfreqs</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="dt">it =</span> <span class="st">"jpeg"</span>)</a>
@@ -252,7 +252,7 @@
 <div id="extract-fundamental-or-dominant-frequency-contours-as-a-time-series" class="section level3">
 <h3 class="hasAnchor">
 <a href="#extract-fundamental-or-dominant-frequency-contours-as-a-time-series" class="anchor"></a>Extract fundamental or dominant frequency contours as a time series</h3>
-<p>These functions return a data frame that contains estimated frequency contours as a time series across each signal in the input data frame. You can also specify if you want to create image files with the estimated frequency contours plotted over spectrograms. You can change argument settings to better visualize the signals or change the estimation of the frequency contour. For instance, the argument <code>threshold</code> (as in <code>autodetec</code>) controls the ampltitude threshold for estimating frequency values at each time point. Note that the fundamental frequency contour estimation can often have errors, and tends to perform best with more tonal signals. The frequency contours are those that can be visualized using <code>trackfreqs</code>.</p>
+<p>These functions return a data frame that contains estimated frequency contours as a time series across each signal in the input data frame. You can also specify if you want to create image files with the estimated frequency contours plotted over spectrograms. You can change argument settings to better visualize the signals or change the estimation of the frequency contour. For instance, the argument <code>threshold</code> (as in <code>autodetec</code>) controls the amplitude threshold for estimating frequency values at each time point. Note that the fundamental frequency contour estimation can often have errors, and tends to perform best with more tonal signals. The frequency contours are those that can be visualized using <code>trackfreqs</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Fundamental frequency contour</span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">ff_df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ffts.html">ffts</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">length.out =</span> <span class="dv">20</span>, <span class="dt">threshold =</span> <span class="dv">15</span>, <span class="dt">img =</span> <span class="ot">TRUE</span>, <span class="dt">img.suffix =</span> <span class="st">"ff"</span>, <span class="dt">type =</span> <span class="st">"p"</span>, <span class="dt">ovlp =</span> <span class="dv">70</span>, <span class="dt">clip.edges =</span> <span class="ot">FALSE</span>, <span class="dt">leglab =</span> <span class="st">"ffts"</span>, <span class="dt">ff.method =</span> <span class="st">"tuneR"</span>)</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"></a>
@@ -267,7 +267,7 @@
 <div id="manually-tailor-frequency-contours-with-seltailor" class="section level3">
 <h3 class="hasAnchor">
 <a href="#manually-tailor-frequency-contours-with-seltailor" class="anchor"></a>Manually tailor frequency contours with seltailor</h3>
-<p>The functions above to track/extract dominant and fundamental frequency contours perform best with more tonal signals. The frequency measurements for signals with harmonic structure tend to jump around, and might not always match your own visual tracking of frequency contours. If this is the case, you can use the function <code>seltailor</code> to fix freqeuency contours where individual frequency measurements are clearly far off from the frequency contour detected by the human eye. The <code>seltailor</code> function is the same used in vignette 2 in this series, but by changing a few arguments, you can use <code>seltailor</code> to fix frequency contours.</p>
+<p>The functions above to track/extract dominant and fundamental frequency contours perform best with more tonal signals. The frequency measurements for signals with harmonic structure tend to jump around, and might not always match your own visual tracking of frequency contours. If this is the case, you can use the function <code>seltailor</code> to fix frequency contours where individual frequency measurements are clearly far off from the frequency contour detected by the human eye. The <code>seltailor</code> function is the same used in vignette 2 in this series, but by changing a few arguments, you can use <code>seltailor</code> to fix frequency contours.</p>
 <p>Note that manually fixing frequency contours might not make sense, depending on your question and/or the contour in question. For instance, a dominant frequency contour for a harmonic signal that jumps around and does not form a smooth contour may in fact be the truth, rather than mis-estimation of the contour. On the other hand, fundamental frequencies can be more easily traced by the human eye across a signal, so using <code>seltailor</code> to fix a frequency contour that jumps around the signal makes more sense.</p>
 <p>When the new graphics window for <code>seltailor</code> appears, it will show spectrograms as we saw in vignette 2, but with frequency contours plotted as points over each spectrogram. To fix the frequency contour, click near the malaligned points to place them over the frequency contour that you detect by eye. <code>seltailor</code> makes a new <code>.csv</code> file in your working directory that merges your original data frame (below, <code>Phae.hisnrt</code>) with the modified frequency time series (below, <code>ff_df</code> with any modified frequency values). To check that your manual tracing improved frequency contours, you can use <code>trackfreqs</code> to make spectrograms with your new frequency contours plotted as custom contours.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Use the original data frame of songs for the main seltailor dataset</span></a>
@@ -305,7 +305,7 @@
 <p> </p>
 <p>In this graphic, the acoustic pairwise distance between signals is shown next to the arrows linking them. The font color of a distance value corresponds to the font color of the method that generated it, as shown in the scatterplots (in this case black font represents XCORR distances). Distances are standardized, with 0 being the distance of a signal to itself and 1 the farthest pairwise distance in the pool of signals. Principal Component Analysis (<code>princomp</code> function) is applied to calculate distances when using spectral parameters (SP). In this case, the first 2 PC’s are used. Classical Multidimensional Scaling (also known as Principal Coordinates Analysis, <code>cmdscale</code> function) is used for all other methods. The image file name contains the methods being compared and the row number of the selections. This function internally uses a modified version of the <code>spectro</code> function from the <code>seewave</code> package to create spectrograms. Note that the spectrograms are all plotted with the same frequency and time scales.</p>
 <p>Also note that the graphs contain 2 scatterplots (1 per method) of the acoustic space of all signals in the input data frame <code>X</code>. The position of the 4 signals in the spectrograms is highlighted in the acoustic space scatterplot. These graphics allow you to directly assess if the distances between signals in the acoustic space accurately represent the spectrographic similarity (e.g. how similar their acoustic structure looks in the spectrograms).</p>
-<p>You can run <code>compare.methods</code> for any combination of the quantative methods for assessing acoustic (dis)similarity mentioned above. Importantly, to include the SP method (spectral parameters measured by the function <code>specan</code>), you need a large enough dataset, as the PCA that summarizes the spectral parameters needs more units (rows) that variables (columns).</p>
+<p>You can run <code>compare.methods</code> for any combination of the quantitative methods for assessing acoustic (dis)similarity mentioned above. Importantly, to include the SP method (spectral parameters measured by the function <code>specan</code>), you need a large enough dataset, as the PCA that summarizes the spectral parameters needs more units (rows) that variables (columns).</p>
 </div>
 <div id="measure-acoustic-parameters-with-specan" class="section level3">
 <h3 class="hasAnchor">
@@ -356,7 +356,7 @@
 <a class="sourceLine" id="cb19-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb19-4" data-line-number="4">dm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dfDTW.html">dfDTW</a></span>(Tin.sels, <span class="dt">length.out =</span> <span class="dv">30</span>, <span class="dt">flim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="fl">2.5</span>), <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">2.5</span>), <span class="dt">wl =</span> <span class="dv">512</span>, <span class="dt">img =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb19-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(dm)</a></code></pre></div>
-<p>Check out <a href="https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html">Marcelo’s blog</a> for a great example of how to evaluate whether or not the dynamic time warping (dis)similiarty measurements accurately represents acoustic differences.</p>
+<p>Check out <a href="https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html">Marcelo’s blog</a> for a great example of how to evaluate whether or not the dynamic time warping (dis)similarity measurements accurately represents acoustic differences.</p>
 </div>
 <div id="spectrographic-cross-correlation" class="section level3">
 <h3 class="hasAnchor">
@@ -368,30 +368,20 @@
 </ul>
 <p><code>xcorr</code> requires margins half the duration of the signal on either side of the signal (e.g. before and after the start and end coordinates). Signals that are very close to either the start or end of a recording may throw errors. Additionally, when sound files have been modified by bandpass filters, some pairwise cross-correlations may not work and the correlation matrix may contain <code>NA</code> values. <code>xcorr</code> now contains an argument to remove columns of the matrix that contain <code>NA</code> values, which will reduce the data in the matrix but also allow the matrix to be used in subsequent analyses.</p>
 <p>Here our output is a matrix of peak correlation per pairwise comparison, with the recording-selection names as the matrix dimension names.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">xc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xcorr.html">xcorr</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>, <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>,<span class="dv">10</span>))</a>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">xc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xcorr.html">xcorr</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(xc)</a></code></pre></div>
-<p>To visualize the cross-correlation across all pairwise comparisons, we need to feed the function <code>xcorr.graph</code> a list of <code>xcorr</code> output (<code>xcorr</code>must be run with <code>cor.mat = FALSE</code>). Here we save the graphical output of <code>xcorr.graph</code> for better ease of visualization.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">xc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xcorr.html">xcorr</a></span>(Phae.hisnrt, <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>, <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>,<span class="dv">10</span>), <span class="dt">cor.mat =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/grDevices/png.html">jpeg</a></span>(<span class="st">"xcorr_graph.jpeg"</span>, <span class="dt">width =</span> <span class="dv">30</span>, <span class="dt">height =</span> <span class="dv">30</span>, <span class="dt">units =</span> <span class="st">"cm"</span>, <span class="dt">res =</span> <span class="dv">200</span>)</a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="kw"><a href="../reference/xcorr.graph.html">xcorr.graph</a></span>(xc, <span class="dt">cex.cor =</span> <span class="dv">1</span>, <span class="dt">cex.lab =</span> <span class="dv">1</span>, <span class="dt">cex.axis.lab =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span>()</a></code></pre></div>
-<center>
-<img src="xcorr_graph.jpeg" alt="xcorr.graph image">
-</center>
-<p> </p>
-<p>In this image, red values in the upper triangle indicate high peak correlations and therefore greater similiarty between signals. The faceted line plots in the lower triangle are another way of visualizing similarity between signals. The x-axis is the time difference between signals at each sliding step of the cross-correlation, with 0 representing perfectly centered signals. Plots with peaks at 0 represent signals that are more similar.</p>
+<p>To visualize the cross-correlation across all pairwise comparisons, we need can use the function <code>corrplot</code> from the package of the same name.</p>
 </div>
 </div>
 <div id="analysis-of-geographic-variation-using-specan-measurements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analysis-of-geographic-variation-using-specan-measurements" class="anchor"></a>Analysis of geographic variation using <code>specan</code> measurements</h2>
 <p>We can evaluate whether or not the observed variation in song structure is reflected by the meters we just measured. For this we will conduct a Principal Component Analysis on scaled (z-transformed) meters and look at the grouping of songs (data points) in the scatter plot.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Run the PCA with only numeric variables of params</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">pca &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span>(<span class="dt">x =</span> params[, <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(params, is.numeric)], <span class="dt">scale. =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co"># Check loadings</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(pca)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># Run the PCA with only numeric variables of params</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">pca &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span>(<span class="dt">x =</span> params[, <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(params, is.numeric)], <span class="dt">scale. =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co"># Check loadings</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(pca)</a></code></pre></div>
 <pre><code>Importance of components:
                          PC1    PC2    PC3     PC4     PC5     PC6    PC7     PC8     PC9    PC10    PC11    PC12    PC13   PC14    PC15    PC16
 Standard deviation     3.799 2.6465 1.7684 1.01130 0.93681 0.88418 0.8449 0.72613 0.63069 0.52078 0.44692 0.43914 0.41945 0.3552 0.23923 0.18924
@@ -401,50 +391,50 @@ Cumulative Proportion  0.481 0.7145 0.8187 0.85280 0.88205 0.90811 0.9319 0.9494
 Standard deviation     0.15921 0.15130 0.07228 0.05806 0.03699 0.02449 2.273e-15
 Proportion of Variance 0.00084 0.00076 0.00017 0.00011 0.00005 0.00002 0.000e+00
 Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co"># Extract PCA scores</span></a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">pcascor &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(pca[[<span class="dv">5</span>]])</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co"># Plot the 2 first PCs</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(pcascor[, <span class="dv">1</span>], pcascor[, <span class="dv">2</span>], <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(params<span class="op">$</span>sound.files), <span class="dt">pch =</span> <span class="dv">20</span>, </a>
-<a class="sourceLine" id="cb24-6" data-line-number="6">     <span class="dt">cex =</span> <span class="dv">1</span>, <span class="dt">xlab =</span> <span class="st">"PC1"</span>, <span class="dt">ylab =</span> <span class="st">"PC2"</span>)</a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co"># Add recordings/individuals labels </span></a>
-<a class="sourceLine" id="cb24-9" data-line-number="9">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(pcascor[, <span class="dv">1</span>], params<span class="op">$</span>sound.files, mean)</a>
-<a class="sourceLine" id="cb24-10" data-line-number="10">y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(pcascor[, <span class="dv">2</span>], params<span class="op">$</span>sound.files, mean)</a>
-<a class="sourceLine" id="cb24-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb24-12" data-line-number="12">labs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">".wav"</span>, <span class="st">""</span>, <span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(params<span class="op">$</span>sound.files), <span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb24-13" data-line-number="13">  <span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(x, <span class="dt">split =</span> <span class="st">"-"</span>, <span class="dt">fixed =</span> <span class="ot">TRUE</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</a>
-<a class="sourceLine" id="cb24-14" data-line-number="14">  }, <span class="dt">USE.NAMES =</span> <span class="ot">FALSE</span>)))</a>
-<a class="sourceLine" id="cb24-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb24-16" data-line-number="16"><span class="kw"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(x, y, labs, <span class="dt">cex =</span> <span class="fl">0.75</span>)</a></code></pre></div>
-<p><img src="warbleR_workflow_03_files/figure-html/unnamed-chunk-30-1.png" width="1604.16666666667"></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># Extract PCA scores</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">pcascor &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(pca[[<span class="dv">5</span>]])</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co"># Plot the 2 first PCs</span></a>
+<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(pcascor[, <span class="dv">1</span>], pcascor[, <span class="dv">2</span>], <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(params<span class="op">$</span>sound.files), <span class="dt">pch =</span> <span class="dv">20</span>, </a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">     <span class="dt">cex =</span> <span class="dv">1</span>, <span class="dt">xlab =</span> <span class="st">"PC1"</span>, <span class="dt">ylab =</span> <span class="st">"PC2"</span>)</a>
+<a class="sourceLine" id="cb23-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="co"># Add recordings/individuals labels </span></a>
+<a class="sourceLine" id="cb23-9" data-line-number="9">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(pcascor[, <span class="dv">1</span>], params<span class="op">$</span>sound.files, mean)</a>
+<a class="sourceLine" id="cb23-10" data-line-number="10">y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(pcascor[, <span class="dv">2</span>], params<span class="op">$</span>sound.files, mean)</a>
+<a class="sourceLine" id="cb23-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb23-12" data-line-number="12">labs &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">".wav"</span>, <span class="st">""</span>, <span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(params<span class="op">$</span>sound.files), <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb23-13" data-line-number="13">  <span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(x, <span class="dt">split =</span> <span class="st">"-"</span>, <span class="dt">fixed =</span> <span class="ot">TRUE</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb23-14" data-line-number="14">  }, <span class="dt">USE.NAMES =</span> <span class="ot">FALSE</span>)))</a>
+<a class="sourceLine" id="cb23-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb23-16" data-line-number="16"><span class="kw"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(x, y, labs, <span class="dt">cex =</span> <span class="fl">0.75</span>)</a></code></pre></div>
+<p><img src="warbleR_workflow_03_files/figure-html/unnamed-chunk-29-1.png" width="1604.16666666667"></p>
 <p>Songs are grouped by sound file. As each sound file represents a single individual, this suggests that songs have individual signatures. Let’s look at the song type level. First, we need to classify the songs by song type. We can check the spectrograms we previously created to do this.</p>
 <!-- <center> ![song types](song_types_spectros.jpg)</center> -->
 <p> </p>
 <p>Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 represent a different song type. Finally, the songs from each of the other 2 sound files have a unique structure, so each one represents a different song type. Sound file 154123 is represented here too, but in vignette 1 we decided against using signals from this recording. We can add this information to the plot by using symbols to represent song types.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># Create a song type variable</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co"># First, extract recording ID</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">songtype &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">".wav"</span>, <span class="st">""</span>, <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(params<span class="op">$</span>sound.files), <span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">  <span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(x, <span class="dt">split =</span> <span class="st">"-"</span>, <span class="dt">fixed =</span> <span class="ot">TRUE</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</a>
-<a class="sourceLine" id="cb25-6" data-line-number="6">  }, <span class="dt">USE.NAMES =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co"># Now change IDs for letters representing song types</span></a>
-<a class="sourceLine" id="cb25-9" data-line-number="9">songtype &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"154070|154072"</span>, <span class="st">"A"</span>, songtype)</a>
-<a class="sourceLine" id="cb25-10" data-line-number="10">songtype &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"154129|154161"</span>, <span class="st">"B"</span>, songtype)</a>
-<a class="sourceLine" id="cb25-11" data-line-number="11">songtype &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"154138"</span>, <span class="st">"C"</span>, songtype)</a>
-<a class="sourceLine" id="cb25-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb25-13" data-line-number="13"><span class="co"># Add song type as a variable representing symbol type</span></a>
-<a class="sourceLine" id="cb25-14" data-line-number="14"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(pcascor[, <span class="dv">1</span>], pcascor[, <span class="dv">2</span>], <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(params<span class="op">$</span>sound.files), </a>
-<a class="sourceLine" id="cb25-15" data-line-number="15"><span class="dt">pch =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(songtype)), </a>
-<a class="sourceLine" id="cb25-16" data-line-number="16">     <span class="dt">cex =</span> <span class="dv">1</span>, <span class="dt">xlab =</span> <span class="st">"PC1"</span>, <span class="dt">ylab =</span> <span class="st">"PC2"</span>)</a>
-<a class="sourceLine" id="cb25-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb25-18" data-line-number="18"><span class="co"># Add song type labels </span></a>
-<a class="sourceLine" id="cb25-19" data-line-number="19">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(pcascor[, <span class="dv">1</span>], songtype, mean)</a>
-<a class="sourceLine" id="cb25-20" data-line-number="20">y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(pcascor[, <span class="dv">2</span>], songtype, mean)</a>
-<a class="sourceLine" id="cb25-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb25-22" data-line-number="22"><span class="kw"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(x, y, <span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(songtype), <span class="dt">cex =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="warbleR_workflow_03_files/figure-html/unnamed-chunk-31-1.png" width="1604.16666666667"></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co"># Create a song type variable</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co"># First, extract recording ID</span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">songtype &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">".wav"</span>, <span class="st">""</span>, <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(params<span class="op">$</span>sound.files), <span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">  <span class="kw"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(x, <span class="dt">split =</span> <span class="st">"-"</span>, <span class="dt">fixed =</span> <span class="ot">TRUE</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6">  }, <span class="dt">USE.NAMES =</span> <span class="ot">FALSE</span>))</a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co"># Now change IDs for letters representing song types</span></a>
+<a class="sourceLine" id="cb24-9" data-line-number="9">songtype &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"154070|154072"</span>, <span class="st">"A"</span>, songtype)</a>
+<a class="sourceLine" id="cb24-10" data-line-number="10">songtype &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"154129|154161"</span>, <span class="st">"B"</span>, songtype)</a>
+<a class="sourceLine" id="cb24-11" data-line-number="11">songtype &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"154138"</span>, <span class="st">"C"</span>, songtype)</a>
+<a class="sourceLine" id="cb24-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb24-13" data-line-number="13"><span class="co"># Add song type as a variable representing symbol type</span></a>
+<a class="sourceLine" id="cb24-14" data-line-number="14"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(pcascor[, <span class="dv">1</span>], pcascor[, <span class="dv">2</span>], <span class="dt">col =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(params<span class="op">$</span>sound.files), </a>
+<a class="sourceLine" id="cb24-15" data-line-number="15"><span class="dt">pch =</span> <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(songtype)), </a>
+<a class="sourceLine" id="cb24-16" data-line-number="16">     <span class="dt">cex =</span> <span class="dv">1</span>, <span class="dt">xlab =</span> <span class="st">"PC1"</span>, <span class="dt">ylab =</span> <span class="st">"PC2"</span>)</a>
+<a class="sourceLine" id="cb24-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb24-18" data-line-number="18"><span class="co"># Add song type labels </span></a>
+<a class="sourceLine" id="cb24-19" data-line-number="19">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(pcascor[, <span class="dv">1</span>], songtype, mean)</a>
+<a class="sourceLine" id="cb24-20" data-line-number="20">y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(pcascor[, <span class="dv">2</span>], songtype, mean)</a>
+<a class="sourceLine" id="cb24-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb24-22" data-line-number="22"><span class="kw"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(x, y, <span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(songtype), <span class="dt">cex =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="warbleR_workflow_03_files/figure-html/unnamed-chunk-30-1.png" width="1604.16666666667"></p>
 <p>Songs of the same song type are more similar (they cluster together). This PCA confirms that the visually obvious differences in the song structures are well described by the meters measured in <a href="https://cran.r-project.org/package=warbleR"><code>warbleR</code></a>. Likewise, it also confirms that we can detect biologically relevant differences from sound files that have undergone <em>mp3</em> compression and conversion back to <em>wav</em> format (see also <a href="#References"> <sup>[2]</sup></a>). Importantly, if this analysis were for publication we would have to run other filtering steps on the acoustic parameters generated by <code>specan</code>, including removing any collinear variables.</p>
 </div>
 <div id="coordinated-singing-analysis" class="section level2">
@@ -452,33 +442,33 @@ Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 <a href="#coordinated-singing-analysis" class="anchor"></a>Coordinated singing analysis</h2>
 <p><code>warbleR</code> contains functions to visualize and test whether or not singing bouts between individuals can be considered coordinated singing. The function <code>coor.graph</code> plots signals as polygons to better visualize overlap between these signals.</p>
 <p>The function <code>coor.test</code> uses a Monte Carlo randomization test to determine whether or not the probability of finding overlapping songs in a singing event is less than or more than what you would expect by chance. <code>coor.test</code> can be run simultaneously for many singing events, if all are contained in a single data frame (see <code>coor.test</code> documentation for more information).</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(sim.coor.sing)</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(sim.coor.sing)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(sim.coor.sing)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(sim.coor.sing)</a></code></pre></div>
 <p>The <code>sim.coor.sing</code> dataset contains three types of singing bouts:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># save plots in a list</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">g &lt;-<span class="st"> </span><span class="kw"><a href="../reference/coor.graph.html">coor.graph</a></span>(sim.coor.sing, <span class="dt">it =</span> <span class="st">"jpeg"</span>, <span class="dt">img =</span> <span class="ot">FALSE</span>, <span class="dt">res =</span> <span class="dv">300</span>)</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co"># print list of plots to graphics device</span></a>
-<a class="sourceLine" id="cb27-5" data-line-number="5">g</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co"># save plots in a list</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">g &lt;-<span class="st"> </span><span class="kw"><a href="../reference/coor.graph.html">coor.graph</a></span>(sim.coor.sing, <span class="dt">it =</span> <span class="st">"jpeg"</span>, <span class="dt">img =</span> <span class="ot">FALSE</span>, <span class="dt">res =</span> <span class="dv">300</span>)</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co"># print list of plots to graphics device</span></a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">g</a></code></pre></div>
 <p>We can test for overlapping or alternating coordinated singing using the <code>less.than.chance</code> argument in <code>coor.test</code>. Here we will test for alternating coordinated singing, since <code>less.than.chance</code> is set to <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">cs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/coor.test.html">coor.test</a></span>(sim.coor.sing, <span class="dt">iterations =</span> <span class="dv">1000</span>, <span class="dt">less.than.chance =</span> <span class="ot">TRUE</span>, <span class="dt">cutoff =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(cs)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">cs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/coor.test.html">coor.test</a></span>(sim.coor.sing, <span class="dt">iterations =</span> <span class="dv">1000</span>, <span class="dt">less.than.chance =</span> <span class="ot">TRUE</span>, <span class="dt">cutoff =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(cs)</a></code></pre></div>
 </div>
 <div id="simulating-songs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulating-songs" class="anchor"></a>Simulating songs</h2>
 <p>You can simulate songs using <code>warbleR</code>. Depending on your question, you can simulate songs with different numbers of subunits, subunit durations, numbers of harmonics, amplitudes, gaps between subunits, amplitude fading of subunits, among other options. Songs are simulated under Brownian motion frequency drift.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co"># simulate a song with 3 tonal elements</span></a>
-<a class="sourceLine" id="cb29-2" data-line-number="2">ss &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sim_songs.html">sim_songs</a></span>(<span class="dt">n =</span> <span class="dv">3</span>, <span class="dt">harms =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb29-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co"># plot the simulated song</span></a>
-<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co"># seewave::spectro(ss)</span></a>
-<a class="sourceLine" id="cb29-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="co"># simulate a song with 3 harmonic elements of differing amplitude</span></a>
-<a class="sourceLine" id="cb29-8" data-line-number="8">ss &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sim_songs.html">sim_songs</a></span>(<span class="dt">n =</span> <span class="dv">3</span>, <span class="dt">harms =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co"># plot the simulated song</span></a>
-<a class="sourceLine" id="cb29-11" data-line-number="11">seewave<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/seewave/man/spectro.html">spectro</a></span>(ss)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># simulate a song with 3 tonal elements</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">ss &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sim_songs.html">sim_songs</a></span>(<span class="dt">n =</span> <span class="dv">3</span>, <span class="dt">harms =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co"># plot the simulated song</span></a>
+<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co"># seewave::spectro(ss)</span></a>
+<a class="sourceLine" id="cb28-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co"># simulate a song with 3 harmonic elements of differing amplitude</span></a>
+<a class="sourceLine" id="cb28-8" data-line-number="8">ss &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sim_songs.html">sim_songs</a></span>(<span class="dt">n =</span> <span class="dv">3</span>, <span class="dt">harms =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb28-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb28-10" data-line-number="10"><span class="co"># plot the simulated song</span></a>
+<a class="sourceLine" id="cb28-11" data-line-number="11">seewave<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/seewave/man/spectro.html">spectro</a></span>(ss)</a></code></pre></div>
 <p> </p>
 <p>This vignette concludes the <code>warbleR</code> vignette series. After running the code in this third vignette, you should now have an idea of how to:</p>
 <ul>
@@ -493,7 +483,7 @@ Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 <li>
 <code>dfDTW</code>and <code>ffDTW</code> - dynamic time warping on frequency contours</li>
 <li>
-<code>xcorr</code>- spectrographic cross-corrrelation</li>
+<code>xcorr</code>- spectrographic cross-correlation</li>
 </ul>
 </li>
 <li>carry out steps for an analysis of geographic variation in vocalizations</li>

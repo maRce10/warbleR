@@ -1,8 +1,18 @@
+# *warbleR 1.1.18*
+
+## Changes and additions:
+
+* xcorr() performance has been largely improved (5X faster)
+* 'compare.matrix' argument in xcorr() to let user defined the pairwise comparisons to be conducted
+* function xcorr.graph() has been deprecated (use corrplot package instead)
+* arguments 'dens' and 'bp' in xcorr() have been deprecated
+* jpeg and maps packages are not strong dependencies anymore 
+
 # *warbleR 1.1.17*
 
 ## Changes and additions:
 
-* arguments 'custom1' and 'custom2' in autodetect() to let users enter their own data
+* arguments 'custom1' and 'custom2' in autodetec() to let users enter their own data
 * new vignette 'Introduction to warbleR'
 
 # *warbleR 1.1.16*
@@ -39,7 +49,7 @@
 
 * x_corr() on extended selection tables with extra column names generated and error
 * system() commands for windows in 'fix_wavs()' and 'resample_est()'
-* normalization when downsapling in 'mp32wav()' was required
+* normalization when downsampling in 'mp32wav()' was required
 * error when creating extended selection tables 'by song' and 'song' column tags are repeated across sound files (selection_table())
 </br>
 
@@ -99,7 +109,7 @@
 * generic S3 methods for and 'print', 'cbind' and '[' for  classes 'selection_table' or 'extended_selection_table'
 * song_param: calculate acoustic parameters at the song (or other hierarchical) level
 * spec_param: plot catalog of a single selection with varying spectrogram (display) parameters
-* read_wave: wrapper for tuneR's readWave that ignores exntesion file case mismatches
+* read_wave: wrapper for tuneR's readWave that ignores extension file case mismatches
 * warbleR_options: function to set global parameters
 *open_wd: open current working directory in wave browser
 
@@ -109,8 +119,8 @@
 
 ## Changes and additions:
 
-* Parallel computing available in 'querxc' funtion when getting metadata
-* Parallel computing available in 'checksels' funtion 
+* Parallel computing available in 'querxc' function when getting metadata
+* Parallel computing available in 'checksels' function 
 * New arguments in 'seltailor' to allow tailoring frequency contours 
 * Parallel computing with and without progress bar in all iterative functions
 * Parallel computing in windows OS with and without progress bar
@@ -217,12 +227,12 @@
 * window overlap can now be defined by users for fundamental and dominant frequency 
 measures in specan function
 * More arguments to control dynamic time warping settings in dfDTW and ffDTW
-* Progress bar is available for parallel computing (when parallel > 1) in Linux and for some funtions also in iOS. It works using the function mcpbapply::pbmclapply
-*Spectrogram creating functions (manualoc, specreator, trackfreqs, dfts, ffts, dfDTW, ffDTW, lspec, catalog) can performe faster (4-10 times) using a different image algorithm. This can be called with the argument "fast.spec". Note that not all spectrogram options are available when fast.spec = TRUE 
+* Progress bar is available for parallel computing (when parallel > 1) in Linux and for some functions also in iOS. It works using the function mcpbapply::pbmclapply
+*Spectrogram creating functions (manualoc, specreator, trackfreqs, dfts, ffts, dfDTW, ffDTW, lspec, catalog) can perform faster (4-10 times) using a different image algorithm. This can be called with the argument "fast.spec". Note that not all spectrogram options are available when fast.spec = TRUE 
 * selections longer than 20 s can be analyzed with specan function (previously it returned an error, this is going to be slow anyways)
-* "clip.edges" argument in compare.methods function to set removing mising values at the start and end of signals when using dfDTW and ffDTW methods  
-* "treshold" argument in compare.methods function to set the amplitude detection threshold for ffDTW, dfDTW and SP methods  
-* "exclude" agument in imp.syrinx function to exclude selection files that cannot be read
+* "clip.edges" argument in compare.methods function to set removing missing values at the start and end of signals when using dfDTW and ffDTW methods  
+* "threshold" argument in compare.methods function to set the amplitude detection threshold for ffDTW, dfDTW and SP methods  
+* "exclude" argument in imp.syrinx function to exclude selection files that cannot be read
 * "rm.imcomp" argument in coor.test function to exclude singing events that only have one individual
 * "cutoff" argument in coor.test function to determine the minimum number of signals per individual needed for a singing event to
 be included
@@ -248,7 +258,7 @@ different individuals) would be subset to A-B-A-B-A-B
 * "frange" argument in seltailor to define also the frequency range (low.f and high.f)
 * trackfreqs, specan now can use low.f and high.f as bandpass limits
 * trackfreqs and specreator can plot boxes around signals if low.f and high.f are provided
-* manualoc.df data frame example replaced by selec.table (wich includes low.f and high.f columns)
+* manualoc.df data frame example replaced by selec.table (which includes low.f and high.f columns)
 * complex searches are now allowed in querxc() following xeno-canto advance query syntax
 * added 'clip.edges' argument to dfts/ ffts/ dfDTW/ ffDTW/sp.en.ts functions to remove missing values at the start or end of signals
 * more detailed checksels output (now including, sampling rate, duration, number of samples and bits)

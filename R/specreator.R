@@ -10,7 +10,7 @@
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
 #' 'top.freq' and 'bottom.freq' columns are optional.
-#' The ouptut of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. If using an 
+#' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. If using an 
 #' 'extended_selection_table' the sound files are not required (see \code{\link{selection_table}}). 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
@@ -64,11 +64,11 @@
 #'   as collevels, and sc (amplitude scale). This option is indicated for signals with high background noise 
 #'   levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #'   \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}}
-#'   (which should be imported from the package monitoR) seem to work better with 'fast' spectograms. 
+#'   (which should be imported from the package monitoR) seem to work better with 'fast' spectrograms. 
 #'   Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, \code{\link[monitoR]{gray.3}} 
 #'   offer decreasing darkness levels.
 #' @param by.song Character string with the column name containing song labels. If
-#' provide a single spectrogram containinig all elements for each song will be produce. Note that 
+#' provide a single spectrogram containing all elements for each song will be produce. Note that 
 #' the function assumes that each song has a unique label within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.
 #' @param sel.labels Character string with the name of the column(s) for selection 
 #' labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.
