@@ -1,14 +1,16 @@
 #' Spectrogram cross-correlation 
 #' 
 #' \code{xcorr} estimates the similarity of two spectrograms by means of spectrographic cross-correlation
-#' @usage xcorr(X, wl =512, bp = NULL, ovlp = 90, dens = NULL, wn='hanning', 
+#' @usage xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
 #'  cor.mat = TRUE, compare.matrix = NULL)
 #' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #' is 512.
-#' @param bp DEPRECATED. 
+#' @param bp A numeric vector of length 2 for the lower and upper limits of a 
+#'   frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicate that values in lowest bottom.freq
+#'   and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.  
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
 #' slow down the function but produce more accurate results.
@@ -68,7 +70,7 @@
 #' }
 # last modification on oct-25-2019 (MAS)
 
-xcorr <- function(X = NULL, wl = 512, bp = NULL, ovlp = 90, dens = NULL, 
+xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, 
                   wn ='hanning', cor.method = "pearson", parallel = 1, 
                   path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = TRUE, compare.matrix = NULL)
 {
@@ -116,12 +118,14 @@ xcorr <- function(X = NULL, wl = 512, bp = NULL, ovlp = 90, dens = NULL,
   #stop if only 1 selection
   if (nrow(X) == 1) stop("you need more than one selection to do cross-correlation")
   
-  # bp deprecated
-  if (!is.null(bp))  write(file = "", x = "'bp' has been deprecated and will be ignored")
+  # bp needed when no bottom and top freq
+  if (bp[1] == "pairwise.freq.range" & is.null(X$bottom.freq))  stop("'bp' must be supplied when no frequency range columns are found in 'X' (bottom.freq & top.freq)")
+  
+  # stop if no bp
+  if(is.null(bp[1])) stop("'bp' must be supplied")
   
   # dens deprecated
   if (!is.null(dens))  write(file = "", x = "'dens' has been deprecated and will be ignored")
-  
   
   #if wl is not vector or length!=1 stop
   if (!is.numeric(wl)) stop("'wl' must be a numeric vector of length 1") else {
@@ -183,14 +187,11 @@ xcorr <- function(X = NULL, wl = 512, bp = NULL, ovlp = 90, dens = NULL,
   names(spcs) <- paste(X$sound.files, X$selec, sep = "-")
 
   # create function to calculate correlation between 2 spectrograms
-  XC_FUN <- function(spc1, spc2){
-    
-    #set freq limits as min and max of both spectros combined
-    frq.lim <- c(min(spc1$freq, spc2$freq), max(spc1$freq, spc2$freq))
+  XC_FUN <- function(spc1, spc2, bp = bp){
     
     # filter frequency
-    spc1$amp <- spc1$amp[which(spc1$freq >= frq.lim[1] & spc1$freq <= frq.lim[2]), ]
-    spc2$amp <- spc2$amp[which(spc2$freq >= frq.lim[1] & spc2$freq <= frq.lim[2]), ]
+    spc1$amp <- spc1$amp[which(spc1$freq >= bp[1] & spc1$freq <= bp[2]), ]
+    spc2$amp <- spc2$amp[which(spc2$freq >= bp[1] & spc2$freq <= bp[2]), ]
     
     # define short and long envelope for sliding one (short) over the other (long)
     if(ncol(spc1[[3]]) > ncol(spc2[[3]])) {
@@ -238,7 +239,10 @@ xcorr <- function(X = NULL, wl = 512, bp = NULL, ovlp = 90, dens = NULL,
   # get correlation
   xcrrs <- pbapply::pblapply(X = 1:nrow(spc.cmbs), cl = cl, FUN = function(j) {
     
-    XC_FUN(spc1 = spcs[[spc.cmbs[j, 1]]], spcs[[spc.cmbs[j, 2]]])
+    if (bp[1] %in% c("pairwise.freq.range", "frange"))
+    BP <- c(min(X$bottom.freq[paste(X$sound.files, X$selec, sep = "-") %in% spc.cmbs[j, ]]), max(X$top.freq[paste(X$sound.files, X$selec, sep = "-") %in% spc.cmbs[j, ]])) else BP <- bp
+    
+    XC_FUN(spc1 = spcs[[spc.cmbs[j, 1]]], spcs[[spc.cmbs[j, 2]]], bp = BP)
   })
   
   # order as originally

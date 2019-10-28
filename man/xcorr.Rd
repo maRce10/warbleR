@@ -4,7 +4,7 @@
 \alias{xcorr}
 \title{Spectrogram cross-correlation}
 \usage{
-xcorr(X, wl =512, bp = NULL, ovlp = 90, dens = NULL, wn='hanning', 
+xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, wn='hanning', 
 cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
  cor.mat = TRUE, compare.matrix = NULL)
 }
@@ -15,7 +15,9 @@ selection number (selec), and start and end time of signal (start and end).}
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
 
-\item{bp}{DEPRECATED.}
+\item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
+frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicate that values in lowest bottom.freq
+and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 

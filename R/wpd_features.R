@@ -1,13 +1,15 @@
 #' Measure wavelet packet decomposition features (EXPERIMENTAL)
 #' 
 #' \code{wpd_features} Measure wavelet packet decomposition features.
-#' @usage wpd_features(X, normalize = TRUE, threshold = 1.3, path = NULL, pb = TRUE, parallel = 1)
+#' @usage wpd_features(X, normalize = TRUE, threshold1 = 6, 
+#' threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
 #' also be used as the input data frame.
 #' @param normalize Logical to determine if features are normalized by signal duration.
-#' @param threshold Amplitude threshold (\%) for frequency range detection. The frequency range (not the cumulative amplitude) is represented as percentage (100\% = highest amplitude). Default is 10.
+#' @param threshold1 Threshold (\%) for wavelet coefficient detection. Equivalent to denominator of equation 6 in Selin et al (2007). Must be a value between 0 and 1.
+#' @param threshold2 Threshold for width detection. Equivalent to threshold 2 (th2) in equation 7 in Selin et al (2007).
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
@@ -26,7 +28,7 @@
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' # not normalize
-#' wpd_features(lbh_selec_table, threshold = 1.3, nor = FALSE)
+#' wpd_features(lbh_selec_table, threshold2 = 0.3, nor = FALSE)
 #' }
 #' 
 #' @references {
@@ -36,7 +38,7 @@
 #' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on oct-7-2019 (MAS)
 
-wpd_features <- function(X, normalize = TRUE, threshold = 1.3, path = NULL, pb = TRUE, parallel = 1)
+wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)
 {
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -123,10 +125,9 @@ wpd_features <- function(X, normalize = TRUE, threshold = 1.3, path = NULL, pb =
     
     # read rec segment
     r <- warbleR::read_wave(X = X, path = path, index = i)
-    
-    
-    ftrs <- wpd_feature_wrblr_int(r, normalize = normalize, thr = threshold)
-    
+
+    # run internal warbleR function to measure parameters
+    ftrs <- wpd_feature_wrblr_int(wave = r, normalize = normalize, thr1 = threshold1, thr2 = threshold2)
     
     # return low and high freq
     return(data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(ftrs)))

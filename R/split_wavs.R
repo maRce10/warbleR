@@ -7,7 +7,7 @@
 #'  If \code{NULL} (default) then the current working directory is used.
 #' @param sgmt.dur Numeric. Duration (in s) of segments in which sound files would be split. Sound files shorter than 'sgmt.dur' won't be split. Ignored if 'sgmts' is supplied.
 #' @param sgmts Numeric. Number of segments in which to split each sound file. If supplied 'sgmt.dur' is ignored.
-#' @param files Character vector indicating the subset of files that will be analyzed.
+#' @param files Character vector indicating the subset of files that will be split.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.

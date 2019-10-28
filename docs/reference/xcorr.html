@@ -133,7 +133,7 @@
     <p><code>xcorr</code> estimates the similarity of two spectrograms by means of spectrographic cross-correlation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>dens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
+    <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='st'>"pairwise.freq.range"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>dens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
 <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
  <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
@@ -152,7 +152,9 @@ is 512.</p></td>
     </tr>
     <tr>
       <th>bp</th>
-      <td><p>DEPRECATED.</p></td>
+      <td><p>A numeric vector of length 2 for the lower and upper limits of a 
+frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicate that values in lowest bottom.freq
+and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.</p></td>
     </tr>
     <tr>
       <th>ovlp</th>

@@ -15,7 +15,7 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{sgmts}{Numeric. Number of segments in which to split each sound file. If supplied 'sgmt.dur' is ignored.}
 
-\item{files}{Character vector indicating the subset of files that will be analyzed.}
+\item{files}{Character vector indicating the subset of files that will be split.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}

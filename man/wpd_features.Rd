@@ -4,7 +4,8 @@
 \alias{wpd_features}
 \title{Measure wavelet packet decomposition features (EXPERIMENTAL)}
 \usage{
-wpd_features(X, normalize = TRUE, threshold = 1.3, path = NULL, pb = TRUE, parallel = 1)
+wpd_features(X, normalize = TRUE, threshold1 = 6, 
+threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
@@ -14,7 +15,9 @@ also be used as the input data frame.}
 
 \item{normalize}{Logical to determine if features are normalized by signal duration.}
 
-\item{threshold}{Amplitude threshold (\%) for frequency range detection. The frequency range (not the cumulative amplitude) is represented as percentage (100\% = highest amplitude). Default is 10.}
+\item{threshold1}{Threshold (\%) for wavelet coefficient detection. Equivalent to denominator of equation 6 in Selin et al (2007). Must be a value between 0 and 1.}
+
+\item{threshold2}{Threshold for width detection. Equivalent to threshold 2 (th2) in equation 7 in Selin et al (2007).}
 
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
@@ -39,7 +42,7 @@ writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # not normalize
-wpd_features(lbh_selec_table, threshold = 1.3, nor = FALSE)
+wpd_features(lbh_selec_table, threshold2 = 0.3, nor = FALSE)
 }
 
 }

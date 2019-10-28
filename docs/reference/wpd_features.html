@@ -133,7 +133,8 @@
     <p><code>wpd_features</code> Measure wavelet packet decomposition features.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wpd_features</span>(<span class='no'>X</span>, <span class='kw'>normalize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>1.3</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>wpd_features</span>(<span class='no'>X</span>, <span class='kw'>normalize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>threshold1</span> <span class='kw'>=</span> <span class='fl'>6</span>,
+<span class='kw'>threshold2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,8 +151,12 @@ also be used as the input data frame.</p></td>
       <td><p>Logical to determine if features are normalized by signal duration.</p></td>
     </tr>
     <tr>
-      <th>threshold</th>
-      <td><p>Amplitude threshold (%) for frequency range detection. The frequency range (not the cumulative amplitude) is represented as percentage (100% = highest amplitude). Default is 10.</p></td>
+      <th>threshold1</th>
+      <td><p>Threshold (%) for wavelet coefficient detection. Equivalent to denominator of equation 6 in Selin et al (2007). Must be a value between 0 and 1.</p></td>
+    </tr>
+    <tr>
+      <th>threshold2</th>
+      <td><p>Threshold for width detection. Equivalent to threshold 2 (th2) in equation 7 in Selin et al (2007).</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -189,19 +194,19 @@ Selin A., J. Turunen, and J. T. Tanttu, 2007. Wavelets in recognition of bird so
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
 
 <span class='co'># not normalize</span>
-<span class='fu'>wpd_features</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>1.3</span>, <span class='kw'>nor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div><div class='output co'>#&gt;       sound.files selec max.energy position    spread width
-#&gt; 1  Phae.long1.wav     1   14390479     3411 198044641  4096
-#&gt; 2  Phae.long1.wav     2   13516463     3369 219322183  4096
-#&gt; 3  Phae.long1.wav     3    7787233     3412  97951932  4096
-#&gt; 4  Phae.long2.wav     1     514110     3931  16206151  4096
-#&gt; 5  Phae.long2.wav     2    1665164     3367  26540209  4096
-#&gt; 6  Phae.long3.wav     1     287684     3471   7642864  4096
-#&gt; 7  Phae.long3.wav     2     311195     3552   8974943  4096
-#&gt; 8  Phae.long3.wav     3     277054     3532  10182507  4096
-#&gt; 9  Phae.long4.wav     1    7424619     3311 159472365  4096
-#&gt; 10 Phae.long4.wav     2   17031414     3240 174338729  4096
-#&gt; 11 Phae.long4.wav     3    3197573     3312  69476737  4096</div><div class='input'>
+<span class='fu'>wpd_features</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>threshold2</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>nor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+}</div><div class='output co'>#&gt;       sound.files selec max.energy position  spread width
+#&gt; 1  Phae.long1.wav     1 3819085942     3413 0.53339    18
+#&gt; 2  Phae.long1.wav     2 4566803930     3371 0.56177    15
+#&gt; 3  Phae.long1.wav     3 1710652669     3332 4.47849    31
+#&gt; 4  Phae.long2.wav     1  123488775     3872 1.01505   125
+#&gt; 5  Phae.long2.wav     2  347589172     3364 1.26335    41
+#&gt; 6  Phae.long3.wav     1   63748156     3201 1.96083   104
+#&gt; 7  Phae.long3.wav     2   78991779     3547 1.74979    90
+#&gt; 8  Phae.long3.wav     3  105799599     3180 0.83555    57
+#&gt; 9  Phae.long4.wav     1 1676452184     3243 6.18479    90
+#&gt; 10 Phae.long4.wav     2 4294583714     3242 1.36834     9
+#&gt; 11 Phae.long4.wav     3 1580481218     3285 9.15005     7</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
