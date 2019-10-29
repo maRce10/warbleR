@@ -178,7 +178,10 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
     
     spc <- seewave::spectro(wave = clp, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE, fftw = TRUE, norm = TRUE)
     
-  })
+    spc[[3]][is.infinite(spc[[3]])] <- NA
+  
+    return(spc)
+    })
   
   # check sampling rate is the same for all selections if not a selection table
   if (!is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop("sampling rate must be the same for all selections")
@@ -190,7 +193,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   XC_FUN <- function(spc1, spc2, bp = bp){
     
     # filter frequency
-    spc1$amp <- spc1$amp[which(spc1$freq >= bp[1] & spc1$freq <= bp[2]), ]
+    spc1$amp <- spc1$amp[spc1$freq >= bp[1] & spc1$freq <= bp[2], ]
     spc2$amp <- spc2$amp[which(spc2$freq >= bp[1] & spc2$freq <= bp[2]), ]
     
     # define short and long envelope for sliding one (short) over the other (long)

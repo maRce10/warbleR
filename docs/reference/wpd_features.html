@@ -187,26 +187,18 @@ Selin A., J. Turunen, and J. T. Tanttu, 2007. Wavelets in recognition of bird so
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"lbh_selec_table"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
 
 <span class='co'># not normalize</span>
-<span class='fu'>wpd_features</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>threshold2</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>nor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div><div class='output co'>#&gt;       sound.files selec max.energy position  spread width
-#&gt; 1  Phae.long1.wav     1 3819085942     3413 0.53339    18
-#&gt; 2  Phae.long1.wav     2 4566803930     3371 0.56177    15
-#&gt; 3  Phae.long1.wav     3 1710652669     3332 4.47849    31
-#&gt; 4  Phae.long2.wav     1  123488775     3872 1.01505   125
-#&gt; 5  Phae.long2.wav     2  347589172     3364 1.26335    41
-#&gt; 6  Phae.long3.wav     1   63748156     3201 1.96083   104
-#&gt; 7  Phae.long3.wav     2   78991779     3547 1.74979    90
-#&gt; 8  Phae.long3.wav     3  105799599     3180 0.83555    57
-#&gt; 9  Phae.long4.wav     1 1676452184     3243 6.18479    90
-#&gt; 10 Phae.long4.wav     2 4294583714     3242 1.36834     9
-#&gt; 11 Phae.long4.wav     3 1580481218     3285 9.15005     7</div><div class='input'>
+<span class='fu'>wpd_features</span>(<span class='no'>lbh_selec_table</span>[<span class='fl'>1</span>:<span class='fl'>5</span>, ], <span class='kw'>threshold2</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>nor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+}</div><div class='output co'>#&gt;      sound.files selec max.energy position  spread width
+#&gt; 1 Phae.long1.wav     1 3819085942     3413 0.53339    18
+#&gt; 2 Phae.long1.wav     2 4566803930     3371 0.56177    15
+#&gt; 3 Phae.long1.wav     3 1710652669     3332 4.47849    31
+#&gt; 4 Phae.long2.wav     1  123488775     3872 1.01505   125
+#&gt; 5 Phae.long2.wav     2  347589172     3364 1.26335    41</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

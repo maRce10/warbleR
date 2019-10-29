@@ -122,7 +122,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   # check for duplicates
-  if (any(duplicated(X[, c("sound.files", "selec")]))) stop("Duplicated selection labels for one or more sound files")
+  if (any(duplicated(paste(X$sound.files, X$selec)))) stop("Duplicated selection labels for one or more sound files")
   
   #check additional columns
   if (!"channel" %in% colnames(X)) 

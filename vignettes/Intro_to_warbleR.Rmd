@@ -39,15 +39,8 @@ The [warbleR](https://cran.r-project.org/package=warbleR) package is intended to
 
 <font size = "3">The main features of the package are:
 
- - The use of loops to apply tasks through acoustic signals referenced in a selection table:
-
-&nbsp;
-
-<center><img src = "loop_warbleR_optim.gif" alt = "warbleR measuring loop" width= "500"></center>
-
-&nbsp;
-
- - The production of image files with spectrograms that let users organize data and verify acoustic analyzes: </font>
+ - The use of loops to apply tasks through acoustic signals referenced in a selection table
+ - The production of image files with spectrograms that let users organize data and verify acoustic analyzes </font>
 
 &nbsp;
 

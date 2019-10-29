@@ -35,14 +35,12 @@ Measures wavelet packet decomposition features. STILL IN DEVELOPMENT. USE IT UND
 }
 \examples{
 {
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
+data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # not normalize
-wpd_features(lbh_selec_table, threshold2 = 0.3, nor = FALSE)
+wpd_features(lbh_selec_table[1:5, ], threshold2 = 0.3, nor = FALSE)
 }
 
 }
