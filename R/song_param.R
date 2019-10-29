@@ -221,15 +221,17 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
     Z$start <- min(Y$start)
     Z$end <- max(Y$end)
     Z$elm.duration <- mean(Y$end - Y$start)
+    if (!is.null(Y$bottom.freq)){
     try(Z$bottom.freq <- min(Y$bottom.freq, na.rm = na.rm), silent = TRUE)
     try(Z$top.freq <- max(Y$top.freq, na.rm = na.rm), silent = TRUE)
     try(Z$freq.range <- Z$top.freq - Z$bottom.freq, silent = TRUE)
+      }
     Z$song.duration <- Z$end - Z$start
     Z$song.rate <- if(Z$num.elms == 1) NA else Z$num.elms / Z$song.duration
-    Z$gap.duration <- if(Z$num.elms == 1) NA else mean(Y$start[2:nrow(Y)] - Y$end[1:(nrow(Y) - 1)])
+    Z$gap.duration <- if(Z$num.elms == 1) NA else mean(Y$end[-nrow(Y)] - Y$start[-1])
     
     if(sd) {
-      Z$sd.gap.duration <- if(Z$num.elms == 1) NA else sd(Y$start[2:nrow(Y)] - Y$end[1:(nrow(Y) - 1)])
+      Z$sd.gap.duration <- if(Z$num.elms == 1) NA else sd(Y$end[-nrow(Y)] - Y$start[-1])
       Z$sd.elm.duration <- sd(Y$end - Y$start)
       }
     

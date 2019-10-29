@@ -161,7 +161,7 @@ for(w in 1:nrow(out2)){
   if (w == 1) lbls[w] <- max(out2) + 1 else
     if (length(which(out2[ w, ] != 0)) >= 2) {
       wh.mn <- which(out2[ w, ] != 0)
-  lbls[w] <- lbls[wh.mn[- length(wh.mn)]]
+  lbls[w] <- lbls[wh.mn[- length(wh.mn)][1]]
       }  else   lbls[w] <- max(lbls, na.rm = TRUE) + 1 
 }
 

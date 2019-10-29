@@ -2,6 +2,7 @@
 
 ## Changes and additions:
 
+* updates on specan() to improve harmonic detection
 * xcorr() performance has been largely improved (5X faster)
 * 'compare.matrix' argument in xcorr() to let user defined the pairwise comparisons to be conducted
 * function xcorr.graph() has been deprecated (use corrplot package instead)
