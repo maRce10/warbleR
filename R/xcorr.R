@@ -157,6 +157,9 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  # check sampling rate is the same for all selections if not a selection table
+  if (is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("sampling rate must be the same for all selections")
+  
   #create spectrograms
   if (pb) write(file = "", x ="creating spectrogram matrices (step 1 of 2):")
   
@@ -252,7 +255,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   xcrrs <- xcrrs[order(ord.shuf)]
   
   # extract maximum correlation
-  mx.xcrrs <- sapply(xcrrs, max)
+  mx.xcrrs <- sapply(xcrrs, max, na.rm = TRUE)
   
   # only create correlation matrix if compare matrix was not supplied
   if (is.null(compare.matrix)){
