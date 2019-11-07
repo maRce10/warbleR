@@ -2,7 +2,7 @@
 #'
 #' \code{inflections} counts the number of inflections in a frequency contour (or any time series)
 #' @usage inflections(X = NULL, parallel = 1, pb = TRUE)
-#' @param X data frame with the columns for "sound.files" (sound file name), "selec" (unique identifier for each selection) and columns for each of the frequency values of the contours. No other columns should be included
+#' @param X data frame with the columns for "sound.files" (sound file name), "selec" (unique identifier for each selection) and columns for each of the frequency values of the contours. No other columns should be included.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 

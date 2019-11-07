@@ -1,5 +1,6 @@
 ---
 title: <center><font size="7"><b>warbleR&#58; Visual inspection and signal classification</b></font></center>
+pagetitle: Visual inspection and signal classification
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
 - <center><a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
@@ -71,7 +72,7 @@ rm(list = ls())
 out <- sapply(paste('package:', names(sessionInfo()$otherPkgs), sep = ""), function(x) try(detach(x, unload = FALSE, character.only = TRUE), silent = TRUE))
 
 # load packages
-X <- c("warbleR", "Rraven", "knitr")
+X <- c("warbleR", "knitr")
 invisible(lapply(X, library, character.only = TRUE))
 # library(kableExtra)
 
@@ -387,7 +388,7 @@ catalog2pdf(keep.img = FALSE, overwrite = TRUE)
 <!-- <center> ![Catalog without labels, tags and groups](Catalog_p2-nolabels.jpeg)</center> -->
 <!-- &nbsp;  -->
 
-###**Next vignette: Acoustic (dis)similarity, coordinated singing and simulating songs**
+### **Next vignette: Acoustic (dis)similarity, coordinated singing and simulating songs**
 
 Here we finished the second phase of the `warbleR` workflow, which includes various options for quality control filtering or visual classification of signals that you can leverage during acoustic analysis. After running the code in this vignette, you should now have an idea of how to:
 
@@ -399,13 +400,13 @@ Here we finished the second phase of the `warbleR` workflow, which includes vari
 
 The next vignette will cover the third phase of the _warbleR_ workflow, which includes methods to perform acoustic measurements as a batch process, an example of how to use these measurements for an analysis of geographic variation, coordinated singing analysis and a new function to simulate songs.
 
-##**Citation**
+## **Citation**
 
 Please cite `warbleR` when you use the package: 
 
 Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an R package to streamline analysis of animal acoustic signals. Methods Ecol Evol. 8, 184-191.
 
-##**Reporting bugs**
+## **Reporting bugs**
 Please report any bugs [here](https://github.com/maRce10/warbleR/issues). 
 &nbsp; 
 

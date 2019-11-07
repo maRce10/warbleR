@@ -1,5 +1,6 @@
 ---
 title: <center><font size="7"><b>warbleR&#58; Acoustic (dis)similarity, coordinated singing and simulating songs</b></font></center>
+pagetitle: Acoustic (dis)similarity, coordinated singing and simulating songs
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
 - <center><a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
@@ -86,7 +87,7 @@ rm(list = ls())
 out <- sapply(paste('package:', names(sessionInfo()$otherPkgs), sep = ""), function(x) try(detach(x, unload = FALSE, character.only = TRUE), silent = TRUE))
 
 # load packages
-X <- c("warbleR", "Rraven", "knitr")
+X <- c("warbleR", "knitr")
 invisible(lapply(X, library, character.only = TRUE))
 # library(kableExtra)
 
@@ -648,13 +649,13 @@ This vignette concludes the `warbleR` vignette series. After running the code in
 
 In these vignettes we presented examples of how the `warbleR` functions can be used in a streamlined workflow for flexible and rigorous bioacoustics analyses. The output of `warbleR` functions can be used in other packages for statistical analyses, such as machine learning. 
 
-##**Citation**
+## **Citation**
 
 Please cite `warbleR` when you use the package: 
 
 Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an R package to streamline analysis of animal acoustic signals. Methods Ecol Evol. 8, 184-191.
 
-##**Reporting bugs**
+## **Reporting bugs**
 Please report any bugs [here](https://github.com/maRce10/warbleR/issues). 
 &nbsp; 
 

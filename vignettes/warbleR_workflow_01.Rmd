@@ -1,5 +1,6 @@
 ---
 title: <center><font size="7"><b>warbleR&#58; Import sound files and select signals</b></font></center>
+pagetitle: Import sound files and select signals
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a></center>
 - <center><a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a></center>
@@ -718,7 +719,7 @@ manualoc_out <- read.csv("manualoc_output.csv", header = TRUE)
 
 ```
 
-##**Next vignette: Visual inspection and signal classification**
+## **Next vignette: Visual inspection and signal classification**
 
 Here we have given examples of how to begin the `warbleR` workflow. Note that there are many different ways to begin the workflow, depending on your question and source of data. After running the code in this first vignette, you should now have an idea of:
 
@@ -734,17 +735,17 @@ Here we have given examples of how to begin the `warbleR` workflow. Note that th
 The next vignette will cover the second phase of the _warbleR_ workflow, which includes methods to visualize signals for quality control and classification. 
 
 
-##**Citation**
+## **Citation**
 
 Please cite `warbleR` when you use the package: 
 
 Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an R package to streamline analysis of animal acoustic signals. Methods Ecol Evol. 8, 184-191.
 
-##**Reporting bugs**
+## **Reporting bugs**
 Please report any bugs [here](https://github.com/maRce10/warbleR/issues). 
 &nbsp; 
 
-##<font size="5"><a name="References">References</a></font> 
+## <font size="5"><a name="References">References</a></font> 
 
 1. Araya-Salas, M. and G. Smith-Vidaurre. 2016. warbleR: an R package to streamline analysis of animal
 acoustic signals. _Methods in Ecology and Evolution_. doi: 10.1111/2041-210X.12624

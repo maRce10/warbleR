@@ -1,5 +1,6 @@
 ---
 title: <center><font size="7"><b>Introduction to warbleR</b></font></center>
+pagetitle: Introduction to warbleR
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> & <a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
 date:  <center>"`r Sys.Date()`"</center>

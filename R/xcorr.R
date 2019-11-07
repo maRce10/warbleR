@@ -103,7 +103,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) 
+    if (!dir.exists(path) & !is_extended_selection_table(X)) 
       stop("'path' provided does not exist")
   
   #if X is not a data frame
@@ -175,11 +175,11 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   X <- X[paste(X$sound.files, X$selec, sep = "-") %in% unique(c(compare.matrix)), ]
     
   # get spectrogram for each selection
-  spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(j) {
+  spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(j, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn) {
     
-    clp <- warbleR::read_wave(X = X, index = j, path = path)
+    clp <- warbleR::read_wave(X = W, index = j, path = pth)
     
-    spc <- seewave::spectro(wave = clp, wl = wl, ovlp = ovlp, wn = wn, plot = FALSE, fftw = TRUE, norm = TRUE)
+    spc <- seewave::spectro(wave = clp, wl = wlg, ovlp = ovl, wn = w, plot = FALSE, fftw = TRUE, norm = TRUE)
     
     spc[[3]][is.infinite(spc[[3]])] <- NA
   
@@ -193,11 +193,11 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   names(spcs) <- paste(X$sound.files, X$selec, sep = "-")
 
   # create function to calculate correlation between 2 spectrograms
-  XC_FUN <- function(spc1, spc2, bp = bp){
+  XC_FUN <- function(spc1, spc2, b = bp, cm = cor.method){
     
     # filter frequency
-    spc1$amp <- spc1$amp[spc1$freq >= bp[1] & spc1$freq <= bp[2], ]
-    spc2$amp <- spc2$amp[which(spc2$freq >= bp[1] & spc2$freq <= bp[2]), ]
+    spc1$amp <- spc1$amp[spc1$freq >= b[1] & spc1$freq <= b[2], ]
+    spc2$amp <- spc2$amp[which(spc2$freq >= b[1] & spc2$freq <= b[2]), ]
     
     # define short and long envelope for sliding one (short) over the other (long)
     if(ncol(spc1[[3]]) > ncol(spc2[[3]])) {
@@ -218,8 +218,8 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
     if (stps <= 1) stps <- 1 else stps <- 1:stps 
     
     # calculate correlations at each step
-    cors <- sapply(stps, function(x) {
-      warbleR::try_na(cor(c(lg.spc[, x:(x + shrt.lgth)]), c(shrt.spc), method = cor.method, use='pairwise.complete.obs'))
+    cors <- sapply(stps, function(x, cor.method = cm) {
+      warbleR::try_na(cor(c(lg.spc[, x:(x + shrt.lgth)]), c(shrt.spc), method = cm, use ='pairwise.complete.obs'))
     })
     
     return(cors)
@@ -243,12 +243,12 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # get correlation
-  xcrrs <- pbapply::pblapply(X = 1:nrow(spc.cmbs), cl = cl, FUN = function(j) {
+  xcrrs <- pbapply::pblapply(X = 1:nrow(spc.cmbs), cl = cl, FUN = function(j, BP = bp, cor.meth = cor.method) {
     
-    if (bp[1] %in% c("pairwise.freq.range", "frange"))
-    BP <- c(min(X$bottom.freq[paste(X$sound.files, X$selec, sep = "-") %in% spc.cmbs[j, ]]), max(X$top.freq[paste(X$sound.files, X$selec, sep = "-") %in% spc.cmbs[j, ]])) else BP <- bp
+    if (BP[1] %in% c("pairwise.freq.range", "frange"))
+    BP <- c(min(X$bottom.freq[paste(X$sound.files, X$selec, sep = "-") %in% spc.cmbs[j, ]]), max(X$top.freq[paste(X$sound.files, X$selec, sep = "-") %in% spc.cmbs[j, ]]))
     
-    XC_FUN(spc1 = spcs[[spc.cmbs[j, 1]]], spcs[[spc.cmbs[j, 2]]], bp = BP)
+    XC_FUN(spc1 = spcs[[spc.cmbs[j, 1]]], spc2 = spcs[[spc.cmbs[j, 2]]], b = BP, cm = cor.meth)
   })
   
   # order as originally
