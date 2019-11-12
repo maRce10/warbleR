@@ -31,6 +31,7 @@
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+#' 
 #' Selin A., J. Turunen, and J. T. Tanttu, 2007. Wavelets in recognition of bird sounds. EURASIP Journal on Advances in Signal Processing.
 #' }
 #' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})

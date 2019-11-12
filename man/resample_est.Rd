@@ -52,7 +52,6 @@ path = tempdir())
 # resample
 Y <- resample_est(X)
 }
-
 }
 \references{
 {
@@ -61,8 +60,11 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 \seealso{
 \code{\link{mp32wav}}, \code{\link{fix_wavs}}
+
+Other extended selection table manipulation: \code{\link{rename_waves_est}}
 }
 \author{
 Marcelo Araya-Salas (\email{marceloa27@gmail.com})
 #last modification on oct-15-2018 (MAS)
 }
+\concept{extended selection table manipulation}

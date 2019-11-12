@@ -1,3 +1,10 @@
+# *warbleR 1.1.19*
+
+## Changes and additions:
+
+* new function rename_waves_est() to rename wave objects in extended selection tables
+
+
 # *warbleR 1.1.18*
 
 ## Changes and additions:
