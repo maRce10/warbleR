@@ -43,6 +43,8 @@ rename_waves_est <- function(X, new.sound.files, new.selec = NULL){
   # check length of new.sound.files
   if (length(new.sound.files) != nrow(X)) stop("length of 'new.sound.files' must be equal to number of rows in 'X'")
 
+  attributes(X)$check.results <-  attributes(X)$check.results[match(paste(X$sound.files, paste(X$selec)), paste(attributes(X)$check.results$sound.files, attributes(X)$check.results$selec)), ]
+  
   # save old name
   X$old.sound.file.name <- attributes(X)$check.results$old.sound.file.name <- X$sound.files
   
@@ -56,12 +58,13 @@ rename_waves_est <- function(X, new.sound.files, new.selec = NULL){
     }
   
   # check that every row has an unique ID
-  if (attributes(X)$by.song[[1]] & any(duplicated(paste(X$sound.files, X$selec)))) stop("new.sound.files + 'selec' don't generate unique labels for each row/selection") else
-    if (any(duplicated(new.sound.files))) stop("new.sound.files don't have unique labels for each row/selection")
+  if (attributes(X)$by.song[[1]] & any(duplicated(paste(X$sound.files, X$selec)))) stop("new.sound.files + 'selec' don't generate unique labels for each row/selection") 
+  
+  if (!attributes(X)$by.song[[1]] & any(duplicated(new.sound.files))) stop("new.sound.files don't have unique labels for each row/selection")
   
   # rename wave objects
   names(attributes(X)$wave.objects) <- sapply(names(attributes(X)$wave.objects), USE.NAMES = FALSE, function(x)
-     X$sound.files[X$old.sound.file.name == x]
+     X$sound.files[X$old.sound.file.name == x][1]
      )
     
 
