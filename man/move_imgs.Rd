@@ -4,9 +4,17 @@
 \alias{move_imgs}
 \title{alternative name for \code{\link{move.imgs}}}
 \usage{
-move_imgs(from = NULL, to = NULL, it = "all", cut = TRUE,
-  overwrite = FALSE, create.folder = TRUE,
-  folder.name = "image_files", parallel = 1, pb = TRUE)
+move_imgs(
+  from = NULL,
+  to = NULL,
+  it = "all",
+  cut = TRUE,
+  overwrite = FALSE,
+  create.folder = TRUE,
+  folder.name = "image_files",
+  parallel = 1,
+  pb = TRUE
+)
 }
 \description{
 alternative name for \code{\link{move.imgs}}

@@ -224,7 +224,7 @@ trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hannin
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
   if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
@@ -514,12 +514,12 @@ if (!frange.detec){
     { 
       if (!is.data.frame(custom.contour)) {
         custom <- try(custom.contour[[i]], silent = TRUE)
-        if (class(custom) == "try-error") {
+        if (is(custom, "try-error")) {
           custom <- rep(NA, 3)
           freq1 <- matrix(rep(NA, 2), ncol = 2)
           } else {
           freq1 <- try(custom.contour[[i]][ , 2:3], silent = TRUE)
-        if (class(freq1) == "try-error") freq1 <- custom.contour[ , 2:3, drop = FALSE]
+        if (is(freq1, "try-error")) freq1 <- custom.contour[ , 2:3, drop = FALSE]
   }      
         freq <- freq1[!is.na(freq1[,2]), , drop = FALSE]
         } else

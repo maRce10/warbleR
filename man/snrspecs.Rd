@@ -136,12 +136,17 @@ tempdir()
   frequency measurements by \code{\link{specan}}, \code{\link{specreator}} for 
   creating spectrograms after using \code{\link{manualoc}}
 
-Other spectrogram creators: \code{\link{color.spectro}},
-  \code{\link{dfDTW}}, \code{\link{dfts}},
-  \code{\link{ffDTW}}, \code{\link{ffts}},
-  \code{\link{multi_DTW}}, \code{\link{phylo_spectro}},
-  \code{\link{sp.en.ts}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+Other spectrogram creators: 
+\code{\link{color.spectro}()},
+\code{\link{dfDTW}()},
+\code{\link{dfts}()},
+\code{\link{ffDTW}()},
+\code{\link{ffts}()},
+\code{\link{multi_DTW}()},
+\code{\link{phylo_spectro}()},
+\code{\link{sp.en.ts}()},
+\code{\link{specreator}()},
+\code{\link{trackfreqs}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre

@@ -4,12 +4,31 @@
 \alias{df_ts}
 \title{alternative name for \code{\link{dfts}}}
 \usage{
-df_ts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning",
-  ovlp = 70, bp = c(0, 22), threshold = 0, threshold.time = NULL,
-  threshold.freq = NULL, img = TRUE, parallel = 1, path = NULL,
-  img.suffix = "dfts", pb = TRUE, clip.edges = FALSE,
-  leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1,
-  raw.contour = FALSE, track.harm = FALSE, adjust.wl = TRUE, ...)
+df_ts(
+  X,
+  wl = 512,
+  wl.freq = 512,
+  length.out = 20,
+  wn = "hanning",
+  ovlp = 70,
+  bp = c(0, 22),
+  threshold = 0,
+  threshold.time = NULL,
+  threshold.freq = NULL,
+  img = TRUE,
+  parallel = 1,
+  path = NULL,
+  img.suffix = "dfts",
+  pb = TRUE,
+  clip.edges = FALSE,
+  leglab = "dfts",
+  frange.detec = FALSE,
+  fsmooth = 0.1,
+  raw.contour = FALSE,
+  track.harm = FALSE,
+  adjust.wl = TRUE,
+  ...
+)
 }
 \description{
 alternative name for \code{\link{dfts}}

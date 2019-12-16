@@ -119,7 +119,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
   if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
@@ -127,8 +127,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   #if any selections longer than 20 secs stop
   if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   
-  #return warning if not all sound files were found
-  if (!any(class(X) == "extended_selection_table"))
+  if (!is_extended_selection_table(X))
   {
   fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 

@@ -108,7 +108,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
    wv <- try(tuneR::readMP3(filename =  file.path(path, x)), silent = TRUE)
    
    # downsample and filter if samp.rate different than mp3
-   if(class(wv) == "Wave" & !is.null(samp.rate))
+   if(is(wv, "Wave") & !is.null(samp.rate))
    {
      if (wv@samp.rate != samp.rate * 1000) {
       
@@ -143,11 +143,11 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
    suppressWarnings(mp3_conv_FUN(x = i, bit.depth))
  })
  
- if(any(sapply(out, function(x) class(x) == "try-error"))) {
+ if(any(sapply(out, function(x) is(x, "try-error")))) {
    
-   cat(paste("the following file(s) could not be converted:\n", paste(files[sapply(out, function(x) class(x) == "try-error")], collapse = ", ")))
+   cat(paste("the following file(s) could not be converted:\n", paste(files[sapply(out, function(x) is(x, "try-error"))], collapse = ", ")))
    
-   cat(paste("\nErrors found: \n", paste(unique(out[sapply(out, function(x) class(x) == "try-error")]), collapse = ", ")))
+   cat(paste("\nErrors found: \n", paste(unique(out[sapply(out, function(x) is(x, "try-error"))]), collapse = ", ")))
    }
  
 }

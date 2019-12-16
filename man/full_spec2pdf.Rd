@@ -4,8 +4,13 @@
 \alias{full_spec2pdf}
 \title{alternative name for \code{\link{lspec2pdf}}}
 \usage{
-full_spec2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1,
-  path = NULL, pb = TRUE)
+full_spec2pdf(
+  keep.img = TRUE,
+  overwrite = FALSE,
+  parallel = 1,
+  path = NULL,
+  pb = TRUE
+)
 }
 \description{
 alternative name for \code{\link{lspec2pdf}}

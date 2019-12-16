@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.19</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2019-11-11”
+“2019-12-16”
 </center></h4>
       
       
@@ -2702,7 +2702,7 @@ Phae.long4.wav_3-1
 <a class="sourceLine" id="cb35-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb35-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb35-17" data-line-number="17"><span class="co"># check performance</span></a>
-<a class="sourceLine" id="cb35-18" data-line-number="18">mbmrk.snr &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span>(<span class="dt">extended =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng_ext_st, </a>
+<a class="sourceLine" id="cb35-18" data-line-number="18">mbmrk.snr &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="dt">extended =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng_ext_st, </a>
 <a class="sourceLine" id="cb35-19" data-line-number="19">      <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">regular =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng.selec.table, </a>
 <a class="sourceLine" id="cb35-20" data-line-number="20">                    <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">times =</span> <span class="dv">50</span>)</a>
 <a class="sourceLine" id="cb35-21" data-line-number="21"></a>
@@ -3814,13 +3814,13 @@ define global parameters for warbleR functions
 <p> </p>
 <hr>
 <p><font size="4">Session information</font></p>
-<pre><code>R version 3.6.1 (2019-07-05)
+<pre><code>R version 3.4.4 (2018-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 18.04.3 LTS
+Running under: Ubuntu 14.04.6 LTS
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.7.1
-LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.7.1
+BLAS: /usr/lib/libblas/libblas.so.3.0
+LAPACK: /usr/lib/lapack/liblapack.so.3.0
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=es_CR.UTF-8       
@@ -3832,17 +3832,17 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.24         warbleR_1.1.18     NatureSounds_1.0.1 seewave_2.1.4      tuneR_1.3.3       
+[1] knitr_1.26         warbleR_1.1.19     NatureSounds_1.0.1 seewave_2.1.4      tuneR_1.3.3       
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.2       rstudioapi_0.10  magrittr_1.5     maps_3.3.0       Sim.DiffProc_4.4
- [6] MASS_7.3-51.4    Deriv_3.8.5      rjson_0.2.20     R6_2.4.0         rlang_0.4.0     
-[11] pbapply_1.4-2    stringr_1.4.0    tools_3.6.1      parallel_3.6.1   xfun_0.9        
-[16] dtw_1.21-3       htmltools_0.3.6  yaml_2.2.0       assertthat_0.2.1 digest_0.6.21   
+ [1] Rcpp_1.0.3       rstudioapi_0.10  magrittr_1.5     maps_3.3.0       Sim.DiffProc_4.4
+ [6] MASS_7.3-50      Deriv_3.9.0      rjson_0.2.20     R6_2.4.1         rlang_0.4.2     
+[11] pbapply_1.4-2    stringr_1.4.0    tools_3.4.4      parallel_3.4.4   xfun_0.11       
+[16] dtw_1.21-3       htmltools_0.4.0  yaml_2.2.0       assertthat_0.2.1 digest_0.6.23   
 [21] rprojroot_1.3-2  pkgdown_1.4.1    crayon_1.3.4     bitops_1.0-6     fs_1.3.1        
-[26] RCurl_1.95-4.12  signal_0.7-6     memoise_1.1.0    evaluate_0.14    rmarkdown_1.15  
-[31] pracma_2.2.5     proxy_0.4-23     stringi_1.4.3    compiler_3.6.1   desc_1.2.0      
-[36] backports_1.1.4  fftw_1.0-5      </code></pre>
+[26] RCurl_1.95-4.12  signal_0.7-6     memoise_1.1.0    evaluate_0.14    rmarkdown_1.18  
+[31] pracma_2.2.5     proxy_0.4-23     stringi_1.4.3    compiler_3.4.4   desc_1.2.0      
+[36] backports_1.1.5  fftw_1.0-5      </code></pre>
 </div>
   </div>
 

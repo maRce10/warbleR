@@ -91,7 +91,7 @@ checkwavs <- function(X = NULL, path = NULL) {
     if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
     
     #if end or start are not numeric stop
-    if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
+    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
     
     #if any start higher than end stop
     if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
@@ -111,8 +111,9 @@ checkwavs <- function(X = NULL, path = NULL) {
   
   a <- sapply(files, function(x) {
     r <- try(suppressWarnings(warbleR::read_wave(X = x, path = path, header = TRUE)), silent = TRUE)
-    if (class(r) == "try-error") return (NA) else
-      return(r$sample.rate)  }) 
+    if (is(r, "try-error")) return (NA) else
+      return(r$sample.rate)  
+    }) 
   
   if (length(files[is.na(a)])>0){
     cat("Some file(s) cannot be read")

@@ -362,7 +362,7 @@ coor.test <- function(X = NULL, iterations = 1000, ovlp.method = "count",
       { 
         ovlp <- try(sapply(rndmFUN(X[X$sing.event == h, ]), coortestFUN))
         
-        if(class(ovlp) != "try-error")
+        if(!is(ovlp, "try-error"))
         {  
         # get observed overlap (first element)
         obs.overlaps <- ovlp[1]

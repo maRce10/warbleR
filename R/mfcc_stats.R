@@ -104,7 +104,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
     
     #if end or start are not numeric stop
-    if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
+    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
     
     #if any start higher than end stop
     if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
@@ -169,7 +169,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     clm.nms <- paste(rep(c("min", "max", "median", "mean", "var", "skew", "kurt"), each = numcep), paste0("cc", 1:numcep), sep = ".")  
       
     # if cepstral coefs were calculated
-    if (class(m) != "try-error") {
+    if (!is(m, "try-error")) {
        # put them in a data frame  
     outdf <- data.frame(t(c(apply(m, 2, min), apply(m, 2, max), apply(m, 2, stats::median), apply(m, 2, mean), 
       apply(m, 2, stats::var), apply(m, 2, Sim.DiffProc::skewness), apply(m, 2, Sim.DiffProc::kurtosis))), stringsAsFactors = FALSE)

@@ -3,7 +3,8 @@
 ## Changes and additions:
 
 * new function rename_waves_est() to rename wave objects in extended selection tables
-
+* remove duplicated sound file names in spectrogram() images when 'by.song' 
+* replace all class(.) == , by is(., *)
 
 # *warbleR 1.1.18*
 

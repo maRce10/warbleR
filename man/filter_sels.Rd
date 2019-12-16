@@ -4,8 +4,16 @@
 \alias{filter_sels}
 \title{alternative name for \code{\link{filtersels}}}
 \usage{
-filter_sels(X, path = NULL, lspec = FALSE, img.suffix = NULL,
-  it = "jpeg", incl.wav = TRUE, missing = FALSE, index = FALSE)
+filter_sels(
+  X,
+  path = NULL,
+  lspec = FALSE,
+  img.suffix = NULL,
+  it = "jpeg",
+  incl.wav = TRUE,
+  missing = FALSE,
+  index = FALSE
+)
 }
 \description{
 alternative name for \code{\link{filtersels}}

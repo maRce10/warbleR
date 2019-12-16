@@ -94,12 +94,17 @@ ffts(lbh_selec_table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300, 
 \seealso{
 \code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{dfts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
 
-Other spectrogram creators: \code{\link{color.spectro}},
-  \code{\link{dfDTW}}, \code{\link{dfts}},
-  \code{\link{ffDTW}}, \code{\link{multi_DTW}},
-  \code{\link{phylo_spectro}}, \code{\link{snrspecs}},
-  \code{\link{sp.en.ts}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+Other spectrogram creators: 
+\code{\link{color.spectro}()},
+\code{\link{dfDTW}()},
+\code{\link{dfts}()},
+\code{\link{ffDTW}()},
+\code{\link{multi_DTW}()},
+\code{\link{phylo_spectro}()},
+\code{\link{snrspecs}()},
+\code{\link{sp.en.ts}()},
+\code{\link{specreator}()},
+\code{\link{trackfreqs}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marceloa27@gmail.com})

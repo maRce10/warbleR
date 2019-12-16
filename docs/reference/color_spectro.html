@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.19</span>
       </span>
     </div>
 
@@ -133,13 +133,33 @@
     <p>alternative name for <code><a href='color.spectro.html'>color.spectro</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>color_spectro</span>(<span class='no'>wave</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>,
-  <span class='kw'>dB</span> <span class='kw'>=</span> <span class='st'>"max0"</span>, <span class='kw'>collevels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>selec.col</span> <span class='kw'>=</span> <span class='st'>"red2"</span>,
-  <span class='kw'>col.clm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>base.col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>bg.col</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>cexlab</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>cexaxis</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tlab</span> <span class='kw'>=</span> <span class='st'>"Time (s)"</span>, <span class='kw'>flab</span> <span class='kw'>=</span> <span class='st'>"Frequency (kHz)"</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axisX</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>axisY</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rm.zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>t.mar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>f.mar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>color_spectro</span>(
+  <span class='no'>wave</span>,
+  <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>,
+  <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>,
+  <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>,
+  <span class='kw'>dB</span> <span class='kw'>=</span> <span class='st'>"max0"</span>,
+  <span class='kw'>collevels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>selec.col</span> <span class='kw'>=</span> <span class='st'>"red2"</span>,
+  <span class='kw'>col.clm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>base.col</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>bg.col</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
+  <span class='kw'>cexlab</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>cexaxis</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>tlab</span> <span class='kw'>=</span> <span class='st'>"Time (s)"</span>,
+  <span class='kw'>flab</span> <span class='kw'>=</span> <span class='st'>"Frequency (kHz)"</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>axisX</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>axisY</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>flim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>rm.zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>t.mar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>f.mar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>

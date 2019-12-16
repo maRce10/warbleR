@@ -4,8 +4,15 @@
 \alias{fix_wavs}
 \title{alternative name for \code{\link{fixwavs}}}
 \usage{
-fix_wavs(checksels = NULL, files = NULL, samp.rate = NULL,
-  bit.depth = NULL, path = NULL, mono = FALSE, sox = FALSE)
+fix_wavs(
+  checksels = NULL,
+  files = NULL,
+  samp.rate = NULL,
+  bit.depth = NULL,
+  path = NULL,
+  mono = FALSE,
+  sox = FALSE
+)
 }
 \description{
 alternative name for \code{\link{fixwavs}}

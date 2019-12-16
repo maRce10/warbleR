@@ -116,7 +116,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
   
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
@@ -148,10 +148,10 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
   
   # check if freq lim are numeric
   if (any(names(X) == "bottom.freq"))
-    if (class(X$bottom.freq) != "numeric") stop("'bottom.freq' is not numeric")
+    if (!is(X$bottom.freq, "numeric")) stop("'bottom.freq' is not numeric")
   
   if (any(names(X) == "top.freq"))
-    if (class(X$top.freq) != "numeric") stop("'top.freq' is not numeric")
+    if (!is(X$top.freq, "numeric")) stop("'top.freq' is not numeric")
   
   # check if NAs in freq limits
   if (any(names(X) %in% c("bottom.freq", "top.freq")))
@@ -165,7 +165,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
       rec <- try(suppressWarnings(warbleR::read_wave(X= x, path = pth, header = TRUE)), silent = TRUE)
       
       # if it was read
-      if (!class(rec) == "try-error")
+      if (!is(rec, "try-error"))
       {
         if (check.header) # look for mismatchs between file header & file content  
         {

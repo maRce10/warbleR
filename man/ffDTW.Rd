@@ -104,12 +104,17 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 
 dfDTW \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{dfDTW}}
 
-Other spectrogram creators: \code{\link{color.spectro}},
-  \code{\link{dfDTW}}, \code{\link{dfts}},
-  \code{\link{ffts}}, \code{\link{multi_DTW}},
-  \code{\link{phylo_spectro}}, \code{\link{snrspecs}},
-  \code{\link{sp.en.ts}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+Other spectrogram creators: 
+\code{\link{color.spectro}()},
+\code{\link{dfDTW}()},
+\code{\link{dfts}()},
+\code{\link{ffts}()},
+\code{\link{multi_DTW}()},
+\code{\link{phylo_spectro}()},
+\code{\link{snrspecs}()},
+\code{\link{sp.en.ts}()},
+\code{\link{specreator}()},
+\code{\link{trackfreqs}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marceloa27@gmail.com})

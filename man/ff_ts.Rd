@@ -4,10 +4,24 @@
 \alias{ff_ts}
 \title{alternative name for \code{\link{ffts}}}
 \usage{
-ff_ts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
-  bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1,
-  path = NULL, img.suffix = "ffts", pb = TRUE, clip.edges = FALSE,
-  leglab = "ffts", ff.method = "seewave", ...)
+ff_ts(
+  X,
+  wl = 512,
+  length.out = 20,
+  wn = "hanning",
+  ovlp = 70,
+  bp = c(0, 22),
+  threshold = 15,
+  img = TRUE,
+  parallel = 1,
+  path = NULL,
+  img.suffix = "ffts",
+  pb = TRUE,
+  clip.edges = FALSE,
+  leglab = "ffts",
+  ff.method = "seewave",
+  ...
+)
 }
 \description{
 alternative name for \code{\link{ffts}}

@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.19</span>
       </span>
     </div>
 
@@ -133,10 +133,24 @@
     <p>alternative name for <code><a href='ffts.html'>ffts</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>ff_ts</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>,
-  <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='st'>"ffts"</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>leglab</span> <span class='kw'>=</span> <span class='st'>"ffts"</span>, <span class='kw'>ff.method</span> <span class='kw'>=</span> <span class='st'>"seewave"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>ff_ts</span>(
+  <span class='no'>X</span>,
+  <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>,
+  <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>,
+  <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>,
+  <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>22</span>),
+  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>,
+  <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='st'>"ffts"</span>,
+  <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>leglab</span> <span class='kw'>=</span> <span class='st'>"ffts"</span>,
+  <span class='kw'>ff.method</span> <span class='kw'>=</span> <span class='st'>"seewave"</span>,
+  <span class='no'>...</span>
+)</pre>
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>

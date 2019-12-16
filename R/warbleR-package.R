@@ -153,7 +153,7 @@
 #' @import utils
 #' @import parallel
 #' @importFrom maps map map.axes
-#' @importFrom methods formalArgs new
+#' @importFrom methods formalArgs new is
 #' @importFrom pracma findpeaks
 #' @importFrom Sim.DiffProc BB GBM
 #' @importFrom methods slotNames

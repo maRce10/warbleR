@@ -4,13 +4,33 @@
 \alias{freq_range}
 \title{alternative name for \code{\link{frange}}}
 \usage{
-freq_range(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1,
-  threshold = 10, dB.threshold = NULL, wn = "hanning", flim = c(0,
-  22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1,
-  res = 100, fast.spec = FALSE, ovlp = 50,
-  pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1),
-  main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE,
-  impute = FALSE)
+freq_range(
+  X,
+  wl = 512,
+  it = "jpeg",
+  line = TRUE,
+  fsmooth = 0.1,
+  threshold = 10,
+  dB.threshold = NULL,
+  wn = "hanning",
+  flim = c(0, 22),
+  bp = NULL,
+  propwidth = FALSE,
+  xl = 1,
+  picsize = 1,
+  res = 100,
+  fast.spec = FALSE,
+  ovlp = 50,
+  pal = reverse.gray.colors.2,
+  parallel = 1,
+  widths = c(2, 1),
+  main = NULL,
+  img = TRUE,
+  mar = 0.05,
+  path = NULL,
+  pb = TRUE,
+  impute = FALSE
+)
 }
 \description{
 alternative name for \code{\link{frange}}

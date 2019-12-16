@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.19</span>
       </span>
     </div>
 
@@ -163,8 +163,8 @@ for acoustic analysis located in the first columns. The priority order for colum
 <span class='no'>selec.table</span> <span class='kw'>&lt;-</span> <span class='no'>selec.table</span>[, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>selec.table</span>))]
 
  <span class='co'>#check names</span>
- <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>selec.table</span>)</div><div class='output co'>#&gt; [1] "sound.files" "end"         "start"       "selec"       "rec.comment"
-#&gt; [6] "sel.comment" "channel"     "top.freq"    "bottom.freq"</div><div class='input'>
+ <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>selec.table</span>)</div><div class='output co'>#&gt; [1] "selec"       "start"       "end"         "sound.files" "channel"    
+#&gt; [6] "rec.comment" "sel.comment" "top.freq"    "bottom.freq"</div><div class='input'>
  <span class='no'>selec.table</span> <span class='kw'>&lt;-</span> <span class='fu'>sort_colms</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>)
 
  <span class='co'>#check names again</span>

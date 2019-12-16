@@ -148,7 +148,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
   if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
@@ -266,7 +266,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
                                xout = seq(from = min(dfrq$relative.time, na.rm = TRUE),  to = max(dfrq$relative.time, na.rm = TRUE), 
                                           length.out = length.out), method = "linear"), silent = TRUE)
         
-      if (class(apdom) == "try-error") apdom <- list(x =  seq(from = 0,  to = X$end[i] - X$start[i], 
+      if (is(apdom, "try-error")) apdom <- list(x =  seq(from = 0,  to = X$end[i] - X$start[i], 
                                                length.out = length.out), y = rep(NA, length.out))
           
               } else

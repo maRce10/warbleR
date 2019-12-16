@@ -92,7 +92,7 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
   if (length(fls) == 0) stop("All files were OK according tochecksels")
 
     #if X is not a data frame
-  if (!class(checksels) == "data.frame") stop("checksels is not a data frame")
+  if (!is(checksels, "data.frame")) stop("checksels is not a data frame")
   
   if (!all(c("sound.files", "check.res") %in% colnames(checksels))) 
     stop(paste(paste(c("sound.files", "check.res")[!(c("sound.files", "check.res") %in% colnames(checksels))], collapse=", "), "column(s) not found in data frame (does not seem to be the output of checksels)"))
@@ -120,7 +120,7 @@ fix_bio_FUN <- function(x) {
     wv <- try(warbleR::read_wave(X = x, path = path), silent = TRUE)
 
     # downsample and filter if samp.rate different than mp3
-    if(class(wv) == "Wave" & !is.null(samp.rate))
+    if(is(wv, "Wave") & !is.null(samp.rate))
     {
       if (wv@samp.rate != samp.rate * 1000) {
 

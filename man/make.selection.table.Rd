@@ -4,9 +4,19 @@
 \alias{make.selection.table}
 \title{Old name for \code{\link{selection_table}}}
 \usage{
-make.selection.table(X, max.dur = 10, path = NULL,
-  whole.recs = FALSE, extended = FALSE, confirm.extended = TRUE,
-  mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, ...)
+make.selection.table(
+  X,
+  max.dur = 10,
+  path = NULL,
+  whole.recs = FALSE,
+  extended = FALSE,
+  confirm.extended = TRUE,
+  mar = 0.1,
+  by.song = NULL,
+  pb = TRUE,
+  parallel = 1,
+  ...
+)
 }
 \description{
 Old name for \code{\link{selection_table}}

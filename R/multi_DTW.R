@@ -126,7 +126,7 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1, wi
           mts2 <- cbind(t(ts.df1[ts.df1$sf.sels == combs[i, 2], 3:ncol(ts.df2)]), t(ts.df2[ts.df1$sf.sels == combs[i, 2], 3:ncol(ts.df2)]))
           
           dst <- try(dtw::dtw(mts1, mts2, open.end = open.end, window.type = window.type, ...)$distance, silent = TRUE)
-          if(class(dst) == "try-error") dst <- NA
+          if(is(dst, "try-error")) dst <- NA
           
           return(dst)  
           }

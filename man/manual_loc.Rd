@@ -4,11 +4,25 @@
 \alias{manual_loc}
 \title{alternative name for \code{\link{manualoc}}}
 \usage{
-manual_loc(wl = 512, flim = c(0, 12), seltime = 1, tdisp = NULL,
-  reccomm = FALSE, wn = "hanning", title = TRUE, selcomm = FALSE,
-  osci = FALSE, player = NULL, pal = reverse.gray.colors.2,
-  path = NULL, flist = NULL, fast.spec = FALSE, ext.window = TRUE,
-  width = 15, height = 5)
+manual_loc(
+  wl = 512,
+  flim = c(0, 12),
+  seltime = 1,
+  tdisp = NULL,
+  reccomm = FALSE,
+  wn = "hanning",
+  title = TRUE,
+  selcomm = FALSE,
+  osci = FALSE,
+  player = NULL,
+  pal = reverse.gray.colors.2,
+  path = NULL,
+  flist = NULL,
+  fast.spec = FALSE,
+  ext.window = TRUE,
+  width = 15,
+  height = 5
+)
 }
 \description{
 alternative name for \code{\link{manualoc}}

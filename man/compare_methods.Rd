@@ -4,13 +4,33 @@
 \alias{compare_methods}
 \title{alternative name for \code{\link{compare.methods}}}
 \usage{
-compare_methods(X = NULL, flim = c(0, 22), bp = c(0, 22),
-  mar = 0.1, wl = 512, ovlp = 90, res = 150, n = 10,
-  length.out = 30, methods = NULL, it = "jpeg", parallel = 1,
-  path = NULL, sp = NULL, custom1 = NULL, custom2 = NULL,
-  pb = TRUE, grid = TRUE, clip.edges = TRUE, threshold = 15,
-  na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2,
-  img = TRUE, ...)
+compare_methods(
+  X = NULL,
+  flim = c(0, 22),
+  bp = c(0, 22),
+  mar = 0.1,
+  wl = 512,
+  ovlp = 90,
+  res = 150,
+  n = 10,
+  length.out = 30,
+  methods = NULL,
+  it = "jpeg",
+  parallel = 1,
+  path = NULL,
+  sp = NULL,
+  custom1 = NULL,
+  custom2 = NULL,
+  pb = TRUE,
+  grid = TRUE,
+  clip.edges = TRUE,
+  threshold = 15,
+  na.rm = FALSE,
+  scale = FALSE,
+  pal = reverse.gray.colors.2,
+  img = TRUE,
+  ...
+)
 }
 \description{
 alternative name for \code{\link{compare.methods}}

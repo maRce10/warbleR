@@ -112,7 +112,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   
   #check internet connection
   a <- try(RCurl::getURL("www.xeno-canto.org"), silent = TRUE)
-  if (class(a) == "try-error") stop("No connection to xeno-canto.org (check your internet connection!)")
+  if (is(a, "try-error")) stop("No connection to xeno-canto.org (check your internet connection!)")
   
   if (a == "Could not connect to the database")  stop("xeno-canto.org website is apparently down")
   
@@ -240,7 +240,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
     } 
   } else { 
     #stop if X is not a data frame
-    if (class(X) != "data.frame") stop("X is not a data frame")
+    if (!is(X, "data.frame")) stop("X is not a data frame")
     
     #stop if the basic columns are not found
     if (!is.null(file.name))

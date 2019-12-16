@@ -55,8 +55,9 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \seealso{
 \code{\link{cut_sels}}
 
-Other data manipulation: \code{\link{move.imgs}},
-  \code{\link{open_wd}}
+Other data manipulation: 
+\code{\link{move.imgs}()},
+\code{\link{open_wd}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marceloa27@gmail.com})

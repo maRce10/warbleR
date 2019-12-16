@@ -168,7 +168,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
   if (any(X$end - X$start <= 0)) stop(paste("The start is higher than or equal to the end in", length(which(X$end - X$start <= 0)), "case(s)"))  
@@ -193,7 +193,6 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   #missing label columns
   if (!all(title.labels %in% colnames(X)))
     stop(paste(paste(title.labels[!(title.labels %in% colnames(X))], collapse=", "), "label column(s) not found in data frame"))
-  
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
@@ -257,7 +256,10 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
        # Spectrogram width can be proportional to signal duration
     if (propwidth) pwc <- (10.16) * ((t[2]-t[1])/0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
     
-    if (is.null(by.song)) fn <- paste(X$sound.files[i], "-", X$selec[i], ".", it, sep = "") else fn <- paste(X$sound.files[i], "-", X[i, by.song], ".", it, sep = "")
+    if (is.null(by.song)) fn <- paste(X$sound.files[i], "-", X$selec[i], ".", it, sep = "") else 
+      if (by.song == "sound.files")
+        fn <- paste(X$sound.files[i], ".", it, sep = "") else
+      fn <- paste(X$sound.files[i], "-", X[i, by.song], ".", it, sep = "")
    
     img_wrlbr_int(filename = fn, path = dest.path, 
            width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
@@ -279,10 +281,14 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
                      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)
     
     # Add title to spectrogram
-    if (!is.null(title.labels)) 
-      if (!is.null(by.song))
-        title(paste0(X$sound.files[i], "-", X[i, by.song]), cex.main = cexlab) else
-      title(paste(X[i, title.labels], collapse = " "), cex.main = cexlab) 
+    if (is.null(title.labels)){ 
+      if (!is.null(by.song)) {
+        if(by.song == "sound.files") 
+          title(X$sound.files[i], cex.main = cexlab) else
+        title(paste0(X$sound.files[i], "-", X[i, by.song]), cex.main = cexlab)
+        }
+      }else
+        title(paste0(X[i, title.labels], collapse = " "), cex.main = cexlab) 
   
   
     # Plot lines to visualize selections (start and end of signal)

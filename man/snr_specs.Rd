@@ -4,12 +4,32 @@
 \alias{snr_specs}
 \title{alternative name for \code{\link{snrspecs}}}
 \usage{
-snr_specs(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
-  inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1,
-  res = 100, cexlab = 1, title = TRUE, before = FALSE,
-  eq.dur = FALSE, propwidth = FALSE, xl = 1, osci = FALSE,
-  gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg",
-  parallel = 1, path = NULL, pb = TRUE)
+snr_specs(
+  X,
+  wl = 512,
+  flim = c(0, 22),
+  wn = "hanning",
+  ovlp = 70,
+  inner.mar = c(5, 4, 4, 2),
+  outer.mar = c(0, 0, 0, 0),
+  picsize = 1,
+  res = 100,
+  cexlab = 1,
+  title = TRUE,
+  before = FALSE,
+  eq.dur = FALSE,
+  propwidth = FALSE,
+  xl = 1,
+  osci = FALSE,
+  gr = FALSE,
+  sc = FALSE,
+  mar = 0.2,
+  snrmar = 0.1,
+  it = "jpeg",
+  parallel = 1,
+  path = NULL,
+  pb = TRUE
+)
 }
 \description{
 alternative name for \code{\link{snrspecs}}

@@ -183,7 +183,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if (all(class(X$end) != "numeric" & class(X$start) != "numeric")) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
   if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
@@ -253,7 +253,7 @@ specan <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
     {
       sg.param <- suppressMessages(try(soundgen::analyze(x = as.numeric(r@left), samplingRate = r@samp.rate, silence = threshold / 100, overlap = ovlp, windowLength = wl / r@samp.rate * 1000, plot = FALSE, wn = wn, pitchCeiling = b[2] * 1000, cutFreq = b[2] * 1000, nFormants = nharmonics, SPL_measured = 0, priorMean = NA, pitchMethods = c('dom', 'autocor'), ...), silent = TRUE))
     
-      if (class(sg.param) != "try-error"){
+      if (!is(sg.param, "try-error")){
       
   names(sg.param) <- gsub("^f", "h", names(sg.param))
     

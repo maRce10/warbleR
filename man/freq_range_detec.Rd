@@ -4,10 +4,23 @@
 \alias{freq_range_detec}
 \title{alternative name for \code{\link{frange.detec}}}
 \usage{
-freq_range_detec(wave, wl = 512, fsmooth = 0.1, threshold = 10,
-  dB.threshold = NULL, wn = "hanning", flim = c(0, 22), bp = NULL,
-  fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2,
-  widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
+freq_range_detec(
+  wave,
+  wl = 512,
+  fsmooth = 0.1,
+  threshold = 10,
+  dB.threshold = NULL,
+  wn = "hanning",
+  flim = c(0, 22),
+  bp = NULL,
+  fast.spec = FALSE,
+  ovlp = 50,
+  pal = reverse.gray.colors.2,
+  widths = c(2, 1),
+  main = NULL,
+  plot = TRUE,
+  all.detec = FALSE
+)
 }
 \description{
 alternative name for \code{\link{frange.detec}}

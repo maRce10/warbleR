@@ -4,12 +4,28 @@
 \alias{full_spec}
 \title{alternative name for \code{\link{lspec}}}
 \usage{
-full_spec(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10,
-  collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512,
-  gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg",
-  flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE,
-  fast.spec = FALSE, labels = "selec", horizontal = FALSE,
-  song = NULL)
+full_spec(
+  X = NULL,
+  flim = c(0, 22),
+  sxrow = 5,
+  rows = 10,
+  collevels = seq(-40, 0, 1),
+  ovlp = 50,
+  parallel = 1,
+  wl = 512,
+  gr = FALSE,
+  pal = reverse.gray.colors.2,
+  cex = 1,
+  it = "jpeg",
+  flist = NULL,
+  overwrite = TRUE,
+  path = NULL,
+  pb = TRUE,
+  fast.spec = FALSE,
+  labels = "selec",
+  horizontal = FALSE,
+  song = NULL
+)
 }
 \description{
 alternative name for \code{\link{lspec}}

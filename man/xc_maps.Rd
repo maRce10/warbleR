@@ -4,8 +4,7 @@
 \alias{xc_maps}
 \title{alternative name for \code{\link{xcmaps}}}
 \usage{
-xc_maps(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
-  path = NULL)
+xc_maps(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE, path = NULL)
 }
 \description{
 alternative name for \code{\link{xcmaps}}

@@ -124,12 +124,17 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
   optimize noise margins used in \code{\link{sig2noise}} and \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{ffDTW}} for frequency contour overlaid spectrograms.
  \href{https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html}{blog post on DTW similarity}
 
-Other spectrogram creators: \code{\link{color.spectro}},
-  \code{\link{dfts}}, \code{\link{ffDTW}},
-  \code{\link{ffts}}, \code{\link{multi_DTW}},
-  \code{\link{phylo_spectro}}, \code{\link{snrspecs}},
-  \code{\link{sp.en.ts}}, \code{\link{specreator}},
-  \code{\link{trackfreqs}}
+Other spectrogram creators: 
+\code{\link{color.spectro}()},
+\code{\link{dfts}()},
+\code{\link{ffDTW}()},
+\code{\link{ffts}()},
+\code{\link{multi_DTW}()},
+\code{\link{phylo_spectro}()},
+\code{\link{snrspecs}()},
+\code{\link{sp.en.ts}()},
+\code{\link{specreator}()},
+\code{\link{trackfreqs}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marceloa27@gmail.com})

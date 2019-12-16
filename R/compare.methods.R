@@ -404,7 +404,9 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   X$labels <- 1:nrow(X)
   
-  combs <- combn(1:nrow(X), 4)
+  # maximum of 100 items for combinations
+  smps <- sample(1:nrow(X), 100)
+  combs <- combn(smps, 4)
   
   if (nrow(X) == 4)  {n <- 1
   combs <- as.matrix(1:4)

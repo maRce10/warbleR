@@ -27,5 +27,5 @@
 
 try_na <- function(expr, silent = TRUE, outFile){
   out <- try(expr = expr, silent = silent, outFile = outFile)
-if (class(out) == "try-error") return(NA) else return(out)
+if (is(out, "try-error")) return(NA) else return(out)
   }

@@ -4,8 +4,15 @@
 \alias{quer_xc}
 \title{alternative name for \code{\link{querxc}}}
 \usage{
-quer_xc(qword, download = FALSE, X = NULL, file.name = c("Genus",
-  "Specific_epithet"), parallel = 1, path = NULL, pb = TRUE)
+quer_xc(
+  qword,
+  download = FALSE,
+  X = NULL,
+  file.name = c("Genus", "Specific_epithet"),
+  parallel = 1,
+  path = NULL,
+  pb = TRUE
+)
 }
 \description{
 alternative name for \code{\link{querxc}}
