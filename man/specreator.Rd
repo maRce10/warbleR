@@ -7,9 +7,9 @@
 specreator(X, wl = 512, flim = "frange", wn = "hanning", pal  = reverse.gray.colors.2, 
 ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
 cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, it = "jpeg", parallel = 1, 
-path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec",
-title.labels = NULL, dest.path = NULL, ...)
+col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3, 
+mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, 
+by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
@@ -67,10 +67,12 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 \item{sc}{Logical argument to add amplitude scale to spectrogram, default is 
 \code{FALSE}.}
 
-\item{line}{Logical argument to add red lines at start and end times of selection 
+\item{line}{Logical argument to add lines at start and end times of selection 
 (or box if bottom.freq and top.freq columns are provided). Default is \code{TRUE}.}
 
-\item{col}{Color of 'line'. Default is `adjustcolor("red2", alpha.f = 0.7)`.`}
+\item{col}{Color of 'line'. Default is "#07889B".}
+
+\item{fill}{Fill color of box around selections. Default is  \code{adjustcolor("#07889B", alpha.f = 0.15)}.}
 
 \item{lty}{Type of 'line' as in \code{\link[graphics]{par}}. Default is 1.}
 

@@ -4,9 +4,9 @@
 #' @usage specreator(X, wl = 512, flim = "frange", wn = "hanning", pal  = reverse.gray.colors.2, 
 #' ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
 #' cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-#' col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, it = "jpeg", parallel = 1, 
-#' path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec",
-#' title.labels = NULL, dest.path = NULL, ...)
+#' col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3, 
+#' mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, 
+#' by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
 #' 'top.freq' and 'bottom.freq' columns are optional.
@@ -46,9 +46,10 @@
 #' @param gr Logical argument to add grid to spectrogram. Default is \code{FALSE}.
 #' @param sc Logical argument to add amplitude scale to spectrogram, default is 
 #'   \code{FALSE}.
-#' @param line Logical argument to add red lines at start and end times of selection 
+#' @param line Logical argument to add lines at start and end times of selection 
 #'   (or box if bottom.freq and top.freq columns are provided). Default is \code{TRUE}.
-#' @param col Color of 'line'. Default is `adjustcolor("red2", alpha.f = 0.7)`.`
+#' @param col Color of 'line'. Default is "#07889B".
+#' @param fill Fill color of box around selections. Default is  \code{adjustcolor("#07889B", alpha.f = 0.15)}.
 #' @param lty Type of 'line' as in \code{\link[graphics]{par}}. Default is 1. 
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 #'    dealineating spectrogram limits. Default is 0.05.
@@ -114,7 +115,7 @@
 specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 
                         inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
                         cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE,  gr = FALSE,
-                       sc = FALSE, line = TRUE, col = adjustcolor("#E37222", 0.6), lty = 3, mar = 0.05, 
+                       sc = FALSE, line = TRUE, col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3, mar = 0.05, 
                        it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...){
   
   # set pb options 
@@ -175,14 +176,30 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   
   # flim checking
   if (flim[1] != "frange")
-  {if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
-    if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")} 
+  {
+    
+    if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else
+      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2") 
+    
+    # add bottom and top freq if not included
+    if (!is.null(flim[1])){
+      # top minus 1 kHz
+      if (is.null(X$bottom.freq)) X$bottom.freq <- flim[1] - 1
+      # top plus 1 kHz
+      if (is.null(X$top.freq)) X$top.freq <- flim[2] + 1
+    } else {    
+      # negative bottom so bottom line is not plotted
+      if (is.null(X$bottom.freq)) X$bottom.freq <- -1
+      # if no top freq then make it 501 kHz (which is half the highest sampling rate (1 million) + 1)
+      if (is.null(X$top.freq)) X$top.freq <- 501
+    }  
+    
   } else
   {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'flim' = frange requires bottom.freq and top.freq columns in X")
     if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
     if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
     if (any(X$top.freq - X$bottom.freq <= 0)) stop("top.freq should be higher than bottom.freq")
-  }
+    }
   
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
@@ -228,7 +245,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
     } else Y <- NULL
   
   #create function to run within Xapply functions downstream     
-  specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path){
+  specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path, fill){
     
     # Read sound files, initialize frequency and time limits for spectrogram
     r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
@@ -313,7 +330,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
               c(W$bottom.freq[e], W$top.freq[e], W$top.freq[e], W$bottom.freq[e])
             
             #plot polygon
-            polygon(x = rep(c(W$start[e], W$end[e]), each = 2), y = ys, lty = lty, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.15), lwd = 1.2)
+            polygon(x = rep(c(W$start[e], W$end[e]), each = 2), y = ys, lty = lty, border = col, col = fill, lwd = 1.2)
           
             if (!is.null(sel.labels)) text(labels= paste(W[e, sel.labels], collapse = "-"), x = (W$end[e] + W$start[e])/2, y = if (is.null(W$top.freq)) fl[2] - 2*((fl[2] - fl[1])/12) else W$top.freq[e], pos = 3)
             }  
@@ -333,7 +350,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   # run loop apply function
   out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
-    specreFUN(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path)
+    specreFUN(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path, fill)
   }) 
 }
 
