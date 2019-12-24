@@ -202,28 +202,19 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
         # Calculate mean signal amplitude 
         sigamp <- mean(seewave::env(signal, f = f, envt = "abs", plot = FALSE))}
     
-    if (type == 2)
+    if (type %in% 2:3)
     {    # Calculate mean noise amplitude 
       if (before)   
         noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
           noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
                                     seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
         
-        # Calculate mean signal amplitude 
         sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
-        }
-    
-    if (type == 3)
-    {    # Calculate mean noise amplitude 
-      if (before)   
-        noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
-          noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
-                                    seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
-        
-        # Calculate mean signal amplitude 
-        sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
+      
+      if (type == 3)
         sigamp <- sigamp - noisamp
-    }
+        }
+
     
     # Calculate signal-to-noise ratio
     snr <- sigamp / noisamp
