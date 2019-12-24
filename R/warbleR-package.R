@@ -31,7 +31,10 @@
 #'   
 #'   \code{\link{querxc}}: Download recordings and/or metadata from 'Xeno-Canto'
 #'   
+#'   \code{\link{find_annotations}}: Obtain annotations from 'audioblast.org' data base
+#'   
 #'   \code{\link{sim_songs}}: Simulate animal vocalizations
+#'   
 #'   
 #' @section Managing sound files:
 #'   
@@ -104,6 +107,8 @@
 #'   
 #'   \code{\link{ffDTW}}: Calculate acoustic dissimilarity using dynamic time warping
 #'   on fundamental frequency contours
+#'   
+#'   \code{\link{wpd_features}}: Measure wavelet packet decomposition features 
 #'   
 #'   \code{\link{compare.methods}}: Produce graphs to visually assess performance of acoustic 
 #'   distance measurements 
