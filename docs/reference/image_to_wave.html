@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cut selections into individual sound files — cut_sels • warbleR</title>
+<title>Convert images into wave objects — image_to_wave • warbleR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Cut selections into individual sound files — cut_sels" />
-<meta property="og:description" content="cut_sels cuts selections from a selection table into individual sound files." />
+<meta property="og:title" content="Convert images into wave objects — image_to_wave" />
+<meta property="og:description" content="image_to_wave converts images in 'png' format into wave objects using the inverse Fourier transformation" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,98 +124,90 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cut selections into individual sound files</h1>
+    <h1>Convert images into wave objects</h1>
     
-    <div class="hidden name"><code>cut_sels.Rd</code></div>
+    <div class="hidden name"><code>image_to_wave.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>cut_sels</code> cuts selections from a selection table into individual sound files.</p>
+    <p><code>image_to_wave</code> converts images in 'png' format into wave objects using the inverse Fourier transformation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cut_sels</span>(<span class='no'>X</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dest.path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>), <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>image_to_wave</span>(<span class='no'>file</span>, <span class='kw'>duration</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>,
+<span class='kw'>bit.depth</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='no'>samp.rate</span> / <span class='fl'>2</span>), <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>X</th>
-      <td><p>object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
-selection number (selec), and start and end time of signals (start and end).
-The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can be used as the input data frame.</p></td>
+      <th>file</th>
+      <td><p>Character with the name of image file to be converted. File must be in 'png' format.</p></td>
     </tr>
     <tr>
-      <th>mar</th>
-      <td><p>Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
-delineating spectrogram limits. Default is 0.05.</p></td>
+      <th>duration</th>
+      <td><p>duration of the output wave object (in s).</p></td>
     </tr>
     <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
+      <th>samp.rate</th>
+      <td><p>Numeric vector of length 1 indicating the sampling rate of the output wave object (in kHz). Default is 44.1.</p></td>
     </tr>
     <tr>
-      <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
+      <th>bit.depth</th>
+      <td><p>Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files. Default is 16.</p></td>
     </tr>
     <tr>
-      <th>dest.path</th>
-      <td><p>Character string containing the directory path where the cut sound files will be saved.
-If <code>NULL</code> (default) then the directory containing the sound files will be used instead.</p></td>
+      <th>flim</th>
+      <td><p>Numeric vector of length 2 indicating the highest and lowest 
+frequency limits (kHz) in which the image would be located. Default is <code><a href='https://rdrr.io/r/base/c.html'>c(0, samp.rate / 2)</a></code>.</p></td>
     </tr>
     <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>labels</th>
-      <td><p>String vector. Provides the column names that will be used as labels to
-create sound file names. Note that they should provide unique names (otherwise 
-sound files will be overwritten). Default is <code><a href='https://rdrr.io/r/base/c.html'>c("sound.files", "selec")</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>Logical. If <code>TRUE</code> sound files with the same name will be 
-overwritten. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments to be passed to the internal <code><a href='https://rdrr.io/pkg/tuneR/man/writeWave.html'>writeWave</a></code>  function for customizing sound file output (e.g. normalization).</p></td>
+      <th>plot</th>
+      <td><p>Logical argument to control if image is plotted after being imported into R.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Sound files of the signals listed in the input data frame.</p>
+    <p>A single wave object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function allow users to produce individual sound files from the selections
-listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>.</p>
+    <p>This function converts images in 'png' format into wave objects using the inverse Fourier transformation.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='seltailor.html'>seltailor</a></code> for tailoring selections 
- <a href='https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html'>blog post on cutting sound files</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
-<span class='co'># save wav file examples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
+ <span class='co'>### create image with text to use in the spectrogram</span>
+ <span class='co'># remove margins of plot</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='fl'>4</span>))
 
-<span class='co'># cut selections</span>
-<span class='fu'>cut_sels</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+ <span class='co'># empty plot</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fl'>0</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'n'</span>,<span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ann</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>))
 
-<span class='co'>#check this folder!!</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div><div class='output co'>#&gt; [1] "/tmp/RtmpItQSZG"</div><div class='input'>
+ <span class='co'># text to include</span>
+ <span class='no'>text</span> <span class='kw'>&lt;-</span> <span class='st'>" warbleR "</span>
+
+ <span class='co'># add text</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='no'>text</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>font</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+ <span class='co'># save image in temporary directory</span>
+ <span class='fu'><a href='https://rdrr.io/r/grDevices/dev2bitmap.html'>dev2bitmap</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"temp-img.png"</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pngmono"</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>30</span>)
+
+ <span class='co'># read it </span>
+  <span class='no'>wv</span> <span class='kw'>&lt;-</span> <span class='fu'>image_to_wave</span>(<span class='kw'>file</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"temp-img.png"</span>), <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>12</span>))
+
+ <span class='co'># output wave object</span>
+ <span class='co'># wv</span>
+
+ <span class='co'>## plot it   </span>
+ <span class='co'># reset margins</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>4</span>, <span class='fl'>2</span>) + <span class='fl'>0.1</span>)
+
+ <span class='co'># plot spectrogram</span>
+ <span class='co'># spectro(wv, scale = FALSE, collevels =  seq(-30, 0, 5), </span>
+ <span class='co'># palette = reverse.terrain.colors, ovlp = 90, grid = FALSE, flim = c(2, 11))</span>
+}</div><div class='img'><img src='image_to_wave-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='image_to_wave-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -225,12 +217,11 @@ listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
     <h2>Author</h2>
-    <p>Marcelo Araya-Salas (<a href='mailto:marceloa27@gmail.com'>marceloa27@gmail.com</a>) and Grace Smith Vidaurre</p>
+    <p>Marcelo Araya-Salas (<a href='mailto:marceloa27@gmail.com'>marceloa27@gmail.com</a>)</p>
   </div>
 </div>
 

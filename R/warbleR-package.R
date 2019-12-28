@@ -163,7 +163,7 @@
 #' @importFrom Sim.DiffProc BB GBM
 #' @importFrom methods slotNames
 #' @importFrom dtw dtwDist
-#' @importFrom stats cor dist aggregate approx ave prcomp time ts predict smooth.spline complete.cases spline weighted.mean na.omit var sd rlnorm
+#' @importFrom stats cor dist aggregate approx ave prcomp time ts predict smooth.spline complete.cases spline weighted.mean na.omit var sd rlnorm fft
 #' 
 #' @author Marcelo Araya-Salas & Grace Smith Vidaurre
 #'   
