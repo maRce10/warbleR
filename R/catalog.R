@@ -785,7 +785,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
           # draw spectro
           if (fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)
-          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = X3$...wl...[i], wn = X3$...wn...[i], ovlp = X3$...ovlp...[i], axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = X3$pal[i], fast.spec = fast.spec, main = NULL, grid = gr, page = page, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collevels, collev.min = X3$collev.min[i], cexaxis = cex * 1.2, add = TRUE)
+          spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = X3$...wl...[i], wn = X3$...wn...[i], ovlp = X3$...ovlp...[i], axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = X3$pal[i], fast.spec = fast.spec, main = NULL, grid = gr, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collevels, collev.min = X3$collev.min[i], cexaxis = cex * 1.2, add = TRUE)
           
           #add box
           if (box) boxw_wrblr_int(xys = m[i,], bty = "u", lwd = 1.5)

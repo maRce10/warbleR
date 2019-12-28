@@ -108,7 +108,7 @@ labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{
 
 \item{title.labels}{Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.}
 
-\item{dest.path}{Character string containing the directory path where the cut sound files will be saved.
+\item{dest.path}{Character string containing the directory path where the image files will be saved.
 If \code{NULL} (default) then the folder containing the sound files will be used instead.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram 
