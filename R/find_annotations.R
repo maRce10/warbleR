@@ -67,7 +67,7 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE) {
     qword <- gsub(" ", "%20", qword)
     
     #initialize search
-    q <- rjson::fromJSON(file = paste0("https://api.audioblast.org/annotations/?taxon=", qword))
+    q <- rjson::fromJSON(file = paste0("https://api.audioblast.org/annotations/?agent=warbleR&taxon=", qword))
     
     if (length(q) == 0) cat("No annotations were found") else {
     
