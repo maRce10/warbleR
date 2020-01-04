@@ -2,11 +2,11 @@
 % Please edit documentation in R/xcorr.R
 \name{xcorr}
 \alias{xcorr}
-\title{Spectrogram cross-correlation}
+\title{Time-frequency cross-correlation}
 \usage{
 xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, wn='hanning', 
 cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
- cor.mat = TRUE, compare.matrix = NULL)
+ cor.mat = TRUE, compare.matrix = NULL, type = "spectrogram", nbands = 40)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
@@ -43,6 +43,10 @@ results. This means that all selections with at least 1 cross-correlation that f
 \item{cor.mat}{Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.}
 
 \item{compare.matrix}{A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.}
+
+\item{type}{A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using \code{\link[tuneR]{melfcc}}).}
+
+\item{nbands}{Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40.}
 }
 \value{
 If corr.mat is \code{TRUE} the function returns a matrix with 
@@ -50,10 +54,10 @@ the maximum (peak) correlation for each pairwise comparison. Otherwise it will r
 the maximum correlation for each pairwise comparison, and 3) the frequency range.
 }
 \description{
-\code{xcorr} estimates the similarity of two spectrograms by means of spectrographic cross-correlation
+\code{xcorr} estimates the similarity of two sound waves by means of time-frequency cross-correlation
 }
 \details{
-This function calculates the pairwise similarity of multiple signals by means of spectrogram cross-correlation.
+This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
 This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
@@ -70,9 +74,13 @@ writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
-# run cross correlation
+
+# run cross correlation on spectrograms (SPCC)
 xcor <- xcorr(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
 
+# run cross correlation on Mel cepstral coefficients (mfccs)
+xcor <- xcorr(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir(), type = "mfcc")
+  
 # using the 'compare.matrix' argument to specify pairwise comparisons
 # create matrix with ID of signals to compare
 cmp.mt <- cbind(

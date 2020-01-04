@@ -1,3 +1,15 @@
+# *warbleR 1.1.20*
+
+## Changes and additions:
+
+* mfcc cross-correlation implemented in 'xcorr()' (argument 'type') 
+
+
+## New functions:
+
+* new function 'image_to_wave()' to convert images into wave objects
+
+
 # *warbleR 1.1.19*
 
 ## Changes and additions:

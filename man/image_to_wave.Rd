@@ -59,7 +59,7 @@ This function converts images in 'png' format into wave objects using the invers
  par(mar = c(5, 4, 4, 2) + 0.1)
  
  # plot spectrogram
- # spectro(wv, scale = FALSE, collevels =  seq(-30, 0, 5), 
+ # spectro(wave = wv, scale = FALSE, collevels = seq(-30, 0, 5),
  # palette = reverse.terrain.colors, ovlp = 90, grid = FALSE, flim = c(2, 11))
 }
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Spectrogram cross-correlation — xcorr • warbleR</title>
+<title>Time-frequency cross-correlation — xcorr • warbleR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Spectrogram cross-correlation — xcorr" />
-<meta property="og:description" content="xcorr estimates the similarity of two spectrograms by means of spectrographic cross-correlation" />
+<meta property="og:title" content="Time-frequency cross-correlation — xcorr" />
+<meta property="og:description" content="xcorr estimates the similarity of two sound waves by means of time-frequency cross-correlation" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,18 +124,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Spectrogram cross-correlation</h1>
+    <h1>Time-frequency cross-correlation</h1>
     
     <div class="hidden name"><code>xcorr.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>xcorr</code> estimates the similarity of two spectrograms by means of spectrographic cross-correlation</p>
+    <p><code>xcorr</code> estimates the similarity of two sound waves by means of time-frequency cross-correlation</p>
     </div>
 
     <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='st'>"pairwise.freq.range"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>dens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
 <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+ <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"spectrogram"</span>, <span class='kw'>nbands</span> <span class='kw'>=</span> <span class='fl'>40</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,6 +201,14 @@ results. This means that all selections with at least 1 cross-correlation that f
       <th>compare.matrix</th>
       <td><p>A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. <code><a href='https://rdrr.io/r/base/paste.html'>paste(X$sound.files, X$selec, sep = "-")</a></code>). Default is <code>NULL</code>. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.</p></td>
     </tr>
+    <tr>
+      <th>type</th>
+      <td><p>A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation; internally using <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using <code><a href='https://rdrr.io/pkg/tuneR/man/melfcc.html'>melfcc</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>nbands</th>
+      <td><p>Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using <code>type = "mfcc"</code> (see <code><a href='https://rdrr.io/pkg/tuneR/man/melfcc.html'>melfcc</a></code>). Default is 40.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -210,7 +218,7 @@ the maximum (peak) correlation for each pairwise comparison. Otherwise it will r
 the maximum correlation for each pairwise comparison, and 3) the frequency range.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function calculates the pairwise similarity of multiple signals by means of spectrogram cross-correlation.
+    <p>This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
 This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
@@ -233,8 +241,12 @@ The correlation matrix could have NA's if some of the pairwise correlation did n
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
-<span class='co'># run cross correlation</span>
+
+<span class='co'># run cross correlation on spectrograms (SPCC)</span>
 <span class='no'>xcor</span> <span class='kw'>&lt;-</span> <span class='fu'>xcorr</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+
+<span class='co'># run cross correlation on Mel cepstral coefficients (mfccs)</span>
+<span class='no'>xcor</span> <span class='kw'>&lt;-</span> <span class='fu'>xcorr</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mfcc"</span>)
 
 <span class='co'># using the 'compare.matrix' argument to specify pairwise comparisons</span>
 <span class='co'># create matrix with ID of signals to compare</span>

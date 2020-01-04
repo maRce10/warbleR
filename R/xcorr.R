@@ -1,9 +1,9 @@
-#' Spectrogram cross-correlation 
+#' Time-frequency cross-correlation 
 #' 
-#' \code{xcorr} estimates the similarity of two spectrograms by means of spectrographic cross-correlation
+#' \code{xcorr} estimates the similarity of two sound waves by means of time-frequency cross-correlation
 #' @usage xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
-#'  cor.mat = TRUE, compare.matrix = NULL)
+#'  cor.mat = TRUE, compare.matrix = NULL, type = "spectrogram", nbands = 40)
 #' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -26,12 +26,14 @@
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
 #' @param cor.mat Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.
 #' @param compare.matrix A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.
+#' @param type  A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using \code{\link[tuneR]{melfcc}}).
+#' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40.
 #' @return If corr.mat is \code{TRUE} the function returns a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison. Otherwise it will return a list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
 #' the maximum correlation for each pairwise comparison, and 3) the frequency range. 
 #' @export
 #' @name xcorr
-#' @details This function calculates the pairwise similarity of multiple signals by means of spectrogram cross-correlation.
+#' @details This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
 #' This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
 #' The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 #' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
@@ -47,9 +49,13 @@
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
-#' # run cross correlation
-#' xcor <- xcorr(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
 #' 
+#' # run cross correlation on spectrograms (SPCC)
+#' xcor <- xcorr(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
+#'
+#' # run cross correlation on Mel cepstral coefficients (mfccs)
+#' xcor <- xcorr(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir(), type = "mfcc")
+#'   
 #' # using the 'compare.matrix' argument to specify pairwise comparisons
 #' # create matrix with ID of signals to compare
 #' cmp.mt <- cbind(
@@ -72,7 +78,7 @@
 
 xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, 
                   wn ='hanning', cor.method = "pearson", parallel = 1, 
-                  path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = TRUE, compare.matrix = NULL)
+                  path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = TRUE, compare.matrix = NULL, type = "spectrogram", nbands = 40)
 {
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -175,14 +181,30 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   X <- X[paste(X$sound.files, X$selec, sep = "-") %in% unique(c(compare.matrix)), ]
     
   # get spectrogram for each selection
-  spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(j, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn) {
+  spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(j, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands) {
     
     clp <- warbleR::read_wave(X = W, index = j, path = pth)
     
+    if (type == "spectrogram")
     spc <- seewave::spectro(wave = clp, wl = wlg, ovlp = ovl, wn = w, plot = FALSE, fftw = TRUE, norm = TRUE)
     
-    spc[[3]][is.infinite(spc[[3]])] <- NA
-  
+    if (type == "mfcc")
+      {
+      # calculate MFCCs
+      spc <- melfcc(clp, nbands = nbnds, dcttype = "t3", fbtype = "htkmel", spec_out = TRUE)
+      # change name of target element so it maches spectrogram output names
+      names(spc)[2] <- "amp" 
+      
+     # and flip
+      spc$amp <- t(spc$amp)
+      
+      # add element with freq values for each band
+      spc$freq <- seq(0, clp@samp.rate / 2000, length.out = nbnds)
+      }
+      
+    # repace inf by NA
+    spc$amp[is.infinite(spc$amp)] <- NA
+    
     return(spc)
     })
   
@@ -195,17 +217,17 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   # create function to calculate correlation between 2 spectrograms
   XC_FUN <- function(spc1, spc2, b = bp, cm = cor.method){
     
-    # filter frequency
+    # filter frequency ranges
     spc1$amp <- spc1$amp[spc1$freq >= b[1] & spc1$freq <= b[2], ]
     spc2$amp <- spc2$amp[which(spc2$freq >= b[1] & spc2$freq <= b[2]), ]
-    
+
     # define short and long envelope for sliding one (short) over the other (long)
-    if(ncol(spc1[[3]]) > ncol(spc2[[3]])) {
-      lg.spc <- spc1[[3]]
-      shrt.spc <- spc2[[3]]
+    if(ncol(spc1$amp) > ncol(spc2$amp)) {
+      lg.spc <- spc1$amp
+      shrt.spc <- spc2$amp
     } else {
-      lg.spc <- spc2[[3]]
-      shrt.spc <- spc1[[3]]
+      lg.spc <- spc2$amp
+      shrt.spc <- spc1$amp
     }
     
     # get length of shortest minus 1 (1 if same length so it runs a single correlation)

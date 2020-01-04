@@ -17,7 +17,9 @@ x_corr(
   pb = TRUE,
   na.rm = FALSE,
   cor.mat = TRUE,
-  compare.matrix = NULL
+  compare.matrix = NULL,
+  type = "spectrogram",
+  nbands = 40
 )
 }
 \description{

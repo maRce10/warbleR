@@ -2,7 +2,6 @@
 # based on A. Selin, J. Turunen, and J. T. Tanttu, "Wavelets in recognition of bird sounds" EURASIP Journal on Advances in Signal Pro- cessing, vol. 2007, Article ID 51806, 9 pages, 2007.
 # @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 # last modification on oct-7-2019 (MAS)
-# library(wavethresh)
 
 wpd_feature_wrblr_int <- function(wave, normalize = FALSE, thr1 = 6, thr2 = 0.5){
 
@@ -96,33 +95,3 @@ wpd_feature_wrblr_int <- function(wave, normalize = FALSE, thr1 = 6, thr2 = 0.5)
   
   return(result)
 }
-
-
-# data(tico)
-# 
-# wpd_features(tico, normalize = T)
-# 
-# wave <- cutw(tico, from = 0, to = 1, output = "Wave")
-# wave <- cutw(tico, from = 1, to = 1.1, output = "Wave")
-# 
-# wpd_features(wave, normalize = T)
-# 
-# 
-# # vector de prueba
-# wave <- rnorm(1:512)
-# wave <- tico@left
-# out <- wp(wave, filter.number = 10)
-# 
-# # coeficientes
-# matriz<-out$wp
-# # matriz[8,8]= 35.0
-# bins<-dim(matriz)[2]
-# num_coefs<-dim(matriz)[1]
-# 
-# wpd_feature_wrblr_int(wave, normalize = T)
-# 
-# all.equal(wpd_features(wave),ORGwpd_features(matriz, bins, num_coefs))
-# 
-# all.equal(wpd_features(wave, normalize = T),
-# ORGwpd_features_normalized(matriz, bins, num_wpd_coefs))
-# 
