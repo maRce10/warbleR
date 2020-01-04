@@ -30,7 +30,7 @@ detected peaks.
 \code{find_peaks} find peaks in cross-correlation scores from \code{\link{xcorr}}
 }
 \details{
-This function find cross-correlation peaks along signals (analogous to \code{\link[monitoR]{findPeaks}}).
+This function finds cross-correlation peaks along signals (analogous to \code{\link[monitoR]{findPeaks}}).
 }
 \examples{
 {

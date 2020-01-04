@@ -15,7 +15,7 @@
 #' detected peaks.
 #' @export
 #' @name find_peaks
-#' @details This function find cross-correlation peaks along signals (analogous to \code{\link[monitoR]{findPeaks}}).
+#' @details This function finds cross-correlation peaks along signals (analogous to \code{\link[monitoR]{findPeaks}}).
 #' @examples
 #' {
 #' # load data
