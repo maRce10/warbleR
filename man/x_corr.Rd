@@ -16,7 +16,8 @@ x_corr(
   path = NULL,
   pb = TRUE,
   na.rm = FALSE,
-  cor.mat = TRUE,
+  cor.mat = NULL,
+  output = "cor.mat",
   compare.matrix = NULL,
   type = "spectrogram",
   nbands = 40

@@ -3,6 +3,7 @@
 ## Changes and additions:
 
 * mfcc cross-correlation implemented in 'xcorr()' (argument 'type') 
+* argument 'cor.mat' in 'xcorr()' has been deprecated 
 
 
 ## New functions:

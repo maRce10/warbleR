@@ -3,7 +3,8 @@
 #' \code{xcorr} estimates the similarity of two sound waves by means of time-frequency cross-correlation
 #' @usage xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
-#'  cor.mat = TRUE, compare.matrix = NULL, type = "spectrogram", nbands = 40)
+#'  cor.mat = NULL, output = "cor.mat", compare.matrix = NULL, type = "spectrogram", 
+#'  nbands = 40)
 #' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
@@ -24,13 +25,14 @@
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
-#' @param cor.mat Logical. If \code{TRUE} only the correlation matrix is returned. Default is \code{TRUE}.
+#' @param cor.mat DEPRECATED. Use 'cor.mat' instead.
+#' @param output Character vector of length 1 to determine if only the correlation matrix is returned ('cormat') or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison.
 #' @param compare.matrix A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.
 #' @param type  A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using \code{\link[tuneR]{melfcc}}).
 #' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40.
-#' @return If corr.mat is \code{TRUE} the function returns a matrix with 
-#' the maximum (peak) correlation for each pairwise comparison. Otherwise it will return a list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
-#' the maximum correlation for each pairwise comparison, and 3) the frequency range. 
+#' @return If \code{output = "cor.mat"} the function returns a matrix with 
+#' the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with 
+#' the maximum correlation for each pairwise comparison and 2) a data frame with the correlation statistic for each "sliding" step.
 #' @export
 #' @name xcorr
 #' @details This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
@@ -73,12 +75,15 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' 
 #' H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
+#' 
+#' Lyon, R. H., & Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis. Journal of Mechanical Design, 104(2), 303-306.
 #' }
 # last modification on oct-25-2019 (MAS)
 
 xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, 
                   wn ='hanning', cor.method = "pearson", parallel = 1, 
-                  path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = TRUE, compare.matrix = NULL, type = "spectrogram", nbands = 40)
+                  path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
+                  compare.matrix = NULL, type = "spectrogram", nbands = 40)
 {
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -132,6 +137,11 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   
   # dens deprecated
   if (!is.null(dens))  write(file = "", x = "'dens' has been deprecated and will be ignored")
+  # dens deprecated
+  if (!is.null(cor.mat))  write(file = "", x = "'dens' has been deprecated and will be ignored")
+  
+  #check output
+  if (!any(output %in% c("cor.mat", "list"))) stop("'output' must be either 'cor.mat' or 'list'")  
   
   #if wl is not vector or length!=1 stop
   if (!is.numeric(wl)) stop("'wl' must be a numeric vector of length 1") else {
@@ -303,9 +313,10 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
     mat <- mat[rownames(mat) %in% com.case, colnames(mat) %in% com.case]
     if (nrow(mat) == 0) stop("Not selections remained after removing NAs (na.rm = TRUE)")
   } 
+} else mat <- data.frame(compare.matrix, score = mx.xcrrs)
   
   # create correlation data matrix (keeps all correlation values, not only the maximum)
-  if (!cor.mat) {
+  if (output == "list") {
     cor.lst <- lapply(1:nrow(spc.cmbs.org), function(x) 
       data.frame(
         dyad = paste(spc.cmbs.org[x, ], collapse = "/"), 
@@ -313,20 +324,18 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
         sound.file2 = spc.cmbs.org[x, 2], 
         time = seq(0, length(xcrrs[[x]]) * spcs[[1]]$time[2], length.out = length(xcrrs[[x]])),
         score = xcrrs[[x]]))
-  
+    
     # put together in a single dataframe
     cor.table <- do.call(rbind, cor.lst)
     
     # remove missing values
-  if (na.rm) 
-    cor.table <- cor.table[cor.table$sound.file1 %in% com.case & cor.table$sound.file2 %in% com.case, ]
+    if (na.rm) 
+      cor.table <- cor.table[cor.table$sound.file1 %in% com.case & cor.table$sound.file2 %in% com.case, ]
   } 
   
   #list results
-  if (cor.mat) return(mat) else
-  return(list(correlation.data = cor.table, max.xcorr.matrix = mat))
-} else
-  return(data.frame(compare.matrix, score = mx.xcrrs))
+  if (output == "cor.mat") return(mat) else
+    return(list(max.xcorr.matrix = mat, correlation.data = cor.table))
   
 }
 
