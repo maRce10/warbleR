@@ -4,6 +4,8 @@
 
 * mfcc cross-correlation implemented in 'xcorr()' (argument 'type') 
 * argument 'cor.mat' in 'xcorr()' has been deprecated 
+* new argument 'output' in 'xcorr()'
+* 'xcorr()' can run cross-correlation over whole sound files
 
 
 ## New functions:

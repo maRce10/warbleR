@@ -8,7 +8,7 @@ x_corr(
   X = NULL,
   wl = 512,
   bp = "pairwise.freq.range",
-  ovlp = 90,
+  ovlp = 70,
   dens = NULL,
   wn = "hanning",
   cor.method = "pearson",

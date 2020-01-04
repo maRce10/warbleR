@@ -1,19 +1,20 @@
 #' Time-frequency cross-correlation 
 #' 
 #' \code{xcorr} estimates the similarity of two sound waves by means of time-frequency cross-correlation
-#' @usage xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, wn='hanning', 
+#' @usage xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
 #'  cor.mat = NULL, output = "cor.mat", compare.matrix = NULL, type = "spectrogram", 
 #'  nbands = 40)
 #' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
-#' selection number (selec), and start and end time of signal (start and end).
+#' selection number (selec), and start and end time of signal (start and end). 
+#' All selections must have the same sampling rate. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #' is 512.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicate that values in lowest bottom.freq
 #'   and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.  
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
-#' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
+#' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of ovlp 
 #' slow down the function but produce more accurate results.
 #' @param dens DEPRECATED.
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}. 
@@ -32,11 +33,11 @@
 #' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40.
 #' @return If \code{output = "cor.mat"} the function returns a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with 
-#' the maximum correlation for each pairwise comparison and 2) a data frame with the correlation statistic for each "sliding" step.
+#' the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').
 #' @export
 #' @name xcorr
 #' @details This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
-#' This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
+#' This method "slides" the spectrogram of the sorthest selection over the longest one calculating a correlation of the amplitude values at each step.
 #' The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 #' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
 #' of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. 
@@ -78,9 +79,9 @@
 #' 
 #' Lyon, R. H., & Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis. Journal of Mechanical Design, 104(2), 303-306.
 #' }
-# last modification on oct-25-2019 (MAS)
+# last modification on jan-03-2020 (MAS)
 
-xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, 
+xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL, 
                   wn ='hanning', cor.method = "pearson", parallel = 1, 
                   path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
                   compare.matrix = NULL, type = "spectrogram", nbands = 40)
@@ -176,6 +177,69 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   # check sampling rate is the same for all selections if not a selection table
   if (is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("sampling rate must be the same for all selections")
   
+  # add selection id column to X
+  X$selection.id <- paste(X$sound.files, X$selec, sep = "-")
+  
+  # keep only selections in supplied compare.matrix to improve performance
+  if (!is.null(compare.matrix))
+  X <- X[X$selection.id %in% unique(c(compare.matrix)), ]
+    
+  # generate all possible combinations of selections, keep one with the orignal order of rows to create cor.table output
+  if (is.null(compare.matrix))
+    spc.cmbs.org <- spc.cmbs <- t(combn(X$selection.id, 2)) else
+    {
+      # if all are selection in compare.matrix are from X
+      if (all(c(compare.matrix) %in% X$selection.id))
+        spc.cmbs.org <- spc.cmbs <- compare.matrix else {
+          
+          # if some are complete sound files
+          complt.sf <- setdiff(c(compare.matrix), X$selection.id)
+          
+          # get duration of files
+          wvdr <- wav_dur(files = complt.sf, path = path)
+          
+          # put it in a data frame
+          names(wvdr)[2] <- "end"
+          wvdr$start <- 0
+          wvdr$selec <- "whole.file"    
+          wvdr$selection.id <- paste(wvdr$sound.files, wvdr$selec, sep = "-")
+          
+          out <- lapply(1:nrow(wvdr), function(x) {
+            
+            # get selection that are compared against each complete sound file
+            sls <- setdiff(c(compare.matrix[compare.matrix[, 1] %in% wvdr$sound.files[x] | compare.matrix[, 2] %in% wvdr$sound.files[x], ]), wvdr$sound.files[x])
+            
+            # get freq range as min bottom and max top of all selections to be compared against a given sound file
+            # channel is also the lowest
+            suppressWarnings(df <- data.frame(
+              wvdr[x, ], 
+              channel = min(X$channel[X$selection.id %in% sls]),
+              bottom.freq = min(X$bottom.freq[X$selection.id %in% sls]),
+              top.freq = max(X$top.freq[X$selection.id %in% sls])
+            )) 
+            
+            return(df)
+            
+          })
+          
+          wvdr <- do.call(rbind, out)        
+          
+          #get intersect of column names
+          int.nms <- intersect(names(X), names(wvdr))
+          
+          # overwrite X
+          X <- rbind(X[, int.nms], wvdr[, int.nms])
+          
+          # change complete file names in compare matrix
+          for (i in complt.sf)
+            compare.matrix[compare.matrix == i] <- paste(i, "whole.file", sep = "-")
+          
+          # set new matrices to allow changes down stream
+          spc.cmbs.org <- spc.cmbs <- compare.matrix
+        }
+      
+    }
+  
   #create spectrograms
   if (pb) write(file = "", x ="creating spectrogram matrices (step 1 of 2):")
   
@@ -186,10 +250,6 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-  # keep only selections in supplied compare.matrix to improve performance
-  if (!is.null(compare.matrix))
-  X <- X[paste(X$sound.files, X$selec, sep = "-") %in% unique(c(compare.matrix)), ]
-    
   # get spectrogram for each selection
   spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(j, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands) {
     
@@ -222,7 +282,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   if (!is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop("sampling rate must be the same for all selections")
   
     # add selection name
-  names(spcs) <- paste(X$sound.files, X$selec, sep = "-")
+  names(spcs) <- X$selection.id
 
   # create function to calculate correlation between 2 spectrograms
   XC_FUN <- function(spc1, spc2, b = bp, cm = cor.method){
@@ -257,10 +317,6 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
     return(cors)
   }
   
-  # generate all possible combinations of selections, keep one with the orignal order of rows to create cor.table output
-  if (is.null(compare.matrix))
-  spc.cmbs.org <- spc.cmbs <- t(combn(names(spcs), 2)) else
-    spc.cmbs.org <- spc.cmbs <- compare.matrix
   
   # shuffle spectrograms index so are not compared in sequence, which makes progress bar more precise when some selections are much longer than others
   ord.shuf <- sample(1:nrow(spc.cmbs))
@@ -278,7 +334,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   xcrrs <- pbapply::pblapply(X = 1:nrow(spc.cmbs), cl = cl, FUN = function(j, BP = bp, cor.meth = cor.method) {
     
     if (BP[1] %in% c("pairwise.freq.range", "frange"))
-    BP <- c(min(X$bottom.freq[paste(X$sound.files, X$selec, sep = "-") %in% spc.cmbs[j, ]]), max(X$top.freq[paste(X$sound.files, X$selec, sep = "-") %in% spc.cmbs[j, ]]))
+    BP <- c(min(X$bottom.freq[X$selection.id %in% spc.cmbs[j, ]]), max(X$top.freq[X$selection.id %in% spc.cmbs[j, ]]))
     
     XC_FUN(spc1 = spcs[[spc.cmbs[j, 1]]], spc2 = spcs[[spc.cmbs[j, 2]]], b = BP, cm = cor.meth)
   })
@@ -295,7 +351,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   #create a similarity matrix with the max xcorr
   mat <- matrix(nrow = nrow(X), ncol = nrow(X))
   mat[] <- 1
-  colnames(mat) <- rownames(mat) <- paste(X$sound.files, X$selec, sep = "-")
+  colnames(mat) <- rownames(mat) <- X$selection.id
   
   # add max correlations
   mat[lower.tri(mat, diag=FALSE)] <- mx.xcrrs
@@ -315,16 +371,30 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   } 
 } else mat <- data.frame(compare.matrix, score = mx.xcrrs)
   
-  # create correlation data matrix (keeps all correlation values, not only the maximum)
+  ## create correlation data matrix (keeps all correlation values, not only the maximum)
+  # time is the one of the longest selection as the shortest is used as template 
   if (output == "list") {
     cor.lst <- lapply(1:nrow(spc.cmbs.org), function(x) 
-      data.frame(
+      {
+      # get duration of both selections
+      durs <- c(
+        (X$end - X$start)[X$selection.id == spc.cmbs.org[x, 1]],
+                (X$end - X$start)[X$selection.id == spc.cmbs.org[x, 2]]
+        )
+      
+      # put in a data frame
+      df <- data.frame(
         dyad = paste(spc.cmbs.org[x, ], collapse = "/"), 
-        sound.file1 = spc.cmbs.org[x, 1], 
-        sound.file2 = spc.cmbs.org[x, 2], 
-        time = seq(0, length(xcrrs[[x]]) * spcs[[1]]$time[2], length.out = length(xcrrs[[x]])),
-        score = xcrrs[[x]]))
-    
+        sound.files = spc.cmbs.org[x, which.max(durs)], 
+        template = spc.cmbs.org[x, which.min(durs)], 
+        time = seq(min(durs) / 2, max(durs) - min(durs) / 2,  
+                   , length.out = length(xcrrs[[x]])),
+        score = xcrrs[[x]])
+      
+      return(df)
+      })
+   
+     
     # put together in a single dataframe
     cor.table <- do.call(rbind, cor.lst)
     
@@ -335,7 +405,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 90, den
   
   #list results
   if (output == "cor.mat") return(mat) else
-    return(list(max.xcorr.matrix = mat, correlation.data = cor.table))
+    return(list(max.xcorr.matrix = mat, scores = cor.table, selection.table = X,  hop.size.ms = read_wave(X, 1, header = TRUE, path = path)$sample.rate / wl))
   
 }
 

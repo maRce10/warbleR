@@ -133,9 +133,10 @@
     <p><code>xcorr</code> estimates the similarity of two sound waves by means of time-frequency cross-correlation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='st'>"pairwise.freq.range"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>dens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
+    <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='st'>"pairwise.freq.range"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>, <span class='kw'>dens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
 <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"spectrogram"</span>, <span class='kw'>nbands</span> <span class='kw'>=</span> <span class='fl'>40</span>)</pre>
+ <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"cor.mat"</span>, <span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"spectrogram"</span>,
+ <span class='kw'>nbands</span> <span class='kw'>=</span> <span class='fl'>40</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,7 +144,8 @@
     <tr>
       <th>X</th>
       <td><p>'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
-selection number (selec), and start and end time of signal (start and end).</p></td>
+selection number (selec), and start and end time of signal (start and end). 
+All selections must have the same sampling rate.</p></td>
     </tr>
     <tr>
       <th>wl</th>
@@ -159,7 +161,7 @@ and highest top.freq columns for the signals involved in a pairwise comparison w
     <tr>
       <th>ovlp</th>
       <td><p>Numeric vector of length 1 specifying % of overlap between two 
-consecutive windows, as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is 90. High values of ovlp 
+consecutive windows, as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is 70. High values of ovlp 
 slow down the function but produce more accurate results.</p></td>
     </tr>
     <tr>
@@ -195,7 +197,11 @@ results. This means that all selections with at least 1 cross-correlation that f
     </tr>
     <tr>
       <th>cor.mat</th>
-      <td><p>Logical. If <code>TRUE</code> only the correlation matrix is returned. Default is <code>TRUE</code>.</p></td>
+      <td><p>DEPRECATED. Use 'cor.mat' instead.</p></td>
+    </tr>
+    <tr>
+      <th>output</th>
+      <td><p>Character vector of length 1 to determine if only the correlation matrix is returned ('cormat') or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison.</p></td>
     </tr>
     <tr>
       <th>compare.matrix</th>
@@ -213,20 +219,20 @@ results. This means that all selections with at least 1 cross-correlation that f
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If corr.mat is <code>TRUE</code> the function returns a matrix with 
-the maximum (peak) correlation for each pairwise comparison. Otherwise it will return a list that includes 1) a data frame with the correlation statistic for each "sliding" step, 2) a matrix with 
-the maximum correlation for each pairwise comparison, and 3) the frequency range.</p>
+    <p>If <code>output = "cor.mat"</code> the function returns a matrix with 
+the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with 
+the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
-This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
+This method "slides" the spectrogram of the sorthest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
 of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. 
 The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.H. Khanna, S.L.L. Gaunt &amp; D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234</p>
+    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.H. Khanna, S.L.L. Gaunt &amp; D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234Lyon, R. H., &amp; Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis. Journal of Mechanical Design, 104(2), 303-306.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='mfcc_stats.html'>mfcc_stats</a></code>, <code><a href='specan.html'>specan</a></code>, <code><a href='df_DTW.html'>df_DTW</a></code></p></div>

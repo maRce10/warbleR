@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Splits sound files — split_wavs • warbleR</title>
+<title>Find cross-correlation peaks — find_peaks • warbleR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Splits sound files — split_wavs" />
-<meta property="og:description" content="split_wavs splits sound files in shorter segments" />
+<meta property="og:title" content="Find cross-correlation peaks — find_peaks" />
+<meta property="og:description" content="find_peaks find peaks in cross-correlation scores from xcorr" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,37 +124,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Splits sound files</h1>
+    <h1>Find cross-correlation peaks</h1>
     
-    <div class="hidden name"><code>split_wavs.Rd</code></div>
+    <div class="hidden name"><code>find_peaks.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>split_wavs</code> splits sound files in shorter segments</p>
+    <p><code>find_peaks</code> find peaks in cross-correlation scores from <code><a href='xcorr.html'>xcorr</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>split_wavs</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sgmt.dur</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>sgmts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>files</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
- <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>find_peaks</span>(<span class='no'>xc.output</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+<span class='kw'>max.peak</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>Directory path where sound files are found. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>sgmt.dur</th>
-      <td><p>Numeric. Duration (in s) of segments in which sound files would be split. Sound files shorter than 'sgmt.dur' won't be split. Ignored if 'sgmts' is supplied.</p></td>
-    </tr>
-    <tr>
-      <th>sgmts</th>
-      <td><p>Numeric. Number of segments in which to split each sound file. If supplied 'sgmt.dur' is ignored.</p></td>
-    </tr>
-    <tr>
-      <th>files</th>
-      <td><p>Character vector indicating the subset of files that will be split.</p></td>
+      <th>xc.output</th>
+      <td><p>output of <code><a href='xcorr.html'>xcorr</a></code> after setting <code>output = "list"</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -162,42 +149,54 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
     </tr>
     <tr>
+      <th>cutoff</th>
+      <td><p>Numeric vector of length 1 with a value between 0 and 1 specifying the correlation cutoff for detecting peaks. Default is 0.4.</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>Character string containing the directory path where the sound files are located. 
+If <code>NULL</code> (default) then the current working directory is used.</p></td>
+    </tr>
+    <tr>
       <th>pb</th>
       <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>max.peak</th>
+      <td><p>Logical argument to control whether only the peak with the highest correlation value is returned (if TRUE; cutoff will be ignored). Default is <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Wave files for each segment in the working directory (named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the cuts (sound.files) and the start and end of cuts in the original files.</p>
+    <p>The function returns a data frame with time and correlation score for the  
+detected peaks.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. <code><a href='auto_detec.html'>auto_detec</a></code> ).</p>
+    <p>This function find cross-correlation peaks along signals (analogous to <code><a href='https://rdrr.io/pkg/monitoR/man/findPeaks.html'>findPeaks</a></code>).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
+    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.H. Khanna, S.L.L. Gaunt &amp; D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='cut_sels.html'>cut_sels</a></code></p>
-<p>Other data manipulation: 
-<code><a href='move.imgs.html'>move.imgs</a>()</code>,
-<code><a href='open_wd.html'>open_wd</a>()</code></p></div>
+    <div class='dont-index'><p><code><a href='autodetec.html'>autodetec</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/findPeaks.html'>findPeaks</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
-<span class='co'>#load data and save to temporary working directory</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>))
+<span class='co'># load data</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"lbh_selec_table2"</span>, <span class='st'>"comp_matrix"</span>))
+
+<span class='co'># save sound files</span>
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
 
-<span class='co'>#split files in 1 s files</span>
-<span class='fu'>split_wavs</span>(<span class='kw'>sgmt.dur</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='co'># run cross-correlation</span>
+<span class='no'>xc.output</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='xcorr.html'>xcorr</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table2</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"list"</span>,
+<span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='no'>comp_matrix</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
-<span class='co'># Check this folder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |++                                                | 3 % ~00s            |++++                                              | 6 % ~00s            |+++++                                             | 9 % ~00s            |+++++++                                           | 12% ~00s            |++++++++                                          | 16% ~00s            |++++++++++                                        | 19% ~00s            |+++++++++++                                       | 22% ~00s            |+++++++++++++                                     | 25% ~00s            |+++++++++++++++                                   | 28% ~00s            |++++++++++++++++                                  | 31% ~00s            |++++++++++++++++++                                | 34% ~00s            |+++++++++++++++++++                               | 38% ~00s            |+++++++++++++++++++++                             | 41% ~00s            |++++++++++++++++++++++                            | 44% ~00s            |++++++++++++++++++++++++                          | 47% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |+++++++++++++++++++++++++++                       | 53% ~00s            |+++++++++++++++++++++++++++++                     | 56% ~00s            |++++++++++++++++++++++++++++++                    | 59% ~00s            |++++++++++++++++++++++++++++++++                  | 62% ~00s            |+++++++++++++++++++++++++++++++++                 | 66% ~00s            |+++++++++++++++++++++++++++++++++++               | 69% ~00s            |++++++++++++++++++++++++++++++++++++              | 72% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++          | 78% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 81% ~00s            |+++++++++++++++++++++++++++++++++++++++++++       | 84% ~00s            |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++++   | 94% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++++++ | 97% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [1] "/tmp/RtmpstbLbe"</div><div class='input'>
-</div></pre>
+<span class='co'># find peaks</span>
+<span class='no'>pks</span> <span class='kw'>&lt;-</span> <span class='fu'>find_peaks</span>(<span class='kw'>xc.output</span> <span class='kw'>=</span> <span class='no'>xc.output</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -211,7 +210,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     </ul>
 
     <h2>Author</h2>
-    <p>Marcelo Araya-Salas (<a href='mailto:marceloa27@gmail.com'>marceloa27@gmail.com</a>)</p>
+    <p>Marcelo Araya-Salas <a href='mailto:marceloa27@gmail.com'>marceloa27@gmail.com</a>)</p>
   </div>
 </div>
 

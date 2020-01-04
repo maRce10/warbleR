@@ -4,13 +4,15 @@
 \alias{xcorr}
 \title{Time-frequency cross-correlation}
 \usage{
-xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 90, dens = NULL, wn='hanning', 
+xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL, wn='hanning', 
 cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
- cor.mat = NULL, output = "cor.mat", compare.matrix = NULL, type = "spectrogram", nbands = 40)
+ cor.mat = NULL, output = "cor.mat", compare.matrix = NULL, type = "spectrogram", 
+ nbands = 40)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
-selection number (selec), and start and end time of signal (start and end).}
+selection number (selec), and start and end time of signal (start and end). 
+All selections must have the same sampling rate.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
@@ -20,7 +22,7 @@ frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicat
 and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
-consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90. High values of ovlp 
+consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of ovlp 
 slow down the function but produce more accurate results.}
 
 \item{dens}{DEPRECATED.}
@@ -53,14 +55,14 @@ results. This means that all selections with at least 1 cross-correlation that f
 \value{
 If \code{output = "cor.mat"} the function returns a matrix with 
 the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with 
-the maximum correlation for each pairwise comparison and 2) a data frame with the correlation statistic for each "sliding" step.
+the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').
 }
 \description{
 \code{xcorr} estimates the similarity of two sound waves by means of time-frequency cross-correlation
 }
 \details{
 This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
-This method "slides" one spectrogram over the other calculating a correlation of the amplitude values at each step.
+This method "slides" the spectrogram of the sorthest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
 of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. 
