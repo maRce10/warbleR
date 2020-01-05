@@ -89,6 +89,12 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
+  # define number of steps in analysis to print message
+  if (pb){
+    max.stps <- getOption("warbleR.steps")
+    if (is.null(max.stps)) max.stps <- 2
+}  
+  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(xcorr)
@@ -241,7 +247,8 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     }
   
   #create spectrograms
-  if (pb) write(file = "", x ="creating spectrogram matrices (step 1 of 2):")
+     if (pb) 
+       write(file = "", x = paste0("creating spectrogram matrices (step 1 of ", max.stps,"):"))
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
@@ -325,7 +332,9 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   spc.cmbs <- spc.cmbs[ord.shuf, , drop = FALSE]
   
   #run cross-correlation
-  if (pb) write(file = "", x ="running cross-correlation (step 2 of 2):")
+  if (pb) 
+    write(file = "", x = paste0("running cross-correlation (step 2 of ", max.stps,"):"))
+        
   
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel

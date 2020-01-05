@@ -82,7 +82,9 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
     dat <- xc.output$scores[xc.output$scores$dyad == i, ]
 
     # get peaks as the ones higher than previous and following scores  
-    pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score > cutoff, ]
+    if (max.peak) # get the single highest peak
+      pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score == max(dat$score), , drop = FALSE][1, , drop = FALSE] else
+      pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score > cutoff, ]
     
     return(pks)
   })
@@ -103,14 +105,17 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   
   #### add start and end
   # add template column to selection table in xc.output
-  xc.output$selection.table$template <- paste(xc.output$selection.table$sound.files, xc.output$selection.table$selec, sep = "-")
+  Y <- xc.output$selection.table
+  Y$template <- paste(Y$sound.files, Y$selec, sep = "-")
+  
+  # Y <- Y[Y$template %in% comp_mat[, 1], ]
   
   # add start as time - half duration of template
   peaks$start <- sapply(1:nrow(peaks), function(i){
    
     peaks$time[i] - 
-    ((xc.output$selection.table$end[xc.output$selection.table$template == peaks$template[i]] - 
-    xc.output$selection.table$start[xc.output$selection.table$template == peaks$template[i]])  / 2)
+    ((Y$end[Y$template == peaks$template[i]] - 
+    Y$start[Y$template == peaks$template[i]])  / 2)
     
   })
   
@@ -118,8 +123,8 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   peaks$end <- sapply(1:nrow(peaks), function(i){
     
     peaks$time[i] + 
-      ((xc.output$selection.table$end[xc.output$selection.table$template == peaks$template[i]] - 
-         xc.output$selection.table$start[xc.output$selection.table$template == peaks$template[i]]) / 2)
+      ((Y$end[Y$template == peaks$template[i]] - 
+         Y$start[Y$template == peaks$template[i]]) / 2)
     
   })
   
