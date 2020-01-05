@@ -458,9 +458,13 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
   
   if (is.data.frame(Y)) 
   {
-    attributes(Y)$wave.objects <- attributes(X)$wave.objects[names(attributes(X)$wave.objects) %in% Y$sound.files] 
+      # subset wave objects in attributes
+      attributes(Y)$wave.objects <- attributes(X)$wave.objects[names(attributes(X)$wave.objects) %in% Y$sound.files] 
     
-    attributes(Y)$check.results <- attributes(X)$check.results[attributes(X)$check.results$sound.files %in% Y$sound.files, ] 
+      attributes(Y)$check.results <- 
+        attributes(X)$check.results[paste(attributes(X)$check.results$sound.files, attributes(X)$check.results$selec) %in% paste(Y$sound.files, Y$selec), ] 
+      
+      # attributes(Y)$check.results <- attributes(X)$check.results[attributes(X)$check.results$sound.files %in% Y$sound.files, ] 
     
     attributes(Y)$by.song <- attributes(X)$by.song
     

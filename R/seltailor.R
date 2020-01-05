@@ -8,7 +8,7 @@
 #'   width = 15, height = 5, index = NULL, collevels = NULL, 
 #'   title = c("sound.files", "selec"), ts.df = NULL, col = "#E37222", 
 #'   alpha = 0.7, auto.contour = FALSE, ...)
-#' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection_table', 'extended_selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can 
 #' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.
@@ -157,11 +157,13 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
       stop("'path' provided does not exist") 
+  
+  # unique path for csv file
+  csv.path <- path
   
   # no autonext if ts.df provided
   if (auto.next & !is.null(ts.df)) {
@@ -174,9 +176,29 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   {  if (is.data.frame(ts.df))
     {
     if (nrow(X) != nrow(ts.df)) stop("number of rows in 'ts.df' and 'X' do not match")
+    
+    # fix and extract colnames from ts.df
     names(ts.df)[-c(1:2)] <- gsub("_|-", ".", names(ts.df)[-c(1:2)])
+    
+    # get extra names other than sound.files and selec 
     ncl <- names(ts.df)[-c(1:2)]
+    
+    # stop if not alls selections have contour data
+    if(!identical(paste(ts.df$sound.files, ts.df$selec), paste(X$sound.files, X$selec))) 
+      stop("Not all selections in 'X' have countour data in 'ts.df'")
+    
+    # add contour data to X
+    if (is_extended_selection_table(X)){
+      
+      # merge to a different object name
+      X2 <- merge(X, ts.df, by = c("sound.files", "selec"))
+      
+      # and add acousitc and metadata
+      X <- fix_extended_selection_table(X = X2, Y = X)
+      
+    } else
     X <- merge(X, ts.df, by = c("sound.files", "selec"))
+    
     } else 
       { # if ts.df is a list
       if (nrow(X) != length(ts.df)) stop("number of rows in 'X' and length of 'ts.df' do not match")
@@ -215,41 +237,49 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   if (any(!title %in% names(X))) stop(paste('title column(s)', title[!title %in% names(X)], "not found"))
   
   # stop if not all sound files were found
-  fs <- list.files(path = path,pattern = "\\.wav$", ignore.case = TRUE)
+  if (!is_extended_selection_table(X)){
+    fs <- list.files(path = path,pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     stop(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                ".wav file(s) not found"))
+  } else path <- NULL # if is extended then no path needed
   
   if (frange & !all(any(names(X) == "bottom.freq"), any(names(X) == "top.freq")))
     X$top.freq <- X$bottom.freq <- NA
   
-  if (!file.exists("seltailor_output.csv"))
+  # if file is not found
+  if (!file.exists(file.path(csv.path, "seltailor_output.csv")))
   {
     X$tailored <- ""
   X$tailored <- as.character(X$tailored)
   if (!is.null(index))   X$tailored[!1:nrow(X) %in% index] <- "y"
-  write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
+  write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)  
   } else {
     # tell user file already existed
     write(file = "", x = "'seltailor_output.csv' found in working directory, resuming tailoring ...")
 
-        X <- read.csv(file.path(path, "seltailor_output.csv"), stringsAsFactors = FALSE)  
-  
-        if(!is.null(ts.df))
+    if (is_extended_selection_table(X)){
+      # read with different object name
+      X2 <- read.csv(file.path(csv.path, "seltailor_output.csv"), stringsAsFactors = FALSE)
+     
+      # and add acousitc and metadata
+      X <- fix_extended_selection_table(X = X2, Y = X)
+      
+       } else
+        X <- read.csv(file.path(csv.path, "seltailor_output.csv"), stringsAsFactors = FALSE) 
+       # stop if all selections were analyzed
+       if (any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
+       if (all(any(!is.na(X$tailored)), sum(X$tailored %in% c("y", "delete")) == nrow(X))) {
+         
+         write(file = "", x = "all selections have been analyzed")
+         stop() 
+       } 
+        
+       # add with time series data    
+        if(!is.null(ts.df)){
           if (any(!names(ts.df) %in% names(X)))
             stop("'seltailor_output.csv' file in working directory does not contain frequency contour columns")  
         
-        
-        
-        if (any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <-""
-  if (all(any(!is.na(X$tailored)),nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X))) {
-    
-    write(file = "", x = "all selections have been analyzed")
-    stop() 
-  } 
-        if(!is.null(ts.df))
-        {
-          # ncl <- intersect(names(ts.df2), names(X))
           ncl <- ncl[!ncl %in% c("sound.files", "selec")]
         }
   }
@@ -274,7 +304,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     j <- dn[h]
     
     if (exists("prev.plot")) rm(prev.plot)
-    rec <- warbleR::read_wave(X$sound.files[j], path = path, header = TRUE)
+    rec <- warbleR::read_wave(X, index = j, path = path, header = TRUE)
     main <- do.call(paste, as.list(X[j, names(X) %in% title])) 
     
     f <- rec$sample.rate #for spectro display
@@ -293,11 +323,11 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     par(mfrow = c(1,1), mar = c(3, 3, 1.8, 0.1))
     
     #create spectrogram
-    spectro_wrblr_int(warbleR::read_wave(X = X$sound.files[j], path = path, from =  tlim[1], to = tlim[2]), 
+    spectro_wrblr_int(warbleR::read_wave(X = X, index = j, path = path, from =  tlim[1], to = tlim[2]), 
                       f = f, wl = wl, ovlp = ovlp, wn = wn, heights = c(3, 2), 
                       osc = osci, palette =  pal, main = NULL, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "#07889B", collevels = collevels,
-                      flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, 
-                      ...)
+                      flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, ...
+                      )
     if (!osci)
     {
       mtext("Time (s)", side=1, line= 1.8)
@@ -308,13 +338,14 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     mtext(main, side = 3, line = 0.65,  xpd = NA, las = 0, font = 2, cex = 1.3, col = "#062F4F")
     
     #progress bar
-    prct <- 1 - (nrow(X[X$tailored == "", ]) / org.sel.n)
+    prct <- 1 - (sum(X$tailored == "") / org.sel.n)
     x2 <- prct * diff(tlim)
     y <- fl[2] + diff(fl) *  0.022
     lines(x = c(0, x2), y = rep(y, 2), lwd = 7, col = adjustcolor("#E37222", alpha.f = 0.6), xpd = TRUE)
     text(x = x2 + (diff(tlim) * 0.017), y = y, xpd = TRUE, labels = paste0(floor(prct * 100), "%"), col = "#E37222", cex = 0.8)
     
     options(warn = -1)
+    
     #add lines of selections on spectrogram
     if ((any(is.na(X$bottom.freq[j]), is.na(X$top.freq[j]))))
       polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(fl, sort(fl, decreasing = TRUE)), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15))  else
@@ -360,7 +391,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         rm(Y)
         
         if (selcount > 0) X$tailored[j] <- "y"
-        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
+        write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)
       }
     
     #if delete
@@ -368,11 +399,11 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     {    
       # delete row
       X$tailored[j] <- "delete"
-      write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
-      if (nrow(X[X$tailored %in% c("y", "delete") ,]) == nrow(X)) {
+      write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)  
+      if (sum(X$tailored %in% c("y", "delete")) == nrow(X)) {
         dev.off()
         #return X
-        return(droplevels(X[X$tailored != "delete", ]))
+        return(X[X$tailored != "delete", ])
         
         write(file = "", x = "all selections have been analyzed")
         stop() 
@@ -393,12 +424,12 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
     {    
       X$tailored[j] <- "y"
-      write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
+      write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)  
       
-      if (nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) {
+      if (sum(X$tailored %in% c("y", "delete")) == nrow(X)) {
         dev.off()
         #return X
-        return(droplevels(X[X$tailored != "delete", ]))
+        return(X[X$tailored != "delete", ])
         
         write(file = "", x = "all selections have been analyzed")
         stop() 
@@ -411,9 +442,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     {
       dev.off()
       if (selcount > 0) X$tailored[j] <- "y"
-      write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
+      write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)
       #return X
-      return(droplevels(X[X$tailored != "delete", ]))
+      return(X[X$tailored != "delete", ])
       
       write(file = "", x = "Stopped by user")
       stop() 
@@ -442,7 +473,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
           rm(Y)
           
           if (selcount > 0) X$tailored[j] <- "y"
-          write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
+          write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)
         }
       
       #if delete
@@ -450,12 +481,12 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       {    
         # delete row
         X$tailored[j] <- "delete"
-        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
-        if (nrow(X[X$tailored %in% c("y", "delete") ,]) == nrow(X)) {
+        write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)  
+        if (sum(X$tailored %in% c("y", "delete")) == nrow(X)) {
           dev.off()
           
           #return X
-          return(droplevels(X[X$tailored != "delete", ]))
+          return(X[X$tailored != "delete", ])
           
           write(file = "", x = "all selections have been analyzed")
           stop() 
@@ -479,13 +510,13 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
       {    
         X$tailored[j] <- "y"
-        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)  
+        write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)  
         
-        if (nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) {
+        if (sum(X$tailored %in% c("y", "delete")) == nrow(X)) {
           dev.off()
           
           #return X
-          return(droplevels(X[X$tailored != "delete", ]))
+          return(X[X$tailored != "delete", ])
           
           options(show.error.messages=FALSE)
           write(file = "", x = "all selections have been analyzed")
@@ -499,11 +530,11 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
       {dev.off()
         if (selcount > 0) X$tailored[j] <- "y"
-        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
+        write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)
       
         
         #return X
-        return(droplevels(X[X$tailored != "delete", ]))
+        return(X[X$tailored != "delete", ])
         
         write(file = "", x = "Stopped by user")
         stop()}
@@ -541,13 +572,13 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         }
         
         # save selections
-        write.csv(droplevels(X[X$tailored != "delete", ]), "seltailor_output.csv", row.names =  FALSE)
+        write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)
         
-        if (nrow(X[X$tailored %in% c("y", "delete"),]) == nrow(X)) { 
+        if (sum(X$tailored %in% c("y", "delete")) == nrow(X)) { 
           dev.off()
           
           #return X
-          return(droplevels(X[X$tailored != "delete", ]))
+          return(X[X$tailored != "delete", ])
           
           write(file = "", x = "all selections have been analyzed")
           stop() 

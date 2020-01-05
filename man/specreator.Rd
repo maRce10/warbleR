@@ -104,7 +104,7 @@ provide a single spectrogram containing all elements for each song will be produ
 the function assumes that each song has a unique label within a sound file. If \code{NULL} (default), spectrograms are produced for single selections.}
 
 \item{sel.labels}{Character string with the name of the column(s) for selection 
-labeling. Ignored if 'by.song' is \code{NULL}. Default is 'selec'. Set to \code{NULL} to remove labels.}
+labeling. Default is 'selec'. Set to \code{NULL} to remove labels.}
 
 \item{title.labels}{Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.}
 

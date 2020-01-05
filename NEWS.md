@@ -7,7 +7,7 @@
 * new argument 'output' in 'xcorr()'
 * new example data 'comp_matrix' and 'lbh_selec_table2' for using on 'find_peaks()'
 * 'xcorr()' can run cross-correlation over whole sound files
-
+* 'seltailor()' can take now extended selection tables
 
 ## New functions:
 

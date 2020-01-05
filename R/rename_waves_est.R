@@ -4,7 +4,7 @@
 #' @export rename_waves_est
 #' @usage rename_waves_est(X, new.sound.files, new.selec = NULL)
 #' @param X object of class 'extended_selection_table'. 
-#' @param new.sound.files Character vector of length equals to the number of rows in 'X'. Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'. Must be provided and must contain unique labels for each row if the extended selection table was not created by song (see  \code{\link{selection_table}}).
+#' @param new.sound.files Character vector of length equals to the number of rows in 'X'. Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'. Must be provided and must contain unique labels for each row if the extended selection table was created by element (see  \code{\link{selection_table}}). If created by song, then a single name for each sound file should be supplied.
 #' @param new.selec Numeric or character vector of length equals to the number of rows in 'X' to specify the 'selec' column labels. Default is \code{NULL}. If not provided the 'selec' column is kept unchanged. Note that the combination of 'sound.files' and 'selec' columns must produce unique IDs for each selection (row).
 #' @return An extended selection table with rename sound files names in data frame and attributes. The function adds columns with the previous sound file names (and 'selec' if provided).
 #' @family extended selection table manipulation
@@ -43,6 +43,8 @@ rename_waves_est <- function(X, new.sound.files, new.selec = NULL){
   # check length of new.sound.files
   if (length(new.sound.files) != nrow(X)) stop("length of 'new.sound.files' must be equal to number of rows in 'X'")
 
+  if (attributes(X)$by.song$by.song & length(unique(new.sound.files)) != length((attributes(X)$wave.objects))) stop("number of unique 'new.sound.files' must be equal to number of wave objects in 'X'")
+  
   attributes(X)$check.results <-  attributes(X)$check.results[match(paste(X$sound.files, paste(X$selec)), paste(attributes(X)$check.results$sound.files, attributes(X)$check.results$selec)), ]
   
   # save old name
