@@ -81,10 +81,12 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
     # extract data for a dyad
     dat <- xc.output$scores[xc.output$scores$dyad == i, ]
 
-    # get peaks as the ones higher than previous and following scores  
-    if (max.peak) # get the single highest peak
-      pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score == max(dat$score), , drop = FALSE][1, , drop = FALSE] else
-      pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score > cutoff, ]
+    ## get peaks as the ones higher than previous and following scores  
+    pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score > cutoff, , drop = FALSE]
+    
+    # get the single highest peak
+    if (max.peak)
+      pks <- pks[which.max(pks$score), , drop = FALSE]
     
     return(pks)
   })
@@ -131,6 +133,7 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   # add selec labels
   peaks$selec <- 1
 
+  if (nrow(peaks) > 1)
   for(i in 2:nrow(peaks)) 
   if (peaks$sound.files[i] == peaks$sound.files[i - 1])
         peaks$selec[i] <- peaks$selec[i - 1] + 1
