@@ -60,7 +60,17 @@
 #' 
 #'  # plot spectro
 #'  seewave::spectro(sm_sng2)
-#' }
+#'
+#' # six pure tones with frequency ranging form 4 to 6 and returning selection table
+#' sm_sng <- sim_songs(n = 6, harms = 1, seed = 1, diff_fun = "pure.tone", 
+#'                   freqs = seq(4, 6, length.out = 6), selec_table = TRUE)
+#'
+#' plot spectro
+#' seewave::spectro(sm_sng$wave, flim = c(1, 10))
+#' 
+#' # selection table
+#' sm_sng$selec_table
+#'}
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
