@@ -26,7 +26,7 @@
 #' noise at the same amplitude than the song subunits. Default is 0.5.
 #' @param seed Numeric vector of length 1. This allows users to get the same results in different runs (using  \code{\link[base]{set.seed}} internally). Default is \code{NULL}.
 #' @param diff_fun Character vector of length 1 controlling the function used to simulate the brownian motion process of 
-#' frequency drift across time. Only "BB" and "GBM" are accepted at this time.Check the \code{\link[Sim.DiffProc]{BB}} 
+#' frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time.Check the \code{\link[Sim.DiffProc]{BB}} 
 #' for more details.
 #' @param fin Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1). 
 #' Default is 0.1. Note that 'fin' + 'fout' cannot be higher than 1.   
@@ -44,8 +44,9 @@
 #' @seealso \code{\link{querxc}} for for downloading bird vocalizations from an online repository.
 #' @export
 #' @name sim_songs
-#' @details This functions uses a brownian motion stochastic process to simulate animal vocalizations (i.e. frequency traces across time). 
-#' Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics. 
+#' @details This functions uses a geometric (\code{diff_fun == "GBM"}) or Brownian bridge (\code{diff_fun == "BB"}) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time). 
+#' The function can also simulate pure tones (\code{diff_fun == "pure.tone"}, 'sig2' is ignored). 
+#' Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.
 #' @examples
 #' {
 #'  # simulate a song with 3 elements and no harmonics
@@ -119,8 +120,9 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   if (harms > 1) amps <- amps / max(amps)
   
   # set diffusion function 
-  if (diff_fun == "GBM") df_fn <- Sim.DiffProc::GBM else df_fn <- Sim.DiffProc::BB
-  
+  if (diff_fun == "GBM") df_fn <- Sim.DiffProc::GBM 
+  if (diff_fun == "BB") df_fn <- Sim.DiffProc::BB
+    
   if (!is.null(seed))
     seeds <- 1:(3 * n) + seed  
   
@@ -131,10 +133,14 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   # simulate frequency contour and amplitude envelope of song elements and gaps
   frq_amp <- lapply(seq_len(n), function(x) {
     
+    # number of freq values
     N <- round(x = steps * durs[x]/mean(durs), digits = 0)
     
-    if (!is.null(seed)) set.seed(seeds[x])
-    sng_frq <- as.vector((df_fn(N = ifelse(N < 2, 2, N), sigma = sig2) * sample(c(-1, 1), 1)) + freqs[x]) 
+    # simulate frequency modulation
+    if (diff_fun != "pure.tone")
+    sng_frq <- as.vector((df_fn(N = ifelse(N < 2, 2, N), sigma = sig2) * sample(c(-1, 1), 1)) + freqs[x]) else
+    sng_frq <- rep(freqs[x], ifelse(N < 2, 2, N))
+    
     
     # patch to avoid negative numbers
     sng_frq <- abs(sng_frq)
