@@ -60,7 +60,8 @@ image_to_wave <- function(file, duration = 1, samp.rate = 44.1,
     stop("must install 'png' to use this function")
 
   # get previous graphic settings back when done
-  on.exit(dev.off())
+  opar <- par(mar = c(5, 4, 4, 2) + 0.1) 
+  on.exit(par(opar))
   
     # check file 
   if (!file.exists(file)) stop("'file' supplied was not found") 
