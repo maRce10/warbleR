@@ -217,6 +217,9 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   
   wv <- tuneR::Wave(left = wv, samp.rate = (samp.rate * 1000), bit = 16)
   
+  # normalize 
+  wv <- tuneR::normalize(wv, unit = "16")
+  
   # create selection table and save sound file
   if (selec.table)
   {
@@ -237,7 +240,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
     
     start <- cumsum(c(gaps[1], durs[- length(durs)] + gaps[-c(1, length(gaps))]))
     
-    st <- data.frame(sound.files = file.name, selec = 1:n, start, end = c(start + durs), stringsAsFactors = FALSE, bottom.freq = tapply(frq_amp$bottom.freq, frq_amp$subunit, mean), top.freq = tapply(frq_amp$top.freq, frq_amp$subunit, mean))
+    st <- data.frame(sound.files = file.name, selec = 1:n, start, end = c(start + durs), stringsAsFactors = FALSE, bottom.freq = c(tapply(frq_amp$bottom.freq, frq_amp$subunit, mean)), top.freq = c(tapply(frq_amp$top.freq, frq_amp$subunit, mean)))
     
   }
   
