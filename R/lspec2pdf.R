@@ -104,7 +104,7 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
     }
     
     #plot
-    img <- jpeg::readJPEG(subimgs[1])
+    img <- jpeg::readJPEG(file.path(path, subimgs[1]))
     par(mar = rep(0, 4))
     plot.new()
     mr <- par("usr")
@@ -117,7 +117,7 @@ lspec2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = N
         plot.new()
         par(mar = rep(0, 4))
         mr <- par("usr")
-        img2 <- jpeg::readJPEG(y)
+        img2 <- jpeg::readJPEG(file.path(path, y))
         graphics::rasterImage(img2, mr[1], mr[3], mr[2], mr[4])
       })
     }

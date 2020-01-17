@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.21</span>
       </span>
     </div>
 
@@ -134,8 +134,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>durs</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>amps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>), <span class='kw'>gaps</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>freqs</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>sig2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bgn</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>diff_fun</span> <span class='kw'>=</span> <span class='st'>"GBM"</span>,
-<span class='kw'>fin</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>fout</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"linear"</span>, <span class='kw'>selec_table</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>sig2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bgn</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>diff.fun</span> <span class='kw'>=</span> <span class='st'>"GBM"</span>,
+<span class='kw'>fin</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>fout</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"linear"</span>, <span class='kw'>selec.table</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>file.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
 <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -166,7 +166,7 @@ frequency harmonic will be simulated.</p></td>
     </tr>
     <tr>
       <th>freqs</th>
-      <td><p>Numeric vector with the initial frequency of the subunits (and ending frequency if <code>diff_fun == "BB"</code>) in kHz. 
+      <td><p>Numeric vector with the initial frequency of the subunits (and ending frequency if <code>diff.fun == "BB"</code>) in kHz. 
 It should either be a single value (which would  be used for all subunits) or a vector of length <code>n</code>.</p></td>
     </tr>
     <tr>
@@ -176,7 +176,7 @@ It should either be a single value (which would  be used for all subunits) or a 
     <tr>
       <th>sig2</th>
       <td><p>Numeric vector of length 1 defining the sigma value of the brownian motion model. Higher values will produce faster 
-frequency modulations. Ignored if <code>diff_fun == "BB"</code>. Default is 0.1. Check the <code><a href='https://rdrr.io/pkg/Sim.DiffProc/man/ABM.html'>BB</a></code> 
+frequency modulations. Ignored if <code>diff.fun == "BB"</code>. Default is 0.1. Check the <code><a href='https://rdrr.io/pkg/Sim.DiffProc/man/ABM.html'>BB</a></code> 
 for more details.</p></td>
     </tr>
     <tr>
@@ -195,9 +195,9 @@ noise at the same amplitude than the song subunits. Default is 0.5.</p></td>
       <td><p>Numeric vector of length 1. This allows users to get the same results in different runs (using  <code><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></code> internally). Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>diff_fun</th>
+      <th>diff.fun</th>
       <td><p>Character vector of length 1 controlling the function used to simulate the brownian motion process of 
-frequency drift across time. Only "BB" and "GBM" are accepted at this time.Check the <code><a href='https://rdrr.io/pkg/Sim.DiffProc/man/ABM.html'>BB</a></code> 
+frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time.Check the <code><a href='https://rdrr.io/pkg/Sim.DiffProc/man/ABM.html'>BB</a></code> 
 for more details.</p></td>
     </tr>
     <tr>
@@ -216,28 +216,30 @@ Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.</p></td>
 ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.</p></td>
     </tr>
     <tr>
-      <th>selec_table</th>
+      <th>selec.table</th>
       <td><p>Logical. If <code>TRUE</code> a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
-is saved as a ".wav" file in the working directory. Default is <code>FALSE</code>.</p></td>
+is returned. In that case the function returns a list with the selection table and the wave object. In addition,
+a ".wav" file in savd in the working directory. Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
-      <th>file_name</th>
+      <th>file.name</th>
       <td><p>Character string for naming the ".wav" file. Ignored if 
-'selec_table' is <code>FALSE</code>. If not provided the date-time stamp will be used.</p></td>
+'selec.table' is <code>FALSE</code>. If not provided the date-time stamp will be used.</p></td>
     </tr>
     <tr>
       <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is <code>FALSE</code>. 
+      <td><p>Character string containing the directory path where the sound files are located. Ignored if 'selec.table' is <code>FALSE</code>. 
 If <code>NULL</code> (default) then the current working directory is used.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A wave object containing the simulated songs. If 'selec_table' is <code>TRUE</code> the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.</p>
+    <p>A wave object containing the simulated songs. If 'selec.table' is <code>TRUE</code> the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This functions uses a brownian motion stochastic process to simulate animal vocalizations (i.e. frequency traces across time). 
+    <p>This functions uses a geometric (<code>diff.fun == "GBM"</code>) or Brownian bridge (<code>diff.fun == "BB"</code>) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time). 
+The function can also simulate pure tones (<code>diff.fun == "pure.tone"</code>, 'sig2' is ignored). 
 Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -247,7 +249,7 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
     <div class='dont-index'><p><code><a href='querxc.html'>querxc</a></code> for for downloading bird vocalizations from an online repository.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
  <span class='co'># simulate a song with 3 elements and no harmonics</span>
  <span class='no'>sm_sng</span> <span class='kw'>&lt;-</span> <span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
@@ -257,10 +259,20 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
  <span class='co'># simulate a song with 5 elements and 2 extra harmonics</span>
 <span class='no'>sm_sng2</span> <span class='kw'>&lt;-</span> <span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
- <span class='co'># plot spectro</span>
+ <span class='co'># plot spectrogram</span>
  <span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span>(<span class='no'>sm_sng2</span>)
-}</div><div class='img'><img src='sim_songs-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='sim_songs-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+
+<span class='co'># six pure tones with frequency ranging form 4 to 6 and returning selection table</span>
+<span class='no'>sm_sng</span> <span class='kw'>&lt;-</span> <span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>diff.fun</span> <span class='kw'>=</span> <span class='st'>"pure.tone"</span>,
+                  <span class='kw'>freqs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>4</span>, <span class='fl'>6</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>6</span>), <span class='kw'>selec.table</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                  <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+
+<span class='co'># plot spectro</span>
+<span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span>(<span class='no'>sm_sng</span>$<span class='no'>wave</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>8</span>))
+
+<span class='co'># selection table</span>
+<span class='no'>sm_sng</span>$<span class='no'>selec.table</span>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

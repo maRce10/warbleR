@@ -5,8 +5,8 @@
 \title{Simulate animal vocalizations}
 \usage{
 sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
-samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff_fun = "GBM", 
-fin = 0.1, fout = 0.2, shape = "linear", selec_table = FALSE, file_name = NULL,
+samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM", 
+fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE, file.name = NULL,
 path = NULL)
 }
 \arguments{
@@ -23,13 +23,13 @@ frequency harmonic will be simulated.}
 \item{gaps}{Nueric vector with the duration of gaps (silence between subunits) in seconds. It should either be a single value
 (which would  be used for all subunits) or a vector  of length \code{n + 1}.}
 
-\item{freqs}{Numeric vector with the initial frequency of the subunits (and ending frequency if \code{diff_fun == "BB"}) in kHz. 
+\item{freqs}{Numeric vector with the initial frequency of the subunits (and ending frequency if \code{diff.fun == "BB"}) in kHz. 
 It should either be a single value (which would  be used for all subunits) or a vector of length \code{n}.}
 
 \item{samp.rate}{Numeric vector of length 1. Sets the sampling frequency of the wave object (in kHz). Default is 44.1.}
 
 \item{sig2}{Numeric vector of length 1 defining the sigma value of the brownian motion model. Higher values will produce faster 
-frequency modulations. Ignored if \code{diff_fun == "BB"}. Default is 0.1. Check the \code{\link[Sim.DiffProc]{BB}} 
+frequency modulations. Ignored if \code{diff.fun == "BB"}. Default is 0.1. Check the \code{\link[Sim.DiffProc]{BB}} 
 for more details.}
 
 \item{steps}{Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during 
@@ -41,8 +41,8 @@ noise at the same amplitude than the song subunits. Default is 0.5.}
 
 \item{seed}{Numeric vector of length 1. This allows users to get the same results in different runs (using  \code{\link[base]{set.seed}} internally). Default is \code{NULL}.}
 
-\item{diff_fun}{Character vector of length 1 controlling the function used to simulate the brownian motion process of 
-frequency drift across time. Only "BB" and "GBM" are accepted at this time.Check the \code{\link[Sim.DiffProc]{BB}} 
+\item{diff.fun}{Character vector of length 1 controlling the function used to simulate the brownian motion process of 
+frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time.Check the \code{\link[Sim.DiffProc]{BB}} 
 for more details.}
 
 \item{fin}{Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1). 
@@ -54,27 +54,29 @@ Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.}
 \item{shape}{Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
 ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.}
 
-\item{selec_table}{Logical. If \code{TRUE} a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
-is saved as a ".wav" file in the working directory. Default is \code{FALSE}.}
+\item{selec.table}{Logical. If \code{TRUE} a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
+is returned. In that case the function returns a list with the selection table and the wave object. In addition,
+a ".wav" file in savd in the working directory. Default is \code{FALSE}.}
 
-\item{file_name}{Character string for naming the ".wav" file. Ignored if 
-'selec_table' is \code{FALSE}. If not provided the date-time stamp will be used.}
+\item{file.name}{Character string for naming the ".wav" file. Ignored if 
+'selec.table' is \code{FALSE}. If not provided the date-time stamp will be used.}
 
-\item{path}{Character string containing the directory path where the sound files are located. Ignored if 'selec_table' is \code{FALSE}. 
+\item{path}{Character string containing the directory path where the sound files are located. Ignored if 'selec.table' is \code{FALSE}. 
 If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
-A wave object containing the simulated songs. If 'selec_table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.
+A wave object containing the simulated songs. If 'selec.table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.
 }
 \description{
 \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
 }
 \details{
-This functions uses a brownian motion stochastic process to simulate animal vocalizations (i.e. frequency traces across time). 
+This functions uses a geometric (\code{diff.fun == "GBM"}) or Brownian bridge (\code{diff.fun == "BB"}) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time). 
+The function can also simulate pure tones (\code{diff.fun == "pure.tone"}, 'sig2' is ignored). 
 Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.
 }
 \examples{
-{
+\dontrun{
  # simulate a song with 3 elements and no harmonics
  sm_sng <- sim_songs(n = 3, harms = 1)
  
@@ -84,8 +86,19 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
  # simulate a song with 5 elements and 2 extra harmonics
 sm_sng2 <- sim_songs(n = 5, harms = 3)
 
- # plot spectro
+ # plot spectrogram
  seewave::spectro(sm_sng2)
+
+# six pure tones with frequency ranging form 4 to 6 and returning selection table
+sm_sng <- sim_songs(n = 6, harms = 1, seed = 1, diff.fun = "pure.tone", 
+                  freqs = seq(4, 6, length.out = 6), selec.table = TRUE, 
+                  path = tempdir())
+
+# plot spectro
+seewave::spectro(sm_sng$wave, flim = c(2, 8))
+
+# selection table
+sm_sng$selec.table
 }
 
 }

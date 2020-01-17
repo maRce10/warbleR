@@ -188,7 +188,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   
   # keep only selections in supplied compare.matrix to improve performance
   if (!is.null(compare.matrix))
-  X <- X[X$selection.id %in% unique(c(compare.matrix)), ]
+  X <- X[X$selection.id %in% unique(c(compare.matrix)), , drop = FALSE]
     
   # generate all possible combinations of selections, keep one with the orignal order of rows to create cor.table output
   if (is.null(compare.matrix))
@@ -232,9 +232,8 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
           
           #get intersect of column names
           int.nms <- intersect(names(X), names(wvdr))
-          
-          # overwrite X
-          X <- rbind(X[, int.nms], wvdr[, int.nms])
+            
+          X <- rbind(as.data.frame(X)[, int.nms, drop = FALSE], wvdr[, int.nms])
           
           # change complete file names in compare matrix
           for (i in complt.sf)

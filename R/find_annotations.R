@@ -13,8 +13,9 @@
 #' online repository \href{https://audioblast.org/annotations/}{audioblast.org}.
 #' @seealso \code{\link{quer_xc}} 
 #' @examples
+#'  \dontrun{
 #' ann <- find_annotations(qword = "Amazilia brevirostris")
-#' 
+#' }
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }

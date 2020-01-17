@@ -38,7 +38,7 @@ This function finds cross-correlation peaks along signals (analogous to \code{\l
 data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table2", "comp_matrix"))
 
 # save sound files
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
 # run cross-correlation

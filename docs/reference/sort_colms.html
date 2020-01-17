@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.21</span>
       </span>
     </div>
 
@@ -163,13 +163,13 @@ for acoustic analysis located in the first columns. The priority order for colum
 <span class='no'>selec.table</span> <span class='kw'>&lt;-</span> <span class='no'>selec.table</span>[, <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>selec.table</span>))]
 
  <span class='co'>#check names</span>
- <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>selec.table</span>)</div><div class='output co'>#&gt; [1] "selec"       "start"       "end"         "sound.files" "channel"    
-#&gt; [6] "rec.comment" "sel.comment" "top.freq"    "bottom.freq"</div><div class='input'>
+ <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>selec.table</span>)</div><div class='output co'>#&gt; [1] "selec"       "channel"     "bottom.freq" "top.freq"    "sel.comment"
+#&gt; [6] "sound.files" "end"         "rec.comment" "start"      </div><div class='input'>
  <span class='no'>selec.table</span> <span class='kw'>&lt;-</span> <span class='fu'>sort_colms</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>selec.table</span>)
 
  <span class='co'>#check names again</span>
  <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>selec.table</span>)</div><div class='output co'>#&gt; [1] "sound.files" "channel"     "selec"       "start"       "end"        
-#&gt; [6] "top.freq"    "bottom.freq" "rec.comment" "sel.comment"</div><div class='input'>  
+#&gt; [6] "top.freq"    "bottom.freq" "sel.comment" "rec.comment"</div><div class='input'>  
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

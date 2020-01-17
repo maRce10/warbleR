@@ -22,7 +22,7 @@
 #' data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table2", "comp_matrix"))
 #' 
 #' # save sound files
-#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' 
 #' # run cross-correlation
@@ -86,7 +86,7 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
     
     # get the single highest peak
     if (max.peak)
-      pks <- pks[which.max(pks$score), , drop = FALSE]
+      pks <- dat[which.max(dat$score), , drop = FALSE]
     
     return(pks)
   })

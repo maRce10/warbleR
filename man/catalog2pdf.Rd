@@ -9,7 +9,7 @@ pb = TRUE, by.img.suffix = FALSE, ...)
 }
 \arguments{
 \item{keep.img}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
-(including sound file and page number) should be magnified. Default is 1.}
+(including sound file and page number) should be magnified.}
 
 \item{overwrite}{Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
 when code is rerun. If \code{FALSE} only the ones missing will be produced. Default is \code{FALSE}.}

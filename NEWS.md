@@ -1,3 +1,11 @@
+# *warbleR 1.1.21*
+
+## Changes and additions:
+
+* print information of extended selection table includes sampling rates and bit depths
+* warning message in 'rbind.extended_selection_table()' when wave object names are found on both extended selection tables
+
+
 # *warbleR 1.1.20*
 
 ## Changes and additions:

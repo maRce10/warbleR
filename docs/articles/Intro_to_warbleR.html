@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.21</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2020-01-06”
+“2020-01-17”
 </center></h4>
       
       
@@ -111,7 +111,7 @@
 <!-- </script> -->
 <!-- &nbsp;  -->
 <center>
-<img src="logo.png" alt="warbleR logo">
+<img src="../../../../R%20package%20testing/warbleR/warbleR/vignettes/logo.png" alt="warbleR logo">
 </center>
 <p> </p>
 <p>The <a href="https://cran.r-project.org/package=warbleR">warbleR</a> package is intended to facilitate the analysis of the structure of the animal acoustic signals in R. Users can enter their own data into a workflow that facilitates spectrographic visualization and measurement of acoustic parameters <strong>warbleR</strong> makes use of the fundamental sound analysis tools of the <strong>seewave</strong> package, and offers new tools for acoustic structure analysis. These tools are available for batch analysis of acoustic signals.</p>
@@ -123,7 +123,7 @@
 </ul>
 <p> </p>
 <center>
-<img src="loop_warbleR_images_optim.gif" alt="warbleR image loop" width="500">
+<img src="../../../../R%20package%20testing/warbleR/warbleR/vignettes/loop_warbleR_images_optim.gif" alt="warbleR image loop" width="500">
 </center>
 <p> </p>
 <p>The package offers functions for:</p>
@@ -153,9 +153,9 @@
 <li>end</li>
 </ol>
 <p>The sample data “lbh_selec_table” contains these columns:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"lbh_selec_table"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">lbh_selec_table</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"lbh_selec_table"</span>)
+
+lbh_selec_table</code></pre></div>
 <div style="border: 1px solid #ddd; padding: 1px; overflow-x: scroll; width:740px; ">
 <table class="table table table-striped">
 <thead><tr>
@@ -512,18 +512,18 @@ NA
 </div>
 <p> </p>
 <p>… and can be converted to the <em>selection_table</em> format like this (after saving the corresponding sound files):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Phae.long1"</span>, <span class="st">"Phae.long2"</span>, <span class="st">"Phae.long3"</span>, <span class="st">"Phae.long4"</span>))</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">writeWave</span>(Phae.long1, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"Phae.long1.wav"</span>))</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">writeWave</span>(Phae.long2, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"Phae.long2.wav"</span>))</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">writeWave</span>(Phae.long3, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"Phae.long3.wav"</span>))</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">writeWave</span>(Phae.long4, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"Phae.long4.wav"</span>)) </a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># parametros globales</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="kw"><a href="../reference/warbleR_options.html">warbleR_options</a></span>(<span class="dt">wav.path =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>())</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selection_table.html">selection_table</a></span>(<span class="dt">X =</span> lbh_selec_table, <span class="dt">pb =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">st</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="dt">list =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Phae.long1"</span>, <span class="st">"Phae.long2"</span>, <span class="st">"Phae.long3"</span>, <span class="st">"Phae.long4"</span>))
+<span class="kw">writeWave</span>(Phae.long1, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"Phae.long1.wav"</span>))
+<span class="kw">writeWave</span>(Phae.long2, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"Phae.long2.wav"</span>))
+<span class="kw">writeWave</span>(Phae.long3, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"Phae.long3.wav"</span>))
+<span class="kw">writeWave</span>(Phae.long4, <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"Phae.long4.wav"</span>)) 
+
+<span class="co"># parametros globales</span>
+<span class="kw"><a href="../reference/warbleR_options.html">warbleR_options</a></span>(<span class="dt">wav.path =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>())
+
+st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selection_table.html">selection_table</a></span>(<span class="dt">X =</span> lbh_selec_table, <span class="dt">pb =</span> <span class="ot">FALSE</span>)
+
+st</code></pre></div>
 <pre><code>all selections are OK </code></pre>
 <pre><code>object of class 'selection_table' 
  contains a selection table data frame with 11 rows and 9 columns: 
@@ -535,10 +535,10 @@ NA
 5 Phae.long2.wav       1     2 1.4570585 1.5832087    2.284006 8.888027         c28          NA
 6 Phae.long3.wav       1     1 0.6265520 0.7577715    3.006834 8.822316         c29          NA
 ... and 5 more rows 
-and a data frame (check.results) generated by checkres() (as attribute)</code></pre>
+and a data frame (check.results) generated by check_sels() (as attribute)</code></pre>
 <p>Note that the path to the sound files has been provided. This is necessary in order to verify that the data provided conforms to the characteristics of the audio files.</p>
 <p>Selection tables have their own class in R:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(st)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(st)</code></pre></div>
 <pre><code>[1] "selection_table" "data.frame"     </code></pre>
 <p> </p>
 <div id="extended-selection-tables" class="section level3">
@@ -546,12 +546,12 @@ and a data frame (check.results) generated by checkres() (as attribute)</code></
 <a href="#extended-selection-tables" class="anchor"></a>Extended selection tables</h3>
 <p>When the <code>extended = TRUE</code> argument the function generates an object of the <em>extended_selection_table</em> class that also contains a list of ‘wave’ objects corresponding to each of the selections in the data. Therefore, the function <strong>transforms the selection table into self-contained objects</strong> since the original sound files are no longer needed to perform most of the acoustic analysis in <strong>warbleR</strong>. This can greatly facilitate the storage and exchange of (bio)acoustic data. In addition, it also speeds up analysis, since it is not necessary to read the sound files every time the data is analyzed.</p>
 <p>Now, as mentioned earlier, you need the <code><a href="../reference/selection_table.html">selection_table()</a></code> function to create an extended selection table. You must also set the argument <code>extended = TRUE</code> (otherwise, the class would be a selection table). The following code converts the sample data into an extended selection table:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">#  global parameters</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/warbleR_options.html">warbleR_options</a></span>(<span class="dt">wav.path =</span> <span class="st">"PONER RUTA A 'ejemplos' AQUI"</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">ext_st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selection_table.html">selection_table</a></span>(<span class="dt">X =</span> lbh_selec_table, <span class="dt">pb =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">          <span class="dt">extended =</span> <span class="ot">TRUE</span>, <span class="dt">confirm.extended =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  global parameters</span>
+<span class="kw"><a href="../reference/warbleR_options.html">warbleR_options</a></span>(<span class="dt">wav.path =</span> <span class="st">"PONER RUTA A 'ejemplos' AQUI"</span>)
+
+
+ext_st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selection_table.html">selection_table</a></span>(<span class="dt">X =</span> lbh_selec_table, <span class="dt">pb =</span> <span class="ot">FALSE</span>, 
+          <span class="dt">extended =</span> <span class="ot">TRUE</span>, <span class="dt">confirm.extended =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <pre><code>all selections are OK </code></pre>
 <p> </p>
 <p>And that is. Now the acoustic data and the selection data (as well as the additional metadata) are all together in a single R object.</p>
@@ -561,17 +561,17 @@ and a data frame (check.results) generated by checkres() (as attribute)</code></
 <h3 class="hasAnchor">
 <a href="#handling-extended-selection-tables" class="anchor"></a>Handling extended selection tables</h3>
 <p>Several functions can be used to deal with objects of this class. You can test if the object belongs to the <em>extended_selection_table</em>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span>(ext_st)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span>(ext_st)</code></pre></div>
 <pre><code>[1] TRUE</code></pre>
 <p> </p>
 <p>You can subset the selection in the same way that any other data frame and it will still keep its attributes:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">ext_st2 &lt;-<span class="st"> </span>ext_st[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, ]</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span>(ext_st2)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ext_st2 &lt;-<span class="st"> </span>ext_st[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, ]
+
+<span class="kw"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span>(ext_st2)</code></pre></div>
 <pre><code>[1] TRUE</code></pre>
 <p>There is also a generic version of <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> for this class of objects:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">## print</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(ext_st)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## print
+<span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(ext_st)</code></pre></div>
 <pre><code>object of class 'extended_selection_table' 
  contains a selection table data frame with 11 rows and 9 columns: 
        sound.files channel selec start       end bottom.freq top.freq sel.comment rec.comment
@@ -586,10 +586,12 @@ and a data frame (check.results) generated by checkres() (as attribute)</code></
 [1] "Phae.long1.wav_1" "Phae.long1.wav_2" "Phae.long1.wav_3" "Phae.long2.wav_1" "Phae.long2.wav_2"
 [6] "Phae.long3.wav_1"
 ... and 5 more 
-and a data frame (check.results) generated by checkres() (as attribute) 
-the selection table was created by element (see 'class_extended_selection_table')</code></pre>
+and a data frame (check.results) generated by check_sels() (as attribute) 
+the selection table was created by element (see 'class_extended_selection_table') 
+1 sampling rate(s): 22.5 
+1 bit depth(s): 16</code></pre>
 <p>… which is equivalent to:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">ext_st</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ext_st</code></pre></div>
 <pre><code>object of class 'extended_selection_table' 
  contains a selection table data frame with 11 rows and 9 columns: 
        sound.files channel selec start       end bottom.freq top.freq sel.comment rec.comment
@@ -604,18 +606,20 @@ the selection table was created by element (see 'class_extended_selection_table'
 [1] "Phae.long1.wav_1" "Phae.long1.wav_2" "Phae.long1.wav_3" "Phae.long2.wav_1" "Phae.long2.wav_2"
 [6] "Phae.long3.wav_1"
 ... and 5 more 
-and a data frame (check.results) generated by checkres() (as attribute) 
-the selection table was created by element (see 'class_extended_selection_table')</code></pre>
+and a data frame (check.results) generated by check_sels() (as attribute) 
+the selection table was created by element (see 'class_extended_selection_table') 
+1 sampling rate(s): 22.5 
+1 bit depth(s): 16</code></pre>
 <p> </p>
 <p>You can also join them in rows. Here the original <em>extended_selection_table</em> is divided into 2 and bound again using <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">ext_st3 &lt;-<span class="st"> </span>ext_st[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">ext_st4 &lt;-<span class="st"> </span>ext_st[<span class="dv">6</span><span class="op">:</span><span class="dv">11</span>, ]</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">ext_st5 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(ext_st3, ext_st4)</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="co">#print</span></a>
-<a class="sourceLine" id="cb17-8" data-line-number="8">ext_st5</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ext_st3 &lt;-<span class="st"> </span>ext_st[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]
+
+ext_st4 &lt;-<span class="st"> </span>ext_st[<span class="dv">6</span><span class="op">:</span><span class="dv">11</span>, ]
+
+ext_st5 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(ext_st3, ext_st4)
+
+<span class="co">#print</span>
+ext_st5</code></pre></div>
 <pre><code>object of class 'extended_selection_table' 
  contains a selection table data frame with 11 rows and 9 columns: 
        sound.files channel selec start       end bottom.freq top.freq sel.comment rec.comment
@@ -626,25 +630,26 @@ the selection table was created by element (see 'class_extended_selection_table'
 5 Phae.long2.wav_2       1     1   0.1 0.2261502    2.284006 8.888027         c28          NA
 6 Phae.long3.wav_1       1     1   0.1 0.2312195    3.006834 8.822316         c29          NA
 ... and 5 more rows 
-11 wave objects (as attributes): 
-[1] "Phae.long1.wav_1" "Phae.long1.wav_2" "Phae.long1.wav_3" "Phae.long2.wav_1" "Phae.long2.wav_2"
-[6] "Phae.long3.wav_1"
-... and 5 more 
-and a data frame (check.results) generated by checkres() (as attribute) 
-the selection table was created by element (see 'class_extended_selection_table')</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># igual q el original</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(ext_st, ext_st5)</a></code></pre></div>
-<pre><code>[1] TRUE</code></pre>
+0 wave objects (as attributes): 
+character(0)
+and a data frame (check.results) generated by check_sels() (as attribute) 
+the selection table was created by element (see 'class_extended_selection_table') 
+1 sampling rate(s): 22.5 
+1 bit depth(s): 16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># igual q el original</span>
+<span class="kw"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(ext_st, ext_st5)</code></pre></div>
+<pre><code>[1] "Attributes: &lt; Component \"wave.objects\": names for target but not for current &gt;"             
+[2] "Attributes: &lt; Component \"wave.objects\": Length mismatch: comparison on first 0 components &gt;"</code></pre>
 <p> </p>
 <p>The ‘wave’ objects can be read individually using <code><a href="../reference/read_wave.html">read_wave()</a></code>, a wrapper for the <code>readWave()</code> function of <strong>tuneR</strong>, which can handle extended selection tables:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">wv1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_wave.html">read_wave</a></span>(<span class="dt">X =</span> ext_st, <span class="dt">index =</span> <span class="dv">3</span>, <span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="fl">0.37</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wv1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_wave.html">read_wave</a></span>(<span class="dt">X =</span> ext_st, <span class="dt">index =</span> <span class="dv">3</span>, <span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="fl">0.37</span>)</code></pre></div>
 <p> </p>
 <p>These are regular ‘wave’ objects:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(wv1)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(wv1)</code></pre></div>
 <pre><code>[1] "Wave"
 attr(,"package")
 [1] "tuneR"</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">wv1</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wv1</code></pre></div>
 <pre><code>
 Wave Object
     Number of Samples:      8325
@@ -653,38 +658,38 @@ Wave Object
     Channels (Mono/Stereo): Mono
     PCM (integer format):   TRUE
     Bit (8/16/24/32/64):    16 </code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">spectro</span>(wv1, <span class="dt">wl =</span> <span class="dv">150</span>, <span class="dt">grid =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="ot">FALSE</span>, <span class="dt">ovlp =</span> <span class="dv">90</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spectro</span>(wv1, <span class="dt">wl =</span> <span class="dv">150</span>, <span class="dt">grid =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="ot">FALSE</span>, <span class="dt">ovlp =</span> <span class="dv">90</span>)</code></pre></div>
 <p><img src="Intro_to_warbleR_files/figure-html/extn_sel_8.22-1.png" width="750"></p>
 <p> </p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mfrow =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>, <span class="dv">2</span>), <span class="dt">mar =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>){</a>
-<a class="sourceLine" id="cb27-4" data-line-number="4">  </a>
-<a class="sourceLine" id="cb27-5" data-line-number="5">  wv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_wave.html">read_wave</a></span>(<span class="dt">X =</span> ext_st, <span class="dt">index =</span> i, <span class="dt">from =</span> <span class="fl">0.05</span>, <span class="dt">to =</span> <span class="fl">0.32</span>)</a>
-<a class="sourceLine" id="cb27-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb27-7" data-line-number="7">  <span class="kw">spectro</span>(wv, <span class="dt">wl =</span> <span class="dv">150</span>, <span class="dt">grid =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="ot">FALSE</span>, <span class="dt">axisX =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb27-8" data-line-number="8">          <span class="dt">axisY =</span> <span class="ot">FALSE</span>, <span class="dt">ovlp =</span> <span class="dv">90</span>)</a>
-<a class="sourceLine" id="cb27-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb27-10" data-line-number="10">}</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mfrow =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>, <span class="dv">2</span>), <span class="dt">mar =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="dv">4</span>))
+
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>){
+  
+  wv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/read_wave.html">read_wave</a></span>(<span class="dt">X =</span> ext_st, <span class="dt">index =</span> i, <span class="dt">from =</span> <span class="fl">0.05</span>, <span class="dt">to =</span> <span class="fl">0.32</span>)
+
+  <span class="kw">spectro</span>(wv, <span class="dt">wl =</span> <span class="dv">150</span>, <span class="dt">grid =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="ot">FALSE</span>, <span class="dt">axisX =</span> <span class="ot">FALSE</span>,
+          <span class="dt">axisY =</span> <span class="ot">FALSE</span>, <span class="dt">ovlp =</span> <span class="dv">90</span>)
+
+}</code></pre></div>
 <p><img src="Intro_to_warbleR_files/figure-html/extn_sel_8.23-1.png" width="750">  </p>
 <p>The <code><a href="../reference/read_wave.html">read_wave()</a></code> function requires the selection table, as well as the row index (i.e. the row number) to be able to read the ‘wave’ objects. It can also read a regular ‘wave’ file if the path is provided.</p>
 <p>Note that other functions that modify data frames are likely to delete the attributes in which the ‘wave’ objects and metadata are stored. For example, the merge and the extended selection box will remove its attributes:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># crear nueva base de datos</span></a>
-<a class="sourceLine" id="cb28-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">sound.files =</span> ext_st<span class="op">$</span>sound.files, <span class="dt">site =</span> <span class="st">"La Selva"</span>, <span class="dt">lek =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"SUR"</span>, <span class="dv">5</span>), <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"CCL"</span>, <span class="dv">6</span>)))</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="co"># combinar</span></a>
-<a class="sourceLine" id="cb28-5" data-line-number="5">mrg_ext_st &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/merge.html">merge</a></span>(ext_st, Y, <span class="dt">by =</span> <span class="st">"sound.files"</span>)</a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="co"># revisar clase</span></a>
-<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="kw"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span>(mrg_ext_st)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># crear nueva base de datos</span>
+Y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">sound.files =</span> ext_st<span class="op">$</span>sound.files, <span class="dt">site =</span> <span class="st">"La Selva"</span>, <span class="dt">lek =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"SUR"</span>, <span class="dv">5</span>), <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"CCL"</span>, <span class="dv">6</span>)))
+
+<span class="co"># combinar</span>
+mrg_ext_st &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/merge.html">merge</a></span>(ext_st, Y, <span class="dt">by =</span> <span class="st">"sound.files"</span>)
+
+<span class="co"># revisar clase</span>
+<span class="kw"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span>(mrg_ext_st)</code></pre></div>
 <pre><code>[1] FALSE</code></pre>
 <p> </p>
 <p>In this case, we can use the <code><a href="../reference/fix_extended_selection_table.html">fix_extended_selection_table()</a></code> function to transfer the attributes of the original extended selection table:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co"># arreglar</span></a>
-<a class="sourceLine" id="cb30-2" data-line-number="2">mrg_ext_st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fix_extended_selection_table.html">fix_extended_selection_table</a></span>(<span class="dt">X =</span> mrg_ext_st, <span class="dt">Y =</span> ext_st)</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co"># revisar clase</span></a>
-<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="kw"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span>(mrg_ext_st)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># arreglar</span>
+mrg_ext_st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fix_extended_selection_table.html">fix_extended_selection_table</a></span>(<span class="dt">X =</span> mrg_ext_st, <span class="dt">Y =</span> ext_st)
+
+<span class="co"># revisar clase</span>
+<span class="kw"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span>(mrg_ext_st)</code></pre></div>
 <pre><code>[1] TRUE</code></pre>
 <p> </p>
 <p>This works as long as some of the original sound files are retained and no other selections are added.</p>
@@ -697,10 +702,10 @@ Wave Object
 <div id="spectral-parameters" class="section level4">
 <h4 class="hasAnchor">
 <a href="#spectral-parameters" class="anchor"></a>Spectral parameters</h4>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co">#  parametros espectrales</span></a>
-<a class="sourceLine" id="cb32-2" data-line-number="2">sp &lt;-<span class="st"> </span><span class="kw"><a href="../reference/specan.html">specan</a></span>(ext_st)</a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4">sp</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  parametros espectrales</span>
+sp &lt;-<span class="st"> </span><span class="kw"><a href="../reference/specan.html">specan</a></span>(ext_st)
+
+sp</code></pre></div>
 <div style="border: 1px solid #ddd; padding: 1px; overflow-x: scroll; width:740px; ">
 <table class="table table table-striped">
 <thead><tr>
@@ -1816,9 +1821,9 @@ Phae.long4.wav_3
 <div id="signal-to-noise-ratio" class="section level4">
 <h4 class="hasAnchor">
 <a href="#signal-to-noise-ratio" class="anchor"></a>Signal-to-noise ratio</h4>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">snr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(ext_st, <span class="dt">mar =</span> <span class="fl">0.05</span>)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3">snr</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">snr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(ext_st, <span class="dt">mar =</span> <span class="fl">0.05</span>)
+
+snr</code></pre></div>
 <div style="border: 1px solid #ddd; padding: 1px; overflow-x: scroll; width:740px; ">
 <table class="table table table-striped">
 <thead><tr>
@@ -2214,9 +2219,9 @@ NA
 <div id="dynamic-time-warping-dtw" class="section level4">
 <h4 class="hasAnchor">
 <a href="#dynamic-time-warping-dtw" class="anchor"></a>Dynamic time warping (DTW)</h4>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">dtw.dist &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dfDTW.html">dfDTW</a></span>(ext_st, <span class="dt">img =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb34-3" data-line-number="3">dtw.dist</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dtw.dist &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dfDTW.html">dfDTW</a></span>(ext_st, <span class="dt">img =</span> <span class="ot">FALSE</span>)
+
+dtw.dist</code></pre></div>
 <div style="border: 1px solid #ddd; padding: 1px; overflow-x: scroll; width:740px; ">
 <table class="table table table-striped">
 <thead><tr>
@@ -2685,30 +2690,30 @@ Phae.long4.wav_3-1
 <h3 class="hasAnchor">
 <a href="#performance" class="anchor"></a>Performance</h3>
 <p>The use of <em>extended_selection_table</em> objects can improve performance (in our case, measured as time). Here we use <strong>microbenchmark</strong> to compare the performance of <code><a href="../reference/sig2noise.html">sig2noise()</a></code> and <strong>ggplot2</strong> to plot the results. First, a selection table with 1000 selections is created simply by repeating the sample data frame several times and then is converted to an extended selection table:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># create long selection table</span></a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">lng.selec.table &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(rbind, <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span>(<span class="dv">10</span>, lbh_selec_table, </a>
-<a class="sourceLine" id="cb35-3" data-line-number="3">                        <span class="dt">simplify =</span> <span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb35-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="co"># relabels selec</span></a>
-<a class="sourceLine" id="cb35-6" data-line-number="6">lng.selec.table<span class="op">$</span>selec &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(lng.selec.table)</a>
-<a class="sourceLine" id="cb35-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb35-8" data-line-number="8"><span class="co"># create extended selection table</span></a>
-<a class="sourceLine" id="cb35-9" data-line-number="9">lng_ext_st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selection_table.html">selection_table</a></span>(<span class="dt">X =</span> lng.selec.table, <span class="dt">pb =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb35-10" data-line-number="10">                        <span class="dt">extended =</span> <span class="ot">TRUE</span>, <span class="dt">confirm.extended =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb35-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb35-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb35-13" data-line-number="13"><span class="co"># load packages</span></a>
-<a class="sourceLine" id="cb35-14" data-line-number="14"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(microbenchmark)</a>
-<a class="sourceLine" id="cb35-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb35-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb35-17" data-line-number="17"><span class="co"># check performance</span></a>
-<a class="sourceLine" id="cb35-18" data-line-number="18">mbmrk.snr &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="dt">extended =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng_ext_st, </a>
-<a class="sourceLine" id="cb35-19" data-line-number="19">      <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">regular =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng.selec.table, </a>
-<a class="sourceLine" id="cb35-20" data-line-number="20">                    <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">times =</span> <span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb35-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb35-22" data-line-number="22"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(mbmrk.snr) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"sig2noise"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create long selection table</span>
+lng.selec.table &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(rbind, <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span>(<span class="dv">10</span>, lbh_selec_table, 
+                        <span class="dt">simplify =</span> <span class="ot">FALSE</span>))
+
+<span class="co"># relabels selec</span>
+lng.selec.table<span class="op">$</span>selec &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(lng.selec.table)
+
+<span class="co"># create extended selection table</span>
+lng_ext_st &lt;-<span class="st"> </span><span class="kw"><a href="../reference/selection_table.html">selection_table</a></span>(<span class="dt">X =</span> lng.selec.table, <span class="dt">pb =</span> <span class="ot">FALSE</span>, 
+                        <span class="dt">extended =</span> <span class="ot">TRUE</span>, <span class="dt">confirm.extended =</span> <span class="ot">FALSE</span>)
+
+
+<span class="co"># load packages</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(microbenchmark)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)
+
+<span class="co"># check performance</span>
+mbmrk.snr &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="dt">extended =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng_ext_st, 
+      <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">regular =</span> <span class="kw"><a href="../reference/sig2noise.html">sig2noise</a></span>(lng.selec.table, 
+                    <span class="dt">mar =</span> <span class="fl">0.05</span>), <span class="dt">times =</span> <span class="dv">50</span>)
+
+<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(mbmrk.snr) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"sig2noise"</span>)</code></pre></div>
 <p> </p>
-<p><img src="microbenchmark.png" width="700px" style="display: block; margin: auto;">  </p>
+<p><img src="../../../../R%20package%20testing/warbleR/warbleR/vignettes/microbenchmark.png" width="700px" style="display: block; margin: auto;">  </p>
 <p>The function runs much faster in the extended selection tables. Performance gain is likely to improve when longer recordings and data sets are used (that is, to compensate for computer overload).</p>
 <p> </p>
 </div>
@@ -2716,9 +2721,9 @@ Phae.long4.wav_3-1
 <h3 class="hasAnchor">
 <a href="#sharing-acoustic-data" class="anchor"></a>Sharing acoustic data</h3>
 <p>This new object class allows to share complete data sets, including acoustic data. For example, the <strong>NatureSounds</strong> package contains an extended selection table with long-billed hermit hummingbirds vocalizations from 10 different song types:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"Phae.long.est"</span>)</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb36-3" data-line-number="3">Phae.long.est</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"Phae.long.est"</span>)
+
+Phae.long.est</code></pre></div>
 <pre><code>object of class 'extended_selection_table' 
  contains a selection table data frame with 100 rows and 8 columns: 
                     sound.files selec start       end bottom.freq top.freq lek lek.song.type
@@ -2733,9 +2738,11 @@ Phae.long4.wav_3-1
 [1] "0.BR1.2012.7.27.5.55.wav_3-4" "0.BR1.2012.7.27.5.55.wav_1"   "0.BR1.2012.7.27.5.55.wav_3-3"
 [4] "0.BR1.2012.7.27.5.55.wav_4"   "0.BR1.2012.7.27.5.55.wav_2-2" "0.BR1.2012.7.27.5.55.wav_3"  
 ... and 94 more 
-and a data frame (check.results) generated by checkres() (as attribute) 
-the selection table was created by element (see 'class_extended_selection_table')</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.long.est<span class="op">$</span>lek.song.type)</a></code></pre></div>
+and a data frame (check.results) generated by check_sels() (as attribute) 
+the selection table was created by element (see 'class_extended_selection_table') 
+1 sampling rate(s): 44.1 
+1 bit depth(s): 16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(Phae.long.est<span class="op">$</span>lek.song.type)</code></pre></div>
 <pre><code>
 BR1-D1 CCL-G1 CCL-K2 DAR-A1 HC2-E1 HC2-F2 SAT-G2 SJA-C3 SUR-E4 TR1-E1 
     10     10     10     10     10     10     10     10     10     10 </code></pre>
@@ -2747,7 +2754,7 @@ BR1-D1 CCL-G1 CCL-K2 DAR-A1 HC2-E1 HC2-F2 SAT-G2 SJA-C3 SUR-E4 TR1-E1
 <h2 class="hasAnchor">
 <a href="#warbler-functions-and-the-workflow-of-analysis-in-bioacoustics" class="anchor"></a><strong>warbleR</strong> functions and the workflow of analysis in bioacoustics</h2>
 <p>Bioacoustic analyzes generally follow a specific processing sequence and analysis. This sequence can be represented schematically like this:</p>
-<p><img src="analysis-workflow.png" alt="analysis workflow"></p>
+<p><img src="../../../../R%20package%20testing/warbleR/warbleR/vignettes/analysis-workflow.png" alt="analysis workflow"></p>
 <p> </p>
 <p>We can group <strong>warbleR</strong> functions according to the bioacoustic analysis stages.</p>
 <p> </p>
@@ -3814,17 +3821,17 @@ define global parameters for warbleR functions
 <p> </p>
 <hr>
 <p><font size="4">Session information</font></p>
-<pre><code>R version 3.4.4 (2018-03-15)
+<pre><code>R version 3.6.1 (2019-07-05)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 14.04.6 LTS
+Running under: Ubuntu 18.04.3 LTS
 
 Matrix products: default
-BLAS: /usr/lib/libblas/libblas.so.3.0
-LAPACK: /usr/lib/lapack/liblapack.so.3.0
+BLAS:   /usr/lib/x86_64-linux-gnu/atlas/libblas.so.3.10.3
+LAPACK: /usr/lib/x86_64-linux-gnu/atlas/liblapack.so.3.10.3
 
 locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=es_CR.UTF-8       
- [4] LC_COLLATE=en_US.UTF-8     LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [1] LC_CTYPE=es_ES.UTF-8       LC_NUMERIC=C               LC_TIME=es_CR.UTF-8       
+ [4] LC_COLLATE=es_ES.UTF-8     LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=es_ES.UTF-8   
  [7] LC_PAPER=es_CR.UTF-8       LC_NAME=C                  LC_ADDRESS=C              
 [10] LC_TELEPHONE=C             LC_MEASUREMENT=es_CR.UTF-8 LC_IDENTIFICATION=C       
 
@@ -3832,16 +3839,16 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.26         warbleR_1.1.20     NatureSounds_1.0.1 seewave_2.1.5      tuneR_1.3.3       
+[1] knitr_1.26         warbleR_1.1.21     NatureSounds_1.0.1 seewave_2.1.4      tuneR_1.3.3       
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.3       rstudioapi_0.10  magrittr_1.5     maps_3.3.0       Sim.DiffProc_4.4
- [6] MASS_7.3-50      Deriv_4.0        rjson_0.2.20     R6_2.4.1         rlang_0.4.2     
-[11] pbapply_1.4-2    stringr_1.4.0    tools_3.4.4      parallel_3.4.4   xfun_0.11       
-[16] dtw_1.21-3       htmltools_0.4.0  yaml_2.2.0       assertthat_0.2.1 digest_0.6.23   
+ [6] MASS_7.3-51.4    Deriv_3.9.0      rjson_0.2.20     R6_2.4.1         rlang_0.4.1     
+[11] pbapply_1.4-2    stringr_1.4.0    tools_3.6.1      parallel_3.6.1   xfun_0.11       
+[16] dtw_1.21-3       htmltools_0.4.0  yaml_2.2.0       assertthat_0.2.1 digest_0.6.22   
 [21] rprojroot_1.3-2  pkgdown_1.4.1    crayon_1.3.4     bitops_1.0-6     fs_1.3.1        
-[26] RCurl_1.95-4.12  signal_0.7-6     memoise_1.1.0    evaluate_0.14    rmarkdown_1.18  
-[31] pracma_2.2.9     proxy_0.4-23     stringi_1.4.3    compiler_3.4.4   desc_1.2.0      
+[26] RCurl_1.95-4.12  signal_0.7-6     memoise_1.1.0    evaluate_0.14    rmarkdown_1.17  
+[31] pracma_2.2.5     proxy_0.4-23     stringi_1.4.3    compiler_3.6.1   desc_1.2.0      
 [36] backports_1.1.5  fftw_1.0-5      </code></pre>
 </div>
   </div>

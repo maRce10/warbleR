@@ -100,6 +100,10 @@
 #'   
 #'   \code{\link{ffts}}: Extract the fundamental frequency values across the signal as a time series
 #'   
+#'   \code{\link{find_peaks}}: Find peaks in cross-correlation scores from \code{\link{xcorr}}
+#'   
+#'   \code{\link{find_annotations}}: Download sound file annotations and metadata from \href{https://audioblast.org/annotations/}{audioblast.org}.
+#'   
 #'   \code{\link{sp.en.ts}}: Extract the spectral entropy values across the signal as a time series
 #'   
 #'   \code{\link{dfDTW}}: Calculate acoustic dissimilarity using dynamic time warping

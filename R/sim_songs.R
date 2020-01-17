@@ -49,7 +49,7 @@
 #' The function can also simulate pure tones (\code{diff.fun == "pure.tone"}, 'sig2' is ignored). 
 #' Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.
 #' @examples
-#' {
+#' \dontrun{
 #'  # simulate a song with 3 elements and no harmonics
 #'  sm_sng <- sim_songs(n = 3, harms = 1)
 #'  
@@ -59,15 +59,16 @@
 #'  # simulate a song with 5 elements and 2 extra harmonics
 #' sm_sng2 <- sim_songs(n = 5, harms = 3)
 #' 
-#'  # plot spectro
+#'  # plot spectrogram
 #'  seewave::spectro(sm_sng2)
 #'
 #' # six pure tones with frequency ranging form 4 to 6 and returning selection table
 #' sm_sng <- sim_songs(n = 6, harms = 1, seed = 1, diff.fun = "pure.tone", 
-#'                   freqs = seq(4, 6, length.out = 6), selec.table = TRUE)
+#'                   freqs = seq(4, 6, length.out = 6), selec.table = TRUE, 
+#'                   path = tempdir())
 #'
-#' plot spectro
-#' seewave::spectro(sm_sng$wave, flim = c(1, 10))
+#' # plot spectro
+#' seewave::spectro(sm_sng$wave, flim = c(2, 8))
 #' 
 #' # selection table
 #' sm_sng$selec.table

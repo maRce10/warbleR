@@ -25,8 +25,9 @@ This function queries for annotations on acoustic media in the open-access
 online repository \href{https://audioblast.org/annotations/}{audioblast.org}.
 }
 \examples{
+ \dontrun{
 ann <- find_annotations(qword = "Amazilia brevirostris")
-
+}
 }
 \references{
 {

@@ -3,7 +3,7 @@
 #' @usage catalog2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
 #' pb = TRUE, by.img.suffix = FALSE, ...)
 #' @param keep.img Logical argument. Indicates whether jpeg files should be kept (default) or remove.
-#'   (including sound file and page number) should be magnified. Default is 1.
+#'   (including sound file and page number) should be magnified.
 #' @param overwrite Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
 #'   when code is rerun. If \code{FALSE} only the ones missing will be produced. Default is \code{FALSE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -98,9 +98,12 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
 { 
     
     #order imgs so they look order in the pdf
-         if (!is.logical(i)) subimgs <- imgs[or.sf == i] else subimgs <- imgs
+    if (!is.logical(i)) subimgs <- imgs[or.sf == i] else subimgs <- imgs
+    
     if (length(subimgs) > 1){
-    pgs <- substr(subimgs,attr(regexpr("Catalog_p" ,subimgs), "match.length") + 1, nchar(subimgs))
+      
+    pgs <- as.numeric(sapply(strsplit(substr(subimgs, start = regexpr("Catalog_p" ,subimgs) + 9, nchar(subimgs)), "-|.jpeg"), "[", 1))
+
     if (!is.logical(i))
     pgs <- as.numeric(gsub(paste0("-", i, "|\\.jpeg|\\.jpg"), "", pgs, ignore.case = TRUE)) else
       pgs <- as.numeric(gsub(paste0("|\\.jpeg|\\.jpg"), "", pgs, ignore.case = TRUE))
@@ -109,7 +112,7 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
     }
     
     # get dimensions
-    imgdm <- dim(jpeg::readJPEG(subimgs[1], native = T))
+    imgdm <- dim(jpeg::readJPEG(file.path(path, subimgs[1]), native = T))
          
     dimprop <- imgdm[1]/imgdm[2]
     
@@ -117,7 +120,7 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
    if (!is.logical(i))
      grDevices::pdf(file = file.path(path, paste0(i, ".pdf")), width = 10, height = dimprop * 10, ...) else  grDevices::pdf(file = file.path(path, "Catalog.pdf"), width = 10, height = dimprop * 10, ...)     
     #plot
-    img <- jpeg::readJPEG(subimgs[1])
+    img <- jpeg::readJPEG(file.path(path, subimgs[1]))
     par(mar = rep(0, 4), oma = rep(0, 4), pty = "m")
     plot.new()
     mr <- par("usr")
@@ -129,7 +132,7 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
       no.out <- lapply(subimgs[-1], function(y) {
         plot.new()
         mr <- par("usr")
-        img2 <- jpeg::readJPEG(y)
+        img2 <- jpeg::readJPEG(file.path(path, y))
         graphics::rasterImage(img2, mr[1], mr[3], mr[2], mr[4])
       })
     }
