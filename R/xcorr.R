@@ -144,6 +144,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   
   # dens deprecated
   if (!is.null(dens))  write(file = "", x = "'dens' has been deprecated and will be ignored")
+  
   # dens deprecated
   if (!is.null(cor.mat))  write(file = "", x = "'dens' has been deprecated and will be ignored")
   
@@ -247,7 +248,10 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   
   #create spectrograms
      if (pb) 
-       write(file = "", x = paste0("creating spectrogram matrices (step 1 of ", max.stps,"):"))
+      if (type == "spectrogram")
+       write(file = "", x = paste0("creating spectrogram matrices (step 1 of ", max.stps,"):")) else
+         write(file = "", x = paste0("creating MFCC matrices (step 1 of ", max.stps,"):"))
+      
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
@@ -267,7 +271,8 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     if (type == "mfcc")
       {
       # calculate MFCCs
-      spc <- melfcc(clp, nbands = nbnds, dcttype = "t3", fbtype = "htkmel", spec_out = TRUE)
+ spc <- melfcc(clp, nbands = nbnds, hoptime =  (wlg / clp@samp.rate) * (ovl / 100), wintime =  wlg / clp@samp.rate, dcttype = "t3", fbtype = "htkmel", spec_out = TRUE)
+      
       # change name of target element so it maches spectrogram output names
       names(spc)[2] <- "amp" 
       

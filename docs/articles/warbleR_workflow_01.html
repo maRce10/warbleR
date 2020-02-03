@@ -99,7 +99,7 @@
 <p> </p>
             
             <h4 class="date"><center>
-“2020-01-17”
+“2020-02-03”
 </center></h4>
       
       
@@ -117,7 +117,7 @@
 <!-- </script> -->
 <!-- &nbsp;  -->
 <center>
-<img src="../../../../R%20package%20testing/warbleR/warbleR/vignettes/logo.png" alt="warbleR logo">
+<img src="logo.png" alt="warbleR logo">
 </center>
 <p> </p>
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
@@ -554,7 +554,7 @@ sub &lt;-<span class="st"> </span>wavs[<span class="kw"><a href="https://rdrr.io
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/autodetec.html">autodetec</a></span>(<span class="dt">flist =</span> sub, <span class="dt">bp =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">10</span>), <span class="dt">threshold =</span> <span class="dv">20</span>, <span class="dt">mindur =</span> <span class="fl">0.09</span>, <span class="dt">maxdur =</span> <span class="fl">0.22</span>, <span class="dt">envt =</span> <span class="st">"abs"</span>, <span class="dt">ssmooth =</span> <span class="dv">900</span>, <span class="dt">ls =</span> <span class="ot">TRUE</span>, <span class="dt">res =</span> <span class="dv">100</span>, <span class="dt">flim=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="dt">wl =</span> <span class="dv">300</span>, <span class="dt">set =</span><span class="ot">TRUE</span>, <span class="dt">sxrow =</span> <span class="dv">6</span>, <span class="dt">rows =</span> <span class="dv">15</span>, <span class="dt">redo =</span> <span class="ot">TRUE</span>, <span class="dt">it =</span> <span class="st">"tiff"</span>, <span class="dt">img =</span> <span class="ot">TRUE</span>, <span class="dt">smadj =</span> <span class="st">"end"</span>)</code></pre></div>
 <p>This seems to provide a good detection for most recordings (recording ID 154161):</p>
 <center>
-<img src="../../../../R%20package%20testing/warbleR/warbleR/vignettes/154161-autodetec.th15.jpg" alt="autodetec image example">
+<img src="154161-autodetec.th15.jpg" alt="autodetec image example">
 </center>
 <p> </p>
 <p>Once we’re satisfied with the detection, we can run the <code>autodetec</code> on all the recordings, removing the argument <code>flist</code> (so <code>autodetec</code> runs over all <em>wav</em> files in the working directory). We will also save the temporal output in an object.</p>
