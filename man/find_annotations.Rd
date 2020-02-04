@@ -4,7 +4,7 @@
 \alias{find_annotations}
 \title{Obtain annotations from 'audioblast.org' data base}
 \usage{
-find_annotations(qword, parallel = 1, pb = TRUE)
+find_annotations(qword, parallel = 1, pb = TRUE, warbler.format = FALSE)
 }
 \arguments{
 \item{qword}{Character vector of length one indicating  the scientific name of the species to search for at audioblast's annotations database. For example, \emph{Phaethornis longirostris}.}
@@ -13,6 +13,8 @@ find_annotations(qword, parallel = 1, pb = TRUE)
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
+
+\item{warbler.format}{Logical. If \code{TRUE} columns are renamed using the standard names for a selection table as in 'warbleR', frequency limit columns (high and low frequency) in 'Hz' are converted to 'kHz' (as in warbleR selection tables) and only the spectrogram view measurements are kept. Default is \code{FALSE}.}
 }
 \value{
 A data frame with the annotation information.

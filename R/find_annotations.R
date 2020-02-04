@@ -1,11 +1,12 @@
 #' Obtain annotations from 'audioblast.org' data base
 #' 
 #' \code{find_annotations} downloads sound file annotations and metadata from \href{https://audioblast.org/annotations/}{audioblast.org}.
-#' @usage find_annotations(qword, parallel = 1, pb = TRUE)  
+#' @usage find_annotations(qword, parallel = 1, pb = TRUE, warbler.format = FALSE)  
 #' @param qword Character vector of length one indicating  the scientific name of the species to search for at audioblast's annotations database. For example, \emph{Phaethornis longirostris}. 
 #' @param parallel Numeric. Controls whether parallel computing is applied when downloading mp3 files.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
+#' @param warbler.format 	Logical. If \code{TRUE} columns are renamed using the standard names for a selection table as in 'warbleR', frequency limit columns (high and low frequency) in 'Hz' are converted to 'kHz' (as in warbleR selection tables) and only the spectrogram view measurements are kept. Default is \code{FALSE}.
 #' @return A data frame with the annotation information.  
 #' @export
 #' @name find_annotations
@@ -22,7 +23,7 @@
 #' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) 
 #last modification on dec-24-2019 (MAS)
 
-find_annotations <- function(qword, parallel = 1, pb = TRUE) {
+find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FALSE) {
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -63,17 +64,20 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE) {
     if (pb)
       write(file = "", x = "Obtaining annotations...")
     
-    #format JSON
-    # qword <- "Amazilia brevirostris"
-    qword <- gsub(" ", "%20", qword)
-    
+    #replace speaces if species or add % at the end if genus 
+  if (!is.null(qword))  {
+    if (grepl(" ", qword))
+      qword <- gsub(" ", "%20", qword) else
+        qword <- paste0(qword, "%")
+  }
+  
     #initialize search
     q <- rjson::fromJSON(file = paste0("https://api.audioblast.org/annotations/?agent=warbleR&taxon=", qword))
     
     if (length(q) == 0) cat("No annotations were found") else {
     
       
-      q <- lapply(q, function(x){
+      q <- pbapply::pblapply(q, function(x){
         
         x[sapply(x, is.null)] <- NA
         
@@ -106,6 +110,36 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE) {
         if (pb)
           write(file = "", x = paste0(nrow(results), " annotations found!"))
     
+        # convert to numeric
+        results$time_start <- as.numeric(results$time_start)
+        results$time_end <- as.numeric(results$time_end)
+        results$freq_low <- as.numeric(results$freq_low)
+        results$freq_high <- as.numeric(results$freq_high)
+        
+        # change to warbleR format
+        if (warbler.format)
+        {
+          # time
+          results$start <- results$time_start
+          results$end <- results$time_start
+          
+          # selection ID
+          results$sound.files <- results$recording_url
+          results$selec <- results$annotation_id
+        
+          if (any(duplicated(results[, c("sound.files", "selec")])))
+          results$selec <- 1:nrow(results)
+          
+          # frequency
+          results$bottom.freq <- results$freq_low / 1000
+          results$top.freq <- results$freq_high / 1000  
+        
+          results$time_start <- results$time_end <- results$recording_url <- results$annotation_id <- results$freq_low <- results$freq_high <- NULL
+          
+          # sort columns intuitively
+          results <- warbleR::sort_colms(results)
+          }
+        
         return(results)
         } 
 

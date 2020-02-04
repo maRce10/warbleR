@@ -133,7 +133,7 @@
     <p><code>find_annotations</code> downloads sound file annotations and metadata from <a href='https://audioblast.org/annotations/'>audioblast.org</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_annotations</span>(<span class='no'>qword</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>find_annotations</span>(<span class='no'>qword</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>warbler.format</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,6 +150,10 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     <tr>
       <th>pb</th>
       <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>warbler.format</th>
+      <td><p>Logical. If <code>TRUE</code> columns are renamed using the standard names for a selection table as in 'warbleR', frequency limit columns (high and low frequency) in 'Hz' are converted to 'kHz' (as in warbleR selection tables) and only the spectrogram view measurements are kept. Default is <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
