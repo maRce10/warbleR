@@ -24,15 +24,15 @@ This function allow users to change the names of 'sound.files' and 'selec' colum
 }
 \examples{
 { 
-data("Phae.long.est")
+data("lbh.est")
 
 # order by sound file name
-Phae.long.est <- Phae.long.est[order(Phae.long.est$sound.files),]
+lbh.est <- lbh.est[order(lbh.est$sound.files),]
 
 # create new sound file name
-nsf <- sapply(strsplit(Phae.long.est$sound.files, ".wav",fixed = TRUE), "[",1)
+nsf <- sapply(strsplit(lbh.est$sound.files, ".wav",fixed = TRUE), "[",1)
 
-slc <- vector(length = nrow(Phae.long.est))
+slc <- vector(length = nrow(lbh.est))
 slc[1] <- 1
 
 for(i in 2:length(slc))
@@ -42,7 +42,7 @@ slc[i] <- 1
 nsf <- paste(nsf, slc, sep = "_")
 
 # rename sound files
-Y <- rename_waves_est(X = Phae.long.est, new.sound.files = nsf)
+Y <- rename_waves_est(X = lbh.est, new.sound.files = nsf)
 }
 
 }
