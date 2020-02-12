@@ -1330,11 +1330,8 @@ autoplot(mbmrk.snr) + ggtitle("sig2noise")
 ```
 &nbsp;
 
-```{r microbenchmark, out.width = "700px", echo = FALSE, fig.align= "center"}
+<center> ![autodetec image example](microbenchmark.png)</center>
 
-knitr::include_graphics("microbenchmark.png")
-
-```
 &nbsp;
 
 
