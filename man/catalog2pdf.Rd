@@ -2,7 +2,9 @@
 % Please edit documentation in R/catalog2pdf.R
 \name{catalog2pdf}
 \alias{catalog2pdf}
-\title{\code{catalog2pdf} combines \code{\link{catalog}} images into pdfs}
+\title{Combine \code{\link{catalog}} images into pdfs
+ 
+\code{catalog2pdf} combines \code{\link{catalog}} jpeg images into pdfs}
 \usage{
 catalog2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, 
 pb = TRUE, by.img.suffix = FALSE, ...)
@@ -29,10 +31,12 @@ images). Default is \code{FALSE} (i.e. no suffix).}
 \item{...}{Additional arguments to be passed to the internal pdf creating function \code{\link[grDevices]{pdf}} for customizing output.}
 }
 \description{
-\code{catalog2pdf} combines \code{\link{catalog}} images into pdfs
+Combine \code{\link{catalog}} images into pdfs
+ 
+\code{catalog2pdf} combines \code{\link{catalog}} jpeg images into pdfs
 }
 \details{
-The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Note that using lower resolution and smaller dimension (width and height) when creating catalogs will substantially decrease the size of pdf files (which could be pretty big).
+The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Images must be saved in .jpeg format. Note that using lower resolution and smaller dimension (width and height) when creating catalogs will substantially decrease the size of pdf files (which could be pretty big).
 }
 \examples{
 \dontrun{

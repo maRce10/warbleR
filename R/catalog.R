@@ -747,10 +747,10 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
         if (fig.type[i] %in% c("lab", "spec") & !is.null(group.tag)) par(bg = X3$colgroup[i], new = TRUE) else par(bg = "white", new = TRUE)
         
         screen(i)           
-        
+                                    
         if (fig.type[i] == "spec")  #plot spectros
         {     #Read sound files, initialize frequency and time limits for spectrogram
-         r <- warbleR::read_wave(X = X3, index = i, header = TRUE)
+         r <- warbleR::read_wave(X = X3, path = path, index = i, header = TRUE)
          f <- r$sample.rate
           
           # change mar to prop.mar (if provided)
