@@ -695,15 +695,18 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
   
   attr(W, "check.results") <- rbind(attr(X, "check.results")[ , cl.nms.cr, drop = FALSE], attr(Y, "check.results")[ , cl.nms.cr, drop = FALSE], make.row.names = TRUE)
   
-  attr(W, "wave.objects") <- c(attr(W, "wave.objects"), attr(Y, "wave.objects"))
+  attr(W, "wave.objects") <- c(attr(X, "wave.objects"), attr(Y, "wave.objects"))
   
   attr(W, "by.song") <- attr(X, "by.song")
   
   class(W) <- class(X)
  
   # remove duplicated  if any
-  attr(W, "wave.objects") <- attr(W, "wave.objects")[duplicated(names(attr(W, "wave.objects")))]
+  attr(W, "wave.objects") <- attr(W, "wave.objects")[!duplicated(names(attr(W, "wave.objects")))]
    
+  # fix version to current version
+  attributes(W)$warbleR.version <- packageVersion("warbleR")
+  
   return(W)
 }
 
