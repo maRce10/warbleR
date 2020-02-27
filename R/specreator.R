@@ -147,11 +147,13 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") 
+    if (!dir.exists(path)) stop("'path' provided does not exist") else
+      path <- normalizePath(path)
 
     #check dest.path to working directory
   if (is.null(dest.path)) dest.path <- path else 
-    if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist") 
+    if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist") else
+      dest.path <- normalizePath(dest.path)
   
   #if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")

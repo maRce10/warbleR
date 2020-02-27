@@ -65,7 +65,8 @@ rm_channels <- function(files = NULL, channels, path = NULL, parallel = 1, pb = 
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else if (!dir.exists(path)) stop("'path' provided does not exist")
+  if (is.null(path)) path <- getwd() else if (!dir.exists(path)) stop("'path' provided does not exist") else
+    path <- normalizePath(path)
   
   #read files
   fls <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  

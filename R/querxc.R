@@ -108,7 +108,8 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") 
+      stop("'path' provided does not exist") else
+        path <- normalizePath(path)
   
   #check internet connection
   a <- try(RCurl::getURL("www.xeno-canto.org"), silent = TRUE)

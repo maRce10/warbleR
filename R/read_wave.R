@@ -71,7 +71,8 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], chann
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
       if (!dir.exists(path)) 
-        stop("'path' provided does not exist") 
+        stop("'path' provided does not exist") else
+          path <- normalizePath(path)
   
   # convert attr(X, "check.results")$sound.files to character if factor
   if (is.factor(attr(X, "check.results")$sound.files )) 

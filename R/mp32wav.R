@@ -73,13 +73,17 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  if (!is.null(path))
-  {if (!dir.exists(path)) stop("'path' provided does not exist")} else
-    path <- getwd() 
+  #check path to working directory
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) 
+      stop("'path' provided does not exist") else
+        path <- normalizePath(path)
   
-  if (!is.null(dest.path))
-  {if (!dir.exists(dest.path)) stop("'path' provided does not exist")} else
-    dest.path <- path #set working directory
+  #check dest.path to working directory
+  if (is.null(dest.path)) dest.path <- getwd() else 
+    if (!dir.exists(dest.path)) 
+      stop("'dest.path' provided does not exist") else
+        dest.path <- normalizePath(dest.path)
   
   #normalize
   if (length(bit.depth) > 1) stop("'bit.depth' should have a single value")

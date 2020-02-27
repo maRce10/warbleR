@@ -66,7 +66,8 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist")
+      stop("'path' provided does not exist") else
+        path <- normalizePath(path)
   
   
   #stop if files is not a character vector

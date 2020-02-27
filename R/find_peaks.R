@@ -73,7 +73,8 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist")
+      stop("'path' provided does not exist") else
+        path <- normalizePath(path)
   
   # loop over scores of each dyad
   pks <- pbapply::pblapply(unique(xc.output$scores$dyad), FUN = function(i) {

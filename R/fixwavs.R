@@ -82,7 +82,8 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") 
+    if (!dir.exists(path)) stop("'path' provided does not exist") else
+      path <- normalizePath(path)
   
   #  If  both 'checksels' and 'files'  are NULL
   if (is.null(checksels) & is.null(files)) files <- list.files(path = path, pattern = ".wav$", ignore.case = TRUE)  

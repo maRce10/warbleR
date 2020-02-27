@@ -171,7 +171,8 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   
   #check path if not provided set to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") 
+    if (!dir.exists(path)) stop("'path' provided does not exist") else
+      path <- normalizePath(path)
   
   #if files not found
   if (length(list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)) == 0) if (is.null(path)) stop("No .wav files in working directory") else stop("No .wav files found") 

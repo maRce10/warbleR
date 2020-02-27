@@ -88,12 +88,15 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   # check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") 
+      stop("'path' provided does not exist") else
+        path <- normalizePath(path)
   
   # check path to working directory
   if (!is.null(dest.path))
   {
-    if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist")} else 
+    if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist") else 
+      path <- normalizePath(dest.path)
+    } else  
     dir.create(dest.path <- file.path(path, "consolidated_files"), showWarnings = FALSE)
   
   # list files

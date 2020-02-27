@@ -113,7 +113,8 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
   
   #check path if not provided set to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") 
+    if (!dir.exists(path)) stop("'path' provided does not exist") else
+      path <- normalizePath(path)
   
   ## save par current setting and restores it later
   opar <- par # save

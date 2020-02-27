@@ -160,7 +160,8 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") 
+      stop("'path' provided does not exist") else
+        path <- normalizePath(path)
   
   # unique path for csv file
   csv.path <- path

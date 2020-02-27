@@ -85,7 +85,8 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist")  
+    if (!dir.exists(path)) stop("'path' provided does not exist") else
+      path <- normalizePath(path) 
   
   #read files
   files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  

@@ -246,7 +246,8 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") 
+    if (!dir.exists(path)) stop("'path' provided does not exist") else
+      path <- normalizePath(path)
   
   #read files
   if (!is_extended_selection_table(X))
