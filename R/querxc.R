@@ -302,7 +302,7 @@ if (pb) write(file = "", x ="double-checking downloaded files")
      
     a1 <- pbapply::pblapply(X = 1:nrow(Y), cl = cl, FUN = function(x) 
   { 
-      xcFUN(Y, x) 
+      try(xcFUN(Y, x), silent = FALSE) 
   }) 
      
      }
