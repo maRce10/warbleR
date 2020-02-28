@@ -221,7 +221,7 @@ querxc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Sp
       indx <- sapply(results, is.factor)
       results[indx] <- lapply(results[indx], as.character)
       
-    #order columns
+      #order columns
     results <- results[ ,order(match(names(results), nms))]
     
     names(results)[match(c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "alt", "type", "file", "lic", "url", "q", "length", "time", "date", "uploaded", "rmk", "bird.seen", "playback.used"), names(results))] <- c("Recording_ID", "Genus", "Specific_epithet", "Subspecies", "English_name", "Recordist", 
@@ -303,14 +303,21 @@ if (pb) write(file = "", x ="double-checking downloaded files")
      
     a1 <- pbapply::pblapply(X = 1:nrow(Y), cl = cl, FUN = function(x) 
   { 
-      try(xcFUN(Y, x), silent = FALSE) 
+      try(xcFUN(Y, x), silent = TRUE) 
   }) 
      
      }
     
     
   }
- if (is.null(X)) if (as.numeric(q$numRecordings) > 0) return(droplevels(results))
+ if (is.null(X)) if (as.numeric(q$numRecordings) > 0) {
+   
+   # convert lat long to numbers
+   results$Latitude <- as.numeric(results$Latitude)
+   results$Longitude <- as.numeric(results$Longitude)
+   
+   return(droplevels(results))
+   }
   
    }
 

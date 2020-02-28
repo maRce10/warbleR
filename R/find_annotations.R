@@ -6,7 +6,7 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied when downloading mp3 files.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
-#' @param warbler.format 	Logical. If \code{TRUE} columns are renamed using the standard names for a selection table as in 'warbleR', frequency limit columns (high and low frequency) in 'Hz' are converted to 'kHz' (as in warbleR selection tables) and only the spectrogram view measurements are kept. Default is \code{FALSE}.
+#' @param warbler.format 	Logical. If \code{TRUE} columns are renamed using the standard names for a selection table as in 'warbleR', frequency limit columns (high and low frequency) in 'Hz' are converted to 'kHz' (as in warbleR selection tables) and the column names are changed to: 'sound.files', 'selec', 'start', 'end', 'bottom.freq' and 'top.freq'. Default is \code{FALSE}.
 #' @return A data frame with the annotation information.  
 #' @export
 #' @name find_annotations
