@@ -307,13 +307,18 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   if ("custom1" %in% methods) { 
     if (anyNA(custom1)) stop("NAs were found in 'custom1'")
     
-    custom1 <- custom1[match(paste(X$sound.files, X$selec), paste(custom1$sound.files, custom1$selec)), ]
+    if (length(setdiff(paste(custom1$sound.files, custom1$selec), paste(X$sound.files, X$selec))) > 0) stop ("some/all custom 1 'sound.files' and/or 'selec' values don't match with those in 'X'")
+    
+    custom1 <- custom1[match(paste(custom1$sound.files, custom1$selec), paste(X$sound.files, X$selec)), ]
     
     bidims[[length(bidims) + 1]] <- custom1[, 3:4]
   }
   
   if ("custom2" %in% methods) { 
     if (anyNA(custom2)) stop("NAs were found in 'custom2'")
+    
+    if (length(setdiff(paste(custom2$sound.files, custom2$selec), paste(X$sound.files, X$selec))) > 0) stop ("some/all custom 2 'sound.files' and/or 'selec' values don't match with those in 'X'")
+    
     
     custom2 <- custom2[match(paste(X$sound.files, X$selec), paste(custom2$sound.files, custom2$selec)), ]
     
@@ -378,6 +383,11 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
     if (pb) write(file = "", x ="measuring spectral parameters + harmonicity:")
     spmat <- specan(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = TRUE)
    
+    if (any(sapply(spmat, anyNA))){
+      spmat <- spmat[, !sapply(spmat, anyNA)]
+     warning("some NAs prdouced by SPharm, columns were removed")
+      }
+
     PCsp <- prcomp(scale(spmat[,3:ncol(spmat)]), center = TRUE, scale. = TRUE, rank. = 2)$x
   
     bidims[[length(bidims) + 1]] <- PCsp
@@ -406,7 +416,7 @@ compare.methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   X$labels <- 1:nrow(X)
   
   # maximum of 100 items for combinations
-  smps <- sample(1:nrow(X), 100)
+  smps <- sample(x = 1:nrow(X), size = ifelse(nrow(X) > 100, 100, nrow(X)))
   combs <- combn(smps, 4)
   
   if (nrow(X) == 4)  {n <- 1
