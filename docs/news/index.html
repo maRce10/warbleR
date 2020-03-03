@@ -126,13 +126,45 @@
       
     </div>
 
-    <div id="warbler-1-1-21" class="section level1">
+    <div id="warbler-1-1-23" class="section level1">
 <h1 class="page-header">
-<a href="#warbler-1-1-21" class="anchor"></a><small> 2020-02-04 </small><em>warbleR 1.1.21</em>
+<a href="#warbler-1-1-23" class="anchor"></a><small> Unreleased </small><em>warbleR 1.1.23</em>
 </h1>
 <div id="changes-and-additions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-and-additions" class="anchor"></a>Changes and additions:</h2>
+<ul>
+<li>add ‘am.amps’ argument to add amplitude modulation in <code><a href="../reference/sim_songs.html">sim_songs()</a></code>
+</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes:</h2>
+<ul>
+<li>fix ‘spectrograms()’ when plotting extended selection tables ‘by song’</li>
+</ul>
+</div>
+</div>
+    <div id="warbler-1-1-22" class="section level1">
+<h1 class="page-header">
+<a href="#warbler-1-1-22" class="anchor"></a><small> 2020-02-12 </small><em>warbleR 1.1.22</em>
+</h1>
+<div id="bug-fixes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes:</h2>
+<ul>
+<li>fix rbind in extended selection tables</li>
+</ul>
+</div>
+</div>
+    <div id="warbler-1-1-21" class="section level1">
+<h1 class="page-header">
+<a href="#warbler-1-1-21" class="anchor"></a><small> 2020-02-04 </small><em>warbleR 1.1.21</em>
+</h1>
+<div id="changes-and-additions-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-and-additions-1" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>print information of extended selection table includes sampling rates, bit depths and warbleR version</li>
 <li>warning message in ‘rbind.extended_selection_table()’ when some wave object names are found on both extended selection tables</li>
@@ -143,9 +175,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-20" class="anchor"></a><small> 2020-01-11 </small><em>warbleR 1.1.20</em>
 </h1>
-<div id="changes-and-additions-1" class="section level2">
+<div id="changes-and-additions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-1" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-2" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>mfcc cross-correlation implemented in ‘xcorr()’ (argument ‘type’)</li>
 <li>argument ‘cor.mat’ in ‘xcorr()’ has been deprecated</li>
@@ -168,9 +200,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-19" class="anchor"></a><small> 2019-12-17 </small><em>warbleR 1.1.19</em>
 </h1>
-<div id="changes-and-additions-2" class="section level2">
+<div id="changes-and-additions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-2" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-3" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>remove duplicated sound file names in spectrogram() images when ‘by.song’</li>
 <li>replace all class(.) == , by is(., *)</li>
@@ -184,9 +216,9 @@
 <li>new function rename_waves_est() to rename wave objects in extended selection tables</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>box/lines plotting when no frequency columns are supplied</li>
 </ul>
@@ -196,9 +228,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-18" class="anchor"></a><small> 2019-11-04 </small><em>warbleR 1.1.18</em>
 </h1>
-<div id="changes-and-additions-3" class="section level2">
+<div id="changes-and-additions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-3" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-4" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>updates on specan() to improve harmonic detection</li>
 <li>xcorr() performance has been largely improved (5X faster)</li>
@@ -213,9 +245,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-17" class="anchor"></a><small> 2019-09-29 </small><em>warbleR 1.1.17</em>
 </h1>
-<div id="changes-and-additions-4" class="section level2">
+<div id="changes-and-additions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-4" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-5" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>arguments ‘custom1’ and ‘custom2’ in autodetec() to let users enter their own data</li>
 <li>new vignette ‘Introduction to warbleR’</li>
@@ -234,9 +266,9 @@
 <li>split_wavs: splits sound files in shorter segments</li>
 </ul>
 </div>
-<div id="changes-and-additions-5" class="section level2">
+<div id="changes-and-additions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-5" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-6" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>‘to’ replaced by ‘dest.path’ argument removed in mp32wav()</li>
 <li>read_wave() can also read regular .wav files</li>
@@ -260,9 +292,9 @@
 <li>‘mfcc_stats()’ return NAs instead of error when MFCC can’t be calculated</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>x_corr() on extended selection tables with extra column names generated and error</li>
 <li>system() commands for windows in ‘fix_wavs()’ and ‘resample_est()’</li>
@@ -287,9 +319,9 @@
 <li>melfcc_stats: calculate descriptive statistics on Mel-frequency cepstral coefficients</li>
 </ul>
 </div>
-<div id="changes-and-additions-6" class="section level2">
+<div id="changes-and-additions-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-6" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-7" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>‘normalize’ argument in ‘mp32wav()’ renamed as ‘dip.depth’</li>
 <li>‘frange’ and ‘dfrange’ arguments in ‘xcorr()’ function deprecated</li>
@@ -299,9 +331,9 @@
 <li>‘title.labels’ argument in ‘specreator()’ to customized title</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Using ‘wav.path’ from ‘warbleR_options’ in ‘catalog()’</li>
 <li>clipping.edges option in ‘dfts()’ and ‘ffts()’</li>
@@ -313,9 +345,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-14" class="anchor"></a><small> 2018-06-21 </small><em>warbleR 1.1.14</em>
 </h1>
-<div id="changes-and-additions-7" class="section level2">
+<div id="changes-and-additions-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-7" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-8" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>‘open_wd()’ example fixed (requested by CRAN)</li>
 </ul>
@@ -326,9 +358,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-13" class="anchor"></a><small> 2018-05-18 </small><em>warbleR 1.1.13</em>
 </h1>
-<div id="changes-and-additions-8" class="section level2">
+<div id="changes-and-additions-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-8" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-9" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>new function names (print(new_function_names))</li>
 <li>object class ‘extended_selection_table’ to create self-contained acoustic data sets</li>
@@ -338,9 +370,9 @@
 <li>‘by.song’ argument in ‘specreator’ to create full song spectrograms with labeled elements</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Change “http” to “https” protocol for accessing Xeno-Canto recordings in “querxc”</li>
 </ul>
@@ -363,9 +395,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-12" class="anchor"></a><small> 2018-03-14 </small><em>warbleR 1.1.12</em>
 </h1>
-<div id="changes-and-additions-9" class="section level2">
+<div id="changes-and-additions-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-9" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-10" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>Parallel computing available in ‘querxc’ function when getting metadata</li>
 <li>Parallel computing available in ‘checksels’ function</li>
@@ -390,16 +422,16 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-10" class="anchor"></a><small> 2018-02-11 </small><em>warbleR 1.1.10</em>
 </h1>
-<div id="changes-and-additions-10" class="section level2">
+<div id="changes-and-additions-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-10" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-11" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>Example sound files have been moved to the new R package ‘NatureSounds’ (which is now a dependency)</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Problem with multiple tags in ‘catalog’</li>
 </ul>
@@ -418,9 +450,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-9" class="anchor"></a><small> 2017-11-18 </small><em>warbleR 1.1.9</em>
 </h1>
-<div id="changes-and-additions-11" class="section level2">
+<div id="changes-and-additions-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-11" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-12" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>“low.freq” and “high.freq” column names in default table format are now “bottom.freq” and “top.freq” respectively</li>
 <li>Moved ‘imp.syrinx’ and ‘imp.raven’ functions to new R package Rraven</li>
@@ -451,9 +483,9 @@
 <li>exp.raven: exports selection tables to a .txt file that can be opened in Raven</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Reading wave files with no stereo slot in “specan” and “checksels”</li>
 </ul>
@@ -464,9 +496,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-8" class="anchor"></a><small> 2017-04-27 </small><em>warbleR 1.1.8</em>
 </h1>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-8" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>installation in some linux distributions</li>
 </ul>
@@ -477,16 +509,16 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-7" class="anchor"></a><small> 2017-04-24 </small><em>warbleR 1.1.7</em>
 </h1>
-<div id="changes-and-additions-12" class="section level2">
+<div id="changes-and-additions-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-12" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-13" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>“seltailor” function now can use external graphic devices (X11 or quartz)</li>
 </ul>
 </div>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-9" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>installation in windows OS fixed (pbmcapply conflict in previous version)</li>
 </ul>
@@ -506,9 +538,9 @@
 <li>fixwavs: convert corrupted files to a format that can be imported into R</li>
 </ul>
 </div>
-<div id="changes-and-additions-13" class="section level2">
+<div id="changes-and-additions-14" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-13" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-14" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>added new acoustic parameters to “specan” function related to distribution of energy in the time axis. Also time entropy (“time.ent”) and overall entropy (“entropy”) were added</li>
 <li>“centroid” and “mode” parameters were removed from “specan” function</li>
@@ -536,9 +568,9 @@
 <li>grid can be removed from spectrograms in compare.methods function</li>
 </ul>
 </div>
-<div id="bug-fixes-8" class="section level2">
+<div id="bug-fixes-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-10" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>error produced when calculating frequency limits based on dominant frequency contours in xcorr (when frange is not provided)</li>
 <li>error for identifying readable sound files in some specific .wav formats in checkwavs function</li>
@@ -551,9 +583,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-5" class="anchor"></a><small> 2017-01-21 </small><em>warbleR 1.1.5</em>
 </h1>
-<div id="changes-and-additions-14" class="section level2">
+<div id="changes-and-additions-15" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-14" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-15" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>“frange” argument in seltailor to define also the frequency range (low.f and high.f)</li>
 <li>trackfreqs, specan now can use low.f and high.f as bandpass limits</li>
@@ -577,9 +609,9 @@
 <h1 class="page-header">
 <a href="#warbler-1-1-4" class="anchor"></a><small> 2016-11-16 </small><em>warbleR 1.1.4</em>
 </h1>
-<div id="changes-and-additions-15" class="section level2">
+<div id="changes-and-additions-16" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-and-additions-15" class="anchor"></a>Changes and additions:</h2>
+<a href="#changes-and-additions-16" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>“pb” argument to allow users to knock down progress bars and messages (in looping functions)</li>
 <li>modification to (slightly) improve ‘lspec’ performance</li>
@@ -587,9 +619,9 @@
 <li>new “custom.contour” argument in trackfreqs to allow users to input their own frequency contours</li>
 </ul>
 </div>
-<div id="bug-fixes-9" class="section level2">
+<div id="bug-fixes-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-11" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>bug fix for setting ‘path’ argument in several functions</li>
 <li>bug fix to due to missing values (undetected) in amplitude detection in trackfreqs, ffts, dfts, ffDTW, and dfDTW</li>
@@ -610,6 +642,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#warbler-1-1-23">1.1.23</a></li>
+        <li><a href="#warbler-1-1-22">1.1.22</a></li>
         <li><a href="#warbler-1-1-21">1.1.21</a></li>
         <li><a href="#warbler-1-1-20">1.1.20</a></li>
         <li><a href="#warbler-1-1-19">1.1.19</a></li>

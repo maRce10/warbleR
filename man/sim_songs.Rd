@@ -4,10 +4,11 @@
 \alias{sim_songs}
 \title{Simulate animal vocalizations}
 \usage{
-sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
-samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM", 
-fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE, file.name = NULL,
-path = NULL)
+sim_songs(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1, 
+gaps = 0.1, freqs = 5, samp.rate = 44.1, sig2 = 0.5, 
+steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM", 
+fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE, 
+file.name = NULL, path = NULL)
 }
 \arguments{
 \item{n}{Number of song subunits (e.g. elements). Default is 1.}
@@ -18,17 +19,20 @@ be used for all subunits) or a vector of length \code{n}.}
 \item{harms}{NUmeric vector of length 1 specifying the number of harmonics to simulate. 1 indicates that only the fundamental
 frequency harmonic will be simulated.}
 
-\item{amps}{Numeric vector with the relative amplitude of each of the harmonics (including the fundamental frequency).}
+\item{harm.amps}{Numeric vector with the relative amplitude of each of the harmonics (including the fundamental frequency).}
+
+\item{am.amps}{Numeric vector with the relative amplitude for each step (see 'step' argument) to simulate amplitude modulation (only applied to the fundamental frequency). Should have the same length as the number of steps. Default is 1 (no amplitude modulation). If supplied 'fin' and 'fout' are ignored.}
 
 \item{gaps}{Nueric vector with the duration of gaps (silence between subunits) in seconds. It should either be a single value
-(which would  be used for all subunits) or a vector  of length \code{n + 1}.}
+(which would be used for all subunits) or a vector  of length \code{n + 1}.}
 
 \item{freqs}{Numeric vector with the initial frequency of the subunits (and ending frequency if \code{diff.fun == "BB"}) in kHz. 
 It should either be a single value (which would  be used for all subunits) or a vector of length \code{n}.}
 
 \item{samp.rate}{Numeric vector of length 1. Sets the sampling frequency of the wave object (in kHz). Default is 44.1.}
 
-\item{sig2}{Numeric vector of length 1 defining the sigma value of the brownian motion model. Higher values will produce faster 
+\item{sig2}{Numeric vector defining the sigma value of the brownian motion model. It should either be a single value
+ (which would be used for all subunits) or a vector of length \code{n + 1}.  Higher values will produce faster 
 frequency modulations. Ignored if \code{diff.fun == "BB"}. Default is 0.1. Check the \code{\link[Sim.DiffProc]{BB}} 
 for more details.}
 

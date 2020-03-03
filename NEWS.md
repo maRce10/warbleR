@@ -1,3 +1,21 @@
+# *warbleR 1.1.23*
+
+## Changes and additions:
+
+* add 'am.amps' argument to add amplitude modulation in `sim_songs()` 
+
+## Bug fixes:
+
+* fix 'spectrograms()' when plotting extended selection tables 'by song'
+
+
+# *warbleR 1.1.22*
+
+## Bug fixes:
+
+* fix rbind in extended selection tables
+
+
 # *warbleR 1.1.21*
 
 ## Changes and additions:

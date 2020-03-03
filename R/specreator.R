@@ -250,7 +250,7 @@ specreator <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rever
   specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path, fill){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
+    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE, from = 0, to = X$end[i] + mar)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     

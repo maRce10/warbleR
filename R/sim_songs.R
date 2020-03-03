@@ -1,22 +1,25 @@
 #' Simulate animal vocalizations
 #' 
 #' \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
-#' @usage sim_songs(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, 
-#' samp.rate = 44.1, sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM", 
-#' fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE, file.name = NULL,
-#' path = NULL) 
+#' @usage sim_songs(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1, 
+#' gaps = 0.1, freqs = 5, samp.rate = 44.1, sig2 = 0.5, 
+#' steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM", 
+#' fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE, 
+#' file.name = NULL, path = NULL) 
 #' @param n Number of song subunits (e.g. elements). Default is 1.
 #' @param durs Numeric vector with the duration of subunits in seconds. It should either be a single value (which would 
 #' be used for all subunits) or a vector of length \code{n}. 
 #' @param harms NUmeric vector of length 1 specifying the number of harmonics to simulate. 1 indicates that only the fundamental
 #' frequency harmonic will be simulated.
-#' @param amps Numeric vector with the relative amplitude of each of the harmonics (including the fundamental frequency).
+#' @param harm.amps Numeric vector with the relative amplitude of each of the harmonics (including the fundamental frequency).
+#' @param am.amps Numeric vector with the relative amplitude for each step (see 'step' argument) to simulate amplitude modulation (only applied to the fundamental frequency). Should have the same length as the number of steps. Default is 1 (no amplitude modulation). If supplied 'fin' and 'fout' are ignored.
 #' @param gaps Nueric vector with the duration of gaps (silence between subunits) in seconds. It should either be a single value
-#'  (which would  be used for all subunits) or a vector  of length \code{n + 1}. 
+#'  (which would be used for all subunits) or a vector  of length \code{n + 1}. 
 #' @param freqs Numeric vector with the initial frequency of the subunits (and ending frequency if \code{diff.fun == "BB"}) in kHz. 
 #' It should either be a single value (which would  be used for all subunits) or a vector of length \code{n}. 
 #' @param samp.rate Numeric vector of length 1. Sets the sampling frequency of the wave object (in kHz). Default is 44.1.
-#' @param sig2 Numeric vector of length 1 defining the sigma value of the brownian motion model. Higher values will produce faster 
+#' @param sig2 Numeric vector defining the sigma value of the brownian motion model. It should either be a single value
+#'  (which would be used for all subunits) or a vector of length \code{n + 1}.  Higher values will produce faster 
 #' frequency modulations. Ignored if \code{diff.fun == "BB"}. Default is 0.1. Check the \code{\link[Sim.DiffProc]{BB}} 
 #' for more details. 
 #' @param steps Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during 
@@ -78,9 +81,9 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
 #' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
-#last modification on feb-22-2018 (MAS)
+# last modification on feb-22-2018 (MAS)
 
-sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps = 0.1, freqs = 5, samp.rate = 44.1, 
+sim_songs <- function(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1, gaps = 0.1, freqs = 5, samp.rate = 44.1, 
                       sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM", fin = 0.1,
                       fout = 0.2, shape = "linear", selec.table = FALSE, 
                       file.name = NULL, path = NULL) {
@@ -123,14 +126,18 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   }
   
   if (length(durs) != n & length(durs) != 1) stop("length of 'durs' should be 1 or equal to 'n'")
-  if (length(amps) != harms  & harms > 1) stop("length of 'amps' should be equal to 'harms'")
+  if (length(am.amps) != steps & length(am.amps) != 1) stop("length of 'am.amps' should be 1 or equal to number of 'steps'")
+  if (length(harm.amps) != harms  & harms > 1) stop("length of 'harm.amps' should be equal to 'harms'")
   if (length(gaps) != n + 1 & length(gaps) != 1) stop("length of 'gaps' should be 1 or equal to 'n' + 1")
   if (length(durs) == 1 & n != 1) durs <- rep(durs, n)
+  if (length(am.amps) == 1 & steps != 1) am.amps <- rep(am.amps, steps)
+  if (length(am.amps) > 1) am.amps <- am.amps / max(am.amps)
+  if (length(sig2) == 1 & n != 1) sig2 <- rep(sig2, n)
   if (length(gaps) == 1) gaps <- rep(gaps, n + 1)
   if (length(freqs) == 1 & n != 1) freqs <- rep(freqs, n)
   if (harms < 1) stop("'harms' should at least 1")
   if (harms > 10) harms <- 10
-  if (harms > 1) amps <- amps / max(amps)
+  if (harms > 1) harm.amps <- harm.amps / max(harm.amps)
   
   # set diffusion function 
   if (diff.fun == "GBM") df_fn <- Sim.DiffProc::GBM 
@@ -151,9 +158,8 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
     
     # simulate frequency modulation
     if (diff.fun != "pure.tone")
-      sng_frq <- as.vector((df_fn(N = ifelse(N < 2, 2, N), sigma = sig2) * sample(c(-1, 1), 1)) + freqs[x]) else
+      sng_frq <- as.vector((df_fn(N = ifelse(N < 2, 2, N), sigma = sig2[x]) * sample(c(-1, 1), 1)) + freqs[x]) else
         sng_frq <- rep(freqs[x], ifelse(N < 2, 2, N))
-      
       
       # patch to avoid negative numbers
       sng_frq <- abs(sng_frq)
@@ -165,9 +171,9 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
       
       frng <- range(sng_frq)
       
-      sng_amp <- rep(amps[1], length(sng_frq))
+      sng_amp <- stats::spline(x = am.amps, n = length(sng_frq))$y * harm.amps[1]
       
-      if (fin != 0 & fout != 0)
+      if (fin != 0 & fout != 0 & length(unique(am.amps)) == 1)
         sng_amp <- fade_env_wrblr_int(nvlp = sng_amp, fin = fin, fout = fout, shape = shape)
       
       # add starting gap
@@ -215,7 +221,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, amps = c(1, 0.5, 0.2), gaps 
   
   if (harms > 1)
     for(i in seq_len(harms - 1))
-      wv <- wv + synth2(env= frq_amp$amp /amps[1] * amps[i + 1], ifreq = frq_amp$frq * 1000 * hrm_freqs[i], f = (samp.rate * 1000), plot = FALSE)
+      wv <- wv + synth2(env= frq_amp$amp /harm.amps[1] * harm.amps[i + 1], ifreq = frq_amp$frq * 1000 * hrm_freqs[i], f = (samp.rate * 1000), plot = FALSE)
   
   wv <- tuneR::Wave(left = wv, samp.rate = (samp.rate * 1000), bit = 16)
   

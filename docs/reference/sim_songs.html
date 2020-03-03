@@ -133,10 +133,11 @@
     <p><code>sim_songs</code> simulate animal vocalizations in a wave object under brownian motion frequency drift.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>durs</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>amps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>), <span class='kw'>gaps</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>freqs</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>sig2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>steps</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bgn</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>diff.fun</span> <span class='kw'>=</span> <span class='st'>"GBM"</span>,
-<span class='kw'>fin</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>fout</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"linear"</span>, <span class='kw'>selec.table</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>file.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>durs</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>harm.amps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>), <span class='kw'>am.amps</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+<span class='kw'>gaps</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>freqs</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>sig2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+<span class='kw'>steps</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bgn</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>diff.fun</span> <span class='kw'>=</span> <span class='st'>"GBM"</span>,
+<span class='kw'>fin</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>fout</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"linear"</span>, <span class='kw'>selec.table</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+<span class='kw'>file.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,13 +157,17 @@ be used for all subunits) or a vector of length <code>n</code>.</p></td>
 frequency harmonic will be simulated.</p></td>
     </tr>
     <tr>
-      <th>amps</th>
+      <th>harm.amps</th>
       <td><p>Numeric vector with the relative amplitude of each of the harmonics (including the fundamental frequency).</p></td>
+    </tr>
+    <tr>
+      <th>am.amps</th>
+      <td><p>Numeric vector with the relative amplitude for each step (see 'step' argument) to simulate amplitude modulation (only applied to the fundamental frequency). Should have the same length as the number of steps. Default is 1 (no amplitude modulation). If supplied 'fin' and 'fout' are ignored.</p></td>
     </tr>
     <tr>
       <th>gaps</th>
       <td><p>Nueric vector with the duration of gaps (silence between subunits) in seconds. It should either be a single value
-(which would  be used for all subunits) or a vector  of length <code>n + 1</code>.</p></td>
+(which would be used for all subunits) or a vector  of length <code>n + 1</code>.</p></td>
     </tr>
     <tr>
       <th>freqs</th>
@@ -175,7 +180,8 @@ It should either be a single value (which would  be used for all subunits) or a 
     </tr>
     <tr>
       <th>sig2</th>
-      <td><p>Numeric vector of length 1 defining the sigma value of the brownian motion model. Higher values will produce faster 
+      <td><p>Numeric vector defining the sigma value of the brownian motion model. It should either be a single value
+ (which would be used for all subunits) or a vector of length <code>n + 1</code>.  Higher values will produce faster 
 frequency modulations. Ignored if <code>diff.fun == "BB"</code>. Default is 0.1. Check the <code><a href='https://rdrr.io/pkg/Sim.DiffProc/man/ABM.html'>BB</a></code> 
 for more details.</p></td>
     </tr>
