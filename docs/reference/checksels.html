@@ -134,7 +134,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>checksels</span>(<span class='no'>X</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>check.header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>wav.size</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='kw'>wav.size</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,6 +171,10 @@ with long sound files.</p></td>
       <td><p>Logical argument to control if the size of the wave object 
 when the selection is imported into R (as when using <code><a href='https://rdrr.io/pkg/tuneR/man/readWave.html'>readWave</a></code>
 is calculated and added as a column. Size is return in MB. Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical to control whether the 'path' is printed in the console. Defaut is <code>TRUE</code>.</p></td>
     </tr>
     </table>
 

@@ -10,7 +10,8 @@ check_sels(
   path = NULL,
   check.header = FALSE,
   pb = TRUE,
-  wav.size = FALSE
+  wav.size = FALSE,
+  verbose = TRUE
 )
 }
 \description{

@@ -10,7 +10,7 @@ open_wd(path = getwd(), verbose = TRUE)
 \item{path}{Directory path to be opened. By default it's the working directory. 
 'wav.path' set by \code{\link{warbleR_options}} is ignored in this case.}
 
-\item{verbose}{Logical to control whether the 'path' is printed in the console.}
+\item{verbose}{Logical to control whether the 'path' is printed in the console. Defaut is \code{TRUE}.}
 }
 \description{
 \code{open_wd} opens the working directory in the default file browser.
