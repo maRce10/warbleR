@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.22</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.23</span>
       </span>
     </div>
 
@@ -136,7 +136,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>xcmaps</span>(<span class='no'>X</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+ <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>leaflet.map</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+ <span class='kw'>leaflet.cluster</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,6 +173,14 @@ If <code>TRUE</code> then the Recording_ID is used as label.</p></td>
 If <code>NULL</code> (default) then the current working directory is used.
 Ignored if <code>img = FALSE</code>.</p></td>
     </tr>
+    <tr>
+      <th>leaflet.map</th>
+      <td><p>Logical to control whether the package 'leaflet' is used for displaying the maps. 'leaflet' maps are interactive and display information about recordings and links to the Xeno-Canto website. If <code>TRUE</code> a single map is displayed regardless of the number of species and all other image related arguments are ignored. Default is <code>FALSE</code>. The hovering label shows the species scientific name (or the subspecies if only 1 species is present in 'X'). Note that colors will be recycled if more after 18 species (or subspecies).</p></td>
+    </tr>
+    <tr>
+      <th>leaflet.cluster</th>
+      <td><p>Logical to control if icons are clustered by locality (as in Xeno-Canto maps). Default is <code>FALSE</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -182,8 +191,8 @@ Ignored if <code>img = FALSE</code>.</p></td>
 
     <p>This function creates maps for visualizing the geographic spread of recordings from the open-access
 online repository  <a href='http://www.xeno-canto.org/'>Xeno-Canto</a>. The function takes the output of 
-<code><a href='querxc.html'>querxc</a></code> as input. Maps can be displayed in the graphic device or saved as images in the
-working directory.</p>
+<code><a href='querxc.html'>querxc</a></code> as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
+working directory. Note that only recordings with geographic coordinates are displayed.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
@@ -195,6 +204,9 @@ working directory.</p>
 
 <span class='co'>#create image in R graphic device</span>
 <span class='fu'>xcmaps</span>(<span class='no'>X</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'>#create leaflet map</span>
+<span class='fu'>xcmaps</span>(<span class='no'>X</span>, <span class='kw'>leaflet.map</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

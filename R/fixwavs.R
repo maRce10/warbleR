@@ -23,14 +23,12 @@
 #' \code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
 #' names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 #' all sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
-#' ('converted_sound_files'). Internally the function calls \href{http://sox.sourceforge.net/sox.html}{SOX}. \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed to be able to run this function. If  both 'checksels' and 'files'  are \code{NULL}
+#' ('converted_sound_files'). Internally the function calls \code{\link[bioacoustics]{resample}} or s\href{http://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed. If  both 'checksels' and 'files' are \code{NULL}
 #' then all files in 'path' are converted. 
 #'   
 #' @examples
 #' \dontrun{
-#' # Save to temporary working directory
-#' 
-#' 
+#' # Load example files and save to temporary working directory
 # data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 # writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 # writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
@@ -40,7 +38,7 @@
 # fixwavs(files = lbh_selec_table$sound.files, path = tempdir())
 #' 
 #' #check this folder
-#' getwd()
+#' tempdir()
 #' }
 #' 
 #' @references {
@@ -54,7 +52,7 @@ fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth 
 
   # error message if bioacoustics is not installed
   if (!requireNamespace("bioacoustics", quietly = TRUE) & !is.null(samp.rate))
-    stop("must install 'bioacoustics' to use mp32wav() for changing sampling rate")
+    stop("must install 'bioacoustics' to use for changing sampling rate")
   
   #### set arguments from options
   # get function arguments

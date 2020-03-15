@@ -161,11 +161,10 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
-#' @importFrom maps map map.axes
-#' @importFrom methods formalArgs new is
-#' @importFrom pracma findpeaks
-#' @importFrom Sim.DiffProc BB GBM
-#' @importFrom methods slotNames
+# #' @importFrom maps map map.axes
+#' @importFrom methods formalArgs new is slotNames
+# #' @importFrom pracma findpeaks
+# #' @importFrom Sim.DiffProc BB GBM
 #' @importFrom dtw dtwDist
 #' @importFrom stats cor dist aggregate approx ave prcomp time ts predict smooth.spline complete.cases spline weighted.mean na.omit var sd rlnorm fft
 #' 

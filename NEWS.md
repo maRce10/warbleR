@@ -1,3 +1,10 @@
+# *warbleR 1.1.24*
+
+## Changes and additions:
+
+* 'leaflet' interactive maps in `xc_maps()` 
+
+
 # *warbleR 1.1.23*
 
 ## Changes and additions:
@@ -7,6 +14,7 @@
 ## Bug fixes:
 
 * fix 'spectrograms()' when plotting extended selection tables 'by song'
+* fix 'compare_methods()' when less than 100 rows in 'X'
 
 
 # *warbleR 1.1.22*

@@ -5,7 +5,8 @@
 \title{Maps of 'Xeno-Canto' recordings by species}
 \usage{
 xcmaps(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
- path = NULL)
+ path = NULL, leaflet.map = FALSE, 
+ leaflet.cluster = FALSE)
 }
 \arguments{
 \item{X}{Data frame output from \code{\link{querxc}}.}
@@ -26,6 +27,10 @@ If \code{TRUE} then the Recording_ID is used as label.}
 \item{path}{Character string with the directory path where the image files will be saved. 
 If \code{NULL} (default) then the current working directory is used.
 Ignored if \code{img = FALSE}.}
+
+\item{leaflet.map}{Logical to control whether the package 'leaflet' is used for displaying the maps. 'leaflet' maps are interactive and display information about recordings and links to the Xeno-Canto website. If \code{TRUE} a single map is displayed regardless of the number of species and all other image related arguments are ignored. Default is \code{FALSE}. The hovering label shows the species scientific name (or the subspecies if only 1 species is present in 'X'). Note that colors will be recycled if more after 18 species (or subspecies).}
+
+\item{leaflet.cluster}{Logical to control if icons are clustered by locality (as in Xeno-Canto maps). Default is \code{FALSE}.}
 }
 \value{
 A map of 'Xeno-Canto' recordings per species (image file), or a faceted
@@ -38,8 +43,8 @@ A map of 'Xeno-Canto' recordings per species (image file), or a faceted
 \details{
 This function creates maps for visualizing the geographic spread of recordings from the open-access
 online repository  \href{http://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of 
-\code{\link{querxc}} as input. Maps can be displayed in the graphic device or saved as images in the
-working directory.
+\code{\link{querxc}} as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
+working directory. Note that only recordings with geographic coordinates are displayed.
 }
 \examples{
 \dontrun{
@@ -48,6 +53,9 @@ X <- querxc("Phaethornis anthophilus", download = FALSE)
 
 #create image in R graphic device
 xcmaps(X, img = FALSE)
+
+#create leaflet map
+xcmaps(X, leaflet.map = TRUE)
 }
 
 }

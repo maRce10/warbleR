@@ -39,17 +39,15 @@ This function aims to simplify the process of converting sound files that cannot
 \code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
 names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 all sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
-('converted_sound_files'). Internally the function calls \href{http://sox.sourceforge.net/sox.html}{SOX}. \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed to be able to run this function. If  both 'checksels' and 'files'  are \code{NULL}
+('converted_sound_files'). Internally the function calls \code{\link[bioacoustics]{resample}} or s\href{http://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed. If  both 'checksels' and 'files' are \code{NULL}
 then all files in 'path' are converted.
 }
 \examples{
 \dontrun{
-# Save to temporary working directory
-
-
+# Load example files and save to temporary working directory
 
 #check this folder
-getwd()
+tempdir()
 }
 
 }
