@@ -112,10 +112,16 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
      
       
       out <- pbapply::pblapply(attributes(X)$wave.objects, function(x){
-      
-        tuneR::writeWave(extensible = FALSE, object = x, filename = file.path(tempdir(), "temp.R.file.wav"))
+        
+        # fo saving current wave    
+        tempfile <- paste0(tempfile(), ".wav")
+        
+        # for writting converted wave
+        tempfile2 <- paste0(tempfile(), ".wav")
+        
+        suppressWarnings(tuneR::writeWave(extensible = FALSE, object = tuneR::normalize(x), filename = tempfile))
    
-        cll <- paste0("sox 'temp.R.file.wav' -t wavpcm ", "-b ", bit.depth, " 'temp.R.file2.wav' rate ", samp.rate * 1000, " dither -s") 
+        cll <- paste0("sox '", tempfile,"'  -t wavpcm ", "-b ", bit.depth, " '", tempfile2, "' rate ", samp.rate * 1000, " dither -s") 
         
         if (avoid.clip) cll <- gsub("^sox", "sox -G", cll)
           
@@ -125,22 +131,25 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
         
         out <- suppressWarnings(system(cll, ignore.stdout = FALSE, intern = TRUE)) 
         
-        x <- warbleR::read_wave(X = "temp.R.file2.wav", path = tempdir())
+        x <- warbleR::read_wave(X = basename(tempfile2), path = tempdir())
+        
+        # remove files
+        unlink(c(tempfile, tempfile2))  
         
         return(x)
         })
-      unlink(c("temp.R.file.wav", "temp.R.file2.wav"))  
+     
   }   
 
+  
+  # replace with resampled waves
+  attributes(X)$wave.objects <- out
+  
   # fix attributes
   attributes(X)$check.results$sample.rate <- samp.rate
   attributes(X)$check.results$bits <- bit.depth
   # attributes(X)$check.results$n.samples <- sapply(attributes(X)$check.results$sound.files, function(x) length(x@left)) 
   attributes(X)$check.results$n.samples <- sapply(X$sound.files, function(x) length(attributes(X)$wave.objects[[which(names(attributes(X)$wave.objects) == x)]]@left)) 
-  
-  
-  # replace with resampled waves
-  attributes(X)$wave.objects <- out
   
   if (any(X$top.freq > samp.rate / 2)) 
   {

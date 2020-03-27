@@ -144,13 +144,15 @@ fix_bio_FUN <- function(x) {
 fix_sox_FUN <- function(x)
 {
   
+  x <- normalizePath(file.path(path, x))
+  
   #name  and path of original file
   cll <- paste0("sox '", x, "' -t wavpcm")
   
   if (!is.null(bit.depth))
     cll <- paste(cll, paste("-b", bit.depth))
   
-  cll <- paste0(cll, " converted_sound_files/'", x, "'")
+  cll <- paste0(cll, " ", normalizePath(file.path(path, "converted_sound_files/'", basename(x))), "'")
   
   if (!is.null(samp.rate))
     cll <- paste(cll, "rate", samp.rate * 1000)
