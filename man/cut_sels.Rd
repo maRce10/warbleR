@@ -5,7 +5,7 @@
 \title{Cut selections into individual sound files}
 \usage{
 cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
-labels = c("sound.files", "selec"), overwrite = FALSE, ...)
+labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, ...)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
@@ -33,7 +33,9 @@ sound files will be overwritten). Default is \code{c("sound.files", "selec")}.}
 \item{overwrite}{Logical. If \code{TRUE} sound files with the same name will be 
 overwritten. Default is \code{FALSE}.}
 
-\item{...}{Additional arguments to be passed to the internal \code{\link[tuneR]{writeWave}}  function for customizing sound file output (e.g. normalization).}
+\item{norm}{Logical indicating whether wave objects must be normalized first using the function \code{\link[tuneR]{normalize}}. Additional arguments can be passed to \code{\link[tuneR]{normalize}} using `...`.` Default is \code{FALSE}. See \code{\link[tuneR]{normalize}} for available options.}
+
+\item{...}{Additional arguments to be passed to the internal \code{\link[tuneR]{normalize}}  function for customizing sound file output. Ignored if  \code{norm = FALSE}.}
 }
 \value{
 Sound files of the signals listed in the input data frame.
@@ -43,7 +45,7 @@ Sound files of the signals listed in the input data frame.
 }
 \details{
 This function allow users to produce individual sound files from the selections
-listed in a selection table as in \code{\link{lbh_selec_table}}.
+listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth.
 }
 \examples{
 { 

@@ -3,7 +3,7 @@
 #' \code{cut_sels} cuts selections from a selection table into individual sound files.
 #' @export cut_sels
 #' @usage cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
-#' labels = c("sound.files", "selec"), overwrite = FALSE, ...)
+#' labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, ...)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end).
 #' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
@@ -21,14 +21,15 @@
 #'  sound files will be overwritten). Default is \code{c("sound.files", "selec")}. 
 #' @param overwrite Logical. If \code{TRUE} sound files with the same name will be 
 #' overwritten. Default is \code{FALSE}.
-#' @param ... Additional arguments to be passed to the internal \code{\link[tuneR]{writeWave}}  function for customizing sound file output (e.g. normalization). 
+#' @param norm Logical indicating whether wave objects must be normalized first using the function \code{\link[tuneR]{normalize}}. Additional arguments can be passed to \code{\link[tuneR]{normalize}} using `...`.` Default is \code{FALSE}. See \code{\link[tuneR]{normalize}} for available options.
+#' @param ... Additional arguments to be passed to the internal \code{\link[tuneR]{normalize}}  function for customizing sound file output. Ignored if  \code{norm = FALSE}. 
 #' @return Sound files of the signals listed in the input data frame.
 #' @family selection manipulation
 #' @seealso \code{\link{seltailor}} for tailoring selections 
 #'  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
 #' @name cut_sels
 #' @details This function allow users to produce individual sound files from the selections
-#' listed in a selection table as in \code{\link{lbh_selec_table}}.
+#' listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth.  
 #' @examples{ 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
@@ -51,7 +52,7 @@
 #last modification on mar-12-2018 (MAS)
 
 cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
-                     labels = c("sound.files", "selec"), overwrite = FALSE, ...){
+                     labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, ...){
   
   # reset pb
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -162,7 +163,9 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     # save cut
     if (overwrite) unlink(file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")))
 
-    tuneR::writeWave(extensible = FALSE, object = wvcut, filename = file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")), ...)
+  if (norm)  wvcut <- normalize(object = wvcut, ...)
+    
+    suppressWarnings(tuneR::writeWave(extensible = FALSE, object = wvcut, filename = file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav"))))
        
   }
   

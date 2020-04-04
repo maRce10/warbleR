@@ -134,7 +134,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>cut_sels</span>(<span class='no'>X</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dest.path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>), <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>), <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,8 +181,12 @@ sound files will be overwritten). Default is <code><a href='https://rdrr.io/r/ba
 overwritten. Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
+      <th>norm</th>
+      <td><p>Logical indicating whether wave objects must be normalized first using the function <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code>. Additional arguments can be passed to <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code> using `...`.` Default is <code>FALSE</code>. See <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code> for available options.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Additional arguments to be passed to the internal <code><a href='https://rdrr.io/pkg/tuneR/man/writeWave.html'>writeWave</a></code>  function for customizing sound file output (e.g. normalization).</p></td>
+      <td><p>Additional arguments to be passed to the internal <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code>  function for customizing sound file output. Ignored if  <code>norm = FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -192,7 +196,7 @@ overwritten. Default is <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function allow users to produce individual sound files from the selections
-listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>.</p>
+listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
@@ -215,7 +219,7 @@ listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec
 
 <span class='co'>#check this folder!!</span>
 <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div><div class='output co'>#&gt; [1] "/tmp/RtmpcVlUEs"</div><div class='input'>
+}</div><div class='output co'>#&gt; [1] "/tmp/Rtmpemr0m1"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
