@@ -135,7 +135,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
   
   #stop if only 1 selection
-  if (nrow(X) == 1) stop("you need more than one selection to do cross-correlation")
+  if (nrow(X) == 1 & is.null(compare.matrix)) stop("you need more than one selection to do cross-correlation")
   
   # bp needed when no bottom and top freq
   if (bp[1] == "pairwise.freq.range" & is.null(X$bottom.freq))  stop("'bp' must be supplied when no frequency range columns are found in 'X' (bottom.freq & top.freq)")
