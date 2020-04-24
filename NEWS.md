@@ -2,8 +2,11 @@
 
 ## Changes and additions:
 
-* 'leaflet' interactive maps in `xc_maps()` 
+* 'leaflet' interactive maps in `xc_maps()`
+* 'split_wavs()' new argument 'only.sels' to only return selection tables
 
+## Bug fixes:
+* Fixed number of segments when using 'sgmts' argument in 'split_wavs()', it used to return 'sgmts - 1' segments.
 
 # *warbleR 1.1.23*
 

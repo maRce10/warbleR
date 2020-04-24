@@ -2,7 +2,7 @@
 #' 
 #' \code{split_wavs} splits sound files in shorter segments
 #' @usage split_wavs(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
-#'  parallel = 1, pb = TRUE)
+#'  parallel = 1, pb = TRUE, only.sels  = FALSE)
 #' @param path Directory path where sound files are found. 
 #'  If \code{NULL} (default) then the current working directory is used.
 #' @param sgmt.dur Numeric. Duration (in s) of segments in which sound files would be split. Sound files shorter than 'sgmt.dur' won't be split. Ignored if 'sgmts' is supplied.
@@ -11,6 +11,7 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
+#' @param only.sels Logical argument to control if only the data frame is return (no wave files are saved). Default is \code{FALSE}.
 #' @family data manipulation
 #' @seealso \code{\link{cut_sels}} 
 #' @export
@@ -37,7 +38,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on jun-07-2019 (MAS)
-split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, parallel = 1, pb = TRUE){
+split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, parallel = 1, pb = TRUE, only.sels  = FALSE){
   
   #### set arguments from options
   # get function arguments
@@ -113,7 +114,7 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
         out <- data.frame(org.sound.files = x, sound.files = x, start = 0, end = wvdr$duration[wvdr$sound.files == x], stringsAsFactors = FALSE)
     } else { 
       # get start and end of segments
-      sq <- seq(from = 0, to = wvdr$duration[wvdr$sound.files == x], length.out = sgmts)
+      sq <- seq(from = 0, to = wvdr$duration[wvdr$sound.files == x], length.out = sgmts + 1)
       
       # put in data frame
       out <- data.frame(org.sound.files = x, sound.files = paste0(gsub("\\.wav$", "", x, ignore.case = TRUE), "-", 1:(length(sq) - 1), ".wav"), start = sq[-length(sq)], end = sq[-1], stringsAsFactors = FALSE)
@@ -125,6 +126,7 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   # put together in a single data frame
   split.df <- do.call(rbind, split.dfs)
   
+  if (!only.sels){
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
   
@@ -133,16 +135,17 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
     # split using a loop only the ones that are shorter than segments
-  a <- pbsapply(which(split.df$org.sound.files != split.df$sound.files), cl =  cl, function(x) {
-    
-    clip <- warbleR::read_wave(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path)
-    
-      tuneR::writeWave(extensible = FALSE, object = clip, filename = file.path(path, split.df$sound.files[x]))
-
+  a <- pbapply::pbsapply(which(split.df$org.sound.files != split.df$sound.files), cl =  cl, function(x) {
+  
+  # read clip    
+  clip <- warbleR::read_wave(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path)
+  
+  # save   
+  tuneR::writeWave(extensible = FALSE, object = clip, filename = file.path(path, split.df$sound.files[x]))
     
     return(NULL)  
   })
+  }
   
   return(split.df)
-  
 } 
