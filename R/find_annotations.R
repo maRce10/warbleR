@@ -156,7 +156,7 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FA
           results$bottom.freq <- results$freq_low / 1000
           results$top.freq <- results$freq_high / 1000  
         
-          results$time_start <- results$time_end <- results$recording_url <- results$annotation_id <- results$freq_low <- results$freq_high <- NULL
+          results$time_start <- results$time_end <- results$source_id <- results$annotation_id <- results$freq_low <- results$freq_high <- NULL
           
           # sort columns intuitively
           results <- warbleR::sort_colms(results)
