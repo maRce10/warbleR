@@ -152,7 +152,7 @@ fix_sox_FUN <- function(x)
   if (!is.null(bit.depth))
     cll <- paste(cll, paste("-b", bit.depth))
   
-  cll <- paste0(cll, " ", normalizePath(file.path(path, "converted_sound_files/'", basename(x))), "'")
+  cll <- paste0(cll, " '", file.path(normalizePath(path), "converted_sound_files/", basename(x)), "'")
   
   if (!is.null(samp.rate))
     cll <- paste(cll, "rate", samp.rate * 1000)

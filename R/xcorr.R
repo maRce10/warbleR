@@ -89,12 +89,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
-  # define number of steps in analysis to print message
-  if (pb){
-    max.stps <- getOption("warbleR.steps")
-    if (is.null(max.stps)) max.stps <- 2
-}  
-  
+ 
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(xcorr)
@@ -118,6 +113,12 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   if (length(opt.argms) > 0)
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
+  
+  # define number of steps in analysis to print message
+  if (pb){
+    max.stps <- getOption("warbleR.steps")
+    if (is.null(max.stps)) max.stps <- 2
+  } 
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
@@ -333,7 +334,6 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   # shuffle spectrograms index so are not compared in sequence, which makes progress bar more precise when some selections are much longer than others
   ord.shuf <- sample(1:nrow(spc.cmbs))
   
-  # sampling rate must be the same
   spc.cmbs <- spc.cmbs[ord.shuf, , drop = FALSE]
   
   #run cross-correlation
