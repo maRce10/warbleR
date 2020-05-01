@@ -764,7 +764,7 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
           
           if (t[2] > r$samples/f) t[2] <- r$samples/f
           
-          rec <- warbleR::read_wave(X = X3, index = i, from = t[1], to = t[2])
+          rec <- warbleR::read_wave(X = X3, path = path, index = i, from = t[1], to = t[2])
           
           #add xaxis to bottom spectros
           if (!same.time.scale & !rm.axes) {

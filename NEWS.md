@@ -2,6 +2,7 @@
 
 ## Changes and additions:
 
+* 'download' option available in `find_annotations()`
 * 'leaflet' interactive maps in `xc_maps()`
 * 'split_wavs()' new argument 'only.sels' to only return selection tables
 
