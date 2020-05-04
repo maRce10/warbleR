@@ -8,9 +8,8 @@
 #' fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL) 
 #' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
-#' (start and end). If given, two red dotted lines are plotted at the 
-#' start and end of a selection and the selections are labeled with the selection number 
-#' (and selection comment, if available). Default is \code{NULL}.
+#' (start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number 
+#' (and selection comment, if available). Default is \code{NULL}.Alternatively, it can also take the output of \code{\link{xcorr}} or \code{\link{autodetec}} (when 'output' is a 'list', see \code{\link{xcorr}} or \code{\link{autodetec}}). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
 #'   \code{\link[seewave]{spectro}}. Default is c(0,22).
@@ -66,7 +65,7 @@
 #'   supplied, the function delimits and labels the selections. 
 #'   This function aims to facilitate visual inspection of multiple files as well as visual classification 
 #'   of vocalization units and the analysis of animal vocal sequences.
-#' @seealso \code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, 
+#' @seealso \code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, \code{\link{xcorr}}, \code{\link{autodetec}}
 #' \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
 #' @examples
 #' \dontrun{
@@ -130,9 +129,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
       stop("'path' provided does not exist") else
         path <- normalizePath(path)
   
-  #if sel.comment column not found create it
-  if (is.null(X$sel.comment) & !is.null(X)) X<-data.frame(X,sel.comment="")
-  
   #read files
   files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
   
@@ -143,31 +139,99 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   if (!is.null(flist)) files <- files[files %in% flist]
   if (length(files) == 0)  stop("selected .wav files are not in working directory")
   
-  # if X provided  
-  if (!is.null(X)) {
-
-    #list only files in X
-    files <- files[files %in% X$sound.files]
+  # set W to null by default (this is the detection data.frame)
+  W <- NULL
+  
+  # if X provided and comes from xcorr 
+  if (!is.null(X))
+  if (is(X, "xcorr.output")) {  
+    # no cutoff in only xcorr
+    cutoff <- NA
     
-    #if X is not a data frame
-    if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+    # extract scores
+    W <- X$scores
+    
+    # remove whole.file from sound file name
+    W$sound.files <- gsub("-whole.file", "", W$sound.files)
+
+    # set X to null
+    X <- NULL
+    }
+  
+  # if X is not from xcorr.output
+  if (!is.null(X)) {
+    
+    # if is a data frame or st/est
+    if (!is(X, "find_peaks.output") & !is(X, "autodetec.output")) {
+      #list only files in X
+      files <- files[files %in% X$sound.files]
+      
+      #if X is not a data frame
+      if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+      
+      #if there are NAs in start or end stop
+      if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")
+      
+      #check if all columns are found
+      if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
+        stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+                                                                       "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+      
+      #if end or start are not numeric stop
+      if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+      
+      #if any start higher than end stop
+      if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
+      
+      }
+      
+    # if coming from find_peaks
+    if (is(X, "find_peaks.output")) {  
+      
+      # cut off for detection lines
+      cutoff <- X$cutoff
+      
+      # get time contours
+      W <- X$scores
+      
+      # remove whole.file from sound file name
+      W$sound.files <- gsub("-whole.file", "", W$sound.files)
+      
+      # get selection table and overwrite X
+      X <- X$selection.table
+    
+      # add label of type of detection
+      X$type <- "find_peaks"
+      
+      #list only files in W
+      files <- files[files %in% W$sound.files]
+      }
+    
+    # if coming from autodetec
+    if (is(X, "autodetec.output")){ 
+      
+      # cut off for detection lines
+      cutoff <- X$parameters$threshold 
+    
+      # get time contours
+      W <- X$envelopes
+      
+      # rename column with contours
+      names(W)[names(W) == "amplitude"] <- "scores"
+        
+      # get selection table and overwrite X
+      X <- X$selection.table
+    
+      # add label of type of detection
+      X$type <- "autodetec"
+      
+      #list only files in W
+      files <- files[files %in% W$sound.files]
+      
+    }
     
   #stop if files are not in working directory
   if (length(files) == 0) stop(".wav files in X are not in working directory")
-  
-  #if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")
-  
-  #check if all columns are found
-  if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
-    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
-                                                                   "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
-
-  #if end or start are not numeric stop
-  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
-  
-  #if any start higher than end stop
-  if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
     } 
  
 #if flim is not vector or length!=2 stop
@@ -218,11 +282,13 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   
   files <- files[!is.na(files)]
   
-  #stop if files are not in working directory
+  #stop if all files have been analyzed 
   if (length(files) == 0) stop("all .wav files have been processed")
   
   #create function for making spectrograms
-  lspecFUN <-function(z, fl, sl, li, ml, X) {
+  # z = sound files, fl = flim, sl = sxrow, li = rows, li = duplicated rows if Y provided, X = selection table, W = contours, autod = if Y comes from autodetec
+
+  lspecFUN <-function(z, fl, sl, li, X, W) {
     
     rec <- warbleR::read_wave(X = z, path = path) #read wave file 
     
@@ -237,7 +303,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
     
     #if duration is multiple of sl
     if (!length(grep("[^[:digit:]]", as.character(dur/sl))))
-  rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 segment of rec     
+  rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 s segment of rec     
     
     dur <- seewave::duration(rec) #set duration    
     
@@ -250,7 +316,15 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
       img_wrlbr_int(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".", it), path = path,  
            res = 160, units = "in", width = if(horizontal) 11 else 8.5, height = if(horizontal) 8.5 else 11) 
       
-      par(mfrow = c(li,  1), cex = 0.6, mar = c(0,  0,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
+      # set number of rows
+      mfrow <- c(li, 1)
+      
+      # if detections should be printed
+      if (!is.null(W))
+        if (any(W$sound.files == z))
+          mfrow <- c(li * 2,  1)
+
+      par(mfrow = mfrow, cex = 0.6, mar = c(0,  1,  0,  0), oma = c(2, 2, 0.5, 0.5), tcl = -0.25)
       
       #creates spectrogram rows
       x <- 0
@@ -332,16 +406,61 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
        
       }
                                      
-                                     #add axis to last spectro row
-                                     axis(1, at = c(0:sl), labels = c((((x)*sl+li*(sl)*(j-1))-sl):((x)*sl+li*(sl)*(j-1))) , tick = TRUE)
+              #add axis to last spectro row
+              axis(1, at = c(0:sl), labels = c((((x)*sl+li*(sl)*(j-1))-sl):((x)*sl+li*(sl)*(j-1))) , tick = TRUE)
                                      
-                                     #add text indicating end of sound.files
-                                     text(dur-(((x)*sl+li*(sl)*(j-1))-sl), frli[2]-(frli[2]-frli[1])/2, "END OF SOUND FILE", pos = 4, font = 2, cex = 1.1)
+                #add text indicating end of sound.files
+                text(dur-(((x)*sl+li*(sl)*(j-1))-sl), frli[2]-(frli[2]-frli[1])/2, "End of sound file", pos = 4, font = 2, cex = 1.1)
                                      
-                                     #add line indicating end of sound file
-                                     abline(v = dur-(((x)*sl+li*(sl)*(j-1))-sl), lwd = 2.5)} else {plot(1, 1, col = "white", col.axis =  "white", col.lab  =  "white", 
-                                                                                                        xaxt = "n", yaxt = "n")
+                #add line indicating end of sound file
+                abline(v = dur-(((x)*sl+li*(sl)*(j-1))-sl), lwd = 2.5)} else {plot(1, 1, col = "white", col.axis =  "white", col.lab  =  "white", xaxt = "n", yaxt = "n")
                                      }}
+        
+        if (!is.null(W))
+          if (any(W$sound.files == z)) {
+            
+            
+            # multiply by 100 if from autodetec
+            y.fctr <- 1
+            if (!is.null(X)) if (X$type[1] == "autodetec") y.fctr <- 100
+            
+            # set time and scores
+            xtime <- W$time[W$sound.files == z]
+            yscore <- W$score[W$sound.files == z] * y.fctr
+            
+            # pad to 0
+            xtime <- c(0, xtime, dur)
+            yscore <- c(0, yscore, 0)
+            
+            # plot detection contour
+            plot(x = xtime, y = yscore, type = "l", xlim = c(((x)*sl+li*(sl)*(j-1))-sl, (x)*sl+li*(sl)*(j-1)), col = adjustcolor("#E37222", 0.7), ylim = c(0, 1.36) * y.fctr, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n")
+          
+            # add for all except after last row
+            if (((x)*sl+li*(sl)*(j-1))-sl < dur)
+            axis(2, at = seq(0.2, 1, by = 0.2) * y.fctr, labels = seq(0.2, 1, by = 0.2) * y.fctr, tick = TRUE)  
+            
+          # add fill polygon
+            polygon(cbind(xtime, yscore), col = adjustcolor("#E37222", 0.3), border = NA)
+            
+          if (!is.null(X$score))
+            points(x = X$time[X$sound.files == z], X$score[X$sound.files == z], pch = 21, col = adjustcolor("#E37222", 0.7), cex = 3.3)
+            
+          # add cutoff line
+            if(!is.null(cutoff)) lines(x = c(0, dur), y = c(cutoff, cutoff), lty = 2, col = adjustcolor("#07889B", 0.7), lwd = 1.4)  
+            
+          abline(v = dur, lwd = 2.5)
+          
+          #loop for elements boxes
+          
+          Q <- X[X$sound.files == z, ]
+
+          if (!is.null(Q))  # if not from xcorr.output
+            for(e in 1:nrow(Q))     #plot polygon
+              polygon(x = rep(c(Q$start[e], Q$end[e]), each = 2), y = c(0, 1.4, 1.4, 0) * y.fctr, lty = 2, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.12), lwd = 1.2)
+          
+          }
+        
+        
       }
       dev.off() #reset graphic device
     }
@@ -358,7 +477,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
   # run loop apply function
   sp <- pbapply::pblapply(X = files, cl = cl, FUN = function(i) 
   { 
-    lspecFUN(z = i, fl = flim, sl = sxrow, li = rows, X = X)
+    lspecFUN(z = i, fl = flim, sl = sxrow, li = rows, X = X, W = W)
   })  
 }
 

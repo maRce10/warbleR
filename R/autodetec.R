@@ -7,7 +7,7 @@
 #'   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
 #'   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
 #'   parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2, 
-#'   fast.spec = FALSE, ...)
+#'   fast.spec = FALSE, output = "data.frame", ...)
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If provided the detection will be conducted only within 
@@ -87,6 +87,7 @@
 #' to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
 #' \code{\link[monitoR]{gray.3}} offer 
 #' decreasing darkness levels. 
+#' @param output Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.  
 #' @param ... Additional arguments to be passed internally \code{\link{specreator}} for customizing
 #' graphical output.
 #' @return Image files with spectrograms showing the start and end of the detected signals. It 
@@ -99,8 +100,7 @@
 #'   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
 #'   signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
 #'    working directory or the path to the sound files should be provided using the 'path' argument. The input 
-#'    data frame should have the following columns: c("sound.files","selec","start","end"). The output of 
-#'    \code{\link{manualoc}} can be used as the input data frame. This function uses a modified version of the 
+#'    data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the 
 #'    \code{\link[seewave]{timer}} function from seewave package to detect signals. 
 #'   
 #' @examples
@@ -139,7 +139,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
                       ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = NULL, redo = FALSE, 
                       img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL, parallel = 1, 
                       path = NULL, pb = TRUE, pal = reverse.gray.colors.2,
-                      fast.spec = FALSE, ...){
+                      fast.spec = FALSE, output = 'data.frame', ...){
   
   
   # reset working directory 
@@ -316,7 +316,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     cat("Detecting signals in sound files:")
   
   #create function to detec signals          
-  adFUN <- function(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
+  adFUN <- function(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur, output)
   {
     song <- warbleR::read_wave(X = X, path = path, index = i)
     
@@ -328,8 +328,8 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
       
       #filter frequnecies below 1000 Hz
       if (!is.null(bp))
-        f.song<-seewave::ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = TRUE, wl = wl, output="Wave") else
-          f.song<-song
+        f.song <- seewave::ffilter(song, f=f, from = bp[1]*1000, to = bp[2]*1000, bandpass = TRUE, wl = wl, output="Wave") else
+          f.song <- song
       
       #detect songs based on amplitude (modified from seewave::timer function)
       input <- seewave::inputw(wave = f.song, f = f)
@@ -409,17 +409,23 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
                                                                      rep(c(((fl[2]-fl[1])*0.85)+fl[1],((fl[2]-fl[1])*0.9)+fl[1],((fl[2]-fl[1])*0.95)+fl[1]),
                                                                          nrow(time.song))[j],paste(X$selec[i], j, sep = "-"),cex=1))} 
                        
-                       
-                       
+                
                        dev.off()
       }  
     }
     
-    
     #remove duration column
     time.song1 <- time.song1[,grep("duration",colnames(time.song1), invert = TRUE)]
     
-    return(time.song1)
+    if (output == "data.frame") # return data frame or list
+    return(time.song1) else {
+      output_list <- list(selec.table = time.song1, 
+            data.frame(sound.files = X$sound.files[i],
+                       time = seq(X$start[i], X$end[i], along.with = wave1),
+                       amplitude = wave1))
+    
+    return(output_list)
+      }
     on.exit(rm(time.song1))
   }
   
@@ -430,11 +436,17 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   
   ad <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
-    adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur)
+    adFUN(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur, output)
   }) 
   
-  results <- do.call(rbind, ad)
-  
+  if (output == "data.frame")
+  results <- do.call(rbind, ad) else
+  { # if output is a list
+    results <- do.call(rbind, lapply(ad, '[[', 1))
+    
+    # envelope
+    envelopes <- do.call(rbind, lapply(ad, '[[', 2))
+    }  
   #rename rows
   rownames(results) <- 1:nrow(results)
   
@@ -558,7 +570,21 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     
   }
 
-return(results1)
+  if (output == "data.frame")
+     return(results1) else {
+       
+
+       output_list <- list(selection.table = results1, 
+                           envelopes = envelopes,
+                           parameters = call.argms) 
+       
+       # add class autodetec
+       class(output_list) <- c("list", "autodetec.output")
+       
+       return(output_list) 
+       
+     }
+       
 }
 
 

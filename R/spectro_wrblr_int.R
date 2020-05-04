@@ -1,6 +1,7 @@
 
 #internal warbleR function, not to be called by users. It is a modified version of seewave::spectro 
 # that allows to plot spectrograms using image() which substantially increases speed (although makes some options unavailable)
+# there is also a soscillo function (soscillo_wrblr_int) down below copied from seewave v2.0.5 (later versions give problems with oscillogram in spectrogram apparently due to fastdisp)
 #last modification on feb-09-2018 (MAS)
 spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0, 
           ovlp = 0, fast.spec = FALSE,
@@ -41,7 +42,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
     }
   }
   
-  input <- inputw(wave = wave, f = f)
+  input <- inputw(wave = wave, f = wave@samp.rate)
   
   if (!is.null(tlim) && trel && osc) {
     wave <- wave0 <- input$w
@@ -66,7 +67,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
   n <- nrow(wave)
   step <- seq(1, n - wl, wl - (ovlp * wl/100))
   
-  # to fix function name change in after version 2.0.5
+  # to fix function name change in version 2.0.5
   # if (exists("stdft")) stft <- stdft
   z <- stft_wrblr_int(wave = wave, f = f, wl = wl, zp = zp, step = step, 
             wn = wn, fftw = fftw, scale = norm, complex = complex, 
@@ -152,7 +153,7 @@ if (rm.lwst) ylabel[1] <- ""
         from <- FALSE
         to <- FALSE
       }
-      seewave::soscillo(wave = wave, f = f, bty = "u", from = from, 
+      soscillo_wrblr_int(wave = wave, f = f, bty = "u", from = from, 
                to = to, collab = collab, colaxis = colaxis, 
                colline = colaxis, ylim = c(-max(abs(wave)), 
                                            max(abs(wave))), tickup = max(abs(wave), na.rm = TRUE), 
@@ -234,7 +235,7 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
         from <- FALSE
         to <- FALSE
       }
-      soscillo(wave = wave, f = f, bty = "u", from = from, 
+      soscillo_wrblr_int(wave = wave, f = f, bty = "u", from = from, 
                to = to, collab = collab, colaxis = colaxis, 
                colline = colaxis, tickup = max(abs(wave), na.rm = TRUE), 
                ylim = c(-max(abs(wave)), max(abs(wave))), tlab = tlab, 
@@ -303,3 +304,62 @@ image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
     invisible(list(time = X, freq = Y, amp = z))
   } else return(list(time = X, freq = Y, amp = z))
 }
+
+
+soscillo_wrblr_int <- function(
+  wave,
+  f,
+  from = FALSE,
+  to =FALSE,
+  colwave = "black",
+  coltitle = "black",
+  collab = "black",
+  colline = "black",
+  colaxis = "black",
+  cexaxis = 1,
+  coly0 = "grey47",
+  tlab = "Times (s)",
+  alab = "Amplitude",
+  cexlab = 1,
+  fontlab = 1,
+  title = FALSE,
+  xaxt="s",
+  yaxt="n",
+  tickup = NULL,
+  ... 
+)
+
+{
+  input<-inputw(wave=wave,f=f) ; wave<-input$w ; f<-input$f ; rm(input)
+  
+  if(from|to)
+  {
+    if(from == 0) {a<-1; b<-round(to*f)}
+    if(from == FALSE) {a<-1; b<-round(to*f);from<-0}
+    if(to == FALSE) {a<-round(from*f); b<-nrow(wave);to<-nrow(wave)/f}
+    else {a<-round(from*f); b<-round(to*f)}
+    wave<-as.matrix(wave[a:b,])
+    n<-nrow(wave)
+  }
+  else {n<-nrow(wave) ; from<-0 ; to<-n/f}
+  
+  par(tcl=0.5, col.axis=colaxis, cex.axis = cexaxis, col=colline, col.lab=collab,las=0)
+  
+  wave<-ts(wave[0:n,], start=from, end=to, frequency = f)
+  
+  plot(wave,
+       col=colwave, type="l",
+       xaxs="i", yaxs="i",
+       xlab="", ylab="",
+       xaxt=xaxt, yaxt=yaxt, bty="l",
+       ...)
+  axis(side=1, col=colline,labels=FALSE)
+  axis(side=2, at=tickup, col=colline,labels=FALSE)
+  
+  mtext(tlab,col=collab,font=fontlab,cex=cexlab,side=1,line=3)
+  mtext(alab,col=collab,font=fontlab,cex=cexlab,side=2,line=3)
+  
+  abline(h=0,col=coly0,lty=2)
+}
+
+

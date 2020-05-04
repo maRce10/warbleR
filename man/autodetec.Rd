@@ -9,7 +9,7 @@ autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL
   flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
   NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
   parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2, 
-  fast.spec = FALSE, ...)
+  fast.spec = FALSE, output = "data.frame", ...)
 }
 \arguments{
 \item{X}{'selection_table' object or a data frame with columns
@@ -120,6 +120,8 @@ to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR
 \code{\link[monitoR]{gray.3}} offer 
 decreasing darkness levels.}
 
+\item{output}{Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.}
+
 \item{...}{Additional arguments to be passed internally \code{\link{specreator}} for customizing
 graphical output.}
 }
@@ -138,8 +140,7 @@ This function determines the start and end of signals in the sound file selectio
   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
   signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
    working directory or the path to the sound files should be provided using the 'path' argument. The input 
-   data frame should have the following columns: c("sound.files","selec","start","end"). The output of 
-   \code{\link{manualoc}} can be used as the input data frame. This function uses a modified version of the 
+   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the 
    \code{\link[seewave]{timer}} function from seewave package to detect signals.
 }
 \examples{

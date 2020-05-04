@@ -2,7 +2,7 @@
 #' 
 #' \code{find_peaks} find peaks in cross-correlation scores from \code{\link{xcorr}} 
 #' @usage find_peaks(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE, 
-#' max.peak = FALSE)
+#' max.peak = FALSE, output = "data.frame")
 #' @param xc.output output of \code{\link{xcorr}} after setting \code{output = "list"}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -11,6 +11,7 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param max.peak Logical argument to control whether only the peak with the highest correlation value is returned (if TRUE; cutoff will be ignored). Default is \code{FALSE}.
+#' @param output Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using \code{\link{lspec}}.
 #' @return The function returns a data frame with time and correlation score for the  
 #' detected peaks.
 #' @export
@@ -41,7 +42,7 @@
 #' H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
 #' }
 # last modification on jan-03-2020 (MAS)
-find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE, max.peak = FALSE) 
+find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE, max.peak = FALSE, output = "data.frame") 
 {
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -142,7 +143,16 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   # sort columns in a intuitive order
   peaks <- sort_colms(peaks)
   
-  return(peaks)
+  # output results
+  if (output == "data.frame") return(peaks) else{
+    
+    output_list <- list(selection.table = peaks, scores = xc.output$scores,  cutoff = cutoff)
+    
+    class(output_list) <- c("list", "find_peaks.output")
+    
+    return(output_list)
+  }
+  
   } else {
   
   # no detections    

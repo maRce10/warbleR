@@ -12,9 +12,8 @@ fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL)
 \arguments{
 \item{X}{'selection_table' object or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). If given, two red dotted lines are plotted at the 
-start and end of a selection and the selections are labeled with the selection number 
-(and selection comment, if available). Default is \code{NULL}.}
+(start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number 
+(and selection comment, if available). Default is \code{NULL}.Alternatively, it can also take the output of \code{\link{xcorr}} or \code{\link{autodetec}} (when 'output' is a 'list', see \code{\link{xcorr}} or \code{\link{autodetec}}). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.}
 
 \item{flim}{A numeric vector of length 2 indicating the highest and lowest 
 frequency limits (kHz) of the spectrogram, as in 
@@ -123,7 +122,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, 
+\code{\link{lspec2pdf}}, \code{\link{catalog2pdf}}, \code{\link{xcorr}}, \code{\link{autodetec}}
 \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
 }
 \author{

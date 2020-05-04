@@ -44,7 +44,7 @@ results. This means that all selections with at least 1 cross-correlation that f
 
 \item{cor.mat}{DEPRECATED. Use 'cor.mat' instead.}
 
-\item{output}{Character vector of length 1 to determine if only the correlation matrix is returned ('cormat') or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison.}
+\item{output}{Character vector of length 1 to determine if only the correlation matrix is returned ('cormat') or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'xcorr.output', can be used to find detection peaks with \code{\link{find_peaks}} or to graphically explore detections using \code{\link{lspec}}.}
 
 \item{compare.matrix}{A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.}
 

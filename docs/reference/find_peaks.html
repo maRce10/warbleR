@@ -134,7 +134,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>find_peaks</span>(<span class='no'>xc.output</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>max.peak</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='kw'>max.peak</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +164,10 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     <tr>
       <th>max.peak</th>
       <td><p>Logical argument to control whether only the peak with the highest correlation value is returned (if TRUE; cutoff will be ignored). Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>output</th>
+      <td><p>Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using <code><a href='lspec.html'>lspec</a></code>.</p></td>
     </tr>
     </table>
 

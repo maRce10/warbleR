@@ -5,7 +5,7 @@
 \title{Find cross-correlation peaks}
 \usage{
 find_peaks(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE, 
-max.peak = FALSE)
+max.peak = FALSE, output = "data.frame")
 }
 \arguments{
 \item{xc.output}{output of \code{\link{xcorr}} after setting \code{output = "list"}.}
@@ -21,6 +21,8 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{max.peak}{Logical argument to control whether only the peak with the highest correlation value is returned (if TRUE; cutoff will be ignored). Default is \code{FALSE}.}
+
+\item{output}{Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using \code{\link{lspec}}.}
 }
 \value{
 The function returns a data frame with time and correlation score for the  

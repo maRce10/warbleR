@@ -140,7 +140,7 @@ on amplitude, duration, and frequency range attributes.</p>
   <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>22</span>), <span class='kw'>ls</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxdur</span> <span class='kw'>=</span>
   <span class='kw'>NULL</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>set</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smadj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>,
-  <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -312,6 +312,10 @@ to work better with 'fast.spec' spectrograms. Palette colors <code><a href='http
 decreasing darkness levels.</p></td>
     </tr>
     <tr>
+      <th>output</th>
+      <td><p>Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into <code><a href='lspec.html'>lspec</a></code> to explore detections and associated amplitude envelopes.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Additional arguments to be passed internally <code><a href='specreator.html'>specreator</a></code> for customizing
 graphical output.</p></td>
@@ -330,8 +334,7 @@ graphical output.</p></td>
   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
   signals for all sound files in the working directory (if <code>img = TRUE</code>). Sound files should be located in the
    working directory or the path to the sound files should be provided using the 'path' argument. The input 
-   data frame should have the following columns: c("sound.files","selec","start","end"). The output of 
-   <code><a href='manualoc.html'>manualoc</a></code> can be used as the input data frame. This function uses a modified version of the 
+   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the 
    <code><a href='https://rdrr.io/pkg/seewave/man/timer.html'>timer</a></code> function from seewave package to detect signals.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

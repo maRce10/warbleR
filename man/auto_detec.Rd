@@ -34,6 +34,7 @@ auto_detec(
   pb = TRUE,
   pal = reverse.gray.colors.2,
   fast.spec = FALSE,
+  output = "data.frame",
   ...
 )
 }

@@ -147,9 +147,8 @@
       <th>X</th>
       <td><p>'selection_table' object or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). If given, two red dotted lines are plotted at the 
-start and end of a selection and the selections are labeled with the selection number 
-(and selection comment, if available). Default is <code>NULL</code>.</p></td>
+(start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number 
+(and selection comment, if available). Default is <code>NULL</code>.Alternatively, it can also take the output of <code><a href='xcorr.html'>xcorr</a></code> or <code><a href='autodetec.html'>autodetec</a></code> (when 'output' is a 'list', see <code><a href='xcorr.html'>xcorr</a></code> or <code><a href='autodetec.html'>autodetec</a></code>). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.</p></td>
     </tr>
     <tr>
       <th>flim</th>
@@ -272,7 +271,7 @@ can be returned, depending on the length of each sound file.</p>
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='lspec2pdf.html'>lspec2pdf</a></code>, <code><a href='catalog2pdf.html'>catalog2pdf</a></code>, 
+    <div class='dont-index'><p><code><a href='lspec2pdf.html'>lspec2pdf</a></code>, <code><a href='catalog2pdf.html'>catalog2pdf</a></code>, <code><a href='xcorr.html'>xcorr</a></code>, <code><a href='autodetec.html'>autodetec</a></code>
 <a href='https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html'>blog post on spectrogram pdfs</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

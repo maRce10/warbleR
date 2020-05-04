@@ -2,12 +2,14 @@
 
 ## Changes and additions:
 
+* `lspec()` now takes output from `xcorr()`, `find_peaks()` and `autodetec()` and plots cross-correlation scores or envelopes along with spectrograms
 * 'download' option available in `find_annotations()`
 * 'leaflet' interactive maps in `xc_maps()`
 * 'split_wavs()' new argument 'only.sels' to only return selection tables
 
 ## Bug fixes:
 * Fixed number of segments when using 'sgmts' argument in 'split_wavs()', it used to return 'sgmts - 1' segments.
+* Fix mismatch in `specreator()` spectrograms and oscillograms
 
 # *warbleR 1.1.23*
 
