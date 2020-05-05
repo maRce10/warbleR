@@ -2,6 +2,7 @@
 
 ## Changes and additions:
 
+* 'img' argument in `autodetec()` is being soft-deprecated
 * `lspec()` now takes output from `xcorr()`, `find_peaks()` and `autodetec()` and plots cross-correlation scores or envelopes along with spectrograms
 * 'download' option available in `find_annotations()`
 * 'leaflet' interactive maps in `xc_maps()`

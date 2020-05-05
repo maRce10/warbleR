@@ -311,6 +311,10 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     if (nrow(X) == 0) stop("All selections have been analyzed (redo = FALSE)")
   }    
   
+  # if image message deprecated
+  if (img) 
+    cat("'img' argument will be deprecated in future versions")
+  
   # if parallel was not called 
   if (pb) if (!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
     cat("Detecting signals in sound files:")
