@@ -46,7 +46,6 @@ pre {
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
-    overflow: inherit;
     background: #FAFAFA;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
@@ -62,6 +61,7 @@ pre code {
 }
 
 code {
+    word-wrap: break-word;
     font-size: 85%;
     font-family: Consolas,Monaco,"Courier New",monospace;
     border-radius: 0;
