@@ -53,9 +53,9 @@ results. This means that all selections with at least 1 cross-correlation that f
 \item{nbands}{Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40.}
 
 \item{method}{Numeric vector of length 1 to control the method used to create spectrogram (or mfcc) matrices. Two option are available:
-#' \itemize{
-   \item \code{1}:  matrices are created first and (keeping them as a list) and cross-correlation is calculated in a second step. Note that this method may require lots of memory if selection and or sound files are large. 
-   \item \code{2}: matrices are created on the fly (at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which can be affect performance. 
+\itemize{
+   \item \code{1}:  matrices are created first (keeping them internally as a list) and cross-correlation is calculated on a second step. Note that this method may require lots of memory if selection and or sound files are large. 
+   \item \code{2}: matrices are created "on the fly" (i.e. at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which will affect performance. Note that when using this method the function does not check if sound files have the same sampling rate which if not, may produce an error.
    }}
 }
 \value{
