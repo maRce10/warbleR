@@ -1335,7 +1335,7 @@ autoplot(mbmrk.snr) + ggtitle("sig2noise")
 &nbsp;
 
 
-The function runs much faster in the extended selection tables. Performance gain is likely to improve when longer recordings and data sets are used (that is, to compensate for computer overload).
+The function runs much faster in the extended selection tables. Performance gain is likely to improve when longer recordings and data sets are used (that is, to compensate for computing overhead).
 
 &nbsp;
 
