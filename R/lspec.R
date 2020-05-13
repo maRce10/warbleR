@@ -197,6 +197,11 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
       # remove whole.file from sound file name
       W$sound.files <- gsub("-whole.file", "", W$sound.files)
       
+      # leave only wav file names
+      if (any(!grepl("\\.wav$", ignore.case = TRUE, W$sound.files)))
+        W$sound.files <- substr(x = W$sound.files, start = 0, stop =         sapply(gregexpr(pattern = "\\.wav", ignore.case = TRUE, W$sound.files), "[[", 1) + 3)
+      
+      
       # get selection table and overwrite X
       X <- X$selection.table
     
@@ -451,7 +456,6 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
           abline(v = dur, lwd = 2.5)
           
           #loop for elements boxes
-          
           Q <- X[X$sound.files == z, ]
 
           if (!is.null(Q))  # if not from xcorr.output

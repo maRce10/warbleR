@@ -430,10 +430,8 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
         dyad = paste(spc.cmbs.org[x, ], collapse = "/"), 
         sound.files = spc.cmbs.org[x, which.max(durs)], 
         template = spc.cmbs.org[x, which.min(durs)], 
-        time = seq(min(durs) / 2, max(durs) - min(durs) / 2,  
-                   , length.out = length(xcrrs[[x]])),
-        score = xcrrs[[x]])
-      
+        time = c(X$start[X$selection.id == spc.cmbs.org[x, 1]], X$start[X$selection.id == spc.cmbs.org[x, 2]])[which.max(durs)] + seq(min(durs) / 2, max(durs) - min(durs) / 2, length.out = length(xcrrs[[x]])), score = xcrrs[[x]])
+          
       return(df)
       })
    
@@ -443,13 +441,13 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     
     # remove missing values
     if (na.rm) 
-      cor.table <- cor.table[cor.table$sound.file1 %in% com.case & cor.table$sound.file2 %in% com.case, ]
+      cor.table <- cor.table[cor.table$sound.files %in% com.case & cor.table$template %in% com.case, ]
   } 
   
   #list results
   if (output == "cor.mat") return(mat) else{
     
-    output_list <- list(max.xcorr.matrix = mat, scores = cor.table, selection.table = X,  hop.size.ms = read_wave(X, 1, header = TRUE, path = path)$sample.rate / wl)
+    output_list <- list(max.xcorr.matrix = mat, scores = cor.table, selection.table = X, hop.size.ms = read_wave(X, 1, header = TRUE, path = path)$sample.rate / wl)
     
     class(output_list) <- c("list", "xcorr.output")
     

@@ -425,7 +425,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     return(time.song1) else {
       output_list <- list(selec.table = time.song1, 
             data.frame(sound.files = X$sound.files[i],
-                       time = seq(X$start[i], X$end[i], along.with = wave1),
+                       time = seq(X$start[i], X$end[i], along.with = wave1), abs.time = NA,
                        amplitude = wave1))
     
     return(output_list)
