@@ -7,7 +7,7 @@
 xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL, wn='hanning', 
 cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
  cor.mat = NULL, output = "cor.mat", compare.matrix = NULL, type = "spectrogram", 
- nbands = 40)
+ nbands = 40, method = 1)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
@@ -42,15 +42,21 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.}
 
-\item{cor.mat}{DEPRECATED. Use 'cor.mat' instead.}
+\item{cor.mat}{DEPRECATED. Use 'compare.matrix' instead.}
 
 \item{output}{Character vector of length 1 to determine if only the correlation matrix is returned ('cormat') or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'xcorr.output', can be used to find detection peaks with \code{\link{find_peaks}} or to graphically explore detections using \code{\link{lspec}}.}
 
-\item{compare.matrix}{A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.}
+\item{compare.matrix}{A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values. Note that 'method' is automatically set to 2 (create spectrograms on the fly) when 'compare.matrix' is supplied but can be set back to 1.}
 
-\item{type}{A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using \code{\link[tuneR]{melfcc}}).}
+\item{type}{A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation using Fourier transform; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using \code{\link[tuneR]{melfcc}}).}
 
 \item{nbands}{Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40.}
+
+\item{method}{Numeric vector of length 1 to control the method used to create spectrogram (or mfcc) matrices. Two option are available:
+#' \itemize{
+   \item \code{1}:  matrices are created first and (keeping them as a list) and cross-correlation is calculated in a second step. Note that this method may require lots of memory if selection and or sound files are large. 
+   \item \code{2}: matrices are created on the fly (at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which can be affect performance. 
+   }}
 }
 \value{
 If \code{output = "cor.mat"} the function returns a matrix with 
@@ -61,7 +67,7 @@ the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2)
 \code{xcorr} estimates the similarity of two sound waves by means of time-frequency cross-correlation
 }
 \details{
-This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
+This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC, i.e. Fourier transform) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
 This method "slides" the spectrogram of the sorthest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins

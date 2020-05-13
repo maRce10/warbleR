@@ -61,6 +61,7 @@ pre code {
 }
 
 code {
+    word-wrap: break-word;
     font-size: 85%;
     font-family: Consolas,Monaco,"Courier New",monospace;
     border-radius: 0;

@@ -4,7 +4,7 @@
 #' @usage xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL, wn='hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
 #'  cor.mat = NULL, output = "cor.mat", compare.matrix = NULL, type = "spectrogram", 
-#'  nbands = 40)
+#'  nbands = 40, method = 1)
 #' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end). 
 #' All selections must have the same sampling rate. 
@@ -26,17 +26,22 @@
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
-#' @param cor.mat DEPRECATED. Use 'cor.mat' instead.
+#' @param cor.mat DEPRECATED. Use 'compare.matrix' instead.
 #' @param output Character vector of length 1 to determine if only the correlation matrix is returned ('cormat') or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'xcorr.output', can be used to find detection peaks with \code{\link{find_peaks}} or to graphically explore detections using \code{\link{lspec}}.
-#' @param compare.matrix A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.
-#' @param type A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using \code{\link[tuneR]{melfcc}}).
-#' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40.
+#' @param compare.matrix A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values. Note that 'method' is automatically set to 2 (create spectrograms on the fly) when 'compare.matrix' is supplied but can be set back to 1.
+#' @param type A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation using Fourier transform; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using \code{\link[tuneR]{melfcc}}).
+#' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40. 
+#' @param method Numeric vector of length 1 to control the method used to create spectrogram (or mfcc) matrices. Two option are available:
+#' #' \itemize{
+#'    \item \code{1}:  matrices are created first and (keeping them as a list) and cross-correlation is calculated in a second step. Note that this method may require lots of memory if selection and or sound files are large. 
+#'    \item \code{2}: matrices are created on the fly (at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which can be affect performance. Note that when using this method the function does not check if sound files have the same sampling rate which if not, may produce an error.
+#'    }
 #' @return If \code{output = "cor.mat"} the function returns a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with 
 #' the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').
 #' @export
 #' @name xcorr
-#' @details This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
+#' @details This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC, i.e. Fourier transform) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
 #' This method "slides" the spectrogram of the sorthest selection over the longest one calculating a correlation of the amplitude values at each step.
 #' The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 #' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
@@ -84,7 +89,7 @@
 xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL, 
                   wn ='hanning', cor.method = "pearson", parallel = 1, 
                   path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
-                  compare.matrix = NULL, type = "spectrogram", nbands = 40)
+                  compare.matrix = NULL, type = "spectrogram", nbands = 40, method = 1)
 {
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -117,7 +122,9 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   # define number of steps in analysis to print message
   if (pb){
     max.stps <- getOption("warbleR.steps")
-    if (is.null(max.stps)) max.stps <- 2
+    if (is.null(max.stps)) 
+      if (method == 1) max.stps <- 2 else 
+        max.stps <- 1
   } 
   
   #check path to working directory
@@ -191,7 +198,12 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   
   # keep only selections in supplied compare.matrix to improve performance
   if (!is.null(compare.matrix))
-  X <- X[X$selection.id %in% unique(c(compare.matrix)), , drop = FALSE]
+  { X <- X[X$selection.id %in% unique(c(compare.matrix)), , drop = FALSE]
+ 
+  # set method to 2 if not provided in call
+  if (!any(names(call.argms) == "method"))
+    method <- 2
+  }
     
   # generate all possible combinations of selections, keep one with the orignal order of rows to create cor.table output
   if (is.null(compare.matrix))
@@ -248,55 +260,60 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
       
     }
   
-  #create spectrograms
-     if (pb) 
-      if (type == "spectrogram")
-       write(file = "", x = paste0("creating spectrogram matrices (step 1 of ", max.stps,"):")) else
-         write(file = "", x = paste0("creating MFCC matrices (step 1 of ", max.stps,"):"))
+  # function to get spectrogram or mfcc matrices
+  spc_FUN <- function(j, pth, W, wlg, ovl, w, nbnds) {
+    
+    clp <- warbleR::read_wave(X = W, index = j, path = pth)
+    
+    if (type == "spectrogram")
+      spc <- seewave::spectro(wave = clp, wl = wlg, ovlp = ovl, wn = w, plot = FALSE, fftw = TRUE, norm = TRUE)
+    
+    if (type == "mfcc")
+    {
+      # calculate MFCCs
+      spc <- melfcc(clp, nbands = nbnds, hoptime =  (wlg / clp@samp.rate) * (ovl / 100), wintime =  wlg / clp@samp.rate, dcttype = "t3", fbtype = "htkmel", spec_out = TRUE)
       
+      # change name of target element so it maches spectrogram output names
+      names(spc)[2] <- "amp" 
+      
+      # and flip
+      spc$amp <- t(spc$amp)
+      
+      # add element with freq values for each band
+      spc$freq <- seq(0, clp@samp.rate / 2000, length.out = nbnds)
+    }
+    
+    # repace inf by NA
+    spc$amp[is.infinite(spc$amp)] <- NA
+    
+    return(spc)
+  }
+  
+  if (method == 1){
+  #create spectrograms
+  if (pb) 
+    if (type == "spectrogram")
+      write(file = "", x = paste0("creating spectrogram matrices (step 1 of ", max.stps,"):")) else
+        write(file = "", x = paste0("creating MFCC matrices (step 1 of ", max.stps,"):"))
+  
   
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
-  
+   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # get spectrogram for each selection
-  spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(j, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands) {
-    
-    clp <- warbleR::read_wave(X = W, index = j, path = pth)
-    
-    if (type == "spectrogram")
-    spc <- seewave::spectro(wave = clp, wl = wlg, ovlp = ovl, wn = w, plot = FALSE, fftw = TRUE, norm = TRUE)
-    
-    if (type == "mfcc")
-      {
-      # calculate MFCCs
- spc <- melfcc(clp, nbands = nbnds, hoptime =  (wlg / clp@samp.rate) * (ovl / 100), wintime =  wlg / clp@samp.rate, dcttype = "t3", fbtype = "htkmel", spec_out = TRUE)
-      
-      # change name of target element so it maches spectrogram output names
-      names(spc)[2] <- "amp" 
-      
-     # and flip
-      spc$amp <- t(spc$amp)
-      
-      # add element with freq values for each band
-      spc$freq <- seq(0, clp@samp.rate / 2000, length.out = nbnds)
-      }
-      
-    # repace inf by NA
-    spc$amp[is.infinite(spc$amp)] <- NA
-    
-    return(spc)
-    })
+  spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, function(e) spc_FUN(j = e, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands))
   
   # check sampling rate is the same for all selections if not a selection table
   if (!is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop("sampling rate must be the same for all selections")
   
     # add selection name
   names(spcs) <- X$selection.id
-
+ }
+  
   # create function to calculate correlation between 2 spectrograms
   XC_FUN <- function(spc1, spc2, b = bp, cm = cor.method){
     
@@ -330,7 +347,6 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     return(cors)
   }
   
-  
   # shuffle spectrograms index so are not compared in sequence, which makes progress bar more precise when some selections are much longer than others
   ord.shuf <- sample(1:nrow(spc.cmbs))
   
@@ -338,9 +354,9 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   
   #run cross-correlation
   if (pb) 
-    write(file = "", x = paste0("running cross-correlation (step 2 of ", max.stps,"):"))
+    write(file = "", x = paste0("running cross-correlation (step ", max.stps," of ", max.stps,"):"))
         
-  
+  # set parallel cores
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
@@ -350,7 +366,20 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     if (BP[1] %in% c("pairwise.freq.range", "frange"))
     BP <- c(min(X$bottom.freq[X$selection.id %in% spc.cmbs[j, ]]), max(X$top.freq[X$selection.id %in% spc.cmbs[j, ]]))
     
-    XC_FUN(spc1 = spcs[[spc.cmbs[j, 1]]], spc2 = spcs[[spc.cmbs[j, 2]]], b = BP, cm = cor.meth)
+    # extract amplitude matrices
+    if (method == 1) {
+    spc1 <- spcs[[spc.cmbs[j, 1]]]
+    spc2 <- spcs[[spc.cmbs[j, 2]]]
+    } 
+    
+    if (method == 2) {
+      spc1 <- spc_FUN(j = which(X$selection.id == spc.cmbs[j, 1]), pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands)
+  
+      spc2 <- spc_FUN(j = which(X$selection.id == spc.cmbs[j, 2]), pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands)
+    }
+    
+    # get cross correlation
+    XC_FUN(spc1 = spc1, spc2 = spc2, b = BP, cm = cor.meth)
   })
   
   # order as originally

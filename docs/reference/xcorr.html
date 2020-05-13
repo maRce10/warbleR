@@ -138,7 +138,7 @@
     <pre class="usage"><span class='fu'>xcorr</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span><span class='fl'>512</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='st'>"pairwise.freq.range"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>, <span class='kw'>dens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wn</span><span class='kw'>=</span><span class='st'>'hanning'</span>,
 <span class='kw'>cor.method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
  <span class='kw'>cor.mat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"cor.mat"</span>, <span class='kw'>compare.matrix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"spectrogram"</span>,
- <span class='kw'>nbands</span> <span class='kw'>=</span> <span class='fl'>40</span>)</pre>
+ <span class='kw'>nbands</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,7 +199,7 @@ results. This means that all selections with at least 1 cross-correlation that f
     </tr>
     <tr>
       <th>cor.mat</th>
-      <td><p>DEPRECATED. Use 'cor.mat' instead.</p></td>
+      <td><p>DEPRECATED. Use 'compare.matrix' instead.</p></td>
     </tr>
     <tr>
       <th>output</th>
@@ -207,15 +207,23 @@ results. This means that all selections with at least 1 cross-correlation that f
     </tr>
     <tr>
       <th>compare.matrix</th>
-      <td><p>A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. <code><a href='https://rdrr.io/r/base/paste.html'>paste(X$sound.files, X$selec, sep = "-")</a></code>). Default is <code>NULL</code>. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values.</p></td>
+      <td><p>A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. <code><a href='https://rdrr.io/r/base/paste.html'>paste(X$sound.files, X$selec, sep = "-")</a></code>). Default is <code>NULL</code>. If supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values. Note that 'method' is automatically set to 2 (create spectrograms on the fly) when 'compare.matrix' is supplied but can be set back to 1.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation; internally using <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using <code><a href='https://rdrr.io/pkg/tuneR/man/melfcc.html'>melfcc</a></code>).</p></td>
+      <td><p>A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation using Fourier transform; internally using <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using <code><a href='https://rdrr.io/pkg/tuneR/man/melfcc.html'>melfcc</a></code>).</p></td>
     </tr>
     <tr>
       <th>nbands</th>
       <td><p>Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using <code>type = "mfcc"</code> (see <code><a href='https://rdrr.io/pkg/tuneR/man/melfcc.html'>melfcc</a></code>). Default is 40.</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>Numeric vector of length 1 to control the method used to create spectrogram (or mfcc) matrices. Two option are available:
+#'</p><ul>
+<li><p><code>1</code>:  matrices are created first and (keeping them as a list) and cross-correlation is calculated in a second step. Note that this method may require lots of memory if selection and or sound files are large.</p></li>
+<li><p><code>2</code>: matrices are created on the fly (at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which can be affect performance.</p></li>
+</ul></td>
     </tr>
     </table>
 
@@ -226,7 +234,7 @@ the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix'
 the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
+    <p>This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Spectrographic cross-correlation (SPCC, i.e. Fourier transform) and Mel frequency cepstral coefficients (mfcc) can be applied to create time-frequency representations of sound. 
 This method "slides" the spectrogram of the sorthest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins

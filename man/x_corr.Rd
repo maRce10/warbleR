@@ -20,7 +20,8 @@ x_corr(
   output = "cor.mat",
   compare.matrix = NULL,
   type = "spectrogram",
-  nbands = 40
+  nbands = 40,
+  method = 1
 )
 }
 \description{
