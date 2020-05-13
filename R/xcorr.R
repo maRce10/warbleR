@@ -32,9 +32,9 @@
 #' @param type A character vector of length 1 specifying the type of cross-correlation; either "spectrogram" (i.e. spectrographic cross-correlation using Fourier transform; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient cross-correlation; internally using \code{\link[tuneR]{melfcc}}).
 #' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40. 
 #' @param method Numeric vector of length 1 to control the method used to create spectrogram (or mfcc) matrices. Two option are available:
-#' #' \itemize{
-#'    \item \code{1}:  matrices are created first and (keeping them as a list) and cross-correlation is calculated in a second step. Note that this method may require lots of memory if selection and or sound files are large. 
-#'    \item \code{2}: matrices are created on the fly (at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which can be affect performance. Note that when using this method the function does not check if sound files have the same sampling rate which if not, may produce an error.
+#' \itemize{
+#'    \item \code{1}:  matrices are created first (keeping them internally as a list) and cross-correlation is calculated on a second step. Note that this method may require lots of memory if selection and or sound files are large. 
+#'    \item \code{2}: matrices are created "on the fly" (i.e. at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which will affect performance. Note that when using this method the function does not check if sound files have the same sampling rate which if not, may produce an error.
 #'    }
 #' @return If \code{output = "cor.mat"} the function returns a matrix with 
 #' the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with 
@@ -119,14 +119,6 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  # define number of steps in analysis to print message
-  if (pb){
-    max.stps <- getOption("warbleR.steps")
-    if (is.null(max.stps)) 
-      if (method == 1) max.stps <- 2 else 
-        max.stps <- 1
-  } 
-  
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path) & !is_extended_selection_table(X)) 
@@ -204,7 +196,15 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
   if (!any(names(call.argms) == "method"))
     method <- 2
   }
-    
+   
+  # define number of steps in analysis to print message
+  if (pb){
+    max.stps <- getOption("warbleR.steps")
+    if (is.null(max.stps)) 
+      if (method == 1) max.stps <- 2 else 
+        max.stps <- 1
+  } 
+  
   # generate all possible combinations of selections, keep one with the orignal order of rows to create cor.table output
   if (is.null(compare.matrix))
     spc.cmbs.org <- spc.cmbs <- t(combn(X$selection.id, 2)) else
