@@ -5,7 +5,7 @@ filled_contour_color_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = se
           zlim = range(z, finite = TRUE), levels = pretty(zlim, nlevels), add = FALSE,
           nlevels = 20, color.palette = cm.colors, col = color.palette(length(levels) - 
                                                                          1), plot.title, plot.axes, key.title, asp = NA, xaxs = "i", 
-          yaxs = "i", las = 1, axisX = TRUE, axisY = TRUE) 
+          yaxs = "i", las = 1, axisX = TRUE, axisY = TRUE, bg.col = "white") 
 {
   if (missing(z)) {
     if (!missing(x)) {
@@ -25,7 +25,8 @@ filled_contour_color_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = se
   if (any(diff(x) <= 0) || any(diff(y) <= 0)) 
     stop("increasing 'x' and 'y' values expected")
   if (!add) {plot.new()
-  plot.window(xlim, ylim, "", xaxs = xaxs, yaxs = yaxs, asp = asp)
+  plot.window(xlim, ylim, "", xaxs = xaxs, yaxs = yaxs, asp = asp, bg = bg.col)
+  
   if (!is.matrix(z) || nrow(z) <= 1 || ncol(z) <= 1) 
     stop("no proper 'z' matrix specified")}
   if (!is.double(z)) 

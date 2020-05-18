@@ -219,7 +219,10 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     if (!is.null(dB)) 
       collevels <- seq(maxz - 30, maxz, by = 1) else   collevels <- seq(0, maxz, length = 30)
   }
-  
+  # opar <- par
+  # par(bg = bg.col)
+  # on.exit(par(opar), add = TRUE)
+  # 
   if (!fast.spec)
   {   # seewave spectro 
     #plot background spectro
@@ -228,7 +231,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
                        nlevels = 20, plot.title = title(main = title, 
                                                         xlab = tlab, ylab = flab), color.palette = basepal, 
                        axisX = axisX, axisY = axisY, col.lab = "black", 
-                       colaxis = "black")
+                       colaxis = "black", bg.col = bg.col)
     
     if (!is.null(interactive))
     {
