@@ -27,6 +27,11 @@ filled_contour_color_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = se
   if (!add) {plot.new()
   plot.window(xlim, ylim, "", xaxs = xaxs, yaxs = yaxs, asp = asp, bg = bg.col)
   
+  
+  usr <- par("usr")
+  rect(xleft = usr[1], xright = usr[2], ybottom = usr[3], usr[4], col = bg.col, border = bg.col)
+  
+  
   if (!is.matrix(z) || nrow(z) <= 1 || ncol(z) <= 1) 
     stop("no proper 'z' matrix specified")}
   if (!is.double(z)) 

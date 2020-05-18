@@ -252,7 +252,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
       out <- lapply(1:nrow(sel.tab), function(i)
         filled_contour_color_wrblr_int(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 2), colors[i]), alpha = TRUE), levels = collevels,
                            axisX = FALSE, axisY = FALSE, col.lab = "black", 
-                           colaxis = "black", add = TRUE)   
+                           colaxis = "black", add = TRUE, bg.col = bg.col)   
       )
   } else {  #fast spectro image
     #plot background spectro
