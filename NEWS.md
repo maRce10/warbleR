@@ -2,6 +2,7 @@
 
 ## Changes and additions:
 
+* 'strength' argument to control color in `color_spectro()`
 * 'method' option to create spectrograms on the fly in `xcorr()`
 * 'img' argument in `autodetec()` is being soft-deprecated
 * `lspec()` now takes output from `xcorr()`, `find_peaks()` and `autodetec()` and plots cross-correlation scores or envelopes along with spectrograms

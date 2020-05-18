@@ -6,10 +6,11 @@
 \usage{
 color.spectro(wave, wl = 512, wn = "hanning", ovlp = 70,
 dB = "max0", collevels = NULL, selec.col = "red2", col.clm = NULL, 
-base.col = "black", bg.col = "white", cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
-flab = "Frequency (kHz)", title = NULL, axisX = TRUE, axisY = TRUE,
-flim = NULL, rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, f.mar = NULL,
-interactive = NULL, add = FALSE)
+base.col = "black", bg.col = "white", strength = 1, 
+cexlab = 1, cexaxis = 1, tlab = "Time (s)", flab = "Frequency (kHz)", 
+title = NULL, axisX = TRUE, axisY = TRUE, flim = NULL, 
+rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, 
+f.mar = NULL, interactive = NULL, add = FALSE)
 }
 \arguments{
 \item{wave}{A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.}
@@ -41,6 +42,8 @@ Default is 'black'.}
 
 \item{bg.col}{Character vector of length 1 specifying the background color for both base
 and highlighted spectrograms. Default is 'white'.}
+
+\item{strength}{Numeric vector of length 1 controlling the strength of the highlighting color (actually how many times it is repeated in the internal color palette). Must be a positive integer. Default is 1.}
 
 \item{cexlab}{Numeric vector of length 1 specifying the relative size of axis 
 labels. See \code{\link[seewave]{spectro}}. Default is 1.}
@@ -110,12 +113,12 @@ writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
  st$colors <- c("red2", "blue", "green")
  
  # highlight selections
- color.spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-90, 0, 5), 
+ color.spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5), 
  dB = "B", X = st, col.clm = "colors", base.col = "skyblue",  t.mar = 0.07, f.mar = 0.1, 
  interactive = NULL)
  
  # interactive (selected manually: you have to select them by clicking on the spectrogram)
- color.spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-90, 0, 5),
+ color.spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5),
   dB = "B", col.clm = "colors", t.mar = 0.07, f.mar = 1, interactive = 2)
 }
 

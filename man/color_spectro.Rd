@@ -15,6 +15,7 @@ color_spectro(
   col.clm = NULL,
   base.col = "black",
   bg.col = "white",
+  strength = 1,
   cexlab = 1,
   cexaxis = 1,
   tlab = "Time (s)",

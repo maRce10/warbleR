@@ -3,10 +3,11 @@
 #' \code{color.spectro} highlights spectrogram regions specified by users
 #' @usage color.spectro(wave, wl = 512, wn = "hanning", ovlp = 70,
 #' dB = "max0", collevels = NULL, selec.col = "red2", col.clm = NULL, 
-#' base.col = "black", bg.col = "white", cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
-#' flab = "Frequency (kHz)", title = NULL, axisX = TRUE, axisY = TRUE,
-#' flim = NULL, rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, f.mar = NULL,
-#' interactive = NULL, add = FALSE) 
+#' base.col = "black", bg.col = "white", strength = 1, 
+#' cexlab = 1, cexaxis = 1, tlab = "Time (s)", flab = "Frequency (kHz)", 
+#' title = NULL, axisX = TRUE, axisY = TRUE, flim = NULL, 
+#' rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, 
+#' f.mar = NULL, interactive = NULL, add = FALSE) 
 #' @param wave A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram. Default 
 #'   is 512.
@@ -27,6 +28,7 @@
 #' Default is 'black'.
 #' @param bg.col Character vector of length 1 specifying the background color for both base
 #' and highlighted spectrograms. Default is 'white'.
+#' @param strength Numeric vector of length 1 controlling the strength of the highlighting color (actually how many times it is repeated in the internal color palette). Must be a positive integer. Default is 1.
 #' @param cexlab Numeric vector of length 1 specifying the relative size of axis 
 #'   labels. See \code{\link[seewave]{spectro}}. Default is 1.
 #' @param cexaxis Numeric vector of length 1 specifying the relative size of axis. See 
@@ -79,12 +81,12 @@
 #'  st$colors <- c("red2", "blue", "green")
 #'  
 #'  # highlight selections
-#'  color.spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-90, 0, 5), 
+#'  color.spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5), 
 #'  dB = "B", X = st, col.clm = "colors", base.col = "skyblue",  t.mar = 0.07, f.mar = 0.1, 
 #'  interactive = NULL)
 #'  
 #'  # interactive (selected manually: you have to select them by clicking on the spectrogram)
-#'  color.spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-90, 0, 5),
+#'  color.spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5),
 #'   dB = "B", col.clm = "colors", t.mar = 0.07, f.mar = 1, interactive = 2)
 #' }
 #' 
@@ -94,7 +96,7 @@
 
 color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
                           dB = "max0", collevels = NULL, selec.col = "red2", col.clm = NULL, 
-                          base.col = "black", bg.col = "white", cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
+                          base.col = "black", bg.col = "white", strength = 1, cexlab = 1, cexaxis = 1, tlab = "Time (s)", 
                           flab = "Frequency (kHz)", title = NULL, axisX = TRUE, axisY = TRUE, 
                           flim = NULL, rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, f.mar = NULL,
                           interactive = NULL, add = FALSE) 
@@ -154,7 +156,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     collevels <- seq(-40, 0, 5)
   
   # set background spectro color
-  basepal <- colorRampPalette(c(rep(bg.col, 2), base.col), alpha = TRUE) 
+  basepal <- colorRampPalette(c(bg.col, base.col)) 
   
   #adjust flim if lower than higher top.freq
   # if (!is.null(flim) & !is.null(sel.tab)) {
@@ -250,7 +252,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     #plot colored signals  
     if (!is.null(sel.tab))    
       out <- lapply(1:nrow(sel.tab), function(i)
-        filled_contour_color_wrblr_int(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 2), colors[i]), alpha = TRUE), levels = collevels,
+        filled_contour_color_wrblr_int(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], nlevels = 20, plot.title = FALSE, color.palette = colorRampPalette(c(rep(bg.col, 1), rep(colors[i], strength)), alpha = TRUE), levels = collevels,
                            axisX = FALSE, axisY = FALSE, col.lab = "black", 
                            colaxis = "black", add = TRUE, bg.col = bg.col)   
       )
@@ -277,7 +279,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   #plot colored signals
   if (!is.null(sel.tab))
         out <- lapply(1:nrow(sel.tab), function(i)
-                                       image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], col = colorRampPalette(c( rep(bg.col, 2), colors[i]), alpha = TRUE)(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)
+                                       image(x = X[X > sel.tab$start[i] & X < sel.tab$end[i]], y = Y[Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], z = Z[X > sel.tab$start[i] & X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] & Y < sel.tab$top.freq[i]], col = colorRampPalette(c( rep(bg.col, 2), rep(colors[i], strength)), alpha = TRUE)(30), xlab = tlab, ylab = flab, axes = FALSE, xlim = range(X), add = TRUE)
                                      )
 
 
