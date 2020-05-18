@@ -161,7 +161,6 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
-# #' @importFrom maps map map.axes
 #' @importFrom methods formalArgs new is slotNames
 # #' @importFrom pracma findpeaks
 # #' @importFrom Sim.DiffProc BB GBM

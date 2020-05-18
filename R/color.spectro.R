@@ -157,10 +157,10 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
   basepal <- colorRampPalette(c(rep(bg.col, 2), base.col), alpha = TRUE) 
   
   #adjust flim if lower than higher top.freq
-  if (!is.null(flim) & !is.null(sel.tab)) {
-    if (flim[1] > min(sel.tab$bottom.freq)) flim[1] <- min(sel.tab$bottom.freq)  
-    if (flim[2] < max(sel.tab$top.freq)) flim[2] <- max(sel.tab$top.freq)  
-  }
+  # if (!is.null(flim) & !is.null(sel.tab)) {
+  #   if (flim[1] > min(sel.tab$bottom.freq)) flim[1] <- min(sel.tab$bottom.freq)  
+  #   if (flim[2] < max(sel.tab$top.freq)) flim[2] <- max(sel.tab$top.freq)  
+  # }
   
   # add frequency margins
   if (!is.null(f.mar))

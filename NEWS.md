@@ -8,6 +8,7 @@
 * 'download' option available in `find_annotations()`
 * 'leaflet' interactive maps in `xc_maps()`
 * 'split_wavs()' new argument 'only.sels' to only return selection tables
+* 'color_spectro()' frequency range is not restricted by the selection table top and bottom frequency
 
 ## Bug fixes:
 * Fixed number of segments when using 'sgmts' argument in 'split_wavs()', it used to return 'sgmts - 1' segments.
