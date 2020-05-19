@@ -232,7 +232,7 @@ color.spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     filled_contour_color_wrblr_int(x = X, y = Y, z = Z, levels = collevels, 
                        nlevels = 20, plot.title = title(main = title, 
                                                         xlab = tlab, ylab = flab), color.palette = basepal, 
-                       axisX = axisX, axisY = axisY, col.lab = "black", 
+                       axisX = FALSE, axisY = FALSE, col.lab = "black", 
                        colaxis = "black", bg.col = bg.col)
     
     if (!is.null(interactive))
