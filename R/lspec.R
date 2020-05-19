@@ -310,7 +310,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
     if (!length(grep("[^[:digit:]]", as.character(dur/sl))))
   rec <- seewave::cutw(wave = rec, f = f, from = 0, to = dur-0.001, output = "Wave") #cut a 0.001 s segment of rec     
     
-    dur <- seewave::duration(rec) #set duration    
+    dur <- seewave::duration(rec) #reset duration    
     
     if (!is.null(X)) Y <- X[X$sound.files == z,] #subset X data
     if (!is.null(X) & !is.null(song)) Ysong <- Xsong[Xsong$sound.files == z, , drop = FALSE]
@@ -346,6 +346,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
           if (!is.null(X))  {
           
             # loop for elements
+            if (nrow(Y) > 0)
              for(e in 1:nrow(Y))  
              {
                # if freq columns are not provided   
@@ -388,7 +389,8 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
       if (!is.null(X)) {
        adjx <- ((x)*sl+li*(sl)*(j-1))-sl
       
-      for(e in 1:nrow(Y))  
+       if (nrow(Y) > 0)
+       for(e in 1:nrow(Y))  
       {
         ys <- if (is.null(Y$top.freq)) frli[c(1, 2, 2, 1)] else
           c(Y$bottom.freq[e], Y$top.freq[e], Y$top.freq[e], Y$bottom.freq[e])
@@ -459,12 +461,11 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
           Q <- X[X$sound.files == z, ]
 
           if (!is.null(Q))  # if not from xcorr.output
+            if (nrow(Q) > 0) # if some detections were found
             for(e in 1:nrow(Q))     #plot polygon
               polygon(x = rep(c(Q$start[e], Q$end[e]), each = 2), y = c(0, 1.4, 1.4, 0) * y.fctr, lty = 2, border = "#07889B", col = adjustcolor("#07889B", alpha.f = 0.12), lwd = 1.2)
           
           }
-        
-        
       }
       dev.off() #reset graphic device
     }
