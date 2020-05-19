@@ -2,6 +2,7 @@
 
 ## Changes and additions:
 
+* `read_wave()` can now read .wav and .mp3 files from URLs
 * 'strength' argument to control color in `color_spectro()`
 * 'method' option to create spectrograms on the fly in `xcorr()`
 * 'img' argument in `autodetec()` is being soft-deprecated

@@ -4,7 +4,7 @@
 #' @usage read_wave(X, index, from = X$start[index], to = X$end[index], channel = NULL, 
 #' header = FALSE, path = NULL) 
 #' @param X 'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
-#' selection number (selec), and start and end time of signals (start and end). 
+#' selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a '.wav' file or URL address to a '.wav' or '.mp3' file can be provided.
 #' 'top.freq' and 'bottom.freq' columns are optional. Default is \code{NULL}.
 #' @param index Index of the selection in 'X' that will be read. Ignored if 'X' is \code{NULL}.
 #' @param from Where to start reading, in seconds. Default is \code{X$start[index]}.
@@ -36,6 +36,17 @@
 
 read_wave <- function (X, index, from = X$start[index], to = X$end[index], channel = NULL, header = FALSE, path = NULL) 
 {
+ 
+  # download and read wave file if URL 
+  if (!is.data.frame(X) & if(length(dim(X)) > 1) FALSE else grepl("^www.|^http:|^https:", X))
+{  
+    temp.file <- tempfile()
+  download.file(url = X, destfile = temp.file, quiet = TRUE, mode = "wb", cacheOK = TRUE, extra = getOption("download.file.extra"))
+  
+  # try to read as wav otherwise as mp3
+    object <- try(readWave(temp.file), silent = TRUE) 
+      if (is(object, "try-error")) object <- readMP3(temp.file)
+    } else {
   
   # if is extended then index must be provided
   if (is_extended_selection_table(X) & missing(index)) stop('"index" needed when an extended selection table is provided')
@@ -103,10 +114,11 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], chann
       # if to is inifite then duration of sound file
       if (is.infinite(to)) to <- length(object@left)/object@samp.rate
       
-        if (attr(X, "check.results")$mar.before[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & attr(X, "check.results")$mar.after[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & any(to < length(object@left)/object@samp.rate, from > 0))  object <- seewave::cutw(object, from = from, to = to, output = "Wave") #else
+        if (attr(X, "check.results")$mar.before[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & attr(X, "check.results")$mar.after[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & any(to < length(object@left)/object@samp.rate, from > 0))  object <- seewave::cutw(object, from = from, to = to, output = "Wave") 
         
+      }
     }
-    }
+   }
   }
  return(object)
 }

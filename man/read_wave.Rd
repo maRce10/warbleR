@@ -9,7 +9,7 @@ header = FALSE, path = NULL)
 }
 \arguments{
 \item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
-selection number (selec), and start and end time of signals (start and end). 
+selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a '.wav' file or URL address to a '.wav' or '.mp3' file can be provided.
 'top.freq' and 'bottom.freq' columns are optional. Default is \code{NULL}.}
 
 \item{index}{Index of the selection in 'X' that will be read. Ignored if 'X' is \code{NULL}.}
