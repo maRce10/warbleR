@@ -10,7 +10,7 @@
 The main features of the package are:
 
  - The use of loops to apply tasks through acoustic signals referenced in a selection table
- - The production of images in the working directory with spectrograms to allow users organize data and verify acoustic analyzes
+ - The production of images in the working directory with spectrograms to allow users organize data and verify acoustic analyses
 
 The package offers functions to:
  - Explore and download Xeno ‐ Canto recordings
