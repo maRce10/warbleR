@@ -289,10 +289,10 @@ if (pb) write(file = "", x ="double-checking downloaded files")
    
    #check if some files have no data
     fl <- list.files(path = path, pattern = ".mp3$")
-    size0 <- fl[file.size(fl) == 0]
+    size0 <- fl[file.size(file.path(path, fl)) == 0]
    
     #if so redo those files
-    if (length(size0) > 1)
+    if (length(size0) > 0)
   {  Y <- results[results$sound.files %in% size0, ]
      unlink(size0)
      

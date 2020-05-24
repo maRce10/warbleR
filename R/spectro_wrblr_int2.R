@@ -108,7 +108,7 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
   if (!is.null(amp.cutoff)) Z[Z >= (diff(range(Z)) * amp.cutoff) + min(Z)] <- 0 
   
   if (!fast.spec)
-    filled_contour_wrblr_int(x = X, y = Y, z = Z, levels = collevels, 
+    filled_contour_wrblr_int(x = X, y = Y, z = Z, bg.col = colbg, levels = collevels, 
                           nlevels = 20, plot.title = title(main = main, 
                                                            xlab = tlab, ylab = flab), color.palette = palette, 
                           axisX = FALSE, axisY = axisY, col.lab = collab, 

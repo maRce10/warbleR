@@ -13,6 +13,7 @@
 * 'color_spectro()' frequency range is not restricted by the selection table top and bottom frequency
 
 ## Bug fixes:
+* Trivial bug when downloading files in `quer_xc()`
 * Fixed number of segments when using 'sgmts' argument in 'split_wavs()', it used to return 'sgmts - 1' segments.
 * Fix mismatch in `specreator()` spectrograms and oscillograms
 
