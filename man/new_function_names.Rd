@@ -4,7 +4,9 @@
 \name{new_function_names}
 \alias{new_function_names}
 \title{Data frame detailing function name changes}
-\format{An object of class \code{data.frame} with 26 rows and 2 columns.}
+\format{
+An object of class \code{data.frame} with 26 rows and 2 columns.
+}
 \usage{
 data(new_function_names)
 }

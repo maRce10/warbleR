@@ -4,7 +4,8 @@
 \name{comp_matrix}
 \alias{comp_matrix}
 \title{Matrix listing selections to be compared by \code{\link{xcorr}}}
-\format{A data frame with 11 rows and 6 variables: \describe{ 
+\format{
+A data frame with 11 rows and 6 variables: \describe{ 
  \item{sound.files}{recording names}
  \item{channel}{channel in which signal is found}
  \item{selec}{selection numbers within recording}
@@ -12,7 +13,8 @@
  \item{end}{end times of selected signal}
  \item{bottom.freq}{lower limit of frequency range}
  \item{top.freq}{upper limit of frequency range}
-}}
+}
+}
 \source{
 Marcelo Araya Salas, warbleR
 }

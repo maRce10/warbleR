@@ -13,7 +13,7 @@ BugReports: https://github.com/maRce10/warbleR/issues
 NeedsCompilation: no
 Suggests: knitr, ggplot2, rmarkdown, jpeg, ape, bioacoustics, soundgen, wavethresh, png, pracma, Sim.DiffProc, maps, leaflet
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Packaged: 2016-04-18 23:45:31 UTC; m
 Repository: CRAN
 Language: en-US

@@ -4,7 +4,8 @@
 \name{lbh_selec_table}
 \alias{lbh_selec_table}
 \title{Data frame of selections (i.e. selection table).}
-\format{A data frame with 11 rows and 6 variables: \describe{ 
+\format{
+A data frame with 11 rows and 6 variables: \describe{ 
  \item{sound.files}{recording names}
  \item{channel}{channel in which signal is found}
  \item{selec}{selection numbers within recording}
@@ -14,7 +15,8 @@
  \item{top.freq}{upper limit of frequency range}
  \item{sel.comment}{selection comments}
  \item{rec.comment}{recording comments}
-}}
+}
+}
 \source{
 Marcelo Araya Salas, warbleR
 }

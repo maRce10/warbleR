@@ -16,6 +16,7 @@
 * Trivial bug when downloading files in `quer_xc()`
 * Fixed number of segments when using 'sgmts' argument in 'split_wavs()', it used to return 'sgmts - 1' segments.
 * Fix mismatch in `specreator()` spectrograms and oscillograms
+* Fix bug when no detections in `x_corr()` 
 
 # *warbleR 1.1.23*
 

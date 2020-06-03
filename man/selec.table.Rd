@@ -4,7 +4,9 @@
 \name{selec.table}
 \alias{selec.table}
 \title{Alternative name for \code{selec.table}}
-\format{An object of class \code{data.frame} with 11 rows and 9 columns.}
+\format{
+An object of class \code{data.frame} with 11 rows and 9 columns.
+}
 \source{
 Marcelo Araya Salas, warbleR
 }

@@ -4,7 +4,9 @@
 \name{sim_coor_sing}
 \alias{sim_coor_sing}
 \title{Alternative name for \code{sim.coor.song}}
-\format{An object of class \code{data.frame} with 446 rows and 4 columns.}
+\format{
+An object of class \code{data.frame} with 446 rows and 4 columns.
+}
 \usage{
 sim_coor_sing
 }

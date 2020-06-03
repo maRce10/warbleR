@@ -426,11 +426,11 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
         )
       
       # put in a data frame
-      df <- data.frame(
-        dyad = paste(spc.cmbs.org[x, ], collapse = "/"), 
-        sound.files = spc.cmbs.org[x, which.max(durs)], 
-        template = spc.cmbs.org[x, which.min(durs)], 
-        time = c(X$start[X$selection.id == spc.cmbs.org[x, 1]], X$start[X$selection.id == spc.cmbs.org[x, 2]])[which.max(durs)] + seq(min(durs) / 2, max(durs) - min(durs) / 2, length.out = length(xcrrs[[x]])), score = xcrrs[[x]])
+      df <- data.frame(dyad = paste(spc.cmbs.org[x, ], collapse = "/"),
+                       sound.files = spc.cmbs.org[x, which.max(durs)], 
+                       template = spc.cmbs.org[x, which.min(durs)], 
+                       time = if (!is.null( xcrrs[[x]])) c(X$start[X$selection.id == spc.cmbs.org[x, 1]], X$start[X$selection.id == spc.cmbs.org[x, 2]])[which.max(durs)] + seq(min(durs)/2, max(durs) - min(durs)/2, length.out = length(xcrrs[[x]])) else NA, 
+                       score = if (!is.null(xcrrs[[x]])) xcrrs[[x]] else NA)
           
       return(df)
       })
@@ -441,13 +441,21 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     
     # remove missing values
     if (na.rm) 
+    {      
+      if (exists("com.case"))
       cor.table <- cor.table[cor.table$sound.files %in% com.case & cor.table$template %in% com.case, ]
+
+    errors <- cor.table[is.na(cor.table$score), ]    
+    errors$score <- NULL
+    
+    cor.table <- cor.table[!is.na(cor.table$score), ]
+    }
   } 
   
   #list results
   if (output == "cor.mat") return(mat) else{
     
-    output_list <- list(max.xcorr.matrix = mat, scores = cor.table, selection.table = X, hop.size.ms = read_wave(X, 1, header = TRUE, path = path)$sample.rate / wl)
+    output_list <- list(max.xcorr.matrix = mat, scores = cor.table, selection.table = X, hop.size.ms = read_wave(X, 1, header = TRUE, path = path)$sample.rate / wl, errors = if (na.rm) errors else NA)
     
     class(output_list) <- c("list", "xcorr.output")
     
