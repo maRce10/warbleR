@@ -5,7 +5,7 @@
 \title{Splits sound files}
 \usage{
 split_wavs(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
- parallel = 1, pb = TRUE, only.sels  = FALSE)
+ parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL)
 }
 \arguments{
 \item{path}{Directory path where sound files are found. 
@@ -23,6 +23,10 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{only.sels}{Logical argument to control if only the data frame is return (no wave files are saved). Default is \code{FALSE}.}
+
+\item{X}{'selection_table' object or a data frame with columns
+for sound file name (sound.files), selection number (selec), and start and end time of signal
+(start and end). If provided selections in 'X' will be saved as individual sound files (and 'sgmt.dur'/'sgmts'/'files' arguments will be ignored. Default is \code{NULL}.}
 }
 \value{
 Wave files for each segment in the working directory (named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the cuts (sound.files) and the start and end of cuts in the original files.

@@ -2,7 +2,7 @@
 #' 
 #' \code{split_wavs} splits sound files in shorter segments
 #' @usage split_wavs(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
-#'  parallel = 1, pb = TRUE, only.sels  = FALSE)
+#'  parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL)
 #' @param path Directory path where sound files are found. 
 #'  If \code{NULL} (default) then the current working directory is used.
 #' @param sgmt.dur Numeric. Duration (in s) of segments in which sound files would be split. Sound files shorter than 'sgmt.dur' won't be split. Ignored if 'sgmts' is supplied.
@@ -12,6 +12,9 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param only.sels Logical argument to control if only the data frame is return (no wave files are saved). Default is \code{FALSE}.
+#' @param X 'selection_table' object or a data frame with columns
+#' for sound file name (sound.files), selection number (selec), and start and end time of signal
+#' (start and end). If provided selections in 'X' will be saved as individual sound files (and 'sgmt.dur'/'sgmts'/'files' arguments will be ignored. Default is \code{NULL}.
 #' @family data manipulation
 #' @seealso \code{\link{cut_sels}} 
 #' @export
@@ -38,7 +41,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
 #last modification on jun-07-2019 (MAS)
-split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, parallel = 1, pb = TRUE, only.sels  = FALSE){
+split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL){
   
   #### set arguments from options
   # get function arguments
@@ -70,7 +73,6 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
       stop("'path' provided does not exist") else
         path <- normalizePath(path)
   
-  
   #stop if files is not a character vector
   if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
@@ -79,6 +81,29 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   
   #stop if no wav files are found
   if (length(files) == 0) stop("no .wav files in working directory") 
+  
+  if (!is.null(X)){
+    
+    #if X is not a data frame
+    if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+    
+    if (is_extended_selection_table(X)) stop("This function cannot take extended selection tables ('X' argument)")
+    
+    #check if all columns are found
+    if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
+      stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+                                                                     "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+    
+    #if there are NAs in start or end stop
+    if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
+    
+    #if end or start are not numeric stop
+    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+    
+    #if any start higher than end stop
+    if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)")) 
+  }
+  
   
   # check sgmnt duration
   if (is.null(sgmts))
@@ -91,6 +116,8 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
+  # if X has not
+  if (is.null(X)){    
   # measure wav duration
   wvdr <- wav_dur(path = path, files = files)
 
@@ -125,7 +152,15 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   
   # put together in a single data frame
   split.df <- do.call(rbind, split.dfs)
+  } else {
+    
+    split.df <- X
+    split.df$org.sound.files <- X$sound.files
+     
+    split.df$sound.files <- paste0(gsub("\\.wav$", "", X$sound.files, ignore.case = TRUE), "-", X$selec, ".wav")
+  }
   
+  # if no sound files are produced
   if (!only.sels){
   # set pb options 
   pbapply::pboptions(type = ifelse(pb, "timer", "none"))
