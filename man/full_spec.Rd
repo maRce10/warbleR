@@ -24,7 +24,8 @@ full_spec(
   fast.spec = FALSE,
   labels = "selec",
   horizontal = FALSE,
-  song = NULL
+  song = NULL,
+  ...
 )
 }
 \description{

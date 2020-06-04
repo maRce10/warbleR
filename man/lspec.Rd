@@ -7,7 +7,7 @@
 lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1), 
 ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, 
-fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL)
+fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, ...)
 }
 \arguments{
 \item{X}{'selection_table' object or any data frame with columns
@@ -78,6 +78,8 @@ labeling. Default is 'selec'. Set to \code{NULL} to remove labels.}
 \item{song}{Character string with the name of the column to used as a label a for higher 
 organization level in the song (similar to 'song_colm' in \code{\link{song_param}}). If supplied then lines above the selections belonging to the same
 'song' are plotted. Ignored if 'X' is not provided.}
+
+\item{...}{Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in \code{\link[grDevices]{png}}.}
 }
 \value{
 image files with spectrograms of whole sound files in the working directory. Multiple pages

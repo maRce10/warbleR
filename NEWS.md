@@ -2,6 +2,7 @@
 
 ## Changes and additions:
 
+* `lspec()` allow to set resolution and custom dimensions of output image ifles
 * `split_wavs()` can now save selections in a data frame of selection table as sound files
 * `read_wave()` can now read .wav and .mp3 files from URLs
 * 'strength' argument to control color in `color_spectro()`

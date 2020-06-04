@@ -283,7 +283,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
       spc$freq <- seq(0, clp@samp.rate / 2000, length.out = nbnds)
     }
     
-    # repace inf by NA
+    # replace inf by NA
     spc$amp[is.infinite(spc$amp)] <- NA
     
     return(spc)
@@ -412,8 +412,10 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     mat <- mat[rownames(mat) %in% com.case, colnames(mat) %in% com.case]
     if (nrow(mat) == 0) stop("Not selections remained after removing NAs (na.rm = TRUE)")
   } 
-} else mat <- data.frame(compare.matrix, score = mx.xcrrs)
-  
+} else {
+  mat <- data.frame(compare.matrix, score = mx.xcrrs)
+ if (na.rm) mat <- mat[!is.infinite(mat$scores), ]
+  }
   ## create correlation data matrix (keeps all correlation values, not only the maximum)
   # time is the one of the longest selection as the shortest is used as template 
   if (output == "list") {
@@ -434,7 +436,6 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
           
       return(df)
       })
-   
      
     # put together in a single dataframe
     cor.table <- do.call(rbind, cor.lst)
@@ -448,7 +449,7 @@ xcorr <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, den
     errors <- cor.table[is.na(cor.table$score), ]    
     errors$score <- NULL
     
-    cor.table <- cor.table[!is.na(cor.table$score), ]
+    cor.table <- cor.table[!is.infinite(cor.table$score), ]
     }
   } 
   
