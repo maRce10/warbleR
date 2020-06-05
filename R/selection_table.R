@@ -310,7 +310,6 @@ make.selection.table <- selection_table
 #'
 #' Class for selections of signals in sound files
 #' @export
-#' @exportClass selection_table
 #' @details An object of class \code{selection_table} created by \code{\link{selection_table}} is a list with the following elements:
 #'  \itemize{
 #'  \item\code{selections}: data frame containing the frequency/time coordinates of the selections, sound file names, and any  additional information
@@ -360,7 +359,6 @@ is_selection_table <- function(x) inherits(x, "selection_table")
 #'
 #' Class for selections of signals in sound files and corresponding wave objects
 #' @export
-#' @exportClass  extended_selection_table
 #' @details An object of class \code{extended_selection_table} created by \code{\link{selection_table}} is a list with the following elements:
 #'  \itemize{
 #'  \item \code{selections}: data frame containing the frequency/time coordinates of the selections, sound file names, and any  additional information
