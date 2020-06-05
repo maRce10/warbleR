@@ -1,4 +1,4 @@
-#' Alternative name for \code{selec.table}
+#' Alternative name for \code{lbh_selec_table}
 #' 
 #' Simulated coordinated singing events.
 #' 

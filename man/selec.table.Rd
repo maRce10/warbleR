@@ -3,7 +3,7 @@
 \docType{data}
 \name{selec.table}
 \alias{selec.table}
-\title{Alternative name for \code{selec.table}}
+\title{Alternative name for \code{lbh_selec_table}}
 \format{
 An object of class \code{data.frame} with 11 rows and 9 columns.
 }
