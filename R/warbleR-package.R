@@ -148,8 +148,6 @@
 #'   
 #'   \code{\link{phylo_spectro}}: Add spectrograms onto phylogenetic trees
 #'   
-#' @exportClass selection_table
-#' @exportClass extended_selection_table
 #' @import NatureSounds
 #' @import rjson
 #' @import RCurl
@@ -162,8 +160,6 @@
 #' @import utils
 #' @import parallel
 #' @importFrom methods formalArgs new is slotNames
-# #' @importFrom pracma findpeaks
-# #' @importFrom Sim.DiffProc BB GBM
 #' @importFrom dtw dtwDist
 #' @importFrom stats cor dist aggregate approx ave prcomp time ts predict smooth.spline complete.cases spline weighted.mean na.omit var sd rlnorm fft
 #' 

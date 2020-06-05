@@ -1,7 +1,7 @@
 #' Time-frequency cross-correlation 
 #' 
 #' \code{xcorr} estimates the similarity of two sound waves by means of time-frequency cross-correlation
-#' @usage xcorr(X, wl =512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL, wn='hanning', 
+#' @usage xcorr(X, wl = 512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL, wn = 'hanning', 
 #' cor.method = "pearson", parallel = 1, path = NULL, pb = TRUE, na.rm = FALSE,
 #'  cor.mat = NULL, output = "cor.mat", compare.matrix = NULL, type = "spectrogram", 
 #'  nbands = 40, method = 1)
