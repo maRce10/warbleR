@@ -191,7 +191,7 @@ that were removed are also saved.</p>
     <div class='dont-index'><p><code><a href='fixwavs.html'>fixwavs</a></code>, <code><a href='autodetec.html'>autodetec</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># save sound file examples</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span>))
 <span class='no'>sil</span> <span class='kw'>&lt;-</span> <span class='fu'>silence</span>(<span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>22500</span>, <span class='kw'>duration</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>xunit</span> <span class='kw'>=</span> <span class='st'>"time"</span>)
@@ -211,8 +211,7 @@ that were removed are also saved.</p>
 
 <span class='co'>#check this floder</span>
 <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div><div class='output co'>#&gt; <span class='error'>Error in if (flm[2] &gt; ceiling(wv@samp.rate/2000) - 1) flm[2] &lt;- ceiling(wv@samp.rate/2000) -     1: valor ausente donde TRUE/FALSE es necesario</span></div><div class='img'><img src='rm_sil-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
