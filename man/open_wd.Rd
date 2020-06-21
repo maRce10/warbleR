@@ -39,6 +39,6 @@ Other data manipulation:
 \code{\link{split_wavs}()}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
 \concept{data manipulation}

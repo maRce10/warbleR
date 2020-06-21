@@ -16,7 +16,7 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param save.csv Logical. Controls whether a data frame containing sound file information is saved in the new directory. Default is \code{TRUE}.
-#' @param ... Additional arguments to be passed to the internal \code{\link[base]{file.copy}} function for customizing file copying. 
+#' @param ... Additional arguments to be passed to the internal \code{\link[base:files]{file.copy}} function for customizing file copying. 
 #' @return All (sound) files are consolidated (copied) to a single directory ("consolidated_files"). The function returns a data frame with each of the files that were copied in a row and the following information:
 #' \itemize{
 #'  \item \code{original_dir} the path to the original file 
@@ -55,7 +55,7 @@
 #' }
 #' 
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on jan-29-2018 (MAS)
 
 consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", 

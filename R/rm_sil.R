@@ -2,7 +2,7 @@
 #'
 #' \code{rm_sil} Removes silences in wave files
 #' @usage rm_sil(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
-#' flist = NULL, parallel = 1, pb = TRUE)
+#' files = NULL, flist = NULL, parallel = 1, pb = TRUE)
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param min.sil.dur Numeric. Controls the minimum duration of silence segments that would be removed.
@@ -12,8 +12,9 @@
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram as in 
 #'   \code{\link[seewave]{spectro}}. Default is c(0,12). Ignored if `img = FALSE`.
-#' @param flist character vector or factor indicating the subset of files that will be analyzed. If not provided
+#' @param files character vector or factor indicating the subset of files that will be analyzed. If not provided
 #' then all wave files in the working directory (or path) will be processed.
+#' @param flist DEPRECATED. Please use 'files' instead.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 
@@ -40,7 +41,7 @@
 #'   extensible = FALSE)
 #' 
 #' #remove silence
-#' rm_sil(flist = "wv1.wav", pb = FALSE, path = tempdir())
+#' rm_sil(files = "wv1.wav", pb = FALSE, path = tempdir())
 #' 
 #' #check this floder
 #' tempdir()
@@ -49,15 +50,18 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-13-2018 (MAS)
 
 rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
-                   flist = NULL, parallel = 1, pb = TRUE)
+                   files = NULL, flist = NULL, parallel = 1, pb = TRUE)
 {
 
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  # flist deprecated
+  if (!is.null(flist))  write(file = "", x = "'flist' has been deprecated and will be ignored. Please use 'files' instead.")
   
   #### set arguments from options
   # get function arguments
@@ -89,14 +93,14 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
       path <- normalizePath(path) 
   
   #read files
-  files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
+  wavs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
-  if (length(files) == 0) stop("no .wav files in working directory")
+  if (length(wavs) == 0) stop("no .wav wavs in working directory")
   
-  #subet based on file list provided (flist)
-  if (!is.null(flist)) files <- files[files %in% flist]
-  if (length(files) == 0)  stop("selected .wav files are not in working directory")
+  #subet based on file list provided (wavs)
+  if (!is.null(files)) wavs <- wavs[wavs %in% files]
+  if (length(wavs) == 0)  stop("selected .wav files are not in working directory")
 
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
@@ -105,10 +109,10 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  files <- files[!is.na(files)]
+  wavs <- wavs[!is.na(wavs)]
   
-  #stop if files are not in working directory
-  if (length(files) == 0) stop("all .wav files have been processed")
+  #stop if wavs are not in working directory
+  if (length(wavs) == 0) stop("all .wav files have been processed")
   
   dir.create(file.path(path, "silence-removed_files"), showWarnings = FALSE)
   
@@ -124,7 +128,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     if (wv@samp.rate > f + 1000) wv1 <- downsample(object = wv, samp.rate =  f) else wv1 <- wv
     writeWave(wv1, file.path(tempdir(),  fl))
   
-    ad <- autodetec(threshold = 0.06, ssmooth = 1500, parallel = 1, pb = FALSE, img = FALSE, flist = fl, path = tempdir())
+    ad <- autodetec(threshold = 0.06, ssmooth = 1500, parallel = 1, pb = FALSE, img = FALSE, flist = fl, path = path)
     
     # remove the silence less than min.sil.dur 
     if (nrow(ad) > 1) for(i in 1:(nrow(ad) - 1)) {
@@ -136,7 +140,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     }
     
     
-    if (mg)
+    if (img)
     {
       img_wrlbr_int(filename = paste0(fl, ".rm.silence.", it), path = file.path(path, "silence-removed_files"),  res = 160, units = "in", width = 8.5, height = 4) 
     
@@ -175,7 +179,7 @@ rm_sil <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim =
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pblapply(X = files, cl = cl, FUN = function(i) 
+  out <- pbapply::pblapply(X = wavs, cl = cl, FUN = function(i) 
   { 
     rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img) 
   }) 

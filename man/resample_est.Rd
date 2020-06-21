@@ -65,7 +65,7 @@ Other extended selection table manipulation:
 \code{\link{rename_waves_est}()}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 #last modification on oct-15-2018 (MAS)
 }
 \concept{extended selection table manipulation}

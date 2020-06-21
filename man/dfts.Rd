@@ -95,7 +95,7 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function extracts the dominant frequency values as a time series. 
-The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant frequency 
+The function uses the \code{\link[stats:approxfun]{approx}} function to interpolate values between dominant frequency 
 measures. If there are no frequencies above the amplitude threshold at the beginning or end 
  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
  above the amplitude threshold in time windows in between the signal in which amplitude was 
@@ -144,6 +144,6 @@ Other spectrogram creators:
 \code{\link{trackfreqs}()}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
 \concept{spectrogram creators}

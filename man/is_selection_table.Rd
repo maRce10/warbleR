@@ -51,5 +51,5 @@ Check if object is of class "selection_table"
 \code{\link{selection_table}}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

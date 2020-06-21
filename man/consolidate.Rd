@@ -27,7 +27,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{save.csv}{Logical. Controls whether a data frame containing sound file information is saved in the new directory. Default is \code{TRUE}.}
 
-\item{...}{Additional arguments to be passed to the internal \code{\link[base]{file.copy}} function for customizing file copying.}
+\item{...}{Additional arguments to be passed to the internal \code{\link[base:files]{file.copy}} function for customizing file copying.}
 }
 \value{
 All (sound) files are consolidated (copied) to a single directory ("consolidated_files"). The function returns a data frame with each of the files that were copied in a row and the following information:
@@ -79,6 +79,6 @@ tempdir()
 \code{\link{fixwavs}} for making sound files readable in R
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
 \concept{sound file manipulation}

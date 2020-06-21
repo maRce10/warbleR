@@ -98,7 +98,7 @@
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' \href{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}{Wikipedia: Signal-to-noise ratio}
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) and Grace Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace Smith Vidaurre
 #last modification on aug-06-2018 (MAS)
 
 snrspecs <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,

@@ -186,7 +186,7 @@ compare_methods(X = lbh_selec_table, methods = c("dfDTW"), custom1 = Y)
 \href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com}). It uses 
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}). It uses 
 internally a modified version of the \code{\link[seewave]{spectro}} function from 
 seewave package to create spectrograms.
 }

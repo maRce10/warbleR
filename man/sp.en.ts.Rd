@@ -73,7 +73,7 @@ of signals selected by \code{\link{manualoc}} or \code{\link{sp.en.ts}}.
 }
 \details{
 This function spectral entropy across signals as a time series. 
-The function uses the \code{\link[stats]{approx}} function to interpolate values between spectral 
+The function uses the \code{\link[stats:approxfun]{approx}} function to interpolate values between spectral 
 entropy measures (calculated with \code{\link[seewave]{csh}}). If there are no frequencies above the amplitude threshold 
 at the beginning or end  of the signals then NAs will be generated. On the other hand, 
 if there are no frequencies above the amplitude theshold in between signal segments in which amplitude was 
@@ -124,6 +124,6 @@ Other spectrogram creators:
 \code{\link{trackfreqs}()}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
 \concept{spectrogram creators}

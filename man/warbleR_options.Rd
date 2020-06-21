@@ -77,5 +77,5 @@ a <- sig2noise(X = lbh_selec_table, mar = 0.1)
 }
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

@@ -55,5 +55,5 @@ Selin A., J. Turunen, and J. T. Tanttu, 2007. Wavelets in recognition of bird so
 \code{\link{mfcc_stats}}, \code{\link{mfcc_stats}}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

@@ -62,5 +62,5 @@ H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-cor
 \code{\link{autodetec}}, \code{\link[monitoR]{findPeaks}}
 }
 \author{
-Marcelo Araya-Salas \email{marceloa27@gmail.com})
+Marcelo Araya-Salas \email{marcelo.araya@ucr.ac.cr})
 }

@@ -70,5 +70,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{trackfreqs}} for tracking frequencies iteratively on selections tables.
 }
 \author{
-Jerome Sueur, modified by Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Jerome Sueur, modified by Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

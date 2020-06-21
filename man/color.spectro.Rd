@@ -71,10 +71,10 @@ the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
 \item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-\code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-\code{\link[monitoR]{gray.3}} offer 
+This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
+\code{\link[monitoR:specCols]{gray.3}}, \code{\link[monitoR:specCols]{topo.1}} and \code{\link[monitoR:specCols]{rainbow.1}} (which should be imported from the package monitoR) seem
+to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
+\code{\link[monitoR:specCols]{gray.3}} offer 
 decreasing darkness levels.}
 
 \item{t.mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points to be added when highlighting selection. Default is \code{NULL}.}
@@ -144,6 +144,6 @@ Other spectrogram creators:
 \code{\link{trackfreqs}()}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}) and Grace Smith Vidaurre
 }
 \concept{spectrogram creators}

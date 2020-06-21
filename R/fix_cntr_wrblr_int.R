@@ -1,5 +1,5 @@
 # internal warbleR function, not to be called by users. it plots contours, runs locator and return tailored contours 
-# @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+# @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on mar-12-2016 (MAS)
 
 fix_cntr_wrblr_int <- function(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim, col, alpha, l){

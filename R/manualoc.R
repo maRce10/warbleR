@@ -37,10 +37,10 @@
 #' if X is provided.
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-#' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-#' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-#' \code{\link[monitoR]{gray.3}} offer 
+#' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
+#' \code{\link[monitoR:specCols]{gray.3}}, \code{\link[monitoR:specCols]{topo.1}} and \code{\link[monitoR:specCols]{rainbow.1}} (which should be imported from the package monitoR) seem
+#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
+#' \code{\link[monitoR:specCols]{gray.3}} offer 
 #' decreasing darkness levels.
 #' @param ext.window Logical. If \code{TRUE} then and external graphic window is used. Default 
 #' dimensions can be set using the 'width' and 'height' arguments. Default is \code{TRUE}.
@@ -108,7 +108,7 @@
 #'  
 #' @seealso  \code{\link{seltailor}}
 #'    
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}) 
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) 
 #last modification on jul-5-2016 (MAS)
 
 manualoc <- function(wl = 512, flim = c(0,12), seltime = 1, tdisp = NULL, reccomm = FALSE, wn = "hanning", title = TRUE, 

@@ -165,7 +165,7 @@
 #' 
 #' @author Marcelo Araya-Salas & Grace Smith Vidaurre
 #'   
-#'   Maintainer: Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#'   Maintainer: Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #'   
 #' @docType package
 #' @name warbleR

@@ -63,7 +63,7 @@
 #' # sig2noise without progress bar using warbleR_options setting again
 #' a <- sig2noise(X = lbh_selec_table, mar = 0.1)
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on apr-18-2018 (MAS)
 
 warbleR_options <- function(reset = FALSE, ...){

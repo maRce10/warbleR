@@ -62,5 +62,5 @@ tempdir()
 \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

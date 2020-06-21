@@ -136,5 +136,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{checkwavs}}, \href{https://marce10.github.io/2018/05/15/Extended_selection_tables.html}{blog post on extended selection tables}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

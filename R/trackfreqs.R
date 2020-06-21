@@ -97,10 +97,10 @@
 #' @param line Logical argument to add red lines (or box if bottom.freq and top.freq columns are provided) at start and end times of selection. Default is \code{TRUE}.
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-#' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-#' \code{\link[monitoR]{gray.3}}, \code{\link[monitoR]{topo.1}} and \code{\link[monitoR]{rainbow.1}} (which should be imported from the package monitoR) seem
-#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR]{gray.1}}, \code{\link[monitoR]{gray.2}}, 
-#' \code{\link[monitoR]{gray.3}} offer 
+#' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
+#' \code{\link[monitoR:specCols]{gray.3}}, \code{\link[monitoR:specCols]{topo.1}} and \code{\link[monitoR:specCols]{rainbow.1}} (which should be imported from the package monitoR) seem
+#' to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
+#' \code{\link[monitoR:specCols]{gray.3}} offer 
 #' decreasing darkness levels. 
 #' @param ff.method Character. Selects the method used to calculate the fundamental
 #' frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
@@ -168,7 +168,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-13-2018 (MAS)
 
 trackfreqs <- function(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70, 

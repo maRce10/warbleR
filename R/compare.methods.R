@@ -145,7 +145,7 @@
 #' }
 #' 
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com}). It uses 
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}). It uses 
 #' internally a modified version of the \code{\link[seewave]{spectro}} function from 
 #' seewave package to create spectrograms.
 #last modification on mar-13-2018 (MAS)

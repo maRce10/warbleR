@@ -56,6 +56,6 @@ Other extended selection table manipulation:
 \code{\link{resample_est}()}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
 \concept{extended selection table manipulation}

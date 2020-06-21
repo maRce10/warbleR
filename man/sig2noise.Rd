@@ -96,5 +96,5 @@ path = tempdir())
 }
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}) and Grace Smith Vidaurre
 }

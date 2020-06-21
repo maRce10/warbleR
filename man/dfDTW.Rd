@@ -96,7 +96,7 @@ time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from
 \details{
 This function extracts the dominant frequency values as a time series and
  then calculates the pairwise acoustic dissimilarity using dynamic time warping.
-The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant
+The function uses the \code{\link[stats:approxfun]{approx}} function to interpolate values between dominant
  frequency  measures. If 'img' is  \code{TRUE} the function also produces image files
  with the spectrograms of the signals listed in the input data frame showing the
  location of the dominant frequencies.
@@ -137,6 +137,6 @@ Other spectrogram creators:
 \code{\link{trackfreqs}()}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
 \concept{spectrogram creators}

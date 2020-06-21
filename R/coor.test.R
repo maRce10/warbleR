@@ -85,7 +85,7 @@
 #' 
 #' Rivera-Caceres K, E Quiros-Guerrero, M Araya-Salas & W Searcy. (2016). Neotropical wrens learn new duet as adults. Proceedings of the Royal Society B. 285, 20161819
 #' } 
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on apr-11-2018 (MAS)
 
 coor.test <- function(X = NULL, iterations = 1000, ovlp.method = "count",

@@ -39,5 +39,5 @@ selec.table <- selec.table[, sample(1:ncol(selec.table))]
   
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

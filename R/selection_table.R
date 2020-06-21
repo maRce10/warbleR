@@ -109,7 +109,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
@@ -347,7 +347,7 @@ make.selection.table <- selection_table
 #' 
 #' class(st)
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on may-9-2018 (MAS)
 
 is_selection_table <- function(x) inherits(x, "selection_table")
@@ -398,7 +398,7 @@ is_selection_table <- function(x) inherits(x, "selection_table")
 #' 
 #' class(st)
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on may-9-2018 (MAS)
 
 is_extended_selection_table <- function(x) inherits(x, "extended_selection_table")
@@ -580,7 +580,7 @@ print.selection_table <- function(x, ...) {
 #' # check class
 #' class(st)
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on may-14-2018 (MAS)
 
 fix_extended_selection_table <- function(X, Y){

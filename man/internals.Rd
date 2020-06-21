@@ -17,7 +17,7 @@ The functions are:
 \code{spectro.rectw.INTFUN.2}
 \code{spectro.rectw.INTFUN}
 
-These 2 functions are modified versions of \code{\link[seewave]{filled.contour.modif2}}.
+These 2 functions are modified versions of seewave's \code{filled.contour.modif2()}.
 \code{\link[seewave]{spectro}}.
 The functions are:
 \code{filled.contour.color.INTFUN}

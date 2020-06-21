@@ -34,7 +34,7 @@
 #' pks <- find_peaks(xc.output = xc.output, path = tempdir())
 #' }
 #' @seealso \code{\link{autodetec}}, \code{\link[monitoR]{findPeaks}}
-#' @author Marcelo Araya-Salas \email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas \email{marcelo.araya@@ucr.ac.cr})
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.

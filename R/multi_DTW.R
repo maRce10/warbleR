@@ -30,7 +30,7 @@
 #' @name multi_DTW
 #' @details This function extracts the dominant frequency values as a time series and
 #'  then calculates the pairwise acoustic dissimilarity using dynamic time warping.
-#' The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant
+#' The function uses the \code{\link[stats:approxfun]{approx}} function to interpolate values between dominant
 #'  frequency  measures. If 'img' is  \code{TRUE} the function also produces image files
 #'  with the spectrograms of the signals listed in the input data frame showing the
 #'  location of the dominant frequencies.
@@ -55,7 +55,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on nov-31-2016 (MAS)
 
 multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1, window.type = "none", open.end = FALSE, scale = FALSE, dist.mat = TRUE, ...){     

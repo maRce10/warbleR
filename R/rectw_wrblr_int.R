@@ -32,5 +32,5 @@ rectw_wrblr_int <- function(xl, yb, xr, yt, bor, cl, ang = NULL, den = NULL, pat
   }
   
 }
-# author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+# author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on aug-3-2017 (MAS)

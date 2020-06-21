@@ -1,6 +1,6 @@
 # internal warbleR function, not to be called by users. it calculates descriptors of wavelet packet decompositions 
 # based on A. Selin, J. Turunen, and J. T. Tanttu, "Wavelets in recognition of bird sounds" EURASIP Journal on Advances in Signal Pro- cessing, vol. 2007, Article ID 51806, 9 pages, 2007.
-# @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+# @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on oct-7-2019 (MAS)
 
 wpd_feature_wrblr_int <- function(wave, normalize = FALSE, thr1 = 6, thr2 = 0.5){

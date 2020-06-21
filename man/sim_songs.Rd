@@ -33,7 +33,7 @@ It should either be a single value (which would  be used for all subunits) or a 
 
 \item{sig2}{Numeric vector defining the sigma value of the brownian motion model. It should either be a single value
  (which would be used for all subunits) or a vector of length \code{n + 1}.  Higher values will produce faster 
-frequency modulations. Ignored if \code{diff.fun == "BB"}. Default is 0.1. Check the \code{\link[Sim.DiffProc]{BB}} 
+frequency modulations. Ignored if \code{diff.fun == "BB"}. Default is 0.1. Check the 'BB' function in the Sim.DiffProc package 
 for more details.}
 
 \item{steps}{Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during 
@@ -43,10 +43,10 @@ the average duration subunit will have the predefined number of steps). Default 
 \item{bgn}{Numeric vector of length 1 indicating the background noise level. 0 means no additional noise will 1 means 
 noise at the same amplitude than the song subunits. Default is 0.5.}
 
-\item{seed}{Numeric vector of length 1. This allows users to get the same results in different runs (using  \code{\link[base]{set.seed}} internally). Default is \code{NULL}.}
+\item{seed}{Numeric vector of length 1. This allows users to get the same results in different runs (using  \code{\link[base:Random]{set.seed}} internally). Default is \code{NULL}.}
 
 \item{diff.fun}{Character vector of length 1 controlling the function used to simulate the brownian motion process of 
-frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time.Check the \code{\link[Sim.DiffProc]{BB}} 
+frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time. Check the 'BB' function in the Sim.DiffProc package 
 for more details.}
 
 \item{fin}{Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1). 
@@ -115,5 +115,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{querxc}} for for downloading bird vocalizations from an online repository.
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

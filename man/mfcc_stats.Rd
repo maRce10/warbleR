@@ -81,5 +81,5 @@ Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban
 \code{\link{fixwavs}}, \code{\link{rm_sil}},
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

@@ -126,5 +126,5 @@ tempdir()
 , \code{\link{catalog2pdf}}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

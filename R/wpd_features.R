@@ -34,7 +34,7 @@
 #' 
 #' Selin A., J. Turunen, and J. T. Tanttu, 2007. Wavelets in recognition of bird sounds. EURASIP Journal on Advances in Signal Processing.
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on oct-7-2019 (MAS)
 
 wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)

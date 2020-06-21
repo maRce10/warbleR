@@ -74,7 +74,7 @@ of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
 }
 \details{
 This function extracts the fundamental frequency values as a time series. 
-The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude threshold at the beginning or end 
+The function uses the \code{\link[stats:approxfun]{approx}} function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude threshold at the beginning or end 
  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
  above the amplitude theshold in between signal segments in which amplitude was 
  detected then the values of this adjacent segments will be interpolated 
@@ -107,6 +107,6 @@ Other spectrogram creators:
 \code{\link{trackfreqs}()}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
 \concept{spectrogram creators}

@@ -102,7 +102,7 @@
 #' check this floder
 #' tempdir()
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-08-2018 (MAS)
 
 spec_param <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000), 

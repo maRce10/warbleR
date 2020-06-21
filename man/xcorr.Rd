@@ -115,5 +115,5 @@ Lyon, R. H., & Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis
 \code{\link{mfcc_stats}}, \code{\link{specan}}, \code{\link{df_DTW}}
 }
 \author{
-Marcelo Araya-Salas \email{marceloa27@gmail.com})
+Marcelo Araya-Salas \email{marcelo.araya@ucr.ac.cr})
 }

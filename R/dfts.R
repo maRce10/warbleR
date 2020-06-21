@@ -65,7 +65,7 @@
 #' @export
 #' @name dfts
 #' @details This function extracts the dominant frequency values as a time series. 
-#' The function uses the \code{\link[stats]{approx}} function to interpolate values between dominant frequency 
+#' The function uses the \code{\link[stats:approxfun]{approx}} function to interpolate values between dominant frequency 
 #' measures. If there are no frequencies above the amplitude threshold at the beginning or end 
 #'  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
 #'  above the amplitude threshold in time windows in between the signal in which amplitude was 
@@ -94,7 +94,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on march-12-2018 (MAS)
 
 dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 

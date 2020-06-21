@@ -51,7 +51,7 @@
 #' @export
 #' @name ffts
 #' @details This function extracts the fundamental frequency values as a time series. 
-#' The function uses the \code{\link[stats]{approx}} function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude threshold at the beginning or end 
+#' The function uses the \code{\link[stats:approxfun]{approx}} function to interpolate values between fundamental frequency #' measures. If there are no frequencies above the amplitude threshold at the beginning or end 
 #'  of the signals then NAs will be generated. On the other hand, if there are no frequencies 
 #'  above the amplitude theshold in between signal segments in which amplitude was 
 #'  detected then the values of this adjacent segments will be interpolated 
@@ -65,7 +65,7 @@
 #' # run function 
 #' ffts(lbh_selec_table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300, path = tempdir())
 #' }
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on oct-26-2016 (MAS)
 
 ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, 

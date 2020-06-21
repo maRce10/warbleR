@@ -74,6 +74,6 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com}) and Grace Smith Vidaurre
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}) and Grace Smith Vidaurre
 }
 \concept{selection manipulation}

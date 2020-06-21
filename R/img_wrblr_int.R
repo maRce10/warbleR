@@ -16,5 +16,5 @@ img_wrlbr_int <- function(filename, path = NULL, res = 160, units = "in", width 
           tiff(filename = flnm, res = res, units = units, width = width, height = height) 
 }
   
-# author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+# author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on jun-02-2020 (MAS)

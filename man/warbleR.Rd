@@ -166,5 +166,5 @@ License: GPL (>= 2)
 \author{
 Marcelo Araya-Salas & Grace Smith Vidaurre
   
-  Maintainer: Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+  Maintainer: Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

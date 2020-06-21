@@ -5,7 +5,7 @@
 \title{Remove silence in wave files}
 \usage{
 rm_sil(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
-flist = NULL, parallel = 1, pb = TRUE)
+files = NULL, flist = NULL, parallel = 1, pb = TRUE)
 }
 \arguments{
 \item{path}{Character string containing the directory path where the sound files are located. 
@@ -22,8 +22,10 @@ If \code{NULL} (default) then the current working directory is used.}
 frequency limits (kHz) of the spectrogram as in 
 \code{\link[seewave]{spectro}}. Default is c(0,12). Ignored if `img = FALSE`.}
 
-\item{flist}{character vector or factor indicating the subset of files that will be analyzed. If not provided
+\item{files}{character vector or factor indicating the subset of files that will be analyzed. If not provided
 then all wave files in the working directory (or path) will be processed.}
+
+\item{flist}{DEPRECATED. Please use 'files' instead.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
@@ -58,7 +60,7 @@ env(wv1)
   extensible = FALSE)
 
 #remove silence
-rm_sil(flist = "wv1.wav", pb = FALSE, path = tempdir())
+rm_sil(files = "wv1.wav", pb = FALSE, path = tempdir())
 
 #check this floder
 tempdir()
@@ -74,5 +76,5 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \code{\link{fixwavs}}, \code{\link{autodetec}}
 }
 \author{
-Marcelo Araya-Salas (\email{marceloa27@gmail.com})
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

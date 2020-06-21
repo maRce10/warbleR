@@ -26,7 +26,7 @@
 #'  #check names again
 #'  names(selec.table)
 #'   
-#' @author Marcelo Araya-Salas (\email{marceloa27@@gmail.com})
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-10-2018
 
 sort_colms <- function(X){
