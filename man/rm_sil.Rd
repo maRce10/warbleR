@@ -43,30 +43,6 @@ that were removed are also saved.
 \details{
 The function removes silence segments (i.e. segments with very low amplitude values) from wave files.
 }
-\examples{
-\dontrun{
-# save sound file examples
-data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-sil <- silence(samp.rate = 22500, duration = 3, xunit = "time")
-
-wv1 <- pastew(pastew(Phae.long1, sil, f = 22500, output = "Wave"), 
-Phae.long2, f = 22500, output = "Wave")
-
-#check silence in between amplitude peaks
-env(wv1)
-
- #save wave file
- writeWave(object = wv1, filename = file.path(tempdir(), "wv1.wav"),
-  extensible = FALSE)
-
-#remove silence
-rm_sil(files = "wv1.wav", pb = FALSE, path = tempdir())
-
-#check this floder
-tempdir()
-}
-
-}
 \references{
 {
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.

@@ -64,18 +64,18 @@
 #' {
 #' #load data
 #' data(list = c("Phae.long1", "Phae.long2",  "Phae.long3",  "Phae.long4","lbh_selec_table"))
-#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav")) #save sound files 
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav")) #save sound files
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' # without clip edges
-#' sp.en.ts(X = lbh_selec_table, threshold = 10, clip.edges = FALSE, length.out = 10,
-#'  type = "b", sp.en.range = c(-25, 10), path = tempdir())
+#' sp.en.ts(X = lbh_selec_table, threshold = 10, clip.edges = FALSE, length.out = 10, 
+#' type = "b", sp.en.range = c(-25, 10), path = tempdir(), img = FALSE)
 #' 
 #' # with clip edges and length.out 10
-#' sp.en.ts(X = lbh_selec_table, threshold = 10, bp = c(2, 12), clip.edges = TRUE, length.out = 10, 
-#' path = tempdir())
+#' sp.en.ts(X = lbh_selec_table, threshold = 10, bp = c(2, 12), clip.edges = TRUE, 
+#' length.out = 10, path = tempdir(), img = FALSE)
 #' 
 #' }
 #' 
@@ -146,16 +146,17 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   options( show.error.messages = TRUE)
   
   # bp checking
-  if (bp[1] != "frange")
-  {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
-  } else
-  {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
-    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
-    if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
-    if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than low.f")
+  if (!is.null(bp)){
+    if (bp[1] != "frange")
+    {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
+      if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
+    } else
+    {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
+      if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
+      if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
+      if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than low.f")
+      }
   }
-  
   #if sp.en.range is not vector or length!=2 stop
   if (!is.vector(sp.en.range)) stop("'sp.en.range' must be a numeric vector of length 2") else
     if (!length(sp.en.range) == 2) stop("'sp.en.range' must be a numeric vector of length 2")
@@ -194,6 +195,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     f <- r$sample.rate
 
     # if bp is frange
+    if (!is.null(bp))
     if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])
     
     #in case bp its higher than can be due to sampling rate
@@ -237,7 +239,7 @@ sp.en.ts <-  function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
       correc.apen <- sp.en.range[1] + (sp.en.range[2] - sp.en.range[1]) * apen1$y 
       
   if (img) 
-      trackfreqs(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
+      warbleR::trackfreqs(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
                  parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
                  custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(correc.apen)), ...)
       

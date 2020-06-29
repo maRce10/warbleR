@@ -106,8 +106,6 @@
 #' @examples
 #' \dontrun{
 #' # Save to temporary working directory
-#' 
-#' 
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
@@ -183,9 +181,10 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
     if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}    
   
   #if flim is not vector or length!=2 stop
+  if (img){
   if (is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
     if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
-      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
+      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}} }  
   
   #if msmooth is not vector or length!=2 stop
   if (!is.null(msmooth)) {

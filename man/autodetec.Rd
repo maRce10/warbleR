@@ -146,8 +146,6 @@ This function determines the start and end of signals in the sound file selectio
 \examples{
 \dontrun{
 # Save to temporary working directory
-
-
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))

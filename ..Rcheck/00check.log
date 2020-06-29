@@ -2,7 +2,7 @@
 * using R version 3.6.1 (2019-07-05)
 * using platform: x86_64-pc-linux-gnu (64-bit)
 * using session charset: UTF-8
-* using option ‘--as-cran’
+* using option ‘--run-donttest’
 * checking for file ‘./DESCRIPTION’ ... ERROR
 Required fields missing or empty:
   ‘Author’ ‘Maintainer’

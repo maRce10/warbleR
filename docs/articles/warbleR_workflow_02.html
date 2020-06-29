@@ -72,7 +72,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="warbleR_workflow_02_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip><center>
@@ -81,15 +81,12 @@
                         <h4 class="author"><center>
 <a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a>
 </center></h4>
-                        <h4 class="author">
-<center>
+                        <h4 class="author"><center>
 <a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a>
-</center>
-</h4>
-<p> </p>
+</center></h4>
             
             <h4 class="date"><center>
-"2020-06-21"
+“2020-06-29”
 </center></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/warbleR_workflow_02.Rmd"><code>vignettes/warbleR_workflow_02.Rmd</code></a></small>
@@ -101,12 +98,12 @@
     
 <p> </p>
 <center>
-<img src="logo.png" alt="warbleR logo">
+<img src="logo.png" title="fig:" alt="warbleR logo">
 </center>
 <p> </p>
 <!-- <center> <h1><b>Visual inspection and classification of signals</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2020-06-21 </center> -->
+<!-- <center> 2020-06-29 </center> -->
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
@@ -120,8 +117,8 @@
 <h3 class="hasAnchor">
 <a href="#package-repositories" class="anchor"></a>Package repositories</h3>
 <p>These packages are both available on <em>CRAN</em>: <a href="https://cran.r-project.org/package=warbleR"><code>warbleR</code></a>, <a href="https://cran.r-project.org/package=Rraven"><code>Rraven</code></a>, as well as on <em>GitHub</em>: <a href="https://github.com/maRce10/warbleR"><code>warbleR</code></a>, <a href="https://github.com/maRce10/Rraven"><code>Rraven</code></a>. The GitHub repository will always contain the latest functions and updates. You can also check out an article in <em>Methods in Ecology and Evolution</em> documenting the <code>warbleR</code> package <a href="#References"><sup>[1]</sup></a>.</p>
-<p>We welcome all users to provide feedback, contribute updates or new functions and report bugs to warbleR's GitHub repository.</p>
-<p>Please note that <code>warbleR</code> and <code>Rraven</code> use functions from the <a href="https://cran.r-project.org/package=seewave"><code>seewave</code></a>, <a href="https://cran.r-project.org/package=monitoR"><code>monitoR</code></a>, <a href="https://cran.r-project.org/package=tuneR"><code>tuneR</code></a> and <a href="https://cran.r-project.org/package=dtw"><code>dtw</code></a> packages internally. <code>warbleR</code> and <code>Rraven</code> have been designed to make bioacoustics analyses more accessible to <code>R</code> users, and such analyses would not be possible without the tools provided by the packages above. These packages should be given credit when using <code>warbleR</code> and <code>Rraven</code> by including citations in publications as appropriate (e.g. <code><a href="https://rdrr.io/r/utils/citation.html">citation("seewave")</a></code>).</p>
+<p>We welcome all users to provide feedback, contribute updates or new functions and report bugs to warbleR’s GitHub repository.</p>
+<p>Please note that <code>warbleR</code> and <code>Rraven</code> use functions from the <a href="https://cran.r-project.org/package=seewave"><code>seewave</code></a>, <a href="https://cran.r-project.org/package=monitoR"><code>monitoR</code></a>, <a href="https://cran.r-project.org/package=tuneR"><code>tuneR</code></a> and <a href="https://cran.r-project.org/package=dtw"><code>dtw</code></a> packages internally. <code>warbleR</code> and <code>Rraven</code> have been designed to make bioacoustics analyses more accessible to <code>R</code> users, and such analyses would not be possible without the tools provided by the packages above. These packages should be given credit when using <code>warbleR</code> and <code>Rraven</code> by including citations in publications as appropriate (e.g. <code><a href="https://rdrr.io/r/utils/citation.html">citation("seewave")</a></code>).</p>
 </div>
 <div id="parallel-processing-in-warbler" class="section level3">
 <h3 class="hasAnchor">
@@ -140,13 +137,13 @@
 <li><p>Making lexicons for visual classification of signals</p></li>
 </ol>
 <p>This vignette can be run without an advanced understanding of <code>R</code>, as long as you know how to run code in your console. However, knowing more about basic <code>R</code> coding would be very helpful to modify the code for your research questions.</p>
-<p>For more details about function arguments, input or output, read the documentation for the function in question (e.g. <code><a href="../reference/catalog.html">?catalog</a></code>).  </p>
+<p>For more details about function arguments, input or output, read the documentation for the function in question (e.g. <code><a href="../reference/catalog.html">?catalog</a></code>).  </p>
 </div>
 <div id="prepare-for-analyses" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prepare-for-analyses" class="anchor"></a><strong>Prepare for analyses</strong>
 </h2>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">warbleR</span>)
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">warbleR</span>)
 
 <span class="co"># set your working directory appropriately</span>
 <span class="co"># setwd("/path/to/working directory")</span>
@@ -157,7 +154,7 @@
 <span class="co"># Check your location</span>
 <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>()</pre></body></html></div>
 <p>This vignette series will not always include all available <code>warbleR</code> functions, as existing functions are updated and new functions are added. To see all functions available in this package:</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="co"># The package must be loaded in your working environment</span>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># The package must be loaded in your working environment</span>
 <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span>(<span class="st">"package:warbleR"</span>)</pre></body></html></div>
 </div>
 <div id="quality-control-filtering-of-selections" class="section level2">
@@ -168,7 +165,7 @@
 <h3 class="hasAnchor">
 <a href="#find-overlapping-selections" class="anchor"></a>Find overlapping selections</h3>
 <p>Overlapping selections can sometimes arise after selecting signals using other functions or software. The function below helps you detect overlapping signals in your selection table, and has arguments that you can play around with for overlap detection, renaming or deleting overlapping selections.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="co"># To run this example:</span>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># To run this example:</span>
 <span class="co"># Open Phae_hisnr.csv and modify the start coordinate of the first selection and the end coordinate of the second selection so that the signals overlap</span>
 
 <span class="no">Phae.hisnr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">"Phae_hisnr.csv"</span>, <span class="kw">header</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
@@ -185,13 +182,13 @@
 <h3 class="hasAnchor">
 <a href="#make-spectrograms-of-selections" class="anchor"></a>Make spectrograms of selections</h3>
 <p><code>specreator</code> generates spectrograms of individual selected signals. These image files can be used to filter out selections that were poorly made or represent signals that are not relevant to your analysis. This quality control step is important for visualizing your selected signals after any selection method, even if you imported your selections from <em>Raven</em> or <em>Syrinx</em>.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="../reference/specreator.html">specreator</a></span>(<span class="no">Phae.hisnr</span>, <span class="kw">wl</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">flim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">10</span>), <span class="kw">it</span> <span class="kw">=</span> <span class="st">"jpeg"</span>, <span class="kw">res</span> <span class="kw">=</span> <span class="fl">150</span>, <span class="kw">osci</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">ovlp</span> <span class="kw">=</span> <span class="fl">90</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/specreator.html">specreator</a></span>(<span class="no">Phae.hisnr</span>, <span class="kw">wl</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">flim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">10</span>), <span class="kw">it</span> <span class="kw">=</span> <span class="st">"jpeg"</span>, <span class="kw">res</span> <span class="kw">=</span> <span class="fl">150</span>, <span class="kw">osci</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">ovlp</span> <span class="kw">=</span> <span class="fl">90</span>)</pre></body></html></div>
 <p>Inspect spectrograms and throw away image files that are poor quality to prepare for later steps. Make sure you are working in a directory that only has image files associated with this vignette. Delete the image files corresponding to recording <em>154070</em> selection <em>8</em> and <em>154070</em> selection <em>12</em>, as the start coordinates for these selections are not accurate.</p>
 </div>
 <div id="remove-selections-with-missing-image-files" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remove-selections-with-missing-image-files" class="anchor"></a>Remove selections with missing image files</h3>
-<div class="sourceCode"><html><body><pre class="r"><span class="co"># remove selections after deleting corresponding image files</span>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># remove selections after deleting corresponding image files</span>
 <span class="no">Phae.hisnr2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/filtersels.html">filtersels</a></span>(<span class="no">Phae.hisnr</span>, <span class="kw">it</span> <span class="kw">=</span> <span class="st">"jpeg"</span>, <span class="kw">incl.wav</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">Phae.hisnr2</span>)</pre></body></html></div>
 <p>After removing the poorest quality selections or signals, there are some other quality control steps that may be helpful.</p>
@@ -200,7 +197,7 @@
 <h3 class="hasAnchor">
 <a href="#check-selections" class="anchor"></a>Check selections</h3>
 <p>Can selections be read by downstream functions? The function <code>checksels</code> also yields a data frame with columns for duration, minimum samples, sampling rate, channels and bits.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="co"># if selections can be read, "OK" will be printed to check.res column</span>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># if selections can be read, "OK" will be printed to check.res column</span>
 <span class="fu"><a href="../reference/checksels.html">checksels</a></span>(<span class="no">Phae.hisnr2</span>, <span class="kw">check.header</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p>If selections cannot be read, it is possible the sound files are corrupt. If so, use the <code>fixwavs</code> function to repair <em>wav</em> files.</p>
 </div>
@@ -208,36 +205,36 @@
 <h3 class="hasAnchor">
 <a href="#tailor-temporal-coordinates-of-selections" class="anchor"></a>Tailor temporal coordinates of selections</h3>
 <p>Sometimes the start and end times of selected signals need fine-tuned adjustments. This is particularly true when signals are found within bouts of closely delivered sounds that may be hard to pull apart, such as duets, or if multiple researchers use different rules-of-thumb to select signals. <code>seltailor</code> provides an interactive interface similar to <code>manualoc</code> for tailoring the temporal coordinates of selections.</p>
-<p>If you check out the image files generated by running <code>specreator</code> above, you'll see that some of the selections made during the automatic detection process with <code>autodetec</code> do not have accurate start and/or end coordinates.</p>
+<p>If you check out the image files generated by running <code>specreator</code> above, you’ll see that some of the selections made during the automatic detection process with <code>autodetec</code> do not have accurate start and/or end coordinates.</p>
 <p>For instance:</p>
 <p>The end of this signal is not well selected. <!-- <center> ![End coordinate not well-selected](Phaethornis-longirostris-154070.wav-8_badend.jpeg)</center> -->  </p>
 <p>The temporal coordinates for the tailored signals will be saved in a _ .csv_ file called <code>seltailor_output.csv</code>. You can rename this file and read it back into <code>R</code> to continue downstream analyses.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="../reference/seltailor.html">seltailor</a></span>(<span class="no">Phae.hisnr2</span>, <span class="kw">wl</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">flim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">10</span>), <span class="kw">wn</span> <span class="kw">=</span> <span class="st">"hanning"</span>, <span class="kw">mar</span> <span class="kw">=</span> <span class="fl">0.1</span>, <span class="kw">osci</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sound.files"</span>, <span class="st">"selec"</span>), <span class="kw">auto.next</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/seltailor.html">seltailor</a></span>(<span class="no">Phae.hisnr2</span>, <span class="kw">wl</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">flim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">10</span>), <span class="kw">wn</span> <span class="kw">=</span> <span class="st">"hanning"</span>, <span class="kw">mar</span> <span class="kw">=</span> <span class="fl">0.1</span>, <span class="kw">osci</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sound.files"</span>, <span class="st">"selec"</span>), <span class="kw">auto.next</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
 <span class="co"># Read in seltailor output after renaming the csv file</span>
 <span class="no">Phae.hisnrt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">"Phae_hisnrt.csv"</span>, <span class="kw">header</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">Phae.hisnrt</span>)</pre></body></html></div>
 <pre><code>'data.frame':   23 obs. of  6 variables:
- $ sound.files: Factor w/ 5 levels "Phaethornis-longirostris-154070.wav",..: 1 1 1 2 2 2 2 2 3 3 ...
+ $ sound.files: chr  "Phaethornis-longirostris-154070.wav" "Phaethornis-longirostris-154070.wav" "Phaethornis-longirostris-154070.wav" "Phaethornis-longirostris-154072.wav" ...
  $ selec      : int  14 18 20 36 108 124 142 148 57 83 ...
  $ start      : num  8.66 11.08 12.19 22.6 76.04 ...
  $ end        : num  8.79 11.2 12.32 22.73 76.16 ...
  $ SNR        : num  11.7 11.6 10.2 15.5 15.3 ...
- $ tailored   : Factor w/ 1 level "y": 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+ $ tailored   : chr  "y" "y" "y" "y" ...</code></pre>
 </div>
 </div>
 <div id="visual-classification-of-selected-signals" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visual-classification-of-selected-signals" class="anchor"></a><strong>Visual classification of selected signals</strong>
 </h2>
-<p>Visual classification of signals is fundamental to vocal repertoire analysis, and can also be useful for other questions. If your research focuses on assessing variation between individuals or groups, several <code>warbleR</code> functions can provide you with important information about how to steer your analysis. If there is discrete variation in vocalization structure across groups (e.g. treatments or geographic regions), visual classification of vocalizations will be useful.</p>
+<p>Visual classification of signals is fundamental to vocal repertoire analysis, and can also be useful for other questions. If your research focuses on assessing variation between individuals or groups, several <code>warbleR</code> functions can provide you with important information about how to steer your analysis. If there is discrete variation in vocalization structure across groups (e.g. treatments or geographic regions), visual classification of vocalizations will be useful.</p>
 <div id="print-long-spectrograms-with-lspec" class="section level3">
 <h3 class="hasAnchor">
 <a href="#print-long-spectrograms-with-lspec" class="anchor"></a>Print long spectrograms with <code>lspec</code>
 </h3>
 <p>The function <code>lspec</code>that we used in the last vignette can also be a tool for visually classifying signals. Long spectrograms can be printed to classify signals by hand, or comments accompanying the selections can be printed over selected signals (for instance, if you used with <code>manualoc</code> argument <code>selcomm</code> during the selection process).</p>
 <p>Here, we print the start and end of selections with a red dotted line, and the selection number printed over the signal. If a selection data frame contains a comments column, these will be printed with the selection number.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="co"># highlight selected signals</span>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># highlight selected signals</span>
 <span class="fu"><a href="../reference/lspec.html">lspec</a></span>(<span class="no">Phae.hisnrt</span>, <span class="kw">wl</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">flim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">10</span>), <span class="kw">ovlp</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">sxrow</span> <span class="kw">=</span> <span class="fl">6</span>, <span class="kw">rows</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">it</span> <span class="kw">=</span> <span class="st">"jpeg"</span>)
 
 <span class="co"># concatenate lspec image files into a single PDF per recording</span>
@@ -249,8 +246,8 @@
 <h3 class="hasAnchor">
 <a href="#highlight-spectrogram-regions-with-color-spectro" class="anchor"></a>Highlight spectrogram regions with <code>color.spectro</code>
 </h3>
-<p><code>color.spectro</code> allows you to highlight selections you've made within a short region of a spectrogram. In the example below we will use <code>color.spectro</code> to highlight neighboring songs. This function has a wide variety of uses, and could be especially useful for analysis of duets or coordinated singing bouts. This example is taken directly from the <code>color.spectro</code> documentation. If working with your own data frame of selections, make sure to calculate the frequency range for your selections beforehand using the function <code>frange</code>, which will come up in the next vignette.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="co"># we will use Phaethornis songs and selections from the warbleR package</span>
+<p><code>color.spectro</code> allows you to highlight selections you’ve made within a short region of a spectrogram. In the example below we will use <code>color.spectro</code> to highlight neighboring songs. This function has a wide variety of uses, and could be especially useful for analysis of duets or coordinated singing bouts. This example is taken directly from the <code>color.spectro</code> documentation. If working with your own data frame of selections, make sure to calculate the frequency range for your selections beforehand using the function <code>frange</code>, which will come up in the next vignette.</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co"># we will use Phaethornis songs and selections from the warbleR package</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">list</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Phae.long1"</span>, <span class="st">"selec.table"</span>))
 <span class="fu">writeWave</span>(<span class="no">Phae.long1</span>, <span class="st">"Phae.long1.wav"</span>) <span class="co">#save sound files </span>
 
@@ -270,14 +267,14 @@
 <div id="optimize-spectrogram-display-parameters" class="section level3">
 <h3 class="hasAnchor">
 <a href="#optimize-spectrogram-display-parameters" class="anchor"></a>Optimize spectrogram display parameters</h3>
-<p><code>spec_param</code> makes a catalog or mosaic of the same signal plotted with different combinations of spectrogram display arguments. The purpose of this function is to help you choose parameters that yield the best spectrograms (e.g. optimal visualization) for your signals (although low signal-to-noise ratio selections may be an exception).</p>
+<p><code>spec_param</code> makes a catalog or mosaic of the same signal plotted with different combinations of spectrogram display arguments. The purpose of this function is to help you choose parameters that yield the best spectrograms (e.g. optimal visualization) for your signals (although low signal-to-noise ratio selections may be an exception).</p>
 <!-- <center> ![The spectrogram mosaic yielded by spec_param](Catalog_p2-spec_param.jpeg)</center> -->
 <p> </p>
 </div>
 <div id="make-lexicons-of-signals" class="section level3">
 <h3 class="hasAnchor">
 <a href="#make-lexicons-of-signals" class="anchor"></a>Make lexicons of signals</h3>
-<p>This section on <code>catalog</code> is taken from <a href="https://marce10.github.io/2017/03/17/Creating_song_catalogs.html">Marcelo Araya-Salas's bioacoustics GitHub blog</a> with slight modifications.</p>
+<p>This section on <code>catalog</code> is taken from <a href="https://marce10.github.io/2017/03/17/Creating_song_catalogs.html">Marcelo Araya-Salas’s bioacoustics GitHub blog</a> with slight modifications.</p>
 <p>When we are interested in geographic variation of acoustic signals, we usually want to compare spectrograms from different individuals and sites. This can be challenging when working with large numbers of signals, individuals and/or sites. <code>catalog</code> aims to simplify this task.</p>
 <p>This is how it works:</p>
 <ul>
@@ -285,22 +282,22 @@
 <code>catalog</code> plots a matrix of spectrograms from signals listed in a selection table</li>
 <li>the catalog files are saved as image files in the working directory (or path provided)</li>
 <li>Several image files are generated if the signals do not fit in a single file</li>
-<li>Spectrograms can be labeled or color-tagged to facilitate exploring variation related to the parameter of interest (e.g. site or song type if already classified)</li>
+<li>Spectrograms can be labeled or color-tagged to facilitate exploring variation related to the parameter of interest (e.g. site or song type if already classified)</li>
 <li>A legend can be added to help match colors with tag levels
 <ul>
 <li>different color palettes can be used for each tag</li>
 </ul>
 </li>
-<li>The duration of the signals can be "fixed" such that all the spectrograms have the same duration
+<li>The duration of the signals can be “fixed” such that all the spectrograms have the same duration
 <ul>
 <li>facilitates comparisons</li>
 </ul>
 </li>
 <li>You can control the number of rows and columns as well as the width and height of the output image</li>
 </ul>
-<p><code>catalog</code> allows you to group signals into biologically relevant groups by coloring the background of selected spectrograms accordingly. There is also an option to add hatching to tag labels, as well as filling the catalog with spectrograms by rows or columns of the selection table data frame, among other additional arguments. Check out <a href="https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html">Marcelo's post</a> on some recent updates to the <code>catalog</code> function.</p>
+<p><code>catalog</code> allows you to group signals into biologically relevant groups by coloring the background of selected spectrograms accordingly. There is also an option to add hatching to tag labels, as well as filling the catalog with spectrograms by rows or columns of the selection table data frame, among other additional arguments. Check out <a href="https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html">Marcelo’s post</a> on some recent updates to the <code>catalog</code> function.</p>
 <p>The <code>move.imgs</code> function can come in handy when creating multiple catalogs to avoid overwriting previous image files, or when working through rounds of other image files. In this case, the first catalog we create has signals labeled, tagged and grouped with respective color and hatching levels. The second catalog we create will not have any grouping of signals whatsoever, and could be used for a test of inter-observer reliability. <code>move.imgs</code> helps us move the first catalog into another directory to save it from being overwritten when creating the second catalog.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="co"># create a column of recording IDs for friendlier catalog labels</span>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># create a column of recording IDs for friendlier catalog labels</span>
 <span class="no">rec_ID</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">Phae.hisnrt</span>), <span class="kw">function</span>(<span class="no">x</span>){
     <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="no">Phae.hisnrt</span>$<span class="no">sound.files</span>[<span class="no">x</span>]), <span class="kw">split</span> <span class="kw">=</span> <span class="st">"-"</span>)<span class="kw">[[</span><span class="fl">1</span>]][<span class="fl">3</span>], <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">".wav$"</span>, <span class="kw">replacement</span> <span class="kw">=</span> <span class="st">""</span>)
 })
@@ -322,11 +319,11 @@
 <span class="co"># make sure you have already moved or deleted all other pdf files</span>
 <span class="fu"><a href="../reference/move.imgs.html">move.imgs</a></span>(<span class="kw">from</span> <span class="kw">=</span> <span class="st">"."</span>, <span class="kw">it</span> <span class="kw">=</span> <span class="st">"pdf"</span>, <span class="kw">create.folder</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">folder.name</span> <span class="kw">=</span> <span class="st">"Catalog_image_files"</span>)</pre></body></html></div>
 <center>
-<img src="Catalog_p1.jpeg" alt="Catalog with labels, tags and groups">
+<img src="Catalog_p1.jpeg" title="fig:" alt="Catalog with labels, tags and groups">
 </center>
 <p> </p>
 <p>You can also make lexicons for blind scoring, which could be useful for determining interobserver reliability.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="co"># now create a catalog without labels, tags, groups or axes</span>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># now create a catalog without labels, tags, groups or axes</span>
 <span class="no">Phae.hisnrt</span>$<span class="no">no_label</span> <span class="kw">&lt;-</span> <span class="st">""</span>
 
 <span class="co"># catalog(X = Phae.hisnrt, flim = c(1, 10), nrow = 4, ncol = 3, height = 10, width = 10, cex = 0.8, same.time.scale = TRUE, mar = 0.01, wl = 300, spec.mar = 0.4, rm.axes = TRUE, labels = "no_label", lab.mar = 0.8, max.group.cols = 5, img.suffix = "nolabel")</span>

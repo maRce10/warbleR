@@ -138,7 +138,7 @@
 #' writeWave(Cryp.soui, file.path(tempdir(), "Cryp.soui.wav")) #save sound files 
 #' 
 #' #autodetec location of signals
-#' ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2,
+#' ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2, flim = c(0, 5),
 #' maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav", 
 #' path = tempdir())
 #' 
