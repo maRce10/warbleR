@@ -228,12 +228,12 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
       }
     Z$song.duration <- Z$end - Z$start
     Z$song.rate <- if(Z$num.elms == 1) NA else Z$num.elms / Z$song.duration
-    Z$gap.duration <- if(Z$num.elms == 1) NA else mean(Y$end[-nrow(Y)] - Y$start[-1])
+    Z$gap.duration <- if(Z$num.elms == 1) NA else mean(Y$start[-1] - Y$end[-nrow(Y)])
     
     if(sd) {
-      Z$sd.gap.duration <- if(Z$num.elms == 1) NA else sd(Y$end[-nrow(Y)] - Y$start[-1])
+      Z$sd.gap.duration <- if(Z$num.elms == 1) NA else sd(Y$start[-1] - Y$end[-nrow(Y)])
       Z$sd.elm.duration <- sd(Y$end - Y$start)
-      }
+    }
     
     # add element parameters
     if (!is.null(elm_colm))

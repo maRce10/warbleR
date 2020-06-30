@@ -2,7 +2,7 @@ Package: warbleR
 Type: Package
 Title: Streamline Bioacoustic Analysis
 Version: 1.1.24
-Date: 2020-06-20
+Date: 2020-06-30
 Description: Functions aiming to facilitate the analysis of the structure of animal acoustic signals in 'R'. 'warbleR' makes use of the basic sound analysis tools from the package 'seewave', and offers new tools for acoustic structure analysis. The main features of the package are the use of loops to apply tasks through acoustic signals referenced in a selection (annotation) table and the production of spectrograms in image files that allow to organize data and verify acoustic analyzes. The package offers functions to explore, organize and manipulate multiple sound files, explore and download 'Xeno-Canto' recordings, detect signals automatically, create spectrograms of complete recordings or individual signals, run different measures of acoustic signal structure, evaluate the performance of measurement methods, catalog signals, characterize different structural levels in acoustic signals, run statistical analysis of duet coordination and consolidate databases and annotation tables, among others.
 License: GPL (>= 2)
 Imports: dtw, fftw, graphics, grDevices, monitoR, parallel, pbapply, RCurl, rjson, stats, utils, methods
