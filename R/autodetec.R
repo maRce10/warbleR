@@ -318,7 +318,7 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
   if (pb) if (!ls & img) cat("Detecting signals in sound files and producing spectrogram:") else 
     cat("Detecting signals in sound files:")
   
-  #create function to detec signals          
+  #create function to detec signals  # PAU aqui empieza la funcion que detecta sonidos      
   adFUN <- function(i, X, flim, wl, bp, envt, msmooth, ssmooth, mindur, maxdur, output)
   {
     song <- warbleR::read_wave(X = X, path = path, index = i)
@@ -337,12 +337,15 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
       #detect songs based on amplitude (modified from seewave::timer function)
       input <- seewave::inputw(wave = f.song, f = f)
       wave <- input$w
-      f <- input$f
+      f <- input$f # PAU f deberia ser samp.rate
       rm(input)
       n <- length(wave)
-      thres <- threshold/100
+      thres <- threshold/100 
+      
+      
+      ######## PAU Aqui empieza lo q hay q traducir  ################
       wave1 <- seewave::env(wave = wave, f = f, msmooth = msmooth, ssmooth = ssmooth,  
-                            envt = envt, norm = TRUE, plot = FALSE)
+                            envt = envt, norm = TRUE, plot = FALSE) # PAU el envelope es absoluto de los valores de amplitud, una opcion es crear nuestra propia funcion env q sea toda en C++
       
       n1 <- length(wave1)
       f1 <- f * (n1/n)
@@ -369,8 +372,11 @@ autodetec <- function(X= NULL, threshold=15, envt="abs", ssmooth = NULL, msmooth
         signal <- durations[seq(1, npos - 1, by = 2)]
         start.signal <- positions[seq(1, npos - 1, by = 2)]
       }
+       ### PAU aqui deberia terminar el codigo de C++
+                         
+      ### PAU Este deberia el resultado, una lista donde un elemento son las duraciones de las detecciones (signal) y el segundo elemento es el inicio de cada deteccion
       aut.det <- list(s = signal, s.start = start.signal)
-      
+                               
       #put time of detection in data frame
       time.song <- data.frame(sound.files = X$sound.files[i], duration = aut.det$s, selec = NA, start = aut.det$s.start+X$start[i], end = (aut.det$s+aut.det$s.start+X$start[i]))
       
