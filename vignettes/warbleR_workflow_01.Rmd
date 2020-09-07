@@ -4,7 +4,6 @@ pagetitle: Import sound files and select signals
 author: 
 - <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a></center>
 - <center><a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a></center>
- &nbsp; 
 date:  <center>"`r Sys.Date()`"</center>
 output:
   rmarkdown::html_document:

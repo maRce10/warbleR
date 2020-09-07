@@ -124,7 +124,7 @@ ovlp_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE
   # save rowname
   X$...ROWNAME... <- rownames(X) 
   
- # function that runs on a data frame for a single sound file 
+ # function that runs on a data frame from a single sound file 
   ovlpFUN <- function(X, ndx.rw = indx.row) {
     #only if there is more than 1 selection for that sound file
     if (nrow(X) > 1)
@@ -165,7 +165,7 @@ for(w in 1:nrow(out2)){
       }  else   lbls[w] <- max(lbls, na.rm = TRUE) + 1 
 }
 
-# determine unique tags
+# determine unique tag counts
 unq <- table(lbls)
 
 # add NAs to single tags

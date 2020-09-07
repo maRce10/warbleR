@@ -10,8 +10,7 @@ catalog2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL,
 pb = TRUE, by.img.suffix = FALSE, ...)
 }
 \arguments{
-\item{keep.img}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
-(including sound file and page number) should be magnified.}
+\item{keep.img}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.}
 
 \item{overwrite}{Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
 when code is rerun. If \code{FALSE} only the ones missing will be produced. Default is \code{FALSE}.}
@@ -58,7 +57,7 @@ tempdir()
 {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 }
 \seealso{
-\code{\link{catalog2pdf}}, 
+\code{\link{lspec2pdf}}, 
 \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs}
 }
 \author{

@@ -60,6 +60,10 @@
 mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL, 
                          numcep = 25, nbands = 40, parallel = 1,  pb = TRUE, ...){
     
+  # error message if wavethresh is not installed
+  if (!requireNamespace("Sim.DiffProc",quietly = TRUE))
+    stop("must install 'Sim.DiffProc' to use this function")
+  
     # set pb options 
     on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
     

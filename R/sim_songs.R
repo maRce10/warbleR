@@ -88,6 +88,11 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), 
                       fout = 0.2, shape = "linear", selec.table = FALSE, 
                       file.name = NULL, path = NULL) {
   
+  # error message if wavethresh is not installed
+  if (!requireNamespace("Sim.DiffProc",quietly = TRUE))
+    stop("must install 'Sim.DiffProc' to use this function")
+  
+  
   # reset working directory 
   if (selec.table)
   {

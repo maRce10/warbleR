@@ -95,7 +95,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   if (!is.null(dest.path))
   {
     if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist") else 
-      path <- normalizePath(dest.path)
+      dest.path <- normalizePath(dest.path)
     } else  
     dir.create(dest.path <- file.path(path, "consolidated_files"), showWarnings = FALSE)
   

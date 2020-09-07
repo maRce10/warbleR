@@ -25,10 +25,11 @@
 #' @name rm_sil
 #' @details The function removes silence segments (i.e. segments with very low amplitude values) from wave files. 
 #' @seealso \code{\link{fixwavs}}, \code{\link{autodetec}} 
-#' @examplesS{
+#' @examples{
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 #' sil <- silence(samp.rate = 22500, duration = 3, xunit = "time")
+#' 
 #' 
 #' wv1 <- pastew(pastew(Phae.long1, sil, f = 22500, output = "Wave"), 
 #' Phae.long2, f = 22500, output = "Wave")
@@ -41,7 +42,7 @@
 #'   extensible = FALSE)
 #' 
 #' #remove silence
-#' rm_sil(files = "wv1.wav", pb = FALSE, path = tempdir())
+#' # rm_sil(files = "wv1.wav", pb = FALSE, path = tempdir())
 #' 
 #' #check this floder
 #' tempdir()
