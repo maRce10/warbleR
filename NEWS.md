@@ -3,11 +3,7 @@
 ## Changes and additions:
 
 * `autodetec()` does not create image files with spectrograms any more
-* 'hold.time' and 'interpolate' arguments added to `autodetec()` for merging selections and decreasing envelope size respectively
-
-## New functions:
-
-* new function 'hold_time()'  to merge selections that are separated within a time interval
+* 'hold.time' , 'amp.outliers' and 'interpolate' arguments added to `autodetec()` for merging selections and decreasing envelope size respectively
 
 # *warbleR 1.1.24*
 
