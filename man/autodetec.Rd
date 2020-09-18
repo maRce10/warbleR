@@ -2,145 +2,129 @@
 % Please edit documentation in R/autodetec.R
 \name{autodetec}
 \alias{autodetec}
-\title{Automatically detect vocalizations in sound files}
+\title{\code{autodetec} automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes.}
 \usage{
-autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL, 
-  power = 1, bp = NULL, osci = FALSE, wl = 512, xl = 1, picsize = 1, res = 100, 
-  flim = c(0,22), ls = FALSE, sxrow = 10, rows = 10, mindur = NULL, maxdur = 
-  NULL, redo = FALSE, img = TRUE, it = "jpeg", set = FALSE, flist = NULL, smadj = NULL,
-  parallel = 1, path = NULL, pb = TRUE, pal = reverse.gray.colors.2, 
-  fast.spec = FALSE, output = "data.frame", ...)
+autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL,
+  power = 1, bp = NULL, osci = NULL, wl = 512, xl = NULL, picsize = NULL, res = NULL,
+  flim = NULL, ls = NULL, sxrow = NULL, rows = NULL, mindur = NULL, maxdur =
+  NULL, redo = NULL, img = NULL, it = NULL, set = NULL, flist = NULL, smadj = NULL,
+  parallel = 1, path = NULL, pb = TRUE, pal = NULL,
+  fast.spec = NULL, output = "data.frame", reduce.size = 1/10, hold.time,  
+  amp.outliers = NULL)
 }
 \arguments{
 \item{X}{'selection_table' object or a data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). If provided the detection will be conducted only within 
+(start and end). If provided the detection will be conducted only within
 the selections in 'X'.}
 
-\item{threshold}{A numeric vector of length 1 specifying the amplitude threshold for detecting 
+\item{threshold}{A numeric vector of length 1 specifying the amplitude threshold for detecting
 signals (in \%).}
 
 \item{envt}{Character vector of length 1 specifying the type of envelope to
-be used: "abs" for absolute amplitude envelope or "hil" for Hilbert 
+be used: "abs" for absolute amplitude envelope or "hil" for Hilbert
 amplitude envelope. Default is "abs".}
 
-\item{ssmooth}{A numeric vector of length 1 to smooth the amplitude envelope 
+\item{ssmooth}{A numeric vector of length 1 to smooth the amplitude envelope
 with a sum smooth function. Default is NULL.}
 
-\item{msmooth}{A numeric vector of length 2 to smooth the amplitude envelope 
-with a mean sliding window. The first component is the window length and 
-the second is the overlap between successive windows (in \%). Faster than ssmooth but time detection is 
+\item{msmooth}{A numeric vector of length 2 to smooth the amplitude envelope
+with a mean sliding window. The first component is the window length and
+the second is the overlap between successive windows (in \%). Faster than ssmooth but time detection is
 much less accurate. Will be deprecated in future versions. Default is NULL.}
 
-\item{power}{A numeric vector of length 1 indicating a power factor applied 
-to the amplitude envelope. Increasing power will reduce low amplitude 
-modulations and increase high amplitude modulations, in order to reduce 
+\item{power}{A numeric vector of length 1 indicating a power factor applied
+to the amplitude envelope. Increasing power will reduce low amplitude
+modulations and increase high amplitude modulations, in order to reduce
 background noise. Default is 1 (no change).}
 
 \item{bp}{Numeric vector of length 2 giving the lower and upper limits of a
 frequency bandpass filter (in kHz). Default is c(0, 22).}
 
-\item{osci}{Logical argument to add an oscillogram underneath spectrogram, as
-in \code{\link[seewave]{spectro}}. Default is \code{FALSE}. Not applied if ls is 
-\code{TRUE}.}
+\item{osci}{DEPRECATED.}
 
-\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
-is 512.}
+\item{wl}{A numeric vector of length 1 specifying the window used by internally
+\code{\link[seewave]{ffilter}} for bandpass filtering. Default is 512.}
 
-\item{xl}{Numeric vector of length 1, a constant by which to scale 
-spectrogram width. Default is 1.}
+\item{xl}{DEPRECATED}
 
-\item{picsize}{Numeric argument of length 1. Controls the relative size of 
-the spectrogram. Default is 1.}
+\item{picsize}{DEPRECATED}
 
-\item{res}{Numeric argument of length 1 controlling resolution of images.
-Default is 100 (faster) although 300 - 400 is recommended for publication/ 
-presentation quality.}
+\item{res}{DEPRECATED}
 
-\item{flim}{A numeric vector of length 2 for the frequency limit in kHz of 
-the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
+\item{flim}{DEPRECATED}
 
-\item{ls}{Logical argument. If \code{TRUE}, long spectrograms as in \code{\link{lspec}} 
-are produced.}
+\item{ls}{DEPRECATED}
 
-\item{sxrow}{A numeric vector of length 1. Specifies seconds of spectrogram
-per row when creating long spectrograms. Default is 10. Applied when ls =
-\code{TRUE} and/or when X is not provided.}
+\item{sxrow}{DEPRECATED}
 
-\item{rows}{A numeric vector of length 1. Specifies number of rows per 
-image file when creating long spectrograms. Default is 10. Applied when ls =  
-\code{TRUE} and/or when X is not provided.}
+\item{rows}{DEPRECATED}
 
-\item{mindur}{Numeric vector of length 1 giving the shortest duration (in 
-seconds) of the signals to be detected. It removes signals below that 
+\item{mindur}{Numeric vector of length 1 giving the shortest duration (in
+seconds) of the signals to be detected. It removes signals below that
 threshold.}
 
-\item{maxdur}{Numeric vector of length 1 giving the longest duration (in 
-seconds) of the signals to be detected. It removes signals above that 
+\item{maxdur}{Numeric vector of length 1 giving the longest duration (in
+seconds) of the signals to be detected. It removes signals above that
 threshold.}
 
-\item{redo}{Logical argument. If \code{TRUE} all selections will be analyzed again 
-when code is rerun. If \code{FALSE} only the selections that do not have an 'autodetec' generated image 
-file in the working directory will be analyzed. Default is \code{FALSE}.}
+\item{redo}{DEPRECATED.}
 
-\item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
+\item{img}{DEPRECATED.}
 
-\item{it}{A character vector of length 1  giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is "jpeg".}
+\item{it}{DEPRECATED.}
 
-\item{set}{A logical argument indicating whether the settings of the autodetection 
-process should be included in the image file name. If \code{TRUE}, threshold (th), envelope (envt), bandpass (bp),
-power (pw), smooth (smo, either mmsooth[1] or ssmooth), maxdur (mxdu), and mindur (midu) are included.}
+\item{set}{DEPRECATED.}
 
 \item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.}
 
-\item{smadj}{adjustment for amplitude smoothing. Character vector of length one indicating whether start end 
-values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude 
+\item{smadj}{adjustment for amplitude smoothing. Character vector of length one indicating whether start end
+values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude
 smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals,
-determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the 
+determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the
 increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
-\item{pal}{Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
-\code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR:specCols]{gray.2}} may work better when \code{fast.spec = TRUE}.}
+\item{pal}{DEPRECATED.}
 
-\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
-increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
-\code{\link[monitoR:specCols]{gray.3}}, \code{\link[monitoR:specCols]{topo.1}} and \code{\link[monitoR:specCols]{rainbow.1}} (which should be imported from the package monitoR) seem
-to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
-\code{\link[monitoR:specCols]{gray.3}} offer 
-decreasing darkness levels.}
+\item{fast.spec}{DEPRECATED.}
 
 \item{output}{Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.}
 
-\item{...}{Additional arguments to be passed internally \code{\link{specreator}} for customizing
-graphical output.}
+\item{reduce.size}{Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of
+samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
+than those needed to accurately represent amplitude variation in time, which affects the size of the
+output (usually very large R objects / files). Default is 1/10 (a tenth of the original envelope
+length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using \code{\link[stats]{approx}}.}
+
+\item{hold.time}{Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.}
+
+\item{amp.outliers}{Numeric vector of length 2 specifying the quantile cutoff to remove amplitude outliers (defined as amplitude values to low or too high compare to the overall amplitude distribution of the envelopes). This can help "normalize" the range of amplitude values so low values are closer to 0 and extremely high values have a lesser effect. Default is \code{TRUE}.}
 }
 \value{
-Image files with spectrograms showing the start and end of the detected signals. It 
-  also returns a data frame containing the start and end of each signal by 
-  sound file and selection number.
+A data frame containing the start and end of each signal by
+  sound file and selection number. If 'output = "list"' then a list including 1) a detection data frame, 2) amplitude envelopes and 3) parameters will be return. An additional column 'org.selec' is added when 'X' is provided (so detection can be traced back to the selections in 'X').
 }
 \description{
 \code{autodetec} automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes.
 }
 \details{
-This function determines the start and end of signals in the sound file selections listed 
+This function determines the start and end of signals in the sound file selections listed
   in the input data frame ('X'). Alternatively, if no data frame is provided, the function detects signals across
   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
   signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
-   working directory or the path to the sound files should be provided using the 'path' argument. The input 
-   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the 
+   working directory or the path to the sound files should be provided using the 'path' argument. The input
+   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the
    \code{\link[seewave]{timer}} function from seewave package to detect signals.
 }
 \examples{
@@ -150,7 +134,7 @@ data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1,
 bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
@@ -158,7 +142,7 @@ wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE,
 
 #run it with different settings
 ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, redo = TRUE,
-bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE, 
+bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
 wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE, path = tempdir())
 
 #check this folder!!

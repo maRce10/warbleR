@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.25</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
 
       
 
-      </header><script src="warbleR_workflow_03_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="warbleR_workflow_03_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip><center>
@@ -81,12 +81,14 @@
                         <h4 class="author"><center>
 <a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a>
 </center></h4>
-                        <h4 class="author"><center>
+                        <h4 class="author">
+<center>
 <a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a>
-</center></h4>
+</center>
+ </h4>
             
             <h4 class="date"><center>
-“2020-06-30”
+“2020-09-17”
 </center></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/warbleR_workflow_03.Rmd"><code>vignettes/warbleR_workflow_03.Rmd</code></a></small>
@@ -103,7 +105,7 @@
 <p> </p>
 <!-- <center> <h1><b>Acoustic (dis)similarity and coordinated singing</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2020-06-30 </center> -->
+<!-- <center> 2020-09-17 </center> -->
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
@@ -386,10 +388,10 @@ Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 <span class="no">pcascor</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">pca</span><span class="kw">[[</span><span class="fl">5</span>]])
 
 <span class="co"># Plot the 2 first PCs</span>
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pcascor</span>[, <span class="fl">1</span>], <span class="no">pcascor</span>[, <span class="fl">2</span>], <span class="kw">col</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">params</span>$<span class="no">sound.files</span>), <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">20</span>,
-     <span class="kw">cex</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"PC1"</span>, <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"PC2"</span>)</pre></body></html></div>
-<pre><code>Warning in plot.xy(xy, type, ...): NAs introduced by coercion</code></pre>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="co"># Add recordings/individuals labels </span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pcascor</span>[, <span class="fl">1</span>], <span class="no">pcascor</span>[, <span class="fl">2</span>], <span class="kw">col</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">params</span>$<span class="no">sound.files</span>), <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">20</span>,
+     <span class="kw">cex</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"PC1"</span>, <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"PC2"</span>)
+
+<span class="co"># Add recordings/individuals labels </span>
 <span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(<span class="no">pcascor</span>[, <span class="fl">1</span>], <span class="no">params</span>$<span class="no">sound.files</span>, <span class="no">mean</span>)
 <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(<span class="no">pcascor</span>[, <span class="fl">2</span>], <span class="no">params</span>$<span class="no">sound.files</span>, <span class="no">mean</span>)
 
@@ -403,7 +405,7 @@ Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 <!-- <center> ![song types](song_types_spectros.jpg)</center> -->
 <p> </p>
 <p>Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 represent a different song type. Finally, the songs from each of the other 2 sound files have a unique structure, so each one represents a different song type. Sound file 154123 is represented here too, but in vignette 1 we decided against using signals from this recording. We can add this information to the plot by using symbols to represent song types.</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="co"># Create a song type variable</span>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="co"># Create a song type variable</span>
 
 <span class="co"># First, extract recording ID</span>
 <span class="no">songtype</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">".wav"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="no">params</span>$<span class="no">sound.files</span>), <span class="kw">function</span>(<span class="no">x</span>){
@@ -416,11 +418,11 @@ Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 <span class="no">songtype</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"154138"</span>, <span class="st">"C"</span>, <span class="no">songtype</span>)
 
 <span class="co"># Add song type as a variable representing symbol type</span>
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pcascor</span>[, <span class="fl">1</span>], <span class="no">pcascor</span>[, <span class="fl">2</span>], <span class="kw">col</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">params</span>$<span class="no">sound.files</span>),
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">pcascor</span>[, <span class="fl">1</span>], <span class="no">pcascor</span>[, <span class="fl">2</span>], <span class="kw">col</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">params</span>$<span class="no">sound.files</span>),
 <span class="kw">pch</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">songtype</span>)),
-     <span class="kw">cex</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"PC1"</span>, <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"PC2"</span>)</pre></body></html></div>
-<pre><code>Warning in plot.xy(xy, type, ...): NAs introduced by coercion</code></pre>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="co"># Add song type labels </span>
+     <span class="kw">cex</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"PC1"</span>, <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"PC2"</span>)
+
+<span class="co"># Add song type labels </span>
 <span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(<span class="no">pcascor</span>[, <span class="fl">1</span>], <span class="no">songtype</span>, <span class="no">mean</span>)
 <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span>(<span class="no">pcascor</span>[, <span class="fl">2</span>], <span class="no">songtype</span>, <span class="no">mean</span>)
 
@@ -433,23 +435,23 @@ Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 <a href="#coordinated-singing-analysis" class="anchor"></a>Coordinated singing analysis</h2>
 <p><code>warbleR</code> contains functions to visualize and test whether or not singing bouts between individuals can be considered coordinated singing. The function <code>coor.graph</code> plots signals as polygons to better visualize overlap between these signals.</p>
 <p>The function <code>coor.test</code> uses a Monte Carlo randomization test to determine whether or not the probability of finding overlapping songs in a singing event is less than or more than what you would expect by chance. <code>coor.test</code> can be run simultaneously for many singing events, if all are contained in a single data frame (see <code>coor.test</code> documentation for more information).</p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">sim.coor.sing</span>)
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">sim.coor.sing</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">sim.coor.sing</span>)</pre></body></html></div>
 <p>The <code>sim.coor.sing</code> dataset contains three types of singing bouts:</p>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="co"># save plots in a list</span>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="co"># save plots in a list</span>
 <span class="no">g</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/coor.graph.html">coor.graph</a></span>(<span class="no">sim.coor.sing</span>, <span class="kw">it</span> <span class="kw">=</span> <span class="st">"jpeg"</span>, <span class="kw">img</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">res</span> <span class="kw">=</span> <span class="fl">300</span>)
 
 <span class="co"># print list of plots to graphics device</span>
 <span class="no">g</span></pre></body></html></div>
 <p>We can test for overlapping or alternating coordinated singing using the <code>less.than.chance</code> argument in <code>coor.test</code>. Here we will test for alternating coordinated singing, since <code>less.than.chance</code> is set to <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="no">cs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/coor.test.html">coor.test</a></span>(<span class="no">sim.coor.sing</span>, <span class="kw">iterations</span> <span class="kw">=</span> <span class="fl">1000</span>, <span class="kw">less.than.chance</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fl">10</span>)
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">cs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/coor.test.html">coor.test</a></span>(<span class="no">sim.coor.sing</span>, <span class="kw">iterations</span> <span class="kw">=</span> <span class="fl">1000</span>, <span class="kw">less.than.chance</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fl">10</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">cs</span>)</pre></body></html></div>
 </div>
 <div id="simulating-songs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulating-songs" class="anchor"></a>Simulating songs</h2>
 <p>You can simulate songs using <code>warbleR</code>. Depending on your question, you can simulate songs with different numbers of subunits, subunit durations, numbers of harmonics, amplitudes, gaps between subunits, amplitude fading of subunits, among other options. Songs are simulated under Brownian motion frequency drift.</p>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="co"># simulate a song with 3 tonal elements</span>
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="co"># simulate a song with 3 tonal elements</span>
 <span class="no">ss</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/sim_songs.html">sim_songs</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="kw">harms</span> <span class="kw">=</span> <span class="fl">1</span>)
 
 <span class="co"># plot the simulated song</span>

@@ -13,9 +13,9 @@ output:
       collapsed: false
       smooth_scroll: true
 vignette: >
-  \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{1. Introduction to warbleR}
-  %\VignetteEngine{knitr::rmarkdown}
+   %\VignetteIndexEntry{1. Introduction to warbleR}
+   %\VignetteEngine{knitr::rmarkdown}
+   %\usepackage[utf8]{inputenc}
 editor_options: 
   chunk_output_type: console
 ---

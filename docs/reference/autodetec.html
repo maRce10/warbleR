@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Automatically detect vocalizations in sound files — autodetec • warbleR</title>
+<title><code>autodetec</code> automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes. — autodetec • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,7 +42,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Automatically detect vocalizations in sound files — autodetec" />
+<meta property="og:title" content="<code>autodetec</code> automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes. — autodetec" />
 <meta property="og:description" content="autodetec automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes." />
 
@@ -75,7 +77,7 @@ on amplitude, duration, and frequency range attributes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.25</span>
       </span>
     </div>
 
@@ -117,7 +119,8 @@ on amplitude, duration, and frequency range attributes." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Automatically detect vocalizations in sound files</h1>
+    <h1><code>autodetec</code> automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes.</h1>
     <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/autodetec.R'><code>R/autodetec.R</code></a></small>
     <div class="hidden name"><code>autodetec.Rd</code></div>
     </div>
@@ -128,11 +131,12 @@ on amplitude, duration, and frequency range attributes.</p>
     </div>
 
     <pre class="usage"><span class='fu'>autodetec</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>envt</span> <span class='kw'>=</span> <span class='st'>"abs"</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>msmooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>osci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>xl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>picsize</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>22</span>), <span class='kw'>ls</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxdur</span> <span class='kw'>=</span>
-  <span class='kw'>NULL</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>set</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smadj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>,
-  <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>osci</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>xl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>picsize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>flim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ls</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxdur</span> <span class='kw'>=</span>
+  <span class='kw'>NULL</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>set</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smadj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>, <span class='kw'>reduce.size</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>10</span>, <span class='no'>hold.time</span>,
+  <span class='kw'>amp.outliers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,37 +145,37 @@ on amplitude, duration, and frequency range attributes.</p>
       <th>X</th>
       <td><p>'selection_table' object or a data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). If provided the detection will be conducted only within 
+(start and end). If provided the detection will be conducted only within
 the selections in 'X'.</p></td>
     </tr>
     <tr>
       <th>threshold</th>
-      <td><p>A numeric vector of length 1 specifying the amplitude threshold for detecting 
+      <td><p>A numeric vector of length 1 specifying the amplitude threshold for detecting
 signals (in %).</p></td>
     </tr>
     <tr>
       <th>envt</th>
       <td><p>Character vector of length 1 specifying the type of envelope to
-be used: "abs" for absolute amplitude envelope or "hil" for Hilbert 
+be used: "abs" for absolute amplitude envelope or "hil" for Hilbert
 amplitude envelope. Default is "abs".</p></td>
     </tr>
     <tr>
       <th>ssmooth</th>
-      <td><p>A numeric vector of length 1 to smooth the amplitude envelope 
+      <td><p>A numeric vector of length 1 to smooth the amplitude envelope
 with a sum smooth function. Default is NULL.</p></td>
     </tr>
     <tr>
       <th>msmooth</th>
-      <td><p>A numeric vector of length 2 to smooth the amplitude envelope 
-with a mean sliding window. The first component is the window length and 
-the second is the overlap between successive windows (in %). Faster than ssmooth but time detection is 
+      <td><p>A numeric vector of length 2 to smooth the amplitude envelope
+with a mean sliding window. The first component is the window length and
+the second is the overlap between successive windows (in %). Faster than ssmooth but time detection is
 much less accurate. Will be deprecated in future versions. Default is NULL.</p></td>
     </tr>
     <tr>
       <th>power</th>
-      <td><p>A numeric vector of length 1 indicating a power factor applied 
-to the amplitude envelope. Increasing power will reduce low amplitude 
-modulations and increase high amplitude modulations, in order to reduce 
+      <td><p>A numeric vector of length 1 indicating a power factor applied
+to the amplitude envelope. Increasing power will reduce low amplitude
+modulations and increase high amplitude modulations, in order to reduce
 background noise. Default is 1 (no change).</p></td>
     </tr>
     <tr>
@@ -181,85 +185,68 @@ frequency bandpass filter (in kHz). Default is c(0, 22).</p></td>
     </tr>
     <tr>
       <th>osci</th>
-      <td><p>Logical argument to add an oscillogram underneath spectrogram, as
-in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is <code>FALSE</code>. Not applied if ls is 
-<code>TRUE</code>.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>wl</th>
-      <td><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
-is 512.</p></td>
+      <td><p>A numeric vector of length 1 specifying the window used by internally
+<code><a href='https://rdrr.io/pkg/seewave/man/ffilter.html'>ffilter</a></code> for bandpass filtering. Default is 512.</p></td>
     </tr>
     <tr>
       <th>xl</th>
-      <td><p>Numeric vector of length 1, a constant by which to scale 
-spectrogram width. Default is 1.</p></td>
+      <td><p>DEPRECATED</p></td>
     </tr>
     <tr>
       <th>picsize</th>
-      <td><p>Numeric argument of length 1. Controls the relative size of 
-the spectrogram. Default is 1.</p></td>
+      <td><p>DEPRECATED</p></td>
     </tr>
     <tr>
       <th>res</th>
-      <td><p>Numeric argument of length 1 controlling resolution of images.
-Default is 100 (faster) although 300 - 400 is recommended for publication/ 
-presentation quality.</p></td>
+      <td><p>DEPRECATED</p></td>
     </tr>
     <tr>
       <th>flim</th>
-      <td><p>A numeric vector of length 2 for the frequency limit in kHz of 
-the spectrogram, as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is c(0, 22).</p></td>
+      <td><p>DEPRECATED</p></td>
     </tr>
     <tr>
       <th>ls</th>
-      <td><p>Logical argument. If <code>TRUE</code>, long spectrograms as in <code><a href='lspec.html'>lspec</a></code> 
-are produced.</p></td>
+      <td><p>DEPRECATED</p></td>
     </tr>
     <tr>
       <th>sxrow</th>
-      <td><p>A numeric vector of length 1. Specifies seconds of spectrogram
-per row when creating long spectrograms. Default is 10. Applied when ls =
-<code>TRUE</code> and/or when X is not provided.</p></td>
+      <td><p>DEPRECATED</p></td>
     </tr>
     <tr>
       <th>rows</th>
-      <td><p>A numeric vector of length 1. Specifies number of rows per 
-image file when creating long spectrograms. Default is 10. Applied when ls =  
-<code>TRUE</code> and/or when X is not provided.</p></td>
+      <td><p>DEPRECATED</p></td>
     </tr>
     <tr>
       <th>mindur</th>
-      <td><p>Numeric vector of length 1 giving the shortest duration (in 
-seconds) of the signals to be detected. It removes signals below that 
+      <td><p>Numeric vector of length 1 giving the shortest duration (in
+seconds) of the signals to be detected. It removes signals below that
 threshold.</p></td>
     </tr>
     <tr>
       <th>maxdur</th>
-      <td><p>Numeric vector of length 1 giving the longest duration (in 
-seconds) of the signals to be detected. It removes signals above that 
+      <td><p>Numeric vector of length 1 giving the longest duration (in
+seconds) of the signals to be detected. It removes signals above that
 threshold.</p></td>
     </tr>
     <tr>
       <th>redo</th>
-      <td><p>Logical argument. If <code>TRUE</code> all selections will be analyzed again 
-when code is rerun. If <code>FALSE</code> only the selections that do not have an 'autodetec' generated image 
-file in the working directory will be analyzed. Default is <code>FALSE</code>.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>img</th>
-      <td><p>Logical argument. If <code>FALSE</code>, image files are not produced. Default is <code>TRUE</code>.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>it</th>
-      <td><p>A character vector of length 1  giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is "jpeg".</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>set</th>
-      <td><p>A logical argument indicating whether the settings of the autodetection 
-process should be included in the image file name. If <code>TRUE</code>, threshold (th), envelope (envt), bandpass (bp),
-power (pw), smooth (smo, either mmsooth[1] or ssmooth), maxdur (mxdu), and mindur (midu) are included.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>flist</th>
@@ -268,10 +255,10 @@ if X is provided.</p></td>
     </tr>
     <tr>
       <th>smadj</th>
-      <td><p>adjustment for amplitude smoothing. Character vector of length one indicating whether start end 
-values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude 
+      <td><p>adjustment for amplitude smoothing. Character vector of length one indicating whether start end
+values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude
 smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals,
-determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the 
+determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the
 increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is <code>NULL</code>.</p></td>
     </tr>
     <tr>
@@ -281,7 +268,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     </tr>
     <tr>
       <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. 
+      <td><p>Character string containing the directory path where the sound files are located.
 If <code>NULL</code> (default) then the current working directory is used.</p></td>
     </tr>
     <tr>
@@ -290,43 +277,46 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     </tr>
     <tr>
       <th>pal</th>
-      <td><p>Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
-<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code> for more palettes. Palettes as <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code> may work better when <code>fast.spec = TRUE</code>.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>fast.spec</th>
-      <td><p>Logical. If <code>TRUE</code> then image function is used internally to create spectrograms, which substantially 
-increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-This option is indicated for signals with high background noise levels. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
-<code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>topo.1</a></code> and <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>rainbow.1</a></code> (which should be imported from the package monitoR) seem
-to work better with 'fast.spec' spectrograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
-<code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code> offer 
-decreasing darkness levels.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>output</th>
       <td><p>Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into <code><a href='lspec.html'>lspec</a></code> to explore detections and associated amplitude envelopes.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional arguments to be passed internally <code><a href='specreator.html'>specreator</a></code> for customizing
-graphical output.</p></td>
+      <th>reduce.size</th>
+      <td><p>Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of
+samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
+than those needed to accurately represent amplitude variation in time, which affects the size of the
+output (usually very large R objects / files). Default is 1/10 (a tenth of the original envelope
+length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using <code><a href='https://rdrr.io/r/stats/approxfun.html'>approx</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>hold.time</th>
+      <td><p>Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>amp.outliers</th>
+      <td><p>Numeric vector of length 2 specifying the quantile cutoff to remove amplitude outliers (defined as amplitude values to low or too high compare to the overall amplitude distribution of the envelopes). This can help "normalize" the range of amplitude values so low values are closer to 0 and extremely high values have a lesser effect. Default is <code>TRUE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Image files with spectrograms showing the start and end of the detected signals. It 
-  also returns a data frame containing the start and end of each signal by 
-  sound file and selection number.</p>
+    <p>A data frame containing the start and end of each signal by
+  sound file and selection number. If 'output = "list"' then a list including 1) a detection data frame, 2) amplitude envelopes and 3) parameters will be return. An additional column 'org.selec' is added when 'X' is provided (so detection can be traced back to the selections in 'X').</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function determines the start and end of signals in the sound file selections listed 
+    <p>This function determines the start and end of signals in the sound file selections listed
   in the input data frame ('X'). Alternatively, if no data frame is provided, the function detects signals across
   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
   signals for all sound files in the working directory (if <code>img = TRUE</code>). Sound files should be located in the
-   working directory or the path to the sound files should be provided using the 'path' argument. The input 
-   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the 
+   working directory or the path to the sound files should be provided using the 'path' argument. The input
+   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the
    <code><a href='https://rdrr.io/pkg/seewave/man/timer.html'>timer</a></code> function from seewave package to detect signals.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

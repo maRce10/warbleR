@@ -75,7 +75,7 @@ directories (folders)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.25</span>
       </span>
     </div>
 
@@ -201,7 +201,7 @@ of the <code><a href='warbleR.html'>warbleR</a></code> function. It copies/cuts 
 
 <span class='co'>#autodetec location of signals</span>
 <span class='no'>ad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='autodetec.html'>autodetec</a></span>(<span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='fl'>1.2</span>,
-<span class='kw'>maxdur</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>600</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='st'>"Cryp.soui.wav"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='kw'>maxdur</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>600</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='st'>"Cryp.soui.wav"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
 <span class='co'>#track dominant frequency graphs with freq reange detection</span>
 <span class='fu'><a href='trackfreqs.html'>trackfreqs</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>ad</span>[!<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>ad</span>$<span class='no'>start</span>),], <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>5</span>), <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"tiff"</span>,
@@ -219,7 +219,7 @@ of the <code><a href='warbleR.html'>warbleR</a></code> function. It copies/cuts 
 
 <span class='co'># Check this folder</span>
 <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div><div class='output co'>#&gt; [1] "/tmp/RtmprRvFFL"</div><div class='input'>
+}</div><div class='output co'>#&gt; [1] "/tmp/Rtmp3AYog4"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

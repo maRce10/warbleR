@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.25</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
 
       
 
-      </header><script src="warbleR_workflow_02_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="warbleR_workflow_02_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip><center>
@@ -81,12 +81,14 @@
                         <h4 class="author"><center>
 <a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a>
 </center></h4>
-                        <h4 class="author"><center>
+                        <h4 class="author">
+<center>
 <a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a>
-</center></h4>
+</center>
+ </h4>
             
             <h4 class="date"><center>
-“2020-06-30”
+“2020-09-17”
 </center></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/warbleR_workflow_02.Rmd"><code>vignettes/warbleR_workflow_02.Rmd</code></a></small>
@@ -103,7 +105,7 @@
 <p> </p>
 <!-- <center> <h1><b>Visual inspection and classification of signals</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2020-06-30 </center> -->
+<!-- <center> 2020-09-17 </center> -->
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
@@ -215,12 +217,12 @@
 <span class="no">Phae.hisnrt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">"Phae_hisnrt.csv"</span>, <span class="kw">header</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">Phae.hisnrt</span>)</pre></body></html></div>
 <pre><code>'data.frame':   23 obs. of  6 variables:
- $ sound.files: chr  "Phaethornis-longirostris-154070.wav" "Phaethornis-longirostris-154070.wav" "Phaethornis-longirostris-154070.wav" "Phaethornis-longirostris-154072.wav" ...
+ $ sound.files: Factor w/ 5 levels "Phaethornis-longirostris-154070.wav",..: 1 1 1 2 2 2 2 2 3 3 ...
  $ selec      : int  14 18 20 36 108 124 142 148 57 83 ...
  $ start      : num  8.66 11.08 12.19 22.6 76.04 ...
  $ end        : num  8.79 11.2 12.32 22.73 76.16 ...
  $ SNR        : num  11.7 11.6 10.2 15.5 15.3 ...
- $ tailored   : chr  "y" "y" "y" "y" ...</code></pre>
+ $ tailored   : Factor w/ 1 level "y": 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
 </div>
 </div>
 <div id="visual-classification-of-selected-signals" class="section level2">

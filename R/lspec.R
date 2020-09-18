@@ -200,7 +200,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
       
       # leave only wav file names
       if (any(!grepl("\\.wav$", ignore.case = TRUE, W$sound.files)))
-        W$sound.files <- substr(x = W$sound.files, start = 0, stop =         sapply(gregexpr(pattern = "\\.wav", ignore.case = TRUE, W$sound.files), "[[", 1) + 3)
+        W$sound.files <- substr(x = W$sound.files, start = 0, stop =  sapply(gregexpr(pattern = "\\.wav", ignore.case = TRUE, W$sound.files), "[[", 1) + 3)
       
       
       # get selection table and overwrite X
