@@ -216,8 +216,11 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
     # if coming from autodetec
     if (is(X, "autodetec.output")){ 
       
+      
       # cut off for detection lines
-      cutoff <- X$parameters$threshold 
+      if (is.null(X$bottom.line.thresholds))
+      cutoff <- X$parameters$threshold else
+        cutoff <- X$bottom.line.thresholds
     
       # get time contours
       W <- X$envelopes
@@ -453,7 +456,17 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
             points(x = X$time[X$sound.files == z], X$score[X$sound.files == z], pch = 21, col = adjustcolor("#E37222", 0.7), cex = 3.3)
             
           # add cutoff line
-            if(!is.null(cutoff)) lines(x = c(0, dur), y = c(cutoff, cutoff), lty = 2, col = adjustcolor("#07889B", 0.7), lwd = 1.4)  
+            if (!is.null(cutoff))
+              lines(
+                x = c(0, dur),
+                y = if (length(cutoff) == 1)
+                  rep(cutoff, 2) else
+                  rep(cutoff[names(cutoff) == 
+                               paste(X$sound.files[X$sound.files == z][1], X$org.selec[X$sound.files == z][1], sep = "-")][1], 2),
+                lty = 2,
+                col = adjustcolor("#07889B", 0.7),
+                lwd = 1.4
+              )
             
           abline(v = dur, lwd = 2.5)
           

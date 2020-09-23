@@ -136,7 +136,7 @@ on amplitude, duration, and frequency range attributes.</p>
   <span class='kw'>NULL</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>set</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smadj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>, <span class='kw'>reduce.size</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>10</span>, <span class='no'>hold.time</span>,
-  <span class='kw'>amp.outliers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>amp.outliers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bottom.line</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -289,10 +289,10 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     </tr>
     <tr>
       <th>reduce.size</th>
-      <td><p>Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of
+      <td><p>Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
 samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
 than those needed to accurately represent amplitude variation in time, which affects the size of the
-output (usually very large R objects / files). Default is 1/10 (a tenth of the original envelope
+output (usually very large R objects / files). Default is  <code>1 / 10</code> (a tenth of the original envelope
 length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using <code><a href='https://rdrr.io/r/stats/approxfun.html'>approx</a></code>.</p></td>
     </tr>
     <tr>
@@ -301,7 +301,11 @@ length). Use NULL to avoid any reduction. Higher sampling rates can afford highe
     </tr>
     <tr>
       <th>amp.outliers</th>
-      <td><p>Numeric vector of length 2 specifying the quantile cutoff to remove amplitude outliers (defined as amplitude values to low or too high compare to the overall amplitude distribution of the envelopes). This can help "normalize" the range of amplitude values so low values are closer to 0 and extremely high values have a lesser effect. Default is <code>TRUE</code>.</p></td>
+      <td><p>Numeric vector of length 2 specifying the percentile cutoff (i.e. in the range <code><a href='https://rdrr.io/r/base/c.html'>c(0, 100)</a></code>) to remove amplitude outliers (defined as amplitude values too low or too high compared to the overall amplitude distribution of the envelopes). For instance removing the 5% amplitude outliers is defined by <code><a href='https://rdrr.io/r/base/c.html'>c(2.5, 97.5)</a></code> (lowest 2.5% + highest 2.5%). This can help "normalizing" the range of amplitude values, so 'outliers' do not bias the distribution. Default is <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>bottom.line</th>
+      <td><p>Numeric argument of length 1. Controls whether the bottom line of amplitude is set to a percentile of the amplitude distribution (not the percentage of the amplitude range as in 'threshold'). If used then the new bottom line is added to the 'threshold' provided (i.e. new threshold = threshold + bottom.line). Default is <code>NULL</code>.</p></td>
     </tr>
     </table>
 
@@ -316,8 +320,7 @@ length). Use NULL to avoid any reduction. Higher sampling rates can afford highe
   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
   signals for all sound files in the working directory (if <code>img = TRUE</code>). Sound files should be located in the
    working directory or the path to the sound files should be provided using the 'path' argument. The input
-   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the
-   <code><a href='https://rdrr.io/pkg/seewave/man/timer.html'>timer</a></code> function from seewave package to detect signals.</p>
+   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the <code><a href='https://rdrr.io/pkg/seewave/man/timer.html'>timer</a></code> function from seewave package to detect signals.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
@@ -331,17 +334,13 @@ length). Use NULL to avoid any reduction. Higher sampling rates can afford highe
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
 <span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
 
-<span class='no'>ad</span> <span class='kw'>&lt;-</span> <span class='fu'>autodetec</span>(<span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='st'>"hil"</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>power</span><span class='kw'>=</span><span class='fl'>1</span>,
-<span class='kw'>bp</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>9</span>), <span class='kw'>xl</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>picsize</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>flim</span><span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>11</span>), <span class='kw'>osci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>ls</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>maxdur</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>set</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='no'>ad</span> <span class='kw'>&lt;-</span> <span class='fu'>autodetec</span>(<span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='st'>"hil"</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+<span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
 <span class='co'>#run it with different settings</span>
-<span class='no'>ad</span> <span class='kw'>&lt;-</span> <span class='fu'>autodetec</span>(<span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='st'>"abs"</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>bp</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>9</span>), <span class='kw'>xl</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>picsize</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>200</span>, <span class='kw'>flim</span><span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>11</span>), <span class='kw'>osci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>ls</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,  <span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>mindur</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>maxdur</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>set</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='no'>ad</span> <span class='kw'>&lt;-</span> <span class='fu'>autodetec</span>(<span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='st'>"abs"</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+<span class='kw'>bp</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>maxdur</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
-<span class='co'>#check this folder!!</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

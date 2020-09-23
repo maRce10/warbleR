@@ -37,7 +37,8 @@ auto_detec(
   output = "data.frame",
   reduce.size = 1/10,
   hold.time,
-  amp.outliers = NULL
+  amp.outliers = NULL,
+  bottom.line = NULL
 )
 }
 \description{

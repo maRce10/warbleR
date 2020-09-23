@@ -7,7 +7,7 @@
 #'   NULL, redo = NULL, img = NULL, it = NULL, set = NULL, flist = NULL, smadj = NULL,
 #'   parallel = 1, path = NULL, pb = TRUE, pal = NULL,
 #'   fast.spec = NULL, output = "data.frame", reduce.size = 1/10, hold.time,  
-#'   amp.outliers = NULL)
+#'   amp.outliers = NULL, bottom.line = NULL)
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If provided the detection will be conducted only within
@@ -64,13 +64,14 @@
 #' @param pal DEPRECATED.
 #' @param fast.spec DEPRECATED.
 #' @param output Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.
-#' @param reduce.size Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of
+#' @param reduce.size Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
 #' samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
 #' than those needed to accurately represent amplitude variation in time, which affects the size of the
-#' output (usually very large R objects / files). Default is 1/10 (a tenth of the original envelope
+#' output (usually very large R objects / files). Default is  \code{1 / 10} (a tenth of the original envelope
 #' length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using \code{\link[stats]{approx}}. 
 #' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.
-#' @param amp.outliers Numeric vector of length 2 specifying the quantile cutoff to remove amplitude outliers (defined as amplitude values to low or too high compare to the overall amplitude distribution of the envelopes). This can help "normalize" the range of amplitude values so low values are closer to 0 and extremely high values have a lesser effect. Default is \code{TRUE}.
+#' @param amp.outliers Numeric vector of length 2 specifying the percentile cutoff (i.e. in the range \code{c(0, 100)}) to remove amplitude outliers (defined as amplitude values too low or too high compared to the overall amplitude distribution of the envelopes). For instance removing the 5\% amplitude outliers is defined by \code{c(2.5, 97.5)} (lowest 2.5\% + highest 2.5\%). This can help "normalizing" the range of amplitude values, so 'outliers' do not bias the distribution. Default is \code{NULL}.
+#' @param bottom.line Numeric argument of length 1. Controls whether the bottom line of amplitude is set to a percentile of the amplitude distribution (not the percentage of the amplitude range as in 'threshold'). If used then the new bottom line is added to the 'threshold' provided (i.e. new threshold = threshold + bottom.line). Default is \code{NULL}.  
 #' @return A data frame containing the start and end of each signal by
 #'   sound file and selection number. If 'output = "list"' then a list including 1) a detection data frame, 2) amplitude envelopes and 3) parameters will be return. An additional column 'org.selec' is added when 'X' is provided (so detection can be traced back to the selections in 'X').
 #' @export
@@ -80,8 +81,7 @@
 #'   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
 #'   signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
 #'    working directory or the path to the sound files should be provided using the 'path' argument. The input
-#'    data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the
-#'    \code{\link[seewave]{timer}} function from seewave package to detect signals.
+#'    data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the \code{\link[seewave]{timer}} function from seewave package to detect signals.
 #'
 #' @examples
 #' \dontrun{
@@ -92,17 +92,13 @@
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
-#' ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1,
-#' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
-#' wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE, path = tempdir())
+#' ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power = 1,
+#' bp = c(2, 9), wl = 300, path = tempdir())
 #'
 #' #run it with different settings
-#' ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, redo = TRUE,
-#' bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
-#' wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE, path = tempdir())
+#' ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, 
+#' bp=c(2,9), wl = 300, mindur = 0.1, maxdur = 1, path = tempdir())
 #'
-#' #check this folder!!
-#' tempdir()
 #' }
 #'
 #' @references {
@@ -145,7 +141,8 @@ autodetec <-
            output = 'data.frame',
            reduce.size = 1/10,
            hold.time,
-           amp.outliers = NULL
+           amp.outliers = NULL,
+           bottom.line = NULL
            ) {
     
     # reset working directory
@@ -423,7 +420,8 @@ autodetec <-
                output,
                power,
                X.class,
-               amp.outliers)
+               amp.outliers,
+               bottom.line)
       {
         
         # set threshold as proportion
@@ -490,11 +488,15 @@ autodetec <-
           if (!is.null(amp.outliers)) {
             
             # get amplitude values at which outliers are found
-            quant_outliers <- stats::quantile(envp[ , 1], amp.outliers)
+            quant_outliers <- stats::quantile(envp[ , 1], amp.outliers / 100)
             
             # fix outliers  
-            envp[envp[ , 1] < amp.outliers[1], 1] <- amp.outliers[1]
-            envp[envp[ , 1] > amp.outliers[2], 1] <- amp.outliers[2]
+            envp[envp[ , 1] < min(quant_outliers), 1] <- min(quant_outliers)
+            envp[envp[ , 1] > max(quant_outliers), 1] <- max(quant_outliers)
+            
+            # recalcate to a range c(0, 1)
+            envp[ , 1] <- (envp[ , 1] - min(envp[ , 1])) / 
+                                      max(envp[ , 1] - min(envp[ , 1]))
             
           }
           
@@ -515,80 +517,91 @@ autodetec <-
             n <- nrow(envp)
             f <- f * reduce.size
           }
-          
+        
+        # change bottom line percentile  
+        if (!is.null(bottom.line))       
+          thres <- thres + stats::quantile(envp[ , 1], bottom.line / 100)
+        
+        
           #### detection ####
           # get original number of samples
           n1 <- length(envp)
           f1 <- f * (n1 / n)
           
+          # add power
           if (power != 1)
             envp <- envp ^ power
           
+          # get binary values if above or below threshold
           binary_treshold <- ifelse(envp <= thres, yes = 1, no = 2)
           n2 <- length(binary_treshold)
           
-          cum_threshold <-
-            sapply(1:(n2 - 1), function(x)
-              binary_treshold[x] +
-                binary_treshold[x + 1])
+          cross <- sapply(2:length(binary_treshold), function(x) {
+            
+            if (binary_treshold[x] > binary_treshold[x - 1]) out <- "u" # u means going up
+            if (binary_treshold[x] < binary_treshold[x - 1]) out <- "d" # d means going down
+            if (binary_treshold[x]  == binary_treshold[x - 1])  
+              if (binary_treshold[x] == 2)  out <- "a"  else# a means above
+                out <- "b" # b means below
+            
+            return(out)
+            
+            })      
           
-          # determine time of threshold crossings
-          cum_threshold[c(1,  length(cum_threshold))] <- 3
-          which3 <- which(cum_threshold == 3)
-          which3[-1] <- which3[-1] + 1
-          f4 <- f * ( length(cum_threshold) / n)
+          cross <- c(if (binary_treshold[1] == 1) "b" else "a", cross)
           
-          cum_threshold <- ts(cum_threshold,
-                              start = 0,
-                              end =  length(cum_threshold) / f4,
-                              frequency = f4)
+          # time series
+          cross_ts <- ts(cross,
+             start = X$start[i],
+             end =  X$end[i],
+             frequency = length(cross) / ( X$end[i] - X$start[i]))
           
-          positions <- time(cum_threshold)[which3]
+          starts <- time(cross_ts)[cross_ts == "u"]
+          ends <- time(cross_ts)[cross_ts == "d"]
           
-          npos <- length(positions)
-          durations <-
-            sapply(1:(npos - 1), function(x)
-              positions[x +
-                          1] - positions[x])
-          
-          if (binary_treshold[1] == 1 & npos > 2) {
-            signal <- durations[seq(2, npos - 1, by = 2)]
-            start.signal <- positions[seq(2, npos - 1, by = 2)]
-          }  else {
-            signal <- durations[seq(1, npos - 1, by = 2)]
-            start.signal <- positions[seq(1, npos - 1, by = 2)]
+          # if there are both starts and ends detected
+          if (length(starts) > 0 & length(ends) > 0){
+            # if  start is not the first detection
+                if (starts[1] > ends[1]) starts <- c(0, starts)
+          if (starts[length(starts)] > ends[length(ends)]) ends <- c(ends, X$end[i] - X$start[i])
           }
           
-          aut.det <- list(s = signal, s.start = start.signal)
+          # if there is no end
+          if (length(starts) > 0 & length(ends) == 0) ends <- X$end[i] - X$start[i]
+          
+          # if there is no start
+          if (length(ends) > 0 & length(starts) == 0) starts <- 0
+          
           
           #put time of detection in data frame
-          time.song <-
+          detec_tab <-
             data.frame(
               sound.files = X$sound.files[i],
-              duration = aut.det$s,
+              duration = ends - starts,
               org.selec = X$selec[i], # this one allows to relate to segments in a segmented sound file n X (several selection for the same sound file)
               selec = NA,
-              start = aut.det$s.start + X$start[i],
-              end = (aut.det$s + aut.det$s.start + X$start[i])
+              start = starts,
+              end = ends
             )
+          
           
           #remove signals based on duration
           if (!is.null(mindur))
-            time.song <- time.song[time.song$duration > mindur, ]
+            detec_tab <- detec_tab[detec_tab$duration > mindur, ]
           if (!is.null(maxdur))
-            time.song <- time.song[time.song$duration < maxdur, ]
+            detec_tab <- detec_tab[detec_tab$duration < maxdur, ]
           
-          if (nrow(time.song) > 0)
+          if (nrow(detec_tab) > 0)
           {
             if (xprov)
-              time.song$selec <-
-                paste(X$selec[i], 1:nrow(time.song), sep = "-") else
-                  time.song$selec <- 1:nrow(time.song)
+              detec_tab$selec <-
+                paste(X$selec[i], 1:nrow(detec_tab), sep = "-") else
+                  detec_tab$selec <- 1:nrow(detec_tab)
           }
           
           #if nothing was detected
-          if (nrow(time.song) == 0)
-            time.song <-
+          if (nrow(detec_tab) == 0)
+            detec_tab <-
             data.frame(
               sound.files = X$sound.files[i],
               duration = NA,
@@ -597,21 +610,16 @@ autodetec <-
               start = NA,
               end = NA
             )
-          
-          time.song1 <- time.song
-          
-        
-        
+
         #remove duration column
-        time.song1 <-
-          time.song1[, grep("duration", colnames(time.song1), invert = TRUE)]
+        # detec_tab$duration <- NULL
         
         if (output == "data.frame")
           # return data frame or list
-          return(time.song1) else {
+          return(detec_tab) else {
             output_list <- list(
-              selec.table = time.song1,
-              data.frame(
+              selec.table = detec_tab,
+              envelopes = data.frame(
                 sound.files = X$sound.files[i],
                 org.selec = X$selec[i],
                 time = seq(X$start[i], X$end[i], along.with = envp),
@@ -619,10 +627,12 @@ autodetec <-
                 amplitude = envp
               )
             )
-            
+           
+            if (!is.null(bottom.line)) output_list$bottom.line.threshold <- thres * 100
+             
             return(output_list)
           }
-        on.exit(rm(time.song1))
+
       }
     
     #Apply over each sound file
@@ -651,73 +661,74 @@ autodetec <-
               output,
               power,
               X.class,
-              amp.outliers)
+              amp.outliers,
+              bottom.line)
       }
     )
     
     if (output == "data.frame")
-      results <- do.call(rbind, ad) else
+      detections <- do.call(rbind, ad) else
     {
       # if output is a list
-      results <- do.call(rbind, lapply(ad, '[[', 1))
+      detections <- do.call(rbind, lapply(ad, '[[', 1))
       
-      # envelope
+      # envelopes
       envelopes <- do.call(rbind, lapply(ad, '[[', 2))
       
       if (!xprov)
         envelopes$org.selec <- NULL
-  
+      
+      # save bottom.lined threshold
+      if (!is.null(bottom.line)) {
+        bottom.line.thresholds <- sapply(ad, '[[', 3)
+      names(bottom.line.thresholds) <- paste(X$sound.files, X$selec, sep = "-")
+      }
     }
    
      #rename rows
-    rownames(results) <- 1:nrow(results)
+    rownames(detections) <- 1:nrow(detections)
     
     #adjust time coordinates based on known deviance when using ssmooth
     if (!is.null(ssmooth) & !is.null(smadj))
     {
       if (smadj == "start" |
           smadj == "both")
-        results$start <-
-          results$start - ((threshold * 2.376025e-07) - 1.215234e-05) * ssmooth
+        detections$start <-
+          detections$start - ((threshold * 2.376025e-07) - 1.215234e-05) * ssmooth
       if (smadj == "end" |
           smadj == "both")
-        results$end <-
-          results$end - ((threshold * -2.369313e-07) + 1.215129e-05) * ssmooth
+        detections$end <-
+          detections$end - ((threshold * -2.369313e-07) + 1.215129e-05) * ssmooth
     }
     
-    results1 <- results
+    # detections <- results
     
     # remove org.selec if X was not provided
     if (!xprov)
-    results1$org.selec <- NULL
+    detections$org.selec <- NULL
     
     # merge selections based on hold time
-    if (!missing(hold.time)) {
+    if (!missing(hold.time) & !anyNA(detections$start)) {
       
-      write(file = "", x = "Applying 'hold.time':")
+      # detections$end <- detections$end + hold.time
+      detections$ovlp.sels <- NA
       
-      results1$end <- results1$end + hold.time
-      
+      # label overlapping signals (as in ovlp_sels())
       # calculate overlapping selection after adding hope time
-      suppressMessages(
-        ovlp <-
-        warbleR::ovlp_sels(
-          X = results1,
-          max.ovlp = 0,
-          pb = pb,
-          parallel = parallel
-        )
-      )
-      
-      # rewrite end
-      ovlp$end <- ovlp$end - hold.time
-      results1$end <- results1$end - hold.time
-      
+      for(e in 1:(nrow(detections) - 1)) {
+        # if overlap
+        if (detections$end[e] + hold.time >= detections$start[e + 1]) 
+          if (all(is.na(detections$ovlp.sels))) detections$ovlp.sels[c(e, e + 1)] <- 1 else # return 1 if is the first overlap
+            if (is.na(detections$ovlp.sels[e])) # if current is NA add 1
+            detections$ovlp.sels[c(e, e + 1)] <- max(detections$ovlp.sels, na.rm = TRUE) + 1 else
+              detections$ovlp.sels[e + 1] <- detections$ovlp.sels[e] # otherwise use current for next
+        }
+
       # subset non-overlapping and overlapping
-      no_ovlp <- ovlp[is.na(ovlp$ovlp.sels), ]
-      ovlp <- ovlp[!is.na(ovlp$ovlp.sels), ]
+      no_ovlp <- detections[is.na(detections$ovlp.sels), ]
+      ovlp <- detections[!is.na(detections$ovlp.sels), ]
       
-      
+      # if some overlaps detected
       if (nrow(ovlp) > 0)  {
         
         # loop to merge selections
@@ -742,26 +753,27 @@ autodetec <-
         ovlp <- do.call(rbind, out)
         
         # add non-overlapping selections
-        results1 <- rbind(ovlp, no_ovlp)
+        detections <- rbind(ovlp, no_ovlp)
         
         # remove extra column
-        results1$ovlp.sels <- NULL
+        detections$ovlp.sels <- NULL
         
         # order selections by sound file and time
-        results1 <- results1[order(results1$sound.files, results1$start), ]
-      } else results1 <- no_ovlp # if not return non-overlapping
+        detections <- detections[order(detections$sound.files, detections$start), ]
+      } else detections <- no_ovlp # if not return non-overlapping
     }
-    
     
     # output as data frame or list
     if (output == "data.frame")
-      return(results1) else {
+      return(detections) else {
       output_list <- list(
-        selection.table = results1,
+        selection.table = detections,
         envelopes = envelopes,
         parameters = call.argms,
         org.selection.table = X
       )
+      
+      if (!is.null(bottom.line)) output_list$bottom.line.thresholds <- bottom.line.thresholds
       
       # add class autodetec
       class(output_list) <- c("list", "autodetec.output")

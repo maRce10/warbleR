@@ -11,7 +11,7 @@ autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL
   NULL, redo = NULL, img = NULL, it = NULL, set = NULL, flist = NULL, smadj = NULL,
   parallel = 1, path = NULL, pb = TRUE, pal = NULL,
   fast.spec = NULL, output = "data.frame", reduce.size = 1/10, hold.time,  
-  amp.outliers = NULL)
+  amp.outliers = NULL, bottom.line = NULL)
 }
 \arguments{
 \item{X}{'selection_table' object or a data frame with columns
@@ -100,15 +100,17 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{output}{Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.}
 
-\item{reduce.size}{Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of
+\item{reduce.size}{Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
 samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
 than those needed to accurately represent amplitude variation in time, which affects the size of the
-output (usually very large R objects / files). Default is 1/10 (a tenth of the original envelope
+output (usually very large R objects / files). Default is  \code{1 / 10} (a tenth of the original envelope
 length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using \code{\link[stats]{approx}}.}
 
 \item{hold.time}{Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.}
 
-\item{amp.outliers}{Numeric vector of length 2 specifying the quantile cutoff to remove amplitude outliers (defined as amplitude values to low or too high compare to the overall amplitude distribution of the envelopes). This can help "normalize" the range of amplitude values so low values are closer to 0 and extremely high values have a lesser effect. Default is \code{TRUE}.}
+\item{amp.outliers}{Numeric vector of length 2 specifying the percentile cutoff (i.e. in the range \code{c(0, 100)}) to remove amplitude outliers (defined as amplitude values too low or too high compared to the overall amplitude distribution of the envelopes). For instance removing the 5\% amplitude outliers is defined by \code{c(2.5, 97.5)} (lowest 2.5\% + highest 2.5\%). This can help "normalizing" the range of amplitude values, so 'outliers' do not bias the distribution. Default is \code{NULL}.}
+
+\item{bottom.line}{Numeric argument of length 1. Controls whether the bottom line of amplitude is set to a percentile of the amplitude distribution (not the percentage of the amplitude range as in 'threshold'). If used then the new bottom line is added to the 'threshold' provided (i.e. new threshold = threshold + bottom.line). Default is \code{NULL}.}
 }
 \value{
 A data frame containing the start and end of each signal by
@@ -124,8 +126,7 @@ This function determines the start and end of signals in the sound file selectio
   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
   signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
    working directory or the path to the sound files should be provided using the 'path' argument. The input
-   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the
-   \code{\link[seewave]{timer}} function from seewave package to detect signals.
+   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the \code{\link[seewave]{timer}} function from seewave package to detect signals.
 }
 \examples{
 \dontrun{
@@ -136,17 +137,13 @@ writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power=1,
-bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
-wl = 300, ls = FALSE, sxrow = 2, rows = 4, mindur = 0.1, maxdur = 1, set = TRUE, path = tempdir())
+ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power = 1,
+bp = c(2, 9), wl = 300, path = tempdir())
 
 #run it with different settings
-ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, redo = TRUE,
-bp=c(2,9), xl = 2, picsize = 2, res = 200, flim= c(1,11), osci = TRUE,
-wl = 300, ls = FALSE,  sxrow = 2, rows = 4, mindur=0.1, maxdur=1, set = TRUE, path = tempdir())
+ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, 
+bp=c(2,9), wl = 300, mindur = 0.1, maxdur = 1, path = tempdir())
 
-#check this folder!!
-tempdir()
 }
 
 }

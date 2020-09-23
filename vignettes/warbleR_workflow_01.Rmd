@@ -78,7 +78,7 @@ For more details about function arguments, input or output, read the documentati
 
 ### Install and load packages
 
-First, we need to install and load `warbleR` and `Rraven`. You will need an `R` version ≥ 3.2.1 and `seewave` version ≥ 2.0.1. Also, users using `UNIX` machines (Linux or Mac operating systems), may need to install `fftw3`, `pkg-config` and `libsndfile` on their machines prior to installing `warbleR`. These external packages will need to be installed through a `UNIX` terminal. Installing these packages lies outside the scope of this vignette, but you can find more information on _Google_.
+First, we need to install and load `warbleR` and `Rraven`. You will need an `R` version \xf2\n 3.2.1 and `seewave` version \xf2\n 2.0.1. Also, users using `UNIX` machines (Linux or Mac operating systems), may need to install `fftw3`, `pkg-config` and `libsndfile` on their machines prior to installing `warbleR`. These external packages will need to be installed through a `UNIX` terminal. Installing these packages lies outside the scope of this vignette, but you can find more information on _Google_.
 
 ```{r, echo = FALSE, message = FALSE}
 
@@ -751,7 +751,7 @@ acoustic signals. _Methods in Ecology and Evolution_. doi: 10.1111/2041-210X.126
 
 2. Araya-Salas, M. and T. Wright. 2013. Open-ended song learning in a hummingbird. _Biology Letters_. 9 (5). doi: 10.1098/rsbl.2013.0625 
 
-3. Medina‐García, Angela, M. Araya‐Salas, and T. Wright. 2015. Does vocal learning accelerate acoustic diversification? Evolution of contact calls in Neotropical parrots. _Journal of Evolutionary Biology_. doi: 10.1111/jeb.12694
+3. Medina-Garcia, Angela, M. Araya-Salas, and T. Wright. 2015. Does vocal learning accelerate acoustic diversification? Evolution of contact calls in Neotropical parrots. _Journal of Evolutionary Biology_. doi: 10.1111/jeb.12694
 
 &nbsp; 
 
