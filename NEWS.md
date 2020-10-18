@@ -2,8 +2,9 @@
 
 ## Changes and additions:
 
+* 'suffix'argument added to `lspec()`
 * `autodetec()` does not create image files with spectrograms any more
-* 'hold.time' , 'amp.outliers' and 'interpolate' arguments added to `autodetec()` for merging selections and decreasing envelope size respectively
+* new arguments added to `autodetec()`: 'hold.time' for merging selections, 'reduce.size' for decreasing envelope size, 'amp.outliers' to remove amplitude outliers and 'bottom.line' to reset percentile use as lowest amplitude value
 
 # *warbleR 1.1.24*
 

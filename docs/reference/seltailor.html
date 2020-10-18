@@ -127,12 +127,12 @@ which the start/end times and frequency range of acoustic signals listed in a da
 which the start/end times and frequency range of acoustic signals listed in a data frame can be adjusted.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>seltailor</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>22</span>), <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
- <span class='kw'>osci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>, <span class='kw'>auto.next</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pause</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>comments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>frange</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ext.window</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>collevels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sound.files"</span>, <span class='st'>"selec"</span>), <span class='kw'>ts.df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"#E37222"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>auto.contour</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>seltailor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='cn'>NULL</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>22</span><span class='op'>)</span>, wn <span class='op'>=</span> <span class='st'>"hanning"</span>, mar <span class='op'>=</span> <span class='fl'>0.5</span>,
+ osci <span class='op'>=</span> <span class='cn'>TRUE</span>, pal <span class='op'>=</span> <span class='va'>reverse.gray.colors.2</span>, ovlp <span class='op'>=</span> <span class='fl'>70</span>, auto.next <span class='op'>=</span> <span class='cn'>FALSE</span>, pause <span class='op'>=</span> <span class='fl'>1</span>,
+  comments <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, frange <span class='op'>=</span> <span class='cn'>TRUE</span>, fast.spec <span class='op'>=</span> <span class='cn'>FALSE</span>, ext.window <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  width <span class='op'>=</span> <span class='fl'>15</span>, height <span class='op'>=</span> <span class='fl'>5</span>, index <span class='op'>=</span> <span class='cn'>NULL</span>, collevels <span class='op'>=</span> <span class='cn'>NULL</span>, 
+  title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sound.files"</span>, <span class='st'>"selec"</span><span class='op'>)</span>, ts.df <span class='op'>=</span> <span class='cn'>NULL</span>, col <span class='op'>=</span> <span class='st'>"#E37222"</span>, 
+  alpha <span class='op'>=</span> <span class='fl'>0.7</span>, auto.contour <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -310,24 +310,28 @@ columns for the same selections included in 'X'.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='manualoc.html'>manualoc</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>seltailor</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>lbh_selec_table</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>12</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>auto.next</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='fu'>seltailor</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>lbh_selec_table</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>12</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, auto.next <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Read output .csv file</span>
-<span class='no'>seltailor.df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"seltailor_output.csv"</span>))
-<span class='no'>seltailor.df</span>
+<span class='va'>seltailor.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"seltailor_output.csv"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>seltailor.df</span>
 
 <span class='co'># check this directory for .csv file after stopping function</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -343,7 +347,7 @@ columns for the same selections included in 'X'.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -127,11 +127,11 @@ time warping. Internally it applies the dtwDist function from the dtw package." 
 time warping. Internally it applies the <code><a href='https://rdrr.io/pkg/dtw/man/dtwDist.html'>dtwDist</a></code> function from the <code>dtw</code> package.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dfDTW</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>wl.freq</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>,
-<span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>threshold.time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ts.df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='st'>"dfDTW"</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>window.type</span> <span class='kw'>=</span> <span class='st'>"none"</span>, <span class='kw'>open.end</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>frange.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,  <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>adjust.wl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>dfDTW</span><span class='op'>(</span>X <span class='op'>=</span> <span class='cn'>NULL</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, wl.freq <span class='op'>=</span> <span class='fl'>512</span>, length.out <span class='op'>=</span> <span class='fl'>20</span>, wn <span class='op'>=</span> <span class='st'>"hanning"</span>, ovlp <span class='op'>=</span> <span class='fl'>70</span>, 
+bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>, threshold <span class='op'>=</span> <span class='fl'>15</span>, threshold.time <span class='op'>=</span> <span class='cn'>NULL</span>, threshold.freq <span class='op'>=</span> <span class='cn'>NULL</span>, img <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, ts.df <span class='op'>=</span> <span class='cn'>NULL</span>, img.suffix <span class='op'>=</span> <span class='st'>"dfDTW"</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+clip.edges <span class='op'>=</span> <span class='cn'>TRUE</span>, window.type <span class='op'>=</span> <span class='st'>"none"</span>, open.end <span class='op'>=</span> <span class='cn'>FALSE</span>, scale <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+frange.detec <span class='op'>=</span> <span class='cn'>FALSE</span>,  fsmooth <span class='op'>=</span> <span class='fl'>0.1</span>, adjust.wl <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -292,17 +292,21 @@ The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>app
 <code><a href='sp.en.ts.html'>sp.en.ts</a>()</code>,
 <code><a href='specreator.html'>specreator</a>()</code>,
 <code><a href='trackfreqs.html'>trackfreqs</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'>#load data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>)) <span class='co'>#save sound files </span>
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#save sound files </span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># run function </span>
-<span class='fu'>dfDTW</span>(<span class='no'>lbh_selec_table</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>12</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
-}</div><div class='output co'>#&gt;                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3
+<span class='fu'>dfDTW</span><span class='op'>(</span><span class='va'>lbh_selec_table</span>, length.out <span class='op'>=</span> <span class='fl'>30</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>12</span><span class='op'>)</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>9</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3
 #&gt; Phae.long1.wav-1            0.000            7.272           11.403
 #&gt; Phae.long1.wav-2            7.272            0.000           11.796
 #&gt; Phae.long1.wav-3           11.403           11.796            0.000
@@ -366,7 +370,7 @@ The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>app
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

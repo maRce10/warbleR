@@ -125,7 +125,7 @@
     <p><code>open_wd</code> opens the working directory in the default file browser.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>open_wd</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>open_wd</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,11 +155,15 @@ the manipulation of sound files and other files produced by many of the <code><a
 <p>Other data manipulation: 
 <code><a href='move.imgs.html'>move.imgs</a>()</code>,
 <code><a href='split_wavs.html'>split_wavs</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
-<span class='fu'>open_wd</span>()
-}</div><div class='output co'>#&gt; [1] "/home/m/Dropbox/R_package_testing/warbleR/warbleR/docs/reference opened in file browser"</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='fu'>open_wd</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] "/home/dell/Dropbox/R_package_testing/warbleR/warbleR/docs/reference opened in file browser"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -176,7 +180,7 @@ the manipulation of sound files and other files produced by many of the <code><a
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -125,8 +125,8 @@
     <p><code>querxc</code> downloads recordings and metadata from <a href='https://www.xeno-canto.org/'>Xeno-Canto</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>querxc</span>(<span class='no'>qword</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file.name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Genus"</span>, <span class='st'>"Specific_epithet"</span>),
-<span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>querxc</span><span class='op'>(</span><span class='va'>qword</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span>, X <span class='op'>=</span> <span class='cn'>NULL</span>, file.name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Genus"</span>, <span class='st'>"Specific_epithet"</span><span class='op'>)</span>, 
+parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,34 +199,39 @@ or download the associated sound files. Complex queries can be done by using sea
 
     <div class='dont-index'><p><code><a href='xcmaps.html'>xcmaps</a></code>, 
 <a href='https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html'>blog post on accessing Xeno-Canto recordings</a></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># search without downloading</span>
-<span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span>(<span class='no'>df1</span>)
+<span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>df1</span><span class='op'>)</span>
 
 <span class='co'># downloading files</span>
-<span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, download <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># check this folder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'>## search using xeno-canto advance query ###</span>
-<span class='no'>orth.pap</span> <span class='kw'>&lt;-</span> <span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'gen:orthonyx cnt:papua loc:tari'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
+<span class='va'>orth.pap</span> <span class='op'>&lt;-</span> <span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'gen:orthonyx cnt:papua loc:tari'</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+ 
 <span class='co'># download file using the output data frame as input</span>
-<span class='fu'>querxc</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>orth.pap</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='fu'>querxc</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>orth.pap</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># use quotes for queries with more than 1 word (e.g. Costa Rica),note that the </span>
 <span class='co'># single quotes are used for the whole 'qword' and double quotes for the 2-word term inside</span>
 <span class='co'>#Phaeochroa genus in Costa Rica </span>
-<span class='no'>phae.cr</span> <span class='kw'>&lt;-</span> <span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'gen:phaeochroa cnt:"costa rica"'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='va'>phae.cr</span> <span class='op'>&lt;-</span> <span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'gen:phaeochroa cnt:"costa rica"'</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># several terms can be searched for in the same field</span>
 <span class='co'># search for all female songs in sound type</span>
-<span class='no'>femsong</span> <span class='kw'>&lt;-</span> <span class='fu'>querxc</span>(<span class='kw'>qword</span> <span class='kw'>=</span> <span class='st'>'type:song type:female'</span>, <span class='kw'>download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='va'>femsong</span> <span class='op'>&lt;-</span> <span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'type:song type:female'</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -242,7 +247,7 @@ or download the associated sound files. Complex queries can be done by using sea
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

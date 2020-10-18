@@ -127,11 +127,11 @@ of signals selected by manualoc or autodetec." />
 of signals selected by <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dfts</span>(<span class='no'>X</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>wl.freq</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>,
-<span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>22</span>), <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>threshold.time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='st'>"dfts"</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>leglab</span> <span class='kw'>=</span> <span class='st'>"dfts"</span>, <span class='kw'>frange.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
- <span class='kw'>raw.contour</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>track.harm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>adjust.wl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>dfts</span><span class='op'>(</span><span class='va'>X</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, wl.freq <span class='op'>=</span> <span class='fl'>512</span>, length.out <span class='op'>=</span> <span class='fl'>20</span>, wn <span class='op'>=</span> <span class='st'>"hanning"</span>, ovlp <span class='op'>=</span> <span class='fl'>70</span>,
+bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>, threshold <span class='op'>=</span> <span class='fl'>0</span>, threshold.time <span class='op'>=</span> <span class='cn'>NULL</span>, threshold.freq <span class='op'>=</span> <span class='cn'>NULL</span>, 
+img <span class='op'>=</span> <span class='cn'>TRUE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, img.suffix <span class='op'>=</span> <span class='st'>"dfts"</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+clip.edges <span class='op'>=</span> <span class='cn'>FALSE</span>, leglab <span class='op'>=</span> <span class='st'>"dfts"</span>, frange.detec <span class='op'>=</span> <span class='cn'>FALSE</span>, fsmooth <span class='op'>=</span> <span class='fl'>0.1</span>,
+ raw.contour <span class='op'>=</span> <span class='cn'>FALSE</span>, track.harm <span class='op'>=</span> <span class='cn'>FALSE</span>, adjust.wl <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -288,26 +288,30 @@ measures. If there are no frequencies above the amplitude threshold at the begin
 <code><a href='sp.en.ts.html'>sp.en.ts</a>()</code>,
 <code><a href='specreator.html'>specreator</a>()</code>,
 <code><a href='trackfreqs.html'>trackfreqs</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'>#load data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>)) <span class='co'>#save sound files </span>
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#save sound files </span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># run function </span>
-<span class='fu'>dfts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>12</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='fu'>dfts</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, length.out <span class='op'>=</span> <span class='fl'>30</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>12</span><span class='op'>)</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>9</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span>,
+ path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># note a NA in the row 4 column 3 (dfreq-1)</span>
 <span class='co'># this can be removed by clipping edges (removing NAs at the start and/or end </span>
 <span class='co'># when no freq was detected) </span>
 
-<span class='fu'>dfts</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>12</span>), <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
-}</div><div class='output co'>#&gt;       sound.files selec dfreq-1 dfreq-2 dfreq-3 dfreq-4 dfreq-5 dfreq-6 dfreq-7
+<span class='fu'>dfts</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, length.out <span class='op'>=</span> <span class='fl'>30</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>12</span><span class='op'>)</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>9</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+clip.edges <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;       sound.files selec dfreq-1 dfreq-2 dfreq-3 dfreq-4 dfreq-5 dfreq-6 dfreq-7
 #&gt; 1  Phae.long1.wav     1   7.162   7.312   7.312   7.468   6.702   5.267   5.443
 #&gt; 2  Phae.long1.wav     2   6.938   7.183   7.279   7.437   7.537   7.566   6.089
 #&gt; 3  Phae.long1.wav     3   7.013   6.281   6.658   4.923   6.384   7.688   8.008
@@ -371,7 +375,7 @@ measures. If there are no frequencies above the amplitude threshold at the begin
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>alternative name for <code><a href='trackfreqs.html'>trackfreqs</a></code> — track_freqs • warbleR</title>
+<title>alternative name for trackfreqs — track_freqs • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,7 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="alternative name for <code><a href='trackfreqs.html'>trackfreqs</a></code> — track_freqs" />
+<meta property="og:title" content="alternative name for trackfreqs — track_freqs" />
 <meta property="og:description" content="alternative name for trackfreqs" />
 
 
@@ -125,55 +125,55 @@
     <p>alternative name for <code><a href='trackfreqs.html'>trackfreqs</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>track_freqs</span>(
-  <span class='no'>X</span>,
-  <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>,
-  <span class='kw'>wl.freq</span> <span class='kw'>=</span> <span class='fl'>512</span>,
-  <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>22</span>),
-  <span class='kw'>wn</span> <span class='kw'>=</span> <span class='st'>"hanning"</span>,
-  <span class='kw'>pal</span> <span class='kw'>=</span> <span class='no'>reverse.gray.colors.2</span>,
-  <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>70</span>,
-  <span class='kw'>inner.mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>4</span>, <span class='fl'>2</span>),
-  <span class='kw'>outer.mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>),
-  <span class='kw'>picsize</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>res</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>cexlab</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>propwidth</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>xl</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>osci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>gr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>sc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>22</span>),
-  <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.6</span>, <span class='fl'>1</span>),
-  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>,
-  <span class='kw'>threshold.time</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>threshold.freq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>contour</span> <span class='kw'>=</span> <span class='st'>"both"</span>,
-  <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#E37222B3"</span>, <span class='st'>"#07889BB3"</span>),
-  <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>21</span>, <span class='fl'>24</span>),
-  <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>lpos</span> <span class='kw'>=</span> <span class='st'>"topright"</span>,
-  <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>img.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>custom.contour</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
-  <span class='kw'>leglab</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Ffreq"</span>, <span class='st'>"Dfreq"</span>),
-  <span class='kw'>col.alpha</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
-  <span class='kw'>line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ff.method</span> <span class='kw'>=</span> <span class='st'>"seewave"</span>,
-  <span class='kw'>frange.detec</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>fsmooth</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>widths</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>),
-  <span class='kw'>freq.continuity</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>clip.edges</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>track.harm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>track_freqs</span><span class='op'>(</span>
+  <span class='va'>X</span>,
+  wl <span class='op'>=</span> <span class='fl'>512</span>,
+  wl.freq <span class='op'>=</span> <span class='fl'>512</span>,
+  flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>,
+  wn <span class='op'>=</span> <span class='st'>"hanning"</span>,
+  pal <span class='op'>=</span> <span class='va'>reverse.gray.colors.2</span>,
+  ovlp <span class='op'>=</span> <span class='fl'>70</span>,
+  inner.mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>4</span>, <span class='fl'>2</span><span class='op'>)</span>,
+  outer.mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>,
+  picsize <span class='op'>=</span> <span class='fl'>1</span>,
+  res <span class='op'>=</span> <span class='fl'>100</span>,
+  cexlab <span class='op'>=</span> <span class='fl'>1</span>,
+  title <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  propwidth <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  xl <span class='op'>=</span> <span class='fl'>1</span>,
+  osci <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  gr <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  sc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>,
+  cex <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.6</span>, <span class='fl'>1</span><span class='op'>)</span>,
+  threshold <span class='op'>=</span> <span class='fl'>15</span>,
+  threshold.time <span class='op'>=</span> <span class='cn'>NULL</span>,
+  threshold.freq <span class='op'>=</span> <span class='cn'>NULL</span>,
+  contour <span class='op'>=</span> <span class='st'>"both"</span>,
+  col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#E37222B3"</span>, <span class='st'>"#07889BB3"</span><span class='op'>)</span>,
+  pch <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>21</span>, <span class='fl'>24</span><span class='op'>)</span>,
+  mar <span class='op'>=</span> <span class='fl'>0.05</span>,
+  lpos <span class='op'>=</span> <span class='st'>"topright"</span>,
+  it <span class='op'>=</span> <span class='st'>"jpeg"</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  img.suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  custom.contour <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  type <span class='op'>=</span> <span class='st'>"p"</span>,
+  leglab <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Ffreq"</span>, <span class='st'>"Dfreq"</span><span class='op'>)</span>,
+  col.alpha <span class='op'>=</span> <span class='fl'>0.6</span>,
+  line <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  fast.spec <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  ff.method <span class='op'>=</span> <span class='st'>"seewave"</span>,
+  frange.detec <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  fsmooth <span class='op'>=</span> <span class='fl'>0.1</span>,
+  widths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>1</span><span class='op'>)</span>,
+  freq.continuity <span class='op'>=</span> <span class='cn'>NULL</span>,
+  clip.edges <span class='op'>=</span> <span class='fl'>2</span>,
+  track.harm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -195,7 +195,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -125,11 +125,11 @@
     <p><code>sim_songs</code> simulate animal vocalizations in a wave object under brownian motion frequency drift.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>durs</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>harm.amps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span>), <span class='kw'>am.amps</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-<span class='kw'>gaps</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>freqs</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>samp.rate</span> <span class='kw'>=</span> <span class='fl'>44.1</span>, <span class='kw'>sig2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-<span class='kw'>steps</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>bgn</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>diff.fun</span> <span class='kw'>=</span> <span class='st'>"GBM"</span>,
-<span class='kw'>fin</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>fout</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>shape</span> <span class='kw'>=</span> <span class='st'>"linear"</span>, <span class='kw'>selec.table</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>file.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sim_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span>, durs <span class='op'>=</span> <span class='fl'>0.2</span>, harms <span class='op'>=</span> <span class='fl'>3</span>, harm.amps <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span><span class='op'>)</span>, am.amps <span class='op'>=</span> <span class='fl'>1</span>, 
+gaps <span class='op'>=</span> <span class='fl'>0.1</span>, freqs <span class='op'>=</span> <span class='fl'>5</span>, samp.rate <span class='op'>=</span> <span class='fl'>44.1</span>, sig2 <span class='op'>=</span> <span class='fl'>0.5</span>, 
+steps <span class='op'>=</span> <span class='fl'>10</span>, bgn <span class='op'>=</span> <span class='fl'>0.5</span>, seed <span class='op'>=</span> <span class='cn'>NULL</span>, diff.fun <span class='op'>=</span> <span class='st'>"GBM"</span>, 
+fin <span class='op'>=</span> <span class='fl'>0.1</span>, fout <span class='op'>=</span> <span class='fl'>0.2</span>, shape <span class='op'>=</span> <span class='st'>"linear"</span>, selec.table <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+file.name <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,32 +245,37 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='querxc.html'>querxc</a></code> for for downloading bird vocalizations from an online repository.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
  <span class='co'># simulate a song with 3 elements and no harmonics</span>
- <span class='no'>sm_sng</span> <span class='kw'>&lt;-</span> <span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-
+ <span class='va'>sm_sng</span> <span class='op'>&lt;-</span> <span class='fu'>sim_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>3</span>, harms <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+ 
  <span class='co'># plot spectro</span>
- <span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span>(<span class='no'>sm_sng</span>)
-
+ <span class='fu'>seewave</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span><span class='op'>(</span><span class='va'>sm_sng</span><span class='op'>)</span>
+ 
  <span class='co'># simulate a song with 5 elements and 2 extra harmonics</span>
-<span class='no'>sm_sng2</span> <span class='kw'>&lt;-</span> <span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='va'>sm_sng2</span> <span class='op'>&lt;-</span> <span class='fu'>sim_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span>, harms <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
  <span class='co'># plot spectrogram</span>
- <span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span>(<span class='no'>sm_sng2</span>)
+ <span class='fu'>seewave</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span><span class='op'>(</span><span class='va'>sm_sng2</span><span class='op'>)</span>
 
 <span class='co'># six pure tones with frequency ranging form 4 to 6 and returning selection table</span>
-<span class='no'>sm_sng</span> <span class='kw'>&lt;-</span> <span class='fu'>sim_songs</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>harms</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>diff.fun</span> <span class='kw'>=</span> <span class='st'>"pure.tone"</span>,
-                  <span class='kw'>freqs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>4</span>, <span class='fl'>6</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>6</span>), <span class='kw'>selec.table</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-                  <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='va'>sm_sng</span> <span class='op'>&lt;-</span> <span class='fu'>sim_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>6</span>, harms <span class='op'>=</span> <span class='fl'>1</span>, seed <span class='op'>=</span> <span class='fl'>1</span>, diff.fun <span class='op'>=</span> <span class='st'>"pure.tone"</span>, 
+                  freqs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>6</span>, length.out <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>, selec.table <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+                  path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># plot spectro</span>
-<span class='kw pkg'>seewave</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span>(<span class='no'>sm_sng</span>$<span class='no'>wave</span>, <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>8</span>))
+<span class='fu'>seewave</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span><span class='op'>(</span><span class='va'>sm_sng</span><span class='op'>$</span><span class='va'>wave</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># selection table</span>
-<span class='no'>sm_sng</span>$<span class='no'>selec.table</span>
-}</div></pre>
+<span class='va'>sm_sng</span><span class='op'>$</span><span class='va'>selec.table</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -286,7 +291,7 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

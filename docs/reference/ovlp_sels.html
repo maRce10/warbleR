@@ -125,9 +125,9 @@
     <p><code>ovlp_sels</code> finds which selections overlap in time within a given sound file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ovlp_sels</span>(<span class='no'>X</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>max.ovlp</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>relabel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>priority</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>priority.col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>unique.labs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>indx.row</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>ovlp_sels</span><span class='op'>(</span><span class='va'>X</span>, index <span class='op'>=</span> <span class='cn'>FALSE</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, max.ovlp <span class='op'>=</span> <span class='fl'>0</span>, relabel <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+drop <span class='op'>=</span> <span class='cn'>FALSE</span>, priority <span class='op'>=</span> <span class='cn'>NULL</span>, priority.col <span class='op'>=</span> <span class='cn'>NULL</span>, unique.labs <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+indx.row <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,24 +208,28 @@ listed in a data frame similar to <code><a href='lbh_selec_table.html'>lbh_selec
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='filtersels.html'>filtersels</a></code> <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'>#no overlap</span>
-<span class='fu'>ovlp_sels</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>lbh_selec_table</span>)
+<span class='fu'>ovlp_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>lbh_selec_table</span><span class='op'>)</span>
 
 <span class='co'># modified lbh_selec_table to make the first and second selection overlap</span>
-<span class='no'>Y</span> <span class='kw'>&lt;-</span> <span class='no'>lbh_selec_table</span>
-<span class='no'>Y</span>$<span class='no'>end</span>[<span class='fl'>4</span>] <span class='kw'>&lt;-</span> <span class='fl'>1.5</span>
-
- <span class='fu'>ovlp_sels</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>Y</span>)
+<span class='va'>Y</span> <span class='op'>&lt;-</span> <span class='va'>lbh_selec_table</span>
+<span class='va'>Y</span><span class='op'>$</span><span class='va'>end</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>1.5</span>
+  
+ <span class='fu'>ovlp_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>Y</span><span class='op'>)</span>
 
 <span class='co'># drop overlapping</span>
- <span class='fu'>ovlp_sels</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>Y</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+ <span class='fu'>ovlp_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>Y</span>, drop <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># get index instead</span>
- <span class='fu'>ovlp_sels</span>(<span class='kw'>X</span> <span class='kw'>=</span>  <span class='no'>Y</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; [1] 4 5</div></pre>
+ <span class='fu'>ovlp_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>Y</span>, index <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] 4 5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -241,7 +245,7 @@ listed in a data frame similar to <code><a href='lbh_selec_table.html'>lbh_selec
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

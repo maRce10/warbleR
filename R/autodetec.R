@@ -769,7 +769,7 @@ autodetec <-
       output_list <- list(
         selection.table = detections,
         envelopes = envelopes,
-        parameters = call.argms,
+        parameters = lapply(call.argms, eval),
         org.selection.table = X
       )
       
@@ -779,7 +779,7 @@ autodetec <-
       class(output_list) <- c("list", "autodetec.output")
       
       return(output_list)
-      
+     
     }
   }
 

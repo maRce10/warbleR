@@ -125,8 +125,8 @@
     <p><code>checksels</code> checks whether selections can be read by subsequent functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>checksels</span>(<span class='no'>X</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>check.header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>wav.size</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>checksels</span><span class='op'>(</span><span class='va'>X</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, check.header <span class='op'>=</span> <span class='cn'>FALSE</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+wav.size <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,17 +213,21 @@ Sound files should be in the working directory (or the directory provided in 'pa
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='checkwavs.html'>checkwavs</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'># save wav file examples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>checksels</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
-}</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
+<span class='fu'>checksels</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #&gt; 3 selection(s) are not OK </div><div class='output co'>#&gt;       sound.files channel selec     start       end bottom.freq  top.freq
 #&gt; 1  Phae.long1.wav       1     1 1.1693549 1.3423884    2.220105  8.604378
 #&gt; 2  Phae.long1.wav       1     2 2.1584085 2.3214565    2.169437  8.807053
@@ -275,7 +279,7 @@ Sound files should be in the working directory (or the directory provided in 'pa
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -25,6 +25,7 @@ full_spec(
   labels = "selec",
   horizontal = FALSE,
   song = NULL,
+  suffix = NULL,
   ...
 )
 }

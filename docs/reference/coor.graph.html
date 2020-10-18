@@ -127,8 +127,8 @@ in time. The signals are represented by polygons of different colors." />
 in time. The signals are represented by polygons of different colors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>coor.graph</span>(<span class='no'>X</span>, <span class='kw'>only.coor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>xl</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>res</span><span class='kw'>=</span> <span class='fl'>80</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"jpeg"</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>tlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>coor.graph</span><span class='op'>(</span><span class='va'>X</span>, only.coor <span class='op'>=</span> <span class='cn'>FALSE</span>, ovlp <span class='op'>=</span> <span class='cn'>TRUE</span>, xl <span class='op'>=</span> <span class='fl'>1</span>, res<span class='op'>=</span> <span class='fl'>80</span>, it <span class='op'>=</span> <span class='st'>"jpeg"</span>, img <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+tlim <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,17 +192,21 @@ depicting the time of overlap.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'># load simulate singing events  (see data documentation)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>sim.coor.sing</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>sim.coor.sing</span><span class='op'>)</span>
 
 <span class='co'>#' # make coor.graphs in graphic device format</span>
-<span class='no'>cgs</span> <span class='kw'>&lt;-</span> <span class='fu'>coor.graph</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>sim.coor.sing</span>, <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>only.coor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='va'>cgs</span> <span class='op'>&lt;-</span> <span class='fu'>coor.graph</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>sim.coor.sing</span>, ovlp <span class='op'>=</span> <span class='cn'>TRUE</span>, only.coor <span class='op'>=</span> <span class='cn'>FALSE</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='no'>cgs</span>
-}</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='coor.graph-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
+<span class='va'>cgs</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [[1]]</div><div class='img'><img src='coor.graph-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; [[2]]</div><div class='img'><img src='coor.graph-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; [[3]]</div><div class='img'><img src='coor.graph-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'>
 </div></pre>
@@ -221,7 +225,7 @@ depicting the time of overlap.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

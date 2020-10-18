@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>autodetec</code> automatically detects the start and end of vocalizations in sound files based
+<title>autodetec automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes. — autodetec • warbleR</title>
 
 
@@ -42,7 +42,7 @@ on amplitude, duration, and frequency range attributes. — autodetec • warble
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="<code>autodetec</code> automatically detects the start and end of vocalizations in sound files based
+<meta property="og:title" content="autodetec automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes. — autodetec" />
 <meta property="og:description" content="autodetec automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes." />
@@ -130,13 +130,13 @@ on amplitude, duration, and frequency range attributes.</h1>
 on amplitude, duration, and frequency range attributes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>autodetec</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>envt</span> <span class='kw'>=</span> <span class='st'>"abs"</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>msmooth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>osci</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>512</span>, <span class='kw'>xl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>picsize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>res</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>flim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ls</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sxrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxdur</span> <span class='kw'>=</span>
-  <span class='kw'>NULL</span>, <span class='kw'>redo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>img</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>set</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>smadj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pal</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fast.spec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>, <span class='kw'>reduce.size</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>10</span>, <span class='no'>hold.time</span>,
-  <span class='kw'>amp.outliers</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bottom.line</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>autodetec</span><span class='op'>(</span>X <span class='op'>=</span> <span class='cn'>NULL</span>, threshold <span class='op'>=</span> <span class='fl'>15</span>, envt <span class='op'>=</span> <span class='st'>"abs"</span>, ssmooth <span class='op'>=</span> <span class='cn'>NULL</span>, msmooth <span class='op'>=</span> <span class='cn'>NULL</span>,
+  power <span class='op'>=</span> <span class='fl'>1</span>, bp <span class='op'>=</span> <span class='cn'>NULL</span>, osci <span class='op'>=</span> <span class='cn'>NULL</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, xl <span class='op'>=</span> <span class='cn'>NULL</span>, picsize <span class='op'>=</span> <span class='cn'>NULL</span>, res <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flim <span class='op'>=</span> <span class='cn'>NULL</span>, ls <span class='op'>=</span> <span class='cn'>NULL</span>, sxrow <span class='op'>=</span> <span class='cn'>NULL</span>, rows <span class='op'>=</span> <span class='cn'>NULL</span>, mindur <span class='op'>=</span> <span class='cn'>NULL</span>, maxdur <span class='op'>=</span>
+  <span class='cn'>NULL</span>, redo <span class='op'>=</span> <span class='cn'>NULL</span>, img <span class='op'>=</span> <span class='cn'>NULL</span>, it <span class='op'>=</span> <span class='cn'>NULL</span>, set <span class='op'>=</span> <span class='cn'>NULL</span>, flist <span class='op'>=</span> <span class='cn'>NULL</span>, smadj <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, pal <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fast.spec <span class='op'>=</span> <span class='cn'>NULL</span>, output <span class='op'>=</span> <span class='st'>"data.frame"</span>, reduce.size <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>10</span>, <span class='va'>hold.time</span>,  
+  amp.outliers <span class='op'>=</span> <span class='cn'>NULL</span>, bottom.line <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -324,24 +324,30 @@ length). Use NULL to avoid any reduction. Higher sampling rates can afford highe
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>). Implements a
+modified version of the timer function from seewave.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Save to temporary working directory</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='no'>ad</span> <span class='kw'>&lt;-</span> <span class='fu'>autodetec</span>(<span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='st'>"hil"</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-<span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='va'>ad</span> <span class='op'>&lt;-</span> <span class='fu'>autodetec</span><span class='op'>(</span>threshold <span class='op'>=</span> <span class='fl'>5</span>, env <span class='op'>=</span> <span class='st'>"hil"</span>, ssmooth <span class='op'>=</span> <span class='fl'>300</span>, power <span class='op'>=</span> <span class='fl'>1</span>,
+bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>9</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>#run it with different settings</span>
-<span class='no'>ad</span> <span class='kw'>&lt;-</span> <span class='fu'>autodetec</span>(<span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='st'>"abs"</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-<span class='kw'>bp</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>9</span>), <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>maxdur</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='va'>ad</span> <span class='op'>&lt;-</span> <span class='fu'>autodetec</span><span class='op'>(</span>threshold <span class='op'>=</span> <span class='fl'>90</span>, env <span class='op'>=</span> <span class='st'>"abs"</span>, ssmooth <span class='op'>=</span> <span class='fl'>300</span>, power <span class='op'>=</span> <span class='fl'>1</span>, 
+bp<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>9</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, mindur <span class='op'>=</span> <span class='fl'>0.1</span>, maxdur <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-}</div></pre>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -357,7 +363,7 @@ length). Use NULL to avoid any reduction. Higher sampling rates can afford highe
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

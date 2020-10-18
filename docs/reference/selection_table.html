@@ -125,9 +125,9 @@
     <p><code>selection_table</code> converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>selection_table</span>(<span class='no'>X</span>, <span class='kw'>max.dur</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>whole.recs</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>by.song</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-<span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>selection_table</span><span class='op'>(</span><span class='va'>X</span>, max.dur <span class='op'>=</span> <span class='fl'>10</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, whole.recs <span class='op'>=</span> <span class='cn'>FALSE</span>,
+extended <span class='op'>=</span> <span class='cn'>FALSE</span>, confirm.extended <span class='op'>=</span> <span class='cn'>TRUE</span>, mar <span class='op'>=</span> <span class='fl'>0.1</span>, by.song <span class='op'>=</span> <span class='cn'>NULL</span>, 
+pb <span class='op'>=</span> <span class='cn'>TRUE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -244,35 +244,39 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='checkwavs.html'>checkwavs</a></code>, <a href='https://marce10.github.io/2018/05/15/Extended_selection_tables.html'>blog post on extended selection tables</a></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>,
-<span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, 
+<span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># make selection table</span>
-<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='va'>st</span> <span class='op'>&lt;-</span> <span class='fu'>selection_table</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'><a href='is_selection_table.html'>is_selection_table</a></span>(<span class='no'>st</span>)
+<span class='fu'><a href='is_selection_table.html'>is_selection_table</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
 
 <span class='co'>#' # make extended selection table</span>
-<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='va'>st</span> <span class='op'>&lt;-</span> <span class='fu'>selection_table</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, extended <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+confirm.extended <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'><a href='is_extended_selection_table.html'>is_extended_selection_table</a></span>(<span class='no'>st</span>)
+<span class='fu'><a href='is_extended_selection_table.html'>is_extended_selection_table</a></span><span class='op'>(</span><span class='va'>st</span><span class='op'>)</span>
 
 <span class='co'>### make extended selection by song  </span>
 <span class='co'># create a song variable</span>
-<span class='no'>lbh_selec_table</span>$<span class='no'>song</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>lbh_selec_table</span>$<span class='no'>sound.files</span>)
+<span class='va'>lbh_selec_table</span><span class='op'>$</span><span class='va'>song</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>lbh_selec_table</span><span class='op'>$</span><span class='va'>sound.files</span><span class='op'>)</span>
 
-<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'>selection_table</span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>extended</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>confirm.extended</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>by.song</span> <span class='kw'>=</span> <span class='st'>"song"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
-}</div><div class='output co'>#&gt; checking selections (step 1 of 2):
+<span class='va'>st</span> <span class='op'>&lt;-</span> <span class='fu'>selection_table</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, extended <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+confirm.extended <span class='op'>=</span> <span class='cn'>FALSE</span>, by.song <span class='op'>=</span> <span class='st'>"song"</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; checking selections (step 1 of 2):
 #&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #&gt; all selections are OK 
 #&gt; checking selections (step 1 of 2):
@@ -301,7 +305,7 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

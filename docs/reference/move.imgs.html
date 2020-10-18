@@ -127,9 +127,9 @@ directories (folders)." />
 directories (folders).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>move.imgs</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>cut</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-<span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>create.folder</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>folder.name</span> <span class='kw'>=</span> <span class='st'>"image_files"</span>,
-<span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>move.imgs</span><span class='op'>(</span>from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='cn'>NULL</span>, it <span class='op'>=</span> <span class='st'>"all"</span>, cut <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, create.folder <span class='op'>=</span> <span class='cn'>TRUE</span>, folder.name <span class='op'>=</span> <span class='st'>"image_files"</span>, 
+parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,34 +192,38 @@ of the <code><a href='warbleR.html'>warbleR</a></code> function. It copies/cuts 
 <p>Other data manipulation: 
 <code><a href='open_wd.html'>open_wd</a>()</code>,
 <code><a href='split_wavs.html'>split_wavs</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'>#load data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Cryp.soui"</span>)
-<span class='fu'>writeWave</span>(<span class='no'>Cryp.soui</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Cryp.soui.wav"</span>)) <span class='co'>#save sound files </span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Cryp.soui"</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Cryp.soui</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Cryp.soui.wav"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#save sound files </span>
 
 <span class='co'>#autodetec location of signals</span>
-<span class='no'>ad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='autodetec.html'>autodetec</a></span>(<span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='kw'>mindur</span> <span class='kw'>=</span> <span class='fl'>1.2</span>,
-<span class='kw'>maxdur</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ssmooth</span> <span class='kw'>=</span> <span class='fl'>600</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>flist</span> <span class='kw'>=</span> <span class='st'>"Cryp.soui.wav"</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='va'>ad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='autodetec.html'>autodetec</a></span><span class='op'>(</span>threshold <span class='op'>=</span> <span class='fl'>6</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, mindur <span class='op'>=</span> <span class='fl'>1.2</span>,
+maxdur <span class='op'>=</span> <span class='fl'>3</span>, ssmooth <span class='op'>=</span> <span class='fl'>600</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, flist <span class='op'>=</span> <span class='st'>"Cryp.soui.wav"</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>#track dominant frequency graphs with freq reange detection</span>
-<span class='fu'><a href='trackfreqs.html'>trackfreqs</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>ad</span>[!<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>ad</span>$<span class='no'>start</span>),], <span class='kw'>flim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>5</span>), <span class='kw'>ovlp</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='kw'>it</span> <span class='kw'>=</span> <span class='st'>"tiff"</span>,
-<span class='kw'>bp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>), <span class='kw'>contour</span> <span class='kw'>=</span> <span class='st'>"df"</span>, <span class='kw'>wl</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>frange</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='fu'><a href='trackfreqs.html'>trackfreqs</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>ad</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ad</span><span class='op'>$</span><span class='va'>start</span><span class='op'>)</span>,<span class='op'>]</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span>, ovlp <span class='op'>=</span> <span class='fl'>90</span>, it <span class='op'>=</span> <span class='st'>"tiff"</span>,
+bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, contour <span class='op'>=</span> <span class='st'>"df"</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, frange <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># create folder to move image files</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"imgs"</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"imgs"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>#copy files</span>
-<span class='fu'>move.imgs</span>(<span class='kw'>cut</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"imgs"</span>))
+<span class='fu'>move.imgs</span><span class='op'>(</span>cut <span class='op'>=</span> <span class='cn'>FALSE</span>, from <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"imgs"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># cut files</span>
-<span class='fu'>move.imgs</span>(<span class='kw'>cut</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
-<span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"imgs"</span>), <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>move.imgs</span><span class='op'>(</span>cut <span class='op'>=</span> <span class='cn'>TRUE</span>, from <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, 
+to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"imgs"</span><span class='op'>)</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># Check this folder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div><div class='output co'>#&gt; [1] "/tmp/Rtmp8RcLVb"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] "/tmp/RtmpnDtlDC"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -236,7 +240,7 @@ of the <code><a href='warbleR.html'>warbleR</a></code> function. It copies/cuts 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

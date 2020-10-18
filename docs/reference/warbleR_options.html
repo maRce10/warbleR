@@ -125,7 +125,7 @@
     <p><code>warbleR_options</code> sets global parameters for warbleR functions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>warbleR_options</span>(<span class='kw'>reset</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>warbleR_options</span><span class='op'>(</span>reset <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,31 +177,35 @@ It specifies the number of cores to be used in iterative functions.</p></li>
 <li><p><code>wn</code>: Character vector of length 1 specifying the window name for creating spectrogram (either for plotting or for measuring spectrogram parameters). See function <code><a href='https://rdrr.io/pkg/seewave/man/ftwindow.html'>ftwindow</a></code> for options.</p></li>
 </ul>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'># load data and save in temporary working directory</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>list</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long2.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long3.wav"</span>))
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long4.wav"</span>))
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># sig2noise with progress bar (by default is TRUE)</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sig2noise.html'>sig2noise</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sig2noise.html'>sig2noise</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, mar <span class='op'>=</span> <span class='fl'>0.1</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># set progress bar to FALSE with warbleR_options</span>
-<span class='fu'>warbleR_options</span>(<span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='fu'>warbleR_options</span><span class='op'>(</span>pb <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># sig2noise without progress bar</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sig2noise.html'>sig2noise</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sig2noise.html'>sig2noise</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, mar <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
 
 <span class='co'># sig2noise with progress bar by setting it within the function call (overwritting options)</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sig2noise.html'>sig2noise</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sig2noise.html'>sig2noise</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, mar <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
 
 <span class='co'># sig2noise without progress bar using warbleR_options setting again</span>
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sig2noise.html'>sig2noise</a></span>(<span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>lbh_selec_table</span>, <span class='kw'>mar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
-}</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++                                             | 9 % ~00s            |++++++++++                                        | 18% ~00s            |++++++++++++++                                    | 27% ~00s            |+++++++++++++++++++                               | 36% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++++                  | 64% ~00s            |+++++++++++++++++++++++++++++++++++++             | 73% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
+<span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sig2noise.html'>sig2noise</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, mar <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++                                             | 9 % ~00s            |++++++++++                                        | 18% ~00s            |++++++++++++++                                    | 27% ~00s            |+++++++++++++++++++                               | 36% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++++                  | 64% ~00s            |+++++++++++++++++++++++++++++++++++++             | 73% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #&gt;   |                                                  | 0 % ~calculating    |+++++                                             | 9 % ~00s            |++++++++++                                        | 18% ~00s            |++++++++++++++                                    | 27% ~00s            |+++++++++++++++++++                               | 36% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++++                  | 64% ~00s            |+++++++++++++++++++++++++++++++++++++             | 73% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -218,7 +222,7 @@ It specifies the number of cores to be used in iterative functions.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

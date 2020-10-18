@@ -5,7 +5,7 @@
 #' @usage lspec(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1), 
 #' ovlp = 50, parallel = 1, wl = 512, gr = FALSE, pal = reverse.gray.colors.2, 
 #' cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, 
-#' fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, ...) 
+#' fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, suffix = NULL, ...) 
 #' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number 
@@ -54,7 +54,8 @@
 #' @param horizontal Logical. Controls if the images are produced as horizontal or vertical pages. Default is \code{FALSE}.
 #' @param song Character string with the name of the column to used as a label a for higher 
 #' organization level in the song (similar to 'song_colm' in \code{\link{song_param}}). If supplied then lines above the selections belonging to the same
-#' 'song' are plotted. Ignored if 'X' is not provided. 
+#' 'song' are plotted. Ignored if 'X' is not provided.
+#' @param suffix Character vector of length 1. Suffix for the output image file (to be added at the end of the default file name). Default is \code{NULL}.
 #' @param ... Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in \code{\link[grDevices]{png}}.
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
@@ -95,7 +96,7 @@
 #last modification on mar-13-2018 (MAS)
 
 lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, ...) {
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, suffix = NULL, ...) {
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -322,7 +323,7 @@ lspec <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = s
     #loop over pages 
     no.out <- lapply(1 : ceiling(dur / (li * sl)), function(j)  
       {
-      img_wrlbr_int(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-p", j, ".", it), path = path, units = "in", horizontal = horizontal, ...) 
+      img_wrlbr_int(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-", suffix, "-p", j, ".", it), path = path, units = "in", horizontal = horizontal, ...) 
       
       # set number of rows
       mfrow <- c(li, 1)

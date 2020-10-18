@@ -125,7 +125,7 @@
     <p><code>rm_channels</code> remove channels in wave files</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rm_channels</span>(<span class='kw'>files</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>channels</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>pb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>rm_channels</span><span class='op'>(</span>files <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>channels</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,20 +171,24 @@ and original files are not modified.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='fixwavs.html'>fixwavs</a></code>, <code><a href='rm_sil.html'>rm_sil</a></code>,</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'># save sound file examples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Phae.long1"</span>)
-<span class='no'>Phae.long1.2</span> <span class='kw'>&lt;-</span> <span class='fu'>stereo</span>(<span class='no'>Phae.long1</span>, <span class='no'>Phae.long1</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span><span class='op'>)</span>
+<span class='va'>Phae.long1.2</span> <span class='op'>&lt;-</span> <span class='fu'>stereo</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='va'>Phae.long1</span><span class='op'>)</span>
 
-<span class='fu'>writeWave</span>(<span class='no'>Phae.long1.2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"Phae.long1.2.wav"</span>))
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1.2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.2.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>rm_channels</span>(<span class='kw'>channels</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='fu'>rm_channels</span><span class='op'>(</span>channels <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>#check this floder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-}</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++                                               | 6 % ~00s            |++++++                                            | 12% ~00s            |+++++++++                                         | 18% ~00s            |++++++++++++                                      | 24% ~00s            |+++++++++++++++                                   | 29% ~00s            |++++++++++++++++++                                | 35% ~00s            |+++++++++++++++++++++                             | 41% ~00s            |++++++++++++++++++++++++                          | 47% ~00s            |+++++++++++++++++++++++++++                       | 53% ~00s            |++++++++++++++++++++++++++++++                    | 59% ~00s            |+++++++++++++++++++++++++++++++++                 | 65% ~00s            |++++++++++++++++++++++++++++++++++++              | 71% ~00s            |+++++++++++++++++++++++++++++++++++++++           | 76% ~00s            |++++++++++++++++++++++++++++++++++++++++++        | 82% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++     | 88% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++  | 94% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [1] "/tmp/Rtmp8RcLVb"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++                                               | 6 % ~00s            |++++++                                            | 12% ~00s            |+++++++++                                         | 18% ~00s            |++++++++++++                                      | 24% ~00s            |+++++++++++++++                                   | 29% ~00s            |++++++++++++++++++                                | 35% ~00s            |+++++++++++++++++++++                             | 41% ~00s            |++++++++++++++++++++++++                          | 47% ~00s            |+++++++++++++++++++++++++++                       | 53% ~00s            |++++++++++++++++++++++++++++++                    | 59% ~00s            |+++++++++++++++++++++++++++++++++                 | 65% ~00s            |++++++++++++++++++++++++++++++++++++              | 71% ~00s            |+++++++++++++++++++++++++++++++++++++++           | 76% ~00s            |++++++++++++++++++++++++++++++++++++++++++        | 82% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++     | 88% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++  | 94% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [1] "/tmp/RtmpnDtlDC"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -201,7 +205,7 @@ and original files are not modified.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
