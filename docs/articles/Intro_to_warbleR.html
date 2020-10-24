@@ -48,8 +48,20 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="divider">
+    <li class="dropdown-header">warbleR intro</li>
+    <li class="divider">
+    <li>
+      <a href="../articles/index.html">More...</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -72,7 +84,8 @@
 
       
 
-      </header><script src="Intro_to_warbleR_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="Intro_to_warbleR_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="Intro_to_warbleR_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="Intro_to_warbleR_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip><center>
@@ -83,7 +96,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2020-10-18”
+“2020-10-23”
 </center></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/Intro_to_warbleR.Rmd"><code>vignettes/Intro_to_warbleR.Rmd</code></a></small>
@@ -2719,11 +2732,11 @@ Phae.long4.wav_3-1
 
 
 <span class="co"># load packages</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/">microbenchmark</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">microbenchmark</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="co"># check performance</span>
-<span class="va">mbmrk.snr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span>extended <span class="op">=</span> <span class="fu"><a href="../reference/sig2noise.html">sig2noise</a></span><span class="op">(</span><span class="va">lng_ext_st</span>, 
+<span class="va">mbmrk.snr</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="op">(</span>extended <span class="op">=</span> <span class="fu"><a href="../reference/sig2noise.html">sig2noise</a></span><span class="op">(</span><span class="va">lng_ext_st</span>, 
       mar <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>, regular <span class="op">=</span> <span class="fu"><a href="../reference/sig2noise.html">sig2noise</a></span><span class="op">(</span><span class="va">lng.selec.table</span>, 
                     mar <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
 
@@ -3842,17 +3855,17 @@ define global parameters for warbleR functions
 <p> </p>
 <hr>
 <p><font size="4">Session information</font></p>
-<pre><code>R version 4.0.2 (2020-06-22)
+<pre><code>R version 4.0.3 (2020-10-10)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 20.04 LTS
+Running under: Ubuntu 20.04.1 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0
 LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0
 
 locale:
- [1] LC_CTYPE=pt_BR.UTF-8       LC_NUMERIC=C               LC_TIME=es_CR.UTF-8       
- [4] LC_COLLATE=pt_BR.UTF-8     LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=pt_BR.UTF-8   
+ [1] LC_CTYPE=pt_PT.UTF-8       LC_NUMERIC=C               LC_TIME=es_CR.UTF-8       
+ [4] LC_COLLATE=pt_PT.UTF-8     LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=pt_PT.UTF-8   
  [7] LC_PAPER=es_CR.UTF-8       LC_NAME=C                  LC_ADDRESS=C              
 [10] LC_TELEPHONE=C             LC_MEASUREMENT=es_CR.UTF-8 LC_IDENTIFICATION=C       
 
@@ -3864,12 +3877,12 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] rstudioapi_0.11   magrittr_1.5      MASS_7.3-53       rjson_0.2.20      R6_2.4.1         
- [6] ragg_0.4.0        rlang_0.4.8       pbapply_1.4-3     stringr_1.4.0     tools_4.0.2      
-[11] parallel_4.0.2    xfun_0.18         dtw_1.22-3        htmltools_0.5.0   systemfonts_0.3.2
-[16] yaml_2.2.1        assertthat_0.2.1  digest_0.6.25     rprojroot_1.3-2   pkgdown_1.6.1    
+ [6] ragg_0.4.0        rlang_0.4.8       pbapply_1.4-3     stringr_1.4.0     tools_4.0.3      
+[11] parallel_4.0.3    xfun_0.18         dtw_1.22-3        htmltools_0.5.0   systemfonts_0.3.2
+[16] yaml_2.2.1        assertthat_0.2.1  digest_0.6.26     rprojroot_1.3-2   pkgdown_1.6.1    
 [21] crayon_1.3.4      textshaping_0.1.2 bitops_1.0-6      fs_1.5.0          RCurl_1.98-1.2   
-[26] signal_0.7-6      memoise_1.1.0     evaluate_0.14     rmarkdown_2.4     proxy_0.4-24     
-[31] stringi_1.5.3     compiler_4.0.2    desc_1.2.0        backports_1.1.10  fftw_1.0-6       </code></pre>
+[26] signal_0.7-6      memoise_1.1.0     evaluate_0.14     rmarkdown_2.5     proxy_0.4-24     
+[31] stringi_1.5.3     compiler_4.0.3    desc_1.2.0        backports_1.1.10  fftw_1.0-6       </code></pre>
 </div>
   </div>
 

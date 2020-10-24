@@ -48,8 +48,20 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="divider">
+    <li class="dropdown-header">warbleR intro</li>
+    <li class="divider">
+    <li>
+      <a href="../articles/index.html">More...</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -72,7 +84,8 @@
 
       
 
-      </header><script src="warbleR_workflow_03_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="warbleR_workflow_03_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="warbleR_workflow_03_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="warbleR_workflow_03_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip><center>
@@ -86,7 +99,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2020-10-18”
+“2020-10-23”
 </center></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/warbleR_workflow_03.Rmd"><code>vignettes/warbleR_workflow_03.Rmd</code></a></small>
@@ -103,7 +116,7 @@
 <p> </p>
 <!-- <center> <h1><b>Acoustic (dis)similarity and coordinated singing</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2020-10-18 </center> -->
+<!-- <center> 2020-10-23 </center> -->
 <div id="bioacoustics-in-r-with-warbler" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
@@ -410,7 +423,7 @@ Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 <span class="co"># Plot the 2 first PCs</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, 
      cex <span class="op">=</span> <span class="fl">1</span>, xlab <span class="op">=</span> <span class="st">"PC1"</span>, ylab <span class="op">=</span> <span class="st">"PC2"</span><span class="op">)</span></pre></div>
-<pre><code>Warning in plot.xy(xy, type, ...): NAs introduzidos por coerção</code></pre>
+<pre><code>Warning in plot.xy(xy, type, ...): NAs introduced by coercion</code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="co"># Add recordings/individuals labels </span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">params</span><span class="op">$</span><span class="va">sound.files</span>, <span class="va">mean</span><span class="op">)</span>
@@ -443,7 +456,7 @@ Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span>, 
 pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">songtype</span><span class="op">)</span><span class="op">)</span>, 
      cex <span class="op">=</span> <span class="fl">1</span>, xlab <span class="op">=</span> <span class="st">"PC1"</span>, ylab <span class="op">=</span> <span class="st">"PC2"</span><span class="op">)</span></pre></div>
-<pre><code>Warning in plot.xy(xy, type, ...): NAs introduzidos por coerção</code></pre>
+<pre><code>Warning in plot.xy(xy, type, ...): NAs introduced by coercion</code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="co"># Add song type labels </span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">songtype</span>, <span class="va">mean</span><span class="op">)</span>

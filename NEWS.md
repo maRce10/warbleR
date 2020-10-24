@@ -5,6 +5,7 @@
 * 'suffix'argument added to `lspec()`
 * `autodetec()` does not create image files with spectrograms any more
 * new arguments added to `autodetec()`: 'hold.time' for merging selections, 'reduce.size' for decreasing envelope size, 'amp.outliers' to remove amplitude outliers and 'bottom.line' to reset percentile use as lowest amplitude value
+* error when having "songs" across multiple files in `song_param()`
 
 # *warbleR 1.1.24*
 

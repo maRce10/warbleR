@@ -83,7 +83,8 @@ writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 
 # add a 'song' column
-lbh_selec_table$song <- rep(1:4, each = 3)[1:11]
+lbh_selec_table$song <- c("song1", "song1", "song1", "song2", 
+  "song2", "song3", "song3", "song3", "song4", "song4", "song4")
 
 # measure acoustic parameters
 sp <- specan(lbh_selec_table[1:8, ], bp = c(1, 11), 300, fast = TRUE, path = tempdir())

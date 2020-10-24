@@ -62,7 +62,8 @@
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
 #' # add a 'song' column
-#' lbh_selec_table$song <- rep(1:4, each = 3)[1:11]
+#' lbh_selec_table$song <- c("song1", "song1", "song1", "song2", 
+#'   "song2", "song3", "song3", "song3", "song4", "song4", "song4")
 #' 
 #' # measure acoustic parameters
 #' sp <- specan(lbh_selec_table[1:8, ], bp = c(1, 11), 300, fast = TRUE, path = tempdir())
@@ -149,12 +150,14 @@ song_param <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm 
   
   if (!is.null(elm_colm) & !is.null(elm_fun) & if(!is.null(elm_fun)) !is.function(get(as.character(quote(elm_fun)))) else FALSE) stop("'elm_fun' not found")
   
-  
   if (song_colm == "sound.files") {
     X$song <- X$sound.files
     song_colm <- "song"
     }
   
+  # stop if any song is found in more than 1 sound file
+  if (any(tapply(X$sound.files, X$song, function(x) length(unique(x))) > 1))
+   stop("At least 1 'song' is found in multiple sound files, which is not allowed. \n Try `tapply(X$sound.files, X$song, function(x) length(unique(x)))` to find 'problematic' songs (those higher than 1)")  
   
   if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
