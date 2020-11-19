@@ -4,10 +4,10 @@
 \alias{envelope}
 \title{Calculates the absolute amplitude envelope}
 \usage{
-envelope(wave, ssmooth = 0)
+envelope(x, ssmooth = 0)
 }
 \arguments{
-\item{wave}{Numeric vector with amplitude values. Required.}
+\item{x}{Numeric vector with amplitude values. Required.}
 
 \item{ssmooth}{Numeric vector of length 1 indicating the size of the sliding window use to smooth envelopes. Default is 0 (no smoothing).}
 }

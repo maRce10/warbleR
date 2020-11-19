@@ -3,8 +3,8 @@
 using namespace Rcpp;
 
 //' @title Calculates the absolute amplitude envelope
-//' @usage envelope(wave, ssmooth = 0)
-//' @param wave Numeric vector with amplitude values. Required.
+//' @usage envelope(x, ssmooth = 0)
+//' @param x Numeric vector with amplitude values. Required.
 //' @param ssmooth Numeric vector of length 1 indicating the size of the sliding window use to smooth envelopes. Default is 0 (no smoothing).
 //' @return An amplitude envelope.
 //' @export
@@ -38,14 +38,14 @@ double media (NumericVector amp_v,int indice, int length){
 }
 
 // [[Rcpp::export]]
-NumericVector envelope(NumericVector wave, int ssmooth = 0){
+NumericVector envelope(NumericVector x, int ssmooth = 0){
     //Saca el tama;o del vector
-    int tam = wave.size();
+    int tam = x.size();
     NumericVector abs_amp_v(tam);
     
     //Saca el valor absoluto del vector
     for (int index = 0; index < tam; index++){
-      abs_amp_v[index] = abs(wave[index]);
+      abs_amp_v[index] = abs(x[index]);
     }
     
     double half_ssmooth = ceil(ssmooth / 2.0);

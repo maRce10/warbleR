@@ -6,14 +6,14 @@
 using namespace Rcpp;
 
 // envelope
-NumericVector envelope(NumericVector wave, int ssmooth);
-RcppExport SEXP _warbleR_envelope(SEXP waveSEXP, SEXP ssmoothSEXP) {
+NumericVector envelope(NumericVector x, int ssmooth);
+RcppExport SEXP _warbleR_envelope(SEXP xSEXP, SEXP ssmoothSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type wave(waveSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type ssmooth(ssmoothSEXP);
-    rcpp_result_gen = Rcpp::wrap(envelope(wave, ssmooth));
+    rcpp_result_gen = Rcpp::wrap(envelope(x, ssmooth));
     return rcpp_result_gen;
 END_RCPP
 }

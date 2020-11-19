@@ -414,15 +414,18 @@ autodetec <-
           # extract envelope
           envp <-
             warbleR::envelope(
-              wave = amp_vector,
+              x = amp_vector,
               ssmooth = ssmooth
             )
 
-          # flat edges
-          # if (envp[1] < min(envp)) envp[1:min(which(envp >= min(envp)))] <- min(envp)
-          #   
-          # if (envp[length(envp)] < min(envp)) envp[max(which(envp >= min(envp))):length(envp)] <- min(envp)
-              
+          # flat edges (first and last 100 ms) if lower than lowest amp value
+          if (length(envp) > f / 5) {
+            min.envp <- min(envp[(f / 10):(length(envp) - f / 5)]) 
+            
+            if (envp[1] < min.envp) envp[1:min(which(envp >= min.envp))] <-min.envp
+  
+            if (envp[length(envp)] < min.envp) envp[max(which(envp >= min.envp)):length(envp)] <- min.envp
+          }        
           # force to be in the range 0-1
           envp <- envp - min(envp)
           envp <- envp / max(envp)

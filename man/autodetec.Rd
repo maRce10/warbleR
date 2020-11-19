@@ -112,7 +112,7 @@ This function determines the start and end of signals in the sound file selectio
    data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the \code{\link[seewave]{timer}} function from seewave package to detect signals.
 }
 \examples{
-\dontrun{
+{
 # Save to temporary working directory
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))

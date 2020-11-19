@@ -196,32 +196,22 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     if (type == 1)
     {    # Calculate mean noise amplitude 
       if (before)   
-        noisamp <- mean(warbleR::envelope(noise1)) else
-          noisamp <- mean(c(warbleR::envelope(noise1), 
-                            warbleR::envelope(noise2)))
-        # noisamp <- mean(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
-        #   noisamp <- mean(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
-        #                     seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
-        # 
+        noisamp <- mean(warbleR::envelope(x = noise1)) else
+          noisamp <- mean(c(warbleR::envelope(x= noise1), 
+                            warbleR::envelope(x = noise2)))
+
         # Calculate mean signal amplitude 
         sigamp <- mean(warbleR::envelope(signal))
-        # sigamp <- mean(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
         }
     
     if (type %in% 2:3)
     {    # Calculate mean noise amplitude 
       if (before)   
-        noisamp <- seewave::rms(warbleR::envelope(noise1)) else
-          noisamp <- seewave::rms(c(warbleR::envelope(noise1), 
-                                    warbleR::envelope(noise2)))
+        noisamp <- seewave::rms(warbleR::envelope(x = noise1)) else
+          noisamp <- seewave::rms(c(warbleR::envelope(x = noise1), 
+                                    warbleR::envelope(x = noise2)))
         
-        sigamp <- seewave::rms(warbleR::envelope(signal))
-      
-        # noisamp <- seewave::rms(seewave::env(noise1, f = f, envt = "abs", plot = FALSE)) else
-        #   noisamp <- seewave::rms(c(seewave::env(noise1, f = f, envt = "abs", plot = FALSE), 
-        #                             seewave::env(noise2, f = f, envt = "abs", plot = FALSE)))
-        # 
-        # sigamp <- seewave::rms(seewave::env(signal, f = f, envt = "abs", plot = FALSE))
+        sigamp <- seewave::rms(warbleR::envelope(x = signal))
         
       if (type == 3)
         sigamp <- sigamp - noisamp
