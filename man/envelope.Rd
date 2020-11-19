@@ -21,7 +21,7 @@ Calculates the absolute amplitude envelope
 The function calculates the absolute amplitude envelope of an amplitude vector using compiled C code which is usually several times faster.
 }
 \examples{
-\dontrun{
+{
 data(tico)
 
 amp_env <- envelope(tico@left, ssmooth = 100)

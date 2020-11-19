@@ -9,9 +9,9 @@
 #' @export
 #' @name envelope
 #' @details The function calculates the absolute amplitude envelope of an amplitude vector using compiled C code which is usually several times faster.
-#' @seealso \code{\link[seewave]{env}}.  
-#' @examples
-#' \dontrun{
+#' @seealso \code{\link[seewave]{env}}.
+#' @rawNamespace useDynLib(warbleR)  
+#' @examples{
 #' data(tico)
 #' 
 #' amp_env <- envelope(tico@left, ssmooth = 100)

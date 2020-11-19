@@ -1,10 +1,16 @@
 # *warbleR 1.1.25*
 
+
+## New functions:
+
+* 'envelope()' a C-compiled version of 'seewave::env()'
+* new function 'find_peaks()' to detect signals on sound files using 'xcorr()' output
+
 ## Changes and additions:
 
-* 'suffix'argument added to `lspec()`
+* 'suffix' argument added to `lspec()`
 * `autodetec()` does not create image files with spectrograms any more
-* new arguments added to `autodetec()`: 'hold.time' for merging selections, 'reduce.size' for decreasing envelope size, 'amp.outliers' to remove amplitude outliers and 'bottom.line' to reset percentile use as lowest amplitude value
+* new arguments added to `autodetec()`: 'hold.time' for merging selections, 'thinning' for decreasing envelope size
 * error when having "songs" across multiple files in `song_param()`
 
 # *warbleR 1.1.24*

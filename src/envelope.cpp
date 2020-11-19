@@ -10,9 +10,9 @@ using namespace Rcpp;
 //' @export
 //' @name envelope
 //' @details The function calculates the absolute amplitude envelope of an amplitude vector using compiled C code which is usually several times faster.
-//' @seealso \code{\link[seewave]{env}}.  
-//' @examples
-//' \dontrun{
+//' @seealso \code{\link[seewave]{env}}.
+//' @rawNamespace useDynLib(warbleR)  
+//' @examples{
 //' data(tico)
 //' 
 //' amp_env <- envelope(tico@left, ssmooth = 100)
@@ -48,7 +48,7 @@ NumericVector envelope(NumericVector wave, int ssmooth = 0){
       abs_amp_v[index] = abs(wave[index]);
     }
     
-    double half_ssmooth = ssmooth / 2.0;
+    double half_ssmooth = ceil(ssmooth / 2.0);
     
     //smoothing
     if (ssmooth != 0){
@@ -65,29 +65,18 @@ NumericVector envelope(NumericVector wave, int ssmooth = 0){
       
       for(int index = 0; index < tam; index++){
         
-        if(index+1 - abs(ceil(half_ssmooth)) > 0){
-            strt= index;
-        }
-        else{
-          if(index+1 - abs(ceil(half_ssmooth)) == 0){
-            strt = 0;
-          }
-          else{
-            strt = abs(index+2 - ceil(half_ssmooth));
-          }
+        if(index - half_ssmooth > 0){
+            strt = index - half_ssmooth;
         }
         
         //Final del vecindario
-        int end = 0;
+        int end = tam-1;
         
-        if (ceil(abs(index+1 + (half_ssmooth))) < tam){
-          end = ceil(abs(index + (half_ssmooth)));
+        if (index + half_ssmooth < tam){
+          end = index + half_ssmooth;
         }
-        else{
-          end = tam-1;
-        }
-        
-        smooth_abs_amp_v[index+1] = media(abs_amp_v, strt, end);
+
+        smooth_abs_amp_v[index] = media(abs_amp_v, strt, end);
       }
       
       return smooth_abs_amp_v;

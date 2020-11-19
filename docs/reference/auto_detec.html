@@ -97,10 +97,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
-    <li class="dropdown-header">warbleR intro</li>
-    <li class="divider"></li>
+    <li class="dropdown-header">vignettes</li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/Intro_to_warbleR.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
     </li>
   </ul>
 </li>
@@ -139,14 +147,21 @@
 
     <pre class="usage"><span class='fu'>auto_detec</span><span class='op'>(</span>
   X <span class='op'>=</span> <span class='cn'>NULL</span>,
-  threshold <span class='op'>=</span> <span class='fl'>15</span>,
-  envt <span class='op'>=</span> <span class='st'>"abs"</span>,
-  ssmooth <span class='op'>=</span> <span class='cn'>NULL</span>,
-  msmooth <span class='op'>=</span> <span class='cn'>NULL</span>,
-  power <span class='op'>=</span> <span class='fl'>1</span>,
-  bp <span class='op'>=</span> <span class='cn'>NULL</span>,
-  osci <span class='op'>=</span> <span class='cn'>NULL</span>,
   wl <span class='op'>=</span> <span class='fl'>512</span>,
+  threshold <span class='op'>=</span> <span class='fl'>15</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  power <span class='op'>=</span> <span class='fl'>1</span>,
+  output <span class='op'>=</span> <span class='st'>"data.frame"</span>,
+  thinning <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>10</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  ssmooth <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bp <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flist <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>hold.time</span>,
+  envt <span class='op'>=</span> <span class='cn'>NULL</span>,
+  msmooth <span class='op'>=</span> <span class='cn'>NULL</span>,
+  osci <span class='op'>=</span> <span class='cn'>NULL</span>,
   xl <span class='op'>=</span> <span class='cn'>NULL</span>,
   picsize <span class='op'>=</span> <span class='cn'>NULL</span>,
   res <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -160,18 +175,9 @@
   img <span class='op'>=</span> <span class='cn'>NULL</span>,
   it <span class='op'>=</span> <span class='cn'>NULL</span>,
   set <span class='op'>=</span> <span class='cn'>NULL</span>,
-  flist <span class='op'>=</span> <span class='cn'>NULL</span>,
   smadj <span class='op'>=</span> <span class='cn'>NULL</span>,
-  parallel <span class='op'>=</span> <span class='fl'>1</span>,
-  path <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
   pal <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fast.spec <span class='op'>=</span> <span class='cn'>NULL</span>,
-  output <span class='op'>=</span> <span class='st'>"data.frame"</span>,
-  reduce.size <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>10</span>,
-  <span class='va'>hold.time</span>,
-  amp.outliers <span class='op'>=</span> <span class='cn'>NULL</span>,
-  bottom.line <span class='op'>=</span> <span class='cn'>NULL</span>
+  fast.spec <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
 

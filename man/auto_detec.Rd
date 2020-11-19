@@ -6,14 +6,21 @@
 \usage{
 auto_detec(
   X = NULL,
-  threshold = 15,
-  envt = "abs",
-  ssmooth = NULL,
-  msmooth = NULL,
-  power = 1,
-  bp = NULL,
-  osci = NULL,
   wl = 512,
+  threshold = 15,
+  parallel = 1,
+  power = 1,
+  output = "data.frame",
+  thinning = 1/10,
+  path = NULL,
+  pb = TRUE,
+  ssmooth = NULL,
+  bp = NULL,
+  flist = NULL,
+  hold.time,
+  envt = NULL,
+  msmooth = NULL,
+  osci = NULL,
   xl = NULL,
   picsize = NULL,
   res = NULL,
@@ -27,18 +34,9 @@ auto_detec(
   img = NULL,
   it = NULL,
   set = NULL,
-  flist = NULL,
   smadj = NULL,
-  parallel = 1,
-  path = NULL,
-  pb = TRUE,
   pal = NULL,
-  fast.spec = NULL,
-  output = "data.frame",
-  reduce.size = 1/10,
-  hold.time,
-  amp.outliers = NULL,
-  bottom.line = NULL
+  fast.spec = NULL
 )
 }
 \description{

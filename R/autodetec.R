@@ -1,32 +1,23 @@
 #'
 #' \code{autodetec} automatically detects the start and end of vocalizations in sound files based
 #' on amplitude, duration, and frequency range attributes.
-#' @usage autodetec(X = NULL, threshold = 15, envt = "abs", ssmooth = NULL, msmooth = NULL,
-#'   power = 1, bp = NULL, osci = NULL, wl = 512, xl = NULL, picsize = NULL, res = NULL,
-#'   flim = NULL, ls = NULL, sxrow = NULL, rows = NULL, mindur = NULL, maxdur =
-#'   NULL, redo = NULL, img = NULL, it = NULL, set = NULL, flist = NULL, smadj = NULL,
-#'   parallel = 1, path = NULL, pb = TRUE, pal = NULL,
-#'   fast.spec = NULL, output = "data.frame", reduce.size = 1/10, hold.time,  
-#'   amp.outliers = NULL, bottom.line = NULL)
+#' @usage autodetec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1, 
+#'    output = 'data.frame', thinning = 1/10, path = NULL,pb = TRUE, ssmooth = NULL, 
+#'    bp = NULL, flist = NULL, hold.time, envt = NULL, msmooth = NULL, osci = NULL, 
+#'    xl = NULL, picsize = NULL, res = NULL, flim = NULL, ls = NULL, sxrow = NULL, 
+#'    rows = NULL, mindur = NULL, maxdur = NULL, redo = NULL, img = NULL, it = NULL, 
+#'    set = NULL, smadj = NULL, pal = NULL, fast.spec = NULL)
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If provided the detection will be conducted only within
 #' the selections in 'X'.
 #' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting
 #'   signals (in \%).
-#' @param envt Character vector of length 1 specifying the type of envelope to
-#'   be used: "abs" for absolute amplitude envelope or "hil" for Hilbert
-#'   amplitude envelope. Default is "abs".
+#' @param envt DEPRECATED.
 #' @param ssmooth A numeric vector of length 1 to smooth the amplitude envelope
 #'   with a sum smooth function. Default is NULL.
-#' @param msmooth A numeric vector of length 2 to smooth the amplitude envelope
-#'   with a mean sliding window. The first component is the window length and
-#'   the second is the overlap between successive windows (in \%). Faster than ssmooth but time detection is
-#'   much less accurate. Will be deprecated in future versions. Default is NULL.
-#' @param power A numeric vector of length 1 indicating a power factor applied
-#'   to the amplitude envelope. Increasing power will reduce low amplitude
-#'   modulations and increase high amplitude modulations, in order to reduce
-#'   background noise. Default is 1 (no change).
+#' @param msmooth DEPRECATED.
+#' @param power A numeric vector of length 1 indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change).
 #' @param bp Numeric vector of length 2 giving the lower and upper limits of a
 #'   frequency bandpass filter (in kHz). Default is c(0, 22).
 #' @param osci DEPRECATED.
@@ -51,11 +42,7 @@
 #' @param set DEPRECATED.
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
-#' @param smadj adjustment for amplitude smoothing. Character vector of length one indicating whether start end
-#' values should be adjusted. "start", "end" or "both" are the inputs admitted by this argument. Amplitude
-#' smoothing through ssmooth generates a predictable deviation from the actual start and end positions of the signals,
-#' determined by the threshold and ssmooth values. This deviation is more obvious (and problematic) when the
-#' increase and decrease in amplitude at the start and end of the signal (respectively) is not gradual. Ignored if ssmooth is \code{NULL}.
+#' @param smadj DEPRECATED.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located.
@@ -64,14 +51,12 @@
 #' @param pal DEPRECATED.
 #' @param fast.spec DEPRECATED.
 #' @param output Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.
-#' @param reduce.size Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
+#' @param thinning Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
 #' samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
 #' than those needed to accurately represent amplitude variation in time, which affects the size of the
 #' output (usually very large R objects / files). Default is  \code{1 / 10} (a tenth of the original envelope
 #' length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using \code{\link[stats]{approx}}. 
 #' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.
-#' @param amp.outliers Numeric vector of length 2 specifying the percentile cutoff (i.e. in the range \code{c(0, 100)}) to remove amplitude outliers (defined as amplitude values too low or too high compared to the overall amplitude distribution of the envelopes). For instance removing the 5\% amplitude outliers is defined by \code{c(2.5, 97.5)} (lowest 2.5\% + highest 2.5\%). This can help "normalizing" the range of amplitude values, so 'outliers' do not bias the distribution. Default is \code{NULL}.
-#' @param bottom.line Numeric argument of length 1. Controls whether the bottom line of amplitude is set to a percentile of the amplitude distribution (not the percentage of the amplitude range as in 'threshold'). If used then the new bottom line is added to the 'threshold' provided (i.e. new threshold = threshold + bottom.line). Default is \code{NULL}.  
 #' @return A data frame containing the start and end of each signal by
 #'   sound file and selection number. If 'output = "list"' then a list including 1) a detection data frame, 2) amplitude envelopes and 3) parameters will be return. An additional column 'org.selec' is added when 'X' is provided (so detection can be traced back to the selections in 'X').
 #' @export
@@ -83,8 +68,7 @@
 #'    working directory or the path to the sound files should be provided using the 'path' argument. The input
 #'    data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the \code{\link[seewave]{timer}} function from seewave package to detect signals.
 #'
-#' @examples
-#' \dontrun{
+#' @examples{
 #' # Save to temporary working directory
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
@@ -92,13 +76,8 @@
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
-#' ad <- autodetec(threshold = 5, env = "hil", ssmooth = 300, power = 1,
+#' ad <- autodetec(threshold = 5, ssmooth = 300,
 #' bp = c(2, 9), wl = 300, path = tempdir())
-#'
-#' #run it with different settings
-#' ad <- autodetec(threshold = 90, env = "abs", ssmooth = 300, power = 1, 
-#' bp=c(2,9), wl = 300, mindur = 0.1, maxdur = 1, path = tempdir())
-#'
 #' }
 #'
 #' @references {
@@ -106,18 +85,25 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}). Implements a
 #' modified version of the timer function from seewave.
-#last modification on jul-5-2016 (MAS)
+#last modification on nov-18-2020 (MAS)
 
 autodetec <-
   function(X = NULL,
-           threshold = 15,
-           envt = "abs",
-           ssmooth = NULL,
-           msmooth = NULL,
-           power = 1,
-           bp = NULL,
-           osci = NULL,
            wl = 512,
+           threshold = 15,
+           parallel = 1,
+           power = 1,
+           output = 'data.frame',
+           thinning = 1/10,
+           path = NULL,
+           pb = TRUE,
+           ssmooth = NULL,
+           bp = NULL,
+           flist = NULL,
+           hold.time,
+           envt = NULL,
+           msmooth = NULL,
+           osci = NULL,
            xl = NULL,
            picsize = NULL,
            res = NULL,
@@ -131,18 +117,9 @@ autodetec <-
            img = NULL,
            it = NULL,
            set = NULL,
-           flist = NULL,
            smadj = NULL,
-           parallel = 1,
-           path = NULL,
-           pb = TRUE,
            pal = NULL,
-           fast.spec = NULL,
-           output = 'data.frame',
-           reduce.size = 1/10,
-           hold.time,
-           amp.outliers = NULL,
-           bottom.line = NULL
+           fast.spec = NULL
            ) {
     
     # reset working directory
@@ -194,15 +171,6 @@ autodetec <-
       }
     }
     
-    #if msmooth is not vector or length!=2 stop
-    if (!is.null(msmooth)) {
-      if (!is.vector(msmooth))
-        stop("'msmooth' must be a numeric vector of length 2") else {
-        if (!length(msmooth) == 2)
-          stop("'msmooth' must be a numeric vector of length 2")
-      }
-    }
-    
     #if ssmooth is not vector or length!=1 stop
     if (!is.null(ssmooth)) {
       if (!is.vector(ssmooth))
@@ -247,29 +215,9 @@ autodetec <-
     # set pb options
     pbapply::pboptions(type = ifelse(pb, "timer", "none"))
     
-    #if envt is not vector or length!=1 stop
-    if (any(envt %in% c("abs", "hil"))) {
-      if (!length(envt) == 1)
-        stop("'envt' must be a numeric vector of length 1")
-    } else
-      stop("'envt' must be either 'abs' or 'hil'")
-    
     #stop if power is 0
     if (power == 0)
       stop("'power' cannot equal to 0")
-    
-    if (!is.null(msmooth))
-      smo <-
-      msmooth[1] else {
-      if (!is.null(ssmooth))
-        smo <- ssmooth else
-        smo <- 0
-    }
-    
-    #if smadj argument is not "start" "end" or "both"
-    if (!is.null(smadj))
-      if (!any(smadj == "start", smadj == "end", smadj == "both"))
-        stop(paste("smooth adjustment", smadj, "not allowed"))
     
     if (!is.null(X)) {
       
@@ -364,6 +312,15 @@ autodetec <-
       }
     
     # message deprecated
+    if (!is.null(smadj))
+      write(file = "", x = "'smadj' has been deprecated")
+ 
+    if (!is.null(envt))
+      write(file = "", x = "'envt' has been deprecated. Only absolute envelopes can be used now")
+    
+    if (!is.null(msmooth))
+      write(file = "", x = "'msmooth' has been deprecated. Only 'ssmooth' is available for smoothing")
+    
     if (!is.null(img))
       write(file = "", x = "'img' has been deprecated. Use full_spec() to create images from autodetec() output")
     
@@ -411,17 +368,15 @@ autodetec <-
                wl,
                bp,
                envt,
-               reduce.size,
+               thinning,
                threshold,
-               msmooth,
                ssmooth,
                mindur,
                maxdur,
                output,
                power,
-               X.class,
-               amp.outliers,
-               bottom.line)
+               X.class
+               )
       {
         
         # set threshold as proportion
@@ -458,16 +413,21 @@ autodetec <-
           
           # extract envelope
           envp <-
-            seewave::env(
+            warbleR::envelope(
               wave = amp_vector,
-              f = f,
-              msmooth = msmooth,
-              ssmooth = ssmooth,
-              envt = envt,
-              norm = TRUE,
-              plot = FALSE
+              ssmooth = ssmooth
             )
-          
+
+          # flat edges
+          # if (envp[1] < min(envp)) envp[1:min(which(envp >= min(envp)))] <- min(envp)
+          #   
+          # if (envp[length(envp)] < min(envp)) envp[max(which(envp >= min(envp))):length(envp)] <- min(envp)
+              
+          # force to be in the range 0-1
+          envp <- envp - min(envp)
+          envp <- envp / max(envp)
+          envp <- matrix(envp, ncol = 1)
+
         } 
         
         # if autodetec output
@@ -485,29 +445,14 @@ autodetec <-
           f <- nrow(envp) / (X$end[i] - X$start[i])
         }
           
-          if (!is.null(amp.outliers)) {
-            
-            # get amplitude values at which outliers are found
-            quant_outliers <- stats::quantile(envp[ , 1], amp.outliers / 100)
-            
-            # fix outliers  
-            envp[envp[ , 1] < min(quant_outliers), 1] <- min(quant_outliers)
-            envp[envp[ , 1] > max(quant_outliers), 1] <- max(quant_outliers)
-            
-            # recalcate to a range c(0, 1)
-            envp[ , 1] <- (envp[ , 1] - min(envp[ , 1])) / 
-                                      max(envp[ , 1] - min(envp[ , 1]))
-            
-          }
-          
-          if (!is.null(reduce.size)) {
+          if (!is.null(thinning)) {
             
             # reduce size of envelope
             app_env <-
               stats::approx(
                 x = seq(0,  X$end[i] - X$start[i], length.out = nrow(envp)),
                 y = envp[, 1],
-                n = round(nrow(envp) * reduce.size),
+                n = round(nrow(envp) * thinning),
                 method = "linear"
               )$y
             
@@ -515,13 +460,10 @@ autodetec <-
             envp <- matrix(data = app_env, ncol = 1)
             
             n <- nrow(envp)
-            f <- f * reduce.size
+            f <- f * thinning
           }
         
-        # change bottom line percentile  
-        if (!is.null(bottom.line))       
-          thres <- thres + stats::quantile(envp[ , 1], bottom.line / 100)
-        
+
         
           #### detection ####
           # get original number of samples
@@ -529,8 +471,11 @@ autodetec <-
           f1 <- f * (n1 / n)
           
           # add power
-          if (power != 1)
+          if (power != 1){
             envp <- envp ^ power
+            envp <- envp / max(envp)
+            }
+          
           
           # get binary values if above or below threshold
           binary_treshold <- ifelse(envp <= thres, yes = 1, no = 2)
@@ -611,9 +556,8 @@ autodetec <-
               end = NA
             )
 
-        #remove duration column
-        # detec_tab$duration <- NULL
         
+          
         if (output == "data.frame")
           # return data frame or list
           return(detec_tab) else {
@@ -628,8 +572,6 @@ autodetec <-
               )
             )
            
-            if (!is.null(bottom.line)) output_list$bottom.line.threshold <- thres * 100
-             
             return(output_list)
           }
 
@@ -652,17 +594,15 @@ autodetec <-
               wl,
               bp,
               envt,
-              reduce.size,
+              thinning,
               threshold,
-              msmooth,
               ssmooth,
               mindur,
               maxdur,
               output,
               power,
-              X.class,
-              amp.outliers,
-              bottom.line)
+              X.class
+              )
       }
     )
     
@@ -677,38 +617,17 @@ autodetec <-
       
       if (!xprov)
         envelopes$org.selec <- NULL
-      
-      # save bottom.lined threshold
-      if (!is.null(bottom.line)) {
-        bottom.line.thresholds <- sapply(ad, '[[', 3)
-      names(bottom.line.thresholds) <- paste(X$sound.files, X$selec, sep = "-")
-      }
     }
    
      #rename rows
     rownames(detections) <- 1:nrow(detections)
-    
-    #adjust time coordinates based on known deviance when using ssmooth
-    if (!is.null(ssmooth) & !is.null(smadj))
-    {
-      if (smadj == "start" |
-          smadj == "both")
-        detections$start <-
-          detections$start - ((threshold * 2.376025e-07) - 1.215234e-05) * ssmooth
-      if (smadj == "end" |
-          smadj == "both")
-        detections$end <-
-          detections$end - ((threshold * -2.369313e-07) + 1.215129e-05) * ssmooth
-    }
-    
-    # detections <- results
     
     # remove org.selec if X was not provided
     if (!xprov)
     detections$org.selec <- NULL
     
     # merge selections based on hold time
-    if (!missing(hold.time) & !anyNA(detections$start)) {
+    if (!missing(hold.time) & nrow(detections) > 1) {
       
       # detections$end <- detections$end + hold.time
       detections$ovlp.sels <- NA
@@ -717,6 +636,7 @@ autodetec <-
       # calculate overlapping selection after adding hope time
       for(e in 1:(nrow(detections) - 1)) {
         # if overlap
+      if (detections$sound.files[e] == detections$sound.files[e + 1])
         if (detections$end[e] + hold.time >= detections$start[e + 1]) 
           if (all(is.na(detections$ovlp.sels))) detections$ovlp.sels[c(e, e + 1)] <- 1 else # return 1 if is the first overlap
             if (is.na(detections$ovlp.sels[e])) # if current is NA add 1
@@ -772,8 +692,6 @@ autodetec <-
         parameters = lapply(call.argms, eval),
         org.selection.table = X
       )
-      
-      if (!is.null(bottom.line)) output_list$bottom.line.thresholds <- bottom.line.thresholds
       
       # add class autodetec
       class(output_list) <- c("list", "autodetec.output")
