@@ -159,9 +159,12 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
+# @importFrom huxtable theme_basic as_hux set_text_color
+# @importFrom crayon silver bold cyan italic red
 #' @importFrom methods formalArgs new is slotNames
 #' @importFrom dtw dtwDist
 #' @importFrom Rcpp evalCpp
+#' @importFrom Rcpp sourceCpp
 #' @importFrom stats cor dist aggregate approx ave prcomp time ts predict smooth.spline complete.cases spline weighted.mean na.omit var sd rlnorm fft
 #' 
 #' @author Marcelo Araya-Salas & Grace Smith Vidaurre

@@ -98,10 +98,18 @@ are provided." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
-    <li class="dropdown-header">warbleR intro</li>
-    <li class="divider"></li>
+    <li class="dropdown-header">vignettes</li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/Intro_to_warbleR.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
     </li>
   </ul>
 </li>
@@ -321,7 +329,7 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
 <span class='co'># measuring harmonic-related parameters using progress bar</span>
 <span class='va'>sp_param</span> <span class='op'>&lt;-</span> <span class='fu'>specan</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>,<span class='op'>]</span>, harmonicity <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++                                           | 12% ~12s            |+++++++++++++                                     | 25% ~10s            |+++++++++++++++++++                               | 38% ~08s            |+++++++++++++++++++++++++                         | 50% ~06s            |++++++++++++++++++++++++++++++++                  | 62% ~04s            |++++++++++++++++++++++++++++++++++++++            | 75% ~02s            |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~01s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=09s  </div><div class='input'>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++                                           | 12% ~11s            |+++++++++++++                                     | 25% ~10s            |+++++++++++++++++++                               | 38% ~08s            |+++++++++++++++++++++++++                         | 50% ~05s            |++++++++++++++++++++++++++++++++                  | 62% ~04s            |++++++++++++++++++++++++++++++++++++++            | 75% ~02s            |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~01s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=08s  </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

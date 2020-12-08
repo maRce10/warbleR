@@ -97,10 +97,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="divider"></li>
-    <li class="dropdown-header">warbleR intro</li>
-    <li class="divider"></li>
+    <li class="dropdown-header">vignettes</li>
     <li>
-      <a href="../articles/index.html">More...</a>
+      <a href="../articles/Intro_to_warbleR.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
     </li>
   </ul>
 </li>
@@ -240,7 +248,7 @@ Sound files should be in the working directory (or the directory provided in 'pa
 <span class='fu'>checksels</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt; 3 selection(s) are not OK </div><div class='output co'>#&gt;       sound.files channel selec     start       end bottom.freq  top.freq
+#&gt; all selections are OK </div><div class='output co'>#&gt;       sound.files channel selec     start       end bottom.freq  top.freq
 #&gt; 1  Phae.long1.wav       1     1 1.1693549 1.3423884    2.220105  8.604378
 #&gt; 2  Phae.long1.wav       1     2 2.1584085 2.3214565    2.169437  8.807053
 #&gt; 3  Phae.long1.wav       1     3 0.3433366 0.5182553    2.218294  8.756604
@@ -252,30 +260,30 @@ Sound files should be in the working directory (or the directory provided in 'pa
 #&gt; 9  Phae.long4.wav       1     1 1.5168116 1.6622365    2.513997  9.216586
 #&gt; 10 Phae.long4.wav       1     2 2.9326920 3.0768784    2.579708 10.235116
 #&gt; 11 Phae.long4.wav       1     3 0.1453977 0.2904966    2.579708  9.742279
-#&gt;    sel.comment rec.comment            check.res  duration min.n.samples
-#&gt; 1          c24          NA                   OK 0.1730334          3893
-#&gt; 2          c25          NA                   OK 0.1630480          3668
-#&gt; 3          c26          NA                   OK 0.1749187          3935
-#&gt; 4          c27          NA                   OK 0.1325709          2982
-#&gt; 5          c28          NA                   OK 0.1261502          2838
-#&gt; 6          c29          NA                   OK 0.1312195          2952
-#&gt; 7          c30          NA                   OK 0.1301789          2929
-#&gt; 8          c31          NA                   OK 0.1312170          2952
-#&gt; 9          c32          NA sound file not found        NA            NA
-#&gt; 10         c33          NA sound file not found        NA            NA
-#&gt; 11         c34          NA sound file not found        NA            NA
-#&gt;    sample.rate channels bits sound.file.samples
-#&gt; 1         22.5        1   16              56251
-#&gt; 2         22.5        1   16              56251
-#&gt; 3         22.5        1   16              56251
-#&gt; 4         22.5        1   16              38251
-#&gt; 5         22.5        1   16              38251
-#&gt; 6         22.5        1   16              49500
-#&gt; 7         22.5        1   16              49500
-#&gt; 8         22.5        1   16              49500
-#&gt; 9           NA       NA   NA                 NA
-#&gt; 10          NA       NA   NA                 NA
-#&gt; 11          NA       NA   NA                 NA</div></pre>
+#&gt;    sel.comment rec.comment check.res  duration min.n.samples sample.rate
+#&gt; 1          c24          NA        OK 0.1730334          3893        22.5
+#&gt; 2          c25          NA        OK 0.1630480          3668        22.5
+#&gt; 3          c26          NA        OK 0.1749187          3935        22.5
+#&gt; 4          c27          NA        OK 0.1325709          2982        22.5
+#&gt; 5          c28          NA        OK 0.1261502          2838        22.5
+#&gt; 6          c29          NA        OK 0.1312195          2952        22.5
+#&gt; 7          c30          NA        OK 0.1301789          2929        22.5
+#&gt; 8          c31          NA        OK 0.1312170          2952        22.5
+#&gt; 9          c32          NA        OK 0.1454249          3272        22.5
+#&gt; 10         c33          NA        OK 0.1441864          3244        22.5
+#&gt; 11         c34          NA        OK 0.1450989          3264        22.5
+#&gt;    channels bits sound.file.samples
+#&gt; 1         1   16              56251
+#&gt; 2         1   16              56251
+#&gt; 3         1   16              56251
+#&gt; 4         1   16              38251
+#&gt; 5         1   16              38251
+#&gt; 6         1   16              49500
+#&gt; 7         1   16              49500
+#&gt; 8         1   16              49500
+#&gt; 9         1   16              72000
+#&gt; 10        1   16              72000
+#&gt; 11        1   16              72000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -2,27 +2,47 @@
 #' \code{autodetec} automatically detects the start and end of vocalizations in sound files based
 #' on amplitude, duration, and frequency range attributes.
 #' @usage autodetec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1, 
-#'    output = 'data.frame', thinning = 1/10, path = NULL,pb = TRUE, ssmooth = NULL, 
-#'    bp = NULL, flist = NULL, hold.time, envt = NULL, msmooth = NULL, osci = NULL, 
-#'    xl = NULL, picsize = NULL, res = NULL, flim = NULL, ls = NULL, sxrow = NULL, 
-#'    rows = NULL, mindur = NULL, maxdur = NULL, redo = NULL, img = NULL, it = NULL, 
+#'    output = 'data.frame', thinning = 1/10, path = NULL, pb = TRUE, ssmooth = 0, 
+#'    bp = NULL, flist = NULL, hold.time, mindur = NULL, maxdur = NULL, envt = NULL,
+#'    msmooth = NULL, osci = NULL, xl = NULL, picsize = NULL, res = NULL, flim = NULL, 
+#'    ls = NULL, sxrow = NULL, rows = NULL,  redo = NULL, img = NULL, it = NULL, 
 #'    set = NULL, smadj = NULL, pal = NULL, fast.spec = NULL)
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If provided the detection will be conducted only within
 #' the selections in 'X'.
-#' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting
-#'   signals (in \%).
-#' @param envt DEPRECATED.
-#' @param ssmooth A numeric vector of length 1 to smooth the amplitude envelope
-#'   with a sum smooth function. Default is NULL.
-#' @param msmooth DEPRECATED.
-#' @param power A numeric vector of length 1 indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change).
-#' @param bp Numeric vector of length 2 giving the lower and upper limits of a
-#'   frequency bandpass filter (in kHz). Default is c(0, 22).
-#' @param osci DEPRECATED.
 #' @param wl A numeric vector of length 1 specifying the window used by internally
 #' \code{\link[seewave]{ffilter}} for bandpass filtering. Default is 512.
+#' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting
+#'   signals (in \%).
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+#' @param power A numeric vector of length 1 indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change).
+#' @param output Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.
+#' @param thinning Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
+#' samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
+#' than those needed to accurately represent amplitude variation in time, which affects the size of the
+#' output (usually very large R objects / files). Default is  \code{1 / 10} (a tenth of the original envelope
+#' length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using \code{\link[stats]{approx}}. 
+#' @param path Character string containing the directory path where the sound files are located.
+#' If \code{NULL} (default) then the current working directory is used.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
+#' @param ssmooth A numeric vector of length 1 to smooth the amplitude envelope
+#'   with a sum smooth function. Default is 0.
+#' @param bp Numeric vector of length 2 giving the lower and upper limits of a
+#'   frequency bandpass filter (in kHz). Default is c(0, 22).
+#' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
+#' if X is provided.
+#' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.
+#' @param mindur Numeric vector of length 1 giving the shortest duration (in
+#'   seconds) of the signals to be detected. It removes signals below that
+#'   threshold.
+#' @param maxdur Numeric vector of length 1 giving the longest duration (in
+#'   seconds) of the signals to be detected. It removes signals above that
+#'   threshold.
+#' @param osci DEPRECATED.
+#' @param msmooth DEPRECATED.
+#' @param envt DEPRECATED.
 #' @param xl DEPRECATED
 #' @param picsize DEPRECATED
 #' @param res DEPRECATED
@@ -30,33 +50,16 @@
 #' @param ls DEPRECATED
 #' @param sxrow DEPRECATED
 #' @param rows DEPRECATED
-#' @param mindur Numeric vector of length 1 giving the shortest duration (in
-#'   seconds) of the signals to be detected. It removes signals below that
-#'   threshold.
-#' @param maxdur Numeric vector of length 1 giving the longest duration (in
-#'   seconds) of the signals to be detected. It removes signals above that
-#'   threshold.
 #' @param redo DEPRECATED.
 #' @param img DEPRECATED.
 #' @param it DEPRECATED.
 #' @param set DEPRECATED.
-#' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
-#' if X is provided.
+
 #' @param smadj DEPRECATED.
-#' @param parallel Numeric. Controls whether parallel computing is applied.
-#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' @param path Character string containing the directory path where the sound files are located.
-#' If \code{NULL} (default) then the current working directory is used.
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param pal DEPRECATED.
 #' @param fast.spec DEPRECATED.
-#' @param output Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.
-#' @param thinning Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
-#' samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
-#' than those needed to accurately represent amplitude variation in time, which affects the size of the
-#' output (usually very large R objects / files). Default is  \code{1 / 10} (a tenth of the original envelope
-#' length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using \code{\link[stats]{approx}}. 
-#' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.
+
+
 #' @return A data frame containing the start and end of each signal by
 #'   sound file and selection number. If 'output = "list"' then a list including 1) a detection data frame, 2) amplitude envelopes and 3) parameters will be return. An additional column 'org.selec' is added when 'X' is provided (so detection can be traced back to the selections in 'X').
 #' @export
@@ -97,10 +100,12 @@ autodetec <-
            thinning = 1/10,
            path = NULL,
            pb = TRUE,
-           ssmooth = NULL,
+           ssmooth = 0,
            bp = NULL,
            flist = NULL,
            hold.time,
+           mindur = NULL,
+           maxdur = NULL,
            envt = NULL,
            msmooth = NULL,
            osci = NULL,
@@ -111,8 +116,6 @@ autodetec <-
            ls = NULL,
            sxrow = NULL,
            rows = NULL,
-           mindur = NULL,
-           maxdur = NULL,
            redo = NULL,
            img = NULL,
            it = NULL,
@@ -172,14 +175,12 @@ autodetec <-
     }
     
     #if ssmooth is not vector or length!=1 stop
-    if (!is.null(ssmooth)) {
       if (!is.vector(ssmooth))
         stop("'ssmooth' must be a numeric vector of length 1") else {
         if (!length(ssmooth) == 1)
           stop("'ssmooth' must be a numeric vector of length 1")
       }
-    }
-    
+
     #if wl is not vector or length!=1 stop
     if (is.null(wl))
       stop("'wl' must be a numeric vector of length 1") else {
@@ -225,7 +226,7 @@ autodetec <-
       if (is(X, "autodetec.output")) {
         
         X.class <- "autodetec.output"
-      write(file = "", x = "Working on an 'autodetec.output' object")
+      if(pb) write(file = "", x = "Working on an 'autodetec.output' object")
       
       xprov <- TRUE
       
@@ -441,13 +442,20 @@ autodetec <-
           envp <- envelopes[envelopes$sound.files == X$sound.files[i], ] else
             envp <- envelopes[envelopes$sound.files == X$sound.files[i] & envelopes$org.selec == X$org.selec[i], ] 
           
+          # set sample rate
+          f <- nrow(envp) / (X$end[i] - X$start[i])
+          
+          if (ssmooth > 0)
+            warbleR::envelope(x = envp$amplitude, ssmooth = ssmooth)
+          
           # convert to matrix of 1 column as the output of env()
           envp <- matrix(data = envp$amplitude, ncol = 1)
           
-          # set sample rate
-          f <- nrow(envp) / (X$end[i] - X$start[i])
-        }
           
+        }
+        
+        n <- nrow(envp)
+        
           if (!is.null(thinning)) {
             
             # reduce size of envelope
@@ -462,11 +470,8 @@ autodetec <-
             # back into a 1 column matrix
             envp <- matrix(data = app_env, ncol = 1)
             
-            n <- nrow(envp)
             f <- f * thinning
           }
-        
-
         
           #### detection ####
           # get original number of samples
@@ -525,11 +530,11 @@ autodetec <-
           detec_tab <-
             data.frame(
               sound.files = X$sound.files[i],
-              duration = ends - starts,
+              duration = if(length(starts) > 0) ends - starts else NA,
               org.selec = X$selec[i], # this one allows to relate to segments in a segmented sound file n X (several selection for the same sound file)
               selec = NA,
-              start = starts,
-              end = ends
+              start = if(length(starts) > 0) starts else NA,
+              end = if(length(ends) > 0) ends else NA
             )
           
           

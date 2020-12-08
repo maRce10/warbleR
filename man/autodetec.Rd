@@ -6,10 +6,10 @@
 on amplitude, duration, and frequency range attributes.}
 \usage{
 autodetec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1, 
-   output = 'data.frame', thinning = 1/10, path = NULL,pb = TRUE, ssmooth = NULL, 
-   bp = NULL, flist = NULL, hold.time, envt = NULL, msmooth = NULL, osci = NULL, 
-   xl = NULL, picsize = NULL, res = NULL, flim = NULL, ls = NULL, sxrow = NULL, 
-   rows = NULL, mindur = NULL, maxdur = NULL, redo = NULL, img = NULL, it = NULL, 
+   output = 'data.frame', thinning = 1/10, path = NULL, pb = TRUE, ssmooth = 0, 
+   bp = NULL, flist = NULL, hold.time, mindur = NULL, maxdur = NULL, envt = NULL,
+   msmooth = NULL, osci = NULL, xl = NULL, picsize = NULL, res = NULL, flim = NULL, 
+   ls = NULL, sxrow = NULL, rows = NULL,  redo = NULL, img = NULL, it = NULL, 
    set = NULL, smadj = NULL, pal = NULL, fast.spec = NULL)
 }
 \arguments{
@@ -43,7 +43,7 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{ssmooth}{A numeric vector of length 1 to smooth the amplitude envelope
-with a sum smooth function. Default is NULL.}
+with a sum smooth function. Default is 0.}
 
 \item{bp}{Numeric vector of length 2 giving the lower and upper limits of a
 frequency bandpass filter (in kHz). Default is c(0, 22).}
@@ -52,6 +52,14 @@ frequency bandpass filter (in kHz). Default is c(0, 22).}
 if X is provided.}
 
 \item{hold.time}{Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.}
+
+\item{mindur}{Numeric vector of length 1 giving the shortest duration (in
+seconds) of the signals to be detected. It removes signals below that
+threshold.}
+
+\item{maxdur}{Numeric vector of length 1 giving the longest duration (in
+seconds) of the signals to be detected. It removes signals above that
+threshold.}
 
 \item{envt}{DEPRECATED.}
 
@@ -72,14 +80,6 @@ if X is provided.}
 \item{sxrow}{DEPRECATED}
 
 \item{rows}{DEPRECATED}
-
-\item{mindur}{Numeric vector of length 1 giving the shortest duration (in
-seconds) of the signals to be detected. It removes signals below that
-threshold.}
-
-\item{maxdur}{Numeric vector of length 1 giving the longest duration (in
-seconds) of the signals to be detected. It removes signals above that
-threshold.}
 
 \item{redo}{DEPRECATED.}
 
