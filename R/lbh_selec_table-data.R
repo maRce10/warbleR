@@ -13,8 +13,6 @@
 #'  \item{end}{end times of selected signal}
 #'  \item{bottom.freq}{lower limit of frequency range}
 #'  \item{top.freq}{upper limit of frequency range}
-#'  \item{sel.comment}{selection comments}
-#'  \item{rec.comment}{recording comments}
 #' }
 #' 
 #' @usage data(lbh_selec_table)

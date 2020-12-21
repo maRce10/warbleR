@@ -2,8 +2,8 @@
 #' \code{autodetec} automatically detects the start and end of vocalizations in sound files based
 #' on amplitude, duration, and frequency range attributes.
 #' @usage autodetec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1, 
-#'    output = 'data.frame', thinning = 1/10, path = NULL, pb = TRUE, ssmooth = 0, 
-#'    bp = NULL, flist = NULL, hold.time, mindur = NULL, maxdur = NULL, envt = NULL,
+#'    output = 'data.frame', thinning = 1, path = NULL, pb = TRUE, ssmooth = 0, 
+#'    bp = NULL, flist = NULL, hold.time = 0, mindur = NULL, maxdur = NULL, envt = NULL,
 #'    msmooth = NULL, osci = NULL, xl = NULL, picsize = NULL, res = NULL, flim = NULL, 
 #'    ls = NULL, sxrow = NULL, rows = NULL,  redo = NULL, img = NULL, it = NULL, 
 #'    set = NULL, smadj = NULL, pal = NULL, fast.spec = NULL)
@@ -11,29 +11,28 @@
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If provided the detection will be conducted only within
 #' the selections in 'X'.
-#' @param wl A numeric vector of length 1 specifying the window used by internally
-#' \code{\link[seewave]{ffilter}} for bandpass filtering. Default is 512.
+#' @param wl A numeric vector of length 1 specifying the window used internally by
+#' \code{\link[seewave]{ffilter}} for bandpass filtering (so only applied when 'bp' is supplied). Default is 512.
 #' @param threshold A numeric vector of length 1 specifying the amplitude threshold for detecting
 #'   signals (in \%).
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param power A numeric vector of length 1 indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change).
 #' @param output Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.
-#' @param thinning Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
-#' samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
+#' @param thinning Numeric vector of length 1 in the range 0~1 indicating the proportional reduction of the number of
+#' samples used to represent amplitude envelopes (i.e. the thinning of the envelopes). Usually amplitude envelopes have many more samples
 #' than those needed to accurately represent amplitude variation in time, which affects the size of the
-#' output (usually very large R objects / files). Default is  \code{1 / 10} (a tenth of the original envelope
-#' length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using \code{\link[stats]{approx}}. 
+#' output (usually very large R objects / files). Default is  \code{1} (no thinning). Higher sampling rates can afford higher size reduction (e.g. lower thinning values). Reduction is conducted by interpolation using \code{\link[stats]{approx}}. Note that thinning may decrease time precision, and the higher the thinning the less precise the time detection. 
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param ssmooth A numeric vector of length 1 to smooth the amplitude envelope
-#'   with a sum smooth function. Default is 0.
+#'   with a sum smooth function. Default is 0. Note that smoothing is applied before thinning (see 'thinning' argument).
 #' @param bp Numeric vector of length 2 giving the lower and upper limits of a
 #'   frequency bandpass filter (in kHz). Default is c(0, 22).
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
-#' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.
+#' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{0}.
 #' @param mindur Numeric vector of length 1 giving the shortest duration (in
 #'   seconds) of the signals to be detected. It removes signals below that
 #'   threshold.
@@ -54,12 +53,9 @@
 #' @param img DEPRECATED.
 #' @param it DEPRECATED.
 #' @param set DEPRECATED.
-
 #' @param smadj DEPRECATED.
 #' @param pal DEPRECATED.
 #' @param fast.spec DEPRECATED.
-
-
 #' @return A data frame containing the start and end of each signal by
 #'   sound file and selection number. If 'output = "list"' then a list including 1) a detection data frame, 2) amplitude envelopes and 3) parameters will be return. An additional column 'org.selec' is added when 'X' is provided (so detection can be traced back to the selections in 'X').
 #' @export
@@ -97,13 +93,13 @@ autodetec <-
            parallel = 1,
            power = 1,
            output = 'data.frame',
-           thinning = 1/10,
+           thinning = 1,
            path = NULL,
            pb = TRUE,
            ssmooth = 0,
            bp = NULL,
            flist = NULL,
-           hold.time,
+           hold.time = 0,
            mindur = NULL,
            maxdur = NULL,
            envt = NULL,
@@ -127,6 +123,52 @@ autodetec <-
     
     # reset working directory
     on.exit(pbapply::pboptions(type = .Options$pboptions$type))
+    
+    # message deprecated
+    if (!is.null(smadj))
+      write(file = "", x = crayon::silver("'smadj' has been deprecated"))
+    
+    if (!is.null(envt))
+      write(file = "", x = crayon::silver("'envt' has been deprecated. Only absolute envelopes can be used now"))
+    
+    if (!is.null(msmooth))
+      write(file = "", x = crayon::silver("'msmooth' has been deprecated. Only 'ssmooth' is available for smoothing"))
+    
+    if (!is.null(img))
+      write(file = "", x = crayon::silver("'img' has been deprecated. Use full_spec() to create images from autodetec() output"))
+    
+    if (!is.null(xl))
+      write(file = "", x = crayon::silver("'xl' has been deprecated. Use full_spec() to create images from autodetec() output"))
+    
+    if (!is.null(picsize))
+      write(file = "", x = crayon::silver("'picsize' has been deprecated. Use full_spec() to create images from autodetec() output"))
+    
+    if (!is.null(flim))
+      write(file = "", x = crayon::silver("'flim' has been deprecated. Use full_spec() to create images from autodetec() output"))    
+    
+    if (!is.null(rows))
+      write(file = "", x = crayon::silver("'rows' has been deprecated. Use full_spec() to create images from autodetec() output"))  
+    
+    if (!is.null(sxrow))
+      write(file = "", x = crayon::silver("'sxrow' has been deprecated. Use full_spec() to create images from autodetec() output"))    
+    
+    if (!is.null(osci))
+      write(file = "", x = crayon::silver("'osci' has been deprecated. Use full_spec() to create images from autodetec() output"))    
+    
+    if (!is.null(res))
+      write(file = "", x = crayon::silver("'res' has been deprecated. Use full_spec() to create images from autodetec() output"))    
+    
+    if (!is.null(ls))
+      write(file = "", x = crayon::silver("'ls' has been deprecated. Use full_spec() to create images from autodetec() output"))    
+    
+    if (!is.null(redo))
+      write(file = "", x = crayon::silver("'redo' has been deprecated. Use full_spec() to create images from autodetec() output"))
+    
+    if (!is.null(it))
+      write(file = "", x = crayon::silver("'it' has been deprecated. Use full_spec() to create images from autodetec() output"))
+    
+    if (!is.null(set))
+      write(file = "", x = crayon::silver("'set' has been deprecated. Use full_spec() to create images from autodetec() output"))
     
     #### set arguments from options
     # get function arguments
@@ -181,6 +223,12 @@ autodetec <-
           stop("'ssmooth' must be a numeric vector of length 1")
       }
 
+    #if thinning is not vector or length!=1 between 1 and 0
+    if (!is.vector(thinning) | !is.numeric(thinning))
+      stop("'thinning' must be a numeric vector of length 1")
+        if (thinning[1] > 1 | thinning[1] < 0)
+          stop("'thinning' must be a nuber between 0 and 1")
+    
     #if wl is not vector or length!=1 stop
     if (is.null(wl))
       stop("'wl' must be a numeric vector of length 1") else {
@@ -193,6 +241,7 @@ autodetec <-
     
     #if threshold is not vector or length!=1 stop
     if (is.null(threshold))
+      if (!is.numeric(threshold))
       stop("'threshold' must be a numeric vector of length 1") else {
       if (!is.vector(threshold))
         stop("'threshold' must be a numeric vector of length 1") else {
@@ -213,8 +262,9 @@ autodetec <-
     if (any(!(parallel %% 1 == 0), parallel < 1))
       stop("'parallel' should be a positive integer")
     
-    # set pb options
-    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+    # check hold time
+      if (!is.numeric(hold.time))
+        stop("'hold.time' must be a numeric vector of length 1")
     
     #stop if power is 0
     if (power == 0)
@@ -226,8 +276,27 @@ autodetec <-
       if (is(X, "autodetec.output")) {
         
         X.class <- "autodetec.output"
-      if(pb) write(file = "", x = "Working on an 'autodetec.output' object")
       
+        if(pb) 
+        write(file = "", x = crayon::cyan("Working on a 'autodetec.output' object"))
+      
+      # warn if thinning is used twice
+        if (!is.null(X$parameters$thinning))  
+          if(X$parameters$thinning < 1 & thinning < 1) 
+            write(file = "", x = crayon::magenta("'thinning' was already applied when creating 'X'. Keep in mind that when 'thinning' is too high it can affect detection precision"))
+
+        # warn if thinning is used twice
+        if (!is.null(X$parameters$ssmooth))  
+          {
+          if(X$parameters$ssmooth < 1 & !is.null(ssmooth)) 
+            write(file = "", x = crayon::magenta("'smooth' was already applied when creating 'X'. Keep in mind that it won't be a 1:1 relation to amplitude samples any longer"))
+        
+          if (!is.null(X$parameters$thinning))
+          if(X$parameters$thinning < 1 & !is.null(ssmooth)) 
+            write(file = "", x = crayon::magenta("'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer"))
+          }
+        
+      # set variable to state S was provided  
       xprov <- TRUE
       
       } else 
@@ -312,51 +381,9 @@ autodetec <-
       X.class <- "selection.table"   
       }
     
-    # message deprecated
-    if (!is.null(smadj))
-      write(file = "", x = "'smadj' has been deprecated")
- 
-    if (!is.null(envt))
-      write(file = "", x = "'envt' has been deprecated. Only absolute envelopes can be used now")
+    # set pb options
+    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
     
-    if (!is.null(msmooth))
-      write(file = "", x = "'msmooth' has been deprecated. Only 'ssmooth' is available for smoothing")
-    
-    if (!is.null(img))
-      write(file = "", x = "'img' has been deprecated. Use full_spec() to create images from autodetec() output")
-    
-    if (!is.null(xl))
-      write(file = "", x = "'xl' has been deprecated. Use full_spec() to create images from autodetec() output")
-    
-    if (!is.null(picsize))
-      write(file = "", x = "'picsize' has been deprecated. Use full_spec() to create images from autodetec() output")
-    
-    if (!is.null(flim))
-      write(file = "", x = "'flim' has been deprecated. Use full_spec() to create images from autodetec() output")    
-    
-    if (!is.null(rows))
-      write(file = "", x = "'rows' has been deprecated. Use full_spec() to create images from autodetec() output")    
-    
-    if (!is.null(sxrow))
-      write(file = "", x = "'sxrow' has been deprecated. Use full_spec() to create images from autodetec() output")    
-    
-    if (!is.null(osci))
-      write(file = "", x = "'osci' has been deprecated. Use full_spec() to create images from autodetec() output")    
-    
-    if (!is.null(res))
-      write(file = "", x = "'res' has been deprecated. Use full_spec() to create images from autodetec() output")    
-    
-    if (!is.null(ls))
-      write(file = "", x = "'ls' has been deprecated. Use full_spec() to create images from autodetec() output")    
-    
-    if (!is.null(redo))
-      write(file = "", x = "'redo' has been deprecated. Use full_spec() to create images from autodetec() output")
-    
-    if (!is.null(it))
-      write(file = "", x = "'it' has been deprecated. Use full_spec() to create images from autodetec() output")
-    
-    if (!is.null(set))
-      write(file = "", x = "'set' has been deprecated. Use full_spec() to create images from autodetec() output")
     
     # if parallel was not called
     if (pb)
@@ -454,8 +481,7 @@ autodetec <-
           
         }
         
-        n <- nrow(envp)
-        
+         # thin
           if (!is.null(thinning)) {
             
             # reduce size of envelope
@@ -470,15 +496,13 @@ autodetec <-
             # back into a 1 column matrix
             envp <- matrix(data = app_env, ncol = 1)
             
-            f <- f * thinning
+            f <- (X$end[i] - X$start[i]) / nrow(envp)
           }
+        n <- nrow(envp)
         
           #### detection ####
-          # get original number of samples
-          n1 <- length(envp)
-          f1 <- f * (n1 / n)
           
-          # add power
+        # add power
           if (power != 1){
             envp <- envp ^ power
             envp <- envp / max(envp)
@@ -508,7 +532,8 @@ autodetec <-
              start = X$start[i],
              end =  X$end[i],
              frequency = length(cross) / ( X$end[i] - X$start[i]))
-          
+          # frequency = f)
+
           starts <- time(cross_ts)[cross_ts == "u"]
           ends <- time(cross_ts)[cross_ts == "d"]
           
@@ -635,7 +660,7 @@ autodetec <-
     detections$org.selec <- NULL
     
     # merge selections based on hold time
-    if (!missing(hold.time) & nrow(detections) > 1) {
+    if (hold.time > 0 & nrow(detections) > 1) {
       
       # detections$end <- detections$end + hold.time
       detections$ovlp.sels <- NA
@@ -683,13 +708,13 @@ autodetec <-
         # add non-overlapping selections
         detections <- rbind(ovlp, no_ovlp)
         
-        # remove extra column
-        detections$ovlp.sels <- NULL
-        
         # order selections by sound file and time
         detections <- detections[order(detections$sound.files, detections$start), ]
       } else detections <- no_ovlp # if not return non-overlapping
     }
+    
+    # remove extra column
+    detections$ovlp.sels <- NULL
     
     # output as data frame or list
     if (output == "data.frame")

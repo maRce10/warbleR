@@ -228,7 +228,7 @@ measurements (i.e. song parameters). Names of numeric columns in 'X' can also be
 <li><p><code>bottom.freq</code>: lowest 'bottom.freq' from all song elements (in kHz)</p></li>
 <li><p><code>top.freq</code>: highest 'top.freq' from all song elements (in kHz)</p></li>
 <li><p><code>freq.range</code>: difference between song's 'top.freq' and 'bottom.freq' (in kHz)</p></li>
-<li><p><code>song.rate</code>: number of elements per second (NA if only 1 element)</p></li>
+<li><p><code>song.rate</code>: number of elements per second (NA if only 1 element). Calculated as the number of elements in the 'song' divided by the duration of the song. In this case song duration is calculated as the time between the start of the first element and the start of the last element, which provides a rate that is less affected by the duration of individual elements. Note that this calculation is different than that from 'song.duration' above.</p></li>
 <li><p><code>gap.duration</code>: average length of gaps (i.e. silences) in between elements
    (in s, NA if only 1 element)</p></li>
 <li><p><code>elm.types</code>: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)</p></li>
@@ -295,9 +295,9 @@ mean_colm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/
 #&gt; 2 Phae.long2.wav     1 0.15960 1.5832   8.8880      2.2840 song2 12.2151
 #&gt; 3 Phae.long3.wav     1 0.12336 2.1044   9.3152      2.3169 song3  9.0225
 #&gt;    sp.ent num.elms elm.duration freq.range song.duration song.rate gap.duration
-#&gt; 1 0.93123        3      0.17033     6.6376        1.9781    1.5166     -0.58105
-#&gt; 2 0.92571        2      0.12936     6.6040        1.4236    1.4049      1.16489
-#&gt; 3 0.90834        3      0.13087     6.9983        1.9810    1.5144     -0.38229</div><div class='input'>
+#&gt; 1 0.93123        3      0.17033     6.6376        1.9781    1.6528      0.73356
+#&gt; 2 0.92571        2      0.12936     6.6040        1.4236    1.5415      1.16489
+#&gt; 3 0.90834        3      0.13087     6.9983        1.9810    1.6209      0.79421</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

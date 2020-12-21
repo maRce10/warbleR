@@ -6,8 +6,8 @@
 on amplitude, duration, and frequency range attributes.}
 \usage{
 autodetec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1, 
-   output = 'data.frame', thinning = 1/10, path = NULL, pb = TRUE, ssmooth = 0, 
-   bp = NULL, flist = NULL, hold.time, mindur = NULL, maxdur = NULL, envt = NULL,
+   output = 'data.frame', thinning = 1, path = NULL, pb = TRUE, ssmooth = 0, 
+   bp = NULL, flist = NULL, hold.time = 0, mindur = NULL, maxdur = NULL, envt = NULL,
    msmooth = NULL, osci = NULL, xl = NULL, picsize = NULL, res = NULL, flim = NULL, 
    ls = NULL, sxrow = NULL, rows = NULL,  redo = NULL, img = NULL, it = NULL, 
    set = NULL, smadj = NULL, pal = NULL, fast.spec = NULL)
@@ -18,8 +18,8 @@ for sound file name (sound.files), selection number (selec), and start and end t
 (start and end). If provided the detection will be conducted only within
 the selections in 'X'.}
 
-\item{wl}{A numeric vector of length 1 specifying the window used by internally
-\code{\link[seewave]{ffilter}} for bandpass filtering. Default is 512.}
+\item{wl}{A numeric vector of length 1 specifying the window used internally by
+\code{\link[seewave]{ffilter}} for bandpass filtering (so only applied when 'bp' is supplied). Default is 512.}
 
 \item{threshold}{A numeric vector of length 1 specifying the amplitude threshold for detecting
 signals (in \%).}
@@ -31,11 +31,10 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{output}{Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into \code{\link{lspec}} to explore detections and associated amplitude envelopes.}
 
-\item{thinning}{Numeric vector of length 1 in the range 0-~1 indicating the proportional reduction of the number of
-samples used to represent amplitude envelopes. Usually amplitude envelopes have many more samples
+\item{thinning}{Numeric vector of length 1 in the range 0~1 indicating the proportional reduction of the number of
+samples used to represent amplitude envelopes (i.e. the thinning of the envelopes). Usually amplitude envelopes have many more samples
 than those needed to accurately represent amplitude variation in time, which affects the size of the
-output (usually very large R objects / files). Default is  \code{1 / 10} (a tenth of the original envelope
-length). Use NULL to avoid any reduction. Higher sampling rates can afford higher size reduction. Reduction is conducted by interpolation using \code{\link[stats]{approx}}.}
+output (usually very large R objects / files). Default is  \code{1} (no thinning). Higher sampling rates can afford higher size reduction (e.g. lower thinning values). Reduction is conducted by interpolation using \code{\link[stats]{approx}}. Note that thinning may decrease time precision, and the higher the thinning the less precise the time detection.}
 
 \item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
@@ -43,7 +42,7 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{ssmooth}{A numeric vector of length 1 to smooth the amplitude envelope
-with a sum smooth function. Default is 0.}
+with a sum smooth function. Default is 0. Note that smoothing is applied before thinning (see 'thinning' argument).}
 
 \item{bp}{Numeric vector of length 2 giving the lower and upper limits of a
 frequency bandpass filter (in kHz). Default is c(0, 22).}
@@ -51,7 +50,7 @@ frequency bandpass filter (in kHz). Default is c(0, 22).}
 \item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.}
 
-\item{hold.time}{Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{NULL}.}
+\item{hold.time}{Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{0}.}
 
 \item{mindur}{Numeric vector of length 1 giving the shortest duration (in
 seconds) of the signals to be detected. It removes signals below that

@@ -59,7 +59,7 @@ A data frame similar to the input 'X' data frame, but in this case each row corr
    \item \code{bottom.freq}: lowest 'bottom.freq' from all song elements (in kHz)
    \item \code{top.freq}: highest 'top.freq' from all song elements (in kHz)
    \item \code{freq.range}: difference between song's 'top.freq' and 'bottom.freq' (in kHz)
-   \item \code{song.rate}: number of elements per second (NA if only 1 element)
+   \item \code{song.rate}: number of elements per second (NA if only 1 element). Calculated as the number of elements in the 'song' divided by the duration of the song. In this case song duration is calculated as the time between the start of the first element and the start of the last element, which provides a rate that is less affected by the duration of individual elements. Note that this calculation is different than that from 'song.duration' above.
    \item \code{gap.duration}: average length of gaps (i.e. silences) in between elements
    (in s, NA if only 1 element)
    \item \code{elm.types}: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)
