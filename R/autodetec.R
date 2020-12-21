@@ -469,6 +469,8 @@ autodetec <-
           envp <- envelopes[envelopes$sound.files == X$sound.files[i], ] else
             envp <- envelopes[envelopes$sound.files == X$sound.files[i] & envelopes$org.selec == X$org.selec[i], ] 
           
+          if(nrow(envp) == 0) stop(paste("amplitude envelope not found for ", X$sound.files[i]))
+          
           # set sample rate
           f <- nrow(envp) / (X$end[i] - X$start[i])
           
@@ -487,7 +489,7 @@ autodetec <-
             # reduce size of envelope
             app_env <-
               stats::approx(
-                x = seq(0,  X$end[i] - X$start[i], length.out = nrow(envp)),
+                x = seq(0, X$end[i] - X$start[i], length.out = nrow(envp)),
                 y = envp[, 1],
                 n = round(nrow(envp) * thinning),
                 method = "linear"
