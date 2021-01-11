@@ -2,11 +2,11 @@
 #' 
 #' \code{resample_est} changes sampling rate and bit depth of wave objects in a extended selection table.
 #' @usage resample_est(X, samp.rate = 44.1, bit.depth = 16,
-#' sox = FALSE, avoid.clip = TRUE, pb = FALSE, parallel = 1)
+#'  avoid.clip = TRUE, pb = FALSE, parallel = 1)
 #' @param X object of class 'extended_selection_table' (see \code{\link{selection_table}}).
 #' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
 #' @param bit.depth Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
-#' @param sox Logical to control whether \href{http://sox.sourceforge.net/sox.html}{SOX} is used internally for resampling. Sox must be installed. Default is \code{FALSE}. \href{http://sox.sourceforge.net/sox.html}{SOX} is a better option if having aliasing issues after resampling.
+# #' @param sox Logical to control whether \href{http://sox.sourceforge.net/sox.html}{SOX} is used internally for resampling. Sox must be installed. Default is \code{FALSE}. \href{http://sox.sourceforge.net/sox.html}{SOX} is a better option if having aliasing issues after resampling.
 #' @param avoid.clip Logical to control whether the volume is automatically 
 #' adjusted to avoid clipping high amplitude samples when resampling. Ignored if
 #'  '\code{sox = FALSE}. Default is \code{TRUE}.
@@ -18,8 +18,7 @@
 #' @name resample_est
 #' @details This function aims to simplify the process of homogenizing sound 
 #' files (sampling rate and bit depth). This is a necessary step before running 
-#' any further (bio)acoustic analysis. Either \href{http://sox.sourceforge.net/sox.html}{SOX} (if \code{sox = TRUE}) or
-#'  or the \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} (if \code{sox = FALSE}) should be installed.
+#' any further (bio)acoustic analysis. \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed.
 #' @examples
 #' \dontrun{
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec_table"))
@@ -43,12 +42,12 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #' #last modification on oct-15-2018 (MAS)
 
-resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid.clip = TRUE, pb = FALSE, parallel = 1)
+resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE, pb = FALSE, parallel = 1)
 {
   
   # error message if bioacoustics is not installed
-  if (!requireNamespace("bioacoustics",quietly = TRUE) & !sox)
-    stop("must install 'bioacoustics' to use mp32wav() when 'sox = FALSE'")
+  # if (!requireNamespace("bioacoustics",quietly = TRUE) & !sox)
+  #   stop("must install 'bioacoustics' to use mp32wav() when 'sox = FALSE'")
 
   #check bit.depth
   if (length(bit.depth) >1) stop("'bit.depth' should have a single value")
@@ -89,27 +88,27 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-  if (!sox)
-    out <- pbapply::pblapply(attributes(X)$wave.objects, cl = cl, function(x)
-  {
-  
-    if (x@samp.rate != samp.rate * 1000) {
-      
-      # filter first to avoid aliasing when downsampling
-      if (x@samp.rate > samp.rate * 1000)
-      x <- seewave::fir(wave = x , f = x@samp.rate, from = 0, to = samp.rate * 1000 / 2, bandpass = TRUE, output = "Wave")
-      
-     x <- bioacoustics::resample(wave = x, to = samp.rate * 1000)
-      }
-    
-    # normalize 
-    if (bit.depth != x@bit)
-      x <- tuneR::normalize(object = x, unit = bit.depth)
-    
-    return(x)
-    
-    }) else {
-     
+  # if (!sox)
+  #   out <- pbapply::pblapply(attributes(X)$wave.objects, cl = cl, function(x)
+  # {
+  # 
+  #   if (x@samp.rate != samp.rate * 1000) {
+  #     
+  #     # filter first to avoid aliasing when downsampling
+  #     if (x@samp.rate > samp.rate * 1000)
+  #     x <- seewave::fir(wave = x , f = x@samp.rate, from = 0, to = samp.rate * 1000 / 2, bandpass = TRUE, output = "Wave")
+  #     
+  #    x <- warbleR::resample(wave = x, to = samp.rate * 1000)
+  #     }
+  #   
+  #   # normalize 
+  #   if (bit.depth != x@bit)
+  #     x <- tuneR::normalize(object = x, unit = bit.depth)
+  #   
+  #   return(x)
+  #   
+  #   }) else {
+  #    
       
       out <- pbapply::pblapply(attributes(X)$wave.objects, function(x){
         
@@ -139,7 +138,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, sox = FALSE, avoid
         return(x)
         })
      
-  }   
+  # }   
 
   
   # replace with resampled waves

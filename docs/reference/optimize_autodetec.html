@@ -174,8 +174,7 @@ signals (in %). <strong>Several values can be supplied for optimization</strong>
     <tr>
       <th>wl</th>
       <td><p>A numeric vector of length 1 specifying the window used internally by
-<code><a href='https://rdrr.io/pkg/seewave/man/ffilter.html'>ffilter</a></code> for bandpass filtering (so only applied when 'bp' is supplied). Default is 512.
-<strong>Several values can be supplied for optimization</strong>.</p></td>
+<code><a href='https://rdrr.io/pkg/seewave/man/ffilter.html'>ffilter</a></code> for bandpass filtering (so only applied when 'bp' is supplied). Default is 512.</p></td>
     </tr>
     <tr>
       <th>ssmooth</th>
@@ -262,25 +261,26 @@ path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/
 <span class='va'>ad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='autodetec.html'>autodetec</a></span><span class='op'>(</span>output <span class='op'>=</span> <span class='st'>"list"</span>, thinning <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='fl'>10</span>, ssmooth <span class='op'>=</span> <span class='fl'>300</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>optimize_autodetec</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>selec.table</span>, Y <span class='op'>=</span> <span class='va'>ad</span>, threshold <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span><span class='op'>)</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; Detecting signals in sound files:  |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt; <span style='color: #BB00BB;'>'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer</span><span>
-#&gt; </span><span style='color: #BB00BB;'>'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer</span><span>
-#&gt; </span><span style='color: #BB00BB;'>'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer</span><span></div><div class='output co'>#&gt;   threshold  wl power ssmooth hold.time mindur maxdur true.positives
-#&gt; 1         5 512     1       0         0   -Inf    Inf             11
-#&gt; 2        10 512     1       0         0   -Inf    Inf             12
-#&gt; 3        15 512     1       0         0   -Inf    Inf             11
+</div><div class='output co'>#&gt; <span style='color: #00BBBB;'>2 combinations will be evaluated...</span><span>
+#&gt;           0-2
+#&gt; Progress: ||</span><span style='color: #00BBBB;'>3 combinations will be evaluated...</span><span>
+#&gt; </span><span style='color: #00BBBB;'>3 combinations will be evaluated...</span><span>
+#&gt; |</div><div class='output co'>#&gt;   threshold power ssmooth hold.time mindur maxdur true.positives
+#&gt; 1         5     1       0         0   -Inf    Inf             11
+#&gt; 2        10     1       0         0   -Inf    Inf             12
+#&gt; 3        15     1       0         0   -Inf    Inf             11
 #&gt;   false.positives split.positives mean.duration.true.positives
-#&gt; 1              17               0                    0.1502980
-#&gt; 2               7               1                    0.1272606
-#&gt; 3               5               0                    0.1292978
+#&gt; 1              17               0                      0.15030
+#&gt; 2               7               1                      0.12726
+#&gt; 3               5               0                      0.12930
 #&gt;   mean.duration.false.positives proportional.time.true.positives sensitivity
-#&gt; 1                    0.06097825                        1.0434520           1
-#&gt; 2                            NA                        0.9558061           1
-#&gt; 3                            NA                        0.8997366           1
+#&gt; 1                      0.060978                          1.04345           1
+#&gt; 2                            NA                          0.95581           1
+#&gt; 3                            NA                          0.89974           1
 #&gt;   specificity
-#&gt; 1   0.3928571
-#&gt; 2   0.6315789
-#&gt; 3   0.6875000</div><div class='input'>
+#&gt; 1     0.39286
+#&gt; 2     0.63158
+#&gt; 3     0.68750</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

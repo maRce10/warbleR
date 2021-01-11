@@ -153,8 +153,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>samp.rate</th>
-      <td><p>Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
-<code><a href='https://rdrr.io/pkg/bioacoustics/man/resample.html'>resample</a></code> function from the <a href='https://cran.r-project.org/package=bioacoustics'>bioacoustics package</a> (which should be installed), which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the <code><a href='fix_wavs.html'>fix_wavs</a></code> function (which uses <a href='http://sox.sourceforge.net/sox.html'>SOX</a> instead). Default is <code>NULL</code> (e.g. keep original sampling rate).</p></td>
+      <td><p>Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. THIS FEATURE IS CURRENTLY NOT AVAILABLE. However, downsampling can be done after .mp3's have been converted using the <code><a href='fix_wavs.html'>fix_wavs</a></code> function (which uses <a href='http://sox.sourceforge.net/sox.html'>SOX</a> instead). Default is <code>NULL</code> (e.g. keep original sampling rate).</p></td>
     </tr>
     <tr>
       <th>parallel</th>

@@ -21,8 +21,7 @@ signals (in \%). \strong{Several values can be supplied for optimization}.}
 \item{power}{A numeric vector of length 1 indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change). \strong{Several values can be supplied for optimization}.}
 
 \item{wl}{A numeric vector of length 1 specifying the window used internally by
-\code{\link[seewave]{ffilter}} for bandpass filtering (so only applied when 'bp' is supplied). Default is 512.
-\strong{Several values can be supplied for optimization}.}
+\code{\link[seewave]{ffilter}} for bandpass filtering (so only applied when 'bp' is supplied). Default is 512.}
 
 \item{ssmooth}{A numeric vector of length 1 to smooth the amplitude envelope
 with a sum smooth function. Default is 0 (no smoothing).  \strong{Several values can be supplied for optimization}.}

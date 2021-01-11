@@ -146,7 +146,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>fixwavs</span><span class='op'>(</span>checksels <span class='op'>=</span> <span class='cn'>NULL</span>, files <span class='op'>=</span> <span class='cn'>NULL</span>, samp.rate <span class='op'>=</span> <span class='cn'>NULL</span>, bit.depth <span class='op'>=</span> <span class='cn'>NULL</span>,
- path <span class='op'>=</span> <span class='cn'>NULL</span>, mono <span class='op'>=</span> <span class='cn'>FALSE</span>, sox <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+ path <span class='op'>=</span> <span class='cn'>NULL</span>, mono <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,10 +180,6 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
       <th>mono</th>
       <td><p>Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is <code>NULL</code> (remain unchanged).</p></td>
     </tr>
-    <tr>
-      <th>sox</th>
-      <td><p>Logical indicating if <a href='http://sox.sourceforge.net/sox.html'>SOX</a> should be used for resampling. If <code>TRUE</code> SOX must be installed. Default is <code>FALSE</code>.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -196,7 +192,7 @@ sound files in a format that can be imported in R.</p>
 <code><a href='check_sels.html'>check_sels</a></code> output can be directly input using the argument 'checksels'. Alternatively a vector of file 
 names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 all sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
-('converted_sound_files'). Internally the function calls <code><a href='https://rdrr.io/pkg/bioacoustics/man/resample.html'>resample</a></code> or s<a href='http://sox.sourceforge.net/sox.html'>SOX</a> (if 'sox = TRUE', <a href='http://sox.sourceforge.net/sox.html'>SOX</a> must be installed. If  both 'checksels' and 'files' are <code>NULL</code>
+('converted_sound_files'). Internally the function calls <a href='http://sox.sourceforge.net/sox.html'>SOX</a> (if 'sox = TRUE', <a href='http://sox.sourceforge.net/sox.html'>SOX</a> must be installed). If  both 'checksels' and 'files' are <code>NULL</code>
 then all files in 'path' are converted.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

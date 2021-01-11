@@ -291,7 +291,7 @@ checksels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE
     else cat(paste(sum(res$check.res != "OK"), "selection(s) are not OK \n"))
 }
   # return data frame
-  return(res) 
+  res <- res
 }
 
 ##############################################################################################################

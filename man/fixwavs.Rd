@@ -5,7 +5,7 @@
 \title{Fix .wav files to allow importing them into R}
 \usage{
 fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL,
- path = NULL, mono = FALSE, sox = FALSE)
+ path = NULL, mono = FALSE)
 }
 \arguments{
 \item{checksels}{Data frame with results from \code{\link{checksels}}. Default is \code{NULL}. If  both 'checksels' and 'files'  are \code{NULL}
@@ -24,8 +24,6 @@ Default is \code{NULL} (remain unchanged).}
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{mono}{Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{NULL} (remain unchanged).}
-
-\item{sox}{Logical indicating if \href{http://sox.sourceforge.net/sox.html}{SOX} should be used for resampling. If \code{TRUE} SOX must be installed. Default is \code{FALSE}.}
 }
 \value{
 A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
@@ -39,7 +37,7 @@ This function aims to simplify the process of converting sound files that cannot
 \code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
 names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 all sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
-('converted_sound_files'). Internally the function calls \code{\link[bioacoustics]{resample}} or s\href{http://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed. If  both 'checksels' and 'files' are \code{NULL}
+('converted_sound_files'). Internally the function calls \href{http://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed). If  both 'checksels' and 'files' are \code{NULL}
 then all files in 'path' are converted.
 }
 \examples{

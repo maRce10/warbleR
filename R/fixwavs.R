@@ -2,7 +2,7 @@
 #' 
 #' \code{fixwavs} fixes sound files in .wav format so they can be imported into R.
 #' @usage fixwavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL,
-#'  path = NULL, mono = FALSE, sox = FALSE)
+#'  path = NULL, mono = FALSE)
 #' @param checksels Data frame with results from \code{\link{checksels}}. Default is \code{NULL}. If  both 'checksels' and 'files'  are \code{NULL}
 #' then all files in 'path' are converted. 
 #' @param files Character vector with the names of the wav files to fix. Default is \code{NULL}. If  both 'checksels' and 'files'  are \code{NULL}
@@ -14,7 +14,7 @@
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param mono Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{NULL} (remain unchanged).
-#' @param sox Logical indicating if \href{http://sox.sourceforge.net/sox.html}{SOX} should be used for resampling. If \code{TRUE} SOX must be installed. Default is \code{FALSE}. 
+# #' @param sox Logical indicating if \href{http://sox.sourceforge.net/sox.html}{SOX} should be used for resampling. If \code{TRUE} SOX must be installed. Default is \code{FALSE}.
 #' @return  A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
 #' sound files in a format that can be imported in R. 
 #' @export
@@ -23,7 +23,7 @@
 #' \code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
 #' names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 #' all sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
-#' ('converted_sound_files'). Internally the function calls \code{\link[bioacoustics]{resample}} or s\href{http://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed. If  both 'checksels' and 'files' are \code{NULL}
+#' ('converted_sound_files'). Internally the function calls \href{http://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed). If  both 'checksels' and 'files' are \code{NULL}
 #' then all files in 'path' are converted. 
 #'   
 #' @examples
@@ -47,7 +47,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on oct-22-2018 (MAS)
 
-fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL, path = NULL, mono = FALSE, sox = FALSE)
+fixwavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL, path = NULL, mono = FALSE)
 {
 
   # error message if bioacoustics is not installed
@@ -113,32 +113,32 @@ if (!is.null(samp.rate) & is.null(bit.depth)) bit.depth <- 16
 dir.create(file.path(path, "converted_sound_files"), showWarnings = FALSE)
   
 
-fix_bio_FUN <- function(x) {
-
-    # read waves
-    wv <- try(warbleR::read_wave(X = x, path = path), silent = TRUE)
-
-    # downsample and filter if samp.rate different than mp3
-    if(is(wv, "Wave") & !is.null(samp.rate))
-    {
-      if (wv@samp.rate != samp.rate * 1000) {
-
-        # filter first to avoid aliasing
-        if (wv@samp.rate > samp.rate * 1000)
-          wv <- seewave::fir(wave = wv , f = wv@samp.rate, from = 0, to = samp.rate * 1000 / 2, bandpass = TRUE, output = "Wave")
-
-        #downsample
-        wv <- bioacoustics::resample(wave = wv, to = samp.rate * 1000)
-      }
-
-    # normalize
-    wv <- tuneR::normalize(object = wv, unit = as.character(bit.depth))
-    }
-
-    wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, "converted_sound_files", paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
-    
-    return(NULL)
-}
+# fix_bio_FUN <- function(x) {
+# 
+#     # read waves
+#     wv <- try(warbleR::read_wave(X = x, path = path), silent = TRUE)
+# 
+#     # downsample and filter if samp.rate different than mp3
+#     if(is(wv, "Wave") & !is.null(samp.rate))
+#     {
+#       if (wv@samp.rate != samp.rate * 1000) {
+# 
+#         # filter first to avoid aliasing
+#         if (wv@samp.rate > samp.rate * 1000)
+#           wv <- seewave::fir(wave = wv , f = wv@samp.rate, from = 0, to = samp.rate * 1000 / 2, bandpass = TRUE, output = "Wave")
+# 
+#         #downsample
+#         wv <- warbleR::resample(wave = wv, to = samp.rate * 1000)
+#       }
+# 
+#     # normalize
+#     wv <- tuneR::normalize(object = wv, unit = as.character(bit.depth))
+#     }
+# 
+#     wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, "converted_sound_files", paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
+#     
+#     return(NULL)
+# }
 
 
 fix_sox_FUN <- function(x)
@@ -169,9 +169,9 @@ fix_sox_FUN <- function(x)
   out <- system(cll, ignore.stdout = FALSE, intern = TRUE) 
 }
 
-fix_FUN <- if (sox)  fix_sox_FUN else fix_bio_FUN 
+# fix_FUN <- if (sox)  fix_sox_FUN else fix_bio_FUN 
 
-  out <- pbapply::pblapply(fls, fix_FUN)
+  out <- pbapply::pblapply(fls, fix_sox_FUN)
   }
 
 

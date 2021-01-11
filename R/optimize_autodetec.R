@@ -11,7 +11,6 @@
 #' @param power A numeric vector of length 1 indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change). \strong{Several values can be supplied for optimization}.
 #' @param wl A numeric vector of length 1 specifying the window used internally by
 #' \code{\link[seewave]{ffilter}} for bandpass filtering (so only applied when 'bp' is supplied). Default is 512.
-#' \strong{Several values can be supplied for optimization}.
 #' @param ssmooth A numeric vector of length 1 to smooth the amplitude envelope
 #'   with a sum smooth function. Default is 0 (no smoothing).  \strong{Several values can be supplied for optimization}.
 #' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is \code{0}. \strong{Several values can be supplied for optimization}.
@@ -39,7 +38,7 @@
 #'  \item \code{sensitivity}: Proportion of signals referenced in 'X' that were detected. In a perfect detection routine it should be 1.
 #'  \item \code{specificity}: Proportion of detections that correspond to signals referenced in 'X' that were detected. In a perfect detection routine it should be 1.
 #'  } 
-#' @export
+##' @export
 #' @name optimize_autodetec
 #' @details This function takes a selections data frame or 'selection_table' ('X') and the output of a \code{\link{autodetec}} routine ('Y') and estimates the detection performance for different detection parameter combinations. This is done by comparing the position in time of the detection to those of the reference selections in 'X'. The function returns several diagnostic metrics to allow user to determine which parameter values provide a detection that more closely matches the selections in 'X'. Those parameters can be later used for performing a more efficient detection using \code{\link{autodetec}}.
 #'
@@ -83,26 +82,31 @@ optimize_autodetec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512,
   
   
       # get all possible combinations of parameters
-      exp_grd <- expand.grid(threshold = threshold, wl = wl, power = power, ssmooth = ssmooth, hold.time = hold.time, mindur = if(is.null(mindur)) -Inf else mindur, maxdur = if(is.null(maxdur)) Inf else maxdur)
+      exp_grd <- expand.grid(threshold = threshold,power = power, ssmooth = ssmooth, hold.time = hold.time, mindur = if(is.null(mindur)) -Inf else mindur, maxdur = if(is.null(maxdur)) Inf else maxdur)
       
       # warn about number of combinations
-      
+      cat(crayon::cyan(paste(nrow(exp_grd), "combinations will be evaluated...")))
+       cat("\n")
       
       # function to calculate diagnostics  
-      grid_FUN <- function(exp_grd, X, Y){
+      grid_FUN <- function(exp_grd, X, Y, by.sound.file){
         
         # subset to sound files in X
         if (!is.null(Y)){
         Y$selection.table <- Y$selection.table[Y$selection.table$sound.files %in% X$sound.files, ]
         Y$envelopes <- Y$envelopes[Y$envelopes$sound.files %in% X$sound.files, ]
         Y$org.selection.table <- Y$org.selection.table[Y$org.selection.table$sound.files %in% X$sound.files, ]
+        
         # set flist as null
         flist <- NULL
-        } else flist <- unique(as.character(X$sound.files))
+        } else 
+          flist <- unique(as.character(X$sound.files))
         
-        grid_results <- lapply(seq_len(nrow(exp_grd)), function(x){
+        grid_results <- lapply(seq_len(nrow(exp_grd)), function(x, bs = by.sound.file){
           
-          ad <- warbleR::autodetec(X = Y, wl = exp_grd$wl[x], threshold = exp_grd$threshold[x], ssmooth = exp_grd$ssmooth[x], mindur = exp_grd$mindur[x], maxdur = exp_grd$maxdur[x], parallel = parallel, pb = FALSE, power = exp_grd$power[x], hold.time = exp_grd$hold.time[x], bp = bp, path = path, flist = flist)
+          if (!bs) svMisc::progress(value = x, max.value = nrow(exp_grd), progress.bar = TRUE, char ="|")
+      
+          ad <- warbleR::autodetec(X = Y, threshold = exp_grd$threshold[x], ssmooth = exp_grd$ssmooth[x], mindur = exp_grd$mindur[x], maxdur = exp_grd$maxdur[x], parallel = parallel, pb = FALSE, power = exp_grd$power[x], hold.time = exp_grd$hold.time[x], bp = bp, path = path, flist = flist)
           
           ad$..row.id <- 1:nrow(ad)    
           
@@ -151,7 +155,6 @@ optimize_autodetec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512,
          out <-
            data.frame(
              threshold = exp_grd$threshold[x],
-             wl = exp_grd$wl[x],
              power = exp_grd$power[x],
              ssmooth = exp_grd$ssmooth[x],
              hold.time = exp_grd$hold.time[x],
@@ -180,7 +183,6 @@ optimize_autodetec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512,
             out <-
             data.frame(
               threshold = exp_grd$threshold[x],
-              wl = exp_grd$wl[x],
               power = exp_grd$power[x],
               ssmooth = exp_grd$ssmooth[x],
               hold.time = exp_grd$hold.time[x],
@@ -207,14 +209,19 @@ optimize_autodetec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512,
       # run it separate over each sound file
     if (by.sound.file) {
       by.rec <- lapply(unique(X$sound.files), function(w) {
-        W <- grid_FUN(exp_grd, X[X$sound.files == w, ], Y)
+        
+        if (!by.sound.file)   svMisc::progress(value = w, max.value = nrow(exp_grd), progress.bar = TRUE, char = crayon::silver("|"))
+        
+        W <- grid_FUN(exp_grd, X[X$sound.files == w, ], Y, by.sound.file)
+        
         W$sound.files <- w
+        
         return(W)
         })
       
       output <- do.call(rbind, by.rec)
       } else
-        output <- grid_FUN(exp_grd, X, Y)
+        output <- grid_FUN(exp_grd, X, Y, by.sound.file)
       
       return(output)
 }

@@ -146,7 +146,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>resample_est</span><span class='op'>(</span><span class='va'>X</span>, samp.rate <span class='op'>=</span> <span class='fl'>44.1</span>, bit.depth <span class='op'>=</span> <span class='fl'>16</span>,
-sox <span class='op'>=</span> <span class='cn'>FALSE</span>, avoid.clip <span class='op'>=</span> <span class='cn'>TRUE</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+ avoid.clip <span class='op'>=</span> <span class='cn'>TRUE</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,10 +162,6 @@ sox <span class='op'>=</span> <span class='cn'>FALSE</span>, avoid.clip <span cl
     <tr>
       <th>bit.depth</th>
       <td><p>Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.</p></td>
-    </tr>
-    <tr>
-      <th>sox</th>
-      <td><p>Logical to control whether <a href='http://sox.sourceforge.net/sox.html'>SOX</a> is used internally for resampling. Sox must be installed. Default is <code>FALSE</code>. <a href='http://sox.sourceforge.net/sox.html'>SOX</a> is a better option if having aliasing issues after resampling.</p></td>
     </tr>
     <tr>
       <th>avoid.clip</th>
@@ -191,8 +187,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
     <p>This function aims to simplify the process of homogenizing sound 
 files (sampling rate and bit depth). This is a necessary step before running 
-any further (bio)acoustic analysis. Either <a href='http://sox.sourceforge.net/sox.html'>SOX</a> (if <code>sox = TRUE</code>) or
- or the <a href='https://cran.r-project.org/package=bioacoustics'>bioacoustics package</a> (if <code>sox = FALSE</code>) should be installed.</p>
+any further (bio)acoustic analysis. <a href='http://sox.sourceforge.net/sox.html'>SOX</a> must be installed.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>

@@ -10,8 +10,7 @@ fix_wavs(
   samp.rate = NULL,
   bit.depth = NULL,
   path = NULL,
-  mono = FALSE,
-  sox = FALSE
+  mono = FALSE
 )
 }
 \description{

@@ -39,11 +39,11 @@ double media (NumericVector amp_v,int indice, int length){
 
 // [[Rcpp::export]]
 NumericVector envelope(NumericVector x, int ssmooth = 0){
-    //Saca el tama;o del vector
+    //extract vector size
     int tam = x.size();
     NumericVector abs_amp_v(tam);
     
-    //Saca el valor absoluto del vector
+    // get absolute amplitude values
     for (int index = 0; index < tam; index++){
       abs_amp_v[index] = abs(x[index]);
     }
@@ -53,14 +53,14 @@ NumericVector envelope(NumericVector x, int ssmooth = 0){
     //smoothing
     if (ssmooth != 0){
       
-      //crear vector nulo
+      //create null vector
       NumericVector  smooth_abs_amp_v(tam);
     
       for (int index = 0; index < tam; index++){
         smooth_abs_amp_v[index] = 0;
       }
       
-      //Inicio del vecindario
+      // start of smoothing neighborhood
       int strt = 0;
       
       for(int index = 0; index < tam; index++){
@@ -69,7 +69,7 @@ NumericVector envelope(NumericVector x, int ssmooth = 0){
             strt = index - half_ssmooth;
         }
         
-        //Final del vecindario
+        // end of smoothing neighborhood
         int end = tam-1;
         
         if (index + half_ssmooth < tam){

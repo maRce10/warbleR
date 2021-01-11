@@ -13,6 +13,7 @@
 
 ## Changes and additions:
 
+* Remove bioacoustics::resample() as it was deprecated (mp32wav() and fixwavs() affected)
 * Remove comment columns in 'lbh_selec_table'
 * Selection table printing method uses huxtable package for text coloring
 * 'suffix' argument added to `lspec()`

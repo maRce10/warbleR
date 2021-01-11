@@ -281,17 +281,17 @@ autodetec <-
         write(file = "", x = crayon::cyan("Working on a 'autodetec.output' object"))
       
       # warn if thinning is used twice
-        if (!is.null(X$parameters$thinning))  
+        if (!is.null(X$parameters$thinning) & pb)  
           if(X$parameters$thinning < 1 & thinning < 1) 
             write(file = "", x = crayon::magenta("'thinning' was already applied when creating 'X'. Keep in mind that when 'thinning' is too high it can affect detection precision"))
 
         # warn if thinning is used twice
         if (!is.null(X$parameters$ssmooth))  
           {
-          if(X$parameters$ssmooth < 1 & !is.null(ssmooth)) 
+          if(X$parameters$ssmooth < 1 & !is.null(ssmooth) & pb) 
             write(file = "", x = crayon::magenta("'smooth' was already applied when creating 'X'. Keep in mind that it won't be a 1:1 relation to amplitude samples any longer"))
         
-          if (!is.null(X$parameters$thinning))
+          if (!is.null(X$parameters$thinning) & pb)
           if(X$parameters$thinning < 1 & !is.null(ssmooth)) 
             write(file = "", x = crayon::magenta("'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer"))
           }

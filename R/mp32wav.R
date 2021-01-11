@@ -3,8 +3,7 @@
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
 #' @usage mp32wav(samp.rate = NULL, parallel = 1, path = NULL, 
 #'  dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)  
-#' @param samp.rate Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. Downsampling is done using the
-#' \code{\link[bioacoustics]{resample}} function from the \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} (which should be installed), which seems to generate aliasing. This can be avoided by downsampling after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{http://sox.sourceforge.net/sox.html}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).
+#' @param samp.rate Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. THIS FEATURE IS CURRENTLY NOT AVAILABLE. However, downsampling can be done after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{http://sox.sourceforge.net/sox.html}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).
 #' @param parallel Numeric. Controls whether parallel computing is applied. 
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the .mp3 files are located.   
@@ -115,13 +114,14 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
    if(is(wv, "Wave") & !is.null(samp.rate))
    {
      if (wv@samp.rate != samp.rate * 1000) {
-      
-      # filter first to avoid aliasing 
-       if (wv@samp.rate > samp.rate * 1000)
-      wv <- seewave::fir(wave = wv , f = wv@samp.rate, from = 0, to = samp.rate * 1000 / 2, bandpass = TRUE, output = "Wave")
-
-      #downsample
-      wv <- bioacoustics::resample(wave = wv, to = samp.rate * 1000)
+      cat("'samp.rate' currently not available")
+       
+      # # filter first to avoid aliasing 
+      #  if (wv@samp.rate > samp.rate * 1000)
+      # wv <- seewave::fir(wave = wv , f = wv@samp.rate, from = 0, to = samp.rate * 1000 / 2, bandpass = TRUE, output = "Wave")
+      # 
+      # #downsample
+      # wv <- warbleR::resample(wave = wv, to = samp.rate * 1000)
       }
 
     # normalize 

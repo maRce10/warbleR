@@ -5,7 +5,7 @@
 \title{Resample wave objects in a extended selection table}
 \usage{
 resample_est(X, samp.rate = 44.1, bit.depth = 16,
-sox = FALSE, avoid.clip = TRUE, pb = FALSE, parallel = 1)
+ avoid.clip = TRUE, pb = FALSE, parallel = 1)
 }
 \arguments{
 \item{X}{object of class 'extended_selection_table' (see \code{\link{selection_table}}).}
@@ -13,8 +13,6 @@ sox = FALSE, avoid.clip = TRUE, pb = FALSE, parallel = 1)
 \item{samp.rate}{Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.}
 
 \item{bit.depth}{Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.}
-
-\item{sox}{Logical to control whether \href{http://sox.sourceforge.net/sox.html}{SOX} is used internally for resampling. Sox must be installed. Default is \code{FALSE}. \href{http://sox.sourceforge.net/sox.html}{SOX} is a better option if having aliasing issues after resampling.}
 
 \item{avoid.clip}{Logical to control whether the volume is automatically 
 adjusted to avoid clipping high amplitude samples when resampling. Ignored if
@@ -34,8 +32,7 @@ An extended selection table with the modified wave objects.
 \details{
 This function aims to simplify the process of homogenizing sound 
 files (sampling rate and bit depth). This is a necessary step before running 
-any further (bio)acoustic analysis. Either \href{http://sox.sourceforge.net/sox.html}{SOX} (if \code{sox = TRUE}) or
- or the \href{https://cran.r-project.org/package=bioacoustics}{bioacoustics package} (if \code{sox = FALSE}) should be installed.
+any further (bio)acoustic analysis. \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed.
 }
 \examples{
 \dontrun{
