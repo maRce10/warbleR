@@ -2,8 +2,8 @@
 title: <center><font size="7"><b>warbleR&#58; Import sound files and select signals</b></font></center>
 pagetitle: Import sound files and select signals
 author: 
-- <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a></center>
-- <center><a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a></center>
+- <center><a href="https://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a></center>
+- <center><a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a></center>
 date:  <center>"`r Sys.Date()`"</center>
 output:
   rmarkdown::html_document:
@@ -65,7 +65,7 @@ Below we present a case study of microgeographic vocal variation in long-billed 
   
   2. Use `Rraven` to import _Raven_ selection tables for your own recordings
   
-  3. Obtain recordings from the open-access database [_xeno-canto_](http://www.xeno-canto.org/)
+  3. Obtain recordings from the open-access database [_xeno-canto_](https://www.xeno-canto.org/)
   
   4. Select signals using `warbleR` functions 
 
@@ -218,9 +218,9 @@ class(sels)
 ```
 
 
-## **Obtain metadata and recordings from [xeno-canto](http://www.xeno-canto.org/)**
+## **Obtain metadata and recordings from [xeno-canto](https://www.xeno-canto.org/)**
 
-The open-access [xeno-canto](http://www.xeno-canto.org/) database is an excellent source of sound files across avian species. You can query this database by a species or genus of interest. The function `querxc` has two types of output:
+The open-access [xeno-canto](https://www.xeno-canto.org/) database is an excellent source of sound files across avian species. You can query this database by a species or genus of interest. The function `querxc` has two types of output:
 
   1. **Metadata of recordings:** geographic coordinates, recording quality, recordist, type of signal, etc.
   
@@ -299,7 +299,7 @@ xcmaps(X = Phae.lon, img = FALSE)
 ```
 
 
-### Filter [xeno-canto](http://www.xeno-canto.org/) recordings by quality, signal type and locality
+### Filter [xeno-canto](https://www.xeno-canto.org/) recordings by quality, signal type and locality
 
 In most cases, you will need to filter the _xeno-canto_ metadata by type of signal you want to analyze. When you subset the metadata, you can input the filtered metadata back into `querxc` to download only the selected recordings. There are many ways to filter data in R, and the example below can be modified to fit your own data. 
 
@@ -383,9 +383,9 @@ write.csv(Phae.lon.LS, "Phae_lon.LS.csv", row.names = FALSE)
 
 &nbsp; 
 
-### Convert [xeno-canto](http://www.xeno-canto.org/) _mp3_ recordings to _wav_ format
+### Convert [xeno-canto](https://www.xeno-canto.org/) _mp3_ recordings to _wav_ format
 
-[xeno-canto](http://www.xeno-canto.org/) maintains recordings in _mp3_ format due to file size restrictions. However, we require _wav_ format for all downstream analyses. Compression from _wav_ to _mp3_ and back involves information losses, but recordings that have undergone this transformation have been successfully used in research <a href='#References'> <sup>[3]</sup></a>.
+[xeno-canto](https://www.xeno-canto.org/) maintains recordings in _mp3_ format due to file size restrictions. However, we require _wav_ format for all downstream analyses. Compression from _wav_ to _mp3_ and back involves information losses, but recordings that have undergone this transformation have been successfully used in research <a href='#References'> <sup>[3]</sup></a>.
 
 To convert _mp3_ to _wav_, we can use the warbleR function `mp32wav`, which relies on a underlying function from the [`tuneR`](https://cran.r-project.org/package=tuneR) package. This function does not always work (and it remains unclear as to why!). This bug should be fixed in future versions of `tuneR`. If RStudio aborts when running `mp32wav`, use an _mp3_ to _wav_ converter online, or download the open source software `Audacity` (available for Mac, Linux and Windows users). 
 

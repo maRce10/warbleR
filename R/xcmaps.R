@@ -25,7 +25,7 @@
 #' @export
 #' @name xcmaps
 #' @details This function creates maps for visualizing the geographic spread of recordings from the open-access
-#' online repository  \href{http://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of 
+#' online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of 
 #' \code{\link{querxc}} as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
 #' working directory. Note that only recordings with geographic coordinates are displayed.
 #' @examples

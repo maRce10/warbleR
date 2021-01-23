@@ -2,7 +2,7 @@
 title: <center><font size="7"><b>Introduction to warbleR</b></font></center>
 pagetitle: Introduction to warbleR
 author: 
-- <center><a href="http://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> & <a href="http://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
+- <center><a href="https://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> & <a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
 date:  <center>"`r Sys.Date()`"</center>
 output:
   rmarkdown::html_document:
@@ -14,8 +14,8 @@ output:
       smooth_scroll: true
 vignette: >
    %\VignetteIndexEntry{1. Introduction to warbleR}
-   %\VignetteEngine{knitr::rmarkdown}
    %\usepackage[utf8]{inputenc}
+   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---
@@ -52,7 +52,7 @@ The [warbleR](https://cran.r-project.org/package=warbleR) package is intended to
 
 The package offers functions for:
 
-- Browse and download recordings of [Xeno-Canto](http://xeno-canto.org/)
+- Browse and download recordings of [Xeno-Canto](https://xeno-canto.org/)
 - Explore, organize and manipulate multiple sound files
 - Detect signals automatically (in frequency and time)
 - Create spectrograms of complete recordings or individual signals
@@ -1408,7 +1408,7 @@ We can group **warbleR** functions according to the bioacoustic analysis stages.
 
 ### Get and prepare recordings
 
-The `querxc()` function allows you to search and download sounds from the free access database [Xeno-Canto](http://xeno-canto.org/). You can also convert .mp3 files to .wav, change the sampling rate of the files and correct corrupt files, among other functions.
+The `querxc()` function allows you to search and download sounds from the free access database [Xeno-Canto](https://xeno-canto.org/). You can also convert .mp3 files to .wav, change the sampling rate of the files and correct corrupt files, among other functions.
 
 ```{r, echo = FALSE, eval = FALSE}
 
