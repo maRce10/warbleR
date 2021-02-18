@@ -302,22 +302,23 @@ columns for the same selections included in 'X'.</p></td>
     <p>This function produces an interactive spectrographic
  view in which users can select new time/frequency 
  coordinates the selections. 4 "buttons" are provided at the upper right side of the spectrogram that
-  allow to stop the analysis ("stop"), go to the next sound file ("next"), return to the 
-  previous selection ("previous") or delete 
-  the current selection ("delete"). An additional "button" ("contour") to tailored frequency contour is shown
-  when 'ts.df' is provided. When a unit has been selected, the function plots 
+  allow to stop the analysis (stop symbol, a solid rectangle), go to the next sound file ("&gt;&gt;"), return to the 
+  previous selection ("&lt;&lt;") or delete 
+  the current selection ("X"). An additional "button" to tailored frequency contour is shown
+  when 'ts.df' is provided. The button contains a symbol with a 4 point contour. When a unit has been selected, the function plots 
   dotted lines in the start and end of the selection in the spectrogram (or a box if 
   <code>frange = TRUE</code>). Only the last selection is kept for each
    selection that is adjusted. The function produces a .csv file (seltailor_output.csv) 
    with the same information than the input data frame, except for the new time 
    coordinates, plus a new column (X$tailored) indicating if the selection 
   has been tailored. The file is saved in the working directory  and is updated every time the user
-   moves into the next sound file (next sel "button") or stop the process 
- (Stop "button"). It also return the same data frame as and object in the R environment.
-   If no selection is made (by clicking on the 'next' button) the 
+   moves into the next sound file ("&gt;&gt;") or stop the process 
+ (stop "button"). It also return the same data frame as and object in the R environment.
+   If no selection is made (by clicking on "&gt;&gt;") the 
  original time/frequency coordinates are kept. When resuming the process (after "stop" and re-running 
  the function in the same working directory), the function will continue working on the
- selections that have not been analyzed. The function also displays a progress bar right on
+ selections that have not been analyzed. When deleting a file (X button) an orange "X" when returning to that selection. If X is used again the selection is recovered.
+ The function also displays a progress bar right on
  top of the spectrogram. The zoom can be adjusted by setting the <code>mar</code> argument.
  To fix contours a data.frame containing the 'sound.files' and 'selec' columns as in 'X' as well 
  as the frequency values at each contour step must be provided. The function plots points corresponding to the 
