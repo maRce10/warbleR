@@ -30,7 +30,8 @@
 #' polygon across a time axis. It also shows which signals overlap, the amount of overlap, and 
 #' highlights the individual responsible for the overlap using a color code. The width of the polygons 
 #' depicting the time of overlap. 
-#' @examples{
+#' @examples
+#' \dontrun{
 #' # load simulate singing events  (see data documentation)
 #' data(sim.coor.sing)
 #' 

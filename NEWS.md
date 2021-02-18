@@ -1,3 +1,10 @@
+# *warbleR 1.1.26*
+
+## Changes and additions:
+
+* `sel_tailor()` can undo deletions
+* button labels replaced by symbols in `sel_tailor()` 
+
 # *warbleR 1.1.25*
 
 ## Bug fixes:

@@ -1,4 +1,4 @@
-#' Obtain annotations from 'audioblast.org' data base
+#' Obtain annotations from \href{https://audioblast.org/annotations/}{audioblast.org} data base
 #' 
 #' \code{find_annotations} downloads sound file annotations and metadata from \href{https://audioblast.org/annotations/}{audioblast.org}.
 #' @usage find_annotations(qword, parallel = 1, pb = TRUE, warbler.format = FALSE, 

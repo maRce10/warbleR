@@ -31,7 +31,7 @@
 #'   
 #'   \code{\link{querxc}}: Download recordings and/or metadata from 'Xeno-Canto'
 #'   
-#'   \code{\link{find_annotations}}: Obtain annotations from 'audioblast.org' data base
+#'   \code{\link{find_annotations}}: Obtain annotations from audioblast.org data base
 #'   
 #'   \code{\link{sim_songs}}: Simulate animal vocalizations
 #'   
@@ -106,8 +106,6 @@
 #'   
 #'   \code{\link{find_peaks}}: Find peaks in cross-correlation scores from \code{\link{xcorr}}
 #'   
-#'   \code{\link{find_annotations}}: Download sound file annotations and metadata from \href{https://audioblast.org/annotations/}{audioblast.org}.
-#'   
 #'   \code{\link{sp.en.ts}}: Extract the spectral entropy values across the signal as a time series
 #'   
 #'   \code{\link{dfDTW}}: Calculate acoustic dissimilarity using dynamic time warping
@@ -163,7 +161,7 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
-# @importFrom huxtable theme_basic as_hux set_text_color
+#' @importFrom knitr kable
 # @importFrom crayon silver bold cyan italic red
 #' @importFrom methods formalArgs new is slotNames slot
 #' @importFrom dtw dtwDist

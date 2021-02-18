@@ -2,7 +2,7 @@
 title: <center><font size="7"><b>warbleR&#58; Import sound files and select signals</b></font></center>
 pagetitle: Import sound files and select signals
 author: 
-- <center><a href="https://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a></center>
+- <center><a href="https://marceloarayasalas.weebly.com">Marcelo Araya-Salas, PhD</a></center>
 - <center><a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a></center>
 date:  <center>"`r Sys.Date()`"</center>
 output:

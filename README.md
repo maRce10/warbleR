@@ -3,7 +3,7 @@
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/warbleR)](https://www.r-pkg.org/pkg/warbleR)
 [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 
 [warbleR](https://cran.r-project.org/package=warbleR) is intended to facilitate the analysis of the structure of animal acoustic signals in R. Users can collect open-access avian recordings or enter their own data into a workflow that facilitates spectrographic visualization and measurement of acoustic parameters. [warbleR](https://cran.r-project.org/package=warbleR) makes use of the fundamental sound analysis tools of the seewave package, and offers new tools for acoustic structure analysis. These tools are available for batch analysis of acoustic signals.
 
@@ -48,10 +48,10 @@ library(warbleR)
 
 For details and example usage, visit the [warbleR package website](https://marce10.github.io/warbleR/index.html).
 
-A full description of the package can be found in this [journal article](https://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12624/epdf).
+A full description of the package can be found in this [journal article](https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/2041-210X.12624).
 
 Please cite [warbleR](https://cran.r-project.org/package=warbleR) as follows:
 
-Araya-Salas, M. and Smith-Vidaurre, G. (2017), *warbleR: an r package to streamline analysis of animal acoustic signals*.   Methods Ecol Evol. 8, 184-191. [PDF](https://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12624/epdf)
+Araya-Salas, M. and Smith-Vidaurre, G. (2017), *warbleR: an r package to streamline analysis of animal acoustic signals*.   Methods Ecol Evol. 8, 184-191. [PDF](https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/2041-210X.12624)
 
 NOTE: please also cite the [tuneR](https://cran.r-project.org/package=tuneR) and [seewave](https://cran.r-project.org/package=seewave) packages if you use any spectrogram-creating or acoustic-measuring functions

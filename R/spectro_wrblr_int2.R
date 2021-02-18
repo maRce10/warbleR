@@ -135,4 +135,3 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
     grid(nx = NA, ny = NULL, col = colgrid)
   
 }
-

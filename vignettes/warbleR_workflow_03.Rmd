@@ -2,7 +2,7 @@
 title: <center><font size="7"><b>warbleR&#58; Acoustic (dis)similarity, coordinated singing and simulating songs</b></font></center>
 pagetitle: Acoustic (dis)similarity, coordinated singing and simulating songs
 author: 
-- <center><a href="https://marceloarayasalas.weebly.com/">Marcelo Araya-Salas, PhD</a> </center>
+- <center><a href="https://marceloarayasalas.weebly.com">Marcelo Araya-Salas, PhD</a> </center>
 - <center><a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
  &nbsp; 
 date:  <center>"`r Sys.Date()`"</center>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_annotations.R
 \name{find_annotations}
 \alias{find_annotations}
-\title{Obtain annotations from 'audioblast.org' data base}
+\title{Obtain annotations from audioblast.org data base}
 \usage{
 find_annotations(qword, parallel = 1, pb = TRUE, warbler.format = FALSE, 
 download = FALSE, X = NULL, path = NULL)
@@ -32,11 +32,11 @@ If \code{NULL} (default) then the current working directory is used.}
 A data frame with the annotation information.
 }
 \description{
-\code{find_annotations} downloads sound file annotations and metadata from \href{https://audioblast.org/annotations/}{audioblast.org}.
+\code{find_annotations} downloads sound file annotations and metadata from audioblast.org.
 }
 \details{
 This function queries for annotations on acoustic media in the open-access
-online repository \href{https://audioblast.org/annotations/}{audioblast.org}.
+online repository audioblast.org.
 }
 \examples{
  \dontrun{

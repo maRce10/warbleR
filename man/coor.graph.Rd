@@ -49,7 +49,7 @@ highlights the individual responsible for the overlap using a color code. The wi
 depicting the time of overlap.
 }
 \examples{
-{
+\dontrun{
 # load simulate singing events  (see data documentation)
 data(sim.coor.sing)
 

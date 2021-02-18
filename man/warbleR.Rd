@@ -40,7 +40,7 @@ License: GPL (>= 2)
   
   \code{\link{querxc}}: Download recordings and/or metadata from 'Xeno-Canto'
   
-  \code{\link{find_annotations}}: Obtain annotations from 'audioblast.org' data base
+  \code{\link{find_annotations}}: Obtain annotations from audioblast.org data base
   
   \code{\link{sim_songs}}: Simulate animal vocalizations
 }
@@ -117,8 +117,6 @@ License: GPL (>= 2)
   \code{\link{ffts}}: Extract the fundamental frequency values across the signal as a time series
   
   \code{\link{find_peaks}}: Find peaks in cross-correlation scores from \code{\link{xcorr}}
-  
-  \code{\link{find_annotations}}: Download sound file annotations and metadata from \href{https://audioblast.org/annotations/}{audioblast.org}.
   
   \code{\link{sp.en.ts}}: Extract the spectral entropy values across the signal as a time series
   

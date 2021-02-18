@@ -353,7 +353,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         polygon(x = rep(c(X$start[j], X$end[j]) - tlim[1], each = 2), y = c(c(X$bottom.freq[j], X$top.freq[j]),c(X$top.freq[j], X$bottom.freq[j])), lty = 3, border = "#07889B", lwd = 1.2, col = adjustcolor("#07889B", alpha.f = 0.15)) 
     
     #add buttons
-    xs <- grconvertX(x = c(0.92, 0.92, 0.99, 0.99), from = "npc", to = "user")
+    xs <- grconvertX(x = c(0.94, 0.94, 0.99, 0.99), from = "npc", to = "user")
     
     labels <- c("stop", "next", "previous", "delete")
     if (!is.null(ts.df)) labels <- c(labels, "contour")
@@ -364,11 +364,35 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     #mid position ofbuttons in c(0, 1) range
     ys <- c(-mrg, mrg, mrg, -mrg)
     
-    ys <- lapply(1:length(cpy), function(x) 
+    grYs <- lapply(1:length(cpy), function(x) 
     {
       grY <- grconvertY(y = cpy[x]- ys, from = "npc", to = "user")
-      polygon(x = xs, y = grY, border = "#4ABDAC", col = adjustcolor("#4ABDAC", alpha.f = 0.22), lwd = 2)
-      text(x = mean(xs), y = mean(grY), labels = labels[x], cex = 1, font = 2, col = "#062F4F")
+      polygon(x = xs, y = grY, border = "#4ABDAC", col = adjustcolor("#E37222", alpha.f = 0.22), lwd = 2)
+      # text(x = mean(xs), y = mean(grY), labels = labels[x], cex = 1, font = 2, col = "#062F4F")
+    
+      # plot symbols
+      if (labels[x] == "stop") 
+        polygon(x = ((max(xs) - min(xs)) / 2.3) * c(1, 1, -1, -1) + xs, y = ((max(grY) - min(grY)) / 4) * c(-1, 1, 1, -1) + grY, border = "#4ABDAC", col = adjustcolor("#4ABDAC", alpha.f = 0.9), lwd = 2)
+      
+      if (labels[x] == "next") {
+        graphics::arrows(x0 = min(xs) + ((max(xs) - min(xs)) / 2.2),  y0 = mean(grY), x1 = min(xs) + ((max(xs) - min(xs)) / 2.1), y1 = mean(grY), lwd = 2, col =  "#4ABDAC", length = 0.1)
+        graphics::arrows(x0 = min(xs) + ((max(xs) - min(xs)) / 1.8),  y0 = mean(grY), x1 = min(xs) + ((max(xs) - min(xs)) / 1.7), y1 = mean(grY), lwd = 2, col =  "#4ABDAC", length = 0.1)
+      }
+      
+      if (labels[x] == "previous") {
+        graphics::arrows(x1 = min(xs) + ((max(xs) - min(xs)) / 2.2),  y0 = mean(grY), x0 = min(xs) + ((max(xs) - min(xs)) / 2.1), y1 = mean(grY), lwd = 2, col =  "#4ABDAC", length = 0.1)
+        graphics::arrows(x1 = min(xs) + ((max(xs) - min(xs)) / 2.95),  y0 = mean(grY), x0 = min(xs) + ((max(xs) - min(xs)) / 2.85), y1 = mean(grY), lwd = 2, col =  "#4ABDAC", length = 0.1)
+      }
+    
+      if (labels[x] == "delete") 
+        text(x = mean(xs), y = mean(grY), labels = "X", cex = 1, font = 2, col = if (X$tailored[j] != "delete") "#4ABDAC"else "#E37222")
+        
+      if (labels[x] == "contour") {
+        points(x = c(min(xs) + ((max(xs) - min(xs)) / 4.2), min(xs) + ((max(xs) - min(xs)) / 2.5), min(xs) + ((max(xs) - min(xs)) / 1.8), min(xs) + ((max(xs) - min(xs))) / 1.4), y = c(((max(grY) - min(grY)) / 2), ((max(grY) - min(grY)) / 5), ((max(grY) - min(grY)) / 3), ((max(grY) - min(grY)) / 6)) * c(-1, 1, -1, 1) + grY[c(1, 2, 4, 3)], pch = 20, col = "#4ABDAC")
+      
+        lines(x = c(min(xs) + ((max(xs) - min(xs)) / 4.2), min(xs) + ((max(xs) - min(xs)) / 2.5), min(xs) + ((max(xs) - min(xs)) / 1.8), min(xs) + ((max(xs) - min(xs))) / 1.4), y = c(((max(grY) - min(grY)) / 2), ((max(grY) - min(grY)) / 5), ((max(grY) - min(grY)) / 3), ((max(grY) - min(grY)) / 5)) * c(-1, 1, -1, 1) + grY[c(1, 2, 4, 3)], col = "#4ABDAC")
+      }
+      
       return(grY)   
     })
     
@@ -384,9 +408,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     
     # fix freq
     if (!is.null(ts.df))
-      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]) | auto.contour)
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[5]]) & xy$y < max(grYs[[5]]) | auto.contour)
       {
-        Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha, l = !is.data.frame(ts.df))
+        Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, grYs, flim = fl, col, alpha, l = !is.data.frame(ts.df))
         X[, ncl] <- Y$ts.df
         xy <- Y$xy
         rm(Y)
@@ -396,10 +420,12 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       }
     
     #if delete
-    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[4]]) & xy$y < max(ys[[4]]))
+    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[4]]) & xy$y < max(grYs[[4]]))
     {    
-      # delete row
-      X$tailored[j] <- "delete"
+      # delete row if not deleted otherwise undelee
+      if (X$tailored[j] != "delete")
+              X$tailored[j] <- "delete" else
+                X$tailored[j] <- "y"
       write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)  
       if (sum(X$tailored %in% c("y", "delete")) == nrow(X)) {
         dev.off()
@@ -413,16 +439,16 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     }
     
     #if previous
-    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[3]]) & xy$y < max(grYs[[3]]))
     {    
       h <- h - 1
       if (h == 0) {h <- 1
-      write(file = "", x = "These selection was the first one during the selection procedure (can't go further back)")
+      write(file = "", x = "This selection was the first one during the selection procedure (can't go further back)")
       }
     }
     
     #if next sel
-    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
+    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[2]]) & xy$y < max(grYs[[2]]))
     {    
       X$tailored[j] <- "y"
       write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)  
@@ -439,7 +465,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     }
     
     # stop
-    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
+    if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[1]]) & xy$y < max(grYs[[1]]))
     {
       dev.off()
       if (selcount > 0) X$tailored[j] <- "y"
@@ -452,7 +478,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     } 
     
     # while not inside buttons
-    out <- sapply(1:length(labels), function(w) out  <- !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[w]]) & xy$y < max(ys[[w]])))
+    out <- sapply(1:length(labels), function(w) out  <- !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[w]]) & xy$y < max(grYs[[w]])))
     
     while(all(out))
     {
@@ -466,9 +492,9 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       
       # fix freq
       if (!is.null(ts.df))
-        if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[5]]) & xy$y < max(ys[[5]]))
+        if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[5]]) & xy$y < max(grYs[[5]]))
         {
-          Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, ys, flim = fl, col, alpha, l = !is.data.frame(ts.df))
+          Y <- fix_cntr_wrblr_int(X, j, ending.buttons = 1:4, ncl, tlim, xs, grYs, flim = fl, col, alpha, l = !is.data.frame(ts.df))
           X[, ncl] <- Y$ts.df
           xy <- Y$xy
           rm(Y)
@@ -478,7 +504,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
         }
       
       #if delete
-      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[4]]) & xy$y < max(ys[[4]]))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[4]]) & xy$y < max(grYs[[4]]))
       {    
         # delete row
         X$tailored[j] <- "delete"
@@ -497,18 +523,18 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       }
       
       #if previous
-      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[3]]) & xy$y < max(ys[[3]]))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[3]]) & xy$y < max(grYs[[3]]))
       {    
         h <- h - 1
         if (h == 0) {
           h <- 1
-          write(file = "", x = "These selection was the first one during the selection procedure (can't go further back)")
+          write(file = "", x = "This selection was the first one during the selection procedure (can't go further back)")
         }
         break
       }
       
       #if next sel
-      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[2]]) & xy$y < max(ys[[2]]))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[2]]) & xy$y < max(grYs[[2]]))
       {    
         X$tailored[j] <- "y"
         write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)  
@@ -528,7 +554,7 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
       }
       
       # stop
-      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(ys[[1]]) & xy$y < max(ys[[1]]))
+      if (xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[1]]) & xy$y < max(grYs[[1]]))
       {dev.off()
         if (selcount > 0) X$tailored[j] <- "y"
         write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names =  FALSE)
