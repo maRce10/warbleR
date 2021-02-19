@@ -370,21 +370,16 @@ seltailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 
     {
       grY <- grconvertY(y = cpy[x]- ys, from = "npc", to = "user")
       polygon(x = xs, y = grY, border = "#4ABDAC", col = adjustcolor("#E37222", alpha.f = 0.22), lwd = 2)
-      # text(x = mean(xs), y = mean(grY), labels = labels[x], cex = 1, font = 2, col = "#062F4F")
     
       # plot symbols
       if (labels[x] == "stop") 
-        polygon(x = ((max(xs) - min(xs)) / 2.3) * c(1, 1, -1, -1) + xs, y = ((max(grY) - min(grY)) / 4) * c(-1, 1, 1, -1) + grY, border = "#4ABDAC", col = adjustcolor("#4ABDAC", alpha.f = 0.9), lwd = 2)
+        points(x = mean(xs), y = mean(grY), pch = 15, cex = 1.5, col = "#4ABDAC")
+        
+      if (labels[x] == "next") 
+        text(x = mean(xs), y = mean(grY), labels = ">>", cex = 1.2, font = 2, col = "#4ABDAC")
       
-      if (labels[x] == "next") {
-        graphics::arrows(x0 = min(xs) + ((max(xs) - min(xs)) / 2.2),  y0 = mean(grY), x1 = min(xs) + ((max(xs) - min(xs)) / 2.1), y1 = mean(grY), lwd = 2, col =  "#4ABDAC", length = 0.1)
-        graphics::arrows(x0 = min(xs) + ((max(xs) - min(xs)) / 1.8),  y0 = mean(grY), x1 = min(xs) + ((max(xs) - min(xs)) / 1.7), y1 = mean(grY), lwd = 2, col =  "#4ABDAC", length = 0.1)
-      }
-      
-      if (labels[x] == "previous") {
-        graphics::arrows(x1 = min(xs) + ((max(xs) - min(xs)) / 2.2),  y0 = mean(grY), x0 = min(xs) + ((max(xs) - min(xs)) / 2.1), y1 = mean(grY), lwd = 2, col =  "#4ABDAC", length = 0.1)
-        graphics::arrows(x1 = min(xs) + ((max(xs) - min(xs)) / 2.95),  y0 = mean(grY), x0 = min(xs) + ((max(xs) - min(xs)) / 2.85), y1 = mean(grY), lwd = 2, col =  "#4ABDAC", length = 0.1)
-      }
+      if (labels[x] == "previous") 
+        text(x = mean(xs), y = mean(grY), labels = "<<", cex = 1.2, font = 2, col = "#4ABDAC")
     
       if (labels[x] == "delete") 
         text(x = mean(xs), y = mean(grY), labels = "X", cex = 1, font = 2, col = if (X$tailored[j] != "delete") "#4ABDAC"else "#E37222")

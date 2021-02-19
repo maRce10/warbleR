@@ -20,7 +20,7 @@
 #' @details The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files listed within selection tables. It 
 #' is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details).
 #' @examples
-#' {
+#' \dontrun{
 #' # write wave files with lower case file extension
 #' data(list = c("Phae.long1"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
@@ -102,8 +102,8 @@ read_sound_file <- function (X, index, from = X$start[index], to = X$end[index],
       if (is.null(path)) 
         path <- getwd()
       
-      if (is.na(try_na(from))) from <- 0
-      if (is.na(try_na(to))) to <- Inf
+      if (is.na(warbleR::try_na(from))) from <- 0
+      if (is.na(warbleR::try_na(to))) to <- Inf
       
       if (extsn == "wav") read_fun <- function(X, path, header, from, to) tuneR::readWave(filename = file.path(path, X), header = header, from = from, to = to, units = "seconds")
       
@@ -182,7 +182,7 @@ read_sound_file <- function (X, index, from = X$start[index], to = X$end[index],
             
             object <- attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == X$sound.files[index])[1]]]
             
-            # if to is inifite then duration of sound file
+            # if to is infinite then duration of sound file
             if (is.infinite(to)) to <- length(object@left)/object@samp.rate
             
             if (attr(X, "check.results")$mar.before[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & attr(X, "check.results")$mar.after[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & any(to < length(object@left)/object@samp.rate, from > 0))  object <- seewave::cutw(object, from = from, to = to, output = "Wave") 

@@ -37,7 +37,7 @@ The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound file
 is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details).
 }
 \examples{
-{
+\dontrun{
 # write wave files with lower case file extension
 data(list = c("Phae.long1"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
