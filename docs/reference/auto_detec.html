@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>alternative name for autodetec — auto_detec • warbleR</title>
+<title>auto_detec automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes. — auto_detec • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +42,10 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="alternative name for autodetec — auto_detec" />
-<meta property="og:description" content="alternative name for autodetec" />
+<meta property="og:title" content="auto_detec automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes. — auto_detec" />
+<meta property="og:description" content="auto_detec automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes." />
 
 
 
@@ -136,55 +139,211 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>alternative name for <code><a href='autodetec.html'>autodetec</a></code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/autodetec.R'><code>R/autodetec.R</code></a></small>
+    <h1><code>auto_detec</code> automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/auto_detec.R'><code>R/auto_detec.R</code></a></small>
     <div class="hidden name"><code>auto_detec.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>alternative name for <code><a href='autodetec.html'>autodetec</a></code></p>
+    <p><code>auto_detec</code> automatically detects the start and end of vocalizations in sound files based
+on amplitude, duration, and frequency range attributes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>auto_detec</span><span class='op'>(</span>
-  X <span class='op'>=</span> <span class='cn'>NULL</span>,
-  wl <span class='op'>=</span> <span class='fl'>512</span>,
-  threshold <span class='op'>=</span> <span class='fl'>15</span>,
-  parallel <span class='op'>=</span> <span class='fl'>1</span>,
-  power <span class='op'>=</span> <span class='fl'>1</span>,
-  output <span class='op'>=</span> <span class='st'>"data.frame"</span>,
-  thinning <span class='op'>=</span> <span class='fl'>1</span>,
-  path <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  ssmooth <span class='op'>=</span> <span class='fl'>0</span>,
-  bp <span class='op'>=</span> <span class='cn'>NULL</span>,
-  flist <span class='op'>=</span> <span class='cn'>NULL</span>,
-  hold.time <span class='op'>=</span> <span class='fl'>0</span>,
-  mindur <span class='op'>=</span> <span class='cn'>NULL</span>,
-  maxdur <span class='op'>=</span> <span class='cn'>NULL</span>,
-  envt <span class='op'>=</span> <span class='cn'>NULL</span>,
-  msmooth <span class='op'>=</span> <span class='cn'>NULL</span>,
-  osci <span class='op'>=</span> <span class='cn'>NULL</span>,
-  xl <span class='op'>=</span> <span class='cn'>NULL</span>,
-  picsize <span class='op'>=</span> <span class='cn'>NULL</span>,
-  res <span class='op'>=</span> <span class='cn'>NULL</span>,
-  flim <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ls <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sxrow <span class='op'>=</span> <span class='cn'>NULL</span>,
-  rows <span class='op'>=</span> <span class='cn'>NULL</span>,
-  redo <span class='op'>=</span> <span class='cn'>NULL</span>,
-  img <span class='op'>=</span> <span class='cn'>NULL</span>,
-  it <span class='op'>=</span> <span class='cn'>NULL</span>,
-  set <span class='op'>=</span> <span class='cn'>NULL</span>,
-  smadj <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pal <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fast.spec <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>auto_detec</span><span class='op'>(</span>X <span class='op'>=</span> <span class='cn'>NULL</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, threshold <span class='op'>=</span> <span class='fl'>15</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, power <span class='op'>=</span> <span class='fl'>1</span>, 
+   output <span class='op'>=</span> <span class='st'>'data.frame'</span>, thinning <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, ssmooth <span class='op'>=</span> <span class='fl'>0</span>, 
+   bp <span class='op'>=</span> <span class='cn'>NULL</span>, flist <span class='op'>=</span> <span class='cn'>NULL</span>, hold.time <span class='op'>=</span> <span class='fl'>0</span>, mindur <span class='op'>=</span> <span class='cn'>NULL</span>, maxdur <span class='op'>=</span> <span class='cn'>NULL</span>, envt <span class='op'>=</span> <span class='cn'>NULL</span>,
+   msmooth <span class='op'>=</span> <span class='cn'>NULL</span>, osci <span class='op'>=</span> <span class='cn'>NULL</span>, xl <span class='op'>=</span> <span class='cn'>NULL</span>, picsize <span class='op'>=</span> <span class='cn'>NULL</span>, res <span class='op'>=</span> <span class='cn'>NULL</span>, flim <span class='op'>=</span> <span class='cn'>NULL</span>, 
+   ls <span class='op'>=</span> <span class='cn'>NULL</span>, sxrow <span class='op'>=</span> <span class='cn'>NULL</span>, rows <span class='op'>=</span> <span class='cn'>NULL</span>,  redo <span class='op'>=</span> <span class='cn'>NULL</span>, img <span class='op'>=</span> <span class='cn'>NULL</span>, it <span class='op'>=</span> <span class='cn'>NULL</span>, 
+   set <span class='op'>=</span> <span class='cn'>NULL</span>, smadj <span class='op'>=</span> <span class='cn'>NULL</span>, pal <span class='op'>=</span> <span class='cn'>NULL</span>, fast.spec <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>X</th>
+      <td><p>'selection_table' object or a data frame with columns
+for sound file name (sound.files), selection number (selec), and start and end time of signal
+(start and end). If provided the detection will be conducted only within
+the selections in 'X'.</p></td>
+    </tr>
+    <tr>
+      <th>wl</th>
+      <td><p>A numeric vector of length 1 specifying the window used internally by
+<code><a href='https://rdrr.io/pkg/seewave/man/ffilter.html'>ffilter</a></code> for bandpass filtering (so only applied when 'bp' is supplied). Default is 512.</p></td>
+    </tr>
+    <tr>
+      <th>threshold</th>
+      <td><p>A numeric vector of length 1 specifying the amplitude threshold for detecting
+signals (in %).</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
+    </tr>
+    <tr>
+      <th>power</th>
+      <td><p>A numeric vector of length 1 indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change).</p></td>
+    </tr>
+    <tr>
+      <th>output</th>
+      <td><p>Character string indicating if the output should be a 'data.frame' with the detections (default) or a list (of class 'autodetec.output') containing both 1) the detections and 2) the amplitude envelopes (time vs amplitude) for each sound file. The list can be input into <code><a href='full_spectrograms.html'>full_spectrograms</a></code> to explore detections and associated amplitude envelopes.</p></td>
+    </tr>
+    <tr>
+      <th>thinning</th>
+      <td><p>Numeric vector of length 1 in the range 0~1 indicating the proportional reduction of the number of
+samples used to represent amplitude envelopes (i.e. the thinning of the envelopes). Usually amplitude envelopes have many more samples
+than those needed to accurately represent amplitude variation in time, which affects the size of the
+output (usually very large R objects / files). Default is  <code>1</code> (no thinning). Higher sampling rates can afford higher size reduction (e.g. lower thinning values). Reduction is conducted by interpolation using <code><a href='https://rdrr.io/r/stats/approxfun.html'>approx</a></code>. Note that thinning may decrease time precision, and the higher the thinning the less precise the time detection.</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>Character string containing the directory path where the sound files are located.
+If <code>NULL</code> (default) then the current working directory is used.</p></td>
+    </tr>
+    <tr>
+      <th>pb</th>
+      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>ssmooth</th>
+      <td><p>A numeric vector of length 1 to smooth the amplitude envelope
+with a sum smooth function. Default is 0. Note that smoothing is applied before thinning (see 'thinning' argument).</p></td>
+    </tr>
+    <tr>
+      <th>bp</th>
+      <td><p>Numeric vector of length 2 giving the lower and upper limits of a
+frequency bandpass filter (in kHz). Default is c(0, 22).</p></td>
+    </tr>
+    <tr>
+      <th>flist</th>
+      <td><p>character vector or factor indicating the subset of files that will be analyzed. Ignored
+if X is provided.</p></td>
+    </tr>
+    <tr>
+      <th>hold.time</th>
+      <td><p>Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  <code>0</code>.</p></td>
+    </tr>
+    <tr>
+      <th>mindur</th>
+      <td><p>Numeric vector of length 1 giving the shortest duration (in
+seconds) of the signals to be detected. It removes signals below that
+threshold.</p></td>
+    </tr>
+    <tr>
+      <th>maxdur</th>
+      <td><p>Numeric vector of length 1 giving the longest duration (in
+seconds) of the signals to be detected. It removes signals above that
+threshold.</p></td>
+    </tr>
+    <tr>
+      <th>envt</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>msmooth</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>osci</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>xl</th>
+      <td><p>DEPRECATED</p></td>
+    </tr>
+    <tr>
+      <th>picsize</th>
+      <td><p>DEPRECATED</p></td>
+    </tr>
+    <tr>
+      <th>res</th>
+      <td><p>DEPRECATED</p></td>
+    </tr>
+    <tr>
+      <th>flim</th>
+      <td><p>DEPRECATED</p></td>
+    </tr>
+    <tr>
+      <th>ls</th>
+      <td><p>DEPRECATED</p></td>
+    </tr>
+    <tr>
+      <th>sxrow</th>
+      <td><p>DEPRECATED</p></td>
+    </tr>
+    <tr>
+      <th>rows</th>
+      <td><p>DEPRECATED</p></td>
+    </tr>
+    <tr>
+      <th>redo</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>img</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>it</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>set</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>smadj</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>pal</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    <tr>
+      <th>fast.spec</th>
+      <td><p>DEPRECATED.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data frame containing the start and end of each signal by
+  sound file and selection number. If 'output = "list"' then a list including 1) a detection data frame, 2) amplitude envelopes and 3) parameters will be return. An additional column 'org.selec' is added when 'X' is provided (so detection can be traced back to the selections in 'X').</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>see <code><a href='autodetec.html'>autodetec</a></code> for documentation. <code><a href='autodetec.html'>autodetec</a></code> will be deprecated in future versions.</p>
+    <p>This function determines the start and end of signals in the sound file selections listed
+  in the input data frame ('X'). Alternatively, if no data frame is provided, the function detects signals across
+  each entire sound file. It can also create long spectrograms highlighting the start and of the detected
+  signals for all sound files in the working directory (if <code>img = TRUE</code>). Sound files should be located in the
+   working directory or the path to the sound files should be provided using the 'path' argument. The input
+   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the <code><a href='https://rdrr.io/pkg/seewave/man/timer.html'>timer</a></code> function from seewave package to detect signals.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='optimize_auto_detec.html'>optimize_auto_detec</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>). Implements a
+modified version of the timer function from seewave.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='co'># Save to temporary working directory</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>ad</span> <span class='op'>&lt;-</span> <span class='fu'>auto_detec</span><span class='op'>(</span>threshold <span class='op'>=</span> <span class='fl'>5</span>, ssmooth <span class='op'>=</span> <span class='fl'>300</span>,
+bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>9</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; Detecting signals in sound files:  |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~01s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=01s  </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

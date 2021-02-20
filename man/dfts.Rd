@@ -13,7 +13,7 @@ clip.edges = FALSE, leglab = "dfts", frange.detec = FALSE, fsmooth = 0.1,
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
-The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
+The output of \code{\link{auto_detec}} can be used as the input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
@@ -41,7 +41,7 @@ arguments.}
 
 \item{threshold.time}{amplitude threshold (\%) for the time domain. Use for dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
 
-\item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+\item{threshold.freq}{amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'freq_range_detec'). If \code{NULL} (default) then the
 'threshold' value is used.}
 
 \item{img}{Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.}
@@ -65,7 +65,7 @@ remaining values. Default is \code{FALSE}.}
 in the output image.}
 
 \item{frange.detec}{Logical. Controls whether frequency range of signal is automatically 
-detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
+detected  using the \code{\link{freq_range_detec}} function. If so, the range is used as the 
 bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.}
 
 \item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
@@ -75,23 +75,22 @@ amplitude modulation. Default is 0.1.}
 \item{raw.contour}{Logical. If \code{TRUE} then a list with the original contours 
 (i.e. without interpolating values to make all contours of equal length) is returned (and no images are produced).}
 
-\item{track.harm}{Logical. If true warbleR's \code{\link{track_harm}} function is 
+\item{track.harm}{Logical. If true warbleR's \code{\link{harmonic_track}} function is 
 used to track frequency contours. Otherwise seewave's \code{\link[seewave]{dfreq}} is used by default.}
 
 \item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
 number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.}
 
-\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}.}
+\item{...}{Additional arguments to be passed to \code{\link{freq_track}}.}
 }
 \value{
 The function returns a data frame with the dominant frequency values measured across the signals.  If \code{raw.contour = TRUE} a list with the raw frequency detections (i.e. without interpolating values to make all contours of equal length) is returned. If img is 
 \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the dominant frequencies 
-(see \code{\link{trackfreqs}} description for more details).
+(see \code{\link{freq_track}} description for more details).
 }
 \description{
-\code{dfts} extracts the dominant frequency values as a time series.
-of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+\code{dfts} extracts the dominant frequency values as a time series
 }
 \details{
 This function extracts the dominant frequency values as a time series. 
@@ -129,19 +128,19 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{sp.en.ts}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
+\code{\link{sig2noise}}, \code{\link{freq_track}}, \code{\link{entropy_ts}}, \code{\link{ffts}}, \code{\link{ff_DTW}}, \code{\link{df_DTW}}
 
 Other spectrogram creators: 
-\code{\link{color.spectro}()},
-\code{\link{dfDTW}()},
-\code{\link{ffDTW}()},
+\code{\link{color_spectro}()},
+\code{\link{df_DTW}()},
+\code{\link{entropy_ts}()},
+\code{\link{ff_DTW}()},
 \code{\link{ffts}()},
+\code{\link{freq_track}()},
 \code{\link{multi_DTW}()},
 \code{\link{phylo_spectro}()},
-\code{\link{snrspecs}()},
-\code{\link{sp.en.ts}()},
-\code{\link{specreator}()},
-\code{\link{trackfreqs}()}
+\code{\link{snr_spectrograms}()},
+\code{\link{spectrograms}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>lspec2pdf combines lspec images in .jpeg format to a single pdf file. — lspec2pdf • warbleR</title>
+<title>alternative name for full_spectrogram2pdf — lspec2pdf • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="lspec2pdf combines lspec images in .jpeg format to a single pdf file. — lspec2pdf" />
-<meta property="og:description" content="lspec2pdf combines lspec images in .jpeg format to a single pdf file." />
+<meta property="og:title" content="alternative name for full_spectrogram2pdf — lspec2pdf" />
+<meta property="og:description" content="alternative name for full_spectrogram2pdf" />
 
 
 
@@ -136,78 +136,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>lspec2pdf</code> combines <code><a href='lspec.html'>lspec</a></code> images in .jpeg format to a single pdf file.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/lspec2pdf.R'><code>R/lspec2pdf.R</code></a></small>
+    <h1>alternative name for <code><a href='full_spectrogram2pdf.html'>full_spectrogram2pdf</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/full_spectrogram2pdf.R'><code>R/full_spectrogram2pdf.R</code></a></small>
     <div class="hidden name"><code>lspec2pdf.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>lspec2pdf</code> combines <code><a href='lspec.html'>lspec</a></code> images in .jpeg format to a single pdf file.</p>
+    <p>alternative name for <code><a href='full_spectrogram2pdf.html'>full_spectrogram2pdf</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>lspec2pdf</span><span class='op'>(</span>keep.img <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lspec2pdf</span><span class='op'>(</span>
+  keep.img <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>keep.img</th>
-      <td><p>Logical argument. Indicates whether jpeg files should be kept (default) or remove.
-(including sound file and page number) should be magnified. Default is 1.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>Logical argument. If <code>TRUE</code> all jpeg pdf will be produced again 
-when code is rerun. If <code>FALSE</code> only the ones missing will be produced. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function combines  spectrograms for complete sound files from the <code><a href='lspec.html'>lspec</a></code> function into
-a single pdf (for each sound file).</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='full_spectrogram2pdf.html'>full_spectrogram2pdf</a></code> for documentation</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='lspec.html'>lspec</a></code>, <code><a href='catalog2pdf.html'>catalog2pdf</a></code>, 
-<a href='https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html'>blog post on spectrogram pdfs</a></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># save sound file examples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span> 
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'><a href='lspec.html'>lspec</a></span><span class='op'>(</span>sxrow <span class='op'>=</span> <span class='fl'>2</span>, rows <span class='op'>=</span> <span class='fl'>8</span>, pal <span class='op'>=</span> <span class='va'>reverse.heat.colors</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, it <span class='op'>=</span> <span class='st'>"jpeg"</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>#now create single pdf removing jpeg</span>
-<span class='fu'>lspec2pdf</span><span class='op'>(</span>keep.img <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># check this floder</span>
- <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

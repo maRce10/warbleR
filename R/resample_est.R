@@ -1,7 +1,7 @@
 #' Resample wave objects in a extended selection table
 #' 
-#' \code{resample_est} changes sampling rate and bit depth of wave objects in a extended selection table.
-#' @usage resample_est(X, samp.rate = 44.1, bit.depth = 16,
+#' \code{est_resample} changes sampling rate and bit depth of wave objects in a extended selection table.
+#' @usage est_resample(X, samp.rate = 44.1, bit.depth = 16,
 #'  avoid.clip = TRUE, pb = FALSE, parallel = 1)
 #' @param X object of class 'extended_selection_table' (see \code{\link{selection_table}}).
 #' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
@@ -15,7 +15,7 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @return  An extended selection table with the modified wave objects. 
 #' @export
-#' @name resample_est
+#' @name est_resample
 #' @details This function aims to simplify the process of homogenizing sound 
 #' files (sampling rate and bit depth). This is a necessary step before running 
 #' any further (bio)acoustic analysis. \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed.
@@ -32,17 +32,17 @@
 #' path = tempdir())
 #' 
 #' # resample
-#' Y <- resample_est(X)
+#' Y <- est_resample(X)
 #' }
 #' @family extended selection table manipulation
-#' @seealso \code{\link{mp32wav}}, \code{\link{fix_wavs}}
+#' @seealso \code{\link{mp32wav}}, \code{\link{wav_fix}}
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #' #last modification on oct-15-2018 (MAS)
 
-resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE, pb = FALSE, parallel = 1)
+est_resample <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE, pb = FALSE, parallel = 1)
 {
   
   # error message if bioacoustics is not installed
@@ -159,3 +159,12 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
   
   return(X)
 }
+
+##############################################################################################################
+#' alternative name for \code{\link{est_resample}}
+#'
+#' @keywords internal
+#' @details see \code{\link{est_resample}} for documentation. \code{\link{resample_est}} will be deprecated in future versions.
+#' @export
+
+resample_est <- est_resample

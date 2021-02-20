@@ -8,7 +8,7 @@
 \describe{
   
   \item{sim.coor.sing}{Simulated coordinated singing events that overlap and do not overlap most of the time,
-  for use with \code{coor.test}}
+  for use with \code{coor_test}}
   
   }
 }

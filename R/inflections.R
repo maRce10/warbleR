@@ -10,7 +10,7 @@
 #' @export
 #' @name inflections
 #' @details The function counts the number of inflections in a frequency contour.
-#' @seealso \code{\link{dfts}}, \code{\link{trackfreqs}}, 
+#' @seealso \code{\link{dfts}}, \code{\link{freq_track}}, 
 #' @examples{
 #' # get warbleR sound file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))

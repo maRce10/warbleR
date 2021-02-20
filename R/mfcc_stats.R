@@ -5,7 +5,7 @@
 #' nbands = 40, parallel = 1, pb = TRUE, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
+#' end time of selections. The output of \code{\link{auto_detec}} can
 #' be used as the input data frame.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #' consecutive windows. Internally this is used to set the 'hoptime' argument in \code{\link[tuneR]{melfcc}}. Default is 50. 
@@ -29,7 +29,7 @@
 #' data frame. The descriptive statistics are: minimum, maximum, mean, median, skewness, kurtosis and
 #' variance. 
 #' It also returns the mean and variance for the first and second derivatives of the coefficients. These parameters are commonly used in acoustic signal processing and detection (e.g. Salamon et al 2014). 
-#' @seealso \code{\link{fixwavs}}, \code{\link{rm_sil}}, 
+#' @seealso \code{\link{wav_fix}}, \code{\link{remove_silence}},  \code{\link{spectro_analysis}}
 #' @examples{
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
@@ -69,7 +69,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     
     #### set arguments from options
     # get function arguments
-    argms <- methods::formalArgs(specan)
+    argms <- methods::formalArgs(mfcc_stats)
     
     # get warbleR options
     opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0

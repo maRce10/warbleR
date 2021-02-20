@@ -76,7 +76,7 @@ tempdir()
 {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 }
 \seealso{
-\code{\link{fixwavs}} for making sound files readable in R
+\code{\link{wav_fix}} for making sound files readable in R
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

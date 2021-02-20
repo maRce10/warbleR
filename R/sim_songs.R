@@ -45,7 +45,7 @@
 #' @param path Character string containing the directory path where the sound files are located. Ignored if 'selec.table' is \code{FALSE}. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @return A wave object containing the simulated songs. If 'selec.table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object. 
-#' @seealso \code{\link{querxc}} for for downloading bird vocalizations from an online repository.
+#' @seealso \code{\link{xc_query}} for for downloading bird vocalizations from an online repository.
 #' @export
 #' @name sim_songs
 #' @details This functions uses a geometric (\code{diff.fun == "GBM"}) or Brownian bridge (\code{diff.fun == "BB"}) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time). 

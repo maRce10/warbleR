@@ -176,7 +176,7 @@
     
 
   
-<p><code><a href='querxc.html'>querxc</a></code>: Download recordings and/or metadata from 'Xeno-Canto'</p>  
+<p><code><a href='xc_query.html'>xc_query</a></code>: Download recordings and/or metadata from 'Xeno-Canto'</p>  
 <p><code><a href='find_annotations.html'>find_annotations</a></code>: Obtain annotations from audioblast.org data base</p>  
 <p><code><a href='sim_songs.html'>sim_songs</a></code>: Simulate animal vocalizations</p>
     <h2 class="hasAnchor" id="managing-sound-files"><a class="anchor" href="#managing-sound-files"></a>Managing sound files</h2>
@@ -189,15 +189,16 @@
 <p><code><a href='selection_table.html'>selection_table</a></code>: Create 'selection_table' class objects</p>  
 <p><code><a href='mp32wav.html'>mp32wav</a></code>: Convert several .mp3 files in working directory to .wav
   format</p>  
-<p><code><a href='checksels.html'>checksels</a></code>: Check whether selections can be read by subsequent functions</p>  
-<p><code><a href='checkwavs.html'>checkwavs</a></code>: Check whether .wav files can be read by subsequent 
+<p><code><a href='sel_check.html'>sel_check</a></code>: Check whether selections can be read by subsequent functions</p>  
+<p><code><a href='wav_check.html'>wav_check</a></code>: Check whether .wav files can be read by subsequent 
   functions and the minimum windows length ("wl" argument) that can be used</p>  
-<p><code><a href='fixwavs.html'>fixwavs</a></code>: Fix .wav files so they can be read by other functions</p>  
-<p><code><a href='resample_est.html'>resample_est</a></code>: Resample wave objects in extended selection tables</p>  
-<p><code><a href='wavdur.html'>wavdur</a></code>: Determine the duration of sound files</p>  
-<p><code><a href='cut_sels.html'>cut_sels</a></code>: Cut selections from a selection table into individual sound files</p> 
-<p><code><a href='rm_sil.html'>rm_sil</a></code>: Remove silence segments from wave files</p>  
-<p><code><a href='rm_channels.html'>rm_channels</a></code>: Remove channels in wave files</p>  
+<p><code><a href='wav_fix.html'>wav_fix</a></code>: Fix .wav files so they can be read by other functions</p>  
+<p><code><a href='wav_split.html'>wav_split</a></code>: Split .wav fies in several sound files</p>  
+<p><code><a href='est_resample.html'>est_resample</a></code>: Resample wave objects in extended selection tables</p>  
+<p><code><a href='wav_dur.html'>wav_dur</a></code>: Determine the duration of sound files</p>  
+<p><code><a href='sel_cut.html'>sel_cut</a></code>: Cut selections from a selection table into individual sound files</p> 
+<p><code><a href='remove_silence.html'>remove_silence</a></code>: Remove silence segments from wave files</p>  
+<p><code><a href='remove_channels.html'>remove_channels</a></code>: Remove channels in wave files</p>  
 <p><code><a href='consolidate.html'>consolidate</a></code>: Consolidate sound files into a single folder</p>  
 <p><code><a href='selection_table.html'>selection_table</a></code>: Create double-checked and self-contained selection tables</p>  
 <p><code><a href='fix_extended_selection_table.html'>fix_extended_selection_table</a></code>: Fix attributes of extended selection tables</p>
@@ -206,54 +207,52 @@
     
 
   
-<p><code><a href='autodetec.html'>autodetec</a></code>: Automatically detect start and 
-  end of acoustic signals</p>  
-<p><code><a href='manualoc.html'>manualoc</a></code>: Interactive spectrographic view to measure start and 
+<p><code><a href='auto_detec.html'>auto_detec</a></code>: Automatically detect start and 
   end of acoustic signals</p>
-<p><code><a href='autodetec.html'>autodetec</a></code>: Automatic detection of acoustic signals based on ampltiude</p>
-<p><code><a href='seltailor.html'>seltailor</a></code>: Interactive view of spectrograms to tailor start and end of selections</p>  
+<p><code><a href='sel_tailor.html'>sel_tailor</a></code>: Interactive view of spectrograms to tailor start and end of selections</p>  
 <p><code><a href='sig2noise.html'>sig2noise</a></code>: Measure signal-to-noise ratio across multiple files</p>  
-<p><code><a href='trackfreqs.html'>trackfreqs</a></code>: Create spectrograms to visualize frequency 
+<p><code><a href='freq_track.html'>freq_track</a></code>: Create spectrograms to visualize frequency 
   measurements</p>  
-<p><code><a href='filtersels.html'>filtersels</a></code>: Filter selection data frames based on filtered image files</p>     
-<p><code><a href='frange.html'>frange</a></code>: Detect frequency range iteratively from signals in a selection table</p>  
-<p><code><a href='frange.detec.html'>frange.detec</a></code>: Detect frequency range in a Wave object</p>     
-<p><code><a href='specan.html'>specan</a></code>: Measure acoustic parameters on selected acoustic 
+<p><code><a href='sel_filter.html'>sel_filter</a></code>: Filter selection data frames based on filtered image files</p>     
+<p><code><a href='freq_range.html'>freq_range</a></code>: Detect frequency range iteratively from signals in a selection table</p>  
+<p><code><a href='freq_range_detec.html'>freq_range_detec</a></code>: Detect frequency range in a Wave object</p>     
+<p><code><a href='spectro_analysis.html'>spectro_analysis</a></code>: Measure acoustic parameters on selected acoustic 
   signals</p>  
 <p><code><a href='mfcc_stats.html'>mfcc_stats</a></code>: Calculate descriptive statistics on Mel-frequency cepstral coefficients</p>  
-<p><code><a href='xcorr.html'>xcorr</a></code>: Pairwise cross-correlation of multiple signals</p>  
+<p><code><a href='cross_correlation.html'>cross_correlation</a></code>: Pairwise cross-correlation of multiple signals</p>  
 <p><code><a href='dfts.html'>dfts</a></code>: Extract the dominant frequency values across the signal as a time series</p>  
 <p><code><a href='ffts.html'>ffts</a></code>: Extract the fundamental frequency values across the signal as a time series</p>  
-<p><code><a href='find_peaks.html'>find_peaks</a></code>: Find peaks in cross-correlation scores from <code><a href='xcorr.html'>xcorr</a></code></p>  
-<p><code><a href='sp.en.ts.html'>sp.en.ts</a></code>: Extract the spectral entropy values across the signal as a time series</p>  
-<p><code><a href='dfDTW.html'>dfDTW</a></code>: Calculate acoustic dissimilarity using dynamic time warping
+<p><code><a href='find_peaks.html'>find_peaks</a></code>: Find peaks in cross-correlation scores from <code><a href='cross_correlation.html'>cross_correlation</a></code></p>  
+<p><code><a href='entropy_ts.html'>entropy_ts</a></code>: Extract the spectral entropy values across the signal as a time series</p>  
+<p><code><a href='df_DTW.html'>df_DTW</a></code>: Calculate acoustic dissimilarity using dynamic time warping
    on dominant frequency contours</p>  
-<p><code><a href='ffDTW.html'>ffDTW</a></code>: Calculate acoustic dissimilarity using dynamic time warping
+<p><code><a href='ff_DTW.html'>ff_DTW</a></code>: Calculate acoustic dissimilarity using dynamic time warping
   on fundamental frequency contours</p>  
 <p><code><a href='wpd_features.html'>wpd_features</a></code>: Measure wavelet packet decomposition features</p>  
-<p><code><a href='compare.methods.html'>compare.methods</a></code>: Produce graphs to visually assess performance of acoustic 
+<p><code><a href='compare_methods.html'>compare_methods</a></code>: Produce graphs to visually assess performance of acoustic 
   distance measurements</p>  
-<p><code><a href='coor.test.html'>coor.test</a></code>: Assess statistical significance of singing coordination</p>  
-<p><code><a href='ovlp_sels.html'>ovlp_sels</a></code>: Find selections that overlap in time within a given sound file</p>  
-<p><code><a href='track_harm.html'>track_harm</a></code>:  Track harmonic frequency contour</p>
+<p><code><a href='coor_test.html'>coor_test</a></code>: Assess statistical significance of singing coordination</p>  
+<p><code><a href='sel_overlap.html'>sel_overlap</a></code>: Find selections that overlap in time within a given sound file</p>  
+<p><code><a href='harmonic_track.html'>harmonic_track</a></code>:  Track harmonic frequency contour</p>
     <h2 class="hasAnchor" id="graphical-outputs"><a class="anchor" href="#graphical-outputs"></a>Graphical outputs</h2>
 
     
 
   
-<p><code><a href='xcmaps.html'>xcmaps</a></code>: Create maps to visualize the geographic spread of 'Xeno-Canto' recordings</p>  
+<p><code><a href='xc_maps.html'>xc_maps</a></code>: Create maps to visualize the geographic spread of 'Xeno-Canto' recordings</p>  
 <p><code><a href='catalog.html'>catalog</a></code>: Produce a vocalization catalog with spectrograms in and array with
   several rows and columns</p>  
 <p><code><a href='catalog2pdf.html'>catalog2pdf</a></code>: Combine catalog images to single pdf files</p>  
-<p><code><a href='coor.graph.html'>coor.graph</a></code>: Create graphs of coordinated singing</p>  
-<p><code><a href='color.spectro.html'>color.spectro</a></code>: Highlight spectrogram regions</p>  
-<p><code><a href='lspec.html'>lspec</a></code>: Produce spectrograms of whole recordings split into 
+<p><code><a href='coor_graph.html'>coor_graph</a></code>: Create graphs of coordinated singing</p>  
+<p><code><a href='color_spectro.html'>color_spectro</a></code>: Highlight spectrogram regions</p>  
+<p><code><a href='full_spectrograms.html'>full_spectrograms</a></code>: Produce spectrograms of whole recordings split into 
   multiple rows</p>  
-<p><code><a href='lspec2pdf.html'>lspec2pdf</a></code>: Combine lspec images to single pdf files</p>  
-<p><code><a href='specreator.html'>specreator</a></code>: Create spectrograms of manualoc selections</p>  
-<p><code><a href='snrspecs.html'>snrspecs</a></code>: Create spectrograms to visualize margins over which 
+<p><code><a href='full_spectrogram2pdf.html'>full_spectrogram2pdf</a></code>: Combine lspec images to single pdf files</p>  
+<p><code><a href='spectrograms.html'>spectrograms</a></code>: Create spectrograms of selections</p>  
+<p><code><a href='snr_spectrograms.html'>snr_spectrograms</a></code>: Create spectrograms to visualize margins over which 
   noise will be measured by sig2noise</p>  
-<p><code><a href='phylo_spectro.html'>phylo_spectro</a></code>: Add spectrograms onto phylogenetic trees</p>
+<p><code><a href='phylo_spectro.html'>phylo_spectro</a></code>: Add spectrograms onto phylogenetic trees</p>  
+<p><code><a href='spectro_tweak.html'>spectro_tweak</a></code>: Visually inspect effect of different settings for creating (and improving) spectrograms</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas &amp; Grace Smith Vidaurre</p>  

@@ -20,7 +20,7 @@
 #'    \item \code{samples}: number of samples in the sound file
 #'    }
 #' 
-#' @seealso \code{\link{fixwavs}}, \code{\link{selection_table}} & \code{\link{checksels}}
+#' @seealso \code{\link{wav_fix}}, \code{\link{selection_table}} & \code{\link{sel_check}}
 #' @examples{
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
@@ -46,7 +46,7 @@ wav_info <- function(path = NULL, parallel = 1, pb = TRUE)
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(rm_sil)
+  argms <- methods::formalArgs(wav_info)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0

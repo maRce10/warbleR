@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>alternative name for dfDTW — df_DTW • warbleR</title>
+<title>Acoustic dissimilarity using dynamic time warping on dominant frequency contours — df_DTW • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="alternative name for dfDTW — df_DTW" />
-<meta property="og:description" content="alternative name for dfDTW" />
+<meta property="og:title" content="Acoustic dissimilarity using dynamic time warping on dominant frequency contours — df_DTW" />
+<meta property="og:description" content="df_DTW calculates acoustic dissimilarity of dominant frequency contours using dynamic
+time warping. Internally it applies the dtwDist function from the dtw package." />
 
 
 
@@ -136,47 +137,244 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>alternative name for <code><a href='dfDTW.html'>dfDTW</a></code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/dfDTW.R'><code>R/dfDTW.R</code></a></small>
+    <h1>Acoustic dissimilarity using dynamic time warping on dominant frequency contours</h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/df_DTW.R'><code>R/df_DTW.R</code></a></small>
     <div class="hidden name"><code>df_DTW.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>alternative name for <code><a href='dfDTW.html'>dfDTW</a></code></p>
+    <p><code>df_DTW</code> calculates acoustic dissimilarity of dominant frequency contours using dynamic
+time warping. Internally it applies the <code><a href='https://rdrr.io/pkg/dtw/man/dtwDist.html'>dtwDist</a></code> function from the <code>dtw</code> package.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>df_DTW</span><span class='op'>(</span>
-  X <span class='op'>=</span> <span class='cn'>NULL</span>,
-  wl <span class='op'>=</span> <span class='fl'>512</span>,
-  wl.freq <span class='op'>=</span> <span class='fl'>512</span>,
-  length.out <span class='op'>=</span> <span class='fl'>20</span>,
-  wn <span class='op'>=</span> <span class='st'>"hanning"</span>,
-  ovlp <span class='op'>=</span> <span class='fl'>70</span>,
-  bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>,
-  threshold <span class='op'>=</span> <span class='fl'>15</span>,
-  threshold.time <span class='op'>=</span> <span class='cn'>NULL</span>,
-  threshold.freq <span class='op'>=</span> <span class='cn'>NULL</span>,
-  img <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  parallel <span class='op'>=</span> <span class='fl'>1</span>,
-  path <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ts.df <span class='op'>=</span> <span class='cn'>NULL</span>,
-  img.suffix <span class='op'>=</span> <span class='st'>"dfDTW"</span>,
-  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  clip.edges <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  window.type <span class='op'>=</span> <span class='st'>"none"</span>,
-  open.end <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  frange.detec <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  fsmooth <span class='op'>=</span> <span class='fl'>0.1</span>,
-  adjust.wl <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>df_DTW</span><span class='op'>(</span>X <span class='op'>=</span> <span class='cn'>NULL</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, wl.freq <span class='op'>=</span> <span class='fl'>512</span>, length.out <span class='op'>=</span> <span class='fl'>20</span>, wn <span class='op'>=</span> <span class='st'>"hanning"</span>, ovlp <span class='op'>=</span> <span class='fl'>70</span>, 
+bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>, threshold <span class='op'>=</span> <span class='fl'>15</span>, threshold.time <span class='op'>=</span> <span class='cn'>NULL</span>, threshold.freq <span class='op'>=</span> <span class='cn'>NULL</span>, img <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, ts.df <span class='op'>=</span> <span class='cn'>NULL</span>, img.suffix <span class='op'>=</span> <span class='st'>"dfDTW"</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+clip.edges <span class='op'>=</span> <span class='cn'>TRUE</span>, window.type <span class='op'>=</span> <span class='st'>"none"</span>, open.end <span class='op'>=</span> <span class='cn'>FALSE</span>, scale <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+frange.detec <span class='op'>=</span> <span class='cn'>FALSE</span>,  fsmooth <span class='op'>=</span> <span class='fl'>0.1</span>, adjust.wl <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>X</th>
+      <td><p>object of class 'selection_table', 'extended_selection_table' or data 
+frame containing columns for sound file name (sound.files), 
+selection number (selec), and start and end time of signal (start and end).
+The output of<code><a href='auto_detec.html'>auto_detec</a></code> can be used as the input data frame.</p></td>
+    </tr>
+    <tr>
+      <th>wl</th>
+      <td><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
+is 512.</p></td>
+    </tr>
+    <tr>
+      <th>wl.freq</th>
+      <td><p>A numeric vector of length 1 specifying the window length of the spectrogram
+for measurements on the frequency spectrum. Default is 512. Higher values would provide 
+more accurate measurements.</p></td>
+    </tr>
+    <tr>
+      <th>length.out</th>
+      <td><p>A numeric vector of length 1 giving the number of measurements of dominant 
+frequency desired (the length of the time series).</p></td>
+    </tr>
+    <tr>
+      <th>wn</th>
+      <td><p>Character vector of length 1 specifying window name. Default is 
+"hanning". See function <code><a href='https://rdrr.io/pkg/seewave/man/ftwindow.html'>ftwindow</a></code> for more options.</p></td>
+    </tr>
+    <tr>
+      <th>ovlp</th>
+      <td><p>Numeric vector of length 1 specifying % of overlap between two 
+consecutive windows, as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is 70.</p></td>
+    </tr>
+    <tr>
+      <th>bp</th>
+      <td><p>A numeric vector of length 2 for the lower and upper limits of a 
+frequency bandpass filter (in kHz). Default is c(0, 22).</p></td>
+    </tr>
+    <tr>
+      <th>threshold</th>
+      <td><p>amplitude threshold (%) for dominant frequency detection. Default is 15.</p></td>
+    </tr>
+    <tr>
+      <th>threshold.time</th>
+      <td><p>amplitude threshold (%) for the time domain. Use for dominant frequency detection. If <code>NULL</code> (default) then the 'threshold' value is used.</p></td>
+    </tr>
+    <tr>
+      <th>threshold.freq</th>
+      <td><p>amplitude threshold (%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If <code>NULL</code> (default) then the
+'threshold' value is used.</p></td>
+    </tr>
+    <tr>
+      <th>img</th>
+      <td><p>Logical argument. If <code>FALSE</code>, image files are not produced. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>Character string containing the directory path where the sound files are located. 
+If <code>NULL</code> (default) then the current working directory is used.</p></td>
+    </tr>
+    <tr>
+      <th>ts.df</th>
+      <td><p>Optional. Data frame with frequency contour time series of signals to be compared. If provided "X" is ignored.</p></td>
+    </tr>
+    <tr>
+      <th>img.suffix</th>
+      <td><p>A character vector of length 1 with a suffix (label) to add at the end of the names of 
+image files. Default is <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>pb</th>
+      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>clip.edges</th>
+      <td><p>Logical argument to control whether edges (start or end of signal) in
+which amplitude values above the threshold were not detected will be removed. If 
+<code>TRUE</code> (default) this edges will be excluded and contours will be calculated on the
+remaining values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).</p></td>
+    </tr>
+    <tr>
+      <th>window.type</th>
+      <td><p><code><a href='https://rdrr.io/pkg/dtw/man/dtw.html'>dtw</a></code> windowing control parameter. Character: "none", "itakura", or a function (see <code><a href='https://rdrr.io/pkg/dtw/man/dtw.html'>dtw</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>open.end</th>
+      <td><p><code><a href='https://rdrr.io/pkg/dtw/man/dtw.html'>dtw</a></code> control parameter. Performs 
+open-ended alignments (see <code><a href='https://rdrr.io/pkg/dtw/man/dtw.html'>dtw</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>Logical. If <code>TRUE</code> dominant frequency values are z-transformed using the <code><a href='https://rdrr.io/r/base/scale.html'>scale</a></code> function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
+comparison in the frequency contour, regardless of the pitch of signals. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>frange.detec</th>
+      <td><p>Logical. Controls whether frequency range of signal is automatically 
+detected  using the <code><a href='freq_range_detec.html'>freq_range_detec</a></code> function. If so, the range is used as the 
+bandpass filter (overwriting 'bp' argument). Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>fsmooth</th>
+      <td><p>A numeric vector of length 1 to smooth the frequency spectrum with a mean
+sliding window (in kHz) used for frequency range detection (when <code>frange.detec = TRUE</code>). This help to average amplitude "hills" to minimize the effect of
+amplitude modulation. Default is 0.1.</p></td>
+    </tr>
+    <tr>
+      <th>adjust.wl</th>
+      <td><p>Logical. If <code>TRUE</code> 'wl' (window length) is reset to be lower than the 
+number of samples in a selection if the number of samples is less than 'wl'. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments to be passed to <code><a href='freq_track.html'>freq_track</a></code> for customizing
+graphical output.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A matrix with the pairwise dissimilarity values. If img is 
+<code>FALSE</code> it also produces image files with the spectrograms of the signals listed in the 
+input data frame showing the location of the dominant frequencies.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>see <code><a href='dfDTW.html'>dfDTW</a></code> for documentation. <code><a href='dfDTW.html'>dfDTW</a></code> will be deprecated in future versions.</p>
+    <p>This function extracts the dominant frequency values as a time series and
+ then calculates the pairwise acoustic dissimilarity using dynamic time warping.
+The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>approx</a></code> function to interpolate values between dominant
+ frequency  measures. If 'img' is  <code>TRUE</code> the function also produces image files
+ with the spectrograms of the signals listed in the input data frame showing the
+ location of the dominant frequencies.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='spectrograms.html'>spectrograms</a></code> for creating spectrograms from selections,
+ <code><a href='snr_spectrograms.html'>snr_spectrograms</a></code> for creating spectrograms to 
+  optimize noise margins used in <code><a href='sig2noise.html'>sig2noise</a></code> and <code><a href='dfts.html'>dfts</a></code>, <code><a href='ffts.html'>ffts</a></code>, <code><a href='ffDTW.html'>ffDTW</a></code> for frequency contour overlaid spectrograms.
+ <a href='https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html'>blog post on DTW similarity</a></p>
+<p>Other spectrogram creators: 
+<code><a href='color_spectro.html'>color_spectro</a>()</code>,
+<code><a href='dfts.html'>dfts</a>()</code>,
+<code><a href='entropy_ts.html'>entropy_ts</a>()</code>,
+<code><a href='ff_DTW.html'>ff_DTW</a>()</code>,
+<code><a href='ffts.html'>ffts</a>()</code>,
+<code><a href='freq_track.html'>freq_track</a>()</code>,
+<code><a href='multi_DTW.html'>multi_DTW</a>()</code>,
+<code><a href='phylo_spectro.html'>phylo_spectro</a>()</code>,
+<code><a href='snr_spectrograms.html'>snr_spectrograms</a>()</code>,
+<code><a href='spectrograms.html'>spectrograms</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='co'>#load data</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#save sound files </span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># run function </span>
+<span class='fu'>df_DTW</span><span class='op'>(</span><span class='va'>lbh_selec_table</span>, length.out <span class='op'>=</span> <span class='fl'>30</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>12</span><span class='op'>)</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>9</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3
+#&gt; Phae.long1.wav-1            0.000            7.272           11.403
+#&gt; Phae.long1.wav-2            7.272            0.000           11.796
+#&gt; Phae.long1.wav-3           11.403           11.796            0.000
+#&gt; Phae.long2.wav-1           26.382           29.085           26.069
+#&gt; Phae.long2.wav-2           29.848           35.795           28.625
+#&gt; Phae.long3.wav-1           16.493           16.577           17.314
+#&gt; Phae.long3.wav-2           15.936           18.143           17.879
+#&gt; Phae.long3.wav-3           28.997           30.793           28.669
+#&gt; Phae.long4.wav-1           39.502           36.727           41.317
+#&gt; Phae.long4.wav-2           33.201           32.440           32.360
+#&gt; Phae.long4.wav-3           30.884           31.481           31.163
+#&gt;                  Phae.long2.wav-1 Phae.long2.wav-2 Phae.long3.wav-1
+#&gt; Phae.long1.wav-1           26.382           29.848           16.493
+#&gt; Phae.long1.wav-2           29.085           35.795           16.577
+#&gt; Phae.long1.wav-3           26.069           28.625           17.314
+#&gt; Phae.long2.wav-1            0.000           13.817           14.612
+#&gt; Phae.long2.wav-2           13.817            0.000           14.928
+#&gt; Phae.long3.wav-1           14.612           14.928            0.000
+#&gt; Phae.long3.wav-2           13.467           12.457            7.492
+#&gt; Phae.long3.wav-3           13.696           11.293           10.941
+#&gt; Phae.long4.wav-1           21.663           28.508           34.870
+#&gt; Phae.long4.wav-2           24.228           30.853           32.414
+#&gt; Phae.long4.wav-3           22.699           32.104           29.358
+#&gt;                  Phae.long3.wav-2 Phae.long3.wav-3 Phae.long4.wav-1
+#&gt; Phae.long1.wav-1           15.936           28.997           39.502
+#&gt; Phae.long1.wav-2           18.143           30.793           36.727
+#&gt; Phae.long1.wav-3           17.879           28.669           41.317
+#&gt; Phae.long2.wav-1           13.467           13.696           21.663
+#&gt; Phae.long2.wav-2           12.457           11.293           28.508
+#&gt; Phae.long3.wav-1            7.492           10.941           34.870
+#&gt; Phae.long3.wav-2            0.000           10.575           29.015
+#&gt; Phae.long3.wav-3           10.575            0.000           24.246
+#&gt; Phae.long4.wav-1           29.015           24.246            0.000
+#&gt; Phae.long4.wav-2           28.587           25.428            9.646
+#&gt; Phae.long4.wav-3           25.851           26.609           15.328
+#&gt;                  Phae.long4.wav-2 Phae.long4.wav-3
+#&gt; Phae.long1.wav-1           33.201           30.884
+#&gt; Phae.long1.wav-2           32.440           31.481
+#&gt; Phae.long1.wav-3           32.360           31.163
+#&gt; Phae.long2.wav-1           24.228           22.699
+#&gt; Phae.long2.wav-2           30.853           32.104
+#&gt; Phae.long3.wav-1           32.414           29.358
+#&gt; Phae.long3.wav-2           28.587           25.851
+#&gt; Phae.long3.wav-3           25.428           26.609
+#&gt; Phae.long4.wav-1            9.646           15.328
+#&gt; Phae.long4.wav-2            0.000            8.372
+#&gt; Phae.long4.wav-3            8.372            0.000</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

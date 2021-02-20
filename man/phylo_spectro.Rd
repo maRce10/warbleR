@@ -39,7 +39,7 @@ tree is reorganized to get the ladderized effect when plotted). Only 'left' of '
 \code{FALSE} or in the same angle as the tree tips. Currently only horizontal spectrograms are available.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram 
-creating function (\code{\link{specreator}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 
+creating function (\code{\link{spectrograms}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 
 customizing graphical output. Only rightwards phylogenies can be plotted.}
 }
 \value{
@@ -51,7 +51,7 @@ A phylogenetic tree with spectrograms on tree tips is plotted in the current gra
 \details{
 The function add the spectrograms of sounds annotated in a selection table ('X' argument) onto the tips of a phylogenetic tree. 
 The 'tip.label' column in 'X' is used to match spectrograms and tree tips. The function uses internally the \code{\link[ape]{plot.phylo}} function to plot the tree 
-and the \code{\link{specreator}} function to create the spectrograms. Arguments for both of these functions
+and the \code{\link{spectrograms}} function to create the spectrograms. Arguments for both of these functions
 can be provided for further customization.
 }
 \examples{
@@ -98,7 +98,7 @@ phylo_spectro(X = X, tree = tree, offset = 0.2, par.mar = rep(3, 4), inner.mar =
 size = 2, type = "fan", show.tip.label = FALSE, edge.color = "red", edge.width = 2)
 
 # plotting a tree representing cross-correlation distances 
-xcorr_mat <- xcorr(X, bp = c(1, 10))
+xcorr_mat <- cross_correlation(X, bp = c(1, 10))
 
 xc.tree <- ape::chronoMPL(ape::as.phylo(hclust(as.dist(1 - xcorr_mat))))
 
@@ -116,19 +116,19 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{specreator}}, \code{\link[ape]{plot.phylo}}
+\code{\link{spectrograms}}, \code{\link[ape]{plot.phylo}}
 
 Other spectrogram creators: 
-\code{\link{color.spectro}()},
-\code{\link{dfDTW}()},
+\code{\link{color_spectro}()},
+\code{\link{df_DTW}()},
 \code{\link{dfts}()},
-\code{\link{ffDTW}()},
+\code{\link{entropy_ts}()},
+\code{\link{ff_DTW}()},
 \code{\link{ffts}()},
+\code{\link{freq_track}()},
 \code{\link{multi_DTW}()},
-\code{\link{snrspecs}()},
-\code{\link{sp.en.ts}()},
-\code{\link{specreator}()},
-\code{\link{trackfreqs}()}
+\code{\link{snr_spectrograms}()},
+\code{\link{spectrograms}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

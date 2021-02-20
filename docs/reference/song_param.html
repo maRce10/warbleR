@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates acoustic parameters at the song level — song_param • warbleR</title>
+<title>alternative name for song_analysis — song_param • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Calculates acoustic parameters at the song level — song_param" />
-<meta property="og:description" content="song_param calculates descriptive statistics of songs or other higher levels of organization in the signals." />
+<meta property="og:title" content="alternative name for song_analysis — song_param" />
+<meta property="og:description" content="alternative name for song_analysis" />
 
 
 
@@ -136,169 +136,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates acoustic parameters at the song level</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/song_param.R'><code>R/song_param.R</code></a></small>
+    <h1>alternative name for <code><a href='song_analysis.html'>song_analysis</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/song_analysis.R'><code>R/song_analysis.R</code></a></small>
     <div class="hidden name"><code>song_param.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>song_param</code> calculates descriptive statistics of songs or other higher levels of organization in the signals.</p>
+    <p>alternative name for <code><a href='song_analysis.html'>song_analysis</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>song_param</span><span class='op'>(</span>X <span class='op'>=</span> <span class='cn'>NULL</span>, song_colm <span class='op'>=</span> <span class='st'>"song"</span>,mean_colm <span class='op'>=</span> <span class='cn'>NULL</span>, min_colm <span class='op'>=</span> <span class='cn'>NULL</span>, 
-max_colm <span class='op'>=</span> <span class='cn'>NULL</span>, elm_colm <span class='op'>=</span> <span class='cn'>NULL</span>, elm_fun <span class='op'>=</span> <span class='cn'>NULL</span>, sd <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>, weight <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>song_param</span><span class='op'>(</span>
+  X <span class='op'>=</span> <span class='cn'>NULL</span>,
+  song_colm <span class='op'>=</span> <span class='st'>"song"</span>,
+  mean_colm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  min_colm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max_colm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  elm_colm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  elm_fun <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sd <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  weight <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X</th>
-      <td><p>'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the .wav 
-files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can 
-be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above.</p></td>
-    </tr>
-    <tr>
-      <th>song_colm</th>
-      <td><p>Character string with the column name containing song labels. 
-It can be used to label any hierarchical level at which parameters need to be calculated (e.g. syllables, phrases).
-Note that 
-the function assumes that song labels are not repeated within a sound file.</p></td>
-    </tr>
-    <tr>
-      <th>mean_colm</th>
-      <td><p>Numeric vector with the index of the columns that will be averaged. If <code>NULL</code> the mean of all numeric columns in 'X' is returned.</p></td>
-    </tr>
-    <tr>
-      <th>min_colm</th>
-      <td><p>Character vector with the name(s) of the columns for which the minimum 
-value is needed. Default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>max_colm</th>
-      <td><p>Character vector with the name(s) of the columns for which the maximum 
-value is needed. Default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>elm_colm</th>
-      <td><p>Character vector with the name(s) of the columns identifying the element labels (i.e. element types). If supplied 'unq.elms' and 'mean.elm.count' are returned. Default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>elm_fun</th>
-      <td><p>Function to be applied to the sequence of elements composing a song. Default is <code>NULL</code>. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.</p></td>
-    </tr>
-    <tr>
-      <th>sd</th>
-      <td><p>Logical value indicating whether standard deviation is also returned for
-variables in which averages are reported. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>na.rm</th>
-      <td><p>Logical value indicating whether 'NA' values should be ignored for calculations.</p></td>
-    </tr>
-    <tr>
-      <th>weight</th>
-      <td><p>Character vector defining 1 or more numeric vectors to weight average
-measurements (i.e. song parameters). Names of numeric columns in 'X' can also be used. See <code><a href='https://rdrr.io/r/stats/weighted.mean.html'>weighted.mean</a></code>. 
- for more details.  Default is <code>NULL</code> (unweighted average).</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A data frame similar to the input 'X' data frame, but in this case each row corresponds to a single song. The data frame contains the mean or extreme
- values for numeric columns for each song. Columns that will be averaged can be defined with
- 'mean_colm' (otherwise all numeric columns are used). Columns can be 
- weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters:</p><ul>
-<li><p><code>elm.duration</code>: mean length of elements (in s)</p></li>
-<li><p><code>song.duration</code>: length of song (in s)</p></li>
-<li><p><code>num.elms</code>: number of elements (or song units)</p></li>
-<li><p><code>start</code>: start time of song (in s)</p></li>
-<li><p><code>end</code>: end time of song (in s)</p></li>
-<li><p><code>bottom.freq</code>: lowest 'bottom.freq' from all song elements (in kHz)</p></li>
-<li><p><code>top.freq</code>: highest 'top.freq' from all song elements (in kHz)</p></li>
-<li><p><code>freq.range</code>: difference between song's 'top.freq' and 'bottom.freq' (in kHz)</p></li>
-<li><p><code>song.rate</code>: number of elements per second (NA if only 1 element). Calculated as the number of elements in the 'song' divided by the duration of the song. In this case song duration is calculated as the time between the start of the first element and the start of the last element, which provides a rate that is less affected by the duration of individual elements. Note that this calculation is different than that from 'song.duration' above.</p></li>
-<li><p><code>gap.duration</code>: average length of gaps (i.e. silences) in between elements
-   (in s, NA if only 1 element)</p></li>
-<li><p><code>elm.types</code>: number of element types (i.e. number of unique types, only if 'elm_colm' is supplied)</p></li>
-<li><p><code>mean.elm.count</code>: mean number of times element types are found (only if 'elm_colm' is supplied)</p></li>
-</ul><p>This function assumes that song labels are not repeated within a sound file.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function calculates average or extreme values of acoustic parameters of
-elements in a song or other level of organization in the signals.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='song_analysis.html'>song_analysis</a></code> for documentation. <code>song_param</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='specan.html'>specan</a></code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='co'># get warbleR sound file examples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># add a 'song' column</span>
-<span class='va'>lbh_selec_table</span><span class='op'>$</span><span class='va'>song</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"song1"</span>, <span class='st'>"song1"</span>, <span class='st'>"song1"</span>, <span class='st'>"song2"</span>, 
-  <span class='st'>"song2"</span>, <span class='st'>"song3"</span>, <span class='st'>"song3"</span>, <span class='st'>"song3"</span>, <span class='st'>"song4"</span>, <span class='st'>"song4"</span>, <span class='st'>"song4"</span><span class='op'>)</span>
-
-<span class='co'># measure acoustic parameters</span>
-<span class='va'>sp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='specan.html'>specan</a></span><span class='op'>(</span><span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>, <span class='op'>]</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>11</span><span class='op'>)</span>, <span class='fl'>300</span>, fast <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># add song data</span>
-<span class='va'>sp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/merge.html'>merge</a></span><span class='op'>(</span><span class='va'>sp</span>, <span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>, <span class='op'>]</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sound.files"</span>, <span class='st'>"selec"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># caculate song-level parameters for all numeric parameters</span>
-<span class='fu'>song_param</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>sp</span>, song_colm <span class='op'>=</span> <span class='st'>"song"</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># caculate song-level parameters selecting parameters with mean_colm</span>
-<span class='fu'>song_param</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>sp</span>, song_colm <span class='op'>=</span> <span class='st'>"song"</span>,mean_colm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dfrange"</span>, <span class='st'>"duration"</span><span class='op'>)</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># caculate song-level parameters for selecting parameters with mean_colm, max_colm</span>
-<span class='co'># and min_colm and weighted by duration</span>
-<span class='fu'>song_param</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>sp</span>, weight <span class='op'>=</span> <span class='st'>"duration"</span>, song_colm <span class='op'>=</span> <span class='st'>"song"</span>,
-mean_colm <span class='op'>=</span>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dfrange"</span>, <span class='st'>"duration"</span><span class='op'>)</span>, min_colm <span class='op'>=</span>  <span class='st'>"mindom"</span>, max_colm <span class='op'>=</span> <span class='st'>"maxdom"</span>, 
-  parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># with two weights </span>
-<span class='fu'>song_param</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>sp</span>, weight <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"duration"</span>, <span class='st'>"dfrange"</span><span class='op'>)</span>, song_colm <span class='op'>=</span> <span class='st'>"song"</span>,
-mean_colm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"kurt"</span>, <span class='st'>"sp.ent"</span><span class='op'>)</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># with two weights no progress bar</span>
-<span class='fu'>song_param</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>sp</span>, weight <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"duration"</span>, <span class='st'>"dfrange"</span><span class='op'>)</span>, song_colm <span class='op'>=</span> <span class='st'>"song"</span>,
-mean_colm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"kurt"</span>, <span class='st'>"sp.ent"</span><span class='op'>)</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++                                           | 12% ~00s            |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++                               | 38% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++                  | 62% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt;      sound.files selec   start    end top.freq bottom.freq  song    kurt
-#&gt; 1 Phae.long1.wav     1 0.34334 2.3215   8.8071      2.1694 song1 11.8872
-#&gt; 2 Phae.long2.wav     1 0.15960 1.5832   8.8880      2.2840 song2 12.2151
-#&gt; 3 Phae.long3.wav     1 0.12336 2.1044   9.3152      2.3169 song3  9.0225
-#&gt;    sp.ent num.elms elm.duration freq.range song.duration song.rate gap.duration
-#&gt; 1 0.93123        3      0.17033     6.6376        1.9781    1.6528      0.73356
-#&gt; 2 0.92571        2      0.12936     6.6040        1.4236    1.5415      1.16489
-#&gt; 3 0.90834        3      0.13087     6.9983        1.9810    1.6209      0.79421</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

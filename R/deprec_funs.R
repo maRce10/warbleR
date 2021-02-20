@@ -12,3 +12,5 @@ imp.syrinx <- function(...) write(file = "", x = "This function has been moved t
 quer_ml <- function(...) write(file = "", x = "This function has been removed temporarily due to API changes at Macaulay Library")
 
 xcorr.graph <- function(...) write(file = "", x = "This function has been depracated as it was not compatible with changes to improve performance in 'xcorr()' (use corrplot package instead)")
+
+manualoc <- manual_loc <- function(...) write(file = "", x = "This function has been depracated. Try Raven Software (Cornell Lab of Ornithology) or Audacity to manually annotate. The Rraven package (imp_raven) can be used for importing Raven annotations: try `install.packages('Rraven')`")

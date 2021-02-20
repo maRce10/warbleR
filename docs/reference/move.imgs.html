@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Move/copy image files between directories — move.imgs • warbleR</title>
+<title>alternative name for move_imgs — move.imgs • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Move/copy image files between directories — move.imgs" />
-<meta property="og:description" content="move.imgs moves/copies image files created by warbleR between 
-directories (folders)." />
+<meta property="og:title" content="alternative name for move_imgs — move.imgs" />
+<meta property="og:description" content="alternative name for move_imgs" />
 
 
 
@@ -137,114 +136,32 @@ directories (folders)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Move/copy image files between directories</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/move.imgs.R'><code>R/move.imgs.R</code></a></small>
+    <h1>alternative name for <code><a href='move_imgs.html'>move_imgs</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/move_imgs.R'><code>R/move_imgs.R</code></a></small>
     <div class="hidden name"><code>move.imgs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>move.imgs</code> moves/copies image files created by <code><a href='warbleR.html'>warbleR</a></code> between 
-directories (folders).</p>
+    <p>alternative name for <code><a href='move_imgs.html'>move_imgs</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>move.imgs</span><span class='op'>(</span>from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='cn'>NULL</span>, it <span class='op'>=</span> <span class='st'>"all"</span>, cut <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, create.folder <span class='op'>=</span> <span class='cn'>TRUE</span>, folder.name <span class='op'>=</span> <span class='st'>"image_files"</span>, 
-parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>move.imgs</span><span class='op'>(</span>
+  from <span class='op'>=</span> <span class='cn'>NULL</span>,
+  to <span class='op'>=</span> <span class='cn'>NULL</span>,
+  it <span class='op'>=</span> <span class='st'>"all"</span>,
+  cut <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  create.folder <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  folder.name <span class='op'>=</span> <span class='st'>"image_files"</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>from</th>
-      <td><p>Directory path where image files to be copied are found. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>to</th>
-      <td><p>Directory path where image files will be copied to.</p></td>
-    </tr>
-    <tr>
-      <th>it</th>
-      <td><p>A character vector of length 1 giving the image type to be used. "all",
-"tiff", "jpeg" and "pdf" are admitted ("all" includes all the rest). Default is "all".</p></td>
-    </tr>
-    <tr>
-      <th>cut</th>
-      <td><p>Logical. Determines if files are removed from the original location after
-being copied (cut) or not (just copied). Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>Logical. Determines if files that already exist in the destination directory 
-should be overwritten. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>create.folder</th>
-      <td><p>Logical. Determines if files are moved to a new folder (which is named with the
-"folder.name" argument). Ignored if 'to' is provided. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>folder.name</th>
-      <td><p>Character string with the name of the new folder where the files will be 
-copied to. Ignored if 'to' is provided. Default is <code>"image_files"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function aims to simplify the manipulation of the image files generated by many 
-of the <code><a href='warbleR.html'>warbleR</a></code> function. It copies/cuts files between directories.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='move_imgs.html'>move_imgs</a></code> for documentation. <code>move.imgs</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='filtersels.html'>filtersels</a></code></p>
-<p>Other data manipulation: 
-<code><a href='open_wd.html'>open_wd</a>()</code>,
-<code><a href='split_wavs.html'>split_wavs</a>()</code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='co'>#load data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Cryp.soui"</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Cryp.soui</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Cryp.soui.wav"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#save sound files </span>
-
-<span class='co'>#autodetec location of signals</span>
-<span class='va'>ad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='autodetec.html'>autodetec</a></span><span class='op'>(</span>threshold <span class='op'>=</span> <span class='fl'>6</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, mindur <span class='op'>=</span> <span class='fl'>1.2</span>,
-maxdur <span class='op'>=</span> <span class='fl'>3</span>, ssmooth <span class='op'>=</span> <span class='fl'>600</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, flist <span class='op'>=</span> <span class='st'>"Cryp.soui.wav"</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>#track dominant frequency graphs with freq reange detection</span>
-<span class='fu'><a href='trackfreqs.html'>trackfreqs</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>ad</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ad</span><span class='op'>$</span><span class='va'>start</span><span class='op'>)</span>,<span class='op'>]</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span>, ovlp <span class='op'>=</span> <span class='fl'>90</span>, it <span class='op'>=</span> <span class='st'>"tiff"</span>,
-bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, contour <span class='op'>=</span> <span class='st'>"df"</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, frange <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># create folder to move image files</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"imgs"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>#copy files</span>
-<span class='fu'>move.imgs</span><span class='op'>(</span>cut <span class='op'>=</span> <span class='cn'>FALSE</span>, from <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"imgs"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># cut files</span>
-<span class='fu'>move.imgs</span><span class='op'>(</span>cut <span class='op'>=</span> <span class='cn'>TRUE</span>, from <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, 
-to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"imgs"</span><span class='op'>)</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># Check this folder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpWebkQ3"</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

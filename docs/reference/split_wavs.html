@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Splits sound files — split_wavs • warbleR</title>
+<title>alternative name for wav_split — split_wavs • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Splits sound files — split_wavs" />
-<meta property="og:description" content="split_wavs splits sound files in shorter segments" />
+<meta property="og:title" content="alternative name for wav_split — split_wavs" />
+<meta property="og:description" content="alternative name for wav_split" />
 
 
 
@@ -136,94 +136,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Splits sound files</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/split_wavs.R'><code>R/split_wavs.R</code></a></small>
+    <h1>alternative name for <code><a href='wav_split.html'>wav_split</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/wav_split.R'><code>R/wav_split.R</code></a></small>
     <div class="hidden name"><code>split_wavs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>split_wavs</code> splits sound files in shorter segments</p>
+    <p>alternative name for <code><a href='wav_split.html'>wav_split</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>split_wavs</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span>, sgmt.dur <span class='op'>=</span> <span class='fl'>10</span>, sgmts <span class='op'>=</span> <span class='cn'>NULL</span>, files <span class='op'>=</span> <span class='cn'>NULL</span>,
- parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, only.sels  <span class='op'>=</span> <span class='cn'>FALSE</span>, X <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>split_wavs</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sgmt.dur <span class='op'>=</span> <span class='fl'>10</span>,
+  sgmts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  files <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  only.sels <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  X <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>path</th>
-      <td><p>Directory path where sound files are found. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>sgmt.dur</th>
-      <td><p>Numeric. Duration (in s) of segments in which sound files would be split. Sound files shorter than 'sgmt.dur' won't be split. Ignored if 'sgmts' is supplied.</p></td>
-    </tr>
-    <tr>
-      <th>sgmts</th>
-      <td><p>Numeric. Number of segments in which to split each sound file. If supplied 'sgmt.dur' is ignored.</p></td>
-    </tr>
-    <tr>
-      <th>files</th>
-      <td><p>Character vector indicating the subset of files that will be split.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>only.sels</th>
-      <td><p>Logical argument to control if only the data frame is return (no wave files are saved). Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>X</th>
-      <td><p>'selection_table' object or a data frame with columns
-for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). If provided selections in 'X' will be saved as individual sound files (and 'sgmt.dur'/'sgmts'/'files' arguments will be ignored. Default is <code>NULL</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Wave files for each segment in the working directory (named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the cuts (sound.files) and the start and end of cuts in the original files.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. <code><a href='auto_detec.html'>auto_detec</a></code> ).</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='wav_split.html'>wav_split</a></code> for documentation. <code>split_wavs</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='cut_sels.html'>cut_sels</a></code></p>
-<p>Other data manipulation: 
-<code><a href='move.imgs.html'>move.imgs</a>()</code>,
-<code><a href='open_wd.html'>open_wd</a>()</code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='co'>#load data and save to temporary working directory</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>#split files in 1 s files</span>
-<span class='fu'>split_wavs</span><span class='op'>(</span>sgmt.dur <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># Check this folder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |++                                                | 3 % ~00s            |++++                                              | 6 % ~00s            |+++++                                             | 9 % ~00s            |+++++++                                           | 12% ~00s            |++++++++                                          | 16% ~00s            |++++++++++                                        | 19% ~00s            |+++++++++++                                       | 22% ~00s            |+++++++++++++                                     | 25% ~00s            |+++++++++++++++                                   | 28% ~00s            |++++++++++++++++                                  | 31% ~00s            |++++++++++++++++++                                | 34% ~00s            |+++++++++++++++++++                               | 38% ~00s            |+++++++++++++++++++++                             | 41% ~00s            |++++++++++++++++++++++                            | 44% ~00s            |++++++++++++++++++++++++                          | 47% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |+++++++++++++++++++++++++++                       | 53% ~00s            |+++++++++++++++++++++++++++++                     | 56% ~00s            |++++++++++++++++++++++++++++++                    | 59% ~00s            |++++++++++++++++++++++++++++++++                  | 62% ~00s            |+++++++++++++++++++++++++++++++++                 | 66% ~00s            |+++++++++++++++++++++++++++++++++++               | 69% ~00s            |++++++++++++++++++++++++++++++++++++              | 72% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++          | 78% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 81% ~00s            |+++++++++++++++++++++++++++++++++++++++++++       | 84% ~00s            |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++++   | 94% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++++++ | 97% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [1] "/tmp/RtmpWebkQ3"</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -25,16 +25,16 @@
 #' @param horizontal Logical. Controls whether spectrograms in a fan phylogeny are place in a horizontal position 
 #' \code{FALSE} or in the same angle as the tree tips. Currently only horizontal spectrograms are available. 
 #' @param ... Additional arguments to be passed to the internal spectrogram 
-#' creating function (\code{\link{specreator}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 
+#' creating function (\code{\link{spectrograms}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 
 #' customizing graphical output. Only rightwards phylogenies can be plotted.
 #' @return A phylogenetic tree with spectrograms on tree tips is plotted in the current graphical device.
 #' @family spectrogram creators
-#' @seealso \code{\link{specreator}}, \code{\link[ape]{plot.phylo}}
+#' @seealso \code{\link{spectrograms}}, \code{\link[ape]{plot.phylo}}
 #' @export
 #' @name phylo_spectro
 #' @details The function add the spectrograms of sounds annotated in a selection table ('X' argument) onto the tips of a phylogenetic tree. 
 #' The 'tip.label' column in 'X' is used to match spectrograms and tree tips. The function uses internally the \code{\link[ape]{plot.phylo}} function to plot the tree 
-#' and the \code{\link{specreator}} function to create the spectrograms. Arguments for both of these functions
+#' and the \code{\link{spectrograms}} function to create the spectrograms. Arguments for both of these functions
 #' can be provided for further customization.
 #' @examples { 
 #' \donttest{
@@ -79,7 +79,7 @@
 #' size = 2, type = "fan", show.tip.label = FALSE, edge.color = "red", edge.width = 2)
 #' 
 #' # plotting a tree representing cross-correlation distances 
-#' xcorr_mat <- xcorr(X, bp = c(1, 10))
+#' xcorr_mat <- cross_correlation(X, bp = c(1, 10))
 #' 
 #' xc.tree <- ape::chronoMPL(ape::as.phylo(hclust(as.dist(1 - xcorr_mat))))
 #' 
@@ -158,10 +158,10 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
  
  ## SPECTROGRAMS (save in temporary directory)  
   # save specreator call
- cll.spec <- quote(specreator(line = FALSE, pb = FALSE, dest.path = tempdir()))
+ cll.spec <- quote(spectrograms(line = FALSE, pb = FALSE, dest.path = tempdir()))
  
  # keep arguments in ... found in specreator
- shr.args <- argus[names(argus) %in% names(formals(specreator))]
+ shr.args <- argus[names(argus) %in% names(formals(spectrograms))]
   
  # add new arguments to call (if present rewrite if no add)
   if (length(shr.args) > 0)

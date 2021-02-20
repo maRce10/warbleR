@@ -46,7 +46,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{dfts}}, \code{\link{trackfreqs}},
+\code{\link{dfts}}, \code{\link{freq_track}},
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

@@ -1,9 +1,9 @@
 #' Find cross-correlation peaks  
 #' 
-#' \code{find_peaks} find peaks in cross-correlation scores from \code{\link{xcorr}} 
+#' \code{find_peaks} find peaks in cross-correlation scores from \code{\link{cross_correlation}} 
 #' @usage find_peaks(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE, 
 #' max.peak = FALSE, output = "data.frame")
-#' @param xc.output output of \code{\link{xcorr}} after setting \code{output = "list"}.
+#' @param xc.output output of \code{\link{cross_correlation}} after setting \code{output = "list"}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param cutoff Numeric vector of length 1 with a value between 0 and 1 specifying the correlation cutoff for detecting peaks. Default is 0.4.
@@ -11,7 +11,7 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param max.peak Logical argument to control whether only the peak with the highest correlation value is returned (if TRUE; cutoff will be ignored). Default is \code{FALSE}.
-#' @param output Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using \code{\link{lspec}}.
+#' @param output Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using \code{\link{full_spectrograms}}.
 #' @return The function returns a data frame with time and correlation score for the  
 #' detected peaks.
 #' @export
@@ -27,13 +27,13 @@
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' 
 #' # run cross-correlation
-#' xc.output <- xcorr(X = lbh_selec_table2, output = "list", 
+#' xc.output <- cross_correlation(X = lbh_selec_table2, output = "list", 
 #' compare.matrix = comp_matrix, path = tempdir())
 #' 
 #' # find peaks
 #' pks <- find_peaks(xc.output = xc.output, path = tempdir())
 #' }
-#' @seealso \code{\link{autodetec}}, \code{\link[monitoR]{findPeaks}}
+#' @seealso \code{\link{auto_detec}}, \code{\link[monitoR]{findPeaks}}
 #' @author Marcelo Araya-Salas \email{marcelo.araya@@ucr.ac.cr})
 #' 
 #' @references {

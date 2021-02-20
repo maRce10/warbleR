@@ -28,7 +28,7 @@
 #' If \code{csv = TRUE} (default)
 #' a 'file_names_info.csv' file with the same information as the output data frame is also saved in the consolidated directory.  
 #' @family sound file manipulation
-#' @seealso \code{\link{fixwavs}} for making sound files readable in R 
+#' @seealso \code{\link{wav_fix}} for making sound files readable in R 
 #' @name consolidate
 #' @details This function allows users to put files scattered in several directories into a 
 #' single one. By default it works on sound files in '.wav' format but can work with

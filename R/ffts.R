@@ -1,14 +1,13 @@
 #' Extract the fundamental frequency values as a time series
 #' 
-#' \code{ffts} extracts the fundamental frequency values as a time series
-#' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+#' \code{ffts} extracts the fundamental frequency values as a time series.
 #' @usage ffts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
 #'   threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "ffts", pb = TRUE, 
 #'   clip.edges = FALSE, leglab = "ffts", ff.method = "seewave", ...)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data 
 #' frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
-#' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
+#' The output of \code{\link{auto_detec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param length.out A numeric vector of length 1 giving the number of measurements of fundamental 
@@ -40,14 +39,14 @@
 #' frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using 
 #' \code{\link[seewave]{fund}}). Default is 'seewave'. 'tuneR' performs
 #' faster (and seems to be more accurate) than 'seewave'.  
-#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}. for customizing
+#' @param ... Additional arguments to be passed to \code{\link{freq_track}}. for customizing
 #' graphical output.
 #' @return A data frame with the fundamental frequency values measured across the signals. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the fundamental frequencies 
-#' (see \code{\link{trackfreqs}} description for more details).
+#' (see \code{\link{freq_track}} description for more details).
 #' @family spectrogram creators
-#' @seealso \code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{dfts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
+#' @seealso \code{\link{sig2noise}}, \code{\link{freq_track}}, \code{\link{dfts}}, \code{\link{ff_DTW}}, \code{\link{df_DTW}}
 #' @export
 #' @name ffts
 #' @details This function extracts the fundamental frequency values as a time series. 
@@ -227,7 +226,7 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
     }
     
     if (img) 
-      trackfreqs(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
+      warbleR::freq_track(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
                  parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
                  custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apfund$y)), ...)
     
@@ -254,13 +253,3 @@ ffts <- function(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70,
   return(df)
   
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{ffts}}
-#'
-#' @keywords internal
-#' @details see \code{\link{ffts}} for documentation. \code{\link{ffts}} will be deprecated in future versions.
-#' @export
-
-ff_ts <- ffts

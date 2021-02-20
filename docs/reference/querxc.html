@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Access 'Xeno-Canto' recordings and metadata — querxc • warbleR</title>
+<title>alternative name for xc_query — querxc • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Access 'Xeno-Canto' recordings and metadata — querxc" />
-<meta property="og:description" content="querxc downloads recordings and metadata from Xeno-Canto." />
+<meta property="og:title" content="alternative name for xc_query — querxc" />
+<meta property="og:description" content="alternative name for xc_query" />
 
 
 
@@ -136,122 +136,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Access 'Xeno-Canto' recordings and metadata</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/querxc.R'><code>R/querxc.R</code></a></small>
+    <h1>alternative name for <code><a href='xc_query.html'>xc_query</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/xc_query.R'><code>R/xc_query.R</code></a></small>
     <div class="hidden name"><code>querxc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>querxc</code> downloads recordings and metadata from <a href='https://www.xeno-canto.org/'>Xeno-Canto</a>.</p>
+    <p>alternative name for <code><a href='xc_query.html'>xc_query</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>querxc</span><span class='op'>(</span><span class='va'>qword</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span>, X <span class='op'>=</span> <span class='cn'>NULL</span>, file.name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Genus"</span>, <span class='st'>"Specific_epithet"</span><span class='op'>)</span>, 
-parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>querxc</span><span class='op'>(</span>
+  <span class='va'>qword</span>,
+  download <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  X <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file.name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Genus"</span>, <span class='st'>"Specific_epithet"</span><span class='op'>)</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>qword</th>
-      <td><p>Character vector of length one indicating the genus, or genus and
-species, to query 'Xeno-Canto' database. For example, <em>Phaethornis</em> or <em>Phaethornis longirostris</em>. 
-More complex queries can be done by using search terms that follow the 
-xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings 
-(e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song' 
-will search for all recordings in which the sound type description contains the word 'song'. 
-Several tags can be included in the same query. The query "phaethornis cnt:belize' will only return 
-results for birds in the genus <em>Phaethornis</em> that were recorded in  Belize. 
-See <a href='https://www.xeno-canto.org/help/search'>Xeno-Canto's search help</a> for a full description and see examples below 
-for queries using terms with more than one word.</p></td>
-    </tr>
-    <tr>
-      <th>download</th>
-      <td><p>Logical argument. If <code>FALSE</code> only the recording file names and
-associated metadata are downloaded. If <code>TRUE</code>, recordings are also downloaded to the working
-directory as .mp3 files. Default is <code>FALSE</code>. Note that if the recording is already in the 
-working directory (as when the downloading process has been interrupted) it will be skipped. 
-Hence, resuming downloading processes will not start from scratch.</p></td>
-    </tr>
-    <tr>
-      <th>X</th>
-      <td><p>Data frame with a 'Recording_ID' column and any other column listed in the file.name argument. Only the recordings listed in the data frame 
-will be download (<code>download</code> argument is automatically set to <code>TRUE</code>). This can be used to select
-the recordings to be downloaded based on their attributes.</p></td>
-    </tr>
-    <tr>
-      <th>file.name</th>
-      <td><p>Character vector indicating the tags (or column names) to be included in the sound file names (if download = <code>TRUE</code>). Several tags can be included. If <code>NULL</code> only the 'Xeno-Canto' recording identification number ("Recording_ID") is used. Default is c("Genus", "Specific_epithet").
-Note that recording id is always used (whether or not is listed by users) to avoid duplicated names.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied when downloading mp3 files.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Applied both when getting metadata and downloading files.</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>Character string containing the directory path where the sound files will be saved. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = <code>TRUE</code> or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function queries for avian vocalization recordings in the open-access
-online repository <a href='https://www.xeno-canto.org/'>Xeno-Canto</a>. It can return recordings metadata
-or download the associated sound files. Complex queries can be done by using search terms that follow the 
- xeno-canto advance query syntax (check "qword" argument description). 
- Files are double-checked after downloading and "empty" files are re-downloaded. 
- File downloading process can be interrupted and resume later as long as the working directory is the same.
- Maps of recording coordinates can be produced using 
-<code><a href='xcmaps.html'>xcmaps</a></code>.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='xc_query.html'>xc_query</a></code> for documentation. <code>querxc</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='xcmaps.html'>xcmaps</a></code>, 
-<a href='https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html'>blog post on accessing Xeno-Canto recordings</a></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># search without downloading</span>
-<span class='va'>df1</span> <span class='op'>&lt;-</span> <span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/View.html'>View</a></span><span class='op'>(</span><span class='va'>df1</span><span class='op'>)</span>
-
-<span class='co'># downloading files</span>
-<span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'Phaethornis anthophilus'</span>, download <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># check this folder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'>## search using xeno-canto advance query ###</span>
-<span class='va'>orth.pap</span> <span class='op'>&lt;-</span> <span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'gen:orthonyx cnt:papua loc:tari'</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
- 
-<span class='co'># download file using the output data frame as input</span>
-<span class='fu'>querxc</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>orth.pap</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># use quotes for queries with more than 1 word (e.g. Costa Rica),note that the </span>
-<span class='co'># single quotes are used for the whole 'qword' and double quotes for the 2-word term inside</span>
-<span class='co'>#Phaeochroa genus in Costa Rica </span>
-<span class='va'>phae.cr</span> <span class='op'>&lt;-</span> <span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'gen:phaeochroa cnt:"costa rica"'</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'># several terms can be searched for in the same field</span>
-<span class='co'># search for all female songs in sound type</span>
-<span class='va'>femsong</span> <span class='op'>&lt;-</span> <span class='fu'>querxc</span><span class='op'>(</span>qword <span class='op'>=</span> <span class='st'>'type:song type:female'</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

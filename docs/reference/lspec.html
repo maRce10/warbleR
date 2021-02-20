@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create long spectrograms of whole sound files — lspec • warbleR</title>
+<title>alternative name for full_spectrograms — lspec • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Create long spectrograms of whole sound files — lspec" />
-<meta property="og:description" content="lspec produces image files with spectrograms of whole sound files split into multiple 
-  rows." />
+<meta property="og:title" content="alternative name for full_spectrograms — lspec" />
+<meta property="og:description" content="alternative name for full_spectrograms" />
 
 
 
@@ -137,168 +136,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create long spectrograms of whole sound files</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/lspec.R'><code>R/lspec.R</code></a></small>
+    <h1>alternative name for <code><a href='full_spectrograms.html'>full_spectrograms</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/full_spectrograms.R'><code>R/full_spectrograms.R</code></a></small>
     <div class="hidden name"><code>lspec.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>lspec</code> produces image files with spectrograms of whole sound files split into multiple 
-  rows.</p>
+    <p>alternative name for <code><a href='full_spectrograms.html'>full_spectrograms</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>lspec</span><span class='op'>(</span>X <span class='op'>=</span> <span class='cn'>NULL</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>22</span><span class='op'>)</span>, sxrow <span class='op'>=</span> <span class='fl'>5</span>, rows <span class='op'>=</span> <span class='fl'>10</span>, collevels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>40</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, 
-ovlp <span class='op'>=</span> <span class='fl'>50</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, gr <span class='op'>=</span> <span class='cn'>FALSE</span>, pal <span class='op'>=</span> <span class='va'>reverse.gray.colors.2</span>, 
-cex <span class='op'>=</span> <span class='fl'>1</span>, it <span class='op'>=</span> <span class='st'>"jpeg"</span>, flist <span class='op'>=</span> <span class='cn'>NULL</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-fast.spec <span class='op'>=</span> <span class='cn'>FALSE</span>, labels <span class='op'>=</span> <span class='st'>"selec"</span>, horizontal <span class='op'>=</span> <span class='cn'>FALSE</span>, song <span class='op'>=</span> <span class='cn'>NULL</span>, suffix <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lspec</span><span class='op'>(</span>
+  X <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>,
+  sxrow <span class='op'>=</span> <span class='fl'>5</span>,
+  rows <span class='op'>=</span> <span class='fl'>10</span>,
+  collevels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>40</span>, <span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>,
+  ovlp <span class='op'>=</span> <span class='fl'>50</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  wl <span class='op'>=</span> <span class='fl'>512</span>,
+  gr <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  pal <span class='op'>=</span> <span class='va'>reverse.gray.colors.2</span>,
+  cex <span class='op'>=</span> <span class='fl'>1</span>,
+  it <span class='op'>=</span> <span class='st'>"jpeg"</span>,
+  flist <span class='op'>=</span> <span class='cn'>NULL</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  fast.spec <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  labels <span class='op'>=</span> <span class='st'>"selec"</span>,
+  horizontal <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  song <span class='op'>=</span> <span class='cn'>NULL</span>,
+  suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X</th>
-      <td><p>'selection_table' object or any data frame with columns
-for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number 
-(and selection comment, if available). Default is <code>NULL</code>.Alternatively, it can also take the output of <code><a href='xcorr.html'>xcorr</a></code> or <code><a href='autodetec.html'>autodetec</a></code> (when 'output' is a 'list', see <code><a href='xcorr.html'>xcorr</a></code> or <code><a href='autodetec.html'>autodetec</a></code>). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.</p></td>
-    </tr>
-    <tr>
-      <th>flim</th>
-      <td><p>A numeric vector of length 2 indicating the highest and lowest 
-frequency limits (kHz) of the spectrogram, as in 
-<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is c(0,22).</p></td>
-    </tr>
-    <tr>
-      <th>sxrow</th>
-      <td><p>A numeric vector of length 1. Specifies seconds of spectrogram
-per row. Default is 5.</p></td>
-    </tr>
-    <tr>
-      <th>rows</th>
-      <td><p>A numeric vector of length 1. Specifies number of rows per 
-image file. Default is 10.</p></td>
-    </tr>
-    <tr>
-      <th>collevels</th>
-      <td><p>A numeric vector of length 3. Specifies levels to partition the 
-amplitude range of the spectrogram (in dB). The more levels the higher the
-resolution of the spectrogram. Default is seq(-40, 0, 1).</p></td>
-    </tr>
-    <tr>
-      <th>ovlp</th>
-      <td><p>Numeric vector of length 1 specifying % of overlap between two 
-consecutive windows, as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is 50. High values of ovlp 
-slow down the function but produce more accurate selection limits (when X is provided).</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>wl</th>
-      <td><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
-is 512.</p></td>
-    </tr>
-    <tr>
-      <th>gr</th>
-      <td><p>Logical argument to add grid to spectrogram. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>pal</th>
-      <td><p>Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
-<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code> for more palettes.</p></td>
-    </tr>
-    <tr>
-      <th>cex</th>
-      <td><p>A numeric vector of length 1 giving the amount by which text 
-(including sound file and page number) should be magnified. Default is 1.</p></td>
-    </tr>
-    <tr>
-      <th>it</th>
-      <td><p>A character vector of length 1 giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is "jpeg".</p></td>
-    </tr>
-    <tr>
-      <th>flist</th>
-      <td><p>character vector or factor indicating the subset of files that will be analyzed. Ignored
-if X is provided.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>Logical argument. If <code>TRUE</code> all selections will be analyzed again 
-when code is rerun. If <code>FALSE</code> only the selections that do not have a image 
-file in the working directory will be analyzed. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>fast.spec</th>
-      <td><p>Logical. If <code>TRUE</code> then image function is used internally to create spectrograms, which substantially 
-increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-This option is indicated for signals with high background noise levels. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
-<code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>topo.1</a></code> and <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>rainbow.1</a></code> (which should be imported from the package monitoR) seem
-to work better with 'fast' spectrograms. Palette colors <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.1</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.2</a></code>, 
-<code><a href='https://rdrr.io/pkg/monitoR/man/specCols.html'>gray.3</a></code> offer 
-decreasing darkness levels.</p></td>
-    </tr>
-    <tr>
-      <th>labels</th>
-      <td><p>Character string with the name of the column(s) for selection 
-labeling. Default is 'selec'. Set to <code>NULL</code> to remove labels.</p></td>
-    </tr>
-    <tr>
-      <th>horizontal</th>
-      <td><p>Logical. Controls if the images are produced as horizontal or vertical pages. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>song</th>
-      <td><p>Character string with the name of the column to used as a label a for higher 
-organization level in the song (similar to 'song_colm' in <code><a href='song_param.html'>song_param</a></code>). If supplied then lines above the selections belonging to the same
-'song' are plotted. Ignored if 'X' is not provided.</p></td>
-    </tr>
-    <tr>
-      <th>suffix</th>
-      <td><p>Character vector of length 1. Suffix for the output image file (to be added at the end of the default file name). Default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in <code><a href='https://rdrr.io/r/grDevices/png.html'>png</a></code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>image files with spectrograms of whole sound files in the working directory. Multiple pages
-can be returned, depending on the length of each sound file.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function creates spectrograms for complete sound files, printing
-  the name of the sound files and the "page" number (p1-p2...) at the upper 
-  right corner of the image files. If 'X' is
-  supplied, the function delimits and labels the selections. 
-  This function aims to facilitate visual inspection of multiple files as well as visual classification 
-  of vocalization units and the analysis of animal vocal sequences.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='full_spectrograms.html'>full_spectrograms</a></code> for documentation. <code>lspec</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='lspec2pdf.html'>lspec2pdf</a></code>, <code><a href='catalog2pdf.html'>catalog2pdf</a></code>, <code><a href='xcorr.html'>xcorr</a></code>, <code><a href='autodetec.html'>autodetec</a></code>
-<a href='https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html'>blog post on spectrogram pdfs</a></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -42,7 +42,7 @@
   
 
 <meta property="og:title" content="Find cross-correlation peaks — find_peaks" />
-<meta property="og:description" content="find_peaks find peaks in cross-correlation scores from xcorr" />
+<meta property="og:description" content="find_peaks find peaks in cross-correlation scores from cross_correlation" />
 
 
 
@@ -142,7 +142,7 @@
     </div>
 
     <div class="ref-description">
-    <p><code>find_peaks</code> find peaks in cross-correlation scores from <code><a href='xcorr.html'>xcorr</a></code></p>
+    <p><code>find_peaks</code> find peaks in cross-correlation scores from <code><a href='cross_correlation.html'>cross_correlation</a></code></p>
     </div>
 
     <pre class="usage"><span class='fu'>find_peaks</span><span class='op'>(</span><span class='va'>xc.output</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, cutoff <span class='op'>=</span> <span class='fl'>0.4</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, 
@@ -153,7 +153,7 @@ max.peak <span class='op'>=</span> <span class='cn'>FALSE</span>, output <span c
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>xc.output</th>
-      <td><p>output of <code><a href='xcorr.html'>xcorr</a></code> after setting <code>output = "list"</code>.</p></td>
+      <td><p>output of <code><a href='cross_correlation.html'>cross_correlation</a></code> after setting <code>output = "list"</code>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
@@ -179,7 +179,7 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     </tr>
     <tr>
       <th>output</th>
-      <td><p>Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using <code><a href='lspec.html'>lspec</a></code>.</p></td>
+      <td><p>Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using <code><a href='full_spectrograms.html'>full_spectrograms</a></code>.</p></td>
     </tr>
     </table>
 
@@ -195,7 +195,7 @@ detected peaks.</p>
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.H. Khanna, S.L.L. Gaunt &amp; D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='autodetec.html'>autodetec</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/findPeaks.html'>findPeaks</a></code></p></div>
+    <div class='dont-index'><p><code><a href='auto_detec.html'>auto_detec</a></code>, <code><a href='https://rdrr.io/pkg/monitoR/man/findPeaks.html'>findPeaks</a></code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas <a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
@@ -210,7 +210,7 @@ detected peaks.</p>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># run cross-correlation</span>
-<span class='va'>xc.output</span> <span class='op'>&lt;-</span> <span class='fu'><a href='xcorr.html'>xcorr</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table2</span>, output <span class='op'>=</span> <span class='st'>"list"</span>, 
+<span class='va'>xc.output</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cross_correlation.html'>cross_correlation</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table2</span>, output <span class='op'>=</span> <span class='st'>"list"</span>, 
 compare.matrix <span class='op'>=</span> <span class='va'>comp_matrix</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># find peaks</span>

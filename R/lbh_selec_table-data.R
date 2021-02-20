@@ -1,4 +1,4 @@
-#' Data frame of selections (i.e. selection table).
+#' Example data frame of selections (i.e. selection table).
 #' 
 #' A data frame containing the start, end, low and high frequency of 
 #' \emph{Phaethornis longirostris} (Long-billed Hermit) songs from the 

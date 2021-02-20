@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Maps of 'Xeno-Canto' recordings by species — xcmaps • warbleR</title>
+<title>alternative name for xc_maps — xcmaps • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Maps of 'Xeno-Canto' recordings by species — xcmaps" />
-<meta property="og:description" content="xcmaps creates maps to visualize the geographic spread of 'Xeno-Canto'
-  recordings." />
+<meta property="og:title" content="alternative name for xc_maps — xcmaps" />
+<meta property="og:description" content="alternative name for xc_maps" />
 
 
 
@@ -137,94 +136,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Maps of 'Xeno-Canto' recordings by species</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/xcmaps.R'><code>R/xcmaps.R</code></a></small>
+    <h1>alternative name for <code><a href='xc_maps.html'>xc_maps</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/xc_maps.R'><code>R/xc_maps.R</code></a></small>
     <div class="hidden name"><code>xcmaps.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>xcmaps</code> creates maps to visualize the geographic spread of 'Xeno-Canto'
-  recordings.</p>
+    <p>alternative name for <code><a href='xc_maps.html'>xc_maps</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>xcmaps</span><span class='op'>(</span><span class='va'>X</span>, img <span class='op'>=</span> <span class='cn'>TRUE</span>, it <span class='op'>=</span> <span class='st'>"jpeg"</span>, res <span class='op'>=</span> <span class='fl'>100</span>, labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
- path <span class='op'>=</span> <span class='cn'>NULL</span>, leaflet.map <span class='op'>=</span> <span class='cn'>FALSE</span>, 
- leaflet.cluster <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>xcmaps</span><span class='op'>(</span>
+  <span class='va'>X</span>,
+  img <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  it <span class='op'>=</span> <span class='st'>"jpeg"</span>,
+  res <span class='op'>=</span> <span class='fl'>100</span>,
+  labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  leaflet.map <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  leaflet.cluster <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X</th>
-      <td><p>Data frame output from <code><a href='querxc.html'>querxc</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>img</th>
-      <td><p>A logical argument specifying whether an image file of each species
-map should be returned, default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>it</th>
-      <td><p>A character vector of length 1 giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is "jpeg".</p></td>
-    </tr>
-    <tr>
-      <th>res</th>
-      <td><p>Numeric argument of length 1. Controls image resolution.
-Default is 100 (faster) although 300 - 400 is recommended for publication/ 
-presentation quality.</p></td>
-    </tr>
-    <tr>
-      <th>labels</th>
-      <td><p>A logical argument defining whether dots depicting recording locations are labeled.
-If <code>TRUE</code> then the Recording_ID is used as label.</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>Character string with the directory path where the image files will be saved. 
-If <code>NULL</code> (default) then the current working directory is used.
-Ignored if <code>img = FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>leaflet.map</th>
-      <td><p>Logical to control whether the package 'leaflet' is used for displaying the maps. 'leaflet' maps are interactive and display information about recordings and links to the Xeno-Canto website. If <code>TRUE</code> a single map is displayed regardless of the number of species and all other image related arguments are ignored. Default is <code>FALSE</code>. The hovering label shows the species scientific name (or the subspecies if only 1 species is present in 'X'). Note that colors will be recycled if more after 18 species (or subspecies).</p></td>
-    </tr>
-    <tr>
-      <th>leaflet.cluster</th>
-      <td><p>Logical to control if icons are clustered by locality (as in Xeno-Canto maps). Default is <code>FALSE</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A map of 'Xeno-Canto' recordings per species (image file), or a faceted
-  plot of species map(s) in the active graphic device.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function creates maps for visualizing the geographic spread of recordings from the open-access
-online repository <a href='https://www.xeno-canto.org/'>Xeno-Canto</a>. The function takes the output of 
-<code><a href='querxc.html'>querxc</a></code> as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
-working directory. Note that only recordings with geographic coordinates are displayed.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='xc_maps.html'>xc_maps</a></code> for documentation. <code>xcmaps</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>) and Grace Smith Vidaurre</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># search in xeno-canto</span>
-<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='querxc.html'>querxc</a></span><span class='op'>(</span><span class='st'>"Phaethornis anthophilus"</span>, download <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'>#create image in R graphic device</span>
-<span class='fu'>xcmaps</span><span class='op'>(</span><span class='va'>X</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'>#create leaflet map</span>
-<span class='fu'>xcmaps</span><span class='op'>(</span><span class='va'>X</span>, leaflet.map <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

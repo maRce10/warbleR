@@ -112,7 +112,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{querxc}} for for downloading bird vocalizations from an online repository.
+\code{\link{xc_query}} for for downloading bird vocalizations from an online repository.
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

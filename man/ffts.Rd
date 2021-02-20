@@ -12,7 +12,7 @@ ffts(X, wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22),
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data 
 frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
-The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame.}
+The output of \code{\link{auto_detec}} can be used as the input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.}
@@ -59,18 +59,17 @@ frequency. Either 'tuneR' (using \code{\link[tuneR]{FF}}) or 'seewave' (using
 \code{\link[seewave]{fund}}). Default is 'seewave'. 'tuneR' performs
 faster (and seems to be more accurate) than 'seewave'.}
 
-\item{...}{Additional arguments to be passed to \code{\link{trackfreqs}}. for customizing
+\item{...}{Additional arguments to be passed to \code{\link{freq_track}}. for customizing
 graphical output.}
 }
 \value{
 A data frame with the fundamental frequency values measured across the signals. If img is 
 \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the fundamental frequencies 
-(see \code{\link{trackfreqs}} description for more details).
+(see \code{\link{freq_track}} description for more details).
 }
 \description{
-\code{ffts} extracts the fundamental frequency values as a time series
-of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+\code{ffts} extracts the fundamental frequency values as a time series.
 }
 \details{
 This function extracts the fundamental frequency values as a time series. 
@@ -92,19 +91,19 @@ ffts(lbh_selec_table, length.out = 50, flim = c(1, 12), bp = c(2, 9), wl = 300, 
 }
 }
 \seealso{
-\code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{dfts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
+\code{\link{sig2noise}}, \code{\link{freq_track}}, \code{\link{dfts}}, \code{\link{ff_DTW}}, \code{\link{df_DTW}}
 
 Other spectrogram creators: 
-\code{\link{color.spectro}()},
-\code{\link{dfDTW}()},
+\code{\link{color_spectro}()},
+\code{\link{df_DTW}()},
 \code{\link{dfts}()},
-\code{\link{ffDTW}()},
+\code{\link{entropy_ts}()},
+\code{\link{ff_DTW}()},
+\code{\link{freq_track}()},
 \code{\link{multi_DTW}()},
 \code{\link{phylo_spectro}()},
-\code{\link{snrspecs}()},
-\code{\link{sp.en.ts}()},
-\code{\link{specreator}()},
-\code{\link{trackfreqs}()}
+\code{\link{snr_spectrograms}()},
+\code{\link{spectrograms}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

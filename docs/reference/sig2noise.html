@@ -155,7 +155,7 @@ in.dB <span class='op'>=</span> <span class='cn'>TRUE</span>, before <span class
       <th>X</th>
       <td><p>object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). The output of <code><a href='manual_loc.html'>manual_loc</a></code> can also be used as the input data frame.</p></td>
+(start and end).</p></td>
     </tr>
     <tr>
       <th>mar</th>
@@ -224,7 +224,7 @@ set globally using the 'wl' option (see <code><a href='warbleR_options.html'>war
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Data frame similar to <code><a href='autodetec.html'>autodetec</a></code> output, but also includes a new variable 
+    <p>Data frame similar to <code><a href='auto_detec.html'>auto_detec</a></code> output, but also includes a new variable 
 with the signal-to-noise values.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -238,7 +238,7 @@ with the signal-to-noise values.</p>
   margins overlap with another acoustic signal nearby, the signal-to-noise 
   ratio (SNR) will be inaccurate. Any SNR less than or equal to one suggests 
   background noise is equal to or overpowering the acoustic signal.
-  <code><a href='snrspecs.html'>snrspecs</a></code> can be used to troubleshoot different noise margins.</p>
+  <code><a href='snr_spectrograms.html'>snr_spectrograms</a></code> can be used to troubleshoot different noise margins.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
@@ -253,7 +253,7 @@ with the signal-to-noise values.</p>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#save sound files </span>
 
 <span class='co'># specifying the correct margin is important</span>
-<span class='co'># use snrspecs to troubleshoot margins for sound files</span>
+<span class='co'># use snr_spectrograms to troubleshoot margins for sound files</span>
 <span class='fu'>sig2noise</span><span class='op'>(</span><span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='va'>lbh_selec_table</span><span class='op'>$</span><span class='va'>sound.files</span><span class='op'>)</span>, <span class='op'>]</span>, mar <span class='op'>=</span> <span class='fl'>0.2</span>, 
 path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 

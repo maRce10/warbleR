@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Randomization test for singing coordination — coor.test • warbleR</title>
+<title>alternative name for coor_test — coor.test • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Randomization test for singing coordination — coor.test" />
-<meta property="og:description" content="Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing (or any other simultaneously occurring behavior)." />
+<meta property="og:title" content="alternative name for coor_test — coor.test" />
+<meta property="og:description" content="alternative name for coor_test" />
 
 
 
@@ -136,135 +136,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Randomization test for singing coordination</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/coor.test.R'><code>R/coor.test.R</code></a></small>
+    <h1>alternative name for <code><a href='coor_test.html'>coor_test</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/coor_test.R'><code>R/coor_test.R</code></a></small>
     <div class="hidden name"><code>coor.test.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing (or any other simultaneously occurring behavior).</p>
+    <p>alternative name for <code><a href='coor_test.html'>coor_test</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>coor.test</span><span class='op'>(</span><span class='va'>X</span>, iterations <span class='op'>=</span> <span class='fl'>1000</span>, ovlp.method <span class='op'>=</span> <span class='st'>"count"</span>,
-randomization <span class='op'>=</span> <span class='st'>"keep.gaps"</span>, less.than.chance <span class='op'>=</span> <span class='cn'>TRUE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-rm.incomp <span class='op'>=</span> <span class='cn'>FALSE</span>, cutoff <span class='op'>=</span> <span class='fl'>2</span>, rm.solo <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>coor.test</span><span class='op'>(</span>
+  X <span class='op'>=</span> <span class='cn'>NULL</span>,
+  iterations <span class='op'>=</span> <span class='fl'>1000</span>,
+  ovlp.method <span class='op'>=</span> <span class='st'>"count"</span>,
+  randomization <span class='op'>=</span> <span class='st'>"keep.gaps"</span>,
+  less.than.chance <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  rm.incomp <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cutoff <span class='op'>=</span> <span class='fl'>2</span>,
+  rm.solo <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X</th>
-      <td><p>Data frame containing columns for singing event (sing.event), 
-individual (indiv), and start and end time of signal (start and end).</p></td>
-    </tr>
-    <tr>
-      <th>iterations</th>
-      <td><p>number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.</p></td>
-    </tr>
-    <tr>
-      <th>ovlp.method</th>
-      <td><p>Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count' and 'duration'. As the name suggests, the 'count' method will count the number of overlapping signals while 'duration' will measure the total duration (in s) in which signals overlap. Default is 'count'.</p></td>
-    </tr>
-    <tr>
-      <th>randomization</th>
-      <td><p>Character string defining the procedure for signal randomization. Three methods are available:</p><ul>
-<li><p><code>keep.gaps</code> the position of both signals and gaps (i.e. intervals between signals) are randomized. Default.</p></li>
-<li><p><code>sample.gaps</code> gaps are simulated using a lognormal distribution with
- mean and standard deviation derived from the observed gaps. Signal position is randomized.</p></li>
-<li><p><code>keep.song.order</code> only the position of gaps is randomized.</p></li>
-</ul><p>More details in Masco et al. (2015).</p></td>
-    </tr>
-    <tr>
-      <th>less.than.chance</th>
-      <td><p>Logical. If <code>TRUE</code> the test evaluates whether overlaps occur less often than expected by chance.
-If <code>FALSE</code> the opposite pattern is evaluated (whether overlaps occur more often than expected by chance). 
-Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>rm.incomp</th>
-      <td><p>Logical. If <code>TRUE</code> removes the events that don't have 2 interacting individuals. Default is
-<code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>cutoff</th>
-      <td><p>Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
-this criterium are removed. Default is 2. 
-Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
-should be available in each singing event.</p></td>
-    </tr>
-    <tr>
-      <th>rm.solo</th>
-      <td><p>Logical. Controls if signals that are not alternated at the start or end of the 
-sequence are removed (if <code>TRUE</code>). For instance, the sequence of signals A-A-A-B-A-B-A-B-B-B (in which A and B represent different individuals, as in the 'indiv' column) would be subset to 
-A-B-A-B-A-B. Default is  <code>FALSE</code>.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A data frame with the following columns:</p><ul>
-<li><p><code>sing.event</code>: singing event ID</p></li>
-<li><p><code>obs.overlap</code>: observed amount of overlap (counts or total duration, depending on overlap method, see 'ovlp.method' argument)</p></li>
-<li><p><code>mean.random.ovlp</code>: mean amount of overlap expected by chance</p></li>
-<li><p><code>p.value</code>: p value</p></li>
-<li><p><code>coor.score</code>: coordination score (<em>sensu</em> Araya-Salas et al. 2017), 
-   calculated as: 
-   $$(obs.overlap - mean.random.ovlp) / mean.random.ovlp$$ 
-   Positive values indicate a tendency to overlap while negative values indicate a tendency to alternate. NA values will be returned when events cannot be randomized (e.g. too few signals).</p></li>
-</ul>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function calculates the probability of finding an equal or more extreme amount of song overlap (higher or lower) in a coordinated singing event (or any pair-coordinated behavior). 
-The function shuffles the sequences of signals and silence-between-signals for both individuals to produce 
-a null distribution of overlaps expected by chance. The observed overlaps is compared to this
-expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
-than the observed value. All procedures described in Masco et al. (2015) are implemented. In addition, either the number (<code>ovlp.method = "count"</code>) or the total duration (<code>ovlp.method = "duration"</code>) in which signals overlap can be used for estimating the overall degree of overlap. The function runs one test for each singing event in the input data frame. This function assumes that there are no overlaps between signals belonging to the same individual. See Masco et al. (2015) for recommendations on randomization procedures for specific signal structures.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='coor_test.html'>coor_test</a></code> for documentation. <code>coor.test</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals.
- Methods in Ecology and Evolution, 8(2), 184-191.Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
- (2017) To overlap or not to overlap: context-dependent coordinated singing in 
- lekking long-billed hermits. Animal Behavior  124, 57-65.Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song 
-Overlap Null model Generator (SONG): a new tool for distinguishing between random
-and non-random song overlap. Bioacoustics.Rivera-Caceres K, E Quiros-Guerrero E, M Araya-Salas, C Templeton &amp; W Searcy. (2018). Early development of vocal interaction rules in a duetting songbird. Royal Society Open Science. 5, 171791.Rivera-Caceres K, E Quiros-Guerrero, M Araya-Salas &amp; W Searcy. (2016). Neotropical wrens learn new duet as adults. Proceedings of the Royal Society B. 285, 20161819</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='co'>#load  simulated singing data (see data documentation)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>sim_coor_sing</span><span class='op'>)</span>
-
-<span class='co'># set global options</span>
-<span class='co'># this can also be set within the function call</span>
-<span class='fu'><a href='warbleR_options.html'>warbleR_options</a></span><span class='op'>(</span>iterations <span class='op'>=</span> <span class='fl'>100</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'># testing if coordination happens less than expected by chance</span>
-<span class='fu'>coor.test</span><span class='op'>(</span><span class='va'>sim_coor_sing</span><span class='op'>)</span>
-
-<span class='co'># testing if coordination happens more than expected by chance</span>
-<span class='fu'>coor.test</span><span class='op'>(</span><span class='va'>sim_coor_sing</span>, less.than.chance <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'># using "duration" method and "keep.song.order" as randomization procedure</span>
-<span class='fu'>coor.test</span><span class='op'>(</span><span class='va'>sim_coor_sing</span>, ovlp.method <span class='op'>=</span>  <span class='st'>"duration"</span>, 
-randomization <span class='op'>=</span> <span class='st'>"keep.song.order"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt;   sing.event obs.ovlp mean.random.ovlp p.value coor.score
-#&gt; 1     altern 1.098593         3.267547    0.00     -0.664
-#&gt; 2       ovlp 5.991010         3.759085    1.00      0.594
-#&gt; 3    uncoord 3.097526         3.239661    0.36     -0.044</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

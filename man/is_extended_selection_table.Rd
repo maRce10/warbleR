@@ -19,7 +19,7 @@ Class for selections of signals in sound files and corresponding wave objects
 An object of class \code{extended_selection_table} created by \code{\link{selection_table}} is a list with the following elements:
  \itemize{
  \item \code{selections}: data frame containing the frequency/time coordinates of the selections, sound file names, and any  additional information
- \item \code{check.resutls}: results of the checks on data consistency using \link{checksels}
+ \item \code{check.resutls}: results of the checks on data consistency using \link{sel_check}
  \item \code{wave.objects}: list of wave objects corresponding to each selection
  \item \code{by.song}: a list with 1) a logical argument defining if the 'extended_selection_table' was created 'by song'
  and 2) the name of the song column (see \code{\link{selection_table}})

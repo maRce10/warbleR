@@ -10,7 +10,7 @@ in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10)
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). The output of \code{\link{manual_loc}} can also be used as the input data frame.}
+(start and end).}
 
 \item{mar}{numeric vector of length 1. Specifies the margins adjacent to
 the start and end points of selection over which to measure noise.}
@@ -55,7 +55,7 @@ set globally using the 'wl' option (see \code{\link{warbleR_options}}).
  Note that lower values will increase time resolution, which is more important for signal-to-noise ratio calculations.}
 }
 \value{
-Data frame similar to \code{\link{autodetec}} output, but also includes a new variable 
+Data frame similar to \code{\link{auto_detec}} output, but also includes a new variable 
 with the signal-to-noise values.
 }
 \description{
@@ -72,7 +72,7 @@ Signal-to-noise ratio (SNR) is a measure of the level of a desired signal compar
   margins overlap with another acoustic signal nearby, the signal-to-noise 
   ratio (SNR) will be inaccurate. Any SNR less than or equal to one suggests 
   background noise is equal to or overpowering the acoustic signal.
-  \code{\link{snrspecs}} can be used to troubleshoot different noise margins.
+  \code{\link{snr_spectrograms}} can be used to troubleshoot different noise margins.
 }
 \examples{
 {
@@ -80,7 +80,7 @@ data(list = c("Phae.long1","lbh_selec_table"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
 
 # specifying the correct margin is important
-# use snrspecs to troubleshoot margins for sound files
+# use snr_spectrograms to troubleshoot margins for sound files
 sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.2, 
 path = tempdir())
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find overlapping selections — ovlp_sels • warbleR</title>
+<title>alternative name for sel_overlap — ovlp_sels • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Find overlapping selections — ovlp_sels" />
-<meta property="og:description" content="ovlp_sels finds which selections overlap in time within a given sound file." />
+<meta property="og:title" content="alternative name for sel_overlap — ovlp_sels" />
+<meta property="og:description" content="alternative name for sel_overlap" />
 
 
 
@@ -136,120 +136,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find overlapping selections</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/ovlp_sels.R'><code>R/ovlp_sels.R</code></a></small>
+    <h1>alternative name for <code><a href='sel_overlap.html'>sel_overlap</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/sel_overlap.R'><code>R/sel_overlap.R</code></a></small>
     <div class="hidden name"><code>ovlp_sels.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>ovlp_sels</code> finds which selections overlap in time within a given sound file.</p>
+    <p>alternative name for <code><a href='sel_overlap.html'>sel_overlap</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>ovlp_sels</span><span class='op'>(</span><span class='va'>X</span>, index <span class='op'>=</span> <span class='cn'>FALSE</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, max.ovlp <span class='op'>=</span> <span class='fl'>0</span>, relabel <span class='op'>=</span> <span class='cn'>FALSE</span>, 
-drop <span class='op'>=</span> <span class='cn'>FALSE</span>, priority <span class='op'>=</span> <span class='cn'>NULL</span>, priority.col <span class='op'>=</span> <span class='cn'>NULL</span>, unique.labs <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-indx.row <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ovlp_sels</span><span class='op'>(</span>
+  <span class='va'>X</span>,
+  index <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  max.ovlp <span class='op'>=</span> <span class='fl'>0</span>,
+  relabel <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  drop <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  priority <span class='op'>=</span> <span class='cn'>NULL</span>,
+  priority.col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  unique.labs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  indx.row <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X</th>
-      <td><p>'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
-files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can 
-be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above.</p></td>
-    </tr>
-    <tr>
-      <th>index</th>
-      <td><p>Logical. Indicates if only the index of the overlapping selections would be returned.
-Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>max.ovlp</th>
-      <td><p>Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
-. Default is 0.</p></td>
-    </tr>
-    <tr>
-      <th>relabel</th>
-      <td><p>Logical. If <code>TRUE</code> then selections names (selec column) are reset within each sound files.
-Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>drop</th>
-      <td><p>Logical. If <code>TRUE</code>, when 2 or more selections overlap the function will remove 
-all but one of the overlapping selection. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>priority</th>
-      <td><p>Character vector. Controls the priority criteria used for removing overlapped selections. It
-must list the levels of the column used to determine priority (argument priority.col) in the desired 
-priority order. Default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>priority.col</th>
-      <td><p>Character vector of length 1 with the name of the column use to determine the priority of
-overlapped selections. Default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>unique.labs</th>
-      <td><p>Logical to control if labels are reused across different sound files (if <code>TRUE</code>, default).</p></td>
-    </tr>
-    <tr>
-      <th>indx.row</th>
-      <td><p>Logical. If <code>TRUE</code> then a character column with the indices of all selections that overlapped with
-each selection is added to the ouput data frame (if <code>index = TRUE</code>). For instance, if the selections in rows 1,2 
-and 3 all overlapped with each other, the 'indx.row' value would be "1/2/3" for all. However, if selection 3 only overlaps
- with 2 but not with 1, then it returns, "1/2" for row 1, "1/2/3" for row 2, and "2/3" for row 3. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A data frame with the columns in X plus an additional column ('ovlp_sels') indicating 
-which selections overlap. The ones with the same number overlap with each other. If 
-<code>drop = TRUE</code> only the non-overlapping selections are return. If 2 or more selections 
-overlap only the first one is kept.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function detects selections within a selection table that overlap in time. Selections must be 
-listed in a data frame similar to <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>. Note that row names are set to <code>1:nrow(X)</code>.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='sel_overlap.html'>sel_overlap</a></code> for documentation. <code>ovlp_sels</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='filtersels.html'>filtersels</a></code> <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='co'>#no overlap</span>
-<span class='fu'>ovlp_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>lbh_selec_table</span><span class='op'>)</span>
-
-<span class='co'># modified lbh_selec_table to make the first and second selection overlap</span>
-<span class='va'>Y</span> <span class='op'>&lt;-</span> <span class='va'>lbh_selec_table</span>
-<span class='va'>Y</span><span class='op'>$</span><span class='va'>end</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>1.5</span>
-  
- <span class='fu'>ovlp_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>Y</span><span class='op'>)</span>
-
-<span class='co'># drop overlapping</span>
- <span class='fu'>ovlp_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>Y</span>, drop <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># get index instead</span>
- <span class='fu'>ovlp_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>Y</span>, index <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] 4 5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

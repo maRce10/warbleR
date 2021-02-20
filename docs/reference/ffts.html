@@ -42,8 +42,7 @@
   
 
 <meta property="og:title" content="Extract the fundamental frequency values as a time series — ffts" />
-<meta property="og:description" content="ffts extracts the fundamental frequency values as a time series
-of signals selected by manualoc or autodetec." />
+<meta property="og:description" content="ffts extracts the fundamental frequency values as a time series." />
 
 
 
@@ -143,8 +142,7 @@ of signals selected by manualoc or autodetec." />
     </div>
 
     <div class="ref-description">
-    <p><code>ffts</code> extracts the fundamental frequency values as a time series
-of signals selected by <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code>.</p>
+    <p><code>ffts</code> extracts the fundamental frequency values as a time series.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ffts</span><span class='op'>(</span><span class='va'>X</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, length.out <span class='op'>=</span> <span class='fl'>20</span>, wn <span class='op'>=</span> <span class='st'>"hanning"</span>, ovlp <span class='op'>=</span> <span class='fl'>70</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>,
@@ -159,7 +157,7 @@ of signals selected by <code><a href='manualoc.html'>manualoc</a></code> or <cod
       <td><p>object of class 'selection_table', 'extended_selection_table' or data 
 frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
-The output of <code><a href='manualoc.html'>manualoc</a></code> or <code><a href='autodetec.html'>autodetec</a></code> can be used as the input data frame.</p></td>
+The output of <code><a href='auto_detec.html'>auto_detec</a></code> can be used as the input data frame.</p></td>
     </tr>
     <tr>
       <th>wl</th>
@@ -236,7 +234,7 @@ faster (and seems to be more accurate) than 'seewave'.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='trackfreqs.html'>trackfreqs</a></code>. for customizing
+      <td><p>Additional arguments to be passed to <code><a href='freq_track.html'>freq_track</a></code>. for customizing
 graphical output.</p></td>
     </tr>
     </table>
@@ -246,7 +244,7 @@ graphical output.</p></td>
     <p>A data frame with the fundamental frequency values measured across the signals. If img is 
 <code>TRUE</code> it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the fundamental frequencies 
-(see <code><a href='trackfreqs.html'>trackfreqs</a></code> description for more details).</p>
+(see <code><a href='freq_track.html'>freq_track</a></code> description for more details).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function extracts the fundamental frequency values as a time series. 
@@ -257,18 +255,18 @@ The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>app
  to fill out the missing values (e.g. no NAs in between detected amplitude segments).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='sig2noise.html'>sig2noise</a></code>, <code><a href='trackfreqs.html'>trackfreqs</a></code>, <code><a href='dfts.html'>dfts</a></code>, <code><a href='ffDTW.html'>ffDTW</a></code>, <code><a href='dfDTW.html'>dfDTW</a></code></p>
+    <div class='dont-index'><p><code><a href='sig2noise.html'>sig2noise</a></code>, <code><a href='freq_track.html'>freq_track</a></code>, <code><a href='dfts.html'>dfts</a></code>, <code><a href='ff_DTW.html'>ff_DTW</a></code>, <code><a href='df_DTW.html'>df_DTW</a></code></p>
 <p>Other spectrogram creators: 
-<code><a href='color.spectro.html'>color.spectro</a>()</code>,
-<code><a href='dfDTW.html'>dfDTW</a>()</code>,
+<code><a href='color_spectro.html'>color_spectro</a>()</code>,
+<code><a href='df_DTW.html'>df_DTW</a>()</code>,
 <code><a href='dfts.html'>dfts</a>()</code>,
-<code><a href='ffDTW.html'>ffDTW</a>()</code>,
+<code><a href='entropy_ts.html'>entropy_ts</a>()</code>,
+<code><a href='ff_DTW.html'>ff_DTW</a>()</code>,
+<code><a href='freq_track.html'>freq_track</a>()</code>,
 <code><a href='multi_DTW.html'>multi_DTW</a>()</code>,
 <code><a href='phylo_spectro.html'>phylo_spectro</a>()</code>,
-<code><a href='snrspecs.html'>snrspecs</a>()</code>,
-<code><a href='sp.en.ts.html'>sp.en.ts</a>()</code>,
-<code><a href='specreator.html'>specreator</a>()</code>,
-<code><a href='trackfreqs.html'>trackfreqs</a>()</code></p></div>
+<code><a href='snr_spectrograms.html'>snr_spectrograms</a>()</code>,
+<code><a href='spectrograms.html'>spectrograms</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>

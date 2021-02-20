@@ -6,7 +6,7 @@
 #' 'wav.path' set by \code{\link{warbleR_options}} is ignored in this case.
 #' @param verbose Logical to control whether the 'path' is printed in the console. Defaut is \code{TRUE}.
 #' @family data manipulation
-#' @seealso \code{\link{move.imgs}} 
+#' @seealso \code{\link{move_imgs}} 
 #' @export
 #' @name open_wd
 #' @details The function opens the working directory using the default file browser 

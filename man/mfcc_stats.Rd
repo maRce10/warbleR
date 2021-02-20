@@ -10,7 +10,7 @@ nbands = 40, parallel = 1, pb = TRUE, ...)
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The output of \code{\link{manualoc}} or \code{\link{autodetec}} can
+end time of selections. The output of \code{\link{auto_detec}} can
 be used as the input data frame.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
@@ -78,7 +78,7 @@ Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban
 }
 }
 \seealso{
-\code{\link{fixwavs}}, \code{\link{rm_sil}},
+\code{\link{wav_fix}}, \code{\link{remove_silence}},  \code{\link{spectro_analysis}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Measure the duration of sound files — wavdur • warbleR</title>
+<title>alternative name for wav_dur — wavdur • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Measure the duration of sound files — wavdur" />
-<meta property="og:description" content="wavdur measures the duration of sound files in '.wav' format" />
+<meta property="og:title" content="alternative name for wav_dur — wavdur" />
+<meta property="og:description" content="alternative name for wav_dur" />
 
 
 
@@ -136,94 +136,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Measure the duration of sound files</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/wavdur.R'><code>R/wavdur.R</code></a></small>
+    <h1>alternative name for <code><a href='wav_dur.html'>wav_dur</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/wav_dur.R'><code>R/wav_dur.R</code></a></small>
     <div class="hidden name"><code>wavdur.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>wavdur</code> measures the duration of sound files in '.wav' format</p>
+    <p>alternative name for <code><a href='wav_dur.html'>wav_dur</a></code></p>
     </div>
 
     <pre class="usage"><span class='fu'>wavdur</span><span class='op'>(</span>files <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>files</th>
-      <td><p>Character vector with the names of the sound files to be measured. The sound files should be in the working directory or in the directory provided in 'path'.</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A data frame with the duration (in seconds) of the sound files.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function returns the duration (in seconds) of sound files.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='wav_dur.html'>wav_dur</a></code> for documentation. <code>wavdur</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>wavdur</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt;           sound.files   duration
-#&gt; 1     Cryp.soui-1.wav 1.00000000
-#&gt; 2     Cryp.soui-2.wav 1.00000000
-#&gt; 3     Cryp.soui-3.wav 1.00000000
-#&gt; 4     Cryp.soui-4.wav 1.00000000
-#&gt; 5     Cryp.soui-5.wav 1.00000000
-#&gt; 6     Cryp.soui-6.wav 1.00000000
-#&gt; 7     Cryp.soui-7.wav 1.00000000
-#&gt; 8     Cryp.soui-8.wav 1.00000000
-#&gt; 9     Cryp.soui-9.wav 0.00044444
-#&gt; 10      Cryp.soui.wav 8.00044444
-#&gt; 11   Phae.long1-1.wav 1.00000000
-#&gt; 12   Phae.long1-2.wav 1.00000000
-#&gt; 13   Phae.long1-3.wav 0.50004444
-#&gt; 14 Phae.long1.2-1.wav 1.00000000
-#&gt; 15 Phae.long1.2-2.wav 1.00000000
-#&gt; 16 Phae.long1.2-3.wav 0.50004444
-#&gt; 17   Phae.long1.2.wav 2.50004444
-#&gt; 18     Phae.long1.wav 2.50004444
-#&gt; 19   Phae.long2-1.wav 1.00000000
-#&gt; 20   Phae.long2-2.wav 0.70004444
-#&gt; 21     Phae.long2.wav 1.70004444
-#&gt; 22   Phae.long3-1.wav 1.00000000
-#&gt; 23   Phae.long3-2.wav 1.00000000
-#&gt; 24   Phae.long3-3.wav 0.20000000
-#&gt; 25     Phae.long3.wav 2.20000000
-#&gt; 26   Phae.long4-1.wav 1.00000000
-#&gt; 27   Phae.long4-2.wav 1.00000000
-#&gt; 28   Phae.long4-3.wav 1.00000000
-#&gt; 29   Phae.long4-4.wav 0.20000000
-#&gt; 30     Phae.long4.wav 3.20000000
-#&gt; 31          wv1-1.wav 1.00000000
-#&gt; 32          wv1-2.wav 1.00000000
-#&gt; 33          wv1-3.wav 1.00000000
-#&gt; 34          wv1-4.wav 1.00000000
-#&gt; 35          wv1-5.wav 1.00000000
-#&gt; 36          wv1-6.wav 1.00000000
-#&gt; 37          wv1-7.wav 1.00000000
-#&gt; 38          wv1-8.wav 0.20008889
-#&gt; 39            wv1.wav 7.20008889</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

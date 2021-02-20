@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot a mosaic of spectrograms with varying display parameters — spec_param • warbleR</title>
+<title>alternative name for spectro_tweak — spec_param • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Plot a mosaic of spectrograms with varying display parameters — spec_param" />
-<meta property="og:description" content="spec_param plots a mosaic of spectrograms with varying display parameters to
-facilitate selection of display parameters" />
+<meta property="og:title" content="alternative name for spectro_tweak — spec_param" />
+<meta property="og:description" content="alternative name for spectro_tweak" />
 
 
 
@@ -137,110 +136,33 @@ facilitate selection of display parameters" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot a mosaic of spectrograms with varying display parameters</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/spec_param.R'><code>R/spec_param.R</code></a></small>
+    <h1>alternative name for <code><a href='spectro_tweak.html'>spectro_tweak</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/spectro_tweak.R'><code>R/spectro_tweak.R</code></a></small>
     <div class="hidden name"><code>spec_param.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>spec_param</code> plots a mosaic of spectrograms with varying display parameters to
-facilitate selection of display parameters</p>
+    <p>alternative name for <code><a href='spectro_tweak.html'>spectro_tweak</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>spec_param</span><span class='op'>(</span><span class='va'>X</span>, length.out <span class='op'>=</span> <span class='fl'>5</span>, ovlp <span class='op'>=</span> <span class='fl'>90</span>, wl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>1000</span><span class='op'>)</span>, wn <span class='op'>=</span> <span class='st'>"hanning"</span>,
- collev.min <span class='op'>=</span> <span class='op'>-</span><span class='fl'>40</span>, pal <span class='op'>=</span> <span class='st'>"reverse.gray.colors.2"</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, rm.axes <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>spec_param</span><span class='op'>(</span>
+  <span class='va'>X</span>,
+  length.out <span class='op'>=</span> <span class='fl'>5</span>,
+  ovlp <span class='op'>=</span> <span class='fl'>90</span>,
+  wl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>1000</span><span class='op'>)</span>,
+  wn <span class='op'>=</span> <span class='st'>"hanning"</span>,
+  collev.min <span class='op'>=</span> <span class='op'>-</span><span class='fl'>40</span>,
+  pal <span class='op'>=</span> <span class='st'>"reverse.gray.colors.2"</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rm.axes <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X</th>
-      <td><p>object of class 'selection_table', 'extended_selection_table' or data frame with a single row and columns for sound file name (sound.files), selection number (selec), 
-and start and end time of signal (start and end). Default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>length.out</th>
-      <td><p>Numeric vector of length 1 controlling the number of sublevels of
-the numeric arguments for which a range has been provided. Ranges are allowed for
-'ovlp', 'wl', and 'collev.min' arguments.</p></td>
-    </tr>
-    <tr>
-      <th>ovlp</th>
-      <td><p>Numeric vector of length 1 or 2 specifying % of overlap (or 
-lower/upper values the desired range) between two consecutive windows, as in 
-<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is 90.</p></td>
-    </tr>
-    <tr>
-      <th>wl</th>
-      <td><p>A numeric vector of length 1 or 2 specifying the window length (length 1)
-or the lower and upper range limits of the desired window length range (length 2) for creating spectrograms.
-Default is c(100, 1000).</p></td>
-    </tr>
-    <tr>
-      <th>wn</th>
-      <td><p>Character vector specifying the window function names to be used. Several
-names can be provided. See <code><a href='https://rdrr.io/pkg/seewave/man/ftwindow.html'>ftwindow</a></code>
-for name options. Default is "hanning". If "all", then all window functions available are used.</p></td>
-    </tr>
-    <tr>
-      <th>collev.min</th>
-      <td><p>A (negative) numeric vector of length 1 or 2. Determines the first argument
-to use in 'collevels' for the internal spectrogram creating function. This replaces the 
-first element in the 'collevels' as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Note that
-'collevels' is not available in this function <code>spec_param</code>.</p></td>
-    </tr>
-    <tr>
-      <th>pal</th>
-      <td><p>Color palette function for spectrogram. Default is "reverse.gray.colors.2". 
-Several palettes can be provided in a character vector. Note that, contrary to
- other <code>warbleR</code> and <code>seewave</code> functions, the 
-palette most be provided as character string rather than as a function. See 
-<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code> for more palettes.</p></td>
-    </tr>
-    <tr>
-      <th>path</th>
-      <td><p>Character string containing the directory path where the sound file are located.</p></td>
-    </tr>
-    <tr>
-      <th>rm.axes</th>
-      <td><p>Logical. If <code>TRUE</code> frequency and time axes are excluded. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='catalog.html'>catalog</a></code> function for customizing
-graphical output. Check out <code><a href='catalog.html'>catalog</a></code> for more details.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Image files with spectrograms of whole sound files in the working directory. Multiple pages
-can be returned, depending on the length of each sound file.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This functions aims to simplify the selection of spectrogram parameters. 
-The function plots, for a single selection, a mosaic of spectrograms with varying 
-display parameters. For numeric arguments the upper and lower limits of a range can
-be provided. The following arguments accept can have varying values:</p><ul>
-<li><p><code>wl</code>: Windows length (numeric range)</p></li>
-<li><p><code>ovlp</code>: Overlap (numeric range)</p></li>
-<li><p><code>collev.min</code>: Minimum value of the color levels (numeric range)</p></li>
-<li><p><code>wn</code>: window function names (character)</p></li>
-<li><p><code>pal</code>: palette (character)</p></li>
-</ul><p>Outputs are similar to those of <code><a href='catalog.html'>catalog</a></code>. The output image files can be put together in a single pdf file with <code><a href='catalog2pdf.html'>catalog2pdf</a></code>.
-  We recommend using low resolution (~60-100) and smaller dimensions (width &amp; height &lt; 10) if
-  aiming to generate pdfs (otherwise pdfs could be pretty big).</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>see <code><a href='spectro_tweak.html'>spectro_tweak</a></code> for documentation. <code>spec_param</code> will be deprecated in future versions.</p>
 
-    <div class='dont-index'><p><a href='https://marce10.github.io/2017/03/17/Creating_song_catalogs.html'>blog post on creating catalogs</a>,
-<a href='https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html'>blog post on customizing catalogs</a>
-, <code><a href='catalog2pdf.html'>catalog2pdf</a></code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

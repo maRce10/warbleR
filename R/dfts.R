@@ -1,7 +1,6 @@
 #' Extract the dominant frequency values as a time series
 #' 
-#' \code{dfts} extracts the dominant frequency values as a time series.
-#' of signals selected by \code{\link{manualoc}} or \code{\link{autodetec}}.
+#' \code{dfts} extracts the dominant frequency values as a time series
 #' @usage dfts(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70,
 #' bp = c(0, 22), threshold = 0, threshold.time = NULL, threshold.freq = NULL, 
 #' img = TRUE, parallel = 1, path = NULL, img.suffix = "dfts", pb = TRUE,
@@ -9,7 +8,7 @@
 #'  raw.contour = FALSE, track.harm = FALSE, adjust.wl = TRUE, ...)
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signal (start and end).
-#' The output of \code{\link{manualoc}} or \code{\link{autodetec}} can be used as the input data frame. 
+#' The output of \code{\link{auto_detec}} can be used as the input data frame. 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param wl.freq A numeric vector of length 1 specifying the window length of the spectrogram
@@ -29,7 +28,7 @@
 #' arguments. 
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param threshold.time amplitude threshold (\%) for the time domain. Use for dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.
-#' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
+#' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'freq_range_detec'). If \code{NULL} (default) then the
 #'  'threshold' value is used.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -44,24 +43,24 @@
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 #' in the output image.
 #' @param frange.detec Logical. Controls whether frequency range of signal is automatically 
-#' detected  using the \code{\link{frange.detec}} function. If so, the range is used as the 
+#' detected  using the \code{\link{freq_range_detec}} function. If so, the range is used as the 
 #' bandpass filter (overwriting 'bp' argument). Default is \code{FALSE}.
 #' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
 #'  sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
 #'  amplitude modulation. Default is 0.1. 
 #' @param raw.contour Logical. If \code{TRUE} then a list with the original contours 
 #'  (i.e. without interpolating values to make all contours of equal length) is returned (and no images are produced). 
-#' @param track.harm Logical. If true warbleR's \code{\link{track_harm}} function is 
+#' @param track.harm Logical. If true warbleR's \code{\link{harmonic_track}} function is 
 #' used to track frequency contours. Otherwise seewave's \code{\link[seewave]{dfreq}} is used by default.
 #' @param adjust.wl Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
 #' number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.
-#' @param ... Additional arguments to be passed to \code{\link{trackfreqs}}.
+#' @param ... Additional arguments to be passed to \code{\link{freq_track}}.
 #' @return The function returns a data frame with the dominant frequency values measured across the signals.  If \code{raw.contour = TRUE} a list with the raw frequency detections (i.e. without interpolating values to make all contours of equal length) is returned. If img is 
 #' \code{TRUE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies 
-#' (see \code{\link{trackfreqs}} description for more details).
+#' (see \code{\link{freq_track}} description for more details).
 #' @family spectrogram creators
-#' @seealso \code{\link{sig2noise}}, \code{\link{trackfreqs}}, \code{\link{sp.en.ts}}, \code{\link{ffts}}, \code{\link{ffDTW}}, \code{\link{dfDTW}}
+#' @seealso \code{\link{sig2noise}}, \code{\link{freq_track}}, \code{\link{entropy_ts}}, \code{\link{ffts}}, \code{\link{ff_DTW}}, \code{\link{df_DTW}}
 #' @export
 #' @name dfts
 #' @details This function extracts the dominant frequency values as a time series. 
@@ -227,7 +226,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
     }
     
     # calculate dominant frequency at each time point     
-    dfrq1 <- track_harm(wave = r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE,
+    dfrq1 <- harmonic_track(wave = r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE,
                              threshold = threshold.time, dfrq = !track.harm, adjust.wl = adjust.wl)
     
         dfrq <- dfrq1[!is.na(dfrq1[,2]), , drop = FALSE]
@@ -317,7 +316,7 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
 
     if (img)  
     {
-      trackfreqs(X = X[i, , drop = FALSE], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
+      warbleR::freq_track(X = X[i, , drop = FALSE], wl = wl, wl.freq = wl.freq, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, threshold.time = threshold.time, threshold.freq = threshold.freq, bp = bp, 
                  parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
                  custom.contour = cstm.cntr, fsmooth = fsmooth, frange.detec = FALSE, ...)
       } 
@@ -358,13 +357,3 @@ dfts <- function(X, wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ov
          return(lst)
           }
     }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{dfts}}
-#'
-#' @keywords internal
-#' @details see \code{\link{dfts}} for documentation. \code{\link{dfts}} will be deprecated in future versions.
-#' @export
-
-df_ts <- dfts

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove silence in wave files — rm_sil • warbleR</title>
+<title>alternative name for remove_silence — rm_sil • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Remove silence in wave files — rm_sil" />
-<meta property="og:description" content="rm_sil Removes silences in wave files" />
+<meta property="og:title" content="alternative name for remove_silence — rm_sil" />
+<meta property="og:description" content="alternative name for remove_silence" />
 
 
 
@@ -136,108 +136,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove silence in wave files</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/rm_sil.R'><code>R/rm_sil.R</code></a></small>
+    <h1>alternative name for <code><a href='remove_silence.html'>remove_silence</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/remove_silence.R'><code>R/remove_silence.R</code></a></small>
     <div class="hidden name"><code>rm_sil.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>rm_sil</code> Removes silences in wave files</p>
+    <p>alternative name for <code><a href='remove_silence.html'>remove_silence</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>rm_sil</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span>, min.sil.dur <span class='op'>=</span> <span class='fl'>2</span>, img <span class='op'>=</span> <span class='cn'>TRUE</span>, it <span class='op'>=</span> <span class='st'>"jpeg"</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>12</span><span class='op'>)</span>, 
-files <span class='op'>=</span> <span class='cn'>NULL</span>, flist <span class='op'>=</span> <span class='cn'>NULL</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>rm_sil</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  min.sil.dur <span class='op'>=</span> <span class='fl'>2</span>,
+  img <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  it <span class='op'>=</span> <span class='st'>"jpeg"</span>,
+  flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>12</span><span class='op'>)</span>,
+  files <span class='op'>=</span> <span class='cn'>NULL</span>,
+  flist <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parallel <span class='op'>=</span> <span class='fl'>1</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. 
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>min.sil.dur</th>
-      <td><p>Numeric. Controls the minimum duration of silence segments that would be removed.</p></td>
-    </tr>
-    <tr>
-      <th>img</th>
-      <td><p>Logical argument. If <code>FALSE</code>, image files are not produced. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>it</th>
-      <td><p>A character vector of length 1  giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is "jpeg".</p></td>
-    </tr>
-    <tr>
-      <th>flim</th>
-      <td><p>A numeric vector of length 2 indicating the highest and lowest 
-frequency limits (kHz) of the spectrogram as in 
-<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is c(0,12). Ignored if `img = FALSE`.</p></td>
-    </tr>
-    <tr>
-      <th>files</th>
-      <td><p>character vector or factor indicating the subset of files that will be analyzed. If not provided
-then all wave files in the working directory (or path) will be processed.</p></td>
-    </tr>
-    <tr>
-      <th>flist</th>
-      <td><p>DEPRECATED. Please use 'files' instead.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Sound files for which silence segments have been removed are saved in the new 
-folder "silence-removed_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
-that were removed are also saved.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function removes silence segments (i.e. segments with very low amplitude values) from wave files.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='remove_silence.html'>remove_silence</a></code> for documentation. <code>rm_sil</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='fixwavs.html'>fixwavs</a></code>, <code><a href='autodetec.html'>autodetec</a></code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='co'># save sound file examples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>sil</span> <span class='op'>&lt;-</span> <span class='fu'>silence</span><span class='op'>(</span>samp.rate <span class='op'>=</span> <span class='fl'>22500</span>, duration <span class='op'>=</span> <span class='fl'>3</span>, xunit <span class='op'>=</span> <span class='st'>"time"</span><span class='op'>)</span>
-
-
-<span class='va'>wv1</span> <span class='op'>&lt;-</span> <span class='fu'>pastew</span><span class='op'>(</span><span class='fu'>pastew</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='va'>sil</span>, f <span class='op'>=</span> <span class='fl'>22500</span>, output <span class='op'>=</span> <span class='st'>"Wave"</span><span class='op'>)</span>, 
-<span class='va'>Phae.long2</span>, f <span class='op'>=</span> <span class='fl'>22500</span>, output <span class='op'>=</span> <span class='st'>"Wave"</span><span class='op'>)</span>
-
-<span class='co'>#check silence in between amplitude peaks</span>
-<span class='fu'>env</span><span class='op'>(</span><span class='va'>wv1</span><span class='op'>)</span>
-
- <span class='co'>#save wave file</span>
- <span class='fu'>writeWave</span><span class='op'>(</span>object <span class='op'>=</span> <span class='va'>wv1</span>, filename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"wv1.wav"</span><span class='op'>)</span>,
-  extensible <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'>#remove silence</span>
-<span class='co'># rm_sil(files = "wv1.wav", pb = FALSE, path = tempdir())</span>
-
-<span class='co'>#check this floder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='img'><img src='rm_sil-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; [1] "/tmp/RtmpWebkQ3"</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

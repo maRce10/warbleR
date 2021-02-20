@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coordinated singing graphs — coor.graph • warbleR</title>
+<title>alternative name for coor_graph — coor.graph • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Coordinated singing graphs — coor.graph" />
-<meta property="og:description" content="coor.graph creates graphs of coordinated singing and highlights the signals that overlap 
-in time. The signals are represented by polygons of different colors." />
+<meta property="og:title" content="alternative name for coor_graph — coor.graph" />
+<meta property="og:description" content="alternative name for coor_graph" />
 
 
 
@@ -137,97 +136,32 @@ in time. The signals are represented by polygons of different colors." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Coordinated singing graphs</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/coor.graph.R'><code>R/coor.graph.R</code></a></small>
+    <h1>alternative name for <code><a href='coor_graph.html'>coor_graph</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/coor_graph.R'><code>R/coor_graph.R</code></a></small>
     <div class="hidden name"><code>coor.graph.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>coor.graph</code> creates graphs of coordinated singing and highlights the signals that overlap 
-in time. The signals are represented by polygons of different colors.</p>
+    <p>alternative name for <code><a href='coor_graph.html'>coor_graph</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>coor.graph</span><span class='op'>(</span><span class='va'>X</span>, only.coor <span class='op'>=</span> <span class='cn'>FALSE</span>, ovlp <span class='op'>=</span> <span class='cn'>TRUE</span>, xl <span class='op'>=</span> <span class='fl'>1</span>, res<span class='op'>=</span> <span class='fl'>80</span>, it <span class='op'>=</span> <span class='st'>"jpeg"</span>, img <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-tlim <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>coor.graph</span><span class='op'>(</span>
+  X <span class='op'>=</span> <span class='cn'>NULL</span>,
+  only.coor <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  ovlp <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  xl <span class='op'>=</span> <span class='fl'>1</span>,
+  res <span class='op'>=</span> <span class='fl'>80</span>,
+  it <span class='op'>=</span> <span class='st'>"jpeg"</span>,
+  img <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  tlim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pb <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X</th>
-      <td><p>Data frame containing columns for singing event (sing.event), 
-individual (indiv), and start and end time of signal (start and end).</p></td>
-    </tr>
-    <tr>
-      <th>only.coor</th>
-      <td><p>Logical. If <code>TRUE</code> only the segment in which both individuals are singing is 
-included (solo singing is removed). Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>ovlp</th>
-      <td><p>Logical. If <code>TRUE</code> the vocalizations that overlap in time are highlighted. 
-Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>xl</th>
-      <td><p>Numeric vector of length 1, a constant by which to scale 
-spectrogram width. Default is 1.</p></td>
-    </tr>
-    <tr>
-      <th>res</th>
-      <td><p>Numeric argument of length 1. Controls image resolution. Default is 80.</p></td>
-    </tr>
-    <tr>
-      <th>it</th>
-      <td><p>A character vector of length 1 giving the image type to be used. Currently only
-"tiff" and "jpeg" are admitted. Default is "jpeg".</p></td>
-    </tr>
-    <tr>
-      <th>img</th>
-      <td><p>Logical argument. If <code>FALSE</code>, image files are not produced and
-the graphs are shown in the current graphic device. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>tlim</th>
-      <td><p>Numeric vector of length 2 indicating the start and end time of the coordinated singing events
-to be displayed in the graphs.</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar and messages. Default is 
-<code>TRUE</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>The function returns a list of graphs, one for each singing event in the input data frame. The graphs can be plotted by simply calling the list. If 'img' is <code>TRUE</code> then the graphs are also saved in the working 
-directory as files.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function provides visualization for coordination of acoustic signals. Signals are shown as
-polygon across a time axis. It also shows which signals overlap, the amount of overlap, and 
-highlights the individual responsible for the overlap using a color code. The width of the polygons 
-depicting the time of overlap.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='coor_graph.html'>coor_graph</a></code> for documentation. <code>coor.graph</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># load simulate singing events  (see data documentation)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>sim.coor.sing</span><span class='op'>)</span>
-
-<span class='co'>#' # make coor.graphs in graphic device format</span>
-<span class='va'>cgs</span> <span class='op'>&lt;-</span> <span class='fu'>coor.graph</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>sim.coor.sing</span>, ovlp <span class='op'>=</span> <span class='cn'>TRUE</span>, only.coor <span class='op'>=</span> <span class='cn'>FALSE</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='va'>cgs</span>
-<span class='op'>}</span>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

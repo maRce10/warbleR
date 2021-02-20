@@ -14,7 +14,7 @@ files, 2) "selec": unique selection identifier (within a sound file), 3) "start"
 end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
 not provided the first channel (i.e. left channel) would be used by default. 
 Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input to double check selections. 
-The output of \code{\link{manualoc}} or \code{\link{autodetec}} can 
+The output of \code{\link{auto_detec}} can 
 be used as the input object for other \code{\link{warbleR}} functions.}
 
 \item{max.dur}{the maximum duration of expected for a selection  (ie. end - start). If surpassed then an error message 
@@ -25,7 +25,7 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{whole.recs}{Logical. If \code{TRUE} the function will create a selection 
 table for all sound files in the working directory (or "path") with `start = 0` 
-and `end = wavdur()`. Default is if \code{FALSE}. Note that this will not create
+and `end = wav_dur()`. Default is if \code{FALSE}. Note that this will not create
 a extended selection table. If provided 'X' is ignored.}
 
 \item{extended}{Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table' 
@@ -55,13 +55,13 @@ Ignored if \code{extended = FALSE}.}
 \item{parallel}{Numeric. Controls whether parallel computing is applied. 
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{...}{Additional arguments to be passed to \code{\link{checksels}} for customizing
+\item{...}{Additional arguments to be passed to \code{\link{sel_check}} for customizing
 checking routine.}
 }
 \value{
 An object of class selection_table which includes the original data frame plus the following additional attributes:
 \itemize{
-   \item 1) A data frame with the output of \code{\link{checksels}} run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
+   \item 1) A data frame with the output of \code{\link{sel_check}} run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
 errors due to missing or mislabeled data, or selection out of the ranges of the original sound files. 
    \item 2) A list indicating if the selection table has been created by song (see 'by.song argument).
    \item 3) If a extended selection table is created a list containing the wave objects for each selection (or song if 'by.song').
@@ -80,8 +80,8 @@ in the working directory
    }
 If no errors are found the a selection table or extended selection table will be generated. 
 Note that the sound files should be in the working directory (or the directory provided in 'path').
-This is useful for avoiding errors in downstream functions (e.g. \code{\link{specan}}, \code{\link{xcorr}}, \code{\link{catalog}}, \code{\link{dfDTW}}). Note also that corrupt files can be
-fixed using \code{\link{fixwavs}} ('sox' must be installed to be able to run this function).
+This is useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}, \code{\link{cross_correlation}}, \code{\link{catalog}}, \code{\link{df_DTW}}). Note also that corrupt files can be
+fixed using \code{\link{wav_fix}} ('sox' must be installed to be able to run this function).
 The 'selection_table' class can be input in subsequent functions. 
 
 When \code{extended = TRUE} the function will generate an object of class 'extended_selection_table' which 
@@ -133,7 +133,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{checkwavs}}, \href{https://marce10.github.io/2018/05/15/Extended_selection_tables.html}{blog post on extended selection tables}
+\code{\link{wav_check}}, \href{https://marce10.github.io/2018/05/15/Extended_selection_tables.html}{blog post on extended selection tables}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
