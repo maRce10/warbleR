@@ -3,7 +3,7 @@
 \docType{data}
 \name{lbh_selec_table2}
 \alias{lbh_selec_table2}
-\title{Data frame of selections}
+\title{Example data frame of selections (i.e. selection table).}
 \format{
 A data frame with 11 rows and 6 variables: \describe{ 
  \item{sound.files}{recording names}
@@ -28,6 +28,6 @@ data(lbh_selec_table2)
 A data frame containing the start, end, low and high frequency of 
 \emph{Phaethornis longirostris} (Long-billed Hermit) songs from the 
 example sound files included in this package. Similar than 'lbh_selec_table'.
-but it contains 1 selection from 2 sound files.
+but it contains only 2 selections.
 }
 \keyword{datasets}

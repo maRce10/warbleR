@@ -136,7 +136,8 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
                 mean.duration.true.positives = mean(detections$end - detections$start),
                 mean.duration.false.positives = mean((ad$end - ad$start)[(!ad$..row.id %in% detections$..row.id) & ad$sound.files == z]),
                 split.positives = sum(sapply(detections_l, nrow) > 1),
-                sensitivity = nrow(detections) / nrow(W)
+                sensitivity = nrow(detections) / nrow(W), 
+                stringsAsFactors = FALSE
               ) else
               data.frame(
                 count = 0,
@@ -144,7 +145,8 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
                 mean.duration.true.positives = 0,
                 mean.duration.false.positives = mean((ad$end - ad$start)[ad$sound.files == z]),
                 split.positives = 0,
-                sensitivity = 0
+                sensitivity = 0,
+                stringsAsFactors = FALSE
                 )
             
             return(result)
@@ -166,7 +168,8 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
              mean.duration.true.positives = mean(performance$mean.duration.true.positives),
              mean.duration.false.positives = mean(performance$mean.duration.false.positives),
              proportional.time.true.positives = mean(performance$prop.time),
-             sensitivity = mean(performance$sensitivity)
+             sensitivity = mean(performance$sensitivity),
+             stringsAsFactors = FALSE
              )
            
         
@@ -195,7 +198,8 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
               mean.duration.false.positives = NA,
               proportional.time.true.positives = NA,
               sensitivity = NA,
-              specificity = NA
+              specificity = NA,
+              stringsAsFactors = FALSE
             )
           
          return(out)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_annotations.R
 \name{find_annotations}
 \alias{find_annotations}
-\title{Obtain annotations from \href{https://audioblast.org/annotations/}{audioblast.org} data base}
+\title{Obtain annotations from audioblast.org data base}
 \usage{
 find_annotations(qword, parallel = 1, pb = TRUE, warbler.format = FALSE, 
 download = FALSE, X = NULL, path = NULL)

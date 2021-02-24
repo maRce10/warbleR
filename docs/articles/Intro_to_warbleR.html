@@ -92,7 +92,8 @@
 
       
 
-      </header><script src="Intro_to_warbleR_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="Intro_to_warbleR_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="Intro_to_warbleR_files/kePrint-0.0.1/kePrint.js"></script><link href="Intro_to_warbleR_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip><center>
@@ -103,7 +104,7 @@
 </center></h4>
             
             <h4 class="date"><center>
-“2021-02-20”
+“2021-02-23”
 </center></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/Intro_to_warbleR.Rmd"><code>vignettes/Intro_to_warbleR.Rmd</code></a></small>
@@ -191,12 +192,6 @@ bottom.freq
 <th style="text-align:center;">
 top.freq
 </th>
-<th style="text-align:center;">
-sel.comment
-</th>
-<th style="text-align:center;">
-rec.comment
-</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -221,12 +216,6 @@ Phae.long1.wav
 <td style="text-align:center;">
 8.604378
 </td>
-<td style="text-align:center;">
-c24
-</td>
-<td style="text-align:center;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -249,12 +238,6 @@ Phae.long1.wav
 </td>
 <td style="text-align:center;">
 8.807053
-</td>
-<td style="text-align:center;">
-c25
-</td>
-<td style="text-align:center;">
-NA
 </td>
 </tr>
 <tr>
@@ -279,12 +262,6 @@ Phae.long1.wav
 <td style="text-align:center;">
 8.756604
 </td>
-<td style="text-align:center;">
-c26
-</td>
-<td style="text-align:center;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -307,12 +284,6 @@ Phae.long2.wav
 </td>
 <td style="text-align:center;">
 8.822316
-</td>
-<td style="text-align:center;">
-c27
-</td>
-<td style="text-align:center;">
-NA
 </td>
 </tr>
 <tr>
@@ -337,12 +308,6 @@ Phae.long2.wav
 <td style="text-align:center;">
 8.888027
 </td>
-<td style="text-align:center;">
-c28
-</td>
-<td style="text-align:center;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -365,12 +330,6 @@ Phae.long3.wav
 </td>
 <td style="text-align:center;">
 8.822316
-</td>
-<td style="text-align:center;">
-c29
-</td>
-<td style="text-align:center;">
-NA
 </td>
 </tr>
 <tr>
@@ -395,12 +354,6 @@ Phae.long3.wav
 <td style="text-align:center;">
 8.888027
 </td>
-<td style="text-align:center;">
-c30
-</td>
-<td style="text-align:center;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -423,12 +376,6 @@ Phae.long3.wav
 </td>
 <td style="text-align:center;">
 9.315153
-</td>
-<td style="text-align:center;">
-c31
-</td>
-<td style="text-align:center;">
-NA
 </td>
 </tr>
 <tr>
@@ -453,12 +400,6 @@ Phae.long4.wav
 <td style="text-align:center;">
 9.216586
 </td>
-<td style="text-align:center;">
-c32
-</td>
-<td style="text-align:center;">
-NA
-</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -481,12 +422,6 @@ Phae.long4.wav
 </td>
 <td style="text-align:center;">
 10.235116
-</td>
-<td style="text-align:center;">
-c33
-</td>
-<td style="text-align:center;">
-NA
 </td>
 </tr>
 <tr>
@@ -511,12 +446,6 @@ Phae.long4.wav
 <td style="text-align:center;">
 9.742279
 </td>
-<td style="text-align:center;">
-c34
-</td>
-<td style="text-align:center;">
-NA
-</td>
 </tr>
 </tbody>
 </table>
@@ -536,86 +465,179 @@ NA
 <span class="va">st</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selection_table.html">selection_table</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">lbh_selec_table</span>, pb <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">st</span></pre></div>
-<pre><code>all selections are OK </code></pre>
-<pre><code>Object of class 'selection_table' 
-Contains: 
-*  A selection table data frame with 11 rows and 7 columns: 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; sound.files &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; channel &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; selec &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; start &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; end &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; bottom.freq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; top.freq &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.1694 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.3424 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2201 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.6044 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.1584 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.3215 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.1694 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8071 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.3433 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.5183 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2183 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.7566 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long2.wav &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1596 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2922 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.3169 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long2.wav &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.4571 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.5832 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2840 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8880 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long3.wav &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.6266 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.7578 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.0068 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-... and 5 more rows 
-
- * A data frame (check.results) generated by sel_check() (as attribute) 
-created by warbleR 1.1.26</code></pre>
+all selections are OK Object of class ‘selection_table’ Contains: * A selection table data frame with 11 rows and 7 columns:
+<table class="table">
+<thead><tr>
+<th style="text-align:left;">
+sound.files
+</th>
+<th style="text-align:right;">
+channel
+</th>
+<th style="text-align:right;">
+selec
+</th>
+<th style="text-align:right;">
+start
+</th>
+<th style="text-align:right;">
+end
+</th>
+<th style="text-align:right;">
+bottom.freq
+</th>
+<th style="text-align:right;">
+top.freq
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.1694
+</td>
+<td style="text-align:right;">
+1.3424
+</td>
+<td style="text-align:right;">
+2.2201
+</td>
+<td style="text-align:right;">
+8.6044
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2.1584
+</td>
+<td style="text-align:right;">
+2.3215
+</td>
+<td style="text-align:right;">
+2.1694
+</td>
+<td style="text-align:right;">
+8.8071
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.3433
+</td>
+<td style="text-align:right;">
+0.5183
+</td>
+<td style="text-align:right;">
+2.2183
+</td>
+<td style="text-align:right;">
+8.7566
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long2.wav
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1596
+</td>
+<td style="text-align:right;">
+0.2922
+</td>
+<td style="text-align:right;">
+2.3169
+</td>
+<td style="text-align:right;">
+8.8223
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long2.wav
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1.4571
+</td>
+<td style="text-align:right;">
+1.5832
+</td>
+<td style="text-align:right;">
+2.2840
+</td>
+<td style="text-align:right;">
+8.8880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long3.wav
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.6266
+</td>
+<td style="text-align:right;">
+0.7578
+</td>
+<td style="text-align:right;">
+3.0068
+</td>
+<td style="text-align:right;">
+8.8223
+</td>
+</tr>
+</tbody>
+</table>
+<p>… and 5 more rows</p>
+<ul>
+<li>A data frame (check.results) generated by sel_check() (as attribute) created by warbleR 1.1.26</li>
+</ul>
 <p>Note that the path to the sound files has been provided. This is necessary in order to verify that the data provided conforms to the characteristics of the audio files.</p>
 <p>Selection tables have their own class in R:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
+<div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">st</span><span class="op">)</span></pre></div>
 <pre><code>[1] "selection_table" "data.frame"     </code></pre>
 <p> </p>
@@ -624,7 +646,7 @@ created by warbleR 1.1.26</code></pre>
 <a href="#extended-selection-tables" class="anchor"></a>Extended selection tables</h3>
 <p>When the <code>extended = TRUE</code> argument the function generates an object of the <em>extended_selection_table</em> class that also contains a list of ‘wave’ objects corresponding to each of the selections in the data. Therefore, the function <strong>transforms the selection table into self-contained objects</strong> since the original sound files are no longer needed to perform most of the acoustic analysis in <strong>warbleR</strong>. This can greatly facilitate the storage and exchange of (bio)acoustic data. In addition, it also speeds up analysis, since it is not necessary to read the sound files every time the data is analyzed.</p>
 <p>Now, as mentioned earlier, you need the <code><a href="../reference/selection_table.html">selection_table()</a></code> function to create an extended selection table. You must also set the argument <code>extended = TRUE</code> (otherwise, the class would be a selection table). The following code converts the sample data into an extended selection table:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
+<div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="co">#  global parameters</span>
 <span class="fu"><a href="../reference/warbleR_options.html">warbleR_options</a></span><span class="op">(</span>wav.path <span class="op">=</span> <span class="st">"PONER RUTA A 'ejemplos' AQUI"</span><span class="op">)</span>
 
@@ -640,186 +662,369 @@ created by warbleR 1.1.26</code></pre>
 <h3 class="hasAnchor">
 <a href="#handling-extended-selection-tables" class="anchor"></a>Handling extended selection tables</h3>
 <p>Several functions can be used to deal with objects of this class. You can test if the object belongs to the <em>extended_selection_table</em>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
+<div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span><span class="op">(</span><span class="va">ext_st</span><span class="op">)</span></pre></div>
 <pre><code>[1] TRUE</code></pre>
 <p> </p>
 <p>You can subset the selection in the same way that any other data frame and it will still keep its attributes:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
+<div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="va">ext_st2</span> <span class="op">&lt;-</span> <span class="va">ext_st</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="op">]</span>
 
 <span class="fu"><a href="../reference/is_extended_selection_table.html">is_extended_selection_table</a></span><span class="op">(</span><span class="va">ext_st2</span><span class="op">)</span></pre></div>
 <pre><code>[1] TRUE</code></pre>
 <p>There is also a generic version of <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> for this class of objects:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="co">## print</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">ext_st</span><span class="op">)</span></pre></div>
-<pre><code>Object of class 'extended_selection_table' 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; sound.files &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; channel &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; selec &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; start &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; end &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; bottom.freq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; top.freq &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2730 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2201 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.6044 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2630 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.1694 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8071 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2749 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2183 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.7566 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long2.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2326 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.3169 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long2.wav_2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2262 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2840 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8880 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long3.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2312 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.0068 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-... and 5 more rows 
-
-* 11 wave objects (as attributes): Phae.long1.wav_1 Phae.long1.wav_2 Phae.long1.wav_3 Phae.long2.wav_1 Phae.long2.wav_2 Phae.long3.wav_1... and 5 more
- 
-* A data frame (check.results) generated by sel_check() (as attribute) 
-
-The selection table was created by element (see 'class_extended_selection_table') 
-* 1 sampling rate(s) (in kHz): 22.5 
-* 1 bit depth(s): 16 
-* Created by warbleR 1.1.26</code></pre>
+Object of class ‘extended_selection_table’
+<table class="table">
+<thead><tr>
+<th style="text-align:left;">
+sound.files
+</th>
+<th style="text-align:right;">
+channel
+</th>
+<th style="text-align:right;">
+selec
+</th>
+<th style="text-align:right;">
+start
+</th>
+<th style="text-align:right;">
+end
+</th>
+<th style="text-align:right;">
+bottom.freq
+</th>
+<th style="text-align:right;">
+top.freq
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2730
+</td>
+<td style="text-align:right;">
+2.2201
+</td>
+<td style="text-align:right;">
+8.6044
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2630
+</td>
+<td style="text-align:right;">
+2.1694
+</td>
+<td style="text-align:right;">
+8.8071
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2749
+</td>
+<td style="text-align:right;">
+2.2183
+</td>
+<td style="text-align:right;">
+8.7566
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long2.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2326
+</td>
+<td style="text-align:right;">
+2.3169
+</td>
+<td style="text-align:right;">
+8.8223
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long2.wav_2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2262
+</td>
+<td style="text-align:right;">
+2.2840
+</td>
+<td style="text-align:right;">
+8.8880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long3.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2312
+</td>
+<td style="text-align:right;">
+3.0068
+</td>
+<td style="text-align:right;">
+8.8223
+</td>
+</tr>
+</tbody>
+</table>
+<p>… and 5 more rows</p>
+<ul>
+<li><p>11 wave objects (as attributes): Phae.long1.wav_1 Phae.long1.wav_2 Phae.long1.wav_3 Phae.long2.wav_1 Phae.long2.wav_2 Phae.long3.wav_1… and 5 more</p></li>
+<li><p>A data frame (check.results) generated by sel_check() (as attribute)</p></li>
+</ul>
+<p>The selection table was created by element (see ‘class_extended_selection_table’) * 1 sampling rate(s) (in kHz): 22.5 * 1 bit depth(s): 16 * Created by warbleR 1.1.26</p>
 <p>… which is equivalent to:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
+<div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="va">ext_st</span></pre></div>
-<pre><code>Object of class 'extended_selection_table' 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; sound.files &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; channel &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; selec &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; start &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; end &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; bottom.freq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; top.freq &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2730 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2201 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.6044 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2630 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.1694 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8071 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2749 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2183 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.7566 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long2.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2326 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.3169 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long2.wav_2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2262 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2840 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8880 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long3.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2312 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.0068 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-... and 5 more rows 
-
-* 11 wave objects (as attributes): Phae.long1.wav_1 Phae.long1.wav_2 Phae.long1.wav_3 Phae.long2.wav_1 Phae.long2.wav_2 Phae.long3.wav_1... and 5 more
- 
-* A data frame (check.results) generated by sel_check() (as attribute) 
-
-The selection table was created by element (see 'class_extended_selection_table') 
-* 1 sampling rate(s) (in kHz): 22.5 
-* 1 bit depth(s): 16 
-* Created by warbleR 1.1.26</code></pre>
-<p> </p>
+Object of class ‘extended_selection_table’
+<table class="table">
+<thead><tr>
+<th style="text-align:left;">
+sound.files
+</th>
+<th style="text-align:right;">
+channel
+</th>
+<th style="text-align:right;">
+selec
+</th>
+<th style="text-align:right;">
+start
+</th>
+<th style="text-align:right;">
+end
+</th>
+<th style="text-align:right;">
+bottom.freq
+</th>
+<th style="text-align:right;">
+top.freq
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2730
+</td>
+<td style="text-align:right;">
+2.2201
+</td>
+<td style="text-align:right;">
+8.6044
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2630
+</td>
+<td style="text-align:right;">
+2.1694
+</td>
+<td style="text-align:right;">
+8.8071
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2749
+</td>
+<td style="text-align:right;">
+2.2183
+</td>
+<td style="text-align:right;">
+8.7566
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long2.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2326
+</td>
+<td style="text-align:right;">
+2.3169
+</td>
+<td style="text-align:right;">
+8.8223
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long2.wav_2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2262
+</td>
+<td style="text-align:right;">
+2.2840
+</td>
+<td style="text-align:right;">
+8.8880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long3.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2312
+</td>
+<td style="text-align:right;">
+3.0068
+</td>
+<td style="text-align:right;">
+8.8223
+</td>
+</tr>
+</tbody>
+</table>
+<p>… and 5 more rows</p>
+<ul>
+<li><p>11 wave objects (as attributes): Phae.long1.wav_1 Phae.long1.wav_2 Phae.long1.wav_3 Phae.long2.wav_1 Phae.long2.wav_2 Phae.long3.wav_1… and 5 more</p></li>
+<li><p>A data frame (check.results) generated by sel_check() (as attribute)</p></li>
+</ul>
+<p>The selection table was created by element (see ‘class_extended_selection_table’) * 1 sampling rate(s) (in kHz): 22.5 * 1 bit depth(s): 16 * Created by warbleR 1.1.26  </p>
 <p>You can also join them in rows. Here the original <em>extended_selection_table</em> is divided into 2 and bound again using <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
+<div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="va">ext_st3</span> <span class="op">&lt;-</span> <span class="va">ext_st</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>
 
 <span class="va">ext_st4</span> <span class="op">&lt;-</span> <span class="va">ext_st</span><span class="op">[</span><span class="fl">6</span><span class="op">:</span><span class="fl">11</span>, <span class="op">]</span>
@@ -828,102 +1033,193 @@ The selection table was created by element (see 'class_extended_selection_table'
 
 <span class="co">#print</span>
 <span class="va">ext_st5</span></pre></div>
-<pre><code>Object of class 'extended_selection_table' 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; sound.files &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; channel &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; selec &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; start &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; end &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; bottom.freq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; top.freq &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2730 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2201 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.6044 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2630 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.1694 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8071 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long1.wav_3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2749 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2183 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.7566 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long2.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2326 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.3169 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long2.wav_2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2262 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.2840 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8880 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Phae.long3.wav_1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2312 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 3.0068 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-... and 5 more rows 
-
-* 11 wave objects (as attributes): Phae.long1.wav_1 Phae.long1.wav_2 Phae.long1.wav_3 Phae.long2.wav_1 Phae.long2.wav_2 Phae.long3.wav_1... and 5 more
- 
-* A data frame (check.results) generated by sel_check() (as attribute) 
-
-The selection table was created by element (see 'class_extended_selection_table') 
-* 1 sampling rate(s) (in kHz): 22.5 
-* 1 bit depth(s): 16 
-* Created by warbleR 1.1.26</code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit">
+Object of class ‘extended_selection_table’
+<table class="table">
+<thead><tr>
+<th style="text-align:left;">
+sound.files
+</th>
+<th style="text-align:right;">
+channel
+</th>
+<th style="text-align:right;">
+selec
+</th>
+<th style="text-align:right;">
+start
+</th>
+<th style="text-align:right;">
+end
+</th>
+<th style="text-align:right;">
+bottom.freq
+</th>
+<th style="text-align:right;">
+top.freq
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2730
+</td>
+<td style="text-align:right;">
+2.2201
+</td>
+<td style="text-align:right;">
+8.6044
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2630
+</td>
+<td style="text-align:right;">
+2.1694
+</td>
+<td style="text-align:right;">
+8.8071
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long1.wav_3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2749
+</td>
+<td style="text-align:right;">
+2.2183
+</td>
+<td style="text-align:right;">
+8.7566
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long2.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2326
+</td>
+<td style="text-align:right;">
+2.3169
+</td>
+<td style="text-align:right;">
+8.8223
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long2.wav_2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2262
+</td>
+<td style="text-align:right;">
+2.2840
+</td>
+<td style="text-align:right;">
+8.8880
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phae.long3.wav_1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2312
+</td>
+<td style="text-align:right;">
+3.0068
+</td>
+<td style="text-align:right;">
+8.8223
+</td>
+</tr>
+</tbody>
+</table>
+<p>… and 5 more rows</p>
+<ul>
+<li><p>11 wave objects (as attributes): Phae.long1.wav_1 Phae.long1.wav_2 Phae.long1.wav_3 Phae.long2.wav_1 Phae.long2.wav_2 Phae.long3.wav_1… and 5 more</p></li>
+<li><p>A data frame (check.results) generated by sel_check() (as attribute)</p></li>
+</ul>
+<p>The selection table was created by element (see ‘class_extended_selection_table’) * 1 sampling rate(s) (in kHz): 22.5 * 1 bit depth(s): 16 * Created by warbleR 1.1.26</p>
+<div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="co"># igual q el original</span>
 <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">ext_st</span>, <span class="va">ext_st5</span><span class="op">)</span></pre></div>
-<pre><code>[1] TRUE</code></pre>
-<p> </p>
+<p>[1] TRUE  </p>
 <p>The ‘wave’ objects can be read individually using <code><a href="../reference/read_wave.html">read_wave()</a></code>, a wrapper for the <code>readWave()</code> function of <strong>tuneR</strong>, which can handle extended selection tables:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
+<div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="va">wv1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_wave.html">read_wave</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">ext_st</span>, index <span class="op">=</span> <span class="fl">3</span>, from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">0.37</span><span class="op">)</span></pre></div>
 <p> </p>
 <p>These are regular ‘wave’ objects:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
+<div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">wv1</span><span class="op">)</span></pre></div>
 <pre><code>[1] "Wave"
 attr(,"package")
 [1] "tuneR"</code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit">
+<div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="va">wv1</span></pre></div>
 <pre><code>
 Wave Object
@@ -933,11 +1229,11 @@ Wave Object
     Channels (Mono/Stereo): Mono
     PCM (integer format):   TRUE
     Bit (8/16/24/32/64):    16 </code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit">
+<div class="sourceCode" id="cb20"><pre class="downlit">
 <span class="fu">spectro</span><span class="op">(</span><span class="va">wv1</span>, wl <span class="op">=</span> <span class="fl">150</span>, grid <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span>, ovlp <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></pre></div>
 <p><img src="Intro_to_warbleR_files/figure-html/extn_sel_8.22-1.png" width="750"></p>
 <p> </p>
-<div class="sourceCode" id="cb27"><pre class="downlit">
+<div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
 
 <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">{</span>
@@ -951,7 +1247,7 @@ Wave Object
 <p><img src="Intro_to_warbleR_files/figure-html/extn_sel_8.23-1.png" width="750">  </p>
 <p>The <code><a href="../reference/read_wave.html">read_wave()</a></code> function requires the selection table, as well as the row index (i.e. the row number) to be able to read the ‘wave’ objects. It can also read a regular ‘wave’ file if the path is provided.</p>
 <p>Note that other functions that modify data frames are likely to delete the attributes in which the ‘wave’ objects and metadata are stored. For example, the merge and the extended selection box will remove its attributes:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit">
+<div class="sourceCode" id="cb22"><pre class="downlit">
 <span class="co"># crear nueva base de datos</span>
 <span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>sound.files <span class="op">=</span> <span class="va">ext_st</span><span class="op">$</span><span class="va">sound.files</span>, site <span class="op">=</span> <span class="st">"La Selva"</span>, lek <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"SUR"</span>, <span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"CCL"</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
@@ -963,7 +1259,7 @@ Wave Object
 <pre><code>[1] FALSE</code></pre>
 <p> </p>
 <p>In this case, we can use the <code><a href="../reference/fix_extended_selection_table.html">fix_extended_selection_table()</a></code> function to transfer the attributes of the original extended selection table:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit">
+<div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="co"># arreglar</span>
 <span class="va">mrg_ext_st</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fix_extended_selection_table.html">fix_extended_selection_table</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">mrg_ext_st</span>, Y <span class="op">=</span> <span class="va">ext_st</span><span class="op">)</span>
 
@@ -981,7 +1277,7 @@ Wave Object
 <div id="spectral-parameters" class="section level4">
 <h4 class="hasAnchor">
 <a href="#spectral-parameters" class="anchor"></a>Spectral parameters</h4>
-<div class="sourceCode" id="cb32"><pre class="downlit">
+<div class="sourceCode" id="cb26"><pre class="downlit">
 <span class="co">#  parametros espectrales</span>
 <span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/specan.html">specan</a></span><span class="op">(</span><span class="va">ext_st</span><span class="op">)</span>
 
@@ -2101,7 +2397,7 @@ Phae.long4.wav_3
 <div id="signal-to-noise-ratio" class="section level4">
 <h4 class="hasAnchor">
 <a href="#signal-to-noise-ratio" class="anchor"></a>Signal-to-noise ratio</h4>
-<div class="sourceCode" id="cb33"><pre class="downlit">
+<div class="sourceCode" id="cb27"><pre class="downlit">
 <span class="va">snr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sig2noise.html">sig2noise</a></span><span class="op">(</span><span class="va">ext_st</span>, mar <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
 
 <span class="va">snr</span></pre></div>
@@ -2500,7 +2796,7 @@ NA
 <div id="dynamic-time-warping-dtw" class="section level4">
 <h4 class="hasAnchor">
 <a href="#dynamic-time-warping-dtw" class="anchor"></a>Dynamic time warping (DTW)</h4>
-<div class="sourceCode" id="cb34"><pre class="downlit">
+<div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="va">dtw.dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dfDTW.html">dfDTW</a></span><span class="op">(</span><span class="va">ext_st</span>, img <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">dtw.dist</span></pre></div>
@@ -2972,7 +3268,7 @@ Phae.long4.wav_3-1
 <h3 class="hasAnchor">
 <a href="#performance" class="anchor"></a>Performance</h3>
 <p>The use of <em>extended_selection_table</em> objects can improve performance (in our case, measured as time). Here we use <strong>microbenchmark</strong> to compare the performance of <code><a href="../reference/sig2noise.html">sig2noise()</a></code> and <strong>ggplot2</strong> to plot the results. First, a selection table with 1000 selections is created simply by repeating the sample data frame several times and then is converted to an extended selection table:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit">
+<div class="sourceCode" id="cb29"><pre class="downlit">
 <span class="co"># create long selection table</span>
 <span class="va">lng.selec.table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">10</span>, <span class="va">lbh_selec_table</span>, 
                         simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
@@ -3007,102 +3303,206 @@ Phae.long4.wav_3-1
 <h3 class="hasAnchor">
 <a href="#sharing-acoustic-data" class="anchor"></a>Sharing acoustic data</h3>
 <p>This new object class allows to share complete data sets, including acoustic data. For example, the <strong>NatureSounds</strong> package contains an extended selection table with long-billed hermit hummingbirds vocalizations from 10 different song types:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit">
+<div class="sourceCode" id="cb30"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"Phae.long.est"</span><span class="op">)</span>
 
 <span class="va">Phae.long.est</span></pre></div>
-<pre><code>Object of class 'extended_selection_table' 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; sound.files &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; selec &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; start &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; end &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; bottom.freq &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; top.freq &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; lek &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; lek.song.type &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1-1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2676 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.6020 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 10.9525 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1-2 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2652 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.8914 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11.0250 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1-3 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2716 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.7177 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11.0250 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1-4 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2701 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.8335 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11.0250 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1-5 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2770 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 2.1229 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11.0250 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; BR2-A1 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; CCE-I3-1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.2490 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 1.7551 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 11.0250 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; CCE &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; CCE-I3 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-... and 44 more rows 
-
-* 50 wave objects (as attributes): BR2-A1-1 BR2-A1-2 BR2-A1-3 BR2-A1-4 BR2-A1-5 CCE-I3-1... and 44 more
- 
-* A data frame (check.results) generated by sel_check() (as attribute) 
-
-The selection table was created by element (see 'class_extended_selection_table') 
-* 1 sampling rate(s) (in kHz): 22.05 
-* 1 bit depth(s): 8 
-* Created by warbleR &lt; 1.1.21</code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit">
+Object of class ‘extended_selection_table’
+<table class="table">
+<thead><tr>
+<th style="text-align:left;">
+sound.files
+</th>
+<th style="text-align:right;">
+selec
+</th>
+<th style="text-align:right;">
+start
+</th>
+<th style="text-align:right;">
+end
+</th>
+<th style="text-align:right;">
+bottom.freq
+</th>
+<th style="text-align:right;">
+top.freq
+</th>
+<th style="text-align:left;">
+lek
+</th>
+<th style="text-align:left;">
+lek.song.type
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BR2-A1-1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2676
+</td>
+<td style="text-align:right;">
+1.6020
+</td>
+<td style="text-align:right;">
+10.9525
+</td>
+<td style="text-align:left;">
+BR2
+</td>
+<td style="text-align:left;">
+BR2-A1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BR2-A1-2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2652
+</td>
+<td style="text-align:right;">
+1.8914
+</td>
+<td style="text-align:right;">
+11.0250
+</td>
+<td style="text-align:left;">
+BR2
+</td>
+<td style="text-align:left;">
+BR2-A1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BR2-A1-3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2716
+</td>
+<td style="text-align:right;">
+1.7177
+</td>
+<td style="text-align:right;">
+11.0250
+</td>
+<td style="text-align:left;">
+BR2
+</td>
+<td style="text-align:left;">
+BR2-A1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BR2-A1-4
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2701
+</td>
+<td style="text-align:right;">
+1.8335
+</td>
+<td style="text-align:right;">
+11.0250
+</td>
+<td style="text-align:left;">
+BR2
+</td>
+<td style="text-align:left;">
+BR2-A1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BR2-A1-5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2770
+</td>
+<td style="text-align:right;">
+2.1229
+</td>
+<td style="text-align:right;">
+11.0250
+</td>
+<td style="text-align:left;">
+BR2
+</td>
+<td style="text-align:left;">
+BR2-A1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CCE-I3-1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.2490
+</td>
+<td style="text-align:right;">
+1.7551
+</td>
+<td style="text-align:right;">
+11.0250
+</td>
+<td style="text-align:left;">
+CCE
+</td>
+<td style="text-align:left;">
+CCE-I3
+</td>
+</tr>
+</tbody>
+</table>
+<p>… and 44 more rows</p>
+<ul>
+<li><p>50 wave objects (as attributes): BR2-A1-1 BR2-A1-2 BR2-A1-3 BR2-A1-4 BR2-A1-5 CCE-I3-1… and 44 more</p></li>
+<li><p>A data frame (check.results) generated by sel_check() (as attribute)</p></li>
+</ul>
+<p>The selection table was created by element (see ‘class_extended_selection_table’) * 1 sampling rate(s) (in kHz): 22.05 * 1 bit depth(s): 8 * Created by warbleR &lt; 1.1.21</p>
+<div class="sourceCode" id="cb31"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">Phae.long.est</span><span class="op">$</span><span class="va">lek.song.type</span><span class="op">)</span></pre></div>
-<pre><code>
-BR2-A1 CCE-I3 LOC-D1 SAT-F1 STR-A2 SUR-E1 SUR-K4 TR1-C2 TR1-C5 TR1-D4 
-     5      5      5      5      5      5      5      5      5      5 </code></pre>
+<p>BR2-A1 CCE-I3 LOC-D1 SAT-F1 STR-A2 SUR-E1 SUR-K4 TR1-C2 TR1-C5 TR1-D4 5 5 5 5 5 5 5 5 5 5</p>
 <p>The ability to compress large data sets and the ease of performing analyzes that require a single R object can simplify the exchange of data and the reproducibility of bioacoustic analyzes.</p>
 <p> </p>
 </div>
@@ -3137,7 +3537,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/check_wavs.html" style="     ">check_wavs</a>
+<a href="https://marce10.github.io/warbleR/reference/wav_check.html" style="     ">wav_check</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 verify if sound files can be read
@@ -3165,7 +3565,7 @@ data frame and wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/fix_wavs.html" style="     ">fix_wavs</a>
+<a href="https://marce10.github.io/warbleR/reference/wav_fix.html" style="     ">wav_fix</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 fix waves that cannot be read in R
@@ -3193,7 +3593,7 @@ wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/quer_xc.html" style="     ">quer_xc</a>
+<a href="https://marce10.github.io/warbleR/reference/xc_query.html" style="     ">xc_query</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 Search and download mp3 files from Xeno-Canto
@@ -3207,7 +3607,7 @@ mp3 files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/resample_est.html" style="     ">resample_est</a>
+<a href="https://marce10.github.io/warbleR/reference/est_resample.html" style="     ">est_resample</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 resample wave objects in ext. selection tables
@@ -3221,7 +3621,7 @@ extended selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/rm_channels.html" style="     ">rm_channels</a>
+<a href="https://marce10.github.io/warbleR/reference/remove_channels.html" style="     ">remove_channels</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 remove channels in multiple wave files
@@ -3235,7 +3635,7 @@ wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/rm_sil.html" style="     ">rm_sil</a>
+<a href="https://marce10.github.io/warbleR/reference/remove_silence.html" style="     ">remove_silence</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 remove silences in multiple wave files
@@ -3301,20 +3701,6 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/manual_loc.html" style="     ">manual_loc</a>
-</td>
-<td style="text-align:center;font-style: italic;">
-manual annotation of wave files
-</td>
-<td style="text-align:center;font-style: italic;">
-multiple wave files
-</td>
-<td style="text-align:center;font-style: italic;">
-data frame, .csv file
-</td>
-</tr>
-<tr>
-<td style="text-align:center;font-weight: bold;">
 <a href="https://marce10.github.io/warbleR/reference/auto_detec.html" style="     ">auto_detec</a>
 </td>
 <td style="text-align:center;font-style: italic;">
@@ -3325,6 +3711,20 @@ multiple wave files
 </td>
 <td style="text-align:center;font-style: italic;">
 data frame, images
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight: bold;">
+<a href="https://marce10.github.io/warbleR/reference/optimize_auto_detec.html" style="     ">optimize_auto_detec</a>
+</td>
+<td style="text-align:center;font-style: italic;">
+Try different detection settings to optimize auto_detec detections
+</td>
+<td style="text-align:center;font-style: italic;">
+auto_detec output
+</td>
+<td style="text-align:center;font-style: italic;">
+data frame
 </td>
 </tr>
 <tr>
@@ -3409,7 +3809,7 @@ selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/cut_sels.html" style="     ">cut_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/sel_cut.html" style="     ">sel_cut</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 save selections as individual wave files
@@ -3423,7 +3823,7 @@ wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/filter_sels.html" style="     ">filter_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/sel_filter.html" style="     ">sel_filter</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 subset selection tables based on filtered image files
@@ -3552,7 +3952,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/dfDTW.html" style="     ">dfDTW</a>
+<a href="https://marce10.github.io/warbleR/reference/df_DTW.html" style="     ">df_DTW</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures dynamic time warping (DTW) on dominant frequency contours
@@ -3580,7 +3980,7 @@ data frame with frequency contours
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/ffDTW.html" style="     ">ffDTW</a>
+<a href="https://marce10.github.io/warbleR/reference/f_fDTW.html" style="     ">f_fDTW</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures dynamic time warping (DTW) on fundamental frequency contours
@@ -3664,7 +4064,7 @@ selection tables, ext. selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/se_ts.html" style="     ">se_ts</a>
+<a href="https://marce10.github.io/warbleR/reference/entropy_ts.html" style="     ">entropy_ts</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures spectral entropy contours
@@ -3678,7 +4078,7 @@ data frame with frequency contours
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/spec_an.html" style="     ">spec_an</a>
+<a href="https://marce10.github.io/warbleR/reference/spectro_analysis.html" style="     ">spectro_analysis</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures spectrographic parameters
@@ -3692,7 +4092,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/x_corr.html" style="     ">x_corr</a>
+<a href="https://marce10.github.io/warbleR/reference/cross_correlation.html" style="     ">cross_correlation</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measurec spectrographic cross-correlation
@@ -3730,7 +4130,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/check_sels.html" style="     ">check_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/sel_check.html" style="     ">sel_check</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 double-check selection tables
@@ -3744,7 +4144,7 @@ selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/ovlp_sels.html" style="     ">ovlp_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/sel_overlap.html" style="     ">sel_overlap</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 finds (time) overlapping selections
@@ -3800,7 +4200,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/full_spec.html" style="     ">full_spec</a>
+<a href="https://marce10.github.io/warbleR/reference/full_spectrograms.html" style="     ">full_spectrograms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create spectrograms of whole sound files
@@ -3814,7 +4214,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/full_spec2pdf.html" style="     ">full_spec2pdf</a>
+<a href="https://marce10.github.io/warbleR/reference/full_spectrograms2pdf.html" style="     ">full_spectrograms2pdf</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 convert full spectrograms to .pfg
@@ -3851,7 +4251,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/snr_specs.html" style="     ">snr_specs</a>
+<a href="https://marce10.github.io/warbleR/reference/snr_spectrograms.html" style="     ">snr_spectrograms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 plots spectrograms highlighting areas where signal-to-noise ratio is measured
@@ -3879,7 +4279,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/track_freqs.html" style="     ">track_freqs</a>
+<a href="https://marce10.github.io/warbleR/reference/freq_track.html" style="     ">freq_track</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create spectrogram images including frequency contours
@@ -3907,7 +4307,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/full_spec.html" style="     ">full_spec</a>
+<a href="https://marce10.github.io/warbleR/reference/full_spectrograms.html" style="     ">full_spectrograms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create spectrograms of whole sound files
@@ -4001,7 +4401,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/track_harm.html" style="     ">track_harm</a>
+<a href="https://marce10.github.io/warbleR/reference/harmonic_track.html" style="     ">harmonic_track</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures harmonics with highest energy
@@ -4043,7 +4443,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/full_spec2pdf.html" style="     ">full_spec2pdf</a>
+<a href="https://marce10.github.io/warbleR/reference/full_spectrograms2pdf.html" style="     ">full_spectrograms2pdf</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 convert full spectrograms to .pfg
@@ -4138,7 +4538,7 @@ wave object, wave file and selection table
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/spec_param.html" style="     ">spec_param</a>
+<a href="https://marce10.github.io/warbleR/reference/spectro_tweak.html" style="     ">spectro_tweak</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 creates mosaic plots with spectrograms with different display parameters
@@ -4196,17 +4596,20 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] warbleR_1.1.26     NatureSounds_1.0.3 knitr_1.30         seewave_2.1.6      tuneR_1.3.3       
+[1] kableExtra_1.3.1   warbleR_1.1.26     NatureSounds_1.0.3 knitr_1.30         seewave_2.1.6     
+[6] tuneR_1.3.3       
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.5        rstudioapi_0.11   magrittr_2.0.1    MASS_7.3-53       rjson_0.2.20     
- [6] R6_2.5.0          ragg_0.4.0        rlang_0.4.10      pbapply_1.4-3     stringr_1.4.0    
-[11] tools_4.0.3       parallel_4.0.3    xfun_0.20         dtw_1.22-3        htmltools_0.5.0  
-[16] systemfonts_0.3.2 yaml_2.2.1        assertthat_0.2.1  digest_0.6.27     rprojroot_1.3-2  
-[21] pkgdown_1.6.1     crayon_1.3.4      textshaping_0.1.2 bitops_1.0-6      fs_1.5.0         
-[26] RCurl_1.98-1.2    signal_0.7-6      memoise_1.1.0     evaluate_0.14     rmarkdown_2.4    
-[31] proxy_0.4-24      stringi_1.5.3     compiler_4.0.3    desc_1.2.0        backports_1.1.10 
-[36] fftw_1.0-6       </code></pre>
+ [1] Rcpp_1.0.5        highr_0.8         compiler_4.0.3    bitops_1.0-6      tools_4.0.3      
+ [6] digest_0.6.27     viridisLite_0.3.0 lifecycle_0.2.0   evaluate_0.14     memoise_1.1.0    
+[11] fftw_1.0-6        rlang_0.4.10      rstudioapi_0.11   yaml_2.2.1        parallel_4.0.3   
+[16] pkgdown_1.6.1     xfun_0.20         xml2_1.3.2        stringr_1.4.0     httr_1.4.2       
+[21] desc_1.2.0        fs_1.5.0          systemfonts_0.3.2 webshot_0.5.2     rprojroot_1.3-2  
+[26] glue_1.4.2        R6_2.5.0          textshaping_0.1.2 dtw_1.22-3        pbapply_1.4-3    
+[31] rmarkdown_2.4     magrittr_2.0.1    scales_1.1.1      backports_1.1.10  htmltools_0.5.0  
+[36] MASS_7.3-53       assertthat_0.2.1  rvest_0.3.6       colorspace_1.4-1  ragg_0.4.0       
+[41] stringi_1.5.3     proxy_0.4-24      munsell_0.5.0     signal_0.7-6      RCurl_1.98-1.2   
+[46] crayon_1.3.4      rjson_0.2.20     </code></pre>
 </div>
   </div>
 

@@ -3,7 +3,7 @@
 \docType{data}
 \name{comp_matrix}
 \alias{comp_matrix}
-\title{Matrix listing selections to be compared by \code{\link{cross_correlation}}}
+\title{Example matrix listing selections to be compared by \code{\link{cross_correlation}}}
 \format{
 A data frame with 11 rows and 6 variables: \describe{ 
  \item{sound.files}{recording names}

@@ -562,7 +562,8 @@ auto_detec <-
               org.selec = X$selec[i], # this one allows to relate to segments in a segmented sound file n X (several selection for the same sound file)
               selec = NA,
               start = if(length(starts) > 0) starts else NA,
-              end = if(length(ends) > 0) ends else NA
+              end = if(length(ends) > 0) ends else NA,
+              stringsAsFactors = FALSE
             )
           
           
@@ -589,7 +590,8 @@ auto_detec <-
               org.selec = X$selec[i],
               selec = NA,
               start = NA,
-              end = NA
+              end = NA,
+              stringsAsFactors = FALSE
             )
 
         
@@ -604,7 +606,8 @@ auto_detec <-
                 org.selec = X$selec[i],
                 time = seq(X$start[i], X$end[i], along.with = envp),
                 abs.time = NA,
-                amplitude = envp
+                amplitude = envp,
+                stringsAsFactors = FALSE
               )
             )
            
