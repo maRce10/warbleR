@@ -380,7 +380,6 @@ sel_tailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar =
         text(x = mean(xs), y = mean(grY), labels = "<<", cex = 1.2, font = 2, col = "#4ABDAC")
     
       if (labels[x] == "delete") 
-        # text(x = mean(xs), y = mean(grY), labels = "X", cex = 1, font = 2, col = if (X$tailored[j] != "delete") "#4ABDAC"else "#E37222")
         points(x = mean(xs), y = mean(grY), pch = 4, cex = 1.5, lwd = 3, col = if (X$tailored[j] != "delete") "#4ABDAC"else "#E37222")
         
       if (labels[x] == "contour") {

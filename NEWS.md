@@ -4,6 +4,7 @@
 
 * `sel_tailor()` can undo deletions
 * button labels replaced by symbols in `sel_tailor()` 
+* many functions renamed (see `new_function_names`) 
 
 # *warbleR 1.1.25*
 

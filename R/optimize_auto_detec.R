@@ -1,7 +1,7 @@
 #' Optimize the detection of signals based on a-priori detections
 #' @usage optimize_auto_detec(X, Y, threshold = 10, power = 1, wl = 512, ssmooth = 0, 
-#' hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, by.sound.file = FALSE, 
-#' bp = NULL, path = NULL)
+#' hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, 
+#' by.sound.file = FALSE, bp = NULL, path = NULL)
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). \strong{It should contain the selections that will be used for detection optimization}.
@@ -22,6 +22,7 @@
 #'   threshold. \strong{Several values can be supplied for optimization}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+#' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
 #' @param by.sound.file Logical to control if diagnostics are calculated for each sound file independently (\code{TRUE}) or for all sound files combined (\code{FALSE}, default).
 #' @param bp Numeric vector of length 2 giving the lower and upper limits of a
 #'   frequency bandpass filter (in kHz). Default is \code{NULL}.
@@ -67,7 +68,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}).
 #last modification on dec-21-2020 (MAS)
-optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512, ssmooth = 0, hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, by.sound.file = FALSE, bp = NULL, path = NULL){
+optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512, ssmooth = 0, hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, by.sound.file = FALSE, bp = NULL, path = NULL){
         
       if (!is.null(Y)) {
         
@@ -104,9 +105,13 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
         
         grid_results <- lapply(seq_len(nrow(exp_grd)), function(x, bs = by.sound.file){
           
-          if (!bs) svMisc::progress(value = x, max.value = nrow(exp_grd), progress.bar = TRUE, char ="|")
+            if (!requireNamespace("svMisc", quietly = TRUE) & !bs)
+              cat("must install 'svMisc' to use a progress bar in optimize_auto_detec()") else
+            svMisc::progress(value = x, max.value = nrow(exp_grd), progress.bar = TRUE, char ="|")
       
           ad <- warbleR::auto_detec(X = Y, threshold = exp_grd$threshold[x], ssmooth = exp_grd$ssmooth[x], mindur = exp_grd$mindur[x], maxdur = exp_grd$maxdur[x], parallel = parallel, pb = FALSE, power = exp_grd$power[x], hold.time = exp_grd$hold.time[x], bp = bp, path = path, flist = flist)
+          # make factor a character vector
+          ad$sound.files <- as.character(ad$sound.files)
           
           ad$..row.id <- 1:nrow(ad)    
           
@@ -129,7 +134,7 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
             
             detections <- do.call(rbind, detections_l)  
             
-            result <- if (nrow(detections > 0))
+            result <- if (nrow(detections) > 0)
               data.frame(
                 count = nrow(detections),
                 prop.time = sum(detections$end - detections$start) / sum(W$end - W$start),
@@ -214,7 +219,10 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
     if (by.sound.file) {
       by.rec <- lapply(unique(X$sound.files), function(w) {
         
-        if (!by.sound.file)   svMisc::progress(value = w, max.value = nrow(exp_grd), progress.bar = TRUE, char = crayon::silver("|"))
+        # error message if wavethresh is not installed
+        if (!requireNamespace("svMisc", quietly = TRUE) & !by.sound.file)
+          cat("must install 'svMisc' to use a progress bar in optimize_auto_detec()") else
+        svMisc::progress(value = which(unique(X$sound.files) == w), max.value = nrow(exp_grd), progress.bar = TRUE, char = crayon::silver("|"))
         
         W <- grid_FUN(exp_grd, X[X$sound.files == w, ], Y, by.sound.file)
         

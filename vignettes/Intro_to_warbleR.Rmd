@@ -15,8 +15,8 @@ output:
 vignette: >
    %\VignetteIndexEntry{1. Introduction to warbleR}
    %\usepackage[utf8]{inputenc}
-   %\VignetteEngine{knitr::rmarkdown}
    %\VignetteEncoding{UTF-8}
+   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---

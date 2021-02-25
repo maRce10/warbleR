@@ -5,8 +5,8 @@
 \title{Optimize the detection of signals based on a-priori detections}
 \usage{
 optimize_auto_detec(X, Y, threshold = 10, power = 1, wl = 512, ssmooth = 0, 
-hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, by.sound.file = FALSE, 
-bp = NULL, path = NULL)
+hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, 
+by.sound.file = FALSE, bp = NULL, path = NULL)
 }
 \arguments{
 \item{X}{'selection_table' object or a data frame with columns
@@ -38,6 +38,8 @@ threshold. \strong{Several values can be supplied for optimization}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
+
+\item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 
 \item{by.sound.file}{Logical to control if diagnostics are calculated for each sound file independently (\code{TRUE}) or for all sound files combined (\code{FALSE}, default).}
 

@@ -43,7 +43,7 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
   
   # error message if wavethresh is not installed
-  if (!requireNamespace("wavethresh",quietly = TRUE))
+  if (!requireNamespace("wavethresh", quietly = TRUE))
     stop("must install 'wavethresh' to use this function")
   
   #### set arguments from options
