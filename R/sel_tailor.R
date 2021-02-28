@@ -248,7 +248,7 @@ sel_tailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar =
   if (frange & !all(any(names(X) == "bottom.freq"), any(names(X) == "top.freq")))
     X$top.freq <- X$bottom.freq <- NA
   
-  # if file is not found
+  # if working on a extended selection table
   if (!file.exists(file.path(csv.path, "seltailor_output.csv")))
   {
     X$tailored <- ""
@@ -582,11 +582,19 @@ sel_tailor <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar =
       }
       selcount <- selcount + 1
       
-      
       #auto next
       if (auto.next){
         X$start[j] <-  tlim[1] + min(xy3$x) 
         X$end[j] <-  tlim[1] + max(xy3$x)
+        
+        # fix start if negative
+        if (X$start[j] < 0)
+          X$start[j] <- 0
+        
+        # fix if higher than file duration in extended selection tables
+        if (is_extended_selection_table(X) & X$end[j] > duration(attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == X$sound.files[j])[1]]]))
+              X$end[j] <- duration(attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == X$sound.files[j])[1]]])
+        
         if (frange) {
           X$bottom.freq[j] <- min(xy3$y)  
           if (min(xy3$y) < 0) X$bottom.freq[j] <- 0  

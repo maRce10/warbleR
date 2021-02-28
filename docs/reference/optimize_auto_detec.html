@@ -146,8 +146,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>optimize_auto_detec</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y</span>, threshold <span class='op'>=</span> <span class='fl'>10</span>, power <span class='op'>=</span> <span class='fl'>1</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, ssmooth <span class='op'>=</span> <span class='fl'>0</span>, 
-hold.time <span class='op'>=</span> <span class='fl'>0</span>, mindur <span class='op'>=</span> <span class='cn'>NULL</span>, maxdur <span class='op'>=</span> <span class='cn'>NULL</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, by.sound.file <span class='op'>=</span> <span class='cn'>FALSE</span>, 
-bp <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+hold.time <span class='op'>=</span> <span class='fl'>0</span>, mindur <span class='op'>=</span> <span class='cn'>NULL</span>, maxdur <span class='op'>=</span> <span class='cn'>NULL</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span>, 
+by.sound.file <span class='op'>=</span> <span class='cn'>FALSE</span>, bp <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,6 +201,10 @@ threshold. <strong>Several values can be supplied for optimization</strong>.</p>
       <th>parallel</th>
       <td><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
+    </tr>
+    <tr>
+      <th>pb</th>
+      <td><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>by.sound.file</th>
@@ -264,8 +268,9 @@ path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/
 </div><div class='output co'>#&gt; <span style='color: #00BBBB;'>2 combinations will be evaluated...</span><span>
 #&gt;           0-2
 #&gt; Progress: ||</span><span style='color: #00BBBB;'>3 combinations will be evaluated...</span><span>
-#&gt; </span><span style='color: #00BBBB;'>3 combinations will be evaluated...</span><span>
-#&gt; |</div><div class='output co'>#&gt;   threshold power ssmooth hold.time mindur maxdur true.positives
+#&gt; |
+#&gt;           0-3
+#&gt; Progress: |||</span><span style='color: #00BBBB;'>3 combinations will be evaluated...</span><span></div><div class='output co'>#&gt;   threshold power ssmooth hold.time mindur maxdur true.positives
 #&gt; 1         5     1       0         0   -Inf    Inf             11
 #&gt; 2        10     1       0         0   -Inf    Inf             12
 #&gt; 3        15     1       0         0   -Inf    Inf             11

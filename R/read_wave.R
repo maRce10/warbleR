@@ -93,8 +93,7 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], chann
           # if path wasn't provided and still doesn't exist
           if (is.null(path)) 
             path <- getwd()
-      
-        
+    
     if (is.na(try_na(from))) from <- 0
     if (is.na(try_na(to))) to <- Inf
     

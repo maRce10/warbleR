@@ -32,11 +32,11 @@ If \code{NULL} (default) then the current working directory is used.}
 A data frame with the annotation information.
 }
 \description{
-\code{find_annotations} downloads sound file annotations and metadata from \href{https://audioblast.org/annotations/}{audioblast.org}.
+\code{find_annotations} downloads sound file annotations and metadata from audioblast.org.
 }
 \details{
 This function queries for annotations on acoustic media in the open-access
-online repository \href{https://audioblast.org/annotations/}{audioblast.org}.
+online repository audioblast.org.
 }
 \examples{
  \dontrun{
