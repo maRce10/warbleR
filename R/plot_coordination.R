@@ -33,10 +33,10 @@
 #' @examples
 #' \dontrun{
 #' # load simulate singing events  (see data documentation)
-#' data(sim.coor.sing)
+#' data(sim_coor_sing)
 #' 
 #'#' # make plot_coordination in graphic device format
-#'cgs <- plot_coordination(X = sim.coor.sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
+#'cgs <- plot_coordination(X = sim_coor_sing, ovlp = TRUE, only.coor = FALSE, img = FALSE)
 #' 
 #' cgs
 #' }

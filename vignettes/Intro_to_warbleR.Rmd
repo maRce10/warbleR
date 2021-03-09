@@ -687,7 +687,7 @@ kbl
 
 ```{r, echo = FALSE, eval = TRUE}
 
-cf2 <- cf[cf$`Inspección visual` == "x",  c("Function", "Description", "Works on", "Output")]
+cf2 <- cf[cf$`Inspeccion visual` == "x",  c("Function", "Description", "Works on", "Output")]
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
@@ -711,7 +711,7 @@ Finally, **warbleR** offers functions to simplify the use of extended selection 
 
 ```{r, echo = FALSE, eval = TRUE}
 
-cf2 <- cf[cf$`Análisis estadístico` == "x" | cf$Otros == "x",  c("Function", "Description", "Works on", "Output")]
+cf2 <- cf[cf$`Analisis estadistico` == "x" | cf$Otros == "x",  c("Function", "Description", "Works on", "Output")]
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
