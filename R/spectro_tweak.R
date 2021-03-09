@@ -1,8 +1,8 @@
 #' Plot a mosaic of spectrograms with varying display parameters
 #' 
-#' \code{spectro_tweak} plots a mosaic of spectrograms with varying display parameters to
+#' \code{tweak_spectro} plots a mosaic of spectrograms with varying display parameters to
 #' facilitate selection of display parameters
-#' @usage spectro_tweak(X, length.out = 5, ovlp = 90, wl = c(100, 1000), wn = "hanning",
+#' @usage tweak_spectro(X, length.out = 5, ovlp = 90, wl = c(100, 1000), wn = "hanning",
 #'  collev.min = -40, pal = "reverse.gray.colors.2", path = NULL, rm.axes = TRUE, ...)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with a single row and columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
@@ -21,7 +21,7 @@
 #' @param collev.min A (negative) numeric vector of length 1 or 2. Determines the first argument
 #' to use in 'collevels' for the internal spectrogram creating function. This replaces the 
 #' first element in the 'collevels' as in \code{\link[seewave]{spectro}}. Note that
-#' 'collevels' is not available in this function \code{\link[warbleR]{spectro_tweak}}.
+#' 'collevels' is not available in this function \code{\link[warbleR]{tweak_spectro}}.
 #' @param pal Color palette function for spectrogram. Default is "reverse.gray.colors.2". 
 #' Several palettes can be provided in a character vector. Note that, contrary to
 #'  other \code{warbleR} and \code{seewave} functions, the 
@@ -34,7 +34,7 @@
 #' @return Image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
-#' @name spectro_tweak
+#' @name tweak_spectro
 #' @details This functions aims to simplify the selection of spectrogram parameters. 
 #' The function plots, for a single selection, a mosaic of spectrograms with varying 
 #' display parameters. For numeric arguments the upper and lower limits of a range can
@@ -61,29 +61,29 @@
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
 #' 
 #' # variable collevels
-#' spectro_tweak(X = lbh_selec_table, wl = 164, ovlp = c(90), wn = c("flattop"), 
+#' tweak_spectro(X = lbh_selec_table, wl = 164, ovlp = c(90), wn = c("flattop"), 
 #' length.out = 16, nrow = 4, ncol = 4, width = 20, height = 11.3, rm.axes = TRUE, 
 #' cex = 1, box = F, collev.min = c(-20, -150), path = tempdir())
 #' 
 #' # variable overlap and wn
-#' spectro_tweak(X = lbh_selec_table, wl = 164, ovlp = c(50, 90), 
+#' tweak_spectro(X = lbh_selec_table, wl = 164, ovlp = c(50, 90), 
 #' wn = c("hanning", "hamming", "rectangle", "bartlett", "blackman", "flattop"),
 #' length.out = 7, nrow = 6, ncol = 7, width = 20, height = 11.3, rm.axes = TRUE, 
 #' cex = 1, box = F), path = tempdir()
 #' 
 #' # variable wl and wn
-#' spectro_tweak(X = lbh_selec_table, wl = c(100, 1000), ovlp = c(50, 90), wn = "all", 
+#' tweak_spectro(X = lbh_selec_table, wl = c(100, 1000), ovlp = c(50, 90), wn = "all", 
 #' length.out = 5, nrow = 10, ncol = 14, width = 20, height = 11.3, rm.axes = TRUE, 
 #' cex = 0.7, path = tempdir())
 #' 
 #' # variable wl, collev.min and wn 
-#' spectro_tweak(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90, 
+#' tweak_spectro(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90, 
 #' wn = c("hanning", "hamming", "rectangle"), collev.min = c(-110, -25), 
 #' length.out = 3, nrow = 10, ncol = 14, width = 20, height = 11.3, rm.axes = TRUE,
 #'  cex = 0.7, path = tempdir())
 #'  
 #'  # variable wl, wn and pal
-#'  spectro_tweak(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90, 
+#'  tweak_spectro(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90, 
 #'  wn = c("hanning", "hamming", "rectangle"), 
 #'  pal = c("reverse.gray.colors.2", "reverse.topo.colors", 
 #'  "reverse.terrain.colors", "reverse.cm.colors"), 
@@ -91,7 +91,7 @@
 #'   rm.axes = TRUE, cex = 0.7, lab.mar = 2, path = tempdir())
 #'   
 #'   # wl, wn and pal
-#'   spectro_tweak(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90,
+#'   tweak_spectro(X = lbh_selec_table, wl = c(100, 1000), ovlp = 90,
 #'    wn = c("hanning", "hamming", "rectangle"), 
 #'   pal = c("reverse.gray.colors.2", "reverse.topo.colors", 
 #'   "reverse.terrain.colors", "reverse.cm.colors"), 
@@ -105,13 +105,13 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-08-2018 (MAS)
 
-spectro_tweak <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000), 
+tweak_spectro <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000), 
                     wn = "hanning", collev.min = -40,
                     pal = "reverse.gray.colors.2", path = NULL, rm.axes = TRUE, ...)
 {
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(spectro_tweak)
+  argms <- methods::formalArgs(tweak_spectro)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
@@ -207,16 +207,16 @@ spectro_tweak <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
     class(X) <- class(X.orig)
     }
 
-    catalog(X = X, ovlp = X$ovlp, wl = X$wl, collevels = "collev.min", title = paste(X$sound.files[1], X$selec2[1]), rm.axes = rm.axes, img.suffix = "spectro_tweak", 
+    catalog(X = X, ovlp = X$ovlp, wl = X$wl, collevels = "collev.min", title = paste(X$sound.files[1], X$selec2[1]), rm.axes = rm.axes, img.suffix = "tweak_spectro", 
                   wn = X$wn, pal = "pal.list", path = path, labels = c("lbs"), ...)
   
 }
 
 ##############################################################################################################
-#' alternative name for \code{\link{spectro_tweak}}
+#' alternative name for \code{\link{tweak_spectro}}
 #'
 #' @keywords internal
-#' @details see \code{\link{spectro_tweak}} for documentation. \code{\link{spec_param}} will be deprecated in future versions.
+#' @details see \code{\link{tweak_spectro}} for documentation. \code{\link{spec_param}} will be deprecated in future versions.
 #' @export
 
-spec_param <- spectro_tweak
+spec_param <- tweak_spectro

@@ -370,8 +370,8 @@ auto_detec <-
         }
     } else {
       if (!is.null(flist))
-        X <- warbleR::wav_dur(files = flist, path = path) else
-        X <- warbleR::wav_dur(path = path)
+        X <- warbleR::duration_wavs(files = flist, path = path) else
+        X <- warbleR::duration_wavs(path = path)
       X$start <- 0
       X$selec <- 1
       names(X)[2] <- "end"

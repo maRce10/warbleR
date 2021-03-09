@@ -18,7 +18,7 @@
 #' @details The function removes channels from wave files. It works on regular and 
 #' multichannel wave files. Converted files are saved in a new directory ("converted_sound_files") 
 #' and original files are not modified. 
-#' @seealso \code{\link{wav_fix}}, \code{\link{wav_info}}, 
+#' @seealso \code{\link{fix_wavs}}, \code{\link{info_wavs}}, 
 #' @examples{
 #' # save sound file examples
 #' data("Phae.long1")

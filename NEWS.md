@@ -2,6 +2,8 @@
 
 ## Changes and additions:
 
+* `df_DTW()` and `ff_DTW()` were merged in a new function `freq_DTW()`
+* `sp.en.ts()`, `dfts()` and `ffts()` were merged in a new function `freq_ts()`
 * `sel_tailor()` can undo deletions
 * button labels replaced by symbols in `sel_tailor()` 
 * many functions renamed (see `new_function_names`) 

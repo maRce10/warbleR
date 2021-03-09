@@ -207,8 +207,8 @@ frequency desired (the length of the time series). Default is 30.</p></td>
       <td><p>A character vector of length 2 giving the names of the acoustic distance
 methods that would be compared. The methods available are:</p><ul>
 <li><p><code>XCORR</code>: cross-correlation (<code><a href='cross_correlation.html'>cross_correlation</a></code> function)</p></li>
-<li><p><code>dfDTW</code>: dynamic time warping on dominant frequency contours (<code><a href='df_DTW.html'>df_DTW</a></code> function)</p></li>
-<li><p><code>ffDTW</code>: dynamic time warping on fundamental frequency contours (<code><a href='ff_DTW.html'>ff_DTW</a></code> function)</p></li>
+<li><p><code>dfDTW</code>: dynamic time warping on dominant frequency contours (<code><a href='freq_DTW.html'>freq_DTW</a></code> function)</p></li>
+<li><p><code>ffDTW</code>: dynamic time warping on fundamental frequency contours (<code><a href='freq_DTW.html'>freq_DTW</a></code> function)</p></li>
 <li><p><code>SP</code>: spectral parameters (<code><a href='spectro_analysis.html'>spectro_analysis</a></code> function)</p></li>
 <li><p><code>SPharm</code>: spectral parameters (<code><a href='spectro_analysis.html'>spectro_analysis</a></code> function with argument <code>harmonicity  = TRUE</code>)</p></li>
 <li><p><code>MFCC</code>: statistical descriptors of Mel frequency cepstral coefficients (<code><a href='mfcc_stats.html'>mfcc_stats</a></code> function)</p></li>
@@ -231,7 +231,7 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     </tr>
     <tr>
       <th>sp</th>
-      <td><p>TO BE DEPRECATED. Use "custom1" and "custom2" arguments instead.</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>custom1</th>
@@ -304,9 +304,9 @@ from the provided data frame (X argument).The spectrograms are all plotted with
 the same frequency and time scales. The function compares 2 methods at a time. The
 methods available are: cross-correlation 
 (XCORR, from <code><a href='cross_correlation.html'>cross_correlation</a></code>), dynamic time warping on dominant frequency time 
-series (dfDTW, from <code><a href='https://rdrr.io/pkg/dtw/man/dtw.html'>dtw</a></code> applied on <code><a href='dfts.html'>dfts</a></code> output), dynamic time 
+series (dfDTW, from <code><a href='https://rdrr.io/pkg/dtw/man/dtw.html'>dtw</a></code> applied on <code><a href='freq_ts.html'>freq_ts</a></code> output), dynamic time 
 warping on dominant frequency time series (ffDTW, from <code><a href='https://rdrr.io/pkg/dtw/man/dtw.html'>dtw</a></code> applied on 
-<code><a href='ffts.html'>ffts</a></code> output), spectral parameters (SP, from <code><a href='spectro_analysis.html'>spectro_analysis</a></code>). The graph also 
+<code><a href='freq_ts.html'>freq_ts</a></code> output), spectral parameters (SP, from <code><a href='spectro_analysis.html'>spectro_analysis</a></code>). The graph also 
 contains 2 scatterplots (1 for each method) of the acoustic space of all signals in the 
 input data frame 'X', including the centroid as black dot. The compared selections are randomly picked up from the pool of 
 selections in the input data frame. The argument 'n' defines the number of comparisons (i.e. graphs) 

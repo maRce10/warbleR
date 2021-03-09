@@ -211,7 +211,7 @@ of the <code><a href='warbleR.html'>warbleR</a></code> function. It copies/cuts 
     <div class='dont-index'><p><code><a href='filtersels.html'>filtersels</a></code></p>
 <p>Other data manipulation: 
 <code><a href='open_wd.html'>open_wd</a>()</code>,
-<code><a href='wav_split.html'>wav_split</a>()</code></p></div>
+<code><a href='split_wavs.html'>split_wavs</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
@@ -227,7 +227,7 @@ of the <code><a href='warbleR.html'>warbleR</a></code> function. It copies/cuts 
 maxdur <span class='op'>=</span> <span class='fl'>3</span>, ssmooth <span class='op'>=</span> <span class='fl'>600</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, flist <span class='op'>=</span> <span class='st'>"Cryp.soui.wav"</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>#track dominant frequency graphs with freq reange detection</span>
-<span class='fu'><a href='freq_track.html'>freq_track</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>ad</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ad</span><span class='op'>$</span><span class='va'>start</span><span class='op'>)</span>,<span class='op'>]</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span>, ovlp <span class='op'>=</span> <span class='fl'>90</span>, it <span class='op'>=</span> <span class='st'>"tiff"</span>,
+<span class='fu'><a href='track_freq_contour.html'>track_freq_contour</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>ad</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ad</span><span class='op'>$</span><span class='va'>start</span><span class='op'>)</span>,<span class='op'>]</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span>, ovlp <span class='op'>=</span> <span class='fl'>90</span>, it <span class='op'>=</span> <span class='st'>"tiff"</span>,
 bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>, contour <span class='op'>=</span> <span class='st'>"df"</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, frange <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># create folder to move image files</span>
@@ -243,7 +243,10 @@ to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/fi
 <span class='co'># Check this folder</span>
 <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpHJ3SKF"</div><div class='input'>
+</div><div class='output co'>#&gt; Detecting signals in sound files:  |                                                  | 0 % ~calculating    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
+#&gt;   |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt;   |+++++++++++++++++++++++++                         | 50% ~00s          </div><div class='output co'>#&gt;   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
+#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
+#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [1] "/tmp/RtmpW4pvzt"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

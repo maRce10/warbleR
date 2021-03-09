@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>alternative name for sel_cut — cut_sels • warbleR</title>
+<title>Cut selections into individual sound files — cut_sels • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="alternative name for sel_cut — cut_sels" />
-<meta property="og:description" content="alternative name for sel_cut" />
+<meta property="og:title" content="Cut selections into individual sound files — cut_sels" />
+<meta property="og:description" content="cut_sels cuts selections from a selection table into individual sound files." />
 
 
 
@@ -136,16 +136,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>alternative name for <code><a href='sel_cut.html'>sel_cut</a></code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/sel_cut.R'><code>R/sel_cut.R</code></a></small>
+    <h1>Cut selections into individual sound files</h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/cut_sels.R'><code>R/cut_sels.R</code></a></small>
     <div class="hidden name"><code>cut_sels.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>alternative name for <code><a href='sel_cut.html'>sel_cut</a></code></p>
+    <p><code>cut_sels</code> cuts selections from a selection table into individual sound files.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cut_sels</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>cut_sels</span><span class='op'>(</span><span class='va'>X</span>, mar <span class='op'>=</span> <span class='fl'>0.05</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, dest.path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sound.files"</span>, <span class='st'>"selec"</span><span class='op'>)</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, norm <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>cut_sels</span><span class='op'>(</span>
   <span class='va'>X</span>,
   mar <span class='op'>=</span> <span class='fl'>0.05</span>,
   parallel <span class='op'>=</span> <span class='fl'>1</span>,
@@ -158,11 +161,96 @@
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>X</th>
+      <td><p>object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
+selection number (selec), and start and end time of signals (start and end).
+The output of <code><a href='auto_detec.html'>auto_detec</a></code> can be used as the input data frame.</p></td>
+    </tr>
+    <tr>
+      <th>mar</th>
+      <td><p>Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
+delineating spectrogram limits. Default is 0.05.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>Character string containing the directory path where the sound files are located. 
+If <code>NULL</code> (default) then the current working directory is used.</p></td>
+    </tr>
+    <tr>
+      <th>dest.path</th>
+      <td><p>Character string containing the directory path where the cut sound files will be saved.
+If <code>NULL</code> (default) then the directory containing the sound files will be used instead.</p></td>
+    </tr>
+    <tr>
+      <th>pb</th>
+      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>labels</th>
+      <td><p>String vector. Provides the column names that will be used as labels to
+create sound file names. Note that they should provide unique names (otherwise 
+sound files will be overwritten). Default is <code><a href='https://rdrr.io/r/base/c.html'>c("sound.files", "selec")</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>overwrite</th>
+      <td><p>Logical. If <code>TRUE</code> sound files with the same name will be 
+overwritten. Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>norm</th>
+      <td><p>Logical indicating whether wave objects must be normalized first using the function <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code>. Additional arguments can be passed to <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code> using `...`.` Default is <code>FALSE</code>. See <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code> for available options.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments to be passed to the internal <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code>  function for customizing sound file output. Ignored if  <code>norm = FALSE</code>.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Sound files of the signals listed in the input data frame.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>see <code><a href='sel_cut.html'>sel_cut</a></code> for documentation. <code>cut_sels</code> will be deprecated in future versions.</p>
+    <p>This function allow users to produce individual sound files from the selections
+listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth.</p>
+<p>see <code>cut_sels</code> for documentation. <code>cut_sels</code> will be deprecated in future versions.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='seltailor.html'>seltailor</a></code> for tailoring selections 
+ <a href='https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html'>blog post on cutting sound files</a></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>) and Grace Smith Vidaurre</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='op'>{</span> 
+<span class='co'># save wav file examples</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># cut selections</span>
+<span class='fu'>cut_sels</span><span class='op'>(</span><span class='va'>lbh_selec_table</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+ 
+<span class='co'>#check this folder!!</span>
+<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++                                             | 9 % ~00s            |++++++++++                                        | 18% ~00s            |++++++++++++++                                    | 27% ~00s            |+++++++++++++++++++                               | 36% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++++                  | 64% ~00s            |+++++++++++++++++++++++++++++++++++++             | 73% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [1] "/tmp/RtmpW4pvzt"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

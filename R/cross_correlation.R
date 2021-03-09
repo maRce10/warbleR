@@ -74,7 +74,7 @@
 #' xcor <- cross_correlation(X = lbh_selec_table, compare.matrix = cmp.mt, 
 #' wl = 300, ovlp = 90, path = tempdir())
 #' }
-#' @seealso \code{\link{mfcc_stats}}, \code{\link{spectro_analysis}}, \code{\link{df_DTW}}
+#' @seealso \code{\link{mfcc_stats}}, \code{\link{spectro_analysis}}, \code{\link{freq_DTW}}
 #' @author Marcelo Araya-Salas \email{marcelo.araya@@ucr.ac.cr})
 #' 
 #' @references {
@@ -129,7 +129,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   # if is extended all should have the same sampling rate
-  if (is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("all wave objects in the extended selection table must have the same sampling rate (they can be homogenized using est_resample())")
+  if (is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("all wave objects in the extended selection table must have the same sampling rate (they can be homogenized using resample_est_waves())")
   
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
@@ -217,7 +217,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
           complt.sf <- setdiff(c(compare.matrix), X$selection.id)
           
           # get duration of files
-          wvdr <- wav_dur(files = complt.sf, path = path)
+          wvdr <- duration_wavs(files = complt.sf, path = path)
           
           # put it in a data frame
           names(wvdr)[2] <- "end"

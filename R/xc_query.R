@@ -1,7 +1,7 @@
 #' Access 'Xeno-Canto' recordings and metadata
 #' 
-#' \code{xc_query} downloads recordings and metadata from \href{https://www.xeno-canto.org/}{Xeno-Canto}.
-#' @usage xc_query(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
+#' \code{query_xc} downloads recordings and metadata from \href{https://www.xeno-canto.org/}{Xeno-Canto}.
+#' @usage query_xc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
 #' parallel = 1, path = NULL, pb = TRUE)  
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'  species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}. 
@@ -30,7 +30,7 @@
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.  
 #' @export
-#' @name xc_query
+#' @name query_xc
 #' @details This function queries for avian vocalization recordings in the open-access
 #' online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. It can return recordings metadata
 #' or download the associated sound files. Complex queries can be done by using search terms that follow the 
@@ -38,35 +38,35 @@
 #'  Files are double-checked after downloading and "empty" files are re-downloaded. 
 #'  File downloading process can be interrupted and resume later as long as the working directory is the same.
 #'  Maps of recording coordinates can be produced using 
-#' \code{\link{xc_maps}}.
-#' @seealso \code{\link{xc_maps}}, 
+#' \code{\link{map_xc}}.
+#' @seealso \code{\link{map_xc}}, 
 #' \href{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html}{blog post on accessing Xeno-Canto recordings} 
 #' @examples
 #' \dontrun{
 #' # search without downloading
-#' df1 <- xc_query(qword = 'Phaethornis anthophilus', download = FALSE)
+#' df1 <- query_xc(qword = 'Phaethornis anthophilus', download = FALSE)
 #' View(df1)
 #'
 #' # downloading files
-#'xc_query(qword = 'Phaethornis anthophilus', download = TRUE, path = tempdir())
+#'query_xc(qword = 'Phaethornis anthophilus', download = TRUE, path = tempdir())
 #'
 #' # check this folder
 #' tempdir()
 #' 
 #' ## search using xeno-canto advance query ###
-#' orth.pap <- xc_query(qword = 'gen:orthonyx cnt:papua loc:tari', download = FALSE)
+#' orth.pap <- query_xc(qword = 'gen:orthonyx cnt:papua loc:tari', download = FALSE)
 #'  
 #' # download file using the output data frame as input
-#' xc_query(X = orth.pap, path = tempdir())
+#' query_xc(X = orth.pap, path = tempdir())
 #' 
 #' # use quotes for queries with more than 1 word (e.g. Costa Rica),note that the 
 #' # single quotes are used for the whole 'qword' and double quotes for the 2-word term inside
 #' #Phaeochroa genus in Costa Rica 
-#' phae.cr <- xc_query(qword = 'gen:phaeochroa cnt:"costa rica"', download = FALSE)
+#' phae.cr <- query_xc(qword = 'gen:phaeochroa cnt:"costa rica"', download = FALSE)
 #' 
 #' # several terms can be searched for in the same field
 #' # search for all female songs in sound type
-#' femsong <- xc_query(qword = 'type:song type:female', download = FALSE)
+#' femsong <- query_xc(qword = 'type:song type:female', download = FALSE)
 #' }
 #' 
 #' @references {
@@ -75,7 +75,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) 
 #last modification on nov-16-2016 (MAS)
 
-xc_query <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
+query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
                    parallel = 1, path = NULL, pb = TRUE) {
   
   # set pb options 
@@ -83,7 +83,7 @@ xc_query <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(xc_query)
+  argms <- methods::formalArgs(query_xc)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
@@ -323,10 +323,10 @@ if (pb) write(file = "", x ="double-checking downloaded files")
 
 
 ##############################################################################################################
-#' alternative name for \code{\link{xc_query}}
+#' alternative name for \code{\link{query_xc}}
 #'
 #' @keywords internal
-#' @details see \code{\link{xc_query}} for documentation. \code{\link{querxc}} will be deprecated in future versions.
+#' @details see \code{\link{query_xc}} for documentation. \code{\link{querxc}} will be deprecated in future versions.
 #' @export
 
-querxc <- xc_query
+querxc <- query_xc

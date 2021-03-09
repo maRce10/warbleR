@@ -10,7 +10,7 @@
 #' @export
 #' @name inflections
 #' @details The function counts the number of inflections in a frequency contour.
-#' @seealso \code{\link{dfts}}, \code{\link{freq_track}}, 
+#' @seealso \code{\link{freq_ts}}, \code{\link{track_freq_contour}}, 
 #' @examples{
 #' # get warbleR sound file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
@@ -20,7 +20,7 @@
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
 #' 
 #' # measure frequency contours
-#' dom.freq.ts <- dfts(X = lbh_selec_table, path = tempdir())
+#' dom.freq.ts <- freq_ts(X = lbh_selec_table, path = tempdir())
 #' 
 #' # get number of inflections
 #' inflections(X = dom.freq.ts)

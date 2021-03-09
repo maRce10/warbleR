@@ -176,7 +176,7 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
       <th>whole.recs</th>
       <td><p>Logical. If <code>TRUE</code> the function will create a selection 
 table for all sound files in the working directory (or "path") with `start = 0` 
-and `end = wav_dur()`. Default is if <code>FALSE</code>. Note that this will not create
+and `end = duration_wavs()`. Default is if <code>FALSE</code>. Note that this will not create
 a extended selection table. If provided 'X' is ignored.</p></td>
     </tr>
     <tr>
@@ -220,7 +220,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='sel_check.html'>sel_check</a></code> for customizing
+      <td><p>Additional arguments to be passed to <code><a href='check_sels.html'>check_sels</a></code> for customizing
 checking routine.</p></td>
     </tr>
     </table>
@@ -228,7 +228,7 @@ checking routine.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class selection_table which includes the original data frame plus the following additional attributes:</p><ul>
-<li><p>1) A data frame with the output of <code><a href='sel_check.html'>sel_check</a></code> run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
+<li><p>1) A data frame with the output of <code><a href='check_sels.html'>check_sels</a></code> run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
 errors due to missing or mislabeled data, or selection out of the ranges of the original sound files.</p></li>
 <li><p>2) A list indicating if the selection table has been created by song (see 'by.song argument).</p></li>
 <li><p>3) If a extended selection table is created a list containing the wave objects for each selection (or song if 'by.song').</p></li>
@@ -243,8 +243,8 @@ in the working directory</p></li>
 <li><p>3) if the start and end time of the selections are found within the duration of the sound files</p></li>
 </ul><p>If no errors are found the a selection table or extended selection table will be generated. 
 Note that the sound files should be in the working directory (or the directory provided in 'path').
-This is useful for avoiding errors in downstream functions (e.g. <code><a href='spectro_analysis.html'>spectro_analysis</a></code>, <code><a href='cross_correlation.html'>cross_correlation</a></code>, <code><a href='catalog.html'>catalog</a></code>, <code><a href='df_DTW.html'>df_DTW</a></code>). Note also that corrupt files can be
-fixed using <code><a href='wav_fix.html'>wav_fix</a></code> ('sox' must be installed to be able to run this function).
+This is useful for avoiding errors in downstream functions (e.g. <code><a href='spectro_analysis.html'>spectro_analysis</a></code>, <code><a href='cross_correlation.html'>cross_correlation</a></code>, <code><a href='catalog.html'>catalog</a></code>, <code><a href='freq_DTW.html'>freq_DTW</a></code>). Note also that corrupt files can be
+fixed using <code><a href='fix_wavs.html'>fix_wavs</a></code> ('sox' must be installed to be able to run this function).
 The 'selection_table' class can be input in subsequent functions.</p>
 <p>When <code>extended = TRUE</code> the function will generate an object of class 'extended_selection_table' which 
 will also contains the wave objects for each of the selections in the data frame.
@@ -263,7 +263,7 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='wav_check.html'>wav_check</a></code>, <a href='https://marce10.github.io/2018/05/15/Extended_selection_tables.html'>blog post on extended selection tables</a></p></div>
+    <div class='dont-index'><p><code><a href='check_wavs.html'>check_wavs</a></code>, <a href='https://marce10.github.io/2018/05/15/Extended_selection_tables.html'>blog post on extended selection tables</a></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>

@@ -29,7 +29,7 @@ comparison in the frequency contour, regardless of the pitch of signals. Default
 \item{dist.mat}{Logical controlling whether a distance matrix (\code{TRUE}, 
 default) or a tabular data frame (\code{FALSE}) is returned.}
 
-\item{...}{Additional arguments to be passed to \code{\link{freq_track}} for customizing
+\item{...}{Additional arguments to be passed to \code{\link{track_freq_contour}} for customizing
 graphical output.}
 }
 \value{
@@ -59,7 +59,7 @@ writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # measure
-df <- dfts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
+df <- freq_ts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
 se <- sets(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
 
 # run function 
@@ -73,22 +73,15 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{spectrograms}} for creating spectrograms from selections,
- \code{\link{snrspecs}} for creating spectrograms to 
-  optimize noise margins used in \code{\link{sig2noise}} and \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{ffDTW}} for frequency contour overlaid spectrograms.
- \href{https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html}{blog post on DTW similarity}
+\code{\link{freq_ts}}, \href{https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html}{blog post on DTW similarity}
 
 Other spectrogram creators: 
 \code{\link{color_spectro}()},
-\code{\link{df_DTW}()},
-\code{\link{dfts}()},
-\code{\link{entropy_ts}()},
-\code{\link{ff_DTW}()},
-\code{\link{ffts}()},
-\code{\link{freq_track}()},
+\code{\link{freq_DTW}()},
 \code{\link{phylo_spectro}()},
 \code{\link{snr_spectrograms}()},
-\code{\link{spectrograms}()}
+\code{\link{spectrograms}()},
+\code{\link{track_freq_contour}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

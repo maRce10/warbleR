@@ -59,7 +59,7 @@
 #'  that the function with \code{add = FALSE} should be run first). Default is \code{FALSE}.
 #' @return A plot is produced in the graphic device.
 #' @family spectrogram creators
-#' @seealso \code{\link{freq_track}} for creating spectrograms to visualize 
+#' @seealso \code{\link{track_freq_contour}} for creating spectrograms to visualize 
 #'   frequency measurements by \code{\link{spectro_analysis}}, \code{\link{snr_spectrograms}} for 
 #'   creating spectrograms to optimize noise margins used in \code{\link{sig2noise}}
 #' @export

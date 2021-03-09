@@ -2,7 +2,7 @@
 % Please edit documentation in R/xc_maps.R
 \name{xcmaps}
 \alias{xcmaps}
-\title{alternative name for \code{\link{xc_maps}}}
+\title{alternative name for \code{\link{map_xc}}}
 \usage{
 xcmaps(
   X,
@@ -16,9 +16,9 @@ xcmaps(
 )
 }
 \description{
-alternative name for \code{\link{xc_maps}}
+alternative name for \code{\link{map_xc}}
 }
 \details{
-see \code{\link{xc_maps}} for documentation. \code{\link{xcmaps}} will be deprecated in future versions.
+see \code{\link{map_xc}} for documentation. \code{\link{xcmaps}} will be deprecated in future versions.
 }
 \keyword{internal}

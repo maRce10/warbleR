@@ -53,7 +53,7 @@ ad <- autodetec(threshold = 6, bp = c(1, 3), mindur = 1.2,
 maxdur = 3, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav", path = tempdir())
 
 #track dominant frequency graphs with freq reange detection
-freq_track(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
+track_freq_contour(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
 bp = c(1, 3), contour = "df", wl = 300, frange = TRUE, path = tempdir())
 
 # create folder to move image files
@@ -81,7 +81,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 
 Other data manipulation: 
 \code{\link{open_wd}()},
-\code{\link{wav_split}()}
+\code{\link{split_wavs}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

@@ -21,7 +21,7 @@
 #' @name find_annotations
 #' @details This function queries for annotations on acoustic media in the open-access
 #' online repository audioblast.org.
-#' @seealso \code{\link{xc_query}} 
+#' @seealso \code{\link{query_xc}} 
 #' @examples
 #'  \dontrun{
 #' ann <- find_annotations(qword = "Thyroptera")

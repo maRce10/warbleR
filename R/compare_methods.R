@@ -31,8 +31,8 @@
 #' methods that would be compared. The methods available are: 
 #' \itemize{
 #'    \item \code{XCORR}: cross-correlation (\code{\link{cross_correlation}} function)
-#'    \item \code{dfDTW}: dynamic time warping on dominant frequency contours (\code{\link{df_DTW}} function)
-#'    \item \code{ffDTW}: dynamic time warping on fundamental frequency contours (\code{\link{ff_DTW}} function)
+#'    \item \code{dfDTW}: dynamic time warping on dominant frequency contours (\code{\link{freq_DTW}} function)
+#'    \item \code{ffDTW}: dynamic time warping on fundamental frequency contours (\code{\link{freq_DTW}} function)
 #'    \item \code{SP}: spectral parameters (\code{\link{spectro_analysis}} function)
 #'    \item \code{SPharm}: spectral parameters (\code{\link{spectro_analysis}} function with argument \code{harmonicity  = TRUE})
 #'    \item \code{MFCC}: statistical descriptors of Mel frequency cepstral coefficients (\code{\link{mfcc_stats}} function)
@@ -44,7 +44,7 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used. 
-#' @param sp TO BE DEPRECATED. Use "custom1" and "custom2" arguments instead.
+#' @param sp DEPRECATED.
 #' @param custom1 Data frame containing user parameters. The data frame must have 4 columns: the first 2 columns are 'sound.files'
 #' and "selec' columns as in 'X', the other 2 (columns 3 and 4) are
 #' 2 numeric columns to be used as the 2 parameters representing custom measurements. If the data has more than 2 parameters try using PCA (i.e. \code{\link[stats]{prcomp}} function)to summarize it in 2 dimensions before using it as an input. Default is \code{NULL}.
@@ -79,9 +79,9 @@
 #' the same frequency and time scales. The function compares 2 methods at a time. The
 #' methods available are: cross-correlation 
 #' (XCORR, from \code{\link{cross_correlation}}), dynamic time warping on dominant frequency time 
-#' series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{dfts}} output), dynamic time 
+#' series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{freq_ts}} output), dynamic time 
 #' warping on dominant frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on 
-#' \code{\link{ffts}} output), spectral parameters (SP, from \code{\link{spectro_analysis}}). The graph also 
+#' \code{\link{freq_ts}} output), spectral parameters (SP, from \code{\link{spectro_analysis}}). The graph also 
 #' contains 2 scatterplots (1 for each method) of the acoustic space of all signals in the 
 #' input data frame 'X', including the centroid as black dot. The compared selections are randomly picked up from the pool of 
 #' selections in the input data frame. The argument 'n' defines the number of comparisons (i.e. graphs) 
@@ -271,8 +271,7 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   }
   
   #check sp data frame
-  if (!is.null(sp))
-    stop("'sp' has been deprecated. Use 'custom1' instead") 
+  if (!is.null(sp))  write(file = "", x = "'sp' has been deprecated and will be ignored. Use 'custom1' instead") 
     
   #check custom1 data frame
   if (!is.null(custom1)){
@@ -338,7 +337,7 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if ("dfDTW" %in% methods){
     if (pb)   write(file = "", x = "measuring dominant frequency contours:")
-    dtwmat <- dfts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
+    dtwmat <- freq_ts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                     pb = pb, clip.edges = clip.edges, threshold = threshold)
    
     dtwmat <- dtwmat[,3:ncol(dtwmat)]
@@ -355,7 +354,7 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
 
   if ("ffDTW" %in% methods){
    if (pb)  write(file = "", x ="measuring fundamental frequency contours:")
-    dtwmat <- ffts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
+    dtwmat <- freq_ts(X, type = "fundamental", wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                   pb = pb, clip.edges = clip.edges, threshold = threshold)
   
   dtwmat <- dtwmat[,3:ncol(dtwmat)]

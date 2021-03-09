@@ -1,7 +1,7 @@
 #' Track harmonic frequency contour
 #' 
-#' \code{harmonic_track} tracks the frequency contour of the dominant harmonic.
-#' @usage harmonic_track(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, at = NULL, 
+#' \code{track_harmonic} tracks the frequency contour of the dominant harmonic.
+#' @usage track_harmonic(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, at = NULL, 
 #' tlim = NULL, threshold = 10, bandpass = NULL, clip = NULL, plot = TRUE, 
 #' xlab = "Times (s)", ylab = "Frequency (kHz)",  ylim = c(0, f/2000),
 #' adjust.wl = FALSE, dfrq = FALSE, ...) 
@@ -30,9 +30,9 @@
 #' number of samples in a selection if the number of samples is less than 'wl'. Default is \code{FALSE}.
 #' @param dfrq Logical. If \code{TRUE} seewave's \code{\link[seewave]{dfreq}} is used instead. Default is \code{FALSE}.
 #' @param ... Additional arguments to be passed to the plotting function.
-#' @seealso \code{\link{freq_track}} for tracking frequencies iteratively on selections tables.
+#' @seealso \code{\link{track_freq_contour}} for tracking frequencies iteratively on selections tables.
 #' @export
-#' @name harmonic_track
+#' @name track_harmonic
 #' @details This is a modified version of seewave's \code{\link[seewave]{dfreq}} function that allows to track the frequency 
 #' contour of a dominant harmonic even when the highest amplitude jumps between harmonics. The arguments and default values of the
 #' original \code{\link[seewave]{dfreq}} function have been kept unchanged to facilitate switching between the 2 functions.
@@ -43,7 +43,7 @@
 #' @author Jerome Sueur, modified by Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on feb-22-2018 (MAS)
 
-harmonic_track <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, 
+track_harmonic <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, 
           at = NULL, tlim = NULL, threshold = 10, bandpass = NULL, 
           clip = NULL, plot = TRUE, xlab = "Times (s)", ylab = "Frequency (kHz)", 
           ylim = c(0, f/2000), adjust.wl = FALSE, dfrq = FALSE, ...) 
@@ -51,7 +51,7 @@ harmonic_track <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = 
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(harmonic_track)
+  argms <- methods::formalArgs(track_harmonic)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
@@ -187,12 +187,12 @@ harmonic_track <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = 
 
 
 ##############################################################################################################
-#' alternative name for \code{\link{harmonic_track}}
+#' alternative name for \code{\link{track_harmonic}}
 #'
 #' @keywords internal
-#' @details see \code{\link{harmonic_track}} for documentation. \code{\link{harmonic_track}} will be deprecated in future versions.
+#' @details see \code{\link{track_harmonic}} for documentation. \code{\link{track_harmonic}} will be deprecated in future versions.
 #' @export
 
-harmonic_track <- harmonic_track
+track_harmonic <- track_harmonic
 
 

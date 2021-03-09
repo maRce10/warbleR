@@ -148,8 +148,14 @@
 <a href="#changes-and-additions" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>
-<code><a href="../reference/sel_tailor.html">sel_tailor()</a></code> can undo deletions</li>
-<li>button labels replaced by symbols in <code><a href="../reference/sel_tailor.html">sel_tailor()</a></code>
+<code><a href="../reference/df_DTW.html">df_DTW()</a></code> and <code>ff_DTW()</code> were merged in a new function <code><a href="../reference/freq_DTW.html">freq_DTW()</a></code>
+</li>
+<li>
+<code>sp.en.ts()</code>, <code>dfts()</code> and <code>ffts()</code> were merged in a new function <code><a href="../reference/freq_ts.html">freq_ts()</a></code>
+</li>
+<li>
+<code>sel_tailor()</code> can undo deletions</li>
+<li>button labels replaced by symbols in <code>sel_tailor()</code>
 </li>
 <li>many functions renamed (see <code>new_function_names</code>)</li>
 </ul>
@@ -217,7 +223,7 @@
 <code><a href="../reference/lspec.html">lspec()</a></code> now takes output from <code><a href="../reference/xcorr.html">xcorr()</a></code>, <code><a href="../reference/find_peaks.html">find_peaks()</a></code> and <code><a href="../reference/autodetec.html">autodetec()</a></code> and plots cross-correlation scores or envelopes along with spectrograms</li>
 <li>‘download’ option available in <code><a href="../reference/find_annotations.html">find_annotations()</a></code>
 </li>
-<li>‘leaflet’ interactive maps in <code><a href="../reference/xc_maps.html">xc_maps()</a></code>
+<li>‘leaflet’ interactive maps in <code>xc_maps()</code>
 </li>
 <li>‘split_wavs()’ new argument ‘only.sels’ to only return selection tables</li>
 <li>‘color_spectro()’ frequency range is not restricted by the selection table top and bottom frequency</li>

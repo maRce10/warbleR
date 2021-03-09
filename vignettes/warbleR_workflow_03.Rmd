@@ -150,13 +150,13 @@ Download a tinamou recording from _xeno-canto_, make selections and visualize/de
 
 ```{r, eval=FALSE, echo=TRUE}
 
-tin <- xc_query(qword = 'Tinamus', download = FALSE)
+tin <- query_xc(qword = 'Tinamus', download = FALSE)
 
 # select a single recording
 tin <- tin[tin$Recordist == "Marcelo Araya-Salas", ]
 
 # download this recording
-xc_query(X = tin, download = TRUE)
+query_xc(X = tin, download = TRUE)
 
 mp32wav()
 
@@ -183,7 +183,7 @@ str(Tin.sels)
 write.csv(Tin.sels, "Tinamus-major-154191_sels.csv", row.names = FALSE)
 
 # generate individual cuts for freqeuency range measurements below
-sel_cut(Tin.sels, mar = 0.05, labels = c("sound.files", "selec"))
+cut_sels(Tin.sels, mar = 0.05, labels = c("sound.files", "selec"))
 
 ```
 
@@ -253,49 +253,49 @@ str(se)
 
 ```
 
-#### Visualizing frequency contours with `freq_track`
+#### Visualizing frequency contours with `track_freq_contour`
 
-The function `freq_track` allows you to create spectrograms and visualize the accuracy of dominant frequency and fundamental frequency measurements. 
+The function `track_freq_contour` allows you to create spectrograms and visualize the accuracy of dominant frequency and fundamental frequency measurements. 
 
-Use `freq_track` on all the recordings for which you want to extract frequency contours as a time series, or later, calculate other frequency measurements. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.
+Use `track_freq_contour` on all the recordings for which you want to extract frequency contours as a time series, or later, calculate other frequency measurements. Scroll through all the spectrograms to get a feeling for how well the frequency measurements will be performed across your recordings.
 
-Running `freq_track` can allow you to decide which frequency parameters to use in subsequent analyses, namely `spectro_analysis` and dynamic time warping methods. Also, ff the frequency measurements look acceptable with the bandpass setting used in `freq_track`, use that same bandpass while running `spectro_analysis`.
+Running `track_freq_contour` can allow you to decide which frequency parameters to use in subsequent analyses, namely `spectro_analysis` and dynamic time warping methods. Also, ff the frequency measurements look acceptable with the bandpass setting used in `track_freq_contour`, use that same bandpass while running `spectro_analysis`.
 
 ```{r, eval=FALSE, echo=TRUE}
 
 # Note that the dominant frequency measurements are almost always more accurate
-freq_track(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(1, 12), it = "jpeg")
+track_freq_contour(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(1, 12), it = "jpeg")
 
 # We can change the lower end of bandpass to make the frequency measurements more precise
-freq_track(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(2, 12), col = c("purple", "orange"), pch = c(17, 3), res = 100, it = "jpeg", picsize = 0.8)
+track_freq_contour(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(2, 12), col = c("purple", "orange"), pch = c(17, 3), res = 100, it = "jpeg", picsize = 0.8)
 
 ```
 
-<!-- <center> ![freq_track image](Phaethornis-longirostris-154072.wav-108-trackfreqs.jpeg)</center> -->
+<!-- <center> ![track_freq_contour image](Phaethornis-longirostris-154072.wav-108-trackfreqs.jpeg)</center> -->
 &nbsp; 
 
 Note that the fundamental frequency measurements are not always very accurate, so we will remove fundamental frequency measurements later on.
 
 ### Extract fundamental or dominant frequency contours as a time series 
 
-These functions return a data frame that contains estimated frequency contours as a time series across each signal in the input data frame. You can also specify if you want to create image files with the estimated frequency contours plotted over spectrograms. You can change argument settings to better visualize the signals or change the estimation of the frequency contour. For instance, the argument `threshold` (as in `auto_detec`) controls the amplitude threshold for estimating frequency values at each time point. Note that the fundamental frequency contour estimation can often have errors, and tends to perform best with more tonal signals. The frequency contours are those that can be visualized using `freq_track`.
+These functions return a data frame that contains estimated frequency contours as a time series across each signal in the input data frame. You can also specify if you want to create image files with the estimated frequency contours plotted over spectrograms. You can change argument settings to better visualize the signals or change the estimation of the frequency contour. For instance, the argument `threshold` (as in `auto_detec`) controls the amplitude threshold for estimating frequency values at each time point. Note that the fundamental frequency contour estimation can often have errors, and tends to perform best with more tonal signals. The frequency contours are those that can be visualized using `track_freq_contour`.
 
 ```{r, echo=FALSE, eval=FALSE}
 
-# decided to remove harmonic_tracks, not working well for either Phaethornis or Tinamou signals
+# decided to remove track_harmonics, not working well for either Phaethornis or Tinamou signals
 
 # the text for above this chunk
-# `harmonic_tracks` is a modified function from `seewave` that allows you to track the dominant frequency for harmonic calls, even when the amplitude fluctuates among harmonics.
+# `track_harmonics` is a modified function from `seewave` that allows you to track the dominant frequency for harmonic calls, even when the amplitude fluctuates among harmonics.
 
 # with a Phaethornis harmonic signal
 nm <- paste(paste(as.character(Phae.hisnrt$sound.files[1]), as.character(Phae.hisnrt$selec[1]), sep = "-"), ".wav", sep = "")
 
 writeWave(seewave::cutw(readWave(as.character(Phae.hisnrt$sound.files[1])), from = Phae.hisnrt$start[1], to = Phae.hisnrt$end[1], f = 44100, plot = FALSE, output = "Wave"), filename = nm)
 
-trck_hrm <- harmonic_track(readWave(nm), f = 44100, ovlp = 70, fftw = FALSE, threshold = 15, bandpass = NULL, clip = 0.1, plot = TRUE, xlab = "Time (s)", ylab = "Frequency (kHz)",  adjust.wl = FALSE, dfrq = FALSE)
+trck_hrm <- track_harmonic(readWave(nm), f = 44100, ovlp = 70, fftw = FALSE, threshold = 15, bandpass = NULL, clip = 0.1, plot = TRUE, xlab = "Time (s)", ylab = "Frequency (kHz)",  adjust.wl = FALSE, dfrq = FALSE)
 
 # plot spectrogram
-spectro(readWave(nm), grid = FALSE, scale = FALSE, f = 22050, ovlp = 90, palette = reverse.gray.colors.2, collevels = seq(-40, 0, 1), wl = 300, osc = FALSE, flim = c(2, 10), main = "warbleR's 'harmonic_track'")
+spectro(readWave(nm), grid = FALSE, scale = FALSE, f = 22050, ovlp = 90, palette = reverse.gray.colors.2, collevels = seq(-40, 0, 1), wl = 300, osc = FALSE, flim = c(2, 10), main = "warbleR's 'track_harmonic'")
 
 # plot detected frequency contour
 points(x = trck_hrm[ , 1] + 0.1, y =  trck_hrm[ , 2], cex = 1, col = "red", pch = 20)
@@ -305,10 +305,10 @@ points(x = trck_hrm[ , 1] + 0.1, y =  trck_hrm[ , 2], cex = 1, col = "red", pch 
 ```{r, echo=FALSE, eval=FALSE}
 
 # with a Tinamou tonal signal
-trck_hrm <- harmonic_track(readWave("Tinamus-major-154191-1.wav"), f = 44100, ovlp = 70, fftw = FALSE, threshold = 15, bandpass = NULL, plot = TRUE, xlab = "Time (s)", ylab = "Frequency (kHz)",  adjust.wl = FALSE, dfrq = FALSE)
+trck_hrm <- track_harmonic(readWave("Tinamus-major-154191-1.wav"), f = 44100, ovlp = 70, fftw = FALSE, threshold = 15, bandpass = NULL, plot = TRUE, xlab = "Time (s)", ylab = "Frequency (kHz)",  adjust.wl = FALSE, dfrq = FALSE)
 
 # plot spectrogram
-spectro(readWave("Tinamus-major-154191-2.wav"), grid = FALSE, scale = FALSE, f = 44100, ovlp = 90, palette = reverse.gray.colors.2, collevels = seq(-40, 0, 1), wl = 300, osc = FALSE, flim = c(0, 4), main = "warbleR's 'harmonic_track'")
+spectro(readWave("Tinamus-major-154191-2.wav"), grid = FALSE, scale = FALSE, f = 44100, ovlp = 90, palette = reverse.gray.colors.2, collevels = seq(-40, 0, 1), wl = 300, osc = FALSE, flim = c(0, 4), main = "warbleR's 'track_harmonic'")
 
 # plot detected frequency contour
 points(x = trck_hrm[ , 1] + 0.1, y =  trck_hrm[ , 2], cex = 1, col = "red", pch = 20)
@@ -318,7 +318,7 @@ points(x = trck_hrm[ , 1] + 0.1, y =  trck_hrm[ , 2], cex = 1, col = "red", pch 
 ```{r, echo=TRUE, eval=FALSE}
 
 # Fundamental frequency contour
-ff_df <- ffts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "ffts", ff.method = "tuneR")
+ff_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "ffts", ff.method = "tuneR")
 
 str(ff_df)
 
@@ -329,32 +329,32 @@ str(ff_df)
 # Dominant frequency contour
 
 # Uses seewave function dfreq by default
-df_df <- ffts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "ffts", fsmooth = 0.2)
+df_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "ffts", fsmooth = 0.2)
 
 str(df_df)
 
 ```
 
-### Manually tailor frequency contours with sel_tailor
+### Manually tailor frequency contours with tailor_sels
 
-The functions above to track/extract dominant and fundamental frequency contours perform best with more tonal signals. The frequency measurements for signals with harmonic structure tend to jump around, and might not always match your own visual tracking of frequency contours. If this is the case, you can use the function `sel_tailor` to fix frequency contours where individual frequency measurements are clearly far off from the frequency contour detected by the human eye. The `sel_tailor` function is the same used in vignette 2 in this series, but by changing a few arguments, you can use `sel_tailor` to fix frequency contours.
+The functions above to track/extract dominant and fundamental frequency contours perform best with more tonal signals. The frequency measurements for signals with harmonic structure tend to jump around, and might not always match your own visual tracking of frequency contours. If this is the case, you can use the function `tailor_sels` to fix frequency contours where individual frequency measurements are clearly far off from the frequency contour detected by the human eye. The `tailor_sels` function is the same used in vignette 2 in this series, but by changing a few arguments, you can use `tailor_sels` to fix frequency contours.
 
-Note that manually fixing frequency contours might not make sense, depending on your question and/or the contour in question. For instance, a dominant frequency contour for a harmonic signal that jumps around and does not form a smooth contour may in fact be the truth, rather than mis-estimation of the contour. On the other hand, fundamental frequencies can be more easily traced by the human eye across a signal, so using `sel_tailor` to fix a frequency contour that jumps around the signal makes more sense. 
+Note that manually fixing frequency contours might not make sense, depending on your question and/or the contour in question. For instance, a dominant frequency contour for a harmonic signal that jumps around and does not form a smooth contour may in fact be the truth, rather than mis-estimation of the contour. On the other hand, fundamental frequencies can be more easily traced by the human eye across a signal, so using `tailor_sels` to fix a frequency contour that jumps around the signal makes more sense. 
 
-When the new graphics window for `sel_tailor` appears, it will show spectrograms as we saw in vignette 2, but with frequency contours plotted as points over each spectrogram. To fix the frequency contour, click near the malaligned points to place them over the frequency contour that you detect by eye. `sel_tailor` makes a new `.csv` file in your working directory that merges your original data frame (below, `Phae.hisnrt`) with the modified frequency time series (below, `ff_df` with any modified frequency values). To check that your manual tracing improved frequency contours, you can use `freq_track` to make spectrograms with your new frequency contours plotted as custom contours.
+When the new graphics window for `tailor_sels` appears, it will show spectrograms as we saw in vignette 2, but with frequency contours plotted as points over each spectrogram. To fix the frequency contour, click near the malaligned points to place them over the frequency contour that you detect by eye. `tailor_sels` makes a new `.csv` file in your working directory that merges your original data frame (below, `Phae.hisnrt`) with the modified frequency time series (below, `ff_df` with any modified frequency values). To check that your manual tracing improved frequency contours, you can use `track_freq_contour` to make spectrograms with your new frequency contours plotted as custom contours.
 
 ```{r, eval=FALSE, echo=TRUE}
 
-# Use the original data frame of songs for the main sel_tailor dataset
+# Use the original data frame of songs for the main tailor_sels dataset
 # the data frame with the fundamental frequency contours is provided for manual tracing
-sel_tailor(Phae.hisnrt, wl = 300, flim = c(2, 10), wn = "hanning", mar = 0.1,
+tailor_sels(Phae.hisnrt, wl = 300, flim = c(2, 10), wn = "hanning", mar = 0.1,
  osci = TRUE, title = c("sound.files", "selec"), auto.contour = TRUE, ts.df = ff_df, col = "red", alpha = 0.6)
 
-# rename your sel_tailor output csv as desired, then read it back into R
+# rename your tailor_sels output csv as desired, then read it back into R
 mff <- read.csv("seltailor_output_mff.csv")
 str(mff)
 
-freq_track(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(1, 12), it = "jpeg", custom.contour = mff)
+track_freq_contour(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(1, 12), it = "jpeg", custom.contour = mff)
 
 ```
 
@@ -379,8 +379,7 @@ Bioacoustic research relies on quantifying the structure of acoustic signals and
 
 The `warbleR` function `compare_methods` attempts to facilitate method selection. This function produces graphs (as image files in the working directory) with spectrograms from 4 signals that allow visual inspection of the performance of acoustic analysis methods at comparing those signals. The signals are randomly picked up from the provided data frame (`X` argument), and the function compares 2 `warbleR`methods at a time. The methods available are: 
   * cross-correlation by warbleR function `cross_correlation`
-  * dynamic time warping on dominant frequency time series with `df_DTW`
-  * dynamic time warping on fundamental frequency time series with `ff_DTW`
+  * dynamic time warping on dominant or fundamental frequency contours with `freq_DTW`
   * spectral parameters with `spectro_analysis`
   
 In the last vignette, we tailored selections of _Phaethornis longirostris_ songs that were originally downloaded from _xeno-canto_, detected by `auto_detec`and filtered by signal-to-noise ratio (SNR). Here we will pick up the workflow with these filtered and tailored selections, using the data frame `Phae.hisnrt`.
@@ -424,7 +423,7 @@ write.csv(params, "acoustic_parameters.csv", row.names = FALSE)
 
 ```
 
-Remove parameters derived from fundamental frequency (based on `freq_track` results).
+Remove parameters derived from fundamental frequency (based on `track_freq_contour` results).
 ```{r, eval=FALSE, echo=TRUE}
 
 params <- params[, grep("fun|peakf", colnames(params), invert = TRUE)]
@@ -464,13 +463,13 @@ This section on dynamic time warping methods is taken directly from [Marcelo Ara
 
 The dynamic time warping methods in `warbleR` all rely on functions from the `dtw` package, and are available for both dominant and fundamental frequencies. `df_DTW` and `ff_DTW` calculate the dominant and fundamental frequency contours, respectively, of each signal and compares using dynamic time warping. You can interpolate measurements across the frequency time series using the `length.out` argument. 
 
-These functions return a matrix of pairwise acoustic dissimilarity (e.g. acoustic "distance") measurements that can be used in analyses of acoustic similarity, as well as image files with the frequency contours plotted over the spectrograms. If you require only the time series without the dynamic time warping analysis for either the dominant or fundamental frequency, check out the functions `dfts`and `ffts`.
+These functions return a matrix of pairwise acoustic dissimilarity (e.g. acoustic "distance") measurements that can be used in analyses of acoustic similarity, as well as image files with the frequency contours plotted over the spectrograms. If you require only the time series without the dynamic time warping analysis for either the dominant or fundamental frequency, check out the functions `freq_ts`and `ffts`.
 
 Note that as the `freq_range` and `freq_range_detec` functions, the dynamic time warping functions tend to work best on more tonal signals. Check out the resulting image files in your working directory. 
 ```{r, eval=FALSE, echo=TRUE}
 
 # Harmonic Phaethornis signals 
-dm <- df_DTW(Phae.hisnrt, length.out = 30, flim = c(2, 10), bp = c(2, 9), wl = 300, img = TRUE)
+dm <- freq_DTW(Phae.hisnrt, length.out = 30, flim = c(2, 10), bp = c(2, 9), wl = 300, img = TRUE)
 
 str(dm)
 
@@ -481,7 +480,7 @@ str(dm)
 # Tonal Tinamou signals
 Tin.sels <- read.csv("Tinamus-major-154191_sels.csv", header = TRUE)
 
-dm <- df_DTW(Tin.sels, length.out = 30, flim = c(0, 2.5), bp = c(0.5, 2.5), wl = 512, img = TRUE)
+dm <- freq_DTW(Tin.sels, length.out = 30, flim = c(0, 2.5), bp = c(0.5, 2.5), wl = 512, img = TRUE)
 str(dm)
 
 ```
@@ -576,9 +575,9 @@ Songs of the same song type are more similar (they cluster together). This PCA c
 
 ## Coordinated singing analysis 
 
-`warbleR` contains functions to visualize and test whether or not singing bouts between individuals can be considered coordinated singing. The function `coor_graph` plots signals as polygons to better visualize overlap between these signals.
+`warbleR` contains functions to visualize and test whether or not singing bouts between individuals can be considered coordinated singing. The function `plot_coordination` plots signals as polygons to better visualize overlap between these signals.
 
-The function `coor_test` uses a Monte Carlo randomization test to determine whether or not the probability of finding overlapping songs in a singing event is less than or more than what you would expect by chance. `coor_test` can be run simultaneously for many singing events, if all are contained in a single data frame (see `coor_test` documentation for more information).
+The function `test_coordination` uses a Monte Carlo randomization test to determine whether or not the probability of finding overlapping songs in a singing event is less than or more than what you would expect by chance. `test_coordination` can be run simultaneously for many singing events, if all are contained in a single data frame (see `test_coordination` documentation for more information).
 
 ```{r, eval = FALSE, echo = TRUE}
 
@@ -591,17 +590,17 @@ The `sim_coor_sing` dataset contains three types of singing bouts:
 ```{r, eval = FALSE, echo = TRUE}
 
 # save plots in a list
-g <- coor_graph(sim_coor_sing, it = "jpeg", img = FALSE, res = 300)
+g <- plot_coordination(sim_coor_sing, it = "jpeg", img = FALSE, res = 300)
 
 # print list of plots to graphics device
 g
 
 ```
 
-We can test for overlapping or alternating coordinated singing using the `less.than.chance` argument in `coor_test`. Here we will test for alternating coordinated singing, since `less.than.chance` is set to `TRUE`.
+We can test for overlapping or alternating coordinated singing using the `less.than.chance` argument in `test_coordination`. Here we will test for alternating coordinated singing, since `less.than.chance` is set to `TRUE`.
 ```{r, eval = FALSE, echo = TRUE}
 
-cs <- coor_test(sim_coor_sing, iterations = 1000, less.than.chance = TRUE, cutoff = 10)
+cs <- test_coordination(sim_coor_sing, iterations = 1000, less.than.chance = TRUE, cutoff = 10)
 str(cs)
 
 ```
@@ -636,7 +635,7 @@ This vignette concludes the `warbleR` vignette series. After running the code in
   * compare and choose methods for acoustic (dis)similarity analysis
   * use different methods for acoustic (dis)similarity analysis
     * `spectro_analysis`- 29 parameters (across signals or song types)
-    * `df_DTW`and `ff_DTW` - dynamic time warping on frequency contours
+    * `freq_DTW` - dynamic time warping on frequency contours
     * `cross_correlation`- spectrographic cross-correlation
   * carry out steps for an analysis of geographic variation in vocalizations
   * perform coordinated singing analysis

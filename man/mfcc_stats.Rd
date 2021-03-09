@@ -78,7 +78,7 @@ Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban
 }
 }
 \seealso{
-\code{\link{wav_fix}}, \code{\link{remove_silence}},  \code{\link{spectro_analysis}}
+\code{\link{fix_wavs}}, \code{\link{remove_silence}},  \code{\link{spectro_analysis}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

@@ -38,7 +38,7 @@ License: GPL (>= 2)
 \section{Obtaining animal vocalization data}{
 
   
-  \code{\link{xc_query}}: Download recordings and/or metadata from 'Xeno-Canto'
+  \code{\link{query_xc}}: Download recordings and/or metadata from 'Xeno-Canto'
   
   \code{\link{find_annotations}}: Obtain annotations from audioblast.org data base
   
@@ -57,20 +57,20 @@ License: GPL (>= 2)
   \code{\link{mp32wav}}: Convert several .mp3 files in working directory to .wav
   format
   
-  \code{\link{sel_check}}: Check whether selections can be read by subsequent functions
+  \code{\link{check_sels}}: Check whether selections can be read by subsequent functions
   
-  \code{\link{wav_check}}: Check whether .wav files can be read by subsequent 
+  \code{\link{check_wavs}}: Check whether .wav files can be read by subsequent 
   functions and the minimum windows length ("wl" argument) that can be used
   
-  \code{\link{wav_fix}}: Fix .wav files so they can be read by other functions
+  \code{\link{fix_wavs}}: Fix .wav files so they can be read by other functions
   
-  \code{\link{wav_split}}: Split .wav fies in several sound files
+  \code{\link{split_wavs}}: Split .wav fies in several sound files
   
-  \code{\link{est_resample}}: Resample wave objects in extended selection tables
+  \code{\link{resample_est_waves}}: Resample wave objects in extended selection tables
   
-  \code{\link{wav_dur}}: Determine the duration of sound files
+  \code{\link{duration_wavs}}: Determine the duration of sound files
   
-  \code{\link{sel_cut}}: Cut selections from a selection table into individual sound files
+  \code{\link{cut_sels}}: Cut selections from a selection table into individual sound files
  
   \code{\link{remove_silence}}: Remove silence segments from wave files
   
@@ -89,14 +89,14 @@ License: GPL (>= 2)
   \code{\link{auto_detec}}: Automatically detect start and 
   end of acoustic signals
 
-  \code{\link{sel_tailor}}: Interactive view of spectrograms to tailor start and end of selections
+  \code{\link{tailor_sels}}: Interactive view of spectrograms to tailor start and end of selections
   
   \code{\link{sig2noise}}: Measure signal-to-noise ratio across multiple files
   
-  \code{\link{freq_track}}: Create spectrograms to visualize frequency 
+  \code{\link{track_freq_contour}}: Create spectrograms to visualize frequency 
   measurements
   
-  \code{\link{sel_filter}}: Filter selection data frames based on filtered image files
+  \code{\link{filter_sels}}: Filter selection data frames based on filtered image files
      
   \code{\link{freq_range}}: Detect frequency range iteratively from signals in a selection table
   
@@ -107,45 +107,38 @@ License: GPL (>= 2)
   
   \code{\link{mfcc_stats}}: Calculate descriptive statistics on Mel-frequency cepstral coefficients
   
-  \code{\link{cross_correlation}}: Pairwise cross-correlation of multiple signals  
+  \code{\link{cross_correlation}}: Pairwise cross-correlation of multiple signals
   
-  \code{\link{dfts}}: Extract the dominant frequency values across the signal as a time series
-  
-  \code{\link{ffts}}: Extract the fundamental frequency values across the signal as a time series
+  \code{\link{freq_ts}}: Extract frequency contours the signal as a time series
   
   \code{\link{find_peaks}}: Find peaks in cross-correlation scores from \code{\link{cross_correlation}}
   
-  \code{\link{entropy_ts}}: Extract the spectral entropy values across the signal as a time series
-  
-  \code{\link{df_DTW}}: Calculate acoustic dissimilarity using dynamic time warping
-   on dominant frequency contours
-  
-  \code{\link{ff_DTW}}: Calculate acoustic dissimilarity using dynamic time warping
-  on fundamental frequency contours
+  \code{\link{freq_DTW}}: Calculate acoustic dissimilarity using dynamic time warping
+   on frequency contours
   
   \code{\link{wpd_features}}: Measure wavelet packet decomposition features 
   
   \code{\link{compare_methods}}: Produce graphs to visually assess performance of acoustic 
   distance measurements 
   
-  \code{\link{coor_test}}: Assess statistical significance of singing coordination 
+  \code{\link{test_coordination}}: Assess statistical significance of singing coordination 
   
-  \code{\link{sel_overlap}}: Find selections that overlap in time within a given sound file
+  \code{\link{overlapping_sels}}: Find selections that overlap in time within a given sound file
   
-  \code{\link{harmonic_track}}:  Track harmonic frequency contour
+  \code{\link{track_harmonic}}:  Track harmonic frequency contour
 }
 
 \section{Graphical outputs}{
 
   
-  \code{\link{xc_maps}}: Create maps to visualize the geographic spread of 'Xeno-Canto' recordings
+  \code{\link{map_xc}}: Create maps to visualize the geographic spread of 'Xeno-Canto' recordings
   
   \code{\link{catalog}}: Produce a vocalization catalog with spectrograms in and array with
   several rows and columns  
   
   \code{\link{catalog2pdf}}: Combine catalog images to single pdf files
   
-  \code{\link{coor_graph}}: Create graphs of coordinated singing 
+  \code{\link{plot_coordination}}: Create graphs of coordinated singing 
   
   \code{\link{color_spectro}}: Highlight spectrogram regions
   
@@ -161,7 +154,7 @@ License: GPL (>= 2)
   
   \code{\link{phylo_spectro}}: Add spectrograms onto phylogenetic trees
   
-  \code{\link{spectro_tweak}}: Visually inspect effect of different settings for creating (and improving) spectrograms
+  \code{\link{tweak_spectro}}: Visually inspect effect of different settings for creating (and improving) spectrograms
 }
 
 \author{

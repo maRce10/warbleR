@@ -415,7 +415,7 @@ the dominant and fundamental frequencies.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function provides visualization of frequency measurements as the ones 
-  made by <code><a href='spectro_analysis.html'>spectro_analysis</a></code>, <code><a href='dfts.html'>dfts</a></code>, <code><a href='ffts.html'>ffts</a></code>, <code><a href='df_DTW.html'>df_DTW</a></code> and <code><a href='ff_DTW.html'>ff_DTW</a></code>. Frequency measures can be made by the function or input by the 
+  made by <code><a href='spectro_analysis.html'>spectro_analysis</a></code>, <code><a href='freq_ts.html'>freq_ts</a></code> and <code><a href='freq_DTW.html'>freq_DTW</a></code>. Frequency measures can be made by the function or input by the 
   user (see 'custom.contour' argument). If <code>frange = TRUE</code> the function uses <code><a href='freq_range_detec.html'>freq_range_detec</a></code> to detect the frequency range. In this case the graphical output includes a
   frequency spectrum showing the detection threshold. Extreme values (lowest and highest) are highlighted in yellow. 
   Note that, unlike other warbleR functions that measure frequency contours, freq_track do not interpolate frequency values.</p>
@@ -429,11 +429,7 @@ the dominant and fundamental frequencies.</p>
   optimize noise margins used in <code><a href='sig2noise.html'>sig2noise</a></code></p>
 <p>Other spectrogram creators: 
 <code><a href='color_spectro.html'>color_spectro</a>()</code>,
-<code><a href='df_DTW.html'>df_DTW</a>()</code>,
-<code><a href='dfts.html'>dfts</a>()</code>,
-<code><a href='entropy_ts.html'>entropy_ts</a>()</code>,
-<code><a href='ff_DTW.html'>ff_DTW</a>()</code>,
-<code><a href='ffts.html'>ffts</a>()</code>,
+<code><a href='freq_DTW.html'>freq_DTW</a>()</code>,
 <code><a href='multi_DTW.html'>multi_DTW</a>()</code>,
 <code><a href='phylo_spectro.html'>phylo_spectro</a>()</code>,
 <code><a href='snr_spectrograms.html'>snr_spectrograms</a>()</code>,
@@ -459,11 +455,11 @@ bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.
 path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>#using users frequency data (custom.contour argument) </span>
-<span class='co'>#first get contours using dfts</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dfts.html'>dfts</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>ad</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ad</span><span class='op'>$</span><span class='va'>start</span><span class='op'>)</span>,<span class='op'>]</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span>, ovlp <span class='op'>=</span> <span class='fl'>90</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span>,
+<span class='co'>#first get contours using freq_ts</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='freq_ts.html'>freq_ts</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>ad</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ad</span><span class='op'>$</span><span class='va'>start</span><span class='op'>)</span>,<span class='op'>]</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span>, ovlp <span class='op'>=</span> <span class='fl'>90</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span>,
 bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span>,  wl <span class='op'>=</span> <span class='fl'>300</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='co'># now input the dfts output into freq_track         </span>
+<span class='co'># now input the freq_ts output into freq_track         </span>
 <span class='fu'>freq_track</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>ad</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ad</span><span class='op'>$</span><span class='va'>start</span><span class='op'>)</span>,<span class='op'>]</span>, custom.contour <span class='op'>=</span> <span class='va'>df</span> ,flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span>, ovlp <span class='op'>=</span> <span class='fl'>90</span>, it <span class='op'>=</span> <span class='st'>"tiff"</span>, 
 path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 

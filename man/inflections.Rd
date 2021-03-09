@@ -33,7 +33,7 @@ writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
 
 # measure frequency contours
-dom.freq.ts <- dfts(X = lbh_selec_table, path = tempdir())
+dom.freq.ts <- freq_ts(X = lbh_selec_table, path = tempdir())
 
 # get number of inflections
 inflections(X = dom.freq.ts)
@@ -46,7 +46,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{dfts}}, \code{\link{freq_track}},
+\code{\link{freq_ts}}, \code{\link{track_freq_contour}},
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

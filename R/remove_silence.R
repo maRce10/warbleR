@@ -24,7 +24,7 @@
 #' @export
 #' @name remove_silence
 #' @details The function removes silence segments (i.e. segments with very low amplitude values) from wave files. 
-#' @seealso \code{\link{wav_fix}}, \code{\link{auto_detec}} 
+#' @seealso \code{\link{fix_wavs}}, \code{\link{auto_detec}} 
 #' @examples{
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))

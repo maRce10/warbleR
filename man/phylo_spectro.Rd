@@ -120,15 +120,11 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 
 Other spectrogram creators: 
 \code{\link{color_spectro}()},
-\code{\link{df_DTW}()},
-\code{\link{dfts}()},
-\code{\link{entropy_ts}()},
-\code{\link{ff_DTW}()},
-\code{\link{ffts}()},
-\code{\link{freq_track}()},
+\code{\link{freq_DTW}()},
 \code{\link{multi_DTW}()},
 \code{\link{snr_spectrograms}()},
-\code{\link{spectrograms}()}
+\code{\link{spectrograms}()},
+\code{\link{track_freq_contour}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

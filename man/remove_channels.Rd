@@ -54,7 +54,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{wav_fix}}, \code{\link{wav_info}},
+\code{\link{fix_wavs}}, \code{\link{info_wavs}},
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

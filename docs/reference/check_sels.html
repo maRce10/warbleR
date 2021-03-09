@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>alternative name for sel_check — check_sels • warbleR</title>
+<title>Check selection data frames — check_sels • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="alternative name for sel_check — check_sels" />
-<meta property="og:description" content="alternative name for sel_check" />
+<meta property="og:title" content="Check selection data frames — check_sels" />
+<meta property="og:description" content="check_sels checks whether selections can be read by subsequent functions." />
 
 
 
@@ -136,16 +136,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>alternative name for <code><a href='sel_check.html'>sel_check</a></code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/sel_check.R'><code>R/sel_check.R</code></a></small>
+    <h1>Check selection data frames</h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/check_sels.R'><code>R/check_sels.R</code></a></small>
     <div class="hidden name"><code>check_sels.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>alternative name for <code><a href='sel_check.html'>sel_check</a></code></p>
+    <p><code>check_sels</code> checks whether selections can be read by subsequent functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_sels</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>check_sels</span><span class='op'>(</span><span class='va'>X</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, check.header <span class='op'>=</span> <span class='cn'>FALSE</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
+wav.size <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='fu'>check_sels</span><span class='op'>(</span>
   X <span class='op'>=</span> <span class='cn'>NULL</span>,
   parallel <span class='op'>=</span> <span class='fl'>1</span>,
   path <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -155,11 +158,108 @@
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>X</th>
+      <td><p>'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
+files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections. The output of <code><a href='auto_detec.html'>auto_detec</a></code> can 
+be used as the input data frame.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>Numeric. Controls whether parallel computing is applied.
+It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>Character string containing the directory path where the sound files are located. 
+If <code>NULL</code> (default) then the current working directory is used.</p></td>
+    </tr>
+    <tr>
+      <th>check.header</th>
+      <td><p>Logical. Controls whether sound file headers correspond to the actual file properties 
+(i.e. if is corrupted). This could significantly affect the performance of the function (much slower) particularly 
+with long sound files.</p></td>
+    </tr>
+    <tr>
+      <th>pb</th>
+      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>wav.size</th>
+      <td><p>Logical argument to control if the size of the wave object 
+when the selection is imported into R (as when using <code><a href='https://rdrr.io/pkg/tuneR/man/readWave.html'>readWave</a></code>
+is calculated and added as a column. Size is return in MB. Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical to control whether the 'path' is printed in the console. Defaut is <code>TRUE</code>.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data frame including the columns in the input data frame (X) and the following additional columns:</p><ul>
+<li><p><code>check.res</code>: diagnose for each selection</p></li>
+<li><p><code>duration</code>: duration of selection in seconds</p></li>
+<li><p><code>min.n.samples</code> number of samples in a selection. Note the number of samples available
+in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses.</p></li>
+<li><p><code>sample.rate</code>: sampling rate in kHz</p></li>
+<li><p><code>channels</code>: number of channels</p></li>
+<li><p><code>bits</code>: bit depth</p></li>
+<li><p><code>sound.file.samples</code>: number of samples in the sound file</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>see <code><a href='sel_check.html'>sel_check</a></code> for documentation. <code>check_sels</code> will be deprecated in future versions.</p>
+    <p>This function checks the information in a selection data frame or selection table (i.e. data frame with annotations on sound files) 
+to avoid problems in any warbleR analysis downstream. It specifically checks if:</p><ul>
+<li><p>'X' is an object of class 'data.frame' or 'selection_table' (see <code><a href='selection_table.html'>selection_table</a></code>) and contains 
+   the required columns to be used on any warbleR function ('sound.files', 'selec', 'start', 'end', if not returns an error)</p></li>
+<li><p>'sound.files' in 'X' correspond to .wav files in the working directory or in the provided 'path'
+    (if no file is found returns an error, if some files are not found returns error info in the ouput data frame)</p></li>
+<li><p>time ('start', 'end') and frequency ('bottom.freq', 'top.freq', if provided) limit parameters are numeric and 
+   don't contain NAs (if not returns an error)</p></li>
+<li><p>there are no duplicated selection labels ('selec') within a sound file (if not returns an error)</p></li>
+<li><p>sound files can be read (error info in the ouput data frame)</p></li>
+<li><p>the start and end time of the selections are found within the duration of the sound files (error info in the ouput data frame)</p></li>
+<li><p>sound files can be read (error info in the ouput data frame)</p></li>
+<li><p>sound files header is not corrupted (only if <code>header = TRUE</code>, error info in the ouput data frame)</p></li>
+<li><p>selection time position (start and end) doesn't exceeds sound file length (error info in the ouput data frame)</p></li>
+<li><p>'top.freq' is lower than half the sample rate (nyquist frequency, error info in the ouput data frame)</p></li>
+<li><p>negative values aren't found in time or frequency limit parameters (error info in the ouput data frame)</p></li>
+<li><p>'start' higher than 'end' or 'bottom.freq' higher than 'top.freq' (error info in the ouput data frame)</p></li>
+<li><p>'channel' value is not higher than number of channels in sound files (error info in the ouput data frame)</p></li>
+</ul><p>The function returns a data frame that includes the information in 'X' plus additional columns about the format of sound
+files (see 'Value') as well as the result of the checks ('check.res' column, value is 'OK' if everything is fine).
+Sound files should be in the working directory (or the directory provided in 'path'). Corrupt files can be fixed using 
+<code><a href='fix_wavs.html'>fix_wavs</a></code>.</p>
+<p>see <code>check_sels</code> for documentation. <code>check_sels</code> will be deprecated in future versions.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='check_wavs.html'>check_wavs</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='co'># save wav file examples</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'>check_sels</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
+#&gt; 3 selection(s) are not OK </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

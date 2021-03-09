@@ -232,7 +232,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
     # read wave object
     r <- warbleR::read_wave(X = X, path = path, index = i)
     
-    if (length(r@left) < 7) stop(paste0("too few samples in selection row ", i, ", try sel_check() to find problematic selections"), call. = FALSE)
+    if (length(r@left) < 7) stop(paste0("too few samples in selection row ", i, ", try check_sels() to find problematic selections"), call. = FALSE)
     
     if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
 
@@ -328,7 +328,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
       peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
     
     #Dominant frequency parameters
-    y <- harmonic_track(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 2 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE,  dfrq = TRUE, adjust.wl = TRUE)[, 2]
+    y <- track_harmonic(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 2 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE,  dfrq = TRUE, adjust.wl = TRUE)[, 2]
     
     #remove NAs
     y <- y[!is.na(y)]

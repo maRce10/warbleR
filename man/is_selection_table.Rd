@@ -19,7 +19,7 @@ Class for selections of signals in sound files
 An object of class \code{selection_table} created by \code{\link{selection_table}} is a list with the following elements:
  \itemize{
  \item\code{selections}: data frame containing the frequency/time coordinates of the selections, sound file names, and any  additional information
- \item \code{check.resutls}: results of the checks on data consistency using \link{sel_check}
+ \item \code{check.resutls}: results of the checks on data consistency using \link{check_sels}
 }
 }
 \examples{

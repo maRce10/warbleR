@@ -69,7 +69,7 @@ Below we present a case study of microgeographic vocal variation in long-billed 
 
 This vignette can be run without an advanced understanding of `R`, as long as you know how to run code in your console. However, knowing more about basic `R` coding would be very helpful to modify the code for your research questions.
 
-For more details about function arguments, input or output, read the documentation for the function in question (e.g. `?xc_query`). 
+For more details about function arguments, input or output, read the documentation for the function in question (e.g. `?query_xc`). 
 &nbsp; 
 
 ## **Prepare for analyses**
@@ -218,7 +218,7 @@ class(sels)
 
 ## **Obtain metadata and recordings from [xeno-canto](https://www.xeno-canto.org/)**
 
-The open-access [xeno-canto](https://www.xeno-canto.org/) database is an excellent source of sound files across avian species. You can query this database by a species or genus of interest. The function `xc_query` has two types of output:
+The open-access [xeno-canto](https://www.xeno-canto.org/) database is an excellent source of sound files across avian species. You can query this database by a species or genus of interest. The function `query_xc` has two types of output:
 
   1. **Metadata of recordings:** geographic coordinates, recording quality, recordist, type of signal, etc.
   
@@ -233,7 +233,7 @@ Here, we will query the _xeno-canto_ database to download more _Phaethornis long
 ```{r, eval=FALSE}
 
 # Query xeno-canto for all Phaethornis recordings (e.g., by genus)
-Phae <- xc_query(qword = "Phaethornis", download = FALSE) 
+Phae <- query_xc(qword = "Phaethornis", download = FALSE) 
 
 # Check out the structure of resulting the data frame
 str(Phae)
@@ -242,7 +242,7 @@ str(Phae)
 
 ```{r, eval = TRUE, echo = FALSE, message = FALSE}
 
-# Phae <- xc_query(qword = "Phaethornis", download = FALSE) 
+# Phae <- query_xc(qword = "Phaethornis", download = FALSE) 
 
 # write.csv(Phae, file = "~/Dropbox/warbleR/vignettes/Phae.XC.csv", row.names = FALSE)
 
@@ -257,7 +257,7 @@ str(Phae)
 ```{r, eval=FALSE}
 
 # Query xeno-canto for all Phaethornis longirostris recordings
-Phae.lon <- xc_query(qword = "Phaethornis longirostris", download = FALSE) 
+Phae.lon <- query_xc(qword = "Phaethornis longirostris", download = FALSE) 
 
 # Check out the structure of resulting the data frame
 str(Phae.lon)
@@ -266,7 +266,7 @@ str(Phae.lon)
 
 ```{r, eval = TRUE, echo = FALSE, message = FALSE}
 
-# Phae.lon <- xc_query(qword = "Phaethornis longirostris", download = FALSE)
+# Phae.lon <- query_xc(qword = "Phaethornis longirostris", download = FALSE)
 
 # write.csv(Phae.lon, file = "~/Dropbox/warbleR/vignettes/Phae.lon.XC.csv", row.names = FALSE)
 
@@ -278,28 +278,28 @@ str(Phae.lon)
 ```
 &nbsp; 
 
-You can then use the function `xc_maps` to visualize the geographic spread of the queried recordings. `xc_maps` will create an image file of a map per species in your current directory if `img = TRUE`. If `img = FALSE`, maps will be displayed in the graphics device. 
+You can then use the function `map_xc` to visualize the geographic spread of the queried recordings. `map_xc` will create an image file of a map per species in your current directory if `img = TRUE`. If `img = FALSE`, maps will be displayed in the graphics device. 
 
 ```{r, eval=FALSE}
 
 # Image type default is jpeg, but tiff files have better resolution
 
 # When the data frame contains multiple species, this will yield one map per species
-xc_maps(X = Phae, img = TRUE, it = "tiff") # all species in the genus
-xc_maps(X = Phae.lon, img = FALSE) # a single species
+map_xc(X = Phae, img = TRUE, it = "tiff") # all species in the genus
+map_xc(X = Phae.lon, img = FALSE) # a single species
 
 ```
 
 ```{r, eval=TRUE, echo=FALSE, message=FALSE}
 
-xc_maps(X = Phae.lon, img = FALSE) 
+map_xc(X = Phae.lon, img = FALSE) 
 
 ```
 
 
 ### Filter [xeno-canto](https://www.xeno-canto.org/) recordings by quality, signal type and locality
 
-In most cases, you will need to filter the _xeno-canto_ metadata by type of signal you want to analyze. When you subset the metadata, you can input the filtered metadata back into `xc_query` to download only the selected recordings. There are many ways to filter data in R, and the example below can be modified to fit your own data. 
+In most cases, you will need to filter the _xeno-canto_ metadata by type of signal you want to analyze. When you subset the metadata, you can input the filtered metadata back into `query_xc` to download only the selected recordings. There are many ways to filter data in R, and the example below can be modified to fit your own data. 
 
 Here, before downloading the sound files themselves from _xeno-canto_, we want to ensure that we select high quality sound files that contain songs (rather than other acoustic signal types) and were also recorded at La Selva Biological Station in Costa Rica. 
 
@@ -340,12 +340,12 @@ str(Phae.lon.LS)
 
 &nbsp; 
 
-We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using `xc_maps`.
+We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using `map_xc`.
 
 ```{r, eval=TRUE, echo=TRUE}
 
 # map in the RStudio graphics device (img = FALSE)
-xc_maps(Phae.lon.LS, img = FALSE)
+map_xc(Phae.lon.LS, img = FALSE)
 
 ```
 
@@ -367,12 +367,12 @@ saveRDS(wlist, file = "/home/m/Dropbox/Sharing/warbleR/recs.RDS")
 
 &nbsp; 
 
-Once you're sure you want the recordings, use `xc_query` to download the files. Also, save the metadata as a _.csv_ file.
+Once you're sure you want the recordings, use `query_xc` to download the files. Also, save the metadata as a _.csv_ file.
 
 ```{r, eval=FALSE}
 
 # Download sound files
-xc_query(X = Phae.lon.LS) 
+query_xc(X = Phae.lon.LS) 
 
 # Save the metadata object as a .csv file 
 write.csv(Phae.lon.LS, "Phae_lon.LS.csv", row.names = FALSE)
@@ -398,7 +398,7 @@ After _mp3_ files have been converted, we need to check that the _wav_ files are
 mp32wav(samp.rate = 22.05) 
 
 # Use checkwavs to see if wav files can be read
-wav_check() 
+check_wavs() 
 
 ```
 
@@ -503,7 +503,7 @@ wavs
 sub <- wavs[c(1, 5)]
 
 # How long are these files? this will determine number of pages returned by full_spectrograms
-wav_dur(sub)
+duration_wavs(sub)
 
 # ovlp = 10 to speed up function
 # tiff image files are better quality and are faster to produce

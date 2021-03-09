@@ -38,7 +38,7 @@
 #' maxdur = 3, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav", path = tempdir())
 #' 
 #' #track dominant frequency graphs with freq reange detection
-#' freq_track(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
+#' track_freq_contour(X = ad[!is.na(ad$start),], flim = c(0, 5), ovlp = 90, it = "tiff",
 #' bp = c(1, 3), contour = "df", wl = 300, frange = TRUE, path = tempdir())
 #' 
 #' # create folder to move image files

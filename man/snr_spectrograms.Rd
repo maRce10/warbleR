@@ -133,21 +133,17 @@ tempdir()
 }
 }
 \seealso{
-\code{\link{freq_track}} for creating spectrograms to visualize 
+\code{\link{track_freq_contour}} for creating spectrograms to visualize 
   frequency measurements by \code{\link{spectro_analysis}}, \code{\link{spectrograms}} for 
   creating spectrograms
 
 Other spectrogram creators: 
 \code{\link{color_spectro}()},
-\code{\link{df_DTW}()},
-\code{\link{dfts}()},
-\code{\link{entropy_ts}()},
-\code{\link{ff_DTW}()},
-\code{\link{ffts}()},
-\code{\link{freq_track}()},
+\code{\link{freq_DTW}()},
 \code{\link{multi_DTW}()},
 \code{\link{phylo_spectro}()},
-\code{\link{spectrograms}()}
+\code{\link{spectrograms}()},
+\code{\link{track_freq_contour}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}) and Grace Smith Vidaurre

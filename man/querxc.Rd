@@ -2,7 +2,7 @@
 % Please edit documentation in R/xc_query.R
 \name{querxc}
 \alias{querxc}
-\title{alternative name for \code{\link{xc_query}}}
+\title{alternative name for \code{\link{query_xc}}}
 \usage{
 querxc(
   qword,
@@ -15,9 +15,9 @@ querxc(
 )
 }
 \description{
-alternative name for \code{\link{xc_query}}
+alternative name for \code{\link{query_xc}}
 }
 \details{
-see \code{\link{xc_query}} for documentation. \code{\link{querxc}} will be deprecated in future versions.
+see \code{\link{query_xc}} for documentation. \code{\link{querxc}} will be deprecated in future versions.
 }
 \keyword{internal}

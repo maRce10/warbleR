@@ -2,7 +2,7 @@
 % Please edit documentation in R/spectro_tweak.R
 \name{spec_param}
 \alias{spec_param}
-\title{alternative name for \code{\link{spectro_tweak}}}
+\title{alternative name for \code{\link{tweak_spectro}}}
 \usage{
 spec_param(
   X,
@@ -18,9 +18,9 @@ spec_param(
 )
 }
 \description{
-alternative name for \code{\link{spectro_tweak}}
+alternative name for \code{\link{tweak_spectro}}
 }
 \details{
-see \code{\link{spectro_tweak}} for documentation. \code{\link{spec_param}} will be deprecated in future versions.
+see \code{\link{tweak_spectro}} for documentation. \code{\link{spec_param}} will be deprecated in future versions.
 }
 \keyword{internal}

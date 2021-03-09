@@ -45,8 +45,8 @@ frequency desired (the length of the time series). Default is 30.}
 methods that would be compared. The methods available are: 
 \itemize{
    \item \code{XCORR}: cross-correlation (\code{\link{cross_correlation}} function)
-   \item \code{dfDTW}: dynamic time warping on dominant frequency contours (\code{\link{df_DTW}} function)
-   \item \code{ffDTW}: dynamic time warping on fundamental frequency contours (\code{\link{ff_DTW}} function)
+   \item \code{dfDTW}: dynamic time warping on dominant frequency contours (\code{\link{freq_DTW}} function)
+   \item \code{ffDTW}: dynamic time warping on fundamental frequency contours (\code{\link{freq_DTW}} function)
    \item \code{SP}: spectral parameters (\code{\link{spectro_analysis}} function)
    \item \code{SPharm}: spectral parameters (\code{\link{spectro_analysis}} function with argument \code{harmonicity  = TRUE})
    \item \code{MFCC}: statistical descriptors of Mel frequency cepstral coefficients (\code{\link{mfcc_stats}} function)
@@ -62,7 +62,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{path}{Character string containing the directory path where the sound files are located. 
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{sp}{TO BE DEPRECATED. Use "custom1" and "custom2" arguments instead.}
+\item{sp}{DEPRECATED.}
 
 \item{custom1}{Data frame containing user parameters. The data frame must have 4 columns: the first 2 columns are 'sound.files'
 and "selec' columns as in 'X', the other 2 (columns 3 and 4) are
@@ -113,9 +113,9 @@ from the provided data frame (X argument).The spectrograms are all plotted with
 the same frequency and time scales. The function compares 2 methods at a time. The
 methods available are: cross-correlation 
 (XCORR, from \code{\link{cross_correlation}}), dynamic time warping on dominant frequency time 
-series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{dfts}} output), dynamic time 
+series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{freq_ts}} output), dynamic time 
 warping on dominant frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on 
-\code{\link{ffts}} output), spectral parameters (SP, from \code{\link{spectro_analysis}}). The graph also 
+\code{\link{freq_ts}} output), spectral parameters (SP, from \code{\link{spectro_analysis}}). The graph also 
 contains 2 scatterplots (1 for each method) of the acoustic space of all signals in the 
 input data frame 'X', including the centroid as black dot. The compared selections are randomly picked up from the pool of 
 selections in the input data frame. The argument 'n' defines the number of comparisons (i.e. graphs) 

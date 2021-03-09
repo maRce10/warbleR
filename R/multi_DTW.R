@@ -16,16 +16,13 @@
 #' comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.
 #' @param dist.mat Logical controlling whether a distance matrix (\code{TRUE}, 
 #' default) or a tabular data frame (\code{FALSE}) is returned.
-#' @param ... Additional arguments to be passed to \code{\link{freq_track}} for customizing
+#' @param ... Additional arguments to be passed to \code{\link{track_freq_contour}} for customizing
 #' graphical output.
 #' @return A matrix with the pairwise dissimilarity values. If img is 
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
 #' input data frame showing the location of the dominant frequencies.
 #' @family spectrogram creators
-#' @seealso \code{\link{spectrograms}} for creating spectrograms from selections,
-#'  \code{\link{snrspecs}} for creating spectrograms to 
-#'   optimize noise margins used in \code{\link{sig2noise}} and \code{\link{dfts}}, \code{\link{ffts}}, \code{\link{ffDTW}} for frequency contour overlaid spectrograms.
-#'  \href{https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html}{blog post on DTW similarity}
+#' @seealso \code{\link{freq_ts}}, \href{https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html}{blog post on DTW similarity}
 #' @export
 #' @name multi_DTW
 #' @details This function extracts the dominant frequency values as a time series and
@@ -45,7 +42,7 @@
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' # measure
-#' df <- dfts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
+#' df <- freq_ts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
 #' se <- sets(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
 #' 
 #' # run function 
@@ -67,7 +64,7 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1, wi
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(dfts)
+  argms <- methods::formalArgs(freq_ts)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0

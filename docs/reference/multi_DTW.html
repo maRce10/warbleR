@@ -190,7 +190,7 @@ default) or a tabular data frame (<code>FALSE</code>) is returned.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='freq_track.html'>freq_track</a></code> for customizing
+      <td><p>Additional arguments to be passed to <code><a href='track_freq_contour.html'>track_freq_contour</a></code> for customizing
 graphical output.</p></td>
     </tr>
     </table>
@@ -213,21 +213,14 @@ The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>app
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='spectrograms.html'>spectrograms</a></code> for creating spectrograms from selections,
- <code><a href='snrspecs.html'>snrspecs</a></code> for creating spectrograms to 
-  optimize noise margins used in <code><a href='sig2noise.html'>sig2noise</a></code> and <code><a href='dfts.html'>dfts</a></code>, <code><a href='ffts.html'>ffts</a></code>, <code><a href='ffDTW.html'>ffDTW</a></code> for frequency contour overlaid spectrograms.
- <a href='https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html'>blog post on DTW similarity</a></p>
+    <div class='dont-index'><p><code><a href='freq_ts.html'>freq_ts</a></code>, <a href='https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html'>blog post on DTW similarity</a></p>
 <p>Other spectrogram creators: 
 <code><a href='color_spectro.html'>color_spectro</a>()</code>,
-<code><a href='df_DTW.html'>df_DTW</a>()</code>,
-<code><a href='dfts.html'>dfts</a>()</code>,
-<code><a href='entropy_ts.html'>entropy_ts</a>()</code>,
-<code><a href='ff_DTW.html'>ff_DTW</a>()</code>,
-<code><a href='ffts.html'>ffts</a>()</code>,
-<code><a href='freq_track.html'>freq_track</a>()</code>,
+<code><a href='freq_DTW.html'>freq_DTW</a>()</code>,
 <code><a href='phylo_spectro.html'>phylo_spectro</a>()</code>,
 <code><a href='snr_spectrograms.html'>snr_spectrograms</a>()</code>,
-<code><a href='spectrograms.html'>spectrograms</a>()</code></p></div>
+<code><a href='spectrograms.html'>spectrograms</a>()</code>,
+<code><a href='track_freq_contour.html'>track_freq_contour</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
@@ -243,7 +236,7 @@ The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>app
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># measure</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dfts.html'>dfts</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, threshold <span class='op'>=</span> <span class='fl'>10</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='freq_ts.html'>freq_ts</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, threshold <span class='op'>=</span> <span class='fl'>10</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>se</span> <span class='op'>&lt;-</span> <span class='fu'>sets</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, threshold <span class='op'>=</span> <span class='fl'>10</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># run function </span>

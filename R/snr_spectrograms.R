@@ -59,7 +59,7 @@
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @return Spectrograms per selection marked with margins where background noise will be measured.
 #' @family spectrogram creators
-#' @seealso \code{\link{freq_track}} for creating spectrograms to visualize 
+#' @seealso \code{\link{track_freq_contour}} for creating spectrograms to visualize 
 #'   frequency measurements by \code{\link{spectro_analysis}}, \code{\link{spectrograms}} for 
 #'   creating spectrograms
 #' @export

@@ -29,7 +29,7 @@
 #' data frame. The descriptive statistics are: minimum, maximum, mean, median, skewness, kurtosis and
 #' variance. 
 #' It also returns the mean and variance for the first and second derivatives of the coefficients. These parameters are commonly used in acoustic signal processing and detection (e.g. Salamon et al 2014). 
-#' @seealso \code{\link{wav_fix}}, \code{\link{remove_silence}},  \code{\link{spectro_analysis}}
+#' @seealso \code{\link{fix_wavs}}, \code{\link{remove_silence}},  \code{\link{spectro_analysis}}
 #' @examples{
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))

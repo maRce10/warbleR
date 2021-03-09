@@ -180,9 +180,8 @@ Now, as mentioned earlier, you need the `selection_table()` function to create a
 
 ```{r extn_sel_4.3, eval = FALSE}
 
-
 #  global parameters
-warbleR_options(wav.path = "PONER RUTA A 'ejemplos' AQUI")
+warbleR_options(wav.path = tempdir())
 
 
 ext_st <- selection_table(X = lbh_selec_table, pb = FALSE, 
@@ -327,13 +326,13 @@ Note that other functions that modify data frames are likely to delete the attri
 
 ```{r extn_sel_8.24}
 
-# crear nueva base de datos
+# create new data frame
 Y <- data.frame(sound.files = ext_st$sound.files, site = "La Selva", lek = c(rep("SUR", 5), rep("CCL", 6)))
 
-# combinar
+# combine
 mrg_ext_st <- merge(ext_st, Y, by = "sound.files")
 
-# revisar clase
+# check class
 is_extended_selection_table(mrg_ext_st)
 
 ```
@@ -343,10 +342,10 @@ In this case, we can use the `fix_extended_selection_table()` function to transf
 
 ```{r extn_sel_8.25}
 
-# arreglar
+# fix est
 mrg_ext_st <- fix_extended_selection_table(X = mrg_ext_st, Y = ext_st)
 
-# revisar clase
+# check class
 is_extended_selection_table(mrg_ext_st)
 
 ```
@@ -421,7 +420,7 @@ kbl
 
 ```{r extn_sel_12.7, eval=FALSE}
 
-dtw.dist <- df_DTW(ext_st, img = FALSE)
+dtw.dist <- freq_DTW(ext_st, img = FALSE)
 
 dtw.dist
 
@@ -430,7 +429,7 @@ dtw.dist
 
 ```{r, extn_sel_12.8, echo= FALSE, eval = FALSE}
 
-dtw.dist <- df_DTW(ext_st, img = FALSE)
+dtw.dist <- freq_DTW(ext_st, img = FALSE)
 
 kbl <- kable(dtw.dist, align = "c", row.names = T,  format = "html")
 
@@ -555,7 +554,7 @@ We can group **warbleR** functions according to the bioacoustic analysis stages.
 
 ### Get and prepare recordings
 
-The `xc_query()` function allows you to search and download sounds from the free access database [Xeno-Canto](https://www.xeno-canto.org/). You can also convert .mp3 files to .wav, change the sampling rate of the files and correct corrupt files, among other functions.
+The `query_xc()` function allows you to search and download sounds from the free access database [Xeno-Canto](https://www.xeno-canto.org/). You can also convert .mp3 files to .wav, change the sampling rate of the files and correct corrupt files, among other functions.
 
 ```{r, echo = FALSE, eval = TRUE}
 

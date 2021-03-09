@@ -1,11 +1,11 @@
 #' Maps of 'Xeno-Canto' recordings by species
 #' 
-#' \code{xc_maps} creates maps to visualize the geographic spread of 'Xeno-Canto'
+#' \code{map_xc} creates maps to visualize the geographic spread of 'Xeno-Canto'
 #'   recordings.
-#' @usage xc_maps(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
+#' @usage map_xc(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
 #'  path = NULL, leaflet.map = FALSE, 
 #'  leaflet.cluster = FALSE)   
-#' @param X Data frame output from \code{\link{xc_query}}.
+#' @param X Data frame output from \code{\link{query_xc}}.
 #' @param img A logical argument specifying whether an image file of each species
 #'   map should be returned, default is \code{TRUE}.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
@@ -23,21 +23,21 @@
 #' @return A map of 'Xeno-Canto' recordings per species (image file), or a faceted
 #'   plot of species map(s) in the active graphic device.
 #' @export
-#' @name xc_maps
+#' @name map_xc
 #' @details This function creates maps for visualizing the geographic spread of recordings from the open-access
 #' online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of 
-#' \code{\link{xc_query}} as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
+#' \code{\link{query_xc}} as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
 #' working directory. Note that only recordings with geographic coordinates are displayed.
 #' @examples
 #' \dontrun{
 #' # search in xeno-canto
-#' X <- xc_query("Phaethornis anthophilus", download = FALSE)
+#' X <- query_xc("Phaethornis anthophilus", download = FALSE)
 #' 
 #' #create image in R graphic device
-#' xc_maps(X, img = FALSE)
+#' map_xc(X, img = FALSE)
 #' 
 #' #create leaflet map
-#' xc_maps(X, leaflet.map = TRUE)
+#' map_xc(X, leaflet.map = TRUE)
 #' }
 #' 
 #' @references {
@@ -45,7 +45,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace Smith Vidaurre
 
-xc_maps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
+map_xc <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
                    path = NULL, leaflet.map = FALSE,
                    leaflet.cluster = FALSE) {
 
@@ -59,7 +59,7 @@ xc_maps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(xc_maps)
+  argms <- methods::formalArgs(map_xc)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
@@ -316,10 +316,10 @@ xc_maps <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
   }
 
 ##############################################################################################################
-#' alternative name for \code{\link{xc_maps}}
+#' alternative name for \code{\link{map_xc}}
 #'
 #' @keywords internal
-#' @details see \code{\link{xc_maps}} for documentation. \code{\link{xcmaps}} will be deprecated in future versions.
+#' @details see \code{\link{map_xc}} for documentation. \code{\link{xcmaps}} will be deprecated in future versions.
 #' @export
 
-xcmaps <- xc_maps
+xcmaps <- map_xc
