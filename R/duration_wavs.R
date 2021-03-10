@@ -92,4 +92,4 @@ wavdur <- duration_wavs
 #' @details see \code{\link{duration_wavs}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
 #' @export
 
-wavdur <- duration_wavs
+wav_dur <- duration_wavs
