@@ -2,7 +2,7 @@
 #' 
 #' \code{freq_range} detect frequency range iteratively from signals in a selection table.
 #' @usage freq_range(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, 
-#' dB.threshold = NULL, wn = "hanning", flim = c(0, 22), bp = NULL, 
+#' dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL, 
 #' propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50,
 #' pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, 
 #' img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
@@ -25,7 +25,7 @@
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}). 
 #' @param flim A numeric vector of length 2 for the frequency limit of 
-#'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
+#'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz) or "frange" to indicate that values in 'bottom.freq' 
 #'   and 'top.freq' columns will be used as bandpass limits. Default is c(0, 22).
@@ -91,7 +91,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-12-2018 (MAS)
 
-freq_range <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, dB.threshold = NULL, wn = "hanning", flim = c(0, 22), bp = NULL, propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
+freq_range <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL, propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
 {
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)

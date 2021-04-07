@@ -11,7 +11,7 @@ frange.detec(
   threshold = 10,
   dB.threshold = NULL,
   wn = "hanning",
-  flim = c(0, 22),
+  flim = NULL,
   bp = NULL,
   fast.spec = FALSE,
   ovlp = 50,

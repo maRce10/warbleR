@@ -2,7 +2,7 @@
 #' 
 #' \code{freq_ts} extracts the fundamental frequency values as a time series.
 #' @usage freq_ts(X, type = "dominant", wl = 512, length.out = 20, wn = "hanning", 
-#' ovlp = 70, bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1, path = NULL, 
+#' ovlp = 70, bp = NULL, threshold = 15, img = TRUE, parallel = 1, path = NULL, 
 #' img.suffix = "frequency.ts", pb = TRUE, clip.edges = FALSE, leglab = "frequency.ts", 
 #' track.harm = FALSE, raw.contour = FALSE, adjust.wl = TRUE, 
 #' ff.method = "seewave", entropy.range = c(2, 10), ...)
@@ -20,7 +20,7 @@
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. 
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz). Default is c(0, 22).
+#'   frequency bandpass filter (in kHz). Default is \code{NULL}.
 #' @param threshold amplitude threshold (\%) for fundamental frequency detection. Default is 15.
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -100,7 +100,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-2021 (MAS)
 
-freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "frequency.ts", pb = TRUE, clip.edges = FALSE, leglab = "frequency.ts", track.harm = FALSE, raw.contour = FALSE, adjust.wl = TRUE, ff.method = "seewave", entropy.range = c(2, 10),...){     
+freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "frequency.ts", pb = TRUE, clip.edges = FALSE, leglab = "frequency.ts", track.harm = FALSE, raw.contour = FALSE, adjust.wl = TRUE, ff.method = "seewave", entropy.range = c(2, 10),...){     
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -134,11 +134,11 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
     if (!dir.exists(path)) stop("'path' provided does not exist") else
       path <- normalizePath(path)
   
-    #if X is not a data frame
-    if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
-    
+  #if X is not a data frame
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  
   if (!all(c("sound.files", "selec", 
-            "start", "end") %in% colnames(X))) 
+             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
@@ -158,7 +158,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   #if bp is not vector or length!=2 stop
   if (!is.null(bp)) {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")}}
-
+  
   # if type argument  
   if (!any(type == "dominant", type == "fundamental", type == "entropy")) stop(paste("type", type, "is not recognized"))    
   
@@ -170,7 +170,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   {recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
-                  ".wav file(s) not found"))
+              ".wav file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd) 
@@ -194,12 +194,17 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
       f <- r$sample.rate
       
       # if bp is frange
+      if (!is.null(bp))
       if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])
       
-      #in case bp its higher than can be due to sampling rate
       b <- bp 
-      if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
-      b <- b * 1000}
+      
+      #in case bp its higher than can be due to sampling rate
+      if (!is.null(b)) {if (b[2] > floor(f/2000)) 
+        b[2] <- floor(f/2000) 
+        b <- b * 1000
+        }  
+      
       
       r <- warbleR::read_wave(X = X, path = path, index = i)
       
@@ -293,154 +298,155 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
       if (img)  
       {
         warbleR::track_freq_contour(X = X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, bp = bp, 
-                            parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
-                            custom.contour = cstm.cntr, frange.detec = FALSE, ...)
+                                    parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
+                                    custom.contour = cstm.cntr, frange.detec = FALSE, ...)
       } 
       if (!raw.contour) return(t(apdom$y))  else return(dfrq)  
     } 
   
   if (type == "fundamental")
     contour_FUN <- function(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl){
-    
-    # Read sound files to get sample rate and length
-    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
-    f <- r$sample.rate
-    
-    b<- bp 
-    if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
-    b <- b * 1000}
-    
-    r <- warbleR::read_wave(X = X, path = path, index = i)
-    
-    # calculate fundamental frequency at each time point     
-    if (ff.method == "seewave")
-      ffreq1 <- seewave::fund(r, fmax= b[2], f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) else
-      {
-        if (any(slotNames(r) == "stereo")) if (r@stereo) r <- mono(r, which = "both")
-        suppressWarnings(ff1 <- tuneR::FF(tuneR::periodogram(r, width = wl, overlap = wl*ovlp / 100), peakheight = (100 - threshold) / 100)/1000)
-        ff2 <- seq(0, X$end[i] - X$start[i], length.out = length(ff1))
-        
-        ffreq1 <- cbind(ff2, ff1)
-      }
-    
-    ffreq <- matrix(ffreq1[!is.na(ffreq1[,2]),], ncol = 2)  
-    ffreq <- matrix(ffreq[ffreq[,2] > b[1]/1000,], ncol = 2)
-
-    if (nrow(ffreq) < 2) {
-      apfund <- list()
-      apfund$x <- ffreq1[, 1]
-      apfund$y <- rep(NA, length.out)
-      apfund1 <- apfund
-    } else {
-      if (!clip.edges)  {
-        
-        # clip start edges
-        ffreq <- ffreq[which(as.numeric(is.na(ffreq[ , 2])) == 0)[1]:nrow(ffreq), ]
-        
-        # clip end edges
-        ffreq <- ffreq[1:max(which(as.numeric(is.na(ffreq[ , 2])) == 0)), ]
-        
-        # interpolate
-        apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],
-                                                          to = ffreq1[nrow(ffreq1), 1], length.out = length.out), 
-                         method = "linear") 
+      
+      # Read sound files to get sample rate and length
+      r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
+      f <- r$sample.rate
+      
+      b <- bp 
+      
+      if (!is.null(b)) {if (b[2] > floor(f/2000)) b[2] <- floor(f/2000) 
+      b <- b * 1000}
+      
+      r <- warbleR::read_wave(X = X, path = path, index = i)
+      
+      # calculate fundamental frequency at each time point     
+      if (ff.method == "seewave")
+        ffreq1 <- seewave::fund(r, fmax= b[2], f = f, ovlp = ovlp, threshold = threshold, plot = FALSE) else
+        {
+          if (any(slotNames(r) == "stereo")) if (r@stereo) r <- mono(r, which = "both")
+          suppressWarnings(ff1 <- tuneR::FF(tuneR::periodogram(r, width = wl, overlap = wl*ovlp / 100), peakheight = (100 - threshold) / 100)/1000)
+          ff2 <- seq(0, X$end[i] - X$start[i], length.out = length(ff1))
+          
+          ffreq1 <- cbind(ff2, ff1)
+        }
+      
+      ffreq <- matrix(ffreq1[!is.na(ffreq1[,2]),], ncol = 2)  
+      ffreq <- matrix(ffreq[ffreq[,2] > b[1]/1000,], ncol = 2)
+      
+      if (nrow(ffreq) < 2) {
+        apfund <- list()
+        apfund$x <- ffreq1[, 1]
+        apfund$y <- rep(NA, length.out)
         apfund1 <- apfund
       } else {
-        if (!raw.contour)
-        apfund <- approx(ffreq[,1], ffreq[,2], 
-                         xout = seq(from = ffreq[1, 1],  to = ffreq[nrow(ffreq), 1], 
-                                    length.out = length.out), method = "linear") else
-        
-          apfund <- ffreq
-        #fix for ploting with trackfreqs
-        #calculate time at start and end with no amplitude detected (duration of clipped edges)
-        durend1 <- suppressWarnings(diff(range(ffreq1[,1][rev(cumsum(rev(ffreq1[,2])) == 0)])))
-        durend <- durend1
-        if (is.infinite(durend) | is.na(durend)) durend <- 0
-        
-        durst1 <- suppressWarnings(diff(range(ffreq1[,1][cumsum(ffreq1[,2]) == 0])))   
-        durst <- durst1
-        if (is.infinite(durst) | is.na(durst)) durst <- 0
-        
-        by.dur <- mean(diff(apfund$x))
-        clipst <- length(seq(from = 0, to = durst, by = by.dur))
-        clipend <- length(seq(from = 0, to = durend, by = by.dur))
-        
-        apfund1 <- apfund
-        apfund1$y <- c(rep(NA, clipst) ,apfund$y, rep(NA, clipend))
-        
-        if (is.infinite(durst1) | is.na(durst1)) apfund1$y <- apfund1$y[-1]
-        if (is.infinite(durend1) | is.na(durend1)) apfund1$y <- apfund1$y[-length(apfund1$y)]
+        if (!clip.edges)  {
+          
+          # clip start edges
+          ffreq <- ffreq[which(as.numeric(is.na(ffreq[ , 2])) == 0)[1]:nrow(ffreq), ]
+          
+          # clip end edges
+          ffreq <- ffreq[1:max(which(as.numeric(is.na(ffreq[ , 2])) == 0)), ]
+          
+          # interpolate
+          apfund <- approx(ffreq[,1], ffreq[,2], xout = seq(from = ffreq1[1, 1],
+                                                            to = ffreq1[nrow(ffreq1), 1], length.out = length.out), 
+                           method = "linear") 
+          apfund1 <- apfund
+        } else {
+          if (!raw.contour)
+            apfund <- approx(ffreq[,1], ffreq[,2], 
+                             xout = seq(from = ffreq[1, 1],  to = ffreq[nrow(ffreq), 1], 
+                                        length.out = length.out), method = "linear") else
+                                          
+                                          apfund <- ffreq
+                                        #fix for ploting with trackfreqs
+                                        #calculate time at start and end with no amplitude detected (duration of clipped edges)
+                                        durend1 <- suppressWarnings(diff(range(ffreq1[,1][rev(cumsum(rev(ffreq1[,2])) == 0)])))
+                                        durend <- durend1
+                                        if (is.infinite(durend) | is.na(durend)) durend <- 0
+                                        
+                                        durst1 <- suppressWarnings(diff(range(ffreq1[,1][cumsum(ffreq1[,2]) == 0])))   
+                                        durst <- durst1
+                                        if (is.infinite(durst) | is.na(durst)) durst <- 0
+                                        
+                                        by.dur <- mean(diff(apfund$x))
+                                        clipst <- length(seq(from = 0, to = durst, by = by.dur))
+                                        clipend <- length(seq(from = 0, to = durend, by = by.dur))
+                                        
+                                        apfund1 <- apfund
+                                        apfund1$y <- c(rep(NA, clipst) ,apfund$y, rep(NA, clipend))
+                                        
+                                        if (is.infinite(durst1) | is.na(durst1)) apfund1$y <- apfund1$y[-1]
+                                        if (is.infinite(durend1) | is.na(durend1)) apfund1$y <- apfund1$y[-length(apfund1$y)]
+        }
       }
-    }
-    
-    if (img) 
-      warbleR::track_freq_contour(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
-                 parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
-                 custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apfund$y)), ...)
-    
-    return(apfund$y)  
-  } 
+      
+      if (img) 
+        warbleR::track_freq_contour(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
+                                    parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
+                                    custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(apfund$y)), ...)
+      
+      return(apfund$y)  
+    } 
   
   if (type == "entropy")
     contour_FUN <- function(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl){
-    
-    # Read sound files to get sample rate and length
-    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
-    f <- r$sample.rate
-    
-    # if bp is frange
-    if (!is.null(bp))
-      if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])
-    
-    #in case bp its higher than can be due to sampling rate
-    b<- bp 
-    if (!is.null(b)) {if (b[2] > ceiling(f/2000) - 1) b[2] <- ceiling(f/2000) - 1 
-    b <- b * 1000}
-    
-    r <- warbleR::read_wave(X = X, path = path, index = i)
-    
-    #filter if this was needed
-    if (!is.null(bp)) r <- ffilter(wave = r, from = b[1], to = b[2]) 
-    
-    # measure espectral entropy
-    sp.en <- csh(wave = r, f = f, wl = wl, ovlp = ovlp, wn = wn, 
-                 threshold = threshold, plot = F)
-    
-    if (clip.edges) 
-    {    #remove initial values with 0
-      sp.en1 <- sp.en[cumsum(sp.en[,2]) != 0, ]
       
-      #remove end values with 0
-      sp.en1 <- sp.en1[rev(cumsum(rev(sp.en1[,2])) != 0),]
+      # Read sound files to get sample rate and length
+      r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
+      f <- r$sample.rate
       
-    } else sp.en1 <- sp.en
-    
-    apen <- approx(sp.en1[,1], sp.en1[,2], xout = seq(from = sp.en1[1, 1],
-                                                      to = sp.en1[nrow(sp.en1), 1], length.out = length.out),
-                   method = "linear")  
-    
-    #fix for ploting with trackfreqs
-    if (clip.edges) 
-    { apen1 <- approx(sp.en[,1], sp.en[,2], xout = seq(from = sp.en[1, 1],
-                                                       to = sp.en[nrow(sp.en), 1], length.out = length.out),
-                      method = "linear")
-    
-    #make 0s at start and end NAs so they are plot at the bottom by trackfreqs
-    apen1$y[cumsum(apen1$y) == 0] <- NA
-    apen1$y[rev(cumsum(rev(apen1$y))) == 0] <- NA
-    }  else apen1 <- apen
-    
-    correc.apen <- entropy.range[1] + (entropy.range[2] - entropy.range[1]) * apen1$y 
-    
-    if (img) 
-      warbleR::track_freq_contour(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
-                          parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
-                          custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(correc.apen)), ...)
-    
-    
-    return(apen$y)  
-  } 
+      # if bp is frange
+      if (!is.null(bp))
+        if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i]) 
+      
+      #in case bp its higher than can be due to sampling rate
+      b <- bp 
+      if (!is.null(b)) {if (b[2] > floor(f/2000)) b[2] <- floor(f/2000) 
+      b <- b * 1000}
+      
+      r <- warbleR::read_wave(X = X, path = path, index = i)
+      
+      #filter if this was needed
+      if (!is.null(bp)) r <- ffilter(wave = r, from = b[1], to = b[2]) 
+      
+      # measure espectral entropy
+      sp.en <- csh(wave = r, f = f, wl = wl, ovlp = ovlp, wn = wn, 
+                   threshold = threshold, plot = F)
+      
+      if (clip.edges) 
+      {    #remove initial values with 0
+        sp.en1 <- sp.en[cumsum(sp.en[,2]) != 0, ]
+        
+        #remove end values with 0
+        sp.en1 <- sp.en1[rev(cumsum(rev(sp.en1[,2])) != 0),]
+        
+      } else sp.en1 <- sp.en
+      
+      apen <- approx(sp.en1[,1], sp.en1[,2], xout = seq(from = sp.en1[1, 1],
+                                                        to = sp.en1[nrow(sp.en1), 1], length.out = length.out),
+                     method = "linear")  
+      
+      #fix for ploting with trackfreqs
+      if (clip.edges) 
+      { apen1 <- approx(sp.en[,1], sp.en[,2], xout = seq(from = sp.en[1, 1],
+                                                         to = sp.en[nrow(sp.en), 1], length.out = length.out),
+                        method = "linear")
+      
+      #make 0s at start and end NAs so they are plot at the bottom by trackfreqs
+      apen1$y[cumsum(apen1$y) == 0] <- NA
+      apen1$y[rev(cumsum(rev(apen1$y))) == 0] <- NA
+      }  else apen1 <- apen
+      
+      correc.apen <- entropy.range[1] + (entropy.range[2] - entropy.range[1]) * apen1$y 
+      
+      if (img) 
+        warbleR::track_freq_contour(X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn,
+                                    parallel = 1, path = path, img.suffix =  img.suffix, ovlp = ovlp,
+                                    custom.contour = data.frame(sound.files = X$sound.files[i], selec = X$selec[i], t(correc.apen)), ...)
+      
+      
+      return(apen$y)  
+    } 
   
   
   # set pb options 
@@ -459,7 +465,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
   colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
   df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)
-   
+  
   return(df)
   
 }

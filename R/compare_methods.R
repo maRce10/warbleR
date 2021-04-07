@@ -1,7 +1,7 @@
 #' @title Assessing the performance of acoustic distance measurements
 #' 
 #' @description \code{compare_methods} creates graphs to visually assess performance of acoustic distance measurements 
-#' @usage compare_methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
+#' @usage compare_methods(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 512, ovlp = 90, 
 #' res = 150, n = 10, length.out = 30, 
 #' methods = NULL, 
 #' it = "jpeg", parallel = 1, path = NULL, sp = NULL, custom1 = NULL, 
@@ -13,9 +13,9 @@
 #' selection number (selec), and start and end time of signal (start and end).
 #' Default \code{NULL}. 
 #' @param flim A numeric vector of length 2 for the frequency limit in kHz of 
-#'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
+#'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.
 #' @param bp numeric vector of length 2 giving the lower and upper limits of the 
-#' frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22).
+#' frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is \code{NULL}.
 #' @param mar Numeric vector of length 1. Specifies plot margins around selection in seconds. Default is 0.1.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram and cross-correlation, default 
 #'   is 512.
@@ -150,7 +150,7 @@
 #' seewave package to create spectrograms.
 #last modification on mar-13-2018 (MAS)
 
-compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
+compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 512, ovlp = 90, 
     res = 150, n = 10, length.out = 30, methods = NULL,
     it = "jpeg", parallel = 1, path = NULL, sp = NULL, custom1 = NULL, custom2 = NULL, pb = TRUE, grid = TRUE, 
     clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, 
@@ -325,7 +325,7 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   }
   
   if ("XCORR" %in% methods){
-    xcmat <- xcorr(X, wl = wl, bp = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE)
+    xcmat <- warbleR::cross_correlation(X, wl = wl, bp = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE, path = path)
 
   MDSxcorr <- stats::cmdscale(1-xcmat)  
   MDSxcorr <- scale(MDSxcorr)
@@ -337,8 +337,8 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if ("dfDTW" %in% methods){
     if (pb)   write(file = "", x = "measuring dominant frequency contours:")
-    dtwmat <- freq_ts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
-                    pb = pb, clip.edges = clip.edges, threshold = threshold)
+    dtwmat <- warbleR::freq_ts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
+                    pb = pb, clip.edges = clip.edges, threshold = threshold, path = path)
    
     dtwmat <- dtwmat[,3:ncol(dtwmat)]
     
@@ -354,8 +354,8 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
 
   if ("ffDTW" %in% methods){
    if (pb)  write(file = "", x ="measuring fundamental frequency contours:")
-    dtwmat <- freq_ts(X, type = "fundamental", wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
-                  pb = pb, clip.edges = clip.edges, threshold = threshold)
+    dtwmat <- warbleR::freq_ts(X, type = "fundamental", wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
+                  pb = pb, clip.edges = clip.edges, threshold = threshold, path = path)
   
   dtwmat <- dtwmat[,3:ncol(dtwmat)]
  
@@ -371,7 +371,7 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if ("SP" %in% methods) { 
     if (pb) write(file = "", x ="measuring spectral parameters:")
-    spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = FALSE)
+    spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = FALSE, path = path)
   
   PCsp <- prcomp(scale(spmat[,3:ncol(spmat)]), center = TRUE, scale. = TRUE, rank. = 2)$x
 
@@ -380,7 +380,7 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if ("SPharm" %in% methods){ 
     if (pb) write(file = "", x ="measuring spectral parameters + harmonicity:")
-    spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = TRUE)
+    spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = TRUE, path = path)
    
     if (any(sapply(spmat, anyNA))){
       spmat <- spmat[, !sapply(spmat, anyNA)]
@@ -394,7 +394,7 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
   
   if ("MFCC" %in% methods) { 
     if (pb) write(file = "", x ="measuring cepstral coefficients:")
-    mfcc <- mfcc_stats(X, wl = wl, bp = bp, parallel = parallel, pb = pb)
+    mfcc <- warbleR::mfcc_stats(X, wl = wl, bp = bp, parallel = parallel, pb = pb, path = path)
     
     if (any(sapply(mfcc, anyNA))) stop("NAs generated when calculated MFCC's, try a higher 'wl'")
 
@@ -494,7 +494,10 @@ compare_methods <- function(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1,
       tlim[2] <- r$samples/r$sample.rate
       } else tlim[2] <- r$samples/r$sample.rate
       
-      if (flim[2] > ceiling(r$sample.rate/2000) - 1) flim[2] <- ceiling(r$sample.rate/2000) - 1
+      if (is.null(flim))
+        flim <- c(0, floor(r$sample.rate / 2000))
+        
+      if (flim[2] > floor(r$sample.rate / 2000)) flim[2] <- floor(r$sample.rate / 2000)
       
       r <- warbleR::read_wave(X = X, path = path, index = x, from = tlim[1], to = tlim[2])
       

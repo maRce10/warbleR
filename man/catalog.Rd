@@ -4,7 +4,7 @@
 \alias{catalog}
 \title{Create catalog of vocal signals}
 \usage{
-catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
+catalog(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
 collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
 lab.mar = 1, wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, 
 it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, 
@@ -21,7 +21,7 @@ and start and end time of signal (start and end). Default is \code{NULL}.}
 
 \item{flim}{A numeric vector of length 2 indicating the highest and lowest 
 frequency limits (kHz) of the spectrogram, as in 
-\code{\link[seewave]{spectro}}. Default is c(0,22).}
+\code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
 \item{nrow}{A numeric vector of length 1. Specifies number of rows. Default is 4.}
 

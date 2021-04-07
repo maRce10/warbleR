@@ -4,7 +4,7 @@
 \alias{snr_spectrograms}
 \title{Spectrograms with background noise margins}
 \usage{
-snr_spectrograms(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70, 
+snr_spectrograms(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70, 
 inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, 
 res = 100, cexlab = 1, title = TRUE, before = FALSE, eq.dur = FALSE,
   propwidth= FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
@@ -19,7 +19,7 @@ for sound file name (sound.files), selection number (selec), and start and end t
 is 512.}
 
 \item{flim}{A numeric vector of length 2 for the frequency limit in kHz of 
-the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
+the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options.}

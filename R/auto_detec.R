@@ -29,7 +29,7 @@
 #' @param ssmooth A numeric vector of length 1 to smooth the amplitude envelope
 #'   with a sum smooth function. Default is 0. Note that smoothing is applied before thinning (see 'thinning' argument).
 #' @param bp Numeric vector of length 2 giving the lower and upper limits of a
-#'   frequency bandpass filter (in kHz). Default is c(0, 22).
+#'   frequency bandpass filter (in kHz). Default is \code{NULL}.
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
 #' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{0}.
@@ -136,40 +136,40 @@ auto_detec <-
       write(file = "", x = crayon::silver("'msmooth' has been deprecated. Only 'ssmooth' is available for smoothing"))
     
     if (!is.null(img))
-      write(file = "", x = crayon::silver("'img' has been deprecated. Use full_spec() to create images from auto_detec() output"))
+      write(file = "", x = crayon::silver("'img' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
     
     if (!is.null(xl))
-      write(file = "", x = crayon::silver("'xl' has been deprecated. Use full_spec() to create images from auto_detec() output"))
+      write(file = "", x = crayon::silver("'xl' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
     
     if (!is.null(picsize))
-      write(file = "", x = crayon::silver("'picsize' has been deprecated. Use full_spec() to create images from auto_detec() output"))
+      write(file = "", x = crayon::silver("'picsize' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
     
     if (!is.null(flim))
-      write(file = "", x = crayon::silver("'flim' has been deprecated. Use full_spec() to create images from auto_detec() output"))    
+      write(file = "", x = crayon::silver("'flim' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
     
     if (!is.null(rows))
-      write(file = "", x = crayon::silver("'rows' has been deprecated. Use full_spec() to create images from auto_detec() output"))  
+      write(file = "", x = crayon::silver("'rows' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))  
     
     if (!is.null(sxrow))
-      write(file = "", x = crayon::silver("'sxrow' has been deprecated. Use full_spec() to create images from auto_detec() output"))    
+      write(file = "", x = crayon::silver("'sxrow' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
     
     if (!is.null(osci))
-      write(file = "", x = crayon::silver("'osci' has been deprecated. Use full_spec() to create images from auto_detec() output"))    
+      write(file = "", x = crayon::silver("'osci' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
     
     if (!is.null(res))
-      write(file = "", x = crayon::silver("'res' has been deprecated. Use full_spec() to create images from auto_detec() output"))    
+      write(file = "", x = crayon::silver("'res' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
     
     if (!is.null(ls))
-      write(file = "", x = crayon::silver("'ls' has been deprecated. Use full_spec() to create images from auto_detec() output"))    
+      write(file = "", x = crayon::silver("'ls' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
     
     if (!is.null(redo))
-      write(file = "", x = crayon::silver("'redo' has been deprecated. Use full_spec() to create images from auto_detec() output"))
+      write(file = "", x = crayon::silver("'redo' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
     
     if (!is.null(it))
-      write(file = "", x = crayon::silver("'it' has been deprecated. Use full_spec() to create images from auto_detec() output"))
+      write(file = "", x = crayon::silver("'it' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
     
     if (!is.null(set))
-      write(file = "", x = crayon::silver("'set' has been deprecated. Use full_spec() to create images from auto_detec() output"))
+      write(file = "", x = crayon::silver("'set' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
     
     #### set arguments from options
     # get function arguments

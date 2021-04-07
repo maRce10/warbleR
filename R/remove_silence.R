@@ -1,7 +1,7 @@
 #' Remove silence in wave files
 #'
 #' \code{remove_silence} Removes silences in wave files
-#' @usage remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
+#' @usage remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL, 
 #' files = NULL, flist = NULL, parallel = 1, pb = TRUE)
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
@@ -11,7 +11,7 @@
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram as in 
-#'   \code{\link[seewave]{spectro}}. Default is c(0,12). Ignored if `img = FALSE`.
+#'   \code{\link[seewave]{spectro}}. Default is \code{NULL}. Ignored if `img = FALSE`.
 #' @param files character vector or factor indicating the subset of files that will be analyzed. If not provided
 #' then all wave files in the working directory (or path) will be processed.
 #' @param flist DEPRECATED. Please use 'files' instead.
@@ -54,7 +54,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-13-2018 (MAS)
 
-remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
+remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL, 
                    files = NULL, flist = NULL, parallel = 1, pb = TRUE)
 {
 
@@ -123,7 +123,10 @@ remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg"
     wv <- warbleR::read_wave(X = fl, path = path)  
     
     #in case flim is higher than can be due to sampling rate
-    if (flm[2] > ceiling(wv@samp.rate/2000) - 1) flm[2] <- ceiling(wv@samp.rate/2000) - 1 
+    if (!is.null(flim)) {
+    if (flm[2] > floor(wv@samp.rate / 2000)) flm[2] <- floor(wv@samp.rate / 2000) 
+    } else
+      flm <- c(0, floor(wv@samp.rate / 2000)) 
     
     #downsample to speed up process
     if (wv@samp.rate > f + 1000) wv1 <- downsample(object = wv, samp.rate =  f) else wv1 <- wv

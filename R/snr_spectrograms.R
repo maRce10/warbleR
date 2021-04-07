@@ -2,7 +2,7 @@
 #' 
 #' \code{snr_spectrograms} creates spectrograms to visualize margins over which background noise
 #' will be measured by \code{\link{sig2noise}}.
-#' @usage snr_spectrograms(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70, 
+#' @usage snr_spectrograms(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70, 
 #' inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, 
 #' res = 100, cexlab = 1, title = TRUE, before = FALSE, eq.dur = FALSE,
 #'   propwidth= FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
@@ -13,7 +13,7 @@
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
 #' @param flim A numeric vector of length 2 for the frequency limit in kHz of 
-#'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
+#'   the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.
 ##' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
@@ -102,7 +102,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace Smith Vidaurre
 #last modification on aug-06-2018 (MAS)
 
-snr_spectrograms <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp = 70,
+snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70,
                      inner.mar = c(5,4,4,2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100,
                      cexlab = 1, title = TRUE, before = FALSE,  eq.dur = FALSE, propwidth = FALSE, 
                      xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg",
@@ -191,8 +191,10 @@ snr_spectrograms <- function(X, wl = 512, flim = c(0, 22), wn = "hanning", ovlp 
     f <- r$sample.rate
     
     fl<- flim #in case flim its higher than can be due to sampling rate
-    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
     
+    if (is.null(fl))
+    fl <- c(0, f / 2000)
+    if (fl[2] > f / 2000) fl[2] <- f / 2000
     
     # set margin if eq.dur
     if (eq.dur) snrmar <- X$end[i] -  X$start[i]

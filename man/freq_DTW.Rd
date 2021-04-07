@@ -5,7 +5,7 @@
 \title{Acoustic dissimilarity using dynamic time warping on dominant frequency contours}
 \usage{
 freq_DTW(X = NULL, type = "dominant", wl = 512, wl.freq = 512, length.out = 20, 
-wn = "hanning", ovlp = 70, bp = c(0, 22), threshold = 15, threshold.time = NULL, 
+wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, threshold.time = NULL, 
 threshold.freq = NULL, img = TRUE, parallel = 1, path = NULL, ts.df = NULL, 
 img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, window.type = "none", 
 open.end = FALSE, scale = FALSE, frange.detec = FALSE,  fsmooth = 0.1, 
@@ -35,7 +35,7 @@ more accurate measurements.}
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz). Default is c(0, 22).}
+frequency bandpass filter (in kHz). Default is \code{NULL}.}
 
 \item{threshold}{amplitude threshold (\%) for frequency detection. Default is 15.}
 

@@ -6,17 +6,6 @@
 \usage{
 split_wavs(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
  parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL)
-
-split_wavs(
-  path = NULL,
-  sgmt.dur = 10,
-  sgmts = NULL,
-  files = NULL,
-  parallel = 1,
-  pb = TRUE,
-  only.sels = FALSE,
-  X = NULL
-)
 }
 \arguments{
 \item{path}{Directory path where sound files are found. 
@@ -47,8 +36,6 @@ Wave files for each segment in the working directory (named as 'sound.file.name-
 }
 \details{
 This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}} ).
-
-see \code{\link{split_wavs}} for documentation. \code{\link{split_wavs}} will be deprecated in future versions.
 }
 \examples{
 {
@@ -82,4 +69,3 @@ Other data manipulation:
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
 \concept{data manipulation}
-\keyword{internal}

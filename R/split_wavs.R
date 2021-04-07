@@ -40,7 +40,7 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-#last modification on jun-07-2019 (MAS)
+#last modification on mar-21-2020 (MAS)
 split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL){
   
   #### set arguments from options
@@ -184,15 +184,3 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   
   return(split.df)
 } 
-
-
-
-##############################################################################################################
-#' alternative name for \code{\link{split_wavs}}
-#'
-#' @keywords internal
-#' @details see \code{\link{split_wavs}} for documentation. \code{\link{split_wavs}} will be deprecated in future versions.
-#' @export
-
-split_wavs <- split_wavs
-

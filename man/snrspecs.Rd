@@ -7,7 +7,7 @@
 snrspecs(
   X,
   wl = 512,
-  flim = c(0, 22),
+  flim = NULL,
   wn = "hanning",
   ovlp = 70,
   inner.mar = c(5, 4, 4, 2),

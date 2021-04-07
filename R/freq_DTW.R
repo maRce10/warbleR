@@ -3,7 +3,7 @@
 #' \code{freq_DTW} calculates acoustic dissimilarity of frequency contours using dynamic
 #' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
 #' @usage freq_DTW(X = NULL, type = "dominant", wl = 512, wl.freq = 512, length.out = 20, 
-#' wn = "hanning", ovlp = 70, bp = c(0, 22), threshold = 15, threshold.time = NULL, 
+#' wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, threshold.time = NULL, 
 #' threshold.freq = NULL, img = TRUE, parallel = 1, path = NULL, ts.df = NULL, 
 #' img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, window.type = "none", 
 #' open.end = FALSE, scale = FALSE, frange.detec = FALSE,  fsmooth = 0.1, 
@@ -24,7 +24,7 @@
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two 
 #'   consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. 
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
-#'   frequency bandpass filter (in kHz). Default is c(0, 22).
+#'   frequency bandpass filter (in kHz). Default is \code{NULL}.
 #' @param threshold amplitude threshold (\%) for frequency detection. Default is 15.
 #' @param threshold.time amplitude threshold (\%) for the time domain. Use for frequency detection. If \code{NULL} (default) then the 'threshold' value is used.
 #' @param threshold.freq amplitude threshold (\%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If \code{NULL} (default) then the
@@ -94,7 +94,7 @@
 #last modification on nov-31-2016 (MAS)
 
 freq_DTW <-  function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70, 
-           bp = c(0, 22), threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
+           bp = NULL, threshold = 15, threshold.time = NULL, threshold.freq = NULL, 
            img = TRUE, parallel = 1, path = NULL, ts.df = NULL,
            img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, 
            window.type = "none", open.end = FALSE, scale = FALSE, frange.detec = FALSE,

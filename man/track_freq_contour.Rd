@@ -4,10 +4,10 @@
 \alias{track_freq_contour}
 \title{Spectrograms with frequency measurements}
 \usage{
-track_freq_contour(X, wl = 512, wl.freq = 512, flim = c(0, 22), wn = "hanning", pal =
+track_freq_contour(X, wl = 512, wl.freq = 512, flim = NULL, wn = "hanning", pal =
   reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = 
   c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE, 
-  xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = c(0, 22), cex = c(0.6, 1), 
+  xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = NULL, cex = c(0.6, 1), 
   threshold = 15, threshold.time = NULL, threshold.freq = NULL, contour = "both", 
   col = c("#E37222B3", "#07889BB3"), pch = c(21, 24),  mar = 0.05, lpos = "topright", 
   it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL, 
@@ -28,7 +28,7 @@ for measurements on the frequency spectrum. Default is 512. Higher values would 
 more accurate measurements.}
 
 \item{flim}{A numeric vector of length 2 for the frequency limit of 
-the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
+the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
 \item{wn}{Character vector of length 1 specifying window name. Default is 
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options.}
@@ -76,7 +76,7 @@ in \code{\link[seewave]{spectro}}. Default is \code{FALSE}.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq 
-and top.freq columns will be used as bandpass limits. Default is c(0, 22).}
+and top.freq columns will be used as bandpass limits. Default is \code{NULL}.}
 
 \item{cex}{Numeric vector of length 2, specifies relative size of points 
 plotted for frequency measurements and legend font/points, respectively. 

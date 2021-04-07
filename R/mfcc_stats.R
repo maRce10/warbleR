@@ -156,16 +156,19 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
       r <- warbleR::read_wave(X = X, path = path, index = i)
       
       # set bandpass
-      if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
+      if (!is.null(bp))
+        if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i])
       
+        b <- bp
+        
       #in case bp its higher than can be due to sampling rate
-      if (b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
+      if (b[2] > floor(r@samp.rate / 2000)) b[2] <- floor(r@samp.rate / 2000) 
       
       # add a bit above and below to ensure range limits are included
       bpfr <- b
       bpfr <- bpfr + c(-0.2, 0.2)  
       if (bpfr[1] < 0) bpfr[1] <- 0
-      if (bpfr[2] > ceiling(r@samp.rate/2000) - 1) bpfr[2] <- ceiling(r@samp.rate/2000) - 1 
+      if (bpfr[2] > floor(r@samp.rate / 2000)) bpfr[2] <- floor(r@samp.rate / 2000) 
     
       # measure MFCCs  
       m <- try(melfcc(r, wintime = wl / r@samp.rate, hoptime = wl / r@samp.rate * (1 - (ovlp / 100)), 

@@ -121,6 +121,7 @@ track_harmonic <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = 
       stop("The first element of 'bandpass' has to be inferior to the second element, i.e. bandpass[1] < bandpass[2]")
     if (bandpass[1] == bandpass[2]) 
       stop("The limits of the bandpass have to be different")
+    }
     
     # lowlimit <- round((wl * bandpass[1])/f)
     # upperlimit <- round((wl * bandpass[2])/f)
@@ -130,7 +131,7 @@ track_harmonic <- function (wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = 
     freq.val <- ((1:nrow(y1) * f / wl) - (f / (wl * 2))) 
     
     y1[freq.val < bandpass[1] | freq.val > bandpass[2]] <- 0
-    }
+    
 
   if (dfrq){
     

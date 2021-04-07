@@ -270,7 +270,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
     if (flim[1] == "frange") flim <- range(c(X$bottom.freq[i], X$top.freq[i])) + c(-1, 1)
     
     fl <- flim #in case flim its higher than can be due to sampling rate
-    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+    if (fl[2] > f / 2000) fl[2] <- f / 2000 
     if (fl[1] < 0) fl[1] <- 0
     
        # Spectrogram width can be proportional to signal duration

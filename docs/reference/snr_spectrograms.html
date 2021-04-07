@@ -75,7 +75,7 @@ will be measured by sig2noise." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.26</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.27</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ will be measured by sig2noise." />
 will be measured by <code><a href='sig2noise.html'>sig2noise</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>snr_spectrograms</span><span class='op'>(</span><span class='va'>X</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, flim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>22</span><span class='op'>)</span>, wn <span class='op'>=</span> <span class='st'>"hanning"</span>, ovlp <span class='op'>=</span> <span class='fl'>70</span>, 
+    <pre class="usage"><span class='fu'>snr_spectrograms</span><span class='op'>(</span><span class='va'>X</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, flim <span class='op'>=</span> <span class='cn'>NULL</span>, wn <span class='op'>=</span> <span class='st'>"hanning"</span>, ovlp <span class='op'>=</span> <span class='fl'>70</span>, 
 inner.mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>4</span>, <span class='fl'>4</span>, <span class='fl'>2</span><span class='op'>)</span>, outer.mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>, picsize <span class='op'>=</span> <span class='fl'>1</span>, 
 res <span class='op'>=</span> <span class='fl'>100</span>, cexlab <span class='op'>=</span> <span class='fl'>1</span>, title <span class='op'>=</span> <span class='cn'>TRUE</span>, before <span class='op'>=</span> <span class='cn'>FALSE</span>, eq.dur <span class='op'>=</span> <span class='cn'>FALSE</span>,
   propwidth<span class='op'>=</span> <span class='cn'>FALSE</span>, xl <span class='op'>=</span> <span class='fl'>1</span>, osci <span class='op'>=</span> <span class='cn'>FALSE</span>, gr <span class='op'>=</span> <span class='cn'>FALSE</span>, sc <span class='op'>=</span> <span class='cn'>FALSE</span>, mar <span class='op'>=</span> <span class='fl'>0.2</span>,
@@ -170,7 +170,7 @@ is 512.</p></td>
     <tr>
       <th>flim</th>
       <td><p>A numeric vector of length 2 for the frequency limit in kHz of 
-the spectrogram, as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is c(0, 22).</p></td>
+the spectrogram, as in <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>wn</th>

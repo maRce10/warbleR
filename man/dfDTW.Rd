@@ -12,7 +12,7 @@ dfDTW(
   length.out = 20,
   wn = "hanning",
   ovlp = 70,
-  bp = c(0, 22),
+  bp = NULL,
   threshold = 15,
   threshold.time = NULL,
   threshold.freq = NULL,

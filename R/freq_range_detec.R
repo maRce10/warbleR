@@ -2,7 +2,7 @@
 #' 
 #' \code{freq_range_detec} detects the frequency range of acoustic signals on wave objects.
 #' @usage freq_range_detec(wave, wl = 512, fsmooth = 0.1, threshold = 10, 
-#' dB.threshold = NULL, wn = "hanning", flim = c(0, 22), bp = NULL, 
+#' dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL, 
 #' fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, 
 #'  widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 #' @param wave A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.
@@ -22,10 +22,10 @@
 #' @param wn Character vector of length 1 specifying window name. Default is 
 #'   "hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}). 
 #' @param flim A numeric vector of length 2 for the frequency limit of 
-#'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, 22).
+#'   the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz) or "frange" to indicate that values in 'bottom.freq' 
-#'   and 'top.freq' columns will be used as bandpass limits. Default is c(0, 22).
+#'   and 'top.freq' columns will be used as bandpass limits. Default is \code{NULL}.
 #' @param fast.spec Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
 #' increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
 #' This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
@@ -71,7 +71,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on apr-28-2017 (MAS)
 
-freq_range_detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, dB.threshold = NULL, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
+freq_range_detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 {
   # close screens
   on.exit(invisible(close.screen(all.screens = TRUE)))

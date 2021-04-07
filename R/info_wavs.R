@@ -88,3 +88,12 @@ info_wavs <- function(path = NULL, parallel = 1, pb = TRUE)
  return(cs)
 }
 
+##############################################################################################################
+#' alternative name for \code{\link{info_wavs}}
+#'
+#' @keywords internal
+#' @details see \code{\link{info_wavs}} for documentation. \code{\link{wav_info}} will be deprecated in future versions.
+#' @export
+
+wav_info <- info_wavs
+

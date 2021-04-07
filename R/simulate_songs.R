@@ -1,7 +1,7 @@
 #' Simulate animal vocalizations
 #' 
-#' \code{sim_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
-#' @usage sim_songs(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1, 
+#' \code{simulate_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
+#' @usage simulate_songs(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1, 
 #' gaps = 0.1, freqs = 5, samp.rate = 44.1, sig2 = 0.5, 
 #' steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM", 
 #' fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE, 
@@ -47,26 +47,26 @@
 #' @return A wave object containing the simulated songs. If 'selec.table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object. 
 #' @seealso \code{\link{query_xc}} for for downloading bird vocalizations from an online repository.
 #' @export
-#' @name sim_songs
+#' @name simulate_songs
 #' @details This functions uses a geometric (\code{diff.fun == "GBM"}) or Brownian bridge (\code{diff.fun == "BB"}) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time). 
 #' The function can also simulate pure tones (\code{diff.fun == "pure.tone"}, 'sig2' is ignored). 
 #' Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.
 #' @examples
 #' \dontrun{
 #'  # simulate a song with 3 elements and no harmonics
-#'  sm_sng <- sim_songs(n = 3, harms = 1)
+#'  sm_sng <- simulate_songs(n = 3, harms = 1)
 #'  
 #'  # plot spectro
 #'  seewave::spectro(sm_sng)
 #'  
 #'  # simulate a song with 5 elements and 2 extra harmonics
-#' sm_sng2 <- sim_songs(n = 5, harms = 3)
+#' sm_sng2 <- simulate_songs(n = 5, harms = 3)
 #' 
 #'  # plot spectrogram
 #'  seewave::spectro(sm_sng2)
 #'
 #' # six pure tones with frequency ranging form 4 to 6 and returning selection table
-#' sm_sng <- sim_songs(n = 6, harms = 1, seed = 1, diff.fun = "pure.tone", 
+#' sm_sng <- simulate_songs(n = 6, harms = 1, seed = 1, diff.fun = "pure.tone", 
 #'                   freqs = seq(4, 6, length.out = 6), selec.table = TRUE, 
 #'                   path = tempdir())
 #'
@@ -83,7 +83,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on feb-22-2018 (MAS)
 
-sim_songs <- function(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1, gaps = 0.1, freqs = 5, samp.rate = 44.1, 
+simulate_songs <- function(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1, gaps = 0.1, freqs = 5, samp.rate = 44.1, 
                       sig2 = 0.5, steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM", fin = 0.1,
                       fout = 0.2, shape = "linear", selec.table = FALSE, 
                       file.name = NULL, path = NULL) {
@@ -100,7 +100,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), 
     
     #### set arguments from options
     # get function arguments
-    argms <- methods::formalArgs(sim_songs)
+    argms <- methods::formalArgs(simulate_songs)
     
     # get warbleR options
     opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
@@ -185,7 +185,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), 
       if (x == 1) {
         
         if (!is.null(seed)) set.seed(seeds[x + n])
-        gp_frq1 <- sample(1:((samp.rate * 1000) / 2),  round(gaps[1] * (samp.rate * 1000), 0))
+        gp_frq1 <- sample(1:((samp.rate * 1000) / 2),  round(gaps[1] * (samp.rate * 1000), 0), replace = TRUE)
         
         sng_frq <- c(gp_frq1, sng_frq)
         
@@ -195,7 +195,7 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), 
       }
       
       if (!is.null(seed)) set.seed(seeds[x + (n * 2)])
-      gp_frq <- sample(1:((samp.rate * 1000) / 2),  round(gaps[x + 1] * (samp.rate * 1000), 0))
+      gp_frq <- sample(1:((samp.rate * 1000) / 2),  round(gaps[x + 1] * (samp.rate * 1000), 0), replace = TRUE)
       
       gp_amp <- rep(x = 0.000001, round(gaps[x + 1] * (samp.rate * 1000), 0))
       
@@ -260,3 +260,14 @@ sim_songs <- function(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), 
   if (selec.table) return(list(selec.table = st, wave = wv)) else
     return(wv)
 }
+
+##############################################################################################################
+#' alternative name for \code{\link{simulate_songs}}
+#'
+#' @keywords internal
+#' @details see \code{\link{simulate_songs}} for documentation. \code{\link{sim_songs}} will be deprecated in future versions.
+#' @export
+
+sim_songs <- simulate_songs
+
+

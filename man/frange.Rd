@@ -13,7 +13,7 @@ frange(
   threshold = 10,
   dB.threshold = NULL,
   wn = "hanning",
-  flim = c(0, 22),
+  flim = NULL,
   bp = NULL,
   propwidth = FALSE,
   xl = 1,

@@ -193,6 +193,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
   if (any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
   
   # bp checking
+  if (!is.null(bp))
   if (bp[1] != "frange")
   {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
     if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
@@ -234,16 +235,19 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
     
     if (length(r@left) < 7) stop(paste0("too few samples in selection row ", i, ", try check_sels() to find problematic selections"), call. = FALSE)
     
-    if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp
-
+    if (!is.null(bp))
+      if (bp[1] == "frange") bp <- c(X$bottom.freq[i], X$top.freq[i]) 
+  
+      b <- bp
+    
      #in case bp its higher than can be due to sampling rate
-    if (b[2] > ceiling(r@samp.rate/2000) - 1) b[2] <- ceiling(r@samp.rate/2000) - 1 
+    if (b[2] > floor(r@samp.rate / 2000)) b[2] <- floor(r@samp.rate/2000) 
     
     # add a bit above and below to ensure range limits are included
     bpfr <- b
     bpfr <- bpfr + c(-0.2, 0.2)  
     if (bpfr[1] < 0) bpfr[1] <- 0
-    if (bpfr[2] > ceiling(r@samp.rate/2000) - 1) bpfr[2] <- ceiling(r@samp.rate/2000) - 1 
+    if (bpfr[2] > floor(r@samp.rate / 2000)) bpfr[2] <- floor(r@samp.rate / 2000) 
   
     # freq range to measure peak freq  
     # wl is adjusted when very short signals
@@ -252,7 +256,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
       # soungen measurements
     if (harmonicity)
     {
-      sg.param <- suppressMessages(try(soundgen::analyze(x = as.numeric(r@left), samplingRate = r@samp.rate, silence = threshold / 100, overlap = ovlp, windowLength = wl / r@samp.rate * 1000, plot = FALSE, wn = wn, pitchCeiling = b[2] * 1000, cutFreq = b[2] * 1000, nFormants = nharmonics, SPL_measured = 0, priorMean = NA, pitchMethods = c('dom', 'autocor'), ...), silent = TRUE))
+      sg.param <- suppressMessages(try(soundgen::analyze(x = as.numeric(r@left), samplingRate = r@samp.rate, silence = threshold / 100, overlap = ovlp, windowLength = wl / r@samp.rate * 1000, plot = FALSE, wn = wn, pitchCeiling = b[2] * 1000, cutFreq = b[2] * 1000, nFormants = nharmonics, SPL_measured = 0, voicedSeparate = FALSE, priorMean = NA, pitchMethods = c('dom', 'autocor'), ...), silent = TRUE))
     
       if (!is(sg.param, "try-error")){
       
@@ -372,6 +376,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
     dfres <- cbind(dfres, sg.param, fun.pars)
     
     # add low high freq
+    if (!is.null(bp))
     if (bp[1] == "frange") {
       dfres$bottom.freq <- b[1]
      dfres$top.freq <- b[2]

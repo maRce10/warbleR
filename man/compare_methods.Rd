@@ -4,7 +4,7 @@
 \alias{compare_methods}
 \title{Assessing the performance of acoustic distance measurements}
 \usage{
-compare_methods(X = NULL, flim = c(0, 22), bp = c(0, 22), mar = 0.1, wl = 512, ovlp = 90, 
+compare_methods(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 512, ovlp = 90, 
 res = 150, n = 10, length.out = 30, 
 methods = NULL, 
 it = "jpeg", parallel = 1, path = NULL, sp = NULL, custom1 = NULL, 
@@ -19,10 +19,10 @@ selection number (selec), and start and end time of signal (start and end).
 Default \code{NULL}.}
 
 \item{flim}{A numeric vector of length 2 for the frequency limit in kHz of 
-the spectrogram, as in \code{\link[seewave]{spectro}}. Default is c(0, 22).}
+the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
 \item{bp}{numeric vector of length 2 giving the lower and upper limits of the 
-frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is c(0, 22).}
+frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is \code{NULL}.}
 
 \item{mar}{Numeric vector of length 1. Specifies plot margins around selection in seconds. Default is 0.1.}
 

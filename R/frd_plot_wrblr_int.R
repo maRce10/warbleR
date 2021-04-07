@@ -1,6 +1,6 @@
 #internal warbleR function, not to be called by users. Plots detected frequency range.
 
-frd_plot_wrblr_int <- function(wave, detections, wl = 512, wn = "hanning", flim = c(0, 22), bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, all.detec = F) {
+frd_plot_wrblr_int <- function(wave, detections, wl = 512, wn = "hanning", flim = NULL, bp = NULL, fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2, widths = c(2, 1), main = NULL, all.detec = F) {
   
   # attach freq and amplitude values
   z <- detections$af.mat[,1]
@@ -22,8 +22,8 @@ frd_plot_wrblr_int <- function(wave, detections, wl = 512, wn = "hanning", flim 
   
   # fix flim
   if (!is.null(flim))
-  {if (flim[2] > ceiling(f/2000) - 1) flim[2] <- ceiling(f/2000) - 1} else
-    flim <- c(0, ceiling(f/2000) - 1)
+  {if (flim[2] > floor(f / 2000)) flim[2] <- f / 2000} else
+    flim <- c(0, floor(f / 2000))
   
   # set limits for color rectangles down
   if (is.null(bp)) lims <- flim else lims <- bp

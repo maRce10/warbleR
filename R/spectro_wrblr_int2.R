@@ -45,7 +45,7 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
   if (!is.null(tlim)) 
     wave <- cutw(wave, f = f, from = tlim[1], to = tlim[2])
   if (!is.null(flimd)) {
-    mag <- round((f/2000)/(flimd[2] - flimd[1]))
+    mag <- round((floor(f / 2000))/(flimd[2] - flimd[1]))
     wl <- wl * mag
     if (ovlp == 0) 
       ovlp <- 100

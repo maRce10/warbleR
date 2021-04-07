@@ -5,7 +5,7 @@
 \title{Extract frequency contours as time series}
 \usage{
 freq_ts(X, type = "dominant", wl = 512, length.out = 20, wn = "hanning", 
-ovlp = 70, bp = c(0, 22), threshold = 15, img = TRUE, parallel = 1, path = NULL, 
+ovlp = 70, bp = NULL, threshold = 15, img = TRUE, parallel = 1, path = NULL, 
 img.suffix = "frequency.ts", pb = TRUE, clip.edges = FALSE, leglab = "frequency.ts", 
 track.harm = FALSE, raw.contour = FALSE, adjust.wl = TRUE, 
 ff.method = "seewave", entropy.range = c(2, 10), ...)
@@ -31,7 +31,7 @@ frequency desired (the length of the time series).}
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz). Default is c(0, 22).}
+frequency bandpass filter (in kHz). Default is \code{NULL}.}
 
 \item{threshold}{amplitude threshold (\%) for fundamental frequency detection. Default is 15.}
 

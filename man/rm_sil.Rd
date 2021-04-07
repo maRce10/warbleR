@@ -9,7 +9,7 @@ rm_sil(
   min.sil.dur = 2,
   img = TRUE,
   it = "jpeg",
-  flim = c(0, 12),
+  flim = NULL,
   files = NULL,
   flist = NULL,
   parallel = 1,

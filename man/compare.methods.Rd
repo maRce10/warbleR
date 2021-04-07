@@ -6,8 +6,8 @@
 \usage{
 compare.methods(
   X = NULL,
-  flim = c(0, 22),
-  bp = c(0, 22),
+  flim = NULL,
+  bp = NULL,
   mar = 0.1,
   wl = 512,
   ovlp = 90,

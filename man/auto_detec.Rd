@@ -45,7 +45,7 @@ If \code{NULL} (default) then the current working directory is used.}
 with a sum smooth function. Default is 0. Note that smoothing is applied before thinning (see 'thinning' argument).}
 
 \item{bp}{Numeric vector of length 2 giving the lower and upper limits of a
-frequency bandpass filter (in kHz). Default is c(0, 22).}
+frequency bandpass filter (in kHz). Default is \code{NULL}.}
 
 \item{flist}{character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.}

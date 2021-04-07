@@ -310,7 +310,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar 
     
     f <- rec$sample.rate #for spectro display
     fl<- flim #in case flim its higher than can be due to sampling rate
-    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1 
+    if (fl[2] > f / 2000) fl[2] <- f / 2000 
     len <- rec$samples/f  #for spectro display 
     start <- numeric() #save results
     end <- numeric() #save results

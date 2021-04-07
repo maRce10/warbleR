@@ -2,7 +2,7 @@
 #' 
 #' \code{full_spectrograms} produces image files with spectrograms of whole sound files split into multiple 
 #'   rows.
-#' @usage full_spectrograms(X = NULL, flim = c(0,22), sxrow = 5, rows = 10, 
+#' @usage full_spectrograms(X = NULL, flim = NULL, sxrow = 5, rows = 10, 
 #' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512, gr = FALSE, 
 #' pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, 
 #' overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec",
@@ -10,10 +10,10 @@
 #' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number 
-#' (and selection comment, if available). Default is \code{NULL}.Alternatively, it can also take the output of \code{\link{cross_correlation}} or \code{\link{auto_detec}} (when 'output' is a 'list', see \code{\link{cross_correlation}} or \code{\link{auto_detec}}). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.
+#' (and selection comment, if available). Default is \code{NULL}. Alternatively, it can also take the output of \code{\link{cross_correlation}} or \code{\link{auto_detec}} (when 'output' is a 'list', see \code{\link{cross_correlation}} or \code{\link{auto_detec}}). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
-#'   \code{\link[seewave]{spectro}}. Default is c(0,22).
+#'   \code{\link[seewave]{spectro}}. Default is \code{NULL}.
 #' @param sxrow A numeric vector of length 1. Specifies seconds of spectrogram
 #'   per row. Default is 5.
 #' @param rows A numeric vector of length 1. Specifies number of rows per 
@@ -94,7 +94,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-13-2018 (MAS)
 
-full_spectrograms <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, collevels = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
+full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, collevels = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
                   wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, suffix = NULL, ...) {
   
   # set pb options 
@@ -244,7 +244,7 @@ full_spectrograms <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, c
     } 
  
 #if flim is not vector or length!=2 stop
-  if (is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
+  if (!is.null(flim)) {
     if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
       if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}   
   
@@ -303,9 +303,11 @@ full_spectrograms <- function(X = NULL, flim = c(0, 22), sxrow = 5, rows = 10, c
     
     f <- rec@samp.rate #set sampling rate
     
+    if (is.null(fl)) 
+      fl <- c(0, f / 2000)
     #in case flim is higher than can be due to sampling rate
     frli<- fl 
-    if (frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
+    if (frli[2] > f / 2000) frli[2] <- f / 2000 
     
     #set duration    
     dur <- seewave::duration(rec)

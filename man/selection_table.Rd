@@ -120,7 +120,7 @@ is_extended_selection_table(st)
 
 ### make extended selection by song  
 # create a song variable
-lbh_selec_table$song <- as.numeric(lbh_selec_table$sound.files)
+lbh_selec_table$song <- as.numeric(as.factor(lbh_selec_table$sound.files))
 
 st <- selection_table(X = lbh_selec_table, extended = TRUE, 
 confirm.extended = FALSE, by.song = "song", path = tempdir())

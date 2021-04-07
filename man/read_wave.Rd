@@ -16,7 +16,7 @@ selection number (selec), and start and end time of signals (start and end). Alt
 
 \item{from}{Where to start reading, in seconds. Default is \code{X$start[index]}.}
 
-\item{to}{Where to stop reading, in seconds. Default is \code{X$end[index]}.  \code{Inf} can be used for reading the full sound file (when 'X' is a sound file name),}
+\item{to}{Where to stop reading, in seconds. Default is \code{X$end[index]}.  \code{Inf} can be used for reading the entire sound file (when 'X' is a sound file name),}
 
 \item{channel}{Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). If 
 \code{NULL} (default) or higher than the number of channels in a wave then the first channel is used. Only applies to '.wav' files in local directories.}

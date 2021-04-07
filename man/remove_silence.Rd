@@ -4,7 +4,7 @@
 \alias{remove_silence}
 \title{Remove silence in wave files}
 \usage{
-remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = c(0, 12), 
+remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL, 
 files = NULL, flist = NULL, parallel = 1, pb = TRUE)
 }
 \arguments{
@@ -20,7 +20,7 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{flim}{A numeric vector of length 2 indicating the highest and lowest 
 frequency limits (kHz) of the spectrogram as in 
-\code{\link[seewave]{spectro}}. Default is c(0,12). Ignored if `img = FALSE`.}
+\code{\link[seewave]{spectro}}. Default is \code{NULL}. Ignored if `img = FALSE`.}
 
 \item{files}{character vector or factor indicating the subset of files that will be analyzed. If not provided
 then all wave files in the working directory (or path) will be processed.}

@@ -1,7 +1,7 @@
 #' Create catalog of vocal signals
 #' 
 #' \code{catalog} produces spectrograms of selections (signals) split into multiple rows and columns.
-#' @usage catalog(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, 
+#' @usage catalog(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
 #' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
 #' lab.mar = 1, wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, 
 #' it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, 
@@ -15,7 +15,7 @@
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
 #'   frequency limits (kHz) of the spectrogram, as in 
-#'   \code{\link[seewave]{spectro}}. Default is c(0,22).
+#'   \code{\link[seewave]{spectro}}. Default is \code{NULL}.
 #' @param nrow A numeric vector of length 1. Specifies number of rows. Default is 4.
 #' @param ncol A numeric vector of length 1.  Specifies number of columns. Default is 3.
 #' @param same.time.scale Logical. Controls if all spectrograms are in the same time scale 
@@ -202,7 +202,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on feb-09-2017 (MAS)
 
-catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TRUE, collevels = seq(-40, 0, 1), 
+catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, collevels = seq(-40, 0, 1), 
                     ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, lab.mar = 1,
                     wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, it = "jpeg", 
                     path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, orientation = "v", 
@@ -357,9 +357,9 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
   
   
   #if flim is not vector or length!=2 stop
-  if (is.null(flim)) stop("'flim' must be a numeric vector of length 2") else {
-    if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else{
-      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}}
+  if (is.null(flim)) {
+    if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else
+      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}
   
   #if wl is not vector or length!=1 stop
   if (is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
@@ -567,7 +567,11 @@ catalog <- function(X, flim = c(0, 22), nrow = 4, ncol = 3, same.time.scale = TR
     
     #in case flim its higher than can be due to sampling rate
     fl <- flim
-    if (fl[2] > ceiling(f/2000) - 1) fl[2] <- ceiling(f/2000) - 1
+    
+    if (is.null(fl)) 
+      fl <- c(0, f / 2000)
+    
+    if (fl[2] > f / 2000) fl[2] <- f / 2000
     return(data.frame(fl1 = fl[1], fl2 = fl[2], mardur = t[2] - t[1]))
     })
   
