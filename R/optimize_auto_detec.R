@@ -67,9 +67,47 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}).
-#last modification on dec-21-2020 (MAS)
+#last modification on dec-21-2021 (MAS)
 optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512, ssmooth = 0, hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, by.sound.file = FALSE, bp = NULL, path = NULL){
-        
+       
+  # reset pbapply options
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
+  
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(optimize_auto_detec)
+  
+  # get warbleR options
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
+  
+  # rename path for sound files
+  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
+  #if X is not a data frame
+  if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table'")
+  
+  if (is_extended_selection_table(X)) stop("This function cannot take extended selection tables ('X' argument)")
+  
+  #check path to working directory
+  if (is.null(path)) path <- getwd() else 
+    if (!dir.exists(path)) stop("'path' provided does not exist") else
+      path <- normalizePath(path)
+  
+   
       if (!is.null(Y)) {
         
         # check Y being a autodetec.output object

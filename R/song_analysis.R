@@ -6,8 +6,7 @@
 #' na.rm = FALSE, weight = NULL)
 #' @param X 'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The output of \code{\link{auto_detec}} can 
-#' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above.
+#' end time of selections.
 #' @param song_colm Character string with the column name containing song labels. 
 #' It can be used to label any hierarchical level at which parameters need to be calculated (e.g. syllables, phrases).
 #' Note that 

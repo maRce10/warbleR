@@ -122,7 +122,7 @@ read_wave <- function (X, index, from = X$start[index], to = X$end[index], chann
       object <- read_fun(X, path, header, from, to)  
       
       if (is(object, "try-error")) 
-        stop("file cannot be read (try read_sound_file() for other sound file formats")  
+        stop("file cannot be read (try read_sound_file() for other sound file formats)")  
       
   } else {
     

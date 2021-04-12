@@ -107,8 +107,12 @@ License: GPL (>= 2)
   
   \code{\link{mfcc_stats}}: Calculate descriptive statistics on Mel-frequency cepstral coefficients
   
-  \code{\link{cross_correlation}}: Pairwise cross-correlation of multiple signals
+  \code{\link{song_analysis}}: Measure acoustic parameters at higher levels of organization
   
+  \code{\link{cross_correlation}}: Pairwise cross-correlation of multiple signals
+
+  \code{\link{gaps}}: Measures gap duration
+        
   \code{\link{freq_ts}}: Extract frequency contours the signal as a time series
   
   \code{\link{find_peaks}}: Find peaks in cross-correlation scores from \code{\link{cross_correlation}}

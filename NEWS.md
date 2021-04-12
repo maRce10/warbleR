@@ -1,5 +1,8 @@
 # *warbleR 1.1.27*
 
+## New functions:
+
+* `gaps()` for calculating time intervals (i.e. gaps) between selections
 
 # *warbleR 1.1.26*
 
@@ -19,15 +22,15 @@
 
 ## New functions:
 
-* 'optimize_autodetec()' for tunning detection parameters in 'autodetec()'
-* 'envelope()' a C-compiled version of 'seewave::env()'
-* new function 'find_peaks()' to detect signals on sound files using 'xcorr()' output
-* 'read_sound_file()' to read wav, wav and mp3 files as well as wave objects in extended selection tables
+* `optimize_autodetec()` for tunning detection parameters in `autodetec()`
+* `envelope()` a C-compiled version of `seewave::env()`
+* new function `find_peaks()` to detect signals on sound files using `xcorr()` output
+* `read_sound_file()` to read wav, wav and mp3 files as well as wave objects in extended selection tables
 
 ## Changes and additions:
 
 * Remove bioacoustics::resample() as it was deprecated (mp32wav() and fixwavs() affected)
-* Remove comment columns in 'lbh_selec_table'
+* Remove comment columns in `lbh_selec_table`
 * Selection table printing method uses huxtable package for text coloring
 * 'suffix' argument added to `lspec()`
 * `autodetec()` does not create image files with spectrograms any more
