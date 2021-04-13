@@ -107,9 +107,6 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -131,14 +128,14 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
         path <- normalizePath(path)
   
   #read files
-  files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
+  files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
-  if (length(files) == 0) stop("no .wav files in working directory")
+  if (length(files) == 0) stop("no sound files in working directory")
   
   #subet based on file list provided (flist)
   if (!is.null(flist)) files <- files[files %in% flist]
-  if (length(files) == 0)  stop("selected .wav files are not in working directory")
+  if (length(files) == 0)  stop("selected sound files are not in working directory")
   
   # set W to null by default (this is the detection data.frame)
   W <- NULL
@@ -198,9 +195,9 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
       # remove whole.file from sound file name
       W$sound.files <- gsub("-whole.file", "", W$sound.files)
       
-      # leave only wav file names
-      if (any(!grepl("\\.wav$", ignore.case = TRUE, W$sound.files)))
-        W$sound.files <- substr(x = W$sound.files, start = 0, stop =  sapply(gregexpr(pattern = "\\.wav", ignore.case = TRUE, W$sound.files), "[[", 1) + 3)
+      # leave only sound file names
+      if (any(!grepl("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE, W$sound.files)))
+        W$sound.files <- substr(x = W$sound.files, start = 0, stop =  sapply(gregexpr(pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE, W$sound.files), "[[", 1) + 3)
       
       
       # get selection table and overwrite X
@@ -285,21 +282,21 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
   
   # overwrite
   if (!overwrite) 
-    files <- files[!gsub(".wav$","", list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE),ignore.case = TRUE) %in% 
+    files <- files[!gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$","", list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE),ignore.case = TRUE) %in% 
       unlist(sapply(strsplit(as.character(list.files(path = path, pattern = paste(it, "$", 
                                                                      sep = ""), ignore.case = TRUE)), "-p",fixed = TRUE), "[",1))]
   
   files <- files[!is.na(files)]
   
   #stop if all files have been analyzed 
-  if (length(files) == 0) stop("all .wav files have been processed")
+  if (length(files) == 0) stop("all sound files have been processed")
   
   #create function for making spectrograms
   # z = sound files, fl = flim, sl = sxrow, li = rows, li = duplicated rows if Y provided, X = selection table, W = contours, autod = if Y comes from autodetec
 
   lspecFUN <-function(z, fl, sl, li, X, W) {
     
-    rec <- warbleR::read_wave(X = z, path = path) #read wave file 
+    rec <- warbleR::read_sound_file(X = z, path = path) #read wave file 
     
     f <- rec@samp.rate #set sampling rate
     

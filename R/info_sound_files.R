@@ -1,7 +1,7 @@
 #' Get wave file parameter information
 #'
-#' \code{info_wavs} is a wrapper for \code{\link{selection_table}} that returns wave file information 
-#' @usage info_wavs(path = NULL, parallel = 1, pb = TRUE)
+#' \code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns wave file information 
+#' @usage info_sound_files(path = NULL, parallel = 1, pb = TRUE)
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -9,7 +9,7 @@
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 
 #' @return A data frame with descriptive information about the wave files in the working directory (or 'path'). See "details".  
 #' @export
-#' @name info_wavs
+#' @name info_sound_files
 #' @details This function is a wrapper for \code{\link{selection_table}} that returns a data frame with the following descriptive parameters for each wave file in the working directory (or 'path'):
 #' \itemize{
 #'    \item \code{duration}: duration of selection in seconds
@@ -29,7 +29,7 @@
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'  
 #' #get info
-#' info_wavs(path = tempdir())
+#' info_sound_files(path = tempdir())
 #' }
 #' 
 #' @references {
@@ -38,7 +38,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on aug-15-2018 (MAS)
 
-info_wavs <- function(path = NULL, parallel = 1, pb = TRUE)
+info_sound_files <- function(path = NULL, parallel = 1, pb = TRUE)
 {
   
   # set pb options 
@@ -46,13 +46,10 @@ info_wavs <- function(path = NULL, parallel = 1, pb = TRUE)
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(info_wavs)
+  argms <- methods::formalArgs(info_sound_files)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
-  
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
   
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
@@ -89,11 +86,20 @@ info_wavs <- function(path = NULL, parallel = 1, pb = TRUE)
 }
 
 ##############################################################################################################
-#' alternative name for \code{\link{info_wavs}}
+#' alternative name for \code{\link{info_sound_files}}
 #'
 #' @keywords internal
-#' @details see \code{\link{info_wavs}} for documentation. \code{\link{wav_info}} will be deprecated in future versions.
+#' @details see \code{\link{info_sound_files}} for documentation. \code{\link{wav_info}} will be deprecated in future versions.
 #' @export
 
-wav_info <- info_wavs
+wav_info <- info_sound_files
 
+
+##############################################################################################################
+#' alternative name for \code{\link{info_sound_files}}
+#'
+#' @keywords internal
+#' @details see \code{\link{info_sound_files}} for documentation. \code{\link{info_wavs}} will be deprecated in future versions.
+#' @export
+
+info_wavs <- info_sound_files

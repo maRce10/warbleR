@@ -64,9 +64,6 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -117,15 +114,15 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   if (!is_extended_selection_table(X))
   {
     #return warning if not all sound files were found
-  recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+  recs.wd <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
-           ".wav file(s) not found"))
+           "sound file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd) 
   if (length(d) == 0){
-    stop("The .wav files are not in the working directory")
+    stop("The sound files are not in the working directory")
   }  else {
     X <- X[d, ]
   }
@@ -136,7 +133,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   
   #remove .wav from sound file names
   X2 <- X
-  X2$sound.files <- gsub("\\.wav$", "", X2$sound.files, ignore.case = TRUE)
+  X2$sound.files <- gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", "", X2$sound.files, ignore.case = TRUE)
   
   # If parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -146,7 +143,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   cutFUN <- function(X, i, mar, labels, dest.path){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- warbleR::read_wave(X = X, index = i, header = TRUE, path = path)
+    r <- warbleR::read_sound_file(X = X, index = i, header = TRUE, path = path)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -158,7 +155,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     if (t[2] > r$samples/f) t[2] <- r$samples/f
     
     # Cut wave
-    wvcut <- warbleR::read_wave(X = X, path = path, index = i, from = t[1], to = t[2])
+    wvcut <- warbleR::read_sound_file(X = X, path = path, index = i, from = t[1], to = t[2])
 
     # save cut
     if (overwrite) unlink(file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")))

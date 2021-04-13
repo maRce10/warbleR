@@ -118,9 +118,6 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -168,15 +165,15 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   { 
-  fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+  fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
-                  ".wav file(s) not found"))
+                  "sound file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% fs) 
   if (length(d) == 0){
-    stop("The .wav files are not in the working directory")
+    stop("The sound files are not in the working directory")
   }  else X <- X[d, , drop = FALSE]
   }
   
@@ -187,7 +184,7 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
     snrspeFUN <- function(i, X, wl, flim, ovlp, inner.mar, outer.mar, picsize, res, cexlab, xl, mar, snrmar, before, eq.dur){
     
     # Read sound files to get sample rate and length
-    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
+    r <- warbleR::read_sound_file(X = X, path = path, index = i, header = TRUE)
     f <- r$sample.rate
     
     fl<- flim #in case flim its higher than can be due to sampling rate
@@ -216,7 +213,7 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
     
     if (en > r$samples/f) en <- r$samples/f
     
-    r <- warbleR::read_wave(X = X, path = path, index = i, from = st, to = en)
+    r <- warbleR::read_sound_file(X = X, path = path, index = i, from = st, to = en)
     
     
 # Spectrogram width can be proportional to signal duration

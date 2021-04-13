@@ -3,7 +3,7 @@
 #' \code{wpd_features} Measure wavelet packet decomposition features.
 #' @usage wpd_features(X, normalize = TRUE, threshold1 = 6, 
 #' threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)
-#' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The output of \code{\link{auto_detec}} can
 #' also be used as the input data frame.
@@ -53,9 +53,6 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -99,15 +96,15 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {
-    fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+    fs <- list.files(path = path, ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
-                ".wav file(s) not found"))
+                "sound file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% fs) 
     if (length(d) == 0){
-      stop("The .wav files are not in the working directory")
+      stop("The sound files are not in the working directory")
     }  else {
       X <- X[d, ]
     }
@@ -124,7 +121,7 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
   wdps <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i){
     
     # read rec segment
-    r <- warbleR::read_wave(X = X, path = path, index = i)
+    r <- warbleR::read_sound_file(X = X, path = path, index = i)
 
     # run internal warbleR function to measure parameters
     ftrs <- wpd_feature_wrblr_int(wave = r, normalize = normalize, thr1 = threshold1, thr2 = threshold2)

@@ -36,7 +36,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 
 Other data manipulation: 
 \code{\link{move_imgs}()},
-\code{\link{split_wavs}()}
+\code{\link{split_sound_files}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

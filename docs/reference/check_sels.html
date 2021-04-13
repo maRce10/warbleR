@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">warbleR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.26</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.27</span>
       </span>
     </div>
 
@@ -219,7 +219,7 @@ in a selection limits the minimum window length (wl argument in other functions)
 to avoid problems in any warbleR analysis downstream. It specifically checks if:</p><ul>
 <li><p>'X' is an object of class 'data.frame' or 'selection_table' (see <code><a href='selection_table.html'>selection_table</a></code>) and contains 
    the required columns to be used on any warbleR function ('sound.files', 'selec', 'start', 'end', if not returns an error)</p></li>
-<li><p>'sound.files' in 'X' correspond to .wav files in the working directory or in the provided 'path'
+<li><p>'sound.files' in 'X' correspond to sound files in the working directory or in the provided 'path'
     (if no file is found returns an error, if some files are not found returns error info in the ouput data frame)</p></li>
 <li><p>time ('start', 'end') and frequency ('bottom.freq', 'top.freq', if provided) limit parameters are numeric and 
    don't contain NAs (if not returns an error)</p></li>

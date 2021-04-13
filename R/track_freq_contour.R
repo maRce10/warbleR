@@ -190,9 +190,6 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -266,15 +263,15 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))  
   {
-    recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+    recs.wd <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
-                ".wav file(s) not found"))
+                "sound file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% recs.wd) 
     if (length(d) == 0){
-      stop("The .wav files are not in the working directory")
+      stop("The sound files are not in the working directory")
     }  else X <- X[d, , drop = FALSE]
   }
   
@@ -315,7 +312,7 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
   trackfreFUN <- function(X, i, mar, flim, xl, picsize, wl, wl.freq, cexlab, inner.mar, outer.mar, res, bp, cex, threshold.time, threshold.freq, pch, custom.contour){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
+    r <- warbleR::read_sound_file(X = X, path = path, index = i, header = TRUE)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -334,7 +331,7 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
     
     
     # read rec segment
-    r <- warbleR::read_wave(X = X, path = path, index = i, from = t[1], to = t[2])
+    r <- warbleR::read_sound_file(X = X, path = path, index = i, from = t[1], to = t[2])
     
     #in case bp its higher than can be due to sampling rate
     if (!is.null(bp)){

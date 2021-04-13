@@ -7,7 +7,7 @@
 gaps(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
 }
 \arguments{
-\item{X}{'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the .wav 
+\item{X}{'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the sound 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections.}
 

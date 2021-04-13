@@ -34,7 +34,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 }
 \value{
 Sound files for which silence segments have been removed are saved in the new 
-folder "silence-removed_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
+folder "silence-removed_files" in .wav format. If `img = TRUE` then spectrogram images highlighting the silence segments 
 that were removed are also saved.
 }
 \description{

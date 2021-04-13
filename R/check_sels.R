@@ -35,7 +35,7 @@
 #' \itemize{
 #'    \item 'X' is an object of class 'data.frame' or 'selection_table' (see \code{\link{selection_table}}) and contains 
 #'    the required columns to be used on any warbleR function ('sound.files', 'selec', 'start', 'end', if not returns an error) 
-#'    \item  'sound.files' in 'X' correspond to .wav files in the working directory or in the provided 'path'
+#'    \item  'sound.files' in 'X' correspond to sound files in the working directory or in the provided 'path'
 #'     (if no file is found returns an error, if some files are not found returns error info in the ouput data frame)
 #'    \item time ('start', 'end') and frequency ('bottom.freq', 'top.freq', if provided) limit parameters are numeric and 
 #'    don't contain NAs (if not returns an error)
@@ -83,9 +83,6 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
-  
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
   
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
@@ -139,7 +136,7 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
   #check if files are in working directory
   files <- file.exists(file.path(path, unique(X$sound.files)))
   if (all(!files)) 
-    stop("no .wav files found")
+    stop("no sound files found")
   
   # update to new frequency range column names
   if (any(grepl("low.freq|high.freq", names(X)))) {
@@ -164,14 +161,14 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
     Y <- as.data.frame(X[X$sound.files == x, , drop = FALSE])
     
     if (file.exists(file.path(pth, x))){
-      rec <- try(suppressWarnings(warbleR::read_wave(X= x, path = pth, header = TRUE)), silent = TRUE)
+      rec <- try(suppressWarnings(read_sound_file(X = x, path = pth, header = TRUE)), silent = TRUE)
       
       # if it was read
       if (!is(rec, "try-error"))
       {
         if (check.header) # look for mismatchs between file header & file content  
         {
-          recfull <- try(suppressWarnings(warbleR::read_wave(X = x, path = pth, header = FALSE)), silent = TRUE)
+          recfull <- try(suppressWarnings(read_sound_file(X = x, path = pth, header = FALSE)), silent = TRUE)
           if (any(methods::slotNames(recfull) == "stereo")) 
           {
             if (rec$channels == 2) channel.check <- ifelse(recfull@stereo, FALSE, TRUE) else

@@ -3,6 +3,8 @@
 ## New functions:
 
 * `gaps()` for calculating time intervals (i.e. gaps) between selections
+* `read_sound_files()` is now use to read sound files
+* warbleR now supports '.wav', '.flac', '.wac' and '.mp3' formats
 
 # *warbleR 1.1.26*
 

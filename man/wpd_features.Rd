@@ -8,7 +8,7 @@ wpd_features(X, normalize = TRUE, threshold1 = 6,
 threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)
 }
 \arguments{
-\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
+\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The output of \code{\link{auto_detec}} can
 also be used as the input data frame.}

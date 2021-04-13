@@ -2,14 +2,14 @@
 % Please edit documentation in R/duration_wavs.R
 \name{wav_dur}
 \alias{wav_dur}
-\title{alternative name for \code{\link{duration_wavs}}}
+\title{alternative name for \code{\link{duration_sound_files}}}
 \usage{
 wav_dur(files = NULL, path = NULL)
 }
 \description{
-alternative name for \code{\link{duration_wavs}}
+alternative name for \code{\link{duration_sound_files}}
 }
 \details{
-see \code{\link{duration_wavs}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
+see \code{\link{duration_sound_files}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
 }
 \keyword{internal}

@@ -129,9 +129,6 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -217,15 +214,15 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
   {
-    recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+    recs.wd <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) 
     (paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
-           ".wav file(s) not found"))
+           "sound file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd) 
   if (length(d) == 0){
-    stop("The .wav files are not in the working directory")
+    stop("The sound files are not in the working directory")
   }  else {
     X <- X[d, , drop = FALSE]
   }
@@ -251,7 +248,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
   specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path, fill){
     
     # Read sound files, initialize frequency and time limits for spectrogram
-    r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE, from = 0, to = X$end[i] + mar)
+    r <- warbleR::read_sound_file(X = X, path = path, index = i, header = TRUE, from = 0, to = X$end[i] + mar)
     f <- r$sample.rate
     t <- c(X$start[i] - mar, X$end[i] + mar)
     
@@ -295,7 +292,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
     par(oma = outer.mar)
     
     # Generate spectrogram using spectro_wrblr_int (modified from seewave::spectro)
-  spectro_wrblr_int(wave = warbleR::read_wave(X = X, path = path, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning",
+  spectro_wrblr_int(wave = warbleR::read_sound_file(X = X, path = path, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning",
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
                      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)

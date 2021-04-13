@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Consolidate (sound) files into a single directory — consolidate • warbleR</title>
+<title>Check sound files — check_sound_files • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Consolidate (sound) files into a single directory — consolidate" />
-<meta property="og:description" content="consolidate copies (sound) files scattered in several directories into a single one." />
+<meta property="og:title" content="Check sound files — check_sound_files" />
+<meta property="og:description" content="check_sound_files checks whether sound files can be read by subsequent functions." />
 
 
 
@@ -136,108 +136,76 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Consolidate (sound) files into a single directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/consolidate.R'><code>R/consolidate.R</code></a></small>
-    <div class="hidden name"><code>consolidate.Rd</code></div>
+    <h1>Check sound files</h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/check_sound_files.R'><code>R/check_sound_files.R</code></a></small>
+    <div class="hidden name"><code>check_sound_files.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>consolidate</code> copies (sound) files scattered in several directories into a single one.</p>
+    <p><code>check_sound_files</code> checks whether sound files can be read by subsequent functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>consolidate</span><span class='op'>(</span>files <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, dest.path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, file.ext <span class='op'>=</span> <span class='st'>".wav$"</span>, 
-parallel <span class='op'>=</span> <span class='fl'>1</span>, save.csv <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_sound_files</span><span class='op'>(</span>X <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>files</th>
-      <td><p>character vector or factor indicating the subset of files that will be analyzed. The files names
-should include the full file path. Optional.</p></td>
+      <th>X</th>
+      <td><p>Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound 
+files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+end time of selections. The output of <code><a href='auto_detec.html'>auto_detec</a></code> can 
+also be used as the input data frame. If provided the function also returns the
+smallest number of samples from the listed selections, which limits the minimum window 
+length (wl argument in other functions) that can be used in batch analyses. 
+This could be useful for avoiding errors in downstream functions (e.g. <code><a href='spectro_analysis.html'>spectro_analysis</a></code>).</p></td>
     </tr>
     <tr>
       <th>path</th>
       <td><p>Character string containing the directory path where the sound files are located. 
-'wav.path' set by <code><a href='warbleR_options.html'>warbleR_options</a></code> is ignored. 
 If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>dest.path</th>
-      <td><p>Character string containing the directory path where the sound files will be saved.
-If <code>NULL</code> (default) then the current working directory is used.</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>file.ext</th>
-      <td><p>Character string defining the file extension (i.e. format) for the files to be consolidated. Default is <code>'.wav$'</code> ignoring case. Several formats can be used: <code>"\.wav$|\.wac$|\.mp3$|\.flac$"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    <tr>
-      <th>save.csv</th>
-      <td><p>Logical. Controls whether a data frame containing sound file information is saved in the new directory. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments to be passed to the internal <code><a href='https://rdrr.io/r/base/files.html'>file.copy</a></code> function for customizing file copying.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>All (sound) files are consolidated (copied) to a single directory ("consolidated_files"). The function returns a data frame with each of the files that were copied in a row and the following information:</p><ul>
-<li><p><code>original_dir</code> the path to the original file</p></li>
-<li><p><code>old_name</code> the name of the original file</p></li>
-<li><p><code>new_name</code> the name of the new file. This will be the same as 'old_name' if the name was not duplicated (i.e. no files in other directories with the same name).</p></li>
-<li><p><code>file_size_bytes</code> size of the file in bytes.</p></li>
-<li><p><code>duplicate</code> indicates whether a file is likely to be duplicated (i.e. if files with the same name were found in other directories). If so it will be labeled as 'possible.dupl', otherwise it will contain NAs.</p></li>
-</ul><p>If <code>csv = TRUE</code> (default)
-a 'file_names_info.csv' file with the same information as the output data frame is also saved in the consolidated directory.</p>
+    <p>If all sound files are ok, returns message "All files can be read".
+  Otherwise returns the names of the corrupted sound files.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function allows users to put files scattered in several directories into a 
-single one. By default it works on sound files in '.wav' format but can work with
-other type of files (for instance '.txt' selection files).</p>
+    <p>This function checks if sound files in the working directory can be read.
+Users must set the working directory where they wish to check sound files beforehand. 
+If X is provided it also returns the smallest number of samples from
+the selections listed in X (if all files can be read). Note that corrupt files can be
+fixed using <code><a href='fix_wavs.html'>fix_wavs</a></code>) ('sox' must be installed to be able to run this function).
+The function is intended for a "quick and dirty" check of the sound files in a selections data
+ frame. For a more thorough analysis see <code><a href='check_sels.html'>check_sels</a></code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='fix_wavs.html'>fix_wavs</a></code> for making sound files readable in R</p></div>
+    <div class='dont-index'><p><code><a href='check_sels.html'>check_sels</a></code> <code><a href='tailor_sels.html'>tailor_sels</a></code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span> 
+    <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='co'># save wav file examples</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='co'># create first folder with 2 sound files</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"folder1"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"folder1"</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"folder1"</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'># without selection data frame</span>
+<span class='fu'>check_sound_files</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='co'># create second folder with 2 sound files</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"folder2"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"folder2"</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"folder2"</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># consolidate in a single folder</span>
-<span class='co'># consolidate(path = tempdir(), dest.path = tempdir())</span>
-
-<span class='co'># check this folder</span>
-<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'># without selection data frame</span>
+<span class='fu'>check_sound_files</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] "/tmp/Rtmpnl3Wdz"</div><div class='input'>
-</div></pre>
+</div><div class='output co'>#&gt; All files can be readAll files can be readsmallest number of samples: 2838 (sound file:Phae.long2.wav; selection label: 2)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -20,7 +20,7 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
-\item{file.ext}{Character string defining the file extension for the files to be consolidated. Default is \code{'.wav$'} ignoring case.}
+\item{file.ext}{Character string defining the file extension (i.e. format) for the files to be consolidated. Default is \code{'.wav$'} ignoring case. Several formats can be used: \code{"\\.wav$|\\.wac$|\\.mp3$|\\.flac$"}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}

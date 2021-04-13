@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Measure wavelet packet decomposition features (EXPERIMENTAL) — wpd_features • warbleR</title>
+<title>Splits sound files — split_sound_files • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Measure wavelet packet decomposition features (EXPERIMENTAL) — wpd_features" />
-<meta property="og:description" content="wpd_features Measure wavelet packet decomposition features." />
+<meta property="og:title" content="Splits sound files — split_sound_files" />
+<meta property="og:description" content="split_sound_files splits sound files in shorter segments" />
 
 
 
@@ -136,79 +136,93 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Measure wavelet packet decomposition features (EXPERIMENTAL)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/wpd_features.R'><code>R/wpd_features.R</code></a></small>
-    <div class="hidden name"><code>wpd_features.Rd</code></div>
+    <h1>Splits sound files</h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/split_sound_files.R'><code>R/split_sound_files.R</code></a></small>
+    <div class="hidden name"><code>split_sound_files.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>wpd_features</code> Measure wavelet packet decomposition features.</p>
+    <p><code>split_sound_files</code> splits sound files in shorter segments</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wpd_features</span><span class='op'>(</span><span class='va'>X</span>, normalize <span class='op'>=</span> <span class='cn'>TRUE</span>, threshold1 <span class='op'>=</span> <span class='fl'>6</span>, 
-threshold2 <span class='op'>=</span> <span class='fl'>0.5</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>split_sound_files</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span>, sgmt.dur <span class='op'>=</span> <span class='fl'>10</span>, sgmts <span class='op'>=</span> <span class='cn'>NULL</span>, files <span class='op'>=</span> <span class='cn'>NULL</span>,
+ parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, only.sels  <span class='op'>=</span> <span class='cn'>FALSE</span>, X <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>X</th>
-      <td><p>object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
-files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The output of <code><a href='auto_detec.html'>auto_detec</a></code> can
-also be used as the input data frame.</p></td>
-    </tr>
-    <tr>
-      <th>normalize</th>
-      <td><p>Logical to determine if features are normalized by signal duration.</p></td>
-    </tr>
-    <tr>
-      <th>threshold1</th>
-      <td><p>Threshold (%) for wavelet coefficient detection. Equivalent to denominator of equation 6 in Selin et al (2007). Must be a value between 0 and 1.</p></td>
-    </tr>
-    <tr>
-      <th>threshold2</th>
-      <td><p>Threshold for width detection. Equivalent to threshold 2 (th2) in equation 7 in Selin et al (2007).</p></td>
-    </tr>
-    <tr>
       <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. 
+      <td><p>Directory path where sound files are found. 
 If <code>NULL</code> (default) then the current working directory is used.</p></td>
     </tr>
     <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></td>
+      <th>sgmt.dur</th>
+      <td><p>Numeric. Duration (in s) of segments in which sound files would be split. Sound files shorter than 'sgmt.dur' won't be split. Ignored if 'sgmts' is supplied.</p></td>
+    </tr>
+    <tr>
+      <th>sgmts</th>
+      <td><p>Numeric. Number of segments in which to split each sound file. If supplied 'sgmt.dur' is ignored.</p></td>
+    </tr>
+    <tr>
+      <th>files</th>
+      <td><p>Character vector indicating the subset of files that will be split.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
       <td><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
     </tr>
+    <tr>
+      <th>pb</th>
+      <td><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>only.sels</th>
+      <td><p>Logical argument to control if only the data frame is return (no wave files are saved). Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>X</th>
+      <td><p>'selection_table' object or a data frame with columns
+for sound file name (sound.files), selection number (selec), and start and end time of signal
+(start and end). If provided selections in 'X' will be saved as individual sound files (and 'sgmt.dur'/'sgmts'/'files' arguments will be ignored. Default is <code>NULL</code>.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Wave files for each segment in the working directory (named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the cuts (sound.files) and the start and end of cuts in the original files. Cuts are saved in .wav format.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Measures wavelet packet decomposition features. STILL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.</p>
+    <p>This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. <code><a href='auto_detec.html'>auto_detec</a></code> ).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.Selin A., J. Turunen, and J. T. Tanttu, 2007. Wavelets in recognition of bird sounds. EURASIP Journal on Advances in Signal Processing.</p>
+    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='mfcc_stats.html'>mfcc_stats</a></code>, <code><a href='mfcc_stats.html'>mfcc_stats</a></code></p></div>
+    <div class='dont-index'><p><code><a href='cut_sels.html'>cut_sels</a></code></p>
+<p>Other data manipulation: 
+<code><a href='move_imgs.html'>move_imgs</a>()</code>,
+<code><a href='open_wd.html'>open_wd</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'>#load data and save to temporary working directory</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='co'># not normalize</span>
-<span class='fu'>wpd_features</span><span class='op'>(</span><span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='op'>]</span>, threshold2 <span class='op'>=</span> <span class='fl'>0.3</span>, nor <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='co'>#split files in 1 s files</span>
+<span class='fu'>split_sound_files</span><span class='op'>(</span>sgmt.dur <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># Check this folder</span>
+<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; 2 sound file(s) not found</div><div class='output co'>#&gt; <span class='error'>Error in wpd_features(lbh_selec_table[1:5, ], threshold2 = 0.3, nor = FALSE): The sound files are not in the working directory</span></div><div class='input'>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |++                                                | 3 % ~00s            |++++                                              | 7 % ~00s            |++++++                                            | 10% ~00s            |+++++++                                           | 14% ~00s            |+++++++++                                         | 17% ~00s            |+++++++++++                                       | 21% ~00s            |+++++++++++++                                     | 24% ~00s            |++++++++++++++                                    | 28% ~00s            |++++++++++++++++                                  | 31% ~00s            |++++++++++++++++++                                | 34% ~00s            |+++++++++++++++++++                               | 38% ~00s            |+++++++++++++++++++++                             | 41% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |+++++++++++++++++++++++++                         | 48% ~00s            |++++++++++++++++++++++++++                        | 52% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++                    | 59% ~00s            |++++++++++++++++++++++++++++++++                  | 62% ~00s            |+++++++++++++++++++++++++++++++++                 | 66% ~00s            |+++++++++++++++++++++++++++++++++++               | 69% ~00s            |+++++++++++++++++++++++++++++++++++++             | 72% ~00s            |++++++++++++++++++++++++++++++++++++++            | 76% ~00s            |++++++++++++++++++++++++++++++++++++++++          | 79% ~00s            |++++++++++++++++++++++++++++++++++++++++++        | 83% ~00s            |++++++++++++++++++++++++++++++++++++++++++++      | 86% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++     | 90% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++++   | 93% ~00s            |+++++++++++++++++++++++++++++++++++++++++++++++++ | 97% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt; [1] "/tmp/Rtmpnl3Wdz"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

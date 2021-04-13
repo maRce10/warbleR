@@ -181,9 +181,6 @@ auto_detec <-
         getOption("warbleR") else
       SILLYNAME <- 0
     
-    # rename path for sound files
-    names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-    
     # remove options not as default in call and not in function arguments
     opt.argms <-
       opt.argms[!sapply(opt.argms, is.null) &
@@ -309,12 +306,12 @@ auto_detec <-
         #if files not found
       if (length(list.files(
         path = path,
-        pattern = "\\.wav$",
+        pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$",
         ignore.case = TRUE
       )) == 0)
         if (is.null(path))
-          stop("No .wav files in working directory") else
-            stop("No .wav files found")
+          stop("No sound files in working directory") else
+            stop("No sound files found")
       
       
       #if X is not a data frame
@@ -350,16 +347,16 @@ auto_detec <-
       #return warning if not all sound files were found
       fs <-
         list.files(path = path,
-                   pattern = "\\.wav$",
+                   pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$",
                    ignore.case = TRUE)
       if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files)))
         cat(paste(length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% fs)])),
-                  ".wav file(s) not found"))
+                  "sound file(s) not found"))
       
       #count number of sound files in working directory and if 0 stop
       d <- which(X$sound.files %in% fs)
       if (length(d) == 0)
-        stop("The .wav files are not in the working directory") else
+        stop("The sound files are not in the working directory") else
         X <- X[d, ]
       xprov <- TRUE #to replace X if not provided
       } else {
@@ -414,7 +411,7 @@ auto_detec <-
         if (X.class == "selection.table") {
         
         # read wave object
-        song <- warbleR::read_wave(X = X,
+        song <- warbleR::read_sound_file(X = X,
                                    path = path,
                                    index = i)
         

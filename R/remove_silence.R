@@ -19,7 +19,7 @@
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 
 #' @return Sound files for which silence segments have been removed are saved in the new 
-#' folder "silence-removed_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
+#' folder "silence-removed_files" in .wav format. If `img = TRUE` then spectrogram images highlighting the silence segments 
 #' that were removed are also saved. 
 #' @export
 #' @name remove_silence
@@ -71,9 +71,6 @@ remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg"
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -94,14 +91,14 @@ remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg"
       path <- normalizePath(path) 
   
   #read files
-  wavs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
+  wavs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
-  if (length(wavs) == 0) stop("no .wav wavs in working directory")
+  if (length(wavs) == 0) stop("no sound files in working directory")
   
   #subet based on file list provided (wavs)
   if (!is.null(files)) wavs <- wavs[wavs %in% files]
-  if (length(wavs) == 0)  stop("selected .wav files are not in working directory")
+  if (length(wavs) == 0)  stop("selected sound files are not in working directory")
 
   #if it argument is not "jpeg" or "tiff" 
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
@@ -113,14 +110,14 @@ remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg"
   wavs <- wavs[!is.na(wavs)]
   
   #stop if wavs are not in working directory
-  if (length(wavs) == 0) stop("all .wav files have been processed")
+  if (length(wavs) == 0) stop("all sound files have been processed")
   
   dir.create(file.path(path, "silence-removed_files"), showWarnings = FALSE)
   
   rm.sil.FUN <- function(fl, f = 5000, msd = min.sil.dur, flm = flim, mg = img) {
     
     # read wave
-    wv <- warbleR::read_wave(X = fl, path = path)  
+    wv <- warbleR::read_sound_file(X = fl, path = path)  
     
     #in case flim is higher than can be due to sampling rate
     if (!is.null(flim)) {

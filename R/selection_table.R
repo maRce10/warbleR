@@ -126,9 +126,6 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -157,7 +154,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   
   # create a selection table for a row for each full length recording
   if (whole.recs){ 
-    sound.files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+    sound.files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
     
     if (length(sound.files) == 0) stop("No sound files were found") 
     
@@ -165,6 +162,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
   
   if (pb) write(file = "", x ="checking selections (step 1 of 2):")
+  
   check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, ...)        
   
   if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check_sels() to locate problematic selections)")
@@ -179,9 +177,10 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   # add wave object to extended file
   if (extended)
   { 
-    exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024 )
     
     if (confirm.extended){
+      exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024 )
+      
       cat(crayon::magenta(paste0("Expected 'extended_selection_table' size is ~", ifelse(round(exp.size) == 0, round(exp.size, 2), round(exp.size)), "MB (~", round(exp.size/1024, 5), " GB) \n Do you want to proceed? (y/n): \n")))
       answer <- readline(prompt = "")
       } else answer <- "yeah dude!"
@@ -236,7 +235,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         
         if (pb) write(file = "", x ="saving wave objects into extended selection table (step 2 of 2):")
         
-        attributes(X)$wave.objects <- pbapply::pblapply(1:nrow(Y), cl = cl, function(x) warbleR::read_wave(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x],  path = path))
+        attributes(X)$wave.objects <- pbapply::pblapply(1:nrow(Y), cl = cl, function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))
         
         # reset for new dimensions  
         check.results$start <- X$start <- check.results$mar.before

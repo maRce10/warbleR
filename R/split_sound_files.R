@@ -1,7 +1,7 @@
 #' Splits sound files
 #' 
-#' \code{split_wavs} splits sound files in shorter segments
-#' @usage split_wavs(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
+#' \code{split_sound_files} splits sound files in shorter segments
+#' @usage split_sound_files(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
 #'  parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL)
 #' @param path Directory path where sound files are found. 
 #'  If \code{NULL} (default) then the current working directory is used.
@@ -18,8 +18,8 @@
 #' @family data manipulation
 #' @seealso \code{\link{cut_sels}} 
 #' @export
-#' @name split_wavs
-#' @return Wave files for each segment in the working directory (named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the cuts (sound.files) and the start and end of cuts in the original files.
+#' @name split_sound_files
+#' @return Wave files for each segment in the working directory (named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the cuts (sound.files) and the start and end of cuts in the original files. Cuts are saved in .wav format.
 #' @details This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}} ).
 #' @examples
 #' {
@@ -30,7 +30,7 @@
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
 #' #split files in 1 s files
-#' split_wavs(sgmt.dur = 1, path = tempdir())
+#' split_sound_files(sgmt.dur = 1, path = tempdir())
 #' 
 #' # Check this folder
 #' tempdir()
@@ -41,17 +41,14 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-21-2020 (MAS)
-split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL){
+split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL){
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(split_wavs)
+  argms <- methods::formalArgs(split_sound_files)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
-  
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
   
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
@@ -77,10 +74,10 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
   if (is.null(files))
-    files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director    
+    files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE) #list .wav files in working director    
   
   #stop if no wav files are found
-  if (length(files) == 0) stop("no .wav files in working directory") 
+  if (length(files) == 0) stop("no sound files in working directory") 
   
   if (!is.null(X)){
     
@@ -136,7 +133,7 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
     if (sq[length(sq)] != wvdr$duration[wvdr$sound.files == x])
       sq <- c(sq, wvdr$duration[wvdr$sound.files == x])
     
-    out <- data.frame(org.sound.files = x, sound.files = paste0(gsub("\\.wav$", "", x, ignore.case = TRUE), "-", 1:(length(sq) - 1), ".wav"), start = sq[-length(sq)], end = sq[-1], stringsAsFactors = FALSE)
+    out <- data.frame(org.sound.files = x, sound.files = paste0(gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", "", x, ignore.case = TRUE), "-", 1:(length(sq) - 1), ".wav"), start = sq[-length(sq)], end = sq[-1], stringsAsFactors = FALSE)
       } else # if segment duration is longer or equal
         out <- data.frame(org.sound.files = x, sound.files = x, start = 0, end = wvdr$duration[wvdr$sound.files == x], stringsAsFactors = FALSE)
     } else { 
@@ -144,7 +141,7 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
       sq <- seq(from = 0, to = wvdr$duration[wvdr$sound.files == x], length.out = sgmts + 1)
       
       # put in data frame
-      out <- data.frame(org.sound.files = x, sound.files = paste0(gsub("\\.wav$", "", x, ignore.case = TRUE), "-", 1:(length(sq) - 1), ".wav"), start = sq[-length(sq)], end = sq[-1], stringsAsFactors = FALSE)
+      out <- data.frame(org.sound.files = x, sound.files = paste0(gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", "", x, ignore.case = TRUE), "-", 1:(length(sq) - 1), ".wav"), start = sq[-length(sq)], end = sq[-1], stringsAsFactors = FALSE)
       }
     
     return(out)
@@ -157,7 +154,7 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
     split.df <- X
     split.df$org.sound.files <- X$sound.files
      
-    split.df$sound.files <- paste0(gsub("\\.wav$", "", X$sound.files, ignore.case = TRUE), "-", X$selec, ".wav")
+    split.df$sound.files <- paste0(gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", "", X$sound.files, ignore.case = TRUE), "-", X$selec, ".wav")
   }
   
   # if no sound files are produced
@@ -173,7 +170,7 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   a <- pbapply::pbsapply(which(split.df$org.sound.files != split.df$sound.files), cl =  cl, function(x) {
   
   # read clip    
-  clip <- warbleR::read_wave(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path)
+  clip <- warbleR::read_sound_file(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path)
   
   # save   
   tuneR::writeWave(extensible = FALSE, object = clip, filename = file.path(path, split.df$sound.files[x]))
@@ -184,3 +181,13 @@ split_wavs <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL, p
   
   return(split.df)
 } 
+
+
+##############################################################################################################
+#' alternative name for \code{\link{split_sound_files}}
+#'
+#' @keywords internal
+#' @details see \code{\link{split_sound_files}} for documentation. \code{\link{split_wavs}} will be deprecated in future versions.
+#' @export
+
+split_wavs <- split_sound_files

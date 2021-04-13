@@ -1,13 +1,13 @@
 #' Measure the duration of sound files
 #' 
-#' \code{duration_wavs} measures the duration of sound files in '.wav' format
-#' @usage duration_wavs(files = NULL, path = NULL)
+#' \code{duration_sound_files} measures the duration of sound files
+#' @usage duration_sound_files(files = NULL, path = NULL)
 #' @param files Character vector with the names of the sound files to be measured. The sound files should be in the working directory or in the directory provided in 'path'.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @return A data frame with the duration (in seconds) of the sound files.
 #' @export
-#' @name duration_wavs
+#' @name duration_sound_files
 #' @details This function returns the duration (in seconds) of sound files.
 #' @examples
 #' {
@@ -16,7 +16,7 @@
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #' 
-#' duration_wavs(path = tempdir())
+#' duration_sound_files(path = tempdir())
 #' }
 #' 
 #' @references {
@@ -25,17 +25,14 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) 
 #last modification on jul-5-2016 (MAS)
 
-duration_wavs <- function(files = NULL, path = NULL) { 
+duration_sound_files <- function(files = NULL, path = NULL) { 
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(duration_wavs)
+  argms <- methods::formalArgs(duration_sound_files)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
-  
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
   
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
@@ -61,13 +58,13 @@ duration_wavs <- function(files = NULL, path = NULL) {
   if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
    if (is.null(files))
-  files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE) #list .wav files in working director    
+  files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE) #list .wav files in working director    
   
    #stop if no wav files are found
-   if (length(files) == 0) stop("no .wav files in working directory") 
+   if (length(files) == 0) stop("no sound files in working directory") 
   
   a <- sapply(files, function(x) {
-    rec <- warbleR::read_wave(X = x, path = path, header = TRUE)
+    rec <- warbleR::read_sound_file(X = x, path = path, header = TRUE)
     return(rec$samples/rec$sample.rate)  
   })
    return(data.frame(sound.files = files, duration = a, row.names = NULL))
@@ -76,20 +73,30 @@ duration_wavs <- function(files = NULL, path = NULL) {
 
 
 ##############################################################################################################
-#' alternative name for \code{\link{duration_wavs}}
+#' alternative name for \code{\link{duration_sound_files}}
 #'
 #' @keywords internal
-#' @details see \code{\link{duration_wavs}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
+#' @details see \code{\link{duration_sound_files}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
 #' @export
 
-wavdur <- duration_wavs
+wavdur <- duration_sound_files
 
 
 ##############################################################################################################
-#' alternative name for \code{\link{duration_wavs}}
+#' alternative name for \code{\link{duration_sound_files}}
 #'
 #' @keywords internal
-#' @details see \code{\link{duration_wavs}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
+#' @details see \code{\link{duration_sound_files}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
 #' @export
 
-wav_dur <- duration_wavs
+wav_dur <- duration_sound_files
+
+
+##############################################################################################################
+#' alternative name for \code{\link{duration_sound_files}}
+#'
+#' @keywords internal
+#' @details see \code{\link{duration_sound_files}} for documentation. \code{\link{duration_wavs}} will be deprecated in future versions.
+#' @export
+
+duration_wavs <- duration_sound_files

@@ -102,9 +102,6 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -164,15 +161,15 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   
   if (!is_extended_selection_table(X)){
     #return warning if not all sound files were found
-    fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+    fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
       write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
-                                 ".wav file(s) not found"))
+                                 "sound file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% fs) 
     if (length(d) == 0){
-      stop("The .wav files are not in the working directory")
+      stop("The sound files are not in the working directory")
     }  else {
       X <- X[d, ]
     }
@@ -263,7 +260,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   # function to get spectrogram or mfcc matrices
   spc_FUN <- function(j, pth, W, wlg, ovl, w, nbnds) {
     
-    clp <- warbleR::read_wave(X = W, index = j, path = pth)
+    clp <- warbleR::read_sound_file(X = W, index = j, path = pth)
     
     if (type == "spectrogram")
       spc <- seewave::spectro(wave = clp, wl = wlg, ovlp = ovl, wn = w, plot = FALSE, fftw = TRUE, norm = TRUE)
@@ -456,7 +453,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   #list results
   if (output == "cor.mat") return(mat) else{
     
-    output_list <- list(max.xcorr.matrix = mat, scores = cor.table, selection.table = X, hop.size.ms = read_wave(X, 1, header = TRUE, path = path)$sample.rate / wl, errors = if (na.rm) errors else NA)
+    output_list <- list(max.xcorr.matrix = mat, scores = cor.table, selection.table = X, hop.size.ms = warbleR::read_sound_file(X, 1, header = TRUE, path = path)$sample.rate / wl, errors = if (na.rm) errors else NA)
     
     class(output_list) <- c("list", "xcorr.output")
     

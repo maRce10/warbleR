@@ -71,8 +71,11 @@ warbleR_options <- function(reset = FALSE, ...){
   argms <- list(...)
   
   if (length(argms) > 0) {
-    if (!is.null(argms$wav.path)) if (!dir.exists(argms$wav.path)) stop("provided 'wav.path' doesn't exist") else
-      argms$wav.path <- normalizePath(argms$wav.path)
+    # rename wav.path as path
+    names(argms)[names(argms) == "wav.path"] <- "path"
+    
+    if (!is.null(argms$path)) if (!dir.exists(argms$path)) stop("provided 'wav.path' doesn't exist") else
+      argms$path <- normalizePath(argms$path)
     
     if (!is.null(argms$img.path)) if (!dir.exists(argms$img.path)) stop("provided 'dest.path' doesn't exist") else
       argms$img.path <- normalizePath(argms$img.path)
@@ -80,11 +83,24 @@ warbleR_options <- function(reset = FALSE, ...){
     if (!is.null(argms$dest.path)) if (!dir.exists(argms$dest.path)) stop("provided 'dest.path' doesn't exist") else
       argms$dest.path <- normalizePath(argms$dest.path)
     
+    
     if (length(argms) > 0) {
       if (length(argms) == 1 && is.list(argms[[1]])) {
         npar <- argms[[1]]
       } else 
-        npar <- argms[order(names(argms))]
+        npar <- argms
+       
+      # add previous options not reset in new call
+      if (length(opar) > 0) {
+        
+        opar <- opar[!names(opar) %in% names(npar)]
+        
+        npar <- c(npar, opar)
+      }
+      
+      # order aguments by name
+      npar <- npar[order(names(npar))]
+      
       
       options("warbleR" = npar)
     }
@@ -92,4 +108,5 @@ warbleR_options <- function(reset = FALSE, ...){
   } else
     if (reset)  options("warbleR" = NULL) else
       print(opar)
+  
 }

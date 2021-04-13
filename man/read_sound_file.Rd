@@ -4,7 +4,7 @@
 \alias{read_sound_file}
 \title{A extended version of read_wave that reads several sound file formats and files from selection tables}
 \usage{
-read_sound_file(X, index, from = X$start[index], to = X$end[index], channel = NULL, 
+read_sound_file(X, index, from = X$start[index], to = X$end[index], channel = 1, 
 header = FALSE, path = NULL)
 }
 \arguments{
@@ -18,8 +18,7 @@ selection number (selec), and start and end time of signals (start and end). Alt
 
 \item{to}{Where to stop reading, in seconds. Default is \code{X$end[index]}.}
 
-\item{channel}{Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). If 
-\code{NULL} or higher than the number of channels in a wave then the first channel is used.}
+\item{channel}{Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). Default is 1.}
 
 \item{header}{If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.}
 

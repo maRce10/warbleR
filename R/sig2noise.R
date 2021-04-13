@@ -86,9 +86,6 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -130,15 +127,15 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   
   if (!is_extended_selection_table(X))
   {
-  fs <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+  fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
-                  ".wav file(s) not found"))
+                  "sound file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% fs) 
   if (length(d) == 0){
-    stop("The .wav files are not in the working directory")
+    stop("The sound files are not in the working directory")
   }  else X <- X[d, , drop = FALSE]
   } else d <- 1:nrow(X)
   
@@ -151,7 +148,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   snr_FUN <- function(y, mar, bp, wl, type, before, in.dB, lim.dB){
     
     # Read sound files to get sample rate and length
-    r <- warbleR::read_wave(X = X, path = path, index = y, header = TRUE)
+    r <- warbleR::read_sound_file(X = X, path = path, index = y, header = TRUE)
    
     # read sample rate
     f <- r$sample.rate
@@ -173,7 +170,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
     if (enn > r$samples/f) enn <- r$samples/f
     
-    r <- warbleR::read_wave(X = X, path = path, index = y, from = stn, to = enn)
+    r <- warbleR::read_sound_file(X = X, path = path, index = y, from = stn, to = enn)
     
     # add band-pass frequency filter
     if (!is.null(bp)) {

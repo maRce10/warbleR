@@ -140,9 +140,6 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar 
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -239,10 +236,10 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar 
   
   # stop if not all sound files were found
   if (!is_extended_selection_table(X)){
-    fs <- list.files(path = path,pattern = "\\.wav$", ignore.case = TRUE)
+    fs <- list.files(path = path,pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
     stop(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
-               ".wav file(s) not found"))
+               "sound file(s) not found"))
   } else path <- NULL # if is extended then no path needed
   
   if (frange & !all(any(names(X) == "bottom.freq"), any(names(X) == "top.freq")))
@@ -305,7 +302,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar 
     j <- dn[h]
     
     if (exists("prev.plot")) rm(prev.plot)
-    rec <- warbleR::read_wave(X, index = j, path = path, header = TRUE)
+    rec <- warbleR::read_sound_file(X, index = j, path = path, header = TRUE)
     main <- do.call(paste, as.list(X[j, names(X) %in% title])) 
     
     f <- rec$sample.rate #for spectro display
@@ -324,7 +321,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar 
     par(mfrow = c(1,1), mar = c(3, 3, 1.8, 0.1))
     
     #create spectrogram
-    spectro_wrblr_int(warbleR::read_wave(X = X, index = j, path = path, from =  tlim[1], to = tlim[2]), 
+    spectro_wrblr_int(warbleR::read_sound_file(X = X, index = j, path = path, from =  tlim[1], to = tlim[2]), 
                       f = f, wl = wl, ovlp = ovlp, wn = wn, heights = c(3, 2), 
                       osc = osci, palette =  pal, main = NULL, axisX= TRUE, grid = FALSE, collab = "black", alab = "", fftw= TRUE, colwave = "#07889B", collevels = collevels,
                       flim = fl, scale = FALSE, axisY= TRUE, fast.spec = fast.spec, ...

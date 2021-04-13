@@ -64,9 +64,6 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -130,7 +127,7 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
         
         out <- suppressWarnings(system(cll, ignore.stdout = FALSE, intern = TRUE)) 
         
-        x <- warbleR::read_wave(X = basename(tempfile2), path = tempdir())
+        x <- warbleR::read_sound_file(X = basename(tempfile2), path = tempdir())
         
         # remove files
         unlink(c(tempfile, tempfile2))  

@@ -11,7 +11,7 @@ pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL,
 img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
 }
 \arguments{
-\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
+\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The output of \code{\link{auto_detec}} can
 also be used as the input data frame.}

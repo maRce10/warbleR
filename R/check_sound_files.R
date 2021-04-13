@@ -1,8 +1,8 @@
-#' Check .wav files
+#' Check sound files
 #' 
-#' \code{check_wavs} checks whether .wav files can be read by subsequent functions.
-#' @usage check_wavs(X = NULL, path = NULL)
-#' @param X Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' \code{check_sound_files} checks whether sound files can be read by subsequent functions.
+#' @usage check_sound_files(X = NULL, path = NULL)
+#' @param X Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. The output of \code{\link{auto_detec}} can 
 #' also be used as the input data frame. If provided the function also returns the
@@ -11,18 +11,18 @@
 #' This could be useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}).
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.  
-#' @return If all .wav files are ok, returns message "All files can be read".
-#'   Otherwise returns the names of the corrupted .wav files.
-#' @details This function checks if .wav files in the working directory can be read.
-#' Users must set the working directory where they wish to check .wav files beforehand. 
+#' @return If all sound files are ok, returns message "All files can be read".
+#'   Otherwise returns the names of the corrupted sound files.
+#' @details This function checks if sound files in the working directory can be read.
+#' Users must set the working directory where they wish to check sound files beforehand. 
 #' If X is provided it also returns the smallest number of samples from
 #' the selections listed in X (if all files can be read). Note that corrupt files can be
 #' fixed using \code{\link{fix_wavs}}) ('sox' must be installed to be able to run this function).
-#' The function is intended for a "quick and dirty" check of the .wav files in a selections data
+#' The function is intended for a "quick and dirty" check of the sound files in a selections data
 #'  frame. For a more thorough analysis see \code{\link{check_sels}}.
 #' @export
 #' @seealso \code{\link{check_sels}} \code{\link{tailor_sels}}
-#' @name check_wavs
+#' @name check_sound_files
 #' @examples{
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
@@ -32,26 +32,23 @@
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #' 
 #' # without selection data frame
-#' check_wavs(path = tempdir())
+#' check_sound_files(path = tempdir())
 #' 
 #' # without selection data frame
-#' check_wavs(X = lbh_selec_table, path = tempdir())
+#' check_sound_files(X = lbh_selec_table, path = tempdir())
 #' }
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on jul-5-2016 (MAS)
 
-check_wavs <- function(X = NULL, path = NULL) { 
+check_sound_files <- function(X = NULL, path = NULL) { 
   
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(check_wavs)
+  argms <- methods::formalArgs(check_sound_files)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
-  
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
   
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
@@ -74,8 +71,8 @@ check_wavs <- function(X = NULL, path = NULL) {
         path <- normalizePath(path) 
   
   #return warning if not all sound files were found
-  files <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
-  if (length(files) == 0) stop("no .wav files in working directory") 
+  files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
+  if (length(files) == 0) stop("no sound files in working directory") 
   
   
   if (!is.null(X))
@@ -99,12 +96,12 @@ check_wavs <- function(X = NULL, path = NULL) {
     
     if (length(unique(X$sound.files[(X$sound.files %in% files)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% files)])), 
-                    ".wav file(s) not found"))
+                    "sound file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% files) 
     if (length(d) == 0){
-      stop("The .wav files are not in the working directory")
+      stop("The sound files are not in the working directory")
     }  else X <- X[d, , drop = FALSE]
     
     files <- files[files %in% X$sound.files]
@@ -130,19 +127,12 @@ check_wavs <- function(X = NULL, path = NULL) {
 }
 
 ##############################################################################################################
-#' alternative name for \code{\link{check_wavs}}
+#' alternative name for \code{\link{check_sound_files}}
 #'
 #' @keywords internal
-#' @details see \code{\link{check_wavs}} for documentation. \code{\link{check_wavs}} will be deprecated in future versions.
+#' @details see \code{\link{check_sound_files}} for documentation. \code{\link{check_wavs}} will be deprecated in future versions.
 #' @export
 
-check_wavs <- check_wavs
+check_wavs <- check_sound_files
 
-##############################################################################################################
-#' alternative name for \code{\link{check_wavs}}
-#'
-#' @keywords internal
-#' @details see \code{\link{check_wavs}} for documentation. \code{\link{checkwavs}} will be deprecated in future versions.
-#' @export
 
-checkwavs <- check_wavs

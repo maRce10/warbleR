@@ -116,9 +116,6 @@ tweak_spectro <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   opt.argms <- opt.argms[which(names(opt.argms) == "path")]
   
   # remove options not as default in call and not in function arguments

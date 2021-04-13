@@ -47,9 +47,6 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -69,14 +66,14 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
     path <- normalizePath(path)
   
   #read files
-  fls <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)  
+  fls <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
-  if (length(fls) == 0) stop("no .wav files in working directory")
+  if (length(fls) == 0) stop("no sound files in working directory")
   
   #subet based on file list provided (flist)
   if (!is.null(files)) fls <- fls[fls %in% files]
-  if (length(fls) == 0)  stop(".wav files are not in working directory")
+  if (length(fls) == 0)  stop("sound files are not in working directory")
   
   dir.create(file.path(path, "converted_sound_files"))
   

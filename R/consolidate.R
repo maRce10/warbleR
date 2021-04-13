@@ -12,7 +12,7 @@
 #' @param dest.path Character string containing the directory path where the sound files will be saved.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
-#' @param file.ext Character string defining the file extension for the files to be consolidated. Default is \code{'.wav$'} ignoring case.
+#' @param file.ext Character string defining the file extension (i.e. format) for the files to be consolidated. Default is \code{'.wav$'} ignoring case. Several formats can be used: \code{"\\.wav$|\\.wac$|\\.mp3$|\\.flac$"}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param save.csv Logical. Controls whether a data frame containing sound file information is saved in the new directory. Default is \code{TRUE}.
@@ -114,7 +114,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
     files <- list.files(path = path, pattern = file.ext, ignore.case = TRUE, recursive = TRUE, full.names = TRUE) 
   
   # stop if files are not in working directory
-  if (length(files) == 0) stop("no .wav files in working directory and/or subdirectories")
+  if (length(files) == 0) stop("no files found in working directory and/or subdirectories")
   
   # create new names for duplicated songs
   old_name <- basename(files)

@@ -2,41 +2,14 @@
 % Please edit documentation in R/duration_wavs.R
 \name{duration_wavs}
 \alias{duration_wavs}
-\title{Measure the duration of sound files}
+\title{alternative name for \code{\link{duration_sound_files}}}
 \usage{
 duration_wavs(files = NULL, path = NULL)
 }
-\arguments{
-\item{files}{Character vector with the names of the sound files to be measured. The sound files should be in the working directory or in the directory provided in 'path'.}
-
-\item{path}{Character string containing the directory path where the sound files are located. 
-If \code{NULL} (default) then the current working directory is used.}
-}
-\value{
-A data frame with the duration (in seconds) of the sound files.
-}
 \description{
-\code{duration_wavs} measures the duration of sound files in '.wav' format
+alternative name for \code{\link{duration_sound_files}}
 }
 \details{
-This function returns the duration (in seconds) of sound files.
+see \code{\link{duration_sound_files}} for documentation. \code{\link{duration_wavs}} will be deprecated in future versions.
 }
-\examples{
-{
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-
-duration_wavs(path = tempdir())
-}
-
-}
-\references{
-{
-Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-}
-}
-\author{
-Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
-}
+\keyword{internal}

@@ -63,7 +63,7 @@ to avoid problems in any warbleR analysis downstream. It specifically checks if:
 \itemize{
    \item 'X' is an object of class 'data.frame' or 'selection_table' (see \code{\link{selection_table}}) and contains 
    the required columns to be used on any warbleR function ('sound.files', 'selec', 'start', 'end', if not returns an error) 
-   \item  'sound.files' in 'X' correspond to .wav files in the working directory or in the provided 'path'
+   \item  'sound.files' in 'X' correspond to sound files in the working directory or in the provided 'path'
     (if no file is found returns an error, if some files are not found returns error info in the ouput data frame)
    \item time ('start', 'end') and frequency ('bottom.freq', 'top.freq', if provided) limit parameters are numeric and 
    don't contain NAs (if not returns an error)

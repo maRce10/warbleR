@@ -9,7 +9,7 @@ spectro_analysis(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
 wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...)
 }
 \arguments{
-\item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav 
+\item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The output \code{\link{auto_detec}} can
 be used as the input data frame.}

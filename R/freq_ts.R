@@ -112,9 +112,6 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
   
-  # rename path for sound files
-  names(opt.argms)[names(opt.argms) == "wav.path"] <- "path"
-  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
@@ -167,15 +164,15 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))
-  {recs.wd <- list.files(path = path, pattern = "\\.wav$", ignore.case = TRUE)
+  {recs.wd <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) 
     cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% recs.wd)])), 
-              ".wav file(s) not found"))
+              "sound file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop
   d <- which(X$sound.files %in% recs.wd) 
   if (length(d) == 0){
-    stop("The .wav files are not in the working directory")
+    stop("The sound files are not in the working directory")
   }  else X <- X[d, , drop = FALSE]
   }
   
@@ -190,7 +187,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
     contour_FUN <- function(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl){
       
       # Read sound files to get sample rate and length
-      r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
+      r <- warbleR::read_sound_file(X = X, path = path, index = i, header = TRUE)
       f <- r$sample.rate
       
       # if bp is frange
@@ -206,7 +203,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
         }  
       
       
-      r <- warbleR::read_wave(X = X, path = path, index = i)
+      r <- warbleR::read_sound_file(X = X, path = path, index = i)
       
       # calculate dominant frequency at each time point     
       dfrq1 <- track_harmonic(wave = r, f = f, wl = wl, plot = FALSE, ovlp = ovlp, bandpass = b, fftw = TRUE,
@@ -308,7 +305,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
     contour_FUN <- function(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl){
       
       # Read sound files to get sample rate and length
-      r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
+      r <- warbleR::read_sound_file(X = X, path = path, index = i, header = TRUE)
       f <- r$sample.rate
       
       b <- bp 
@@ -316,7 +313,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
       if (!is.null(b)) {if (b[2] > floor(f/2000)) b[2] <- floor(f/2000) 
       b <- b * 1000}
       
-      r <- warbleR::read_wave(X = X, path = path, index = i)
+      r <- warbleR::read_sound_file(X = X, path = path, index = i)
       
       # calculate fundamental frequency at each time point     
       if (ff.method == "seewave")
@@ -392,7 +389,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
     contour_FUN <- function(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl){
       
       # Read sound files to get sample rate and length
-      r <- warbleR::read_wave(X = X, path = path, index = i, header = TRUE)
+      r <- warbleR::read_sound_file(X = X, path = path, index = i, header = TRUE)
       f <- r$sample.rate
       
       # if bp is frange
@@ -404,7 +401,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
       if (!is.null(b)) {if (b[2] > floor(f/2000)) b[2] <- floor(f/2000) 
       b <- b * 1000}
       
-      r <- warbleR::read_wave(X = X, path = path, index = i)
+      r <- warbleR::read_sound_file(X = X, path = path, index = i)
       
       #filter if this was needed
       if (!is.null(bp)) r <- ffilter(wave = r, from = b[1], to = b[2]) 

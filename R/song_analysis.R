@@ -4,7 +4,7 @@
 #' @usage song_analysis(X = NULL, song_colm = "song",mean_colm = NULL, min_colm = NULL, 
 #' max_colm = NULL, elm_colm = NULL, elm_fun = NULL, sd = FALSE, parallel = 1, pb = TRUE, 
 #' na.rm = FALSE, weight = NULL)
-#' @param X 'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the .wav 
+#' @param X 'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the sound 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections.
 #' @param song_colm Character string with the column name containing song labels. 
