@@ -152,3 +152,14 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
    }
  
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{mp32wav}}
+#'
+#' @keywords internal
+#' @details see \code{\link{mp32wav}} for documentation. \code{\link{mp32wav}} will be deprecated in future versions.
+#' @export
+
+mp3_2_wav <- mp32wav
+

@@ -204,28 +204,72 @@ read_wac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, cha
   return(obj)
 }
 
-read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, channel = 1) {
+read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, channel = 1, flac.path)
+{
   
-  sound_file_in <- filename
-  sound_file_temp <- gsub("flac$", "wav", sound_file_in, ignore.case = TRUE)
+  # create temporary file for convertin to a wav to be read at the end
+  temp_wav <- tempfile()
   
-  # determine if wav copy exists  
-  rm_sound_file_temp <- !file.exists(sound_file_temp)
+  if (.Platform$OS.type == "unix") {
+    if (missing(flac.path)) {
+      exe <- "flac"
+    }
+    else {
+      exe <- paste(flac.path, "flac", sep = "/")
+    }
+    if (system(paste(exe, "-v"), ignore.stderr = TRUE) != 
+        0) {
+      stop("FLAC program was not found.")
+    }
+    
+    system_call <- paste0(exe, " -d ", filename, " --output-name=", temp_wav, " --silent")
+  }
   
-  # if copy doesn't exist convert it
-  if (rm_sound_file_temp)
-    suppressMessages(seewave::wav2flac(file = sound_file_in, reverse = TRUE, overwrite = FALSE))
+  if (.Platform$OS.type == "windows") {
+    if (missing("flac")) {
+      "flac" <- "flac.exe"
+    }
+    if (missing(flac.path)) {
+      exe <- paste("C:/Program Files/FLAC/", "flac", 
+                   sep = "")
+      if (!file.exists(exe)) {
+        exe <- paste("C:/Program Files (x86)/FLAC/", 
+                     "flac", sep = "")
+      }
+    }
+    else {
+      exe <- paste(flac.path, "flac", sep = "/")
+    }
+    if (!file.exists(exe)) {
+      stop("FLAC program was not found.")
+    }
+    
+    system_call <- paste(shQuote(exe), "-d", shQuote(filename, 
+                                                     type = "cmd"), "--silent", sep = " ")
+  }
   
-  obj <- tuneR::readWave(filename = sound_file_temp, header = header, from = from, to = to, units = "seconds", toWaveMC = if (!header & channel != "1") TRUE else FALSE)
   
-  # Extract one channel and cut
-  if (!header & channel != "1") 
-    obj <- Wave(obj@.Data[, channel])
+  # add start and end time if supplied
+  if (from > 0){
+    start <- gsub("\\.", ",", paste0(floor(from / 60), ":", from - (floor(from / 60) * 60)))
+    system_call <- paste0(system_call, " --skip=", start)
+  }
   
-  if (rm_sound_file_temp)
-    unlink(sound_file_temp)
+  if (to != Inf){
+    end <- gsub("\\.", ",",paste0(floor(to / 60), ":", to - (floor(to / 60) * 60)))
+    system_call <- paste0(system_call, " --until=", end)
+  }
   
-  return(obj)
+  # run flac
+  out <- system(system_call, ignore.stderr = TRUE)                          
+  
+  # read temporary wav file
+  wav <- read_wave_wrblr_int(temp_wav, header, 0, Inf, channel)
+  
+  # remove temporary wav file
+  unlink(temp_wav)
+  
+  return(wav)
 }
 
 read_soundfile_wrblr_int <- function(filename, header, from, to, extension = "unk", channel = 1) {

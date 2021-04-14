@@ -246,3 +246,13 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
 
     return(z)
 }
+
+
+##############################################################################################################
+#' alternative name for \code{\link{sig2noise}}
+#'
+#' @keywords internal
+#' @details see \code{\link{sig2noise}} for documentation. \code{\link{sig2noise}} will be deprecated in future versions.
+#' @export
+
+signal_2_noise <- sig2noise
