@@ -144,9 +144,10 @@ read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[
             object <- list(sample.rate = attr(X, "check.results")$sample.rate[attr(X, "check.results")$sound.files == X$sound.files[index]][1] * 1000, channels = 1, bits = attr(X, "check.results")$bits[attr(X, "check.results")$sound.files == X$sound.files[index]][1], samples = attr(X, "check.results")$n.samples[attr(X, "check.results")$sound.files == X$sound.files[index]][1]) else {
               
               pos <- regexpr("\\.([[:alnum:]]+)$",  X$sound.files[index])
-              extsn <- tolower(ifelse(pos > -1L, substring(X, pos + 1L), ""))
+              extsn <- tolower(ifelse(pos > -1L, substring(X$sound.files[index], pos + 1L), ""))
               
-              object <- read_wave_wrblr_int(filename = filename, header = TRUE)}
+              object <- read_soundfile_wrblr_int(filename = filename, header = TRUE, extension = extsn)
+            }
           
           if (any(sapply(object, length) > 1)) object <- lapply(object, "[", 1)
         } else {
@@ -272,7 +273,7 @@ read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, ch
   return(wav)
 }
 
-read_soundfile_wrblr_int <- function(filename, header, from, to, extension = "unk", channel = 1) {
+read_soundfile_wrblr_int <- function(filename, header, from = 0, to = Inf, extension = "unk", channel = 1) {
   
   if (is.null(channel) | is.function(channel))
     channel <- 1

@@ -303,9 +303,9 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     if (is.null(fl)) 
       fl <- c(0, floor(f / 2000))
     #in case flim is higher than can be due to sampling rate
-    frli<- fl 
-    if (frli[2] > floor(f / 2000)) frli[2] <- floor(f / 2000) 
-    
+    frli <- fl 
+    if (frli[2] > ceiling(f/2000) - 1) frli[2] <- ceiling(f/2000) - 1 
+
     #set duration    
     dur <- seewave::duration(rec)
     
