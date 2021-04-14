@@ -237,7 +237,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     }
     
   #stop if files are not in working directory
-  if (length(files) == 0) stop(".wav files in X are not in working directory")
+  if (length(files) == 0) stop("sound files in X are not in working directory")
     } 
  
 #if flim is not vector or length!=2 stop
@@ -301,10 +301,10 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     f <- rec@samp.rate #set sampling rate
     
     if (is.null(fl)) 
-      fl <- c(0, f / 2000)
+      fl <- c(0, floor(f / 2000))
     #in case flim is higher than can be due to sampling rate
     frli<- fl 
-    if (frli[2] > f / 2000) frli[2] <- f / 2000 
+    if (frli[2] > floor(f / 2000)) frli[2] <- floor(f / 2000) 
     
     #set duration    
     dur <- seewave::duration(rec)
