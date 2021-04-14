@@ -42,7 +42,7 @@
   
 
 <meta property="og:title" content="A extended version of read_wave that reads several sound file formats and files from selection tables — read_sound_file" />
-<meta property="og:description" content="read_sound_file is a extended version of read_wave that reads several sound file formats as well as files listed within selection tables" />
+<meta property="og:description" content="read_sound_file reads several sound file formats as well as files referenced in selection tables" />
 
 
 
@@ -142,7 +142,7 @@
     </div>
 
     <div class="ref-description">
-    <p><code>read_sound_file</code> is a extended version of read_wave that reads several sound file formats as well as files listed within selection tables</p>
+    <p><code>read_sound_file</code> reads several sound file formats as well as files referenced in selection tables</p>
     </div>
 
     <pre class="usage"><span class='fu'>read_sound_file</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>index</span>, from <span class='op'>=</span> <span class='va'>X</span><span class='op'>$</span><span class='va'>start</span><span class='op'>[</span><span class='va'>index</span><span class='op'>]</span>, to <span class='op'>=</span> <span class='va'>X</span><span class='op'>$</span><span class='va'>end</span><span class='op'>[</span><span class='va'>index</span><span class='op'>]</span>, channel <span class='op'>=</span> <span class='fl'>1</span>, 
@@ -154,7 +154,7 @@ header <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class
     <tr>
       <th>X</th>
       <td><p>'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
-selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a sound file or URL address to sound file can be provided. The function can read sound files in 'mp3', 'wav' and 'wac' format. The file name can contain the directory path.
+selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a sound file or URL address to sound file can be provided. The function can read sound files in 'wav', 'mp3', 'flac' and 'wac' format. The file name can contain the directory path.
 'top.freq' and 'bottom.freq' columns are optional. Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
@@ -189,8 +189,8 @@ If <code>NULL</code> (default) then the current working directory is used. If 'X
     <p>An object of class "Wave".</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function is a wrapper for <code><a href='https://rdrr.io/pkg/tuneR/man/readWave.html'>readWave</a></code> that read sound files listed within selection tables. It 
-is also used internally by warbleR functions to read wave objects from extended selection tables (see <code><a href='selection_table.html'>selection_table</a></code> for details).</p>
+    <p>The function is a wrapper for <code><a href='https://rdrr.io/pkg/tuneR/man/readWave.html'>readWave</a></code> that read sound files, including those referenced in selection tables. It
+is also used internally by warbleR functions to read wave objects from extended selection tables (see <code><a href='selection_table.html'>selection_table</a></code> for details). Note that reading 'flac' files requires creating a temporary copy in 'wav' format, which can be particularly slow for long files.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
