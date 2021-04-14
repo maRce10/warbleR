@@ -2,7 +2,7 @@
 % Please edit documentation in R/info_sound_files.R
 \name{info_sound_files}
 \alias{info_sound_files}
-\title{Get wave file parameter information}
+\title{Get sound file parameter information}
 \usage{
 info_sound_files(path = NULL, parallel = 1, pb = TRUE)
 }
@@ -16,19 +16,19 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 }
 \value{
-A data frame with descriptive information about the wave files in the working directory (or 'path'). See "details".
+A data frame with descriptive information about the sound files in the working directory (or 'path'). See "details".
 }
 \description{
-\code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns wave file information
+\code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns sound file information
 }
 \details{
-This function is a wrapper for \code{\link{selection_table}} that returns a data frame with the following descriptive parameters for each wave file in the working directory (or 'path'):
+This function is a wrapper for \code{\link{selection_table}} that returns a data frame with the following descriptive parameters for each sound file in the working directory (or 'path'):
 \itemize{
    \item \code{duration}: duration of selection in seconds
    \item \code{sample.rate}: sampling rate in kHz
    \item \code{channels}: number of channels
    \item \code{bits}: bit depth
-   \item \code{wav.size}: wave file size in MB
+   \item \code{wav.size}: sound file size in MB
    \item \code{samples}: number of samples in the sound file
    }
 }

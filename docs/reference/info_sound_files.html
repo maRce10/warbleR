@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get wave file parameter information — info_sound_files • warbleR</title>
+<title>Get sound file parameter information — info_sound_files • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Get wave file parameter information — info_sound_files" />
-<meta property="og:description" content="info_sound_files is a wrapper for selection_table that returns wave file information" />
+<meta property="og:title" content="Get sound file parameter information — info_sound_files" />
+<meta property="og:description" content="info_sound_files is a wrapper for selection_table that returns sound file information" />
 
 
 
@@ -136,13 +136,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get wave file parameter information</h1>
+    <h1>Get sound file parameter information</h1>
     <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/info_sound_files.R'><code>R/info_sound_files.R</code></a></small>
     <div class="hidden name"><code>info_sound_files.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>info_sound_files</code> is a wrapper for <code><a href='selection_table.html'>selection_table</a></code> that returns wave file information</p>
+    <p><code>info_sound_files</code> is a wrapper for <code><a href='selection_table.html'>selection_table</a></code> that returns sound file information</p>
     </div>
 
     <pre class="usage"><span class='fu'>info_sound_files</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
@@ -168,15 +168,15 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with descriptive information about the wave files in the working directory (or 'path'). See "details".</p>
+    <p>A data frame with descriptive information about the sound files in the working directory (or 'path'). See "details".</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is a wrapper for <code><a href='selection_table.html'>selection_table</a></code> that returns a data frame with the following descriptive parameters for each wave file in the working directory (or 'path'):</p><ul>
+    <p>This function is a wrapper for <code><a href='selection_table.html'>selection_table</a></code> that returns a data frame with the following descriptive parameters for each sound file in the working directory (or 'path'):</p><ul>
 <li><p><code>duration</code>: duration of selection in seconds</p></li>
 <li><p><code>sample.rate</code>: sampling rate in kHz</p></li>
 <li><p><code>channels</code>: number of channels</p></li>
 <li><p><code>bits</code>: bit depth</p></li>
-<li><p><code>wav.size</code>: wave file size in MB</p></li>
+<li><p><code>wav.size</code>: sound file size in MB</p></li>
 <li><p><code>samples</code>: number of samples in the sound file</p></li>
 </ul>
 

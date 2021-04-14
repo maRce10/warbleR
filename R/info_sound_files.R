@@ -1,22 +1,22 @@
-#' Get wave file parameter information
+#' Get sound file parameter information
 #'
-#' \code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns wave file information 
+#' \code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns sound file information 
 #' @usage info_sound_files(path = NULL, parallel = 1, pb = TRUE)
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 
-#' @return A data frame with descriptive information about the wave files in the working directory (or 'path'). See "details".  
+#' @return A data frame with descriptive information about the sound files in the working directory (or 'path'). See "details".  
 #' @export
 #' @name info_sound_files
-#' @details This function is a wrapper for \code{\link{selection_table}} that returns a data frame with the following descriptive parameters for each wave file in the working directory (or 'path'):
+#' @details This function is a wrapper for \code{\link{selection_table}} that returns a data frame with the following descriptive parameters for each sound file in the working directory (or 'path'):
 #' \itemize{
 #'    \item \code{duration}: duration of selection in seconds
 #'    \item \code{sample.rate}: sampling rate in kHz
 #'    \item \code{channels}: number of channels
 #'    \item \code{bits}: bit depth
-#'    \item \code{wav.size}: wave file size in MB
+#'    \item \code{wav.size}: sound file size in MB
 #'    \item \code{samples}: number of samples in the sound file
 #'    }
 #' 
