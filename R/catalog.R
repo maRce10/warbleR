@@ -549,7 +549,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   
   #calculate time and freq ranges based on all recs
   rangs <- lapply(1:nrow(X), function(i){
-   r <- warbleR::read_sound_file(X = X, path = path, index = i, header = TRUE)
+   r <- read_sound_file(X = X, path = path, index = i, header = TRUE)
    f <- r$sample.rate
 
     # change mar to prop.mar (if provided)
@@ -566,9 +566,9 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     fl <- flim
     
     if (is.null(fl)) 
-      fl <- c(0, f / 2000)
+      fl <- c(0, ceiling(f / 2000) - 1)
     
-    if (fl[2] > f / 2000) fl[2] <- f / 2000
+    if (fl[2] > ceiling(f / 2000) - 1) fl[2] <- ceiling(f / 2000) - 1
     return(data.frame(fl1 = fl[1], fl2 = fl[2], mardur = t[2] - t[1]))
     })
   
