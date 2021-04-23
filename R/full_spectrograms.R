@@ -6,7 +6,7 @@
 #' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512, gr = FALSE, 
 #' pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, 
 #' overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec",
-#'  horizontal = FALSE, song = NULL, suffix = NULL, ...) 
+#'  horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL, ...) 
 #' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number 
@@ -95,7 +95,7 @@
 #last modification on mar-13-2018 (MAS)
 
 full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, collevels = seq(-40, 0, 1),  ovlp = 50, parallel = 1, 
-                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, suffix = NULL, ...) {
+                  wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL, ...) {
   
   # set pb options 
   on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
@@ -111,7 +111,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
   
   # get arguments set in the call
-  call.argms <- as.list(base::match.call())[-1]
+  call.argms <- as.list(base::match.call())
   
   # remove arguments in options that are in call
   opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
@@ -127,9 +127,16 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
       stop("'path' provided does not exist") else
         path <- normalizePath(path)
   
+  #check dest.path 
+  if (is.null(dest.path)) dest.path <- getwd() else 
+    if (!dir.exists(dest.path)) 
+      stop("'path' provided does not exist") else
+        dest.path <- normalizePath(dest.path)
+
   #read files
   files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)  
   
+
   #stop if files are not in working directory
   if (length(files) == 0) stop("no sound files in working directory")
   
@@ -236,6 +243,8 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
       
     }
     
+   
+    
   #stop if files are not in working directory
   if (length(files) == 0) stop("sound files in X are not in working directory")
     } 
@@ -280,6 +289,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     Xsong <- song_analysis(X, song_colm = song, pb = FALSE)
   }
   
+  
   # overwrite
   if (!overwrite) 
     files <- files[!gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$","", list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE),ignore.case = TRUE) %in% 
@@ -321,7 +331,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     #loop over pages 
     no.out <- lapply(1 : ceiling(dur / (li * sl)), function(j)  
       {
-      img_wrlbr_int(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-", suffix, "-p", j, ".", it), path = path, units = "in", horizontal = horizontal, ...) 
+      img_wrlbr_int(filename = paste0(substring(z, first = 1, last = nchar(z)-4), "-", suffix, "-p", j, ".", it), path = dest.path, units = "in", horizontal = horizontal, ...) 
       
       # set number of rows
       mfrow <- c(li, 1)

@@ -73,8 +73,7 @@ wav_2_flac <- function(files = NULL, path = NULL, overwrite = FALSE, pb = TRUE, 
   files_in_path <- list.files(path = path, pattern = ".wav$", ignore.case = TRUE)
   
   if (is.null(files))
-    files <- files_in_path
- else {
+    files <- files_in_path else {
       if (!all(files %in% files_in_path))
         stop("some (or all) sound files were not found")
  } 
@@ -89,7 +88,60 @@ wav_2_flac <- function(files = NULL, path = NULL, overwrite = FALSE, pb = TRUE, 
   # run loop apply function
   out <- pbapply::pbsapply(X = files, cl = cl, FUN = function(i) 
   
-   try_na(seewave::wav2flac(file = file.path(path, i), overwrite = overwrite))
+   warbleR::try_na(wav2flac(file = file.path(path, i), overwrite = overwrite))
   )
   
 }
+
+wav2flac <- function(file, reverse = FALSE, overwrite = FALSE, exename = NULL, 
+          path2exe = NULL) 
+{
+  if (.Platform$OS.type == "unix") {
+    if (missing(exename)) {
+      exename <- "flac"
+    }
+    if (missing(path2exe)) {
+      exe <- exename
+    } else {
+      exe <- paste(path2exe, exename, sep = "/")
+    }
+    if (system(paste(exe, "-v"), ignore.stderr = TRUE) != 
+        0) {
+      stop("FLAC program was not found.")
+    }
+    if (reverse) {
+      e <- system(paste(exe, "-d", file), ignore.stderr = TRUE)
+    } else {
+      e <- capture.output(system(paste(exe, file), ignore.stderr = TRUE, intern = FALSE), type = "message")
+    }
+  }
+  if (.Platform$OS.type == "windows") {
+    if (missing(exename)) {
+      exename <- "flac.exe"
+    }
+    if (missing(path2exe)) {
+      exe <- paste("C:/Program Files/FLAC/", exename, 
+                   sep = "")
+      if (!file.exists(exe)) {
+        exe <- paste("C:/Program Files (x86)/FLAC/", 
+                     exename, sep = "")
+      }
+    }  else {
+      exe <- paste(path2exe, exename, sep = "/")
+    }
+    if (!file.exists(exe)) {
+      stop("FLAC program was not found.")
+    }
+    if (reverse) {
+      e <- system(paste(shQuote(exe), "-d", shQuote(file, 
+                                                    type = "cmd"), sep = " "), ignore.stderr = TRUE)
+    } else {
+      e <- system(paste(shQuote(exe), shQuote(file, type = "cmd"), 
+                        sep = " "), ignore.stderr = TRUE)
+    }
+  }
+  if (overwrite) {
+    unlink(file)
+  }
+}
+
