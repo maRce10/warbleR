@@ -32,7 +32,7 @@
 #'   frequency bandpass filter (in kHz). Default is \code{NULL}.
 #' @param flist character vector or factor indicating the subset of files that will be analyzed. Ignored
 #' if X is provided.
-#' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{0}.
+#' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{0}. Note that if 'maxdur' is supplied then merging selections through 'hold.time' will only applied when the new merged selection's duration is equal or lower than 'maxdur'.
 #' @param mindur Numeric vector of length 1 giving the shortest duration (in
 #'   seconds) of the signals to be detected. It removes signals below that
 #'   threshold.
@@ -702,7 +702,9 @@ auto_detec <-
             # end is the maximum of all ends
             Z$end <- max(Y$end)
             
-            return(Z)
+            # omit merging if result is larger than maximum duration
+            if (Z$end - Z$start <= maxdur)
+              return(Z) else return(Y)
           })
         
         # put list together in a data frame
