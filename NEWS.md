@@ -8,7 +8,6 @@
 
 ## Changes and additions:
 
-- `autodetec()`: if 'maxdur' is supplied then merging selections through 'hold.time' will only applied when the new merged selection's duration is equal or lower than 'maxdur'.
 * warbleR now supports '.wav', '.flac', '.wac' and '.mp3' formats
 
 # *warbleR 1.1.26*

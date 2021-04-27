@@ -8,7 +8,7 @@ full_spectrograms(X = NULL, flim = NULL, sxrow = 5, rows = 10,
 collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512, gr = FALSE, 
 pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, 
 overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec",
- horizontal = FALSE, song = NULL, suffix = NULL, ...)
+ horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL, ...)
 }
 \arguments{
 \item{X}{'selection_table' object or any data frame with columns
@@ -81,6 +81,9 @@ organization level in the song (similar to 'song_colm' in \code{\link{song_analy
 'song' are plotted. Ignored if 'X' is not provided.}
 
 \item{suffix}{Character vector of length 1. Suffix for the output image file (to be added at the end of the default file name). Default is \code{NULL}.}
+
+\item{dest.path}{Character string containing the directory path where the image files will be saved.
+If \code{NULL} (default) then the folder containing the sound files will be used instead.}
 
 \item{...}{Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in \code{\link[grDevices]{png}}.}
 }
