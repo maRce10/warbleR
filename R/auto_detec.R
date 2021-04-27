@@ -702,9 +702,9 @@ auto_detec <-
             # end is the maximum of all ends
             Z$end <- max(Y$end)
             
-            # omit merging if result is larger than maximum duration
-            if (Z$end - Z$start <= maxdur)
-              return(Z) else return(Y)
+            # # omit merging if result is larger than maximum duration
+            # if (Z$end - Z$start <= maxdur)
+            #   return(Z) else return(Y)
           })
         
         # put list together in a data frame
