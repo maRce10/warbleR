@@ -140,11 +140,13 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
         
         grid_results <- lapply(seq_len(nrow(exp_grd)), function(x, bs = by.sound.file){
           
+          print(x)
             if (!requireNamespace("svMisc", quietly = TRUE) & !bs)
               cat("must install 'svMisc' to use a progress bar in optimize_auto_detec()") else
             svMisc::progress(value = x, max.value = nrow(exp_grd), progress.bar = TRUE, char ="|")
       
-          ad <- warbleR::auto_detec(X = Y, threshold = exp_grd$threshold[x], ssmooth = exp_grd$ssmooth[x], mindur = exp_grd$mindur[x], maxdur = exp_grd$maxdur[x], parallel = parallel, pb = FALSE, power = exp_grd$power[x], hold.time = exp_grd$hold.time[x], bp = bp, path = path, flist = flist)
+          ad <- warbleR::auto_detec(X = Y, threshold = exp_grd$threshold[x], ssmooth = exp_grd$ssmooth[x], mindur = exp_grd$mindur[x], maxdur = exp_grd$maxdur[x], parallel = parallel, pb = FALSE, power = exp_grd$power[x], hold.time = exp_grd$hold.time[x], bp = bp, path = path, flist = flist, output = "data.frame")
+          
           # make factor a character vector
           ad$sound.files <- as.character(ad$sound.files)
           

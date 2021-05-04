@@ -701,8 +701,9 @@ auto_detec <-
             
             # # omit merging if result is larger than maximum duration
             # if (Z$end - Z$start <= maxdur)
-            #   return(Z) else return(Y)
-          })
+              # return(Z) else return(Y)
+            return(Z)
+            })
         
         # put list together in a data frame
         ovlp <- do.call(rbind, out)
