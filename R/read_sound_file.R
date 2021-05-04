@@ -279,10 +279,10 @@ read_soundfile_wrblr_int <- function(filename, header, from = 0, to = Inf, exten
     channel <- 1
   
   switch(EXPR = extension, 
-         wav = read_wave_wrblr_int(filename, header, from, to, channel),
-         mp3 = read_mp3_wrblr_int(filename, header, from, to, channel),
-         wac = read_wac_wrblr_int(filename, header, from, to, channel),
-         flac = read_flac_wrblr_int(filename, header, from, to, channel),
+         wav = object <- read_wave_wrblr_int(filename, header, from, to, channel),
+         mp3 = object <- read_mp3_wrblr_int(filename, header, from, to, channel),
+         wac = object <- read_wac_wrblr_int(filename, header, from, to, channel),
+         flac = object <- read_flac_wrblr_int(filename, header, from, to, channel),
          unk = {
            
            object <- try(read_wave_wrblr_int(filename, header, from, to, channel), silent = TRUE)
@@ -297,4 +297,6 @@ read_soundfile_wrblr_int <- function(filename, header, from = 0, to = Inf, exten
              object <- try(read_flac_wrblr_int(filename, header, from, to, channel), silent = TRUE)
          } 
   )
+  return(object)
+  
 }
