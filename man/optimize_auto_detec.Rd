@@ -4,9 +4,9 @@
 \alias{optimize_auto_detec}
 \title{Optimize the detection of signals based on a-priori detections}
 \usage{
-optimize_auto_detec(X, Y, threshold = 10, power = 1, wl = 512, ssmooth = 0, 
+optimize_auto_detec(X, Y = NULL, threshold = 10, power = 1, wl = 512, ssmooth = 0, 
 hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, 
-by.sound.file = FALSE, bp = NULL, path = NULL)
+by.sound.file = FALSE, bp = NULL, path = NULL, previous.output = NULL)
 }
 \arguments{
 \item{X}{'selection_table' object or a data frame with columns
@@ -48,6 +48,8 @@ frequency bandpass filter (in kHz). Default is \code{NULL}.}
 
 \item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used. Only needed if 'Y' is not supplied.}
+
+\item{previous.output}{Data frame with the output of a previous run of this function. This will be used to include previous results in the new output and avoid recalculating detection performance for parameter combinations previously evaluated.}
 }
 \value{
 A data frame in which each row shows the result of a detection job with a particular combination of tuning parameters (including in the data frame). It also includes the following diagnostic metrics:

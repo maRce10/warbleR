@@ -5,6 +5,9 @@
 * `wav_2_flac()` to convert '.wav' files into flac compresed lossless format
 * `gaps()` for calculating time intervals (i.e. gaps) between selections
 * `read_sound_files()` is now use to read sound files
+
+## Changes and additions:
+
 * warbleR now supports '.wav', '.flac', '.wac' and '.mp3' formats
 
 # *warbleR 1.1.26*

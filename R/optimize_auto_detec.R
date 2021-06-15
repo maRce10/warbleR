@@ -1,7 +1,7 @@
 #' Optimize the detection of signals based on a-priori detections
-#' @usage optimize_auto_detec(X, Y, threshold = 10, power = 1, wl = 512, ssmooth = 0, 
+#' @usage optimize_auto_detec(X, Y = NULL, threshold = 10, power = 1, wl = 512, ssmooth = 0, 
 #' hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, 
-#' by.sound.file = FALSE, bp = NULL, path = NULL)
+#' by.sound.file = FALSE, bp = NULL, path = NULL, previous.output = NULL)
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). \strong{It should contain the selections that will be used for detection optimization}.
@@ -28,6 +28,7 @@
 #'   frequency bandpass filter (in kHz). Default is \code{NULL}.
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used. Only needed if 'Y' is not supplied.
+#' @param previous.output Data frame with the output of a previous run of this function. This will be used to include previous results in the new output and avoid recalculating detection performance for parameter combinations previously evaluated.
 #' @return A data frame in which each row shows the result of a detection job with a particular combination of tuning parameters (including in the data frame). It also includes the following diagnostic metrics:
 #' \itemize{
 #'  \item \code{true.positives}: number of detections that correspond to signals referenced in 'X'. Matching is defined as some degree of overlap in time. In a perfect detection routine it should be equal to the number of rows in 'X'. 
@@ -68,7 +69,7 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}).
 #last modification on dec-21-2021 (MAS)
-optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512, ssmooth = 0, hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, by.sound.file = FALSE, bp = NULL, path = NULL){
+optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512, ssmooth = 0, hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, by.sound.file = FALSE, bp = NULL, path = NULL, previous.output = NULL){
        
   # reset pbapply options
   on.exit(pbapply::pboptions(type = .Options$pboptions$type))
@@ -103,7 +104,6 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) stop("'path' provided does not exist") else
       path <- normalizePath(path)
-  
    
       if (!is.null(Y)) {
         
@@ -116,10 +116,28 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
            stop("Not all sound files in 'X' are found in 'Y'")
         }
   
-  
       # get all possible combinations of parameters
-      exp_grd <- expand.grid(threshold = threshold,power = power, ssmooth = ssmooth, hold.time = hold.time, mindur = if(is.null(mindur)) -Inf else mindur, maxdur = if(is.null(maxdur)) Inf else maxdur)
+      exp_grd <- expand.grid(threshold = threshold, power = power, ssmooth = ssmooth, hold.time = hold.time, mindur = if(is.null(mindur)) -Inf else mindur, maxdur = if(is.null(maxdur)) Inf else maxdur)
       
+      # if previous output included
+      if (!is.null(previous.output)){
+        
+        # create composed variable to find overlapping runs
+        previous.output$temp.label <- apply(previous.output[, c("threshold", "power", "hold.time", "mindur", "maxdur")], 1, paste, collapse = "-")
+        
+        exp_grd <- exp_grd[!apply(exp_grd[, c("threshold", "power", "hold.time", "mindur", "maxdur")], 1, paste, collapse = "-") %in% previous.output$temp.label, ]
+        
+        # remove composed variable
+        previous.output$temp.label <- NULL
+            }
+    
+
+      if (nrow(exp_grd) == 0){
+        cat(crayon::cyan("all combinations were already evaluated on previous call to this function (based on 'pevious.output'"))
+      
+        return(previous.output)
+        } else {
+        
       # warn about number of combinations
       cat(crayon::cyan(paste(nrow(exp_grd), "combinations will be evaluated...")))
        cat("\n")
@@ -144,7 +162,8 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
               cat("must install 'svMisc' to use a progress bar in optimize_auto_detec()") else
             svMisc::progress(value = x, max.value = nrow(exp_grd), progress.bar = TRUE, char ="|")
       
-          ad <- warbleR::auto_detec(X = Y, threshold = exp_grd$threshold[x], ssmooth = exp_grd$ssmooth[x], mindur = exp_grd$mindur[x], maxdur = exp_grd$maxdur[x], parallel = parallel, pb = FALSE, power = exp_grd$power[x], hold.time = exp_grd$hold.time[x], bp = bp, path = path, flist = flist)
+          ad <- warbleR::auto_detec(X = Y, threshold = exp_grd$threshold[x], ssmooth = exp_grd$ssmooth[x], mindur = exp_grd$mindur[x], maxdur = exp_grd$maxdur[x], parallel = parallel, pb = FALSE, power = exp_grd$power[x], hold.time = exp_grd$hold.time[x], bp = bp, path = path, flist = flist, output = "data.frame")
+          
           # make factor a character vector
           ad$sound.files <- as.character(ad$sound.files)
           
@@ -270,5 +289,9 @@ optimize_auto_detec <- function(X, Y = NULL, threshold = 10, power = 1, wl = 512
       } else
         output <- grid_FUN(exp_grd, X, Y, by.sound.file)
       
+      if (!is.null(previous.output))
+      output <- rbind(previous.output, output)
+        
       return(output)
+    }
 }

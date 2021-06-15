@@ -35,7 +35,7 @@
 #' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{0}.
 #' @param mindur Numeric vector of length 1 giving the shortest duration (in
 #'   seconds) of the signals to be detected. It removes signals below that
-#'   threshold.
+#'   threshold. 
 #' @param maxdur Numeric vector of length 1 giving the longest duration (in
 #'   seconds) of the signals to be detected. It removes signals above that
 #'   threshold.
@@ -702,8 +702,11 @@ auto_detec <-
             # end is the maximum of all ends
             Z$end <- max(Y$end)
             
+            # # omit merging if result is larger than maximum duration
+            # if (Z$end - Z$start <= maxdur)
+              # return(Z) else return(Y)
             return(Z)
-          })
+            })
         
         # put list together in a data frame
         ovlp <- do.call(rbind, out)
