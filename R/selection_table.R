@@ -699,7 +699,7 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
   X <- mcall[[1]]
   Y <- mcall[[2]]
 
-  if (!is_extended_selection_table(X) | !is_extended_selection_table(Y)) stop("both objects must be of class 'selection_table'")
+  if (!is_extended_selection_table(X) | !is_extended_selection_table(Y)) stop("both objects must be of class 'extended_selection_table'")
   
   if (attr(X, "by.song")[[1]] != attr(Y, "by.song")[[1]]) stop("both objects should have been created either 'by song' or by element' (see 'by.song' argument in selection_table())")
   

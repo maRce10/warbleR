@@ -116,15 +116,15 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     
     # bp checking
     if (bp[1] != "frange")
-    {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-      if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
+    {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2 or 'frange'") else{
+      if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2 or 'frange'")} 
     } else
-    {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
+    {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = 'frange' requires bottom.freq and top.freq columns in X")
       if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
       if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
       if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than bottom.freq")
     
-          bp <- c(min(X$bottom.freq), max(X$top.freq))
+        bp <- c(min(X$bottom.freq), max(X$top.freq))
       }
     
     if (!is_extended_selection_table(X)){

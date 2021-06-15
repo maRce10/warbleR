@@ -57,6 +57,8 @@
 #' organization level in the song (similar to 'song_colm' in \code{\link{song_analysis}}). If supplied then lines above the selections belonging to the same
 #' 'song' are plotted. Ignored if 'X' is not provided.
 #' @param suffix Character vector of length 1. Suffix for the output image file (to be added at the end of the default file name). Default is \code{NULL}.
+#' @param dest.path Character string containing the directory path where the image files will be saved.
+#' If \code{NULL} (default) then the folder containing the sound files will be used instead.
 #' @param ... Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in \code{\link[grDevices]{png}}.
 #' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 

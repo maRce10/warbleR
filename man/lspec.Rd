@@ -26,6 +26,7 @@ lspec(
   horizontal = FALSE,
   song = NULL,
   suffix = NULL,
+  dest.path = NULL,
   ...
 )
 }
