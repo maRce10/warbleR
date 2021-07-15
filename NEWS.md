@@ -1,3 +1,9 @@
+# *warbleR 1.1.28*
+
+## Changes and additions:
+
+* New argument 'downsample' to speed up processing in `remove_silence()`
+
 # *warbleR 1.1.27*
 
 ## New functions:

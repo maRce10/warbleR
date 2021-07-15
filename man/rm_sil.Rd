@@ -13,7 +13,8 @@ rm_sil(
   files = NULL,
   flist = NULL,
   parallel = 1,
-  pb = TRUE
+  pb = TRUE,
+  downsample = TRUE
 )
 }
 \description{

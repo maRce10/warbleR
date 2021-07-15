@@ -5,7 +5,7 @@
 \title{Remove silence in wave files}
 \usage{
 remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL, 
-files = NULL, flist = NULL, parallel = 1, pb = TRUE)
+files = NULL, flist = NULL, parallel = 1, pb = TRUE, downsample = TRUE)
 }
 \arguments{
 \item{path}{Character string containing the directory path where the sound files are located. 
@@ -31,6 +31,8 @@ then all wave files in the working directory (or path) will be processed.}
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
+
+\item{downsample}{Logical indicating whether files are downsampled to a 5000 kHz sampling rate. This can be used to speed up the process, but will make the function ignore sound/noise above 2500 kHz. Default is \code{TRUE}.}
 }
 \value{
 Sound files for which silence segments have been removed are saved in the new 

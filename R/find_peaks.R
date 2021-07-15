@@ -86,7 +86,7 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
     
     # extract data for a dyad
     dat <- xc.output$scores[xc.output$scores$dyad == i, ]
-
+    
     ## get peaks as the ones higher than previous and following scores  
     pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score > cutoff, , drop = FALSE]
     
@@ -99,7 +99,7 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   
   # put results in a data frame
   peaks <- do.call(rbind, pks)
-
+  
   # relabel rows
   if (nrow(peaks) > 0)
   {  rownames(peaks) <- 1:nrow(peaks)
@@ -120,10 +120,10 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   
   # add start as time - half duration of template
   peaks$start <- sapply(1:nrow(peaks), function(i){
-   
+    
     peaks$time[i] - 
-    ((Y$end[Y$template == peaks$template[i]] - 
-    Y$start[Y$template == peaks$template[i]])  / 2)
+      ((Y$end[Y$template == peaks$template[i]] - 
+          Y$start[Y$template == peaks$template[i]])  / 2)
     
   })
   
@@ -132,18 +132,18 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
     
     peaks$time[i] + 
       ((Y$end[Y$template == peaks$template[i]] - 
-         Y$start[Y$template == peaks$template[i]]) / 2)
+          Y$start[Y$template == peaks$template[i]]) / 2)
     
   })
   
   # add selec labels
   peaks$selec <- 1
-
+  
   if (nrow(peaks) > 1)
-  for(i in 2:nrow(peaks)) 
-  if (peaks$sound.files[i] == peaks$sound.files[i - 1])
+    for(i in 2:nrow(peaks)) 
+      if (peaks$sound.files[i] == peaks$sound.files[i - 1])
         peaks$selec[i] <- peaks$selec[i - 1] + 1
-
+  
   # sort columns in a intuitive order
   peaks <- sort_colms(peaks)
   
@@ -158,10 +158,10 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   }
   
   } else {
-  
-  # no detections    
-  write(file = "", x = "no peaks above cutoff were detected")  
-  
-  return(NULL)  
+    
+    # no detections    
+    write(file = "", x = "no peaks above cutoff were detected")  
+    
+    return(NULL)  
   }
 }

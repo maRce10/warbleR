@@ -13,7 +13,7 @@
 #' frequency harmonic will be simulated.
 #' @param harm.amps Numeric vector with the relative amplitude of each of the harmonics (including the fundamental frequency).
 #' @param am.amps Numeric vector with the relative amplitude for each step (see 'step' argument) to simulate amplitude modulation (only applied to the fundamental frequency). Should have the same length as the number of steps. Default is 1 (no amplitude modulation). If supplied 'fin' and 'fout' are ignored.
-#' @param gaps Nueric vector with the duration of gaps (silence between subunits) in seconds. It should either be a single value
+#' @param gaps Numeric vector with the duration of gaps (silence between subunits) in seconds. It should either be a single value
 #'  (which would be used for all subunits) or a vector  of length \code{n + 1}. 
 #' @param freqs Numeric vector with the initial frequency of the subunits (and ending frequency if \code{diff.fun == "BB"}) in kHz. 
 #' It should either be a single value (which would  be used for all subunits) or a vector of length \code{n}. 
