@@ -4,6 +4,11 @@
 
 * New argument 'downsample' to speed up processing in `remove_silence()`
 
+## New functions:
+
+* `optimized_find_peaks()` to optimize cutoff when detecting signals using cross correlation 
+* `diagnose_detection()` for diagnosing detection
+
 # *warbleR 1.1.27*
 
 ## New functions:

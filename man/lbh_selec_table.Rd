@@ -5,7 +5,7 @@
 \alias{lbh_selec_table}
 \title{Example data frame of selections (i.e. selection table).}
 \format{
-A data frame with 11 rows and 6 variables: \describe{ 
+A data frame with 11 rows and 7 variables: \describe{ 
  \item{sound.files}{recording names}
  \item{channel}{channel in which signal is found}
  \item{selec}{selection numbers within recording}
@@ -16,7 +16,7 @@ A data frame with 11 rows and 6 variables: \describe{
 }
 }
 \source{
-Marcelo Araya Salas, warbleR
+Marcelo Araya-Salas, warbleR
 }
 \usage{
 data(lbh_selec_table)

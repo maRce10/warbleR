@@ -20,7 +20,7 @@
 #' @examples
 #' {
 #' # load data
-#' data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table2", "comp_matrix"))
+#' data(list = c("Phae.long4", "Phae.long2", "lbh_selec_table2", "comp_matrix"))
 #' 
 #' # save sound files
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
@@ -86,6 +86,10 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
     
     # extract data for a dyad
     dat <- xc.output$scores[xc.output$scores$dyad == i, ]
+    
+    # check xc.output being a autodetec.output object
+    if (!(is(xc.output, "xcorr.output") | is(xc.output, "xc.output"))) 
+      stop("'xc.output' must be and object of class 'xcorr.output'")
     
     ## get peaks as the ones higher than previous and following scores  
     pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score > cutoff, , drop = FALSE]

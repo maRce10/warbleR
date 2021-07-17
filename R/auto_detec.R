@@ -122,7 +122,7 @@ auto_detec <-
            fast.spec = NULL
            ) {
     
-    # reset working directory
+    # reset pb on exit
     on.exit(pbapply::pboptions(type = .Options$pboptions$type))
     
     # message deprecated

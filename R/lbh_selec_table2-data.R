@@ -5,7 +5,7 @@
 #' example sound files included in this package. Similar than 'lbh_selec_table'.
 #' but it contains only 2 selections.
 #' 
-#' @format A data frame with 11 rows and 6 variables: \describe{ 
+#' @format A data frame with 11 rows and 7 variables: \describe{ 
 #'  \item{sound.files}{recording names}
 #'  \item{channel}{channel in which signal is found}
 #'  \item{selec}{selection numbers within recording}
@@ -17,7 +17,7 @@
 #' 
 #' @usage data(lbh_selec_table2)
 #' 
-#' @source Marcelo Araya Salas, warbleR 
+#' @source Marcelo Araya-Salas, warbleR 
 #' 
 #' @description \code{lbh_selec_table2} is a data frame containing the start, end, low and high frequency of 2 selections. Mostly to be used as an example in  \code{\link{find_peaks}}.
 #' 

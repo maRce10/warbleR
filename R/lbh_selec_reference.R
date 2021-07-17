@@ -1,11 +1,11 @@
-#' Example data frame of selections (i.e. selection table).
+#' Example data frame of a selection table including all signals of interests.
 #' 
 #' A data frame containing the start, end, low and high frequency of 
 #' \emph{Phaethornis longirostris} (Long-billed Hermit) songs from the 
-#' example sound files included in this package. Same data than 'selec_table'.
-#' 'selec_table' will be removed in future package version.
+#' example sound files included in this package. Similar than 'lbh_selec_table'.
+#' but contains selections for all songs in the recordings.
 #' 
-#' @format A data frame with 11 rows and 7 variables: \describe{ 
+#' @format A data frame with 15 rows and 7 variables: \describe{ 
 #'  \item{sound.files}{recording names}
 #'  \item{channel}{channel in which signal is found}
 #'  \item{selec}{selection numbers within recording}
@@ -15,11 +15,10 @@
 #'  \item{top.freq}{upper limit of frequency range}
 #' }
 #' 
-#' @usage data(lbh_selec_table)
+#' @usage data(lbh_selec_reference)
 #' 
 #' @source Marcelo Araya-Salas, warbleR 
 #' 
-#' @description \code{lbh_selec_table} alternative name for \code{selec.table}. \code{selec.table} will be deprecated in 
-#' future versions.
+#' @description \code{lbh_selec_model} is a data frame containing the start, end, low and high frequency all songs in the recordings. Mostly to be used as an example in  \code{\link{diagnose_detection}}.
 #' 
-"lbh_selec_table" 
+"lbh_selec_reference" 
