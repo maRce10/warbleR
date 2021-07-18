@@ -48,7 +48,7 @@
 #'
 #' @examples{
 #' # Save to temporary working directory
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_reference"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
@@ -56,7 +56,7 @@
 #' 
 #' # run auto_detec with thining
 #' ad <- auto_detec(output = "list", thinning = 1 / 10, ssmooth = 300, path = tempdir())
-#' optimize_auto_detec(X = selec.table, Y = ad, threshold = c(5, 10, 15), path = tempdir())
+#' optimize_auto_detec(X = lbh_selec_reference, Y = ad, threshold = c(5, 10, 15), path = tempdir())
 #' }
 #'
 #' @references {

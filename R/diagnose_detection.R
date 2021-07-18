@@ -33,7 +33,7 @@
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' 
 #' # run detection with auto_detec
-#' ad1 <- auto_detec(path = tempdir(), flist = unique(lbh_selec_reference$sound_files),  
+#' ad1 <- auto_detec(path = tempdir(), flist = unique(lbh_selec_reference$sound.files),  
 #' ssmooth = 1200, pb = FALSE, threshold =22, mindur = 0.10, maxdur = 0.18, 
 #' bp = c(3, 9), power = 1)
 #' 
@@ -49,7 +49,7 @@
 #' diagnose_detection(reference = lbh_selec_reference, detection = ad1, 
 #' by.sound.file = TRUE, time.diagnostics = TRUE)
 #' }
-#' @seealso \code{\link{auto_detec}}, \code{\link[monitoR]{findPeaks}}
+#' @seealso \code{\link{optimized_auto_detec}}, \link{optimized_auto_find_peaks}}
 #' @author Marcelo Araya-Salas \email{marcelo.araya@@ucr.ac.cr})
 #' 
 #' @references {

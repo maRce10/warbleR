@@ -790,7 +790,7 @@ print.autodetec.output <- function(x, ...) {
   if (ncol(x$selection.table) > 6) cat(crayon::silver(paste0("... ", ncol(x$selection.table) - 6, " more column(s) (", paste(colnames(x$selection.table)[7:ncol(x$selection.table)], collapse = ", "), ")")))
   if (nrow(x$selection.table) > 6) cat(crayon::silver(paste0(if (ncol(x$selection.table) <= 6) "..." else "", " and ", nrow(x$selection.table) - 6, " more row(s) \n")))  
   
-  cat(crayon::silver("\n* A data frame ('envelopes',", nrow(x$envelopes), "rows) with the wave envelopes from", length(unique(x$envelopes$sound.files)), "sound file(s) included in the auto_detec() call \n"))
+  cat(crayon::silver("\n* A data frame ('envelopes',", nrow(x$envelopes), "rows) with the wave envelopes from", length(unique(x$envelopes$sound.files)), "sound file(s) included in the", crayon::italic("auto_detec()"), "call \n"))
   
   cat(crayon::silver(paste("\n* A selection table data frame ('org.selection.table') in which detections were run, with"), nrow(x$org.selection.table), "rows and", ncol(x$selection.table), "columns \n"))
  
