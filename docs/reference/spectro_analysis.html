@@ -83,7 +83,7 @@ are provided." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +120,7 @@ are provided." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/maRce10/warbleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -314,7 +314,7 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>) and Grace Smith Vidaurre</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
+    <pre class="examples"><span class='op'>{</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
@@ -329,8 +329,8 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
 <span class='co'># measuring harmonic-related parameters using progress bar</span>
 <span class='va'>sp_param</span> <span class='op'>&lt;-</span> <span class='fu'>spectro_analysis</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>,<span class='op'>]</span>, harmonicity <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++                                           | 12% ~02s            |+++++++++++++                                     | 25% ~02s            |+++++++++++++++++++                               | 38% ~02s            |+++++++++++++++++++++++++                         | 50% ~01s            |++++++++++++++++++++++++++++++++                  | 62% ~01s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=02s  </div><div class='input'>
-</div></pre>
+
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

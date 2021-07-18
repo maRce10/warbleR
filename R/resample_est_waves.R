@@ -115,7 +115,7 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
         # for writting converted wave
         tempfile2 <- paste0(tempfile(), ".wav")
         
-        suppressWarnings(tuneR::writeWave(extensible = FALSE, object = tuneR::normalize(x), filename = tempfile))
+        suppressWarnings(tuneR::writeWave(extensible = FALSE, object = tuneR::normalize(x, unit = bit.depth), filename = tempfile))
    
         cll <- paste0("sox '", tempfile,"'  -t wavpcm ", "-b ", bit.depth, " '", tempfile2, "' rate ", samp.rate * 1000, " dither -s") 
         

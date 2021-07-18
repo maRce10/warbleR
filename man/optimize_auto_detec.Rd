@@ -55,10 +55,12 @@ If \code{NULL} (default) then the current working directory is used. Only needed
 A data frame in which each row shows the result of a detection job with a particular combination of tuning parameters (including in the data frame). It also includes the following diagnostic metrics:
 \itemize{
  \item \code{true.positives}: number of detections that correspond to signals referenced in 'X'. Matching is defined as some degree of overlap in time. In a perfect detection routine it should be equal to the number of rows in 'X'. 
- \item \code{false.positives}: number of detections that don't match any of the signals referenced in 'X'. In a perfect detection routine it should be 0.    
+ \item \code{false.positives}: number of detections that don't match any of the signals referenced in 'X'. In a perfect detection routine it should be 0.
+ \item \code{false.negatives}: number of signals in 'reference' that were not detected (not found in 'detection'. In a perfect detection routine it should be 0.
  \item \code{split.positives}: number of signals referenced in 'X' that were overlapped by more than 1 detection (i.e. detections that were split). In a perfect detection routine it should be 0.  
  \item \code{mean.duration.true.positives}: mean duration of true positives (in s).  
  \item \code{mean.duration.false.positives}: mean duration of false positives (in s). 
+ \item \code{mean.duration.false.negatives}: mean duration of false negatives (in s). Only included when \code{time.diagnostics = TRUE}.
  \item \code{proportional.duration.true.positives}: ratio of total duration of true positives to the total duration of signals referenced in 'X'. In a perfect detection routine it should be 1.
  \item \code{sensitivity}: Proportion of signals referenced in 'X' that were detected. In a perfect detection routine it should be 1.
  \item \code{specificity}: Proportion of detections that correspond to signals referenced in 'X' that were detected. In a perfect detection routine it should be 1.

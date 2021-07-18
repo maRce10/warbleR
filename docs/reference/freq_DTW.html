@@ -83,7 +83,7 @@ time warping. Internally it applies the dtwDist function from the dtw package." 
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +120,7 @@ time warping. Internally it applies the dtwDist function from the dtw package." 
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/maRce10/warbleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -315,7 +315,7 @@ The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>app
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
+    <pre class="examples"><span class='op'>{</span>
 <span class='co'>#load data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#save sound files </span>
@@ -330,60 +330,8 @@ wl <span class='op'>=</span> <span class='fl'>300</span>, path <span class='op'>
 bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>9</span><span class='op'>)</span>, wl <span class='op'>=</span> <span class='fl'>300</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; measuring dominant frequency contours (step 1 of 2):
-#&gt; Creating spectrograms overlaid with fundamental frequency measurements:  |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; 
-#&gt; calculating DTW distances (step 2 of 2, no progress bar):
-#&gt; measuring dominant frequency contours (step 1 of 2):
-#&gt; Creating spectrograms overlaid with fundamental frequency measurements:  |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; 
-#&gt; calculating DTW distances (step 2 of 2, no progress bar):</div><div class='output co'>#&gt;                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3
-#&gt; Phae.long1.wav-1            0.000            7.272           11.403
-#&gt; Phae.long1.wav-2            7.272            0.000           11.796
-#&gt; Phae.long1.wav-3           11.403           11.796            0.000
-#&gt; Phae.long2.wav-1           26.382           29.085           26.069
-#&gt; Phae.long2.wav-2           29.848           35.795           28.625
-#&gt; Phae.long3.wav-1           16.493           16.577           17.314
-#&gt; Phae.long3.wav-2           15.936           18.143           17.879
-#&gt; Phae.long3.wav-3           28.997           30.793           28.669
-#&gt; Phae.long4.wav-1           39.502           36.727           41.317
-#&gt; Phae.long4.wav-2           33.201           32.440           32.360
-#&gt; Phae.long4.wav-3           30.884           31.481           31.163
-#&gt;                  Phae.long2.wav-1 Phae.long2.wav-2 Phae.long3.wav-1
-#&gt; Phae.long1.wav-1           26.382           29.848           16.493
-#&gt; Phae.long1.wav-2           29.085           35.795           16.577
-#&gt; Phae.long1.wav-3           26.069           28.625           17.314
-#&gt; Phae.long2.wav-1            0.000           13.817           14.612
-#&gt; Phae.long2.wav-2           13.817            0.000           14.928
-#&gt; Phae.long3.wav-1           14.612           14.928            0.000
-#&gt; Phae.long3.wav-2           13.467           12.457            7.492
-#&gt; Phae.long3.wav-3           13.696           11.293           10.941
-#&gt; Phae.long4.wav-1           21.663           28.508           34.870
-#&gt; Phae.long4.wav-2           24.228           30.853           32.414
-#&gt; Phae.long4.wav-3           22.699           32.104           29.358
-#&gt;                  Phae.long3.wav-2 Phae.long3.wav-3 Phae.long4.wav-1
-#&gt; Phae.long1.wav-1           15.936           28.997           39.502
-#&gt; Phae.long1.wav-2           18.143           30.793           36.727
-#&gt; Phae.long1.wav-3           17.879           28.669           41.317
-#&gt; Phae.long2.wav-1           13.467           13.696           21.663
-#&gt; Phae.long2.wav-2           12.457           11.293           28.508
-#&gt; Phae.long3.wav-1            7.492           10.941           34.870
-#&gt; Phae.long3.wav-2            0.000           10.575           29.015
-#&gt; Phae.long3.wav-3           10.575            0.000           24.246
-#&gt; Phae.long4.wav-1           29.015           24.246            0.000
-#&gt; Phae.long4.wav-2           28.587           25.428            9.646
-#&gt; Phae.long4.wav-3           25.851           26.609           15.328
-#&gt;                  Phae.long4.wav-2 Phae.long4.wav-3
-#&gt; Phae.long1.wav-1           33.201           30.884
-#&gt; Phae.long1.wav-2           32.440           31.481
-#&gt; Phae.long1.wav-3           32.360           31.163
-#&gt; Phae.long2.wav-1           24.228           22.699
-#&gt; Phae.long2.wav-2           30.853           32.104
-#&gt; Phae.long3.wav-1           32.414           29.358
-#&gt; Phae.long3.wav-2           28.587           25.851
-#&gt; Phae.long3.wav-3           25.428           26.609
-#&gt; Phae.long4.wav-1            9.646           15.328
-#&gt; Phae.long4.wav-2            0.000            8.372
-#&gt; Phae.long4.wav-3            8.372            0.000</div><div class='input'>
-</div></pre>
+
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

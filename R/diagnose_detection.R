@@ -1,6 +1,6 @@
-#' Describes the performance of a signal detection procedure referenced in a selection table 
+#' Evaluate the performance of a signal detection procedure
 #' 
-#' \code{diagnose_detection} describes the performance of a signal detection procedure referenced in a selection table 
+#' \code{diagnose_detection} evaluates the performance of a signal detection procedure comparing the output selection table to a reference selection table 
 #' @usage diagnose_detection(reference, detection, by.sound.file = FALSE, 
 #' time.diagnostics = FALSE)
 #' @param reference Data frame or 'selection.table' with the reference selections (start and end of the signals) that will be used to evaluate the performance of the detection, represented by those selections in 'detection'. Must contained at least the following columns: "sound.files", "selec", "start" and "end".
@@ -22,7 +22,7 @@
 #'  } 
 #' @export
 #' @name diagnose_detection
-#' @details The function describes the performance of a signal detection procedure referenced in a selection table by comparing it to a reference selection table in which all signals of interest have been selected. 
+#' @details The function evaluates the performance of a signal detection procedure by comparing its output selection table to a reference selection table in which all signals of interest have been selected. 
 #' @examples
 #' {
 #' # load data
@@ -45,7 +45,7 @@
 #' diagnose_detection(reference = lbh_selec_reference, detection = ad1, 
 #' by.sound.file = TRUE)
 #' 
-#' #' # by sound file including time diagnostics
+#' # by sound file including time diagnostics
 #' diagnose_detection(reference = lbh_selec_reference, detection = ad1, 
 #' by.sound.file = TRUE, time.diagnostics = TRUE)
 #' }

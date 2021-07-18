@@ -82,7 +82,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/maRce10/warbleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -269,7 +269,7 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
+    <pre class="examples"><span class='op'>{</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, 
 <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
@@ -296,20 +296,8 @@ path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/
 <span class='va'>st</span> <span class='op'>&lt;-</span> <span class='fu'>selection_table</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, extended <span class='op'>=</span> <span class='cn'>TRUE</span>, 
 confirm.extended <span class='op'>=</span> <span class='cn'>FALSE</span>, by.song <span class='op'>=</span> <span class='st'>"song"</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; checking selections (step 1 of 2):
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt; all selections are OK 
-#&gt; checking selections (step 1 of 2):
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt; all selections are OK 
-#&gt; saving wave objects into extended selection table (step 2 of 2):
-#&gt;   |                                                  | 0 % ~calculating    |+++++                                             | 9 % ~00s            |++++++++++                                        | 18% ~00s            |++++++++++++++                                    | 27% ~00s            |+++++++++++++++++++                               | 36% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++++                  | 64% ~00s            |+++++++++++++++++++++++++++++++++++++             | 73% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt; checking selections (step 1 of 2):
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt; all selections are OK 
-#&gt; saving wave objects into extended selection table (step 2 of 2):
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='input'>
-</div></pre>
+
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

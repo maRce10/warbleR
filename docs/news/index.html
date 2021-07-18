@@ -153,6 +153,10 @@
 <code><a href="../reference/gaps.html">gaps()</a></code> for calculating time intervals (i.e. gaps) between selections</li>
 <li>
 <code>read_sound_files()</code> is now use to read sound files</li>
+<li>
+<code>optimized_find_peaks()</code> to optimize cutoff when detecting signals using cross correlation</li>
+<li>
+<code><a href="../reference/diagnose_detection.html">diagnose_detection()</a></code> for diagnosing detection</li>
 </ul>
 </div>
 <div id="changes-and-additions" class="section level2">
@@ -160,6 +164,19 @@
 <a href="#changes-and-additions" class="anchor"></a>Changes and additions:</h2>
 <ul>
 <li>warbleR now supports ‘.wav’, ‘.flac’, ‘.wac’ and ‘.mp3’ formats</li>
+<li>New argument ‘downsample’ to speed up processing in <code><a href="../reference/remove_silence.html">remove_silence()</a></code>
+</li>
+<li>New printing methods for ‘autodetec.output’ and ‘xcorr.output’ object classes</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes:</h2>
+<ul>
+<li>error when resampling wavs in <code><a href="../reference/resample_est_waves.html">resample_est_waves()</a></code>
+</li>
+<li>error when silences are not found in <code><a href="../reference/remove_silence.html">remove_silence()</a></code>
+</li>
 </ul>
 </div>
 </div>
@@ -189,9 +206,9 @@
 <h1 class="page-header" data-toc-text="1.1.25">
 <a href="#warbler-1125" class="anchor"></a><small> 2021-01-27 </small><em>warbleR 1.1.25</em>
 </h1>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Negative gaps values in <code><a href="../reference/song_param.html">song_param()</a></code>
 </li>
@@ -259,9 +276,9 @@
 <li>‘color_spectro()’ frequency range is not restricted by the selection table top and bottom frequency</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Negative gaps values in <code><a href="../reference/song_param.html">song_param()</a></code>
 </li>
@@ -286,9 +303,9 @@
 </li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>fix ‘spectrograms()’ when plotting extended selection tables ‘by song’</li>
 <li>fix ‘compare_methods()’ when less than 100 rows in ‘X’</li>
@@ -299,9 +316,9 @@
 <h1 class="page-header" data-toc-text="1.1.22">
 <a href="#warbler-1122" class="anchor"></a><small> 2020-02-12 </small><em>warbleR 1.1.22</em>
 </h1>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>fix rbind in extended selection tables</li>
 </ul>
@@ -365,9 +382,9 @@
 <li>new function rename_waves_est() to rename wave objects in extended selection tables</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>box/lines plotting when no frequency columns are supplied</li>
 </ul>
@@ -441,9 +458,9 @@
 <li>‘mfcc_stats()’ return NAs instead of error when MFCC can’t be calculated</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>x_corr() on extended selection tables with extra column names generated and error</li>
 <li>system() commands for windows in ‘fix_wavs()’ and ‘resample_est()’</li>
@@ -480,9 +497,9 @@
 <li>‘title.labels’ argument in ‘specreator()’ to customized title</li>
 </ul>
 </div>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Using ‘wav.path’ from ‘warbleR_options’ in ‘catalog()’</li>
 <li>clipping.edges option in ‘dfts()’ and ‘ffts()’</li>
@@ -519,9 +536,9 @@
 <li>‘by.song’ argument in ‘specreator’ to create full song spectrograms with labeled elements</li>
 </ul>
 </div>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-8" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Change “http” to “https” protocol for accessing Xeno-Canto recordings in “querxc”</li>
 </ul>
@@ -578,9 +595,9 @@
 <li>Example sound files have been moved to the new R package ‘NatureSounds’ (which is now a dependency)</li>
 </ul>
 </div>
-<div id="bug-fixes-8" class="section level2">
+<div id="bug-fixes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-9" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Problem with multiple tags in ‘catalog’</li>
 </ul>
@@ -632,9 +649,9 @@
 <li>exp.raven: exports selection tables to a .txt file that can be opened in Raven</li>
 </ul>
 </div>
-<div id="bug-fixes-9" class="section level2">
+<div id="bug-fixes-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-10" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>Reading wave files with no stereo slot in “specan” and “checksels”</li>
 </ul>
@@ -645,9 +662,9 @@
 <h1 class="page-header" data-toc-text="1.1.8">
 <a href="#warbler-118" class="anchor"></a><small> 2017-04-27 </small><em>warbleR 1.1.8</em>
 </h1>
-<div id="bug-fixes-10" class="section level2">
+<div id="bug-fixes-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-10" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-11" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>installation in some linux distributions</li>
 </ul>
@@ -665,9 +682,9 @@
 <li>“seltailor” function now can use external graphic devices (X11 or quartz)</li>
 </ul>
 </div>
-<div id="bug-fixes-11" class="section level2">
+<div id="bug-fixes-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-11" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-12" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>installation in windows OS fixed (pbmcapply conflict in previous version)</li>
 </ul>
@@ -717,9 +734,9 @@
 <li>grid can be removed from spectrograms in compare.methods function</li>
 </ul>
 </div>
-<div id="bug-fixes-12" class="section level2">
+<div id="bug-fixes-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-12" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-13" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>error produced when calculating frequency limits based on dominant frequency contours in xcorr (when frange is not provided)</li>
 <li>error for identifying readable sound files in some specific .wav formats in checkwavs function</li>
@@ -768,9 +785,9 @@
 <li>new “custom.contour” argument in trackfreqs to allow users to input their own frequency contours</li>
 </ul>
 </div>
-<div id="bug-fixes-13" class="section level2">
+<div id="bug-fixes-14" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-13" class="anchor"></a>Bug fixes:</h2>
+<a href="#bug-fixes-14" class="anchor"></a>Bug fixes:</h2>
 <ul>
 <li>bug fix for setting ‘path’ argument in several functions</li>
 <li>bug fix to due to missing values (undetected) in amplitude detection in trackfreqs, ffts, dfts, ffDTW, and dfDTW</li>

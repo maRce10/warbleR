@@ -82,7 +82,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/maRce10/warbleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -288,7 +288,7 @@ The function uses the <code><a href='https://rdrr.io/r/stats/approxfun.html'>app
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
+    <pre class="examples"><span class='op'>{</span>
 <span class='co'>#load data</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>,<span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#save sound files </span>
@@ -319,32 +319,7 @@ clip.edges <span class='op'>=</span> <span class='cn'>FALSE</span>, length.out <
 <span class='fu'>freq_ts</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, type <span class='op'>=</span> <span class='st'>"entropy"</span>, threshold <span class='op'>=</span> <span class='fl'>10</span>, bp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>12</span><span class='op'>)</span>,
 clip.edges <span class='op'>=</span> <span class='cn'>TRUE</span>, length.out <span class='op'>=</span> <span class='fl'>10</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, img <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; Creating spectrograms overlaid with fundamental frequency measurements:  |                                                  | 0 % ~calculating  </div><div class='output co'>#&gt; 
-#&gt; Measuring fundamental frequency:  |                                                  | 0 % ~calculating    |+++++                                             | 9 % ~00s            |++++++++++                                        | 18% ~00s            |++++++++++++++                                    | 27% ~00s            |+++++++++++++++++++                               | 36% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++++                  | 64% ~00s            |+++++++++++++++++++++++++++++++++++++             | 73% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt; Measuring fundamental frequency:  |                                                  | 0 % ~calculating    |+++++                                             | 9 % ~00s            |++++++++++                                        | 18% ~00s            |++++++++++++++                                    | 27% ~00s            |+++++++++++++++++++                               | 36% ~00s            |+++++++++++++++++++++++                           | 45% ~00s            |++++++++++++++++++++++++++++                      | 55% ~00s            |++++++++++++++++++++++++++++++++                  | 64% ~00s            |+++++++++++++++++++++++++++++++++++++             | 73% ~00s            |+++++++++++++++++++++++++++++++++++++++++         | 82% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++    | 91% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt;       sound.files selec ffreq-1 ffreq-2 ffreq-3 ffreq-4 ffreq-5 ffreq-6 ffreq-7
-#&gt; 1  Phae.long1.wav     1   0.895   0.843   0.859   0.891   0.840   0.880   0.861
-#&gt; 2  Phae.long1.wav     2   0.901   0.802   0.887   0.903   0.853   0.842   0.902
-#&gt; 3  Phae.long1.wav     3   0.945   0.881   0.876   0.931   0.859   0.878   0.931
-#&gt; 4  Phae.long2.wav     1   0.929   0.891   0.921   0.920   0.897   0.879   0.883
-#&gt; 5  Phae.long2.wav     2   0.920   0.900   0.923   0.924   0.898   0.879   0.875
-#&gt; 6  Phae.long3.wav     1   0.932   0.905   0.852   0.880   0.859   0.864   0.849
-#&gt; 7  Phae.long3.wav     2   0.933   0.904   0.884   0.873   0.854   0.867   0.863
-#&gt; 8  Phae.long3.wav     3   0.916   0.901   0.832   0.872   0.854   0.862   0.866
-#&gt; 9  Phae.long4.wav     1   0.924   0.842   0.815   0.825   0.835   0.884   0.881
-#&gt; 10 Phae.long4.wav     2   0.931   0.835   0.834   0.834   0.849   0.900   0.845
-#&gt; 11 Phae.long4.wav     3   0.949   0.828   0.818   0.839   0.855   0.886   0.868
-#&gt;    ffreq-8 ffreq-9 ffreq-10
-#&gt; 1    0.779   0.826    0.933
-#&gt; 2    0.798   0.814    0.923
-#&gt; 3    0.782   0.826    0.862
-#&gt; 4    0.872   0.894    0.928
-#&gt; 5    0.877   0.873    0.910
-#&gt; 6    0.854   0.862    0.934
-#&gt; 7    0.845   0.847    0.861
-#&gt; 8    0.841   0.850    0.894
-#&gt; 9    0.776   0.804    0.901
-#&gt; 10   0.770   0.818    0.903
-#&gt; 11   0.804   0.831    0.912</div></pre>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -82,7 +82,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/maRce10/warbleR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -248,7 +248,7 @@ elements in a song or other level of organization in the signals.</p>
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
+    <pre class="examples"><span class='op'>{</span>
 <span class='co'># get warbleR sound file examples</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"lbh_selec_table"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
@@ -286,23 +286,8 @@ mean_colm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/
 <span class='fu'>song_analysis</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>sp</span>, weight <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"duration"</span>, <span class='st'>"dfrange"</span><span class='op'>)</span>, song_colm <span class='op'>=</span> <span class='st'>"song"</span>,
 mean_colm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"kurt"</span>, <span class='st'>"sp.ent"</span><span class='op'>)</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |+++++++                                           | 12% ~00s            |+++++++++++++                                     | 25% ~00s            |+++++++++++++++++++                               | 38% ~00s            |+++++++++++++++++++++++++                         | 50% ~00s            |++++++++++++++++++++++++++++++++                  | 62% ~00s            |++++++++++++++++++++++++++++++++++++++            | 75% ~00s            |++++++++++++++++++++++++++++++++++++++++++++      | 88% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
-#&gt;   |                                                  | 0 % ~calculating    |+++++++++++++++++                                 | 33% ~00s            |++++++++++++++++++++++++++++++++++                | 67% ~00s            |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </div><div class='output co'>#&gt;      sound.files selec     start      end top.freq bottom.freq  song      kurt
-#&gt; 1 Phae.long1.wav     1 0.3433366 2.321457 8.807053    2.169437 song1 11.972984
-#&gt; 2 Phae.long2.wav     1 0.1595983 1.583209 8.888027    2.284006 song2 11.593528
-#&gt; 3 Phae.long3.wav     1 0.1233643 2.104392 9.315153    2.316862 song3  8.998806
-#&gt;      sp.ent num.elms elm.duration freq.range song.duration song.rate
-#&gt; 1 0.9311058        3    0.1703334   6.637617      1.978120  1.652827
-#&gt; 2 0.9264287        2    0.1293606   6.604022      1.423610  1.541473
-#&gt; 3 0.9082707        3    0.1308718   6.998291      1.981028  1.620878
-#&gt;   gap.duration
-#&gt; 1    0.7335599
-#&gt; 2    1.1648893
-#&gt; 3    0.7942062</div><div class='input'>
-</div></pre>
+
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

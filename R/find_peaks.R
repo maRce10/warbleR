@@ -117,7 +117,7 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   
   #### add start and end
   # add template column to selection table in xc.output
-  Y <- xc.output$selection.table
+  Y <- xc.output$org.selection.table
   Y$template <- paste(Y$sound.files, Y$selec, sep = "-")
   
   # Y <- Y[Y$template %in% comp_mat[, 1], ]
