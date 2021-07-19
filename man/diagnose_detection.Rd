@@ -47,7 +47,7 @@ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
 # run detection with auto_detec
-ad1 <- auto_detec(path = tempdir(), flist = unique(lbh_selec_reference$sound_files),  
+ad1 <- auto_detec(path = tempdir(), flist = unique(lbh_selec_reference$sound.files),  
 ssmooth = 1200, pb = FALSE, threshold =22, mindur = 0.10, maxdur = 0.18, 
 bp = c(3, 9), power = 1)
 
@@ -70,7 +70,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{auto_detec}}, \code{\link[monitoR]{findPeaks}}
+\code{\link{optimize_auto_detec}}, \code{\link{optimize_find_peaks}}
 }
 \author{
 Marcelo Araya-Salas \email{marcelo.araya@ucr.ac.cr})

@@ -12,7 +12,9 @@
 
 * warbleR now supports '.wav', '.flac', '.wac' and '.mp3' formats
 * New argument 'downsample' to speed up processing in `remove_silence()`
-* New printing methods for 'autodetec.output' and 'xcorr.output' object classes
+* New printing methods for 'autodetec.output', 'find.peaks.output' and 'xcorr.output' object classes
+* 'templates' and 'surveys' arguments added to `cross_correlation()` to simplify signal detection with this function
+* `auto_detec()` output including envelopes is ~1/3 smaller to reduce memory usage
 
 ## Bug fixes:
 

@@ -18,8 +18,10 @@ xcorr(
   na.rm = FALSE,
   cor.mat = NULL,
   output = "cor.mat",
+  templates = NULL,
+  surveys = NULL,
   compare.matrix = NULL,
-  type = "spectrogram",
+  type = "fourier",
   nbands = 40,
   method = 1
 )

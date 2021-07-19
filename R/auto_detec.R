@@ -602,7 +602,7 @@ auto_detec <-
                 sound.files = X$sound.files[i],
                 org.selec = X$selec[i],
                 time = seq(X$start[i], X$end[i], along.with = envp),
-                abs.time = NA,
+                # abs.time = NA,
                 amplitude = envp,
                 stringsAsFactors = FALSE
               )
@@ -650,6 +650,9 @@ auto_detec <-
       
       # envelopes
       envelopes <- do.call(rbind, lapply(ad, '[[', 2))
+      
+      # make sound files a factor to reduce size
+      envelopes$sound.files <- as.factor(envelopes$sound.files)
       
       if (!xprov)
         envelopes$org.selec <- NULL

@@ -45,6 +45,7 @@
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
+#' @seealso \code{\link{optimize_auto_detec}}, \code{\link{find_peaks}}
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}).
 #last modification on dec-21-2021 (MAS)
 optimize_find_peaks <- function(xc.output, reference, cutoffs = NULL, parallel = 1, pb = FALSE, by.sound.file = FALSE, previous.output = NULL){
@@ -83,7 +84,7 @@ optimize_find_peaks <- function(xc.output, reference, cutoffs = NULL, parallel =
       stop("'xc.output' must be and object of class 'xcorr.output'")
     
     # check that all sound files in reference have and envelope in xc.output
-    if (!all(reference$sound.files %in% gsub("-whole.file$", "", unique(xc.output$scores$sound.files))))
+    if (!all(reference$sound.files %in% gsub("-entire.file$", "", unique(xc.output$scores$sound.files))))
       stop("Not all sound files in 'reference' are found in 'xc.output'")
   
   # if previous output included

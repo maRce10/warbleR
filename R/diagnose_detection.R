@@ -49,7 +49,7 @@
 #' diagnose_detection(reference = lbh_selec_reference, detection = ad1, 
 #' by.sound.file = TRUE, time.diagnostics = TRUE)
 #' }
-#' @seealso \code{\link{optimized_auto_detec}}, \link{optimized_auto_find_peaks}}
+#' @seealso \code{\link{optimize_auto_detec}}, \code{\link{optimize_find_peaks}}
 #' @author Marcelo Araya-Salas \email{marcelo.araya@@ucr.ac.cr})
 #' 
 #' @references {
