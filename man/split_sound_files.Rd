@@ -5,7 +5,7 @@
 \title{Splits sound files}
 \usage{
 split_sound_files(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
- parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL)
+ parallel = 1, pb = TRUE, only.sels = FALSE, X = NULL)
 }
 \arguments{
 \item{path}{Directory path where sound files are found. 
@@ -20,22 +20,22 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
+\item{pb}{Logical argument to control progress bar. Default is \code{TRUE}. Only used when}
 
-\item{only.sels}{Logical argument to control if only the data frame is return (no wave files are saved). Default is \code{FALSE}.}
+\item{only.sels}{Logical argument to control if only the data frame is returned (no wave files are saved). Default is \code{FALSE}.}
 
 \item{X}{'selection_table' object or a data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). If provided selections in 'X' will be saved as individual sound files (and 'sgmt.dur'/'sgmts'/'files' arguments will be ignored. Default is \code{NULL}.}
+(start and end). If supplied the data frame/selection table is modified to reflect the position of the selections in the new sound files. Note that some selections could split between 2 segments. To deal with this, a 'split.sels' column is added to the data frame and labels as 'split' those selections. Default is \code{NULL}.}
 }
 \value{
-Wave files for each segment in the working directory (named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the cuts (sound.files) and the start and end of cuts in the original files. Cuts are saved in .wav format.
+Wave files for each segment in the working directory (if \code{only.sels = FALSE}, named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the clips (sound.files) and the start and end of clips in the original files. Clips are saved in .wav format. If 'X' is supplied then a data frame with the position of the selections in the newly created clips is returned instead.
 }
 \description{
 \code{split_sound_files} splits sound files in shorter segments
 }
 \details{
-This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}} ).
+This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}}).
 }
 \examples{
 {

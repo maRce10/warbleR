@@ -173,8 +173,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
   
   #if any start higher than end stop
   if (any(X$end - X$start <= 0)) stop(paste("The start is higher than or equal to the end in", length(which(X$end - X$start <= 0)), "case(s)"))  
-  
-  # flim checking
+
   if (flim[1] != "frange")
   {
     

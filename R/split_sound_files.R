@@ -2,7 +2,7 @@
 #' 
 #' \code{split_sound_files} splits sound files in shorter segments
 #' @usage split_sound_files(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
-#'  parallel = 1, pb = TRUE, only.sels  = FALSE, X = NULL)
+#'  parallel = 1, pb = TRUE, only.sels = FALSE, X = NULL)
 #' @param path Directory path where sound files are found. 
 #'  If \code{NULL} (default) then the current working directory is used.
 #' @param sgmt.dur Numeric. Duration (in s) of segments in which sound files would be split. Sound files shorter than 'sgmt.dur' won't be split. Ignored if 'sgmts' is supplied.
@@ -10,17 +10,17 @@
 #' @param files Character vector indicating the subset of files that will be split.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-#' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
-#' @param only.sels Logical argument to control if only the data frame is return (no wave files are saved). Default is \code{FALSE}.
+#' @param pb Logical argument to control progress bar. Default is \code{TRUE}. Only used when 
+#' @param only.sels Logical argument to control if only the data frame is returned (no wave files are saved). Default is \code{FALSE}.
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
-#' (start and end). If provided selections in 'X' will be saved as individual sound files (and 'sgmt.dur'/'sgmts'/'files' arguments will be ignored. Default is \code{NULL}.
+#' (start and end). If supplied the data frame/selection table is modified to reflect the position of the selections in the new sound files. Note that some selections could split between 2 segments. To deal with this, a 'split.sels' column is added to the data frame and labels as 'split' those selections. Default is \code{NULL}.
 #' @family data manipulation
 #' @seealso \code{\link{cut_sels}} 
 #' @export
 #' @name split_sound_files
-#' @return Wave files for each segment in the working directory (named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the cuts (sound.files) and the start and end of cuts in the original files. Cuts are saved in .wav format.
-#' @details This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}} ).
+#' @return Wave files for each segment in the working directory (if \code{only.sels = FALSE}, named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the clips (sound.files) and the start and end of clips in the original files. Clips are saved in .wav format. If 'X' is supplied then a data frame with the position of the selections in the newly created clips is returned instead.
+#' @details This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}}).
 #' @examples
 #' {
 #' #load data and save to temporary working directory
@@ -113,13 +113,11 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
-  # if X has not
-  if (is.null(X)){    
   # measure wav duration
   wvdr <- duration_wavs(path = path, files = files)
 
   # calculate start and end of segments and output data frame
-  split.dfs <- lapply(files, function(x){
+  split.df_l <- lapply(files, function(x){
 
     # calculate segment limits
     if (is.null(sgmts)){
@@ -148,15 +146,8 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
   })
   
   # put together in a single data frame
-  split.df <- do.call(rbind, split.dfs)
-  } else {
-    
-    split.df <- X
-    split.df$org.sound.files <- X$sound.files
-     
-    split.df$sound.files <- paste0(gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", "", X$sound.files, ignore.case = TRUE), "-", X$selec, ".wav")
-  }
-  
+  split.df <- do.call(rbind, split.df_l)
+
   # if no sound files are produced
   if (!only.sels){
   # set pb options 
@@ -179,6 +170,75 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
   })
   }
   
+  # calculate position of selection in newly created clips
+  if (!is.null(X)) {
+    
+    ## cbind new file data and X to get overlapping sels 
+    # make analogous columns on both data frames
+    split.df$new.sound.files <- split.df$sound.files
+    split.df$sound.files <- split.df$org.sound.files
+    split.df$bottom.freq <- split.df$top.freq <- NA
+    X$new.sound.files <- NA
+    
+    # ad unique selec ID to new files
+    split.df$selec <- paste0("new", 1:nrow(split.df))
+    
+    # select columns to bind
+    clms <- if (!is.null(X$bottom.freq) & !is.null(X$top.freq)) c("sound.files", "new.sound.files", "selec", "start", "end", "bottom.freq", "top.freq") else c("sound.files", "new.sound.files", "selec", "start", "end")
+    
+    # bind together
+    ovlp.df <- rbind(X[, clms], split.df[, clms])
+    
+    # add unique id for each selection
+    ovlp.df$sel.id <- paste(ovlp.df$sound.files, ovlp.df$selec, sep = "-")
+    X$sel.id <- paste(X$sound.files, X$selec, sep = "-")
+    
+    # get which selection are found in which new files
+    ovlp.df <- overlapping_sels(ovlp.df, indx.row = TRUE, max.ovlp = 0.0000001, pb = pb , parallel = parallel)
+    
+    ovlp.df$..row <- 1:nrow(ovlp.df)
+    
+    # split in new files rows and selection rows
+    new.sf.df <- ovlp.df[!is.na(ovlp.df$new.sound.files) & !is.na(ovlp.df$ovlp.sels), ]
+    org.sls.df <- ovlp.df[is.na(ovlp.df$new.sound.files), ]
+    
+    # re-add other columns
+    X$org.sound.files <- X$sound.files
+    org.sls.df <- merge(org.sls.df, X[, setdiff(names(X), clms)], by = "sel.id")
+    
+    # order columns
+    org.sls.df <- sort_colms(org.sls.df)
+    
+    # find time positions in new files 
+    new.sels_l <- lapply(1:nrow(new.sf.df), function(x){
+      
+      Y <- new.sf.df[x, , drop = FALSE]
+      
+      # get those selection found within Y
+      contained.sls <- org.sls.df[org.sls.df$..row %in% strsplit(Y$indx.row, "/")[[1]], ]
+      contained.sls$sound.files <- Y$new.sound.files
+      
+      # get new start and end
+      contained.sls$start <- contained.sls$start - Y$start
+      contained.sls$end <- contained.sls$end - Y$start
+      contained.sls$start[contained.sls$start < 0] <- 0
+      contained.sls$end[contained.sls$end > Y$end] <- Y$end
+      
+      return(contained.sls)
+    })
+    
+    new.sels <- do.call(rbind, new.sels_l)
+    new.sels$..row <- new.sels$indx.row <- new.sels$ovlp.sels <- new.sels$new.sound.files <- NULL
+    
+    # find which selection were split in 2 or more new files
+    new.sels$split.sels <- NA
+    cnt.sels <- table(new.sels$sel.id) 
+    new.sels$split.sels[new.sels$sel.id %in% names(cnt.sels[cnt.sels > 1])] <- "split"
+    new.sels$sel.id <- NULL
+    row.names(new.sels) <- 1:nrow(new.sels)
+    
+  return(new.sels)  
+  } else
   return(split.df)
 } 
 

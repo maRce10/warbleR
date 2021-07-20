@@ -7,6 +7,7 @@
 * `read_sound_files()` is now use to read sound files
 * `optimized_find_peaks()` to optimize cutoff when detecting signals using cross correlation 
 * `diagnose_detection()` for diagnosing detection
+* `split_sound_files()` now can also split associated selection tables
 
 ## Changes and additions:
 

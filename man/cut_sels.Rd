@@ -22,8 +22,7 @@ cut_sels(
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
-selection number (selec), and start and end time of signals (start and end).
-The output of \code{\link{auto_detec}} can be used as the input data frame.}
+selection number (selec), and start and end time of signals (start and end).}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 delineating spectrogram limits. Default is 0.05.}
@@ -48,7 +47,7 @@ overwritten. Default is \code{FALSE}.}
 
 \item{norm}{Logical indicating whether wave objects must be normalized first using the function \code{\link[tuneR]{normalize}}. Additional arguments can be passed to \code{\link[tuneR]{normalize}} using `...`.` Default is \code{FALSE}. See \code{\link[tuneR]{normalize}} for available options.}
 
-\item{...}{Additional arguments to be passed to the internal \code{\link[tuneR]{normalize}}  function for customizing sound file output. Ignored if  \code{norm = FALSE}.}
+\item{...}{Additional arguments to be passed to the internal \code{\link[tuneR]{normalize}} function for customizing sound file output. Ignored if  \code{norm = FALSE}.}
 }
 \value{
 Sound files of the signals listed in the input data frame.
