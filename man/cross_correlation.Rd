@@ -53,7 +53,7 @@ results. This means that all selections with at least 1 cross-correlation that f
 
 \item{compare.matrix}{A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If the 'selec' ID is not supplied then the entire sound file is used instead. If 'compare.matrix' is supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values. Note that 'method' is automatically set to 2 (create spectrograms on the fly) when 'compare.matrix' is supplied but can be set back to 1. When supplied 'output' is forced to be 'list'.}
 
-\item{type}{A character vector of length 1 specifying the type of cross-correlation; either "fourier" (i.e. spectrographic cross-correlation using Fourier transform; internally using \code{\link[seewave]{spectro}}; default) or "mel" (Mel spectrogram cross-correlation; internally using \code{\link[tuneR]{melfcc}}).}
+\item{type}{A character vector of length 1 specifying the type of cross-correlation; either "fourier" (i.e. spectrographic cross-correlation using Fourier transform; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient spectrogram cross-correlation; internally using \code{\link[tuneR]{melfcc}}).}
 
 \item{nbands}{Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40.}
 
@@ -72,7 +72,7 @@ the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2)
 \code{cross_correlation} estimates the similarity of two sound waves by means of time-frequency cross-correlation
 }
 \details{
-This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel spectrograms can be used as time-frequency representations of sound. 
+This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel frequency ceptral coefficients spectrograms can be used as time-frequency representations of sound. 
 This method "slides" the spectrogram of the shortest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins

@@ -32,7 +32,7 @@
 #' @param templates Character vector with the selections in 'X' to be used as templates for cross-correlation detection. To refer to specific selections in 'X' the user must use the format "sound.file-selec" (e.g. "file1.wav-1"). If only the sound file name is included then the entire sound file is used as template.
 #' @param surveys Character vector with the selections in 'X' to be used as surveys for cross-correlation detection. To refer to specific selections in 'X' the user must use the format "sound.file-selec" (e.g. "file1.wav-1"). If only the sound file name is included then the entire sound file is used as survey.
 #' @param compare.matrix A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If the 'selec' ID is not supplied then the entire sound file is used instead. If 'compare.matrix' is supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values. Note that 'method' is automatically set to 2 (create spectrograms on the fly) when 'compare.matrix' is supplied but can be set back to 1. When supplied 'output' is forced to be 'list'. 
-#' @param type A character vector of length 1 specifying the type of cross-correlation; either "fourier" (i.e. spectrographic cross-correlation using Fourier transform; internally using \code{\link[seewave]{spectro}}; default) or "mel" (Mel spectrogram cross-correlation; internally using \code{\link[tuneR]{melfcc}}).
+#' @param type A character vector of length 1 specifying the type of cross-correlation; either "fourier" (i.e. spectrographic cross-correlation using Fourier transform; internally using \code{\link[seewave]{spectro}}; default) or "mfcc" (Mel cepstral coefficient spectrogram cross-correlation; internally using \code{\link[tuneR]{melfcc}}).
 #' @param nbands Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using \code{type = "mfcc"} (see \code{\link[tuneR]{melfcc}}). Default is 40. 
 #' @param method Numeric vector of length 1 to control the method used to create spectrogram matrices. Two option are available:
 #' \itemize{
@@ -44,7 +44,7 @@
 #' the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').
 #' @export
 #' @name cross_correlation
-#' @details This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel spectrograms can be used as time-frequency representations of sound. 
+#' @details This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel frequency ceptral coefficients spectrograms can be used as time-frequency representations of sound. 
 #' This method "slides" the spectrogram of the shortest selection over the longest one calculating a correlation of the amplitude values at each step.
 #' The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 #' for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
@@ -196,7 +196,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
       stop("not all templates are referenced in 'X'")
   
   # check surveys
-  if (!all(surveys %in% fs))
+  if (!all(surveys %in% list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)))
     stop("not all sound files in 'surveys' are found in the working directory or 'path'")
   
   # if templates were supplied but no compare.matrix use files in working directory
@@ -290,7 +290,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
       
     }
 
-  # function to get spectrogram or mfcc matrices
+  # function to get spectrogram matrices
   spc_FUN <- function(j, pth, W, wlg, ovl, w, nbnds) {
     
     clp <- warbleR::read_sound_file(X = W, index = j, path = pth)
@@ -301,7 +301,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
     if (type == "mfcc"| type == "mel")
     {
       # calculate MFCCs
-      spc <- melfcc(clp, nbands = nbnds, hoptime =  (wlg / clp@samp.rate) * (ovl / 100), wintime =  wlg / clp@samp.rate, dcttype = "t3", fbtype = "htkmel", spec_out = TRUE)
+      spc <- melfcc(clp, nbands = nbnds, hoptime = (wlg / clp@samp.rate) * ((if(ovl > 0) ovl else 100) / 100), wintime =  wlg / clp@samp.rate, dcttype = "t3", fbtype = "htkmel", spec_out = TRUE)
       
       # change name of target element so it maches spectrogram output names
       names(spc)[2] <- "amp" 

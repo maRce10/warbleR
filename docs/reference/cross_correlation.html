@@ -230,7 +230,7 @@ results. This means that all selections with at least 1 cross-correlation that f
     </tr>
     <tr>
       <th>type</th>
-      <td><p>A character vector of length 1 specifying the type of cross-correlation; either "fourier" (i.e. spectrographic cross-correlation using Fourier transform; internally using <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>; default) or "mel" (Mel spectrogram cross-correlation; internally using <code><a href='https://rdrr.io/pkg/tuneR/man/melfcc.html'>melfcc</a></code>).</p></td>
+      <td><p>A character vector of length 1 specifying the type of cross-correlation; either "fourier" (i.e. spectrographic cross-correlation using Fourier transform; internally using <code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>; default) or "mfcc" (Mel cepstral coefficient spectrogram cross-correlation; internally using <code><a href='https://rdrr.io/pkg/tuneR/man/melfcc.html'>melfcc</a></code>).</p></td>
     </tr>
     <tr>
       <th>nbands</th>
@@ -252,7 +252,7 @@ the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix'
 the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel spectrograms can be used as time-frequency representations of sound. 
+    <p>This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel frequency ceptral coefficients spectrograms can be used as time-frequency representations of sound. 
 This method "slides" the spectrogram of the shortest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins

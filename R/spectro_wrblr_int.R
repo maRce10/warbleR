@@ -13,9 +13,9 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
           cexlab = 1, cexaxis = 1, tlab = "Time (s)", flab = "Frequency (kHz)", 
           alab = "Amplitude", scalelab = "Amplitude\n(dB)", main = NULL, 
           scalefontlab = 1, scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, 
-          tlim = NULL, trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 
-                                                                          1), 
-          heights = c(3, 1), oma = rep(0, 4), rnd = NULL, rm.lwst = FALSE, colwave =  adjustcolor("#07889B", alpha.f = 0.7), ...) 
+          tlim = NULL, trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
+          heights = c(3, 1), oma = rep(0, 4), rnd = NULL, rm.lwst = FALSE, 
+          colwave =  adjustcolor("#07889B", alpha.f = 0.7), ...) 
 {
  
   if(wl >= length(wave@left))  wl <- length(wave@left) - 1 

@@ -14,7 +14,7 @@
 #' @param only.sels Logical argument to control if only the data frame is returned (no wave files are saved). Default is \code{FALSE}.
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
-#' (start and end). If supplied the data frame/selection table is modified to reflect the position of the selections in the new sound files. Note that some selections could split between 2 segments. To deal with this, a 'split.sels' column is added to the data frame and labels as 'split' those selections. Default is \code{NULL}.
+#' (start and end). If supplied the data frame/selection table is modified to reflect the position of the selections in the new sound files. Note that some selections could split between 2 segments. To deal with this, a 'split.sels' column is added to the data frame in which those selection are labeled as 'split'. Default is \code{NULL}.
 #' @family data manipulation
 #' @seealso \code{\link{cut_sels}} 
 #' @export
@@ -216,7 +216,10 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
       
       # get those selection found within Y
       contained.sls <- org.sls.df[org.sls.df$..row %in% strsplit(Y$indx.row, "/")[[1]], ]
-      contained.sls$sound.files <- Y$new.sound.files
+      
+      # if selection were found within Y
+      if (nrow(contained.sls) > 0)
+{      contained.sls$sound.files <- Y$new.sound.files
       
       # get new start and end
       contained.sls$start <- contained.sls$start - Y$start
@@ -225,6 +228,8 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
       contained.sls$end[contained.sls$end > Y$end] <- Y$end
       
       return(contained.sls)
+      } else
+        return(NULL)
     })
     
     new.sels <- do.call(rbind, new.sels_l)

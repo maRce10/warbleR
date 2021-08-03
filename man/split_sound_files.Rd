@@ -26,7 +26,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{X}{'selection_table' object or a data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
-(start and end). If supplied the data frame/selection table is modified to reflect the position of the selections in the new sound files. Note that some selections could split between 2 segments. To deal with this, a 'split.sels' column is added to the data frame and labels as 'split' those selections. Default is \code{NULL}.}
+(start and end). If supplied the data frame/selection table is modified to reflect the position of the selections in the new sound files. Note that some selections could split between 2 segments. To deal with this, a 'split.sels' column is added to the data frame in which those selection are labeled as 'split'. Default is \code{NULL}.}
 }
 \value{
 Wave files for each segment in the working directory (if \code{only.sels = FALSE}, named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the clips (sound.files) and the start and end of clips in the original files. Clips are saved in .wav format. If 'X' is supplied then a data frame with the position of the selections in the newly created clips is returned instead.
