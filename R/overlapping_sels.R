@@ -66,8 +66,8 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
                       priority = NULL, priority.col = NULL, unique.labs = TRUE, indx.row = FALSE, parallel = 1) 
   {
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -201,15 +201,15 @@ if (ndx.rw)
   # split data into a data.frame per sound file  
 sX <- split(X, X$sound.files, drop = TRUE)
 
-# set pb options 
-pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+
+
 
 # set clusters for windows OS
 if (Sys.info()[1] == "Windows" & parallel > 1)
   cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
 
 # run loop apply function
-out <- pbapply::pblapply(X = sX, cl = cl, FUN = ovlpFUN) 
+out <- pblapply_wrblr_int(pbar = pb, X = sX, cl = cl, FUN = ovlpFUN) 
 
 out <- do.call(rbind, out)    
  

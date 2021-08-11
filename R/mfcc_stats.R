@@ -64,8 +64,8 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
   if (!requireNamespace("Sim.DiffProc",quietly = TRUE))
     stop("must install 'Sim.DiffProc' to use this function")
   
-    # set pb options 
-    on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+    
+    
     
     #### set arguments from options
     # get function arguments
@@ -198,15 +198,15 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     return(out.df)
     }
   
-    # set pb options 
-    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+    
+    
     
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1)
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
     
     # run loop apply function
-    ccs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+    ccs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) 
     { 
       mfcc_FUN(i = i, X = X, bp, wl = wl, numcep = numcep, nbands = nbands)
     }) 

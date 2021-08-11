@@ -39,8 +39,8 @@
 
 wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)
 {
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   # error message if wavethresh is not installed
   if (!requireNamespace("wavethresh", quietly = TRUE))
@@ -110,15 +110,15 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
     }
   }
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  wdps <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i){
+  wdps <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i){
     
     # read rec segment
     r <- warbleR::read_sound_file(X = X, path = path, index = i)

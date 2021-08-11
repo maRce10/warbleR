@@ -150,15 +150,15 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
 
   # if no sound files are produced
   if (!only.sels){
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
     # split using a loop only the ones that are shorter than segments
-  a <- pbapply::pbsapply(which(split.df$org.sound.files != split.df$sound.files), cl =  cl, function(x) {
+    a_l <- pblapply_wrblr_int(pbar = pb, X = which(split.df$org.sound.files != split.df$sound.files), cl =  cl, FUN = function(x) {
   
   # read clip    
   clip <- warbleR::read_sound_file(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path)
@@ -168,6 +168,9 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
     
     return(NULL)  
   })
+  
+  # make it a vector
+  a <- unlist(a_l)
   }
   
   # calculate position of selection in newly created clips

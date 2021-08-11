@@ -76,8 +76,8 @@
 sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
                       in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10){
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -225,21 +225,18 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     
   }
    
-  # set pb options 
-  pbapply::pboptions(type = ifelse(as.logical(pb), "timer", "none"))
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  SNR <- pbapply::pbsapply(X = 1:nrow(X), cl = cl, FUN = function(y) 
+  SNR_l <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(y) 
   { 
     snr_FUN(y, mar, bp, wl, type, before, in.dB, lim.dB)
   }) 
       
     # Add SNR data to X
-    z <- data.frame(X, SNR = SNR)
+    z <- data.frame(X, SNR = unlist(SNR_l))
     
   # fix extended selection table
     if (is_extended_selection_table(X)) z <- fix_extended_selection_table(X = z, Y = X)  

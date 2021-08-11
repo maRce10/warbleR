@@ -108,8 +108,8 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
                      xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2, snrmar = 0.1, it = "jpeg",
                      parallel = 1, path = NULL, pb = TRUE){
  
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -260,15 +260,15 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
     return (NULL)
   }
      
-    # set pb options 
-    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+    
+    
     
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1)
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
     
     # run loop apply function
-    out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+    out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) 
     { 
       snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar, before,  eq.dur)
     }) 

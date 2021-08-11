@@ -121,10 +121,7 @@ auto_detec <-
            pal = NULL,
            fast.spec = NULL
            ) {
-    
-    # reset pb on exit
-    on.exit(pbapply::pboptions(type = .Options$pboptions$type))
-    
+  
     # message deprecated
     if (!is.null(smadj))
       write(file = "", x = crayon::silver("'smadj' has been deprecated"))
@@ -380,7 +377,7 @@ auto_detec <-
       }
     
     # set pb options
-    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+    
     
     
     # if parallel was not called
@@ -620,7 +617,7 @@ auto_detec <-
       cl <- parallel
     
     # run function over sound files or selections in loop
-    ad <- pbapply::pblapply(
+    ad <- pblapply_wrblr_int(pbar = pb, 
       X = 1:nrow(X),
       cl = cl,
       FUN = function(i)
@@ -692,7 +689,7 @@ auto_detec <-
         
         # loop to merge selections
         out <-
-          pbapply::pblapply(unique(ovlp$ovlp.sels), cl = cl, function(x) {
+          pblapply_wrblr_int(pbar = pb, X = unique(ovlp$ovlp.sels), cl = cl, FUN = function(x) {
             # subset for one level
             Y <- ovlp[ovlp$ovlp.sels == x, ]
             

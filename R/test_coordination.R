@@ -92,8 +92,6 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
                       randomization = "keep.gaps", less.than.chance = TRUE, parallel = 1, pb = TRUE, 
                       rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE)
 {
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(test_coordination)
@@ -347,15 +345,15 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   # select function/ovlp.method
   coortestFUN <- if (ovlp.method == 'count') countFUN else durFUN
       
-      # set pb options 
-      pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+      
+      
       
       # set clusters for windows OS
       if (Sys.info()[1] == "Windows" & parallel > 1)
         cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
       
       # run loop apply function
-      cote <- pbapply::pblapply(X = unique(X$sing.event), cl = cl, FUN = function(h) 
+      cote <- pblapply_wrblr_int(pbar = pb, X = unique(X$sing.event), cl = cl, FUN = function(h) 
       { 
         ovlp <- try(sapply(rndmFUN(X[X$sing.event == h, ]), coortestFUN))
         

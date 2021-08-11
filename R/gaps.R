@@ -30,8 +30,8 @@
 
 gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
 {
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -94,8 +94,8 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
   # add order column to sort data after calculations
   X$..order <- 1:nrow(X)
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
@@ -103,7 +103,7 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
   
   
   # run loop apply function
-  gaps_l <- pbapply::pblapply(X = unique(X$..by), cl = cl, function(i) 
+  gaps_l <- pblapply_wrblr_int(pbar = pb, X = unique(X$..by), cl = cl, FUN = function(i) 
   { 
     Y <- X[X$..by == i, ]
     

@@ -135,8 +135,8 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
                    parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
                    wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...){
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  # 
   
   # error message if ape is not installed
   if (!requireNamespace("soundgen",quietly = TRUE) & harmonicity)
@@ -383,15 +383,12 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
     
   }
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  sp <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  sp <- pblapply_wrblr_int(X = 1:nrow(X), cl = cl, pbar = pb, FUN = function(i) 
   { 
     spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
   }) 

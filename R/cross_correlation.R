@@ -95,8 +95,8 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
                   templates = NULL, surveys = NULL,
                   compare.matrix = NULL, type = "fourier", nbands = 40, method = 1)
 {
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
  
   #### set arguments from options
@@ -325,15 +325,15 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
       write(file = "", x = paste0("creating spectrogram matrices (step 1 of ", max.stps,"):"))
   
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
    
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # get spectrogram for each selection
-  spcs <- pbapply::pblapply(X = 1:nrow(X), cl = cl, function(e) spc_FUN(j = e, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands))
+  spcs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(e) spc_FUN(j = e, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands))
   
   # check sampling rate is the same for all selections if not a selection table
   if (!is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop("sampling rate must be the same for all selections")
@@ -389,7 +389,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # get correlation
-  xcrrs <- pbapply::pblapply(X = 1:nrow(spc.cmbs), cl = cl, FUN = function(j, BP = bp, cor.meth = cor.method) {
+  xcrrs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(spc.cmbs), cl = cl, FUN = function(j, BP = bp, cor.meth = cor.method) {
     
     if (BP[1] %in% c("pairwise.freq.range", "frange"))
     BP <- c(min(X$bottom.freq[X$selection.id %in% spc.cmbs[j, ]]), max(X$top.freq[X$selection.id %in% spc.cmbs[j, ]]))

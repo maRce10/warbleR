@@ -102,8 +102,8 @@
 
 freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "frequency.ts", pb = TRUE, clip.edges = FALSE, leglab = "frequency.ts", track.harm = FALSE, raw.contour = FALSE, adjust.wl = TRUE, ff.method = "seewave", entropy.range = c(2, 10),...){     
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -454,15 +454,15 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
     } 
   
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  lst <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  lst <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
     contour_FUN(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl)
   })

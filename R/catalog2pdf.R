@@ -46,9 +46,6 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
   if (!requireNamespace("jpeg",quietly = TRUE))
     stop("must install 'jpeg' to use this function")
   
-  # reset pbapply options
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(catalog2pdf)
@@ -142,15 +139,15 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
     }
     }
 
-     # set pb options 
-     pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+     
+     
   
      # set clusters for windows OS
      if (Sys.info()[1] == "Windows" & parallel > 1)
        cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
      
      # run loop apply function
-     a1 <- pbapply::pblapply(X = unique(or.sf), cl = cl, FUN = function(i) 
+     a1 <- pblapply_wrblr_int(pbar = pb, X = unique(or.sf), cl = cl, FUN = function(i) 
      { 
        cat2pdfFUN(i, overwrite, keep.img)
      }) 

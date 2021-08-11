@@ -157,7 +157,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     pal = reverse.gray.colors.2, img = TRUE, ...){  
  
   # reset pb
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   
   #### set arguments from options
   # get function arguments
@@ -592,8 +592,8 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   on.exit(invisible(close.screen(all.screens = TRUE)))
   }
       
-      # set pb options 
-      pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+      
+      
       
       
       if (pb)   write(file = "", x ="creating image files:")
@@ -602,7 +602,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
       if (Sys.info()[1] == "Windows" & parallel > 1)
         cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
       
-      a1 <- pbapply::pblapply(X = 1:ncol(combs), cl = cl, FUN = function(u) 
+      a1 <- pblapply_wrblr_int(pbar = pb, X = 1:ncol(combs), cl = cl, FUN = function(u) 
       { 
         comp.methFUN(X, u, res, bidims, m, mar, flim)
       })

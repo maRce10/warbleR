@@ -57,8 +57,8 @@
 
 multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1, window.type = "none", open.end = FALSE, scale = FALSE, dist.mat = TRUE, ...){     
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   options(digits = 5)
   
@@ -131,15 +131,15 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1, wi
     ts.df1$sf.sels <- paste(ts.df1$sound.files, ts.df1$selec, sep = "-")
     combs <- t(utils::combn(ts.df1$sf.sels, 2))
     
-    # set pb options 
-    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+    
+    
     
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1)
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
     
     # run loop apply function
-    out <- pbapply::pblapply(X = 1:nrow(combs), cl = cl, FUN = function(i) 
+    out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(combs), cl = cl, FUN = function(i) 
     { 
       multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...)
     })
@@ -187,7 +187,7 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1, wi
     # }
     # else {
     #   if(pb)
-    #     out <- pbapply::pblapply(1:nrow(combs), function(i) 
+    #     out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(combs), FUN = function(i) 
     #       multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...)
     #     ) else
     #       out <- lapply(1:nrow(combs), function(i) multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...))

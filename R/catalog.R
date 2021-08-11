@@ -214,9 +214,6 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
                     by.row = TRUE, box = TRUE)
 {
 
-  # reset pbapply options
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(catalog)
@@ -349,8 +346,8 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   #if it argument is not "jpeg" or "tiff"
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   
   #if flim is not vector or length!=2 stop
@@ -1011,7 +1008,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-  out <- pbapply::pblapply(X = 1:length(Xlist), cl = cl, FUN = function(z) 
+  out <- pblapply_wrblr_int(pbar = pb, X = 1:length(Xlist), cl = cl, FUN = function(z) 
     { 
     catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
              width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)}

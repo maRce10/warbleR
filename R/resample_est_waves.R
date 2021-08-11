@@ -54,8 +54,8 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
     bit.depth <- as.character(bit.depth)
     if (!bit.depth %in% c("1", "8", "16", "24", "32", "64", "0")) stop('only this "bit.depth" values allowed c("1", "8", "16", "24", "32", "64", "0") \n see ?tuneR::normalize')
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -78,15 +78,15 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS and no soz
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # if (!sox)
-  #   out <- pbapply::pblapply(attributes(X)$wave.objects, cl = cl, function(x)
+  #   out <- pblapply_wrblr_int(pbar = pb, X = attributes(X)$wave.objects, cl = cl, function(x)
   # {
   # 
   #   if (x@samp.rate != samp.rate * 1000) {
@@ -107,7 +107,7 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
   #   }) else {
   #    
       
-      out <- pbapply::pblapply(attributes(X)$wave.objects, function(x){
+      out <- pblapply_wrblr_int(pbar = pb, X = attributes(X)$wave.objects, FUN = function(x){
         
         # fo saving current wave    
         tempfile <- paste0(tempfile(), ".wav")

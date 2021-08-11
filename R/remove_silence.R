@@ -59,8 +59,8 @@ remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg"
                    files = NULL, flist = NULL, parallel = 1, pb = TRUE, downsample = TRUE)
 {
 
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   # flist deprecated
   if (!is.null(flist))  write(file = "", x = "'flist' has been deprecated and will be ignored. Please use 'files' instead.")
@@ -181,15 +181,15 @@ remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg"
   
   if (pb) cat("searching for silence segments in wave files:")
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pblapply(X = wavs, cl = cl, FUN = function(i) 
+  out <- pblapply_wrblr_int(pbar = pb, X = wavs, cl = cl, FUN = function(i) 
   { 
     rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img) 
   }) 

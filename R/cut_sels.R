@@ -54,7 +54,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
                      labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, ...){
   
   # reset pb
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   
   #### set arguments from options
   # get function arguments
@@ -165,15 +165,15 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
        
   }
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
     cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
   }) 

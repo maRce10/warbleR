@@ -39,8 +39,8 @@
 
 wav_2_flac <- function(files = NULL, path = NULL, overwrite = FALSE, pb = TRUE, parallel = 1) {
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -78,18 +78,21 @@ wav_2_flac <- function(files = NULL, path = NULL, overwrite = FALSE, pb = TRUE, 
         stop("some (or all) sound files were not found")
  } 
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pbsapply(X = files, cl = cl, FUN = function(i) 
+  out_l <- pblapply_wrblr_int(pbar = pb, X = files, cl = cl, FUN = function(i) 
   
    warbleR::try_na(wav2flac(file = file.path(path, i), overwrite = overwrite))
   )
+  
+  # make it a vector
+  out <- unlist(out_l)
   
 }
 

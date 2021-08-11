@@ -74,9 +74,6 @@
 check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE, 
                       pb = TRUE, wav.size = FALSE, verbose = TRUE){
   
-  # reset pbapply pb
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(check_sels)
@@ -236,15 +233,15 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
     return(Y)
   }
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pblapply(X = unique(X$sound.files), cl = cl, FUN = function(x) 
+  out <- pblapply_wrblr_int(pbar = pb, X = unique(X$sound.files), cl = cl, FUN = function(x) 
   { 
     csFUN(x, X, pth = path)
   }) 

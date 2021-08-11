@@ -78,8 +78,8 @@
 query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
                    parallel = 1, path = NULL, pb = TRUE) {
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -118,8 +118,8 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
 
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   file.name <- gsub(" ", "_", file.name) 
   file.name <- tolower(file.name) 
@@ -156,7 +156,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       if (Sys.info()[1] == "Windows" & parallel > 1)
         cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
         
-        f <- pbapply::pblapply(X = 1:q$numPages, cl = cl, FUN = function(y)
+        f <- pblapply_wrblr_int(pbar = pb, X = 1:q$numPages, cl = cl, FUN = function(y)
       {
         #search for each page
         a <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))  
@@ -277,7 +277,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
     if (Sys.info()[1] == "Windows" & parallel > 1)
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
     
-       a1 <- pbapply::pblapply(X = 1:nrow(results), cl = cl, FUN = function(x) 
+       a1 <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(results), cl = cl, FUN = function(x) 
   { 
       xcFUN(results, x) 
   }) 
@@ -298,7 +298,7 @@ if (pb) write(file = "", x ="double-checking downloaded files")
        cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
      
      
-    a1 <- pbapply::pblapply(X = 1:nrow(Y), cl = cl, FUN = function(x) 
+    a1 <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) 
   { 
       try(xcFUN(Y, x), silent = TRUE) 
   }) 

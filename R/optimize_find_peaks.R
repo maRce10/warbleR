@@ -50,7 +50,7 @@
 #last modification on dec-21-2021 (MAS)
 optimize_find_peaks <- function(xc.output, reference, cutoffs = NULL, parallel = 1, pb = FALSE, by.sound.file = FALSE, previous.output = NULL){
   
-  # reset pbapply options
+  # reset pb on exit
   on.exit(pbapply::pboptions(type = .Options$pboptions$type))
   
   #### set arguments from options
@@ -102,12 +102,11 @@ optimize_find_peaks <- function(xc.output, reference, cutoffs = NULL, parallel =
       xc.output$envelopes <- xc.output$envelopes[xc.output$envelopes$sound.files %in% reference$sound.files, ]
       xc.output$org.selection.table <- xc.output$org.selection.table[xc.output$org.selection.table$sound.files %in% reference$sound.files, ]
       
-
-    pks_results <- lapply(cutoffs, function(x){
+    # set pb options
+    pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+    
+    pks_results <- pbapply::pblapply(X = cutoffs, FUN = function(x){
       
-      if (!requireNamespace("svMisc", quietly = TRUE))
-        cat("must install 'svMisc' to use a progress bar in optimize_auto_detec()") else
-          svMisc::progress(value = x, max.value = length(cutoffs), progress.bar = TRUE, char ="|")
       
       pks <- find_peaks(xc.output = xc.output, cutoff = x, output = "data.frame", pb = FALSE)
       

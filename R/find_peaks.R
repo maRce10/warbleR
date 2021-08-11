@@ -44,8 +44,8 @@
 # last modification on jan-03-2020 (MAS)
 find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE, max.peak = FALSE, output = "data.frame") 
 {
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -74,15 +74,15 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
       stop("'path' provided does not exist") else
         path <- normalizePath(path)
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS and no soz
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # loop over scores of each dyad
-  pks <- pbapply::pblapply(unique(xc.output$scores$dyad), cl = cl, FUN = function(i) {
+  pks <- pblapply_wrblr_int(pbar = pb, X = unique(xc.output$scores$dyad), cl = cl, FUN = function(i) {
     
     # extract data for a dyad
     dat <- xc.output$scores[xc.output$scores$dyad == i, ]

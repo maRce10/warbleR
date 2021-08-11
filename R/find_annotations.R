@@ -34,8 +34,8 @@
 
 find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FALSE, download = FALSE, X = NULL, path = NULL) {
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -75,8 +75,8 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FA
   
   if (is.null(X))
   {
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
     #search annotations 
     if (pb)
@@ -99,7 +99,7 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FA
         cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
       
       
-      q <- pbapply::pblapply(q, cl = cl,  function(x){
+      q <- pblapply_wrblr_int(pbar = pb, X = q, cl = cl, FUN = function(x){
         
         x[sapply(x, is.null)] <- NA
         
@@ -199,7 +199,7 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FA
     if (Sys.info()[1] == "Windows" & parallel > 1)
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
     
-    a1 <- pbapply::pblapply(X = 1:nrow(non.dup.res), cl = cl, FUN = function(x) 
+    a1 <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(non.dup.res), cl = cl, FUN = function(x) 
     { 
       annFUN(non.dup.res, x) 
     })     

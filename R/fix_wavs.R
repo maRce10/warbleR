@@ -168,7 +168,7 @@ fix_sox_FUN <- function(x)
 
 # fix_FUN <- if (sox)  fix_sox_FUN else fix_bio_FUN 
 
-  out <- pbapply::pblapply(fls, fix_sox_FUN)
+  out <- pblapply_wrblr_int(pbar = TRUE, X = fls, FUN = fix_sox_FUN)
   }
 
 

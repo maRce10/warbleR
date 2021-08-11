@@ -116,8 +116,8 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
                             extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, ...)
 {
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
    
   #### set arguments from options
   # get function arguments
@@ -227,15 +227,15 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         
         #save wave objects as a list attributes
         # set clusters for windows OS
-        # set pb options 
-        pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+        
+        
         
         if (Sys.info()[1] == "Windows" & parallel > 1)
           cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
         
         if (pb) write(file = "", x ="saving wave objects into extended selection table (step 2 of 2):")
         
-        attributes(X)$wave.objects <- pbapply::pblapply(1:nrow(Y), cl = cl, function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))
+        attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN =  function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))
         
         # reset for new dimensions  
         check.results$start <- X$start <- check.results$mar.before

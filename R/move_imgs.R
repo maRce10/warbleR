@@ -74,9 +74,7 @@ move_imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
   # Check directory permissions
   if (file.access(to, 2) == -1) stop(paste("You don't have permission to copy files into", to))
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
-  
+
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(move_imgs)
@@ -109,14 +107,11 @@ move_imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
   
   if (length(imgs) == 0) cat(paste("No image files were found in", from)) else {
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-a <- pbapply::pblapply(X = seq(1, length(imgs), by = 10), cl = cl, FUN = function(x)
+a <- pblapply_wrblr_int(pbar = pb, X = seq(1, length(imgs), by = 10), cl = cl, FUN = function(x)
   { 
     if (length(imgs) <= x + 9) y <- length(imgs) else y <- x + 9
     

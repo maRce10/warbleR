@@ -180,8 +180,8 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
                                ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1, widths = c(2, 1), 
                                freq.continuity = NULL, clip.edges = 2, track.harm = FALSE, ...){     
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -649,15 +649,15 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
     
   }
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
     trackfreFUN(X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
                 custom.contour)

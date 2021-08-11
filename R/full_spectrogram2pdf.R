@@ -47,8 +47,8 @@ full_spectrogram2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 
   if (!requireNamespace("jpeg",quietly = TRUE))
     stop("must install 'jpeg' to use this function")
   
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -127,15 +127,15 @@ full_spectrogram2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 
     }
     # )
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  lst <- pbapply::pblapply(X = unique(or.sf), cl = cl, FUN = function(i) 
+  lst <- pblapply_wrblr_int(pbar = pb, X = unique(or.sf), cl = cl, FUN = function(i) 
   { 
     l2pdfFUN(i, overwrite, keep.img)
   }) 

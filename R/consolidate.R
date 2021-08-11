@@ -62,7 +62,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
                         parallel = 1, save.csv = TRUE, ...){
   
   # reset pb
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
   
   #### set arguments from options
   # get function arguments
@@ -144,15 +144,15 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   #create function to run within Xapply functions downstream     
   copyFUN <- function(i, dp, df) file.copy(from = file.path(df$original_dir[i], df$old_name[i]), to = file.path(dp, df$new_name[i]), ...)
 
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  a1 <- pbapply::pblapply(X = 1:nrow(X), cl = cl, FUN = function(i) 
+  a1 <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
     copyFUN(i, dp = dest.path, df = X)
   })

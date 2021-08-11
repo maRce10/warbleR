@@ -65,10 +65,10 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}).
 #last modification on dec-21-2021 (MAS)
 optimize_auto_detec <- function(X, Y, threshold = 10, power = 1, wl = 512, ssmooth = 0, hold.time = 0, mindur = NULL, maxdur = NULL, parallel = 1, pb = FALSE, by.sound.file = FALSE, bp = NULL, path = NULL, previous.output = NULL){
-       
-  # reset pbapply options
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
   
+  # reset pb on exit
+  on.exit(pbapply::pboptions(type = .Options$pboptions$type))
+       
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(optimize_auto_detec)
@@ -145,11 +145,10 @@ optimize_auto_detec <- function(X, Y, threshold = 10, power = 1, wl = 512, ssmoo
         } else 
         flist <- unique(as.character(X$sound.files))
         
-      ad_results <- lapply(1:nrow(exp_grd), function(x){
-          
-            if (!requireNamespace("svMisc", quietly = TRUE))
-              cat("must install 'svMisc' to use a progress bar in optimize_auto_detec()") else
-            svMisc::progress(value = x, max.value = nrow(exp_grd), progress.bar = TRUE, char ="|")
+       # set pb options
+       pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+       
+      ad_results <- pblapply(X = 1:nrow(exp_grd), FUN = function(x){
       
           ad <- warbleR::auto_detec(X = Y, threshold = exp_grd$threshold[x], ssmooth = exp_grd$ssmooth[x], mindur = exp_grd$mindur[x], maxdur = exp_grd$maxdur[x], parallel = parallel, pb = FALSE, power = exp_grd$power[x], hold.time = exp_grd$hold.time[x], bp = bp, path = path, flist = flist, output = "data.frame")
           

@@ -94,18 +94,19 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
       return(a)  
       }
   
-  pbapply::pboptions(type = ifelse(as.logical(pb), "timer", "none"))
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pbsapply(X = fls, cl = cl, FUN = function(x) 
+  out_l <- pblapply_wrblr_int(pbar = pb, X = fls, cl = cl, FUN = function(x) 
   { 
     mcwv_FUN(x,  channels)
   }) 
 
+  # make it a vector
+  out <- unlist(out_l)
+  
   if (sum(out) > 0)   
   write(file = "", x = paste(sum(out), "file(s) not processed (# channels < max(channels)"))
   

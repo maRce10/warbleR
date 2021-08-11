@@ -34,8 +34,8 @@
 
 inflections <- function(X = NULL, parallel = 1, pb = TRUE)
 {
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #if parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
@@ -76,8 +76,8 @@ infls.FUN <- function(Y, l) {
     return(Y)  
   }
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
@@ -86,7 +86,7 @@ infls.FUN <- function(Y, l) {
   if (is.data.frame(X)) lvs <- 1:nrow(X) else lvs <- 1:length(X)
   
   # run loop apply function
-  out <- pbapply::pblapply(X = lvs, cl = cl, function(i) 
+  out <- pblapply_wrblr_int(pbar = pb, X = lvs, cl = cl, FUN = function(i) 
   { 
     is.df <- is.data.frame(X)
     

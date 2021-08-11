@@ -101,8 +101,8 @@
 song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm = NULL, max_colm = NULL, elm_colm = NULL, elm_fun = NULL,
                        sd = FALSE, parallel = 1, pb = TRUE, na.rm = FALSE, weight = NULL)
 {
-  # set pb options 
-  on.exit(pbapply::pboptions(type = .Options$pboptions$type), add = TRUE)
+  
+  
   
   #### set arguments from options
   # get function arguments
@@ -265,15 +265,15 @@ song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_co
   
   X$.....SONGX... <- paste(X$sound.files, X[, song_colm]) 
   
-  # set pb options 
-  pbapply::pboptions(type = ifelse(pb, "timer", "none"))
+  
+  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  out <- pbapply::pblapply(unique(X$.....SONGX...), cl = cl, function(i) 
+  out <- pblapply_wrblr_int(pbar = pb, X = unique(X$.....SONGX...), cl = cl, FUN = function(i) 
   { 
     # subset by song label
     Y <- X[X$.....SONGX... == i, , drop = FALSE]

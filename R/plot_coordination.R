@@ -112,9 +112,8 @@ plot_coordination <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1, 
   # to avoid "notes" when submitting to CRAN
   xmin <- xmax <- ymin <- ymax <- NULL
   
-  if (pb) lpply <- pbapply::pblapply else lpply <- lapply
-  
-  invisible(ggs <- lpply(unique(X$sing.event), function(x)
+  # run loop
+  invisible(ggs <- pblapply_wrblr_int(pbar = pb, X = unique(X$sing.event), FUN =  function(x)
   {
     
     y <- X[X$sing.event == x, ]
