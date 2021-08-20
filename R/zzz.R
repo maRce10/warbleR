@@ -5,10 +5,6 @@
 
 # .onAttach <- function(libname, pkgname) {
   # packageStartupMessage("\nNOTE: functions have been renamed (run 'print(new_function_names)' to see new names). Both old and new names are available in this version \n Please see citation('warbleR') for use in publication")
-  
-  # set steps for multiple progress bars 
-  .Options$int_warbleR_steps <- c(current = 0, total = 0)
-  options("int_warbleR_steps" = c(current = 0, total = 0))
 # }
 
 # set warbleR options
@@ -36,14 +32,15 @@
       opts[[i]] <- optsx[[i]]
   }
   options("warbleR" = opts)
+  options("int_warbleR_steps" = c(current = 0, total = 0))
   invisible(NULL)
 }
 
 
 
 .onUnload <- function(libpath){
+  options("int_warbleR_steps" = NULL)
   options("warbleR" = NULL)
-  
   # rm_new_names()
   
   invisible(NULL)

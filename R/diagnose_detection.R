@@ -187,28 +187,9 @@ diagnose_detection <- function(reference, detection, by.sound.file = FALSE, time
   ) 
     
   # summarize across sound files
-  if (!by.sound.file){
-    
-    # out_df <- data.frame(
-    #   true.positives = sum(out_df$true.positives, na.rm = TRUE),
-    #   false.positives = sum(out_df$false.positives, na.rm = TRUE),
-    #   false.negatives = sum(out_df$false.negatives, na.rm = TRUE),
-    #   split.positives = sum(out_df$split.positives, na.rm = TRUE),
-    #   mean.duration.true.positives = mean(out_df$mean.duration.true.positives, na.rm = TRUE),
-    #   mean.duration.false.positives = mean(out_df$mean.duration.false.positives, na.rm = TRUE),
-    #   mean.duration.false.negatives = mean(out_df$mean.duration.false.negatives, na.rm = TRUE),
-    #   proportional.duration.true.positives = weighted.mean(x = out_df$proportional.duration.true.positives, w = out_df$true.positives, na.rm = TRUE),
-    #   sensitivity = sum(out_df$true.positives, na.rm = TRUE) / (sum(out_df$true.positives, na.rm = TRUE) + sum(out_df$false.negatives, na.rm = TRUE)),
-    #   specificity = 1 - (sum(out_df$false.positives, na.rm = TRUE) / (sum(out_df$true.positives, na.rm = TRUE) + sum(out_df$false.positives, na.rm = TRUE))),
-    #   stringsAsFactors = FALSE
-    # ) 
-    # 
-    # # replace NaNs with NA
-    # for(i in 1:ncol(out_df))
-    #   if (is.nan(out_df[, i])) out_df[, i] <- NA
-    
+  if (!by.sound.file)
     out_df <- summarize_diagnostic(diagnostic = out_df, time.diagnostics = time.diagnostics)
-  }
+
   
   # remove time diagnostics
   if (!time.diagnostics)

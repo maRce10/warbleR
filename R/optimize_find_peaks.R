@@ -92,7 +92,7 @@ optimize_find_peaks <- function(xc.output, reference, cutoffs = NULL, parallel =
     cutoffs <- cutoffs[cutoffs %in% previous.output$cutoff]
   
   if (length(cutoffs) == 0){
-    cat(crayon::cyan("all combinations were already evaluated on previous call to this function (based on 'pevious.output')"))
+    cat("all combinations were already evaluated on previous call to this function (based on 'pevious.output')")
     
     performance <- previous.output
   } else {
@@ -126,11 +126,10 @@ optimize_find_peaks <- function(xc.output, reference, cutoffs = NULL, parallel =
     performance <- do.call(rbind, performance_l)
     
     # summarize sound files
-    if (!by.sound.file)
-      # cutoffs <- rep(cutoffs, each = nrow(performance_l[[1]]))
-      # 
-      #   performance <- data.frame(cutoffs = cutoffs, performance) 
-      performance <- summarize_diagnostic(diagnostic = performance, time.diagnostics = FALSE)    
+    if (by.sound.file)
+      cutoffs <- rep(cutoffs, each = nrow(performance_l[[1]]))
+      performance <- data.frame(cutoffs = cutoffs, performance)
+
     
     if (!is.null(previous.output))
       performance <- rbind(previous.output, performance)

@@ -22,29 +22,22 @@
 #' @details The function summarizes a detection diagnostic data frame in which diagnostic parameters are shown split by (typically) a categorical column, usually sound files. This function is used internally by \code{\link{diagnose_detection}}. 
 #' @examples
 #' {
-#' # load data
-#' data(list = c("Phae.long1", "Phae.long2", "lbh_selec_reference"))
+#' # load example selection tables
 #' 
-#' # save sound files
-#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
-#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' data(list = c("lbh_selec_reference", "lbh_selec_table"))
 #' 
-#' # run detection with auto_detec
-#' ad1 <- auto_detec(path = tempdir(), flist = unique(lbh_selec_reference$sound.files),  
-#' ssmooth = 1200, pb = FALSE, threshold =22, mindur = 0.10, maxdur = 0.18, 
-#' bp = c(3, 9), power = 1)
+#' # 'lbh_selec_reference' has all signals annotated while 'lbh_selec_table' is missing a few
+#'
+#' # run diagnose_detection() by sound file
+#' diag <- diagnose_detection(reference = lbh_selec_reference, 
+#' detection = lbh_selec_table, by.sound.file = TRUE)
 #' 
-#' # summarizing across sound files
-#' summarize_diagnostic(reference = lbh_selec_reference, detection = ad1, 
-#' by.sound.file = FALSE)
+#' # summarize
+#' summarize_diagnostic(diagnostic = diag)
 #' 
-#' # by sound file
-#' summarize_diagnostic(reference = lbh_selec_reference, detection = ad1, 
-#' by.sound.file = TRUE)
-#' 
-#' # by sound file including time diagnostics
-#' summarize_diagnostic(reference = lbh_selec_reference, detection = ad1, 
-#' by.sound.file = TRUE, time.diagnostics = TRUE)
+#' # should be the same as this:
+#' diagnose_detection(reference = lbh_selec_reference, 
+#' detection = lbh_selec_table, by.sound.file = FALSE)
 #' }
 #' @seealso \code{\link{diagnose_detection}}, \code{\link{optimize_find_peaks}}
 #' @author Marcelo Araya-Salas \email{marcelo.araya@@ucr.ac.cr})
@@ -53,7 +46,7 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
 # last modification on aug-19-2021 (MAS)
-summarize_diagnostic <- function(diagnostic, time.diagnostics = TRUE){
+summarize_diagnostic <- function(diagnostic, time.diagnostics = FALSE){
   
   # basic columns required in 'diagnostic'
   basic_colms <- c("true.positives", "false.positives", "false.negatives", "split.positives", "sensitivity", "specificity")
@@ -70,10 +63,10 @@ summarize_diagnostic <- function(diagnostic, time.diagnostics = TRUE){
   
   # create column combining all extra columns
   diagnostic$..combined.extra.colms <- if (length(extra_colms) > 0)
-  apply(diagnostic[, extra_colms], 1, paste, collapse = "~>~") else "1"
+  apply(diagnostic[, extra_colms, drop = FALSE], 1, paste, collapse = "~>~") else "1"
   
   # get which extra columns were numeric
-  if (length(extra_colms) > 0) numeric_colms <- sapply(diagnostic[, extra_colms], is.numeric)
+  if (length(extra_colms) > 0) numeric_colms <- sapply(diagnostic[, extra_colms, drop = FALSE], is.numeric)
   
   # switch to FALSE if no time columns
   if (is.null(diagnostic$mean.duration.true.positives)) time.diagnostics <- FALSE
@@ -119,6 +112,8 @@ summarize_diagnostic <- function(diagnostic, time.diagnostics = TRUE){
   
   # add extra columns data
   if (length(unique(diagnostic$..combined.extra.colms)) > 1){
+    
+    # extract extra columns as single columns
     extra_colms_df <- do.call(rbind, strsplit(summ_diagnostics_df$..combined.extra.colms, "~>~"))
     
     # add column names
@@ -126,7 +121,7 @@ summarize_diagnostic <- function(diagnostic, time.diagnostics = TRUE){
     
     # convert numeric columns
    if (any(numeric_colms)){
-     extra_num_colms_df <- as.data.frame(apply(extra_colms_df[, numeric_colms], 2, as.numeric))
+     extra_num_colms_df <- as.data.frame(apply(extra_colms_df[, numeric_colms, drop = FALSE], 2, as.numeric))
      
      # add non-numeric columns
      if (any(!numeric_colms)) {

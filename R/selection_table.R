@@ -3,7 +3,7 @@
 #' \code{selection_table} converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.
 #' @usage selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 #' extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, 
-#' pb = TRUE, parallel = 1, ...)
+#' pb = TRUE, parallel = 1, verbose = TRUE, ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end": 
 #' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is

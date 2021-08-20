@@ -34,29 +34,22 @@ The function summarizes a detection diagnostic data frame in which diagnostic pa
 }
 \examples{
 {
-# load data
-data(list = c("Phae.long1", "Phae.long2", "lbh_selec_reference"))
+# load example selection tables
 
-# save sound files
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+data(list = c("lbh_selec_reference", "lbh_selec_table"))
 
-# run detection with auto_detec
-ad1 <- auto_detec(path = tempdir(), flist = unique(lbh_selec_reference$sound.files),  
-ssmooth = 1200, pb = FALSE, threshold =22, mindur = 0.10, maxdur = 0.18, 
-bp = c(3, 9), power = 1)
+# 'lbh_selec_reference' has all signals annotated while 'lbh_selec_table' is missing a few
 
-# summarizing across sound files
-summarize_diagnostic(reference = lbh_selec_reference, detection = ad1, 
-by.sound.file = FALSE)
+# run diagnose_detection() by sound file
+diag <- diagnose_detection(reference = lbh_selec_reference, 
+detection = lbh_selec_table, by.sound.file = TRUE)
 
-# by sound file
-summarize_diagnostic(reference = lbh_selec_reference, detection = ad1, 
-by.sound.file = TRUE)
+# summarize
+summarize_diagnostic(diagnostic = diag)
 
-# by sound file including time diagnostics
-summarize_diagnostic(reference = lbh_selec_reference, detection = ad1, 
-by.sound.file = TRUE, time.diagnostics = TRUE)
+# should be the same as this:
+diagnose_detection(reference = lbh_selec_reference, 
+detection = lbh_selec_table, by.sound.file = FALSE)
 }
 }
 \references{
