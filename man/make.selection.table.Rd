@@ -15,6 +15,7 @@ make.selection.table(
   by.song = NULL,
   pb = TRUE,
   parallel = 1,
+  verbose = TRUE,
   ...
 )
 }

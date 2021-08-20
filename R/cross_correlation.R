@@ -95,10 +95,6 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
                   templates = NULL, surveys = NULL,
                   compare.matrix = NULL, type = "fourier", nbands = 40, method = 1)
 {
-  
-  
-  
- 
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(cross_correlation)
@@ -220,12 +216,19 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
    
   # define number of steps in analysis to print message
   if (pb){
-    max.stps <- getOption("warbleR.steps")
-    if (is.null(max.stps)) 
-      if (method == 1) max.stps <- 2 else 
-        max.stps <- 1
+    steps <- getOption("int_warbleR_steps")
+    
+      if (steps[2] > 0) 
+      {
+        current.step <- steps[1]
+        total.steps <- steps[2] 
+      } else {
+              if(method == 1) total.steps <- 2  else  total.steps <- 1
+              
+              current.step <- 1
+              }
   } 
-  
+    
   # generate all possible combinations of selections, keep one with the original order of rows to create cor.table output
   if (is.null(compare.matrix))
     spc.cmbs.org <- spc.cmbs <- t(combn(X$selection.id, 2)) else
@@ -322,10 +325,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   if (method == 1){
   #create spectrograms
   if (pb) 
-      write(file = "", x = paste0("creating spectrogram matrices (step 1 of ", max.stps,"):"))
-  
-  
-  
+      write(file = "", x = paste0("creating spectrogram matrices (step ", current.step," of ", total.steps,"):"))
   
    
   # set clusters for windows OS
@@ -382,7 +382,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   
   #run cross-correlation
   if (pb) 
-    write(file = "", x = paste0("running cross-correlation (step ", max.stps," of ", max.stps,"):"))
+    write(file = "", x = paste0("running cross-correlation (step ", current.step + 1," of ", total.steps,"):"))
         
   # set parallel cores
   if (Sys.info()[1] == "Windows" & parallel > 1)

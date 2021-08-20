@@ -39,7 +39,7 @@ with long sound files.}
 when the selection is imported into R (as when using \code{\link[tuneR]{readWave}}
 is calculated and added as a column. Size is return in MB. Default is \code{FALSE}.}
 
-\item{verbose}{Logical to control whether the 'path' is printed in the console. Defaut is \code{TRUE}.}
+\item{verbose}{Logical to control whether the summary messages are printed to the console. Defaut is \code{TRUE}.}
 }
 \value{
 A data frame including the columns in the input data frame (X) and the following additional columns:

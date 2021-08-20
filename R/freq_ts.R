@@ -102,9 +102,6 @@
 
 freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, img = TRUE, parallel = 1, path = NULL, img.suffix = "frequency.ts", pb = TRUE, clip.edges = FALSE, leglab = "frequency.ts", track.harm = FALSE, raw.contour = FALSE, adjust.wl = TRUE, ff.method = "seewave", entropy.range = c(2, 10),...){     
   
-  
-  
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(freq_ts)
@@ -453,10 +450,6 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
       return(apen$y)  
     } 
   
-  
-  
-  
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
@@ -467,8 +460,11 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
     contour_FUN(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl)
   })
   
+  #
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
-  colnames(df)[3:ncol(df)]<-paste("ffreq",1:(ncol(df)-2),sep = "-")
+  
+  colnames(df)[3:ncol(df)] <- paste("ffreq",1:(ncol(df)-2),sep = "-")
+  
   df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)
   
   return(df)

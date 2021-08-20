@@ -144,7 +144,6 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
   # fix attributes
   attributes(X)$check.results$sample.rate <- samp.rate
   attributes(X)$check.results$bits <- bit.depth
-  # attributes(X)$check.results$n.samples <- sapply(attributes(X)$check.results$sound.files, function(x) length(x@left)) 
   attributes(X)$check.results$n.samples <- sapply(X$sound.files, function(x) length(attributes(X)$wave.objects[[which(names(attributes(X)$wave.objects) == x)]]@left)) 
   
   if (any(X$top.freq > samp.rate / 2)) 

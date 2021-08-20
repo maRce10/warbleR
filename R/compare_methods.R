@@ -156,8 +156,23 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE, 
     pal = reverse.gray.colors.2, img = TRUE, ...){  
  
-  # reset pb
-  
+  # define number of steps in analysis to print message
+  if (pb){
+    steps <- c(current = 1, total = 0)
+    steps[2] <- 3 
+    if (any(methods == "XCORR")) steps[2] <- steps[2] + 1
+    if (any(methods == "dfDTW")) steps[2] <- steps[2] + 1
+    if (any(methods == "ffDTW")) steps[2] <- steps[2] + 1
+    
+    # for functions with no internal step count 
+    total.steps <- steps[2]
+    current.step <- 1
+    
+    # set internally
+    options("int_warbleR_steps" = steps)
+    
+    on.exit(options("int_warbleR_steps" = c(current = 0, total = 0)), add = TRUE)
+  } 
   
   #### set arguments from options
   # get function arguments
@@ -322,7 +337,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   }
   
   if ("XCORR" %in% methods){
-    xcmat <- warbleR::cross_correlation(X, wl = wl, bp = bp, ovlp = ovlp, dens = 0.9, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE, path = path)
+    xcmat <- warbleR::cross_correlation(X, wl = wl, bp = bp, ovlp = ovlp, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE, path = path, dens = NULL)
 
   MDSxcorr <- stats::cmdscale(1-xcmat)  
   MDSxcorr <- scale(MDSxcorr)
@@ -330,10 +345,15 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   
   #remove the ones that failed cross-corr
   if (na.rm) X <- X[paste(X$sound.files, X$selec, sep = "-") %in% rownames(MDSxcorr), ]
-    }
+  # update number of steps
+  current.step <- steps[1] <- steps[1] + 2
+  options("int_warbleR_steps" = steps)
+  }
   
   if ("dfDTW" %in% methods){
-    if (pb)   write(file = "", x = "measuring dominant frequency contours:")
+    if (pb) 
+    write(file = "", x = paste0("measuring dominant frequency contours (step ", current.step," of ", total.steps,"):"))
+    
     dtwmat <- warbleR::freq_ts(X, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                     pb = pb, clip.edges = clip.edges, threshold = threshold, path = path)
    
@@ -347,10 +367,16 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   MDSdtw <- stats::cmdscale(dm)  
   MDSdtw <- scale(MDSdtw)
   bidims[[length(bidims) + 1]] <- MDSdtw
+  
+  # update number of steps
+  current.step <- steps[1] <- steps[1] + 1
+  options("int_warbleR_steps" = steps)
   }
 
   if ("ffDTW" %in% methods){
-   if (pb)  write(file = "", x ="measuring fundamental frequency contours:")
+   if (pb)
+    write(file = "", x = paste0("measuring fundamental frequency contours (step ", current.step," of ", total.steps,"):"))
+    
     dtwmat <- warbleR::freq_ts(X, type = "fundamental", wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
                   pb = pb, clip.edges = clip.edges, threshold = threshold, path = path)
   
@@ -364,19 +390,31 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   MDSdtw <- stats::cmdscale(dm)  
   MDSdtw <- scale(MDSdtw)
   bidims[[length(bidims) + 1]] <- MDSdtw
+  
+  # update number of steps
+  current.step <- steps[1] <- steps[1] + 1
+  options("int_warbleR_steps" = steps)
   }
   
   if ("SP" %in% methods) { 
-    if (pb) write(file = "", x ="measuring spectral parameters:")
+    if (pb)
+    write(file = "", x = paste0("measuring spectral parameters (step ", current.step," of ", total.steps,"):"))
+    
     spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = FALSE, path = path)
   
   PCsp <- prcomp(scale(spmat[,3:ncol(spmat)]), center = TRUE, scale. = TRUE, rank. = 2)$x
 
   bidims[[length(bidims) + 1]] <- PCsp
+  
+  # update number of steps
+  current.step <- steps[1] <- steps[1] + 1
+  options("int_warbleR_steps" = steps)
   }
   
   if ("SPharm" %in% methods){ 
-    if (pb) write(file = "", x ="measuring spectral parameters + harmonicity:")
+    if (pb) 
+    write(file = "", x = paste0("measuring spectral parameters + harmonicity (step ", current.step," of ", total.steps,"):"))
+    
     spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = TRUE, path = path)
    
     if (any(sapply(spmat, anyNA))){
@@ -387,10 +425,15 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     PCsp <- prcomp(scale(spmat[,3:ncol(spmat)]), center = TRUE, scale. = TRUE, rank. = 2)$x
   
     bidims[[length(bidims) + 1]] <- PCsp
-  }
+    
+    # update number of steps
+    current.step <- steps[1] <- steps[1] + 1
+    options("int_warbleR_steps" = steps)
+    }
   
   if ("MFCC" %in% methods) { 
-    if (pb) write(file = "", x ="measuring cepstral coefficients:")
+    if (pb)
+    write(file = "", x = paste0("measuring mel frequency cepstral coefficients (step ", current.step, " of ", total.steps,"):"))
     mfcc <- warbleR::mfcc_stats(X, wl = wl, bp = bp, parallel = parallel, pb = pb, path = path)
     
     if (any(sapply(mfcc, anyNA))) stop("NAs generated when calculated MFCC's, try a higher 'wl'")
@@ -398,7 +441,11 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     PCmfcc <- prcomp(mfcc[, 3:ncol(mfcc)], center = TRUE, scale. = TRUE, rank. = 2)$x
     
     bidims[[length(bidims) + 1]] <- PCmfcc
-  }
+    
+    # update number of steps
+    current.step <- steps[1] <- steps[1] + 1
+    options("int_warbleR_steps" = steps)
+    }
   
   #name matchs changing order to match order in whic methods are ran
   nms <- match(c("custom1", "custom2", "XCORR","dfDTW", "ffDTW", "SP", "SPharm", "MFCC"), methods)
@@ -592,11 +639,9 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   on.exit(invisible(close.screen(all.screens = TRUE)))
   }
       
-      
-      
-      
-      
-      if (pb)   write(file = "", x ="creating image files:")
+    # save image files  
+      if (pb)
+      write(file = "", x = paste0("creating image files (step ", current.step, " of ", total.steps,"):"))
       
       # set clusters for windows OS
       if (Sys.info()[1] == "Windows" & parallel > 1)

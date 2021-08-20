@@ -123,6 +123,21 @@ freq_DTW <-  function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, leng
   
   if (is.null(X) & is.null(ts.df)) stop("either 'X' or 'ts.df' should be provided")
 
+  # define number of steps in analysis to print message
+  if (pb){
+    
+    steps <- getOption("int_warbleR_steps")
+    if (steps[2] > 0) 
+    {
+      current.step <- steps[1]
+      total.steps <- steps[2] 
+    } else {
+      total.steps <- 2
+      current.step <- 1
+    }
+  } 
+  
+  
   if (!is.null(X)) {
     #if X is not a data frame
     if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -134,10 +149,12 @@ freq_DTW <-  function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, leng
   # threshold adjustment
   if (is.null(threshold.time)) threshold.time <- threshold
   if (is.null(threshold.freq)) threshold.freq <- threshold
-  
+
   #run freq_ts function
-  if (pb) write(file = "", x = "measuring dominant frequency contours (step 1 of 2):")
+  if (pb)
+  write(file = "", x = paste0("measuring dominant frequency contours (step ", current.step," of ", total.steps,"):"))
   
+  # get contours
   res <- freq_ts(X, wl = wl, length.out = length.out, wn = wn, ovlp = ovlp, wl.freq = wl.freq,
               bp = bp, threshold.time = threshold.time, threshold.freq = threshold.freq, 
               img = img, parallel = parallel,
@@ -160,7 +177,10 @@ freq_DTW <-  function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, leng
   if (any(is.na(mat))) stop("missing values in time series (frequency was not detected at
                            the start and/or end of the signal)")
   
-  if (pb & is.null(ts.df)) write(file = "", x = "calculating DTW distances (step 2 of 2, no progress bar):")
+  if (pb & is.null(ts.df))
+  write(file = "", x = paste0("calculating DTW distances (step ", current.step + 1," of ", total.steps,", no progress bar):"))
+  
+  
   dm <- dtw::dtwDist(mat, mat, window.type = window.type, open.end = open.end)    
   
   rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")

@@ -40,6 +40,7 @@
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied. 
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+  #' @param verbose Logical argument to control if summary messages are printed to the console. Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to \code{\link{check_sels}} for customizing
 #' checking routine.
 #' @return An object of class selection_table which includes the original data frame plus the following additional attributes:
@@ -113,7 +114,7 @@
 #last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-                            extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, ...)
+                            extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, ...)
 {
   
   
@@ -161,9 +162,9 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     X <- data.frame(sound.files, selec = 1, channel = 1, start = 0, end = duration_wavs(files = sound.files, path = path)$duration)
   }
   
-  if (pb) write(file = "", x ="checking selections (step 1 of 2):")
+  if (pb & verbose) write(file = "", x ="checking selections (step 1 of 2):")
   
-  check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, ...)        
+  check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = verbose, ...)        
   
   if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check_sels() to locate problematic selections)")
   

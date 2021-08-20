@@ -41,9 +41,6 @@
 info_sound_files <- function(path = NULL, parallel = 1, pb = TRUE)
 {
   
-  
-  
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(info_sound_files)
@@ -72,7 +69,7 @@ info_sound_files <- function(path = NULL, parallel = 1, pb = TRUE)
         path <- normalizePath(path)
     
   # make a selection table from files
-  st <- selection_table(whole.recs = TRUE, path = path, parallel = parallel, pb = pb)
+  st <- selection_table(whole.recs = TRUE, path = path, parallel = parallel, pb = pb, verbose = FALSE)
   
   #extract check sels
   cs <- attributes(st)$check.results

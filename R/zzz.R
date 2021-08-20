@@ -3,9 +3,13 @@
 # use .onLoad for custom options
 # see https://github.com/hadley/r-pkgs/blob/master/r.rmd
 
-.onAttach <- function(libname, pkgname) {
-  packageStartupMessage("\nNOTE: functions have been renamed (run 'print(new_function_names)' to see new names). Both old and new names are available in this version \n Please see citation('warbleR') for use in publication")
-}
+# .onAttach <- function(libname, pkgname) {
+  # packageStartupMessage("\nNOTE: functions have been renamed (run 'print(new_function_names)' to see new names). Both old and new names are available in this version \n Please see citation('warbleR') for use in publication")
+  
+  # set steps for multiple progress bars 
+  .Options$int_warbleR_steps <- c(current = 0, total = 0)
+  options("int_warbleR_steps" = c(current = 0, total = 0))
+# }
 
 # set warbleR options
 .onLoad <- function(libname, pkgname){

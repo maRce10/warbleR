@@ -108,7 +108,7 @@ optimize_find_peaks <- function(xc.output, reference, cutoffs = NULL, parallel =
     pks_results <- pbapply::pblapply(X = cutoffs, FUN = function(x){
       
       
-      pks <- find_peaks(xc.output = xc.output, cutoff = x, output = "data.frame", pb = FALSE)
+      pks <- find_peaks(xc.output = xc.output, cutoff = x, output = "data.frame", pb = FALSE, parallel = parallel)
       
       # make factor a character vector
       pks$sound.files <- as.character(pks$sound.files)
@@ -122,12 +122,15 @@ optimize_find_peaks <- function(xc.output, reference, cutoffs = NULL, parallel =
     
     performance_l <- lapply(pks_results, function(Z) suppressWarnings(diagnose_detection(reference = reference, detection = Z, by.sound.file = by.sound.file, time.diagnostics = FALSE)))   
     
+    # put all in a single data frame
     performance <- do.call(rbind, performance_l)
     
-    # if (by.sound.file)
-    #   exp_grd <- do.call(rbind, replicate(n = length(unique(reference$sound.files)), expr = exp_grd, simplify = FALSE))
-    
-    performance <- data.frame(cutoffs = cutoffs, performance) 
+    # summarize sound files
+    if (!by.sound.file)
+      # cutoffs <- rep(cutoffs, each = nrow(performance_l[[1]]))
+      # 
+      #   performance <- data.frame(cutoffs = cutoffs, performance) 
+      performance <- summarize_diagnostic(diagnostic = performance, time.diagnostics = FALSE)    
     
     if (!is.null(previous.output))
       performance <- rbind(previous.output, performance)

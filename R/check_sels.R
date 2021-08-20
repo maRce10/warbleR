@@ -18,7 +18,7 @@
 #' @param wav.size Logical argument to control if the size of the wave object 
 #'  when the selection is imported into R (as when using \code{\link[tuneR]{readWave}}
 #'  is calculated and added as a column. Size is return in MB. Default is \code{FALSE}.
-#' @param verbose Logical to control whether the 'path' is printed in the console. Defaut is \code{TRUE}.
+#' @param verbose Logical to control whether the summary messages are printed to the console. Defaut is \code{TRUE}.
 #' @return A data frame including the columns in the input data frame (X) and the following additional columns:
 #' \itemize{
 #'    \item \code{check.res}: diagnose for each selection 

@@ -55,6 +55,8 @@ Ignored if \code{extended = FALSE}.}
 \item{parallel}{Numeric. Controls whether parallel computing is applied. 
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
+\item{verbose}{Logical argument to control if summary messages are printed to the console. Default is \code{TRUE}.}
+
 \item{...}{Additional arguments to be passed to \code{\link{check_sels}} for customizing
 checking routine.}
 }
