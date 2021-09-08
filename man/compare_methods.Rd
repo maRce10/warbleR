@@ -156,15 +156,16 @@ getwd()
 #compare SP and XCORR
 compare_methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
+methods = c("XCORR", "SP"), parallel = 1, it = "jpeg", path = tempdir())
 
 #compare SP method against dfDTW
 compare_methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg")
+methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg", 
+path = tempdir())
 
 #alternatively we can provide our own SP matrix
-Y <- spectro_analysis(lbh_selec_table)
+Y <- spectro_analysis(lbh_selec_table, path = tempdir())
 
 # selec a subset of variables
 Y <- Y[, 1:7]
@@ -175,7 +176,8 @@ Y <- prcomp(Y[, 3:ncol(Y)])$x
 # add sound files and selec columns
 Y <- data.frame(lbh_selec_table[, c(1, 3)], Y[, 1:2])
 
-compare_methods(X = lbh_selec_table, methods = c("dfDTW"), custom1 = Y)
+compare_methods(X = lbh_selec_table, methods = c("dfDTW"), custom1 = Y, 
+path = tempdir())
 }
 
 }

@@ -164,7 +164,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   
   if (pb & verbose) write(file = "", x ="checking selections (step 1 of 2):")
   
-  check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = verbose, ...)        
+  check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = FALSE, ...)        
   
   if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check_sels() to locate problematic selections)")
   
@@ -229,8 +229,6 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         #save wave objects as a list attributes
         # set clusters for windows OS
         
-        
-        
         if (Sys.info()[1] == "Windows" & parallel > 1)
           cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
         
@@ -286,6 +284,8 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   attributes(X)$check.results <- check.results
   
   if (is_extended_selection_table(X) & !is.null(by.song)) attributes(X)$by.song  <- list(by.song = TRUE, song.column = by.song) else attributes(X)$by.song  <- list(by.song = FALSE, song.column = by.song)
+  
+  attributes(X)$call <- base::match.call()
   
   attributes(X)$warbleR.version <- packageVersion("warbleR")
   
@@ -432,6 +432,8 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
     
     attributes(Y)$by.song <- attributes(X)$by.song
     
+    attributes(Y)$call <- base::match.call()
+    
     class(Y) <- class(X)
   }
   return(Y)
@@ -470,6 +472,8 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
     
     attributes(Y)$by.song <- attributes(X)$by.song
     
+    attributes(Y)$call <- base::match.call()
+    
     class(Y) <- class(X)
   }
   
@@ -488,21 +492,29 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
 
 print.extended_selection_table <- function(x, ...) {
   
-  cat(crayon::cyan(paste("Object of class", crayon::bold("'extended_selection_table' \n"))))
+  cat(crayon::black(paste("Object of class", crayon::bold("'extended_selection_table' \n"))))
   
-  cat(crayon::silver(paste(crayon::bold("Contains:"), "\n*  A selection table data frame with"), nrow(x), "rows and", ncol(x), "columns: \n"))
+  # print call
+  if (!is.null(attributes(x)$call)){
+    cat(crayon::silver(paste("* The output of the following", "call: \n")))
+    
+    cll <- paste0(deparse(attributes(x)$call))
+    cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
+  }
+  
+  cat(crayon::silver(paste(crayon::bold("\nContains:"), "\n*  A selection table data frame with"), nrow(x), "row(s) and", ncol(x), "columns: \n"))
   
   #define columns to show
   cols <- if (ncol(x) > 6)  1:6 else 1:ncol(x)
   
-  kntr_tab <- knitr::kable(head(x[, cols]), escape = FALSE, digits  = 4, justify = "centre", format = "pipe")
+  kntr_tab <- knitr::kable(head(x[, cols, drop = FALSE]), escape = FALSE, digits  = 4, justify = "centre", format = "pipe")
   
     for(i in 1:length(kntr_tab)) cat(crayon::silver(paste0(kntr_tab[i], "\n")))
   
   if (ncol(x) > 6) cat(crayon::silver(paste0("... ", ncol(x) - 6, " more column(s) (", paste(colnames(x)[7:ncol(x)], collapse = ", "), ")")))
   if (nrow(x) > 6) cat(crayon::silver(paste0(if (ncol(x) <= 6) "..." else "", " and ", nrow(x) - 6, " more row(s) \n")))  
   
-  cat(crayon::silver(paste0("\n* ", length(attr(x, "wave.objects"))," wave objects (as attributes): ")))
+  cat(crayon::silver(paste0("\n* ", length(attr(x, "wave.objects"))," wave object(s) (as attributes): ")))
   
   cat(crayon::silver(head(names(attr(x, "wave.objects")))))
   
@@ -546,7 +558,15 @@ print.extended_selection_table <- function(x, ...) {
 
 print.selection_table <- function(x, ...) {
   
-  cat(crayon::cyan(paste("Object of class", crayon::bold("'selection_table' \n"))))
+  cat(crayon::black(paste("Object of class", crayon::bold("'selection_table' \n"))))
+  
+  # print call
+  if (!is.null(attributes(x)$call)){
+  cat(crayon::silver(paste("* The output of the following", "call: \n")))
+
+  cll <- paste0(deparse(attributes(x)$call))
+  cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
+  }
   
   cat(crayon::silver(paste(crayon::bold("\nContains:"), "\n*  A selection table data frame with"), nrow(x), "rows and", ncol(x), "columns: \n"))
   
@@ -623,6 +643,8 @@ fix_extended_selection_table <- function(X, Y){
   if (length(xtr.attr) > 0)
     for(i in xtr.attr) attr(X, i) <- attr(Y, i)
   
+  attributes(X)$call <- base::match.call()
+  
   return(X)
 }
 
@@ -659,6 +681,8 @@ rbind.selection_table <- function(..., deparse.level = 1) {
   attr(W, "by.song") <- attr(X, "by.song")
   
   class(W) <- class(X)
+  
+  attributes(W)$call <- base::match.call()
   
   return(W)
   
@@ -730,6 +754,8 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
    
   # fix version to current version
   attributes(W)$warbleR.version <- packageVersion("warbleR")
+  
+  attributes(W)$call <- base::match.call()
   
   return(W)
 }

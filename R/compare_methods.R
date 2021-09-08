@@ -122,15 +122,16 @@
 #' #compare SP and XCORR
 #' compare_methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
-#' methods = c("XCORR", "SP"), parallel = 1, it = "jpeg")
+#' methods = c("XCORR", "SP"), parallel = 1, it = "jpeg", path = tempdir())
 #' 
 #' #compare SP method against dfDTW
 #' compare_methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
 #' ovlp = 90, res = 200, n = 10, length.out = 30,
-#' methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg")
+#' methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg", 
+#' path = tempdir())
 #' 
 #' #alternatively we can provide our own SP matrix
-#' Y <- spectro_analysis(lbh_selec_table)
+#' Y <- spectro_analysis(lbh_selec_table, path = tempdir())
 #' 
 #' # selec a subset of variables
 #' Y <- Y[, 1:7]
@@ -141,7 +142,8 @@
 #' # add sound files and selec columns
 #' Y <- data.frame(lbh_selec_table[, c(1, 3)], Y[, 1:2])
 #' 
-#' compare_methods(X = lbh_selec_table, methods = c("dfDTW"), custom1 = Y)
+#' compare_methods(X = lbh_selec_table, methods = c("dfDTW"), custom1 = Y, 
+#' path = tempdir())
 #' }
 #' 
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
@@ -157,12 +159,13 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     pal = reverse.gray.colors.2, img = TRUE, ...){  
  
   # define number of steps in analysis to print message
+  steps <- c(current = 1, total = 0)
+  
   if (pb){
-    steps <- c(current = 1, total = 0)
     steps[2] <- 3 
     if (any(methods == "XCORR")) steps[2] <- steps[2] + 1
-    if (any(methods == "dfDTW")) steps[2] <- steps[2] + 1
-    if (any(methods == "ffDTW")) steps[2] <- steps[2] + 1
+    if (!is.null(custom1)) steps[2] <- steps[2] - 1
+    if (!is.null(custom2)) steps[2] <- steps[2] - 1
     
     # for functions with no internal step count 
     total.steps <- steps[2]
@@ -337,7 +340,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   }
   
   if ("XCORR" %in% methods){
-    xcmat <- warbleR::cross_correlation(X, wl = wl, bp = bp, ovlp = ovlp, parallel = parallel, pb = pb, na.rm = na.rm, cor.mat = TRUE, path = path, dens = NULL)
+    xcmat <- warbleR::cross_correlation(X, wl = wl, bp = bp, ovlp = ovlp, parallel = parallel, pb = pb, na.rm = na.rm, path = path, dens = NULL)
 
   MDSxcorr <- stats::cmdscale(1-xcmat)  
   MDSxcorr <- scale(MDSxcorr)
@@ -377,7 +380,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
    if (pb)
     write(file = "", x = paste0("measuring fundamental frequency contours (step ", current.step," of ", total.steps,"):"))
     
-    dtwmat <- warbleR::freq_ts(X, type = "fundamental", wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
+    dtwmat <- warbleR::freq_ts(X, type = "fundamental",bp = bp,  wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out, ff.method = "seewave",
                   pb = pb, clip.edges = clip.edges, threshold = threshold, path = path)
   
   dtwmat <- dtwmat[,3:ncol(dtwmat)]

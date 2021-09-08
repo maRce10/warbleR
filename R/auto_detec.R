@@ -221,8 +221,8 @@ auto_detec <-
     #if thinning is not vector or length!=1 between 1 and 0
     if (!is.vector(thinning) | !is.numeric(thinning))
       stop("'thinning' must be a numeric vector of length 1")
-        if (thinning[1] > 1 | thinning[1] < 0)
-          stop("'thinning' must be a nuber between 0 and 1")
+        if (thinning[1] > 1 | thinning[1] <= 0)
+          stop("'thinning' must be greater than 0 and lower than or equal to 1")
     
     #if wl is not vector or length!=1 stop
     if (is.null(wl))
@@ -376,10 +376,6 @@ auto_detec <-
       X.class <- "selection.table"   
       }
     
-    # set pb options
-    
-    
-    
     # if parallel was not called
     if (pb)
         cat("Detecting signals in sound files:")
@@ -474,8 +470,7 @@ auto_detec <-
           
           # convert to matrix of 1 column as the output of env()
           envp <- matrix(data = envp$amplitude, ncol = 1)
-          
-          
+      
         }
         
          # thin
@@ -496,6 +491,8 @@ auto_detec <-
             f <- (X$end[i] - X$start[i]) / nrow(envp)
           }
         n <- nrow(envp)
+        
+        if (n < 2) stop("thinning is too high, no enough samples left for at least 1 sound file")
         
           #### detection ####
           
@@ -529,7 +526,6 @@ auto_detec <-
              start = X$start[i],
              end =  X$end[i],
              frequency = length(cross) / ( X$end[i] - X$start[i]))
-          # frequency = f)
 
           starts <- time(cross_ts)[cross_ts == "u"]
           ends <- time(cross_ts)[cross_ts == "d"]
@@ -655,7 +651,11 @@ auto_detec <-
         envelopes$org.selec <- NULL
     }
    
+    # remove NAs in detections
+    detections <- detections[!is.na(detections$sound.files), ]
+    
      #rename rows
+    if (nrow(detections) > 0)
     rownames(detections) <- 1:nrow(detections)
     
     # remove org.selec if X was not provided

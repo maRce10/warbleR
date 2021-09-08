@@ -75,8 +75,7 @@ the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2)
 This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel frequency ceptral coefficients spectrograms can be used as time-frequency representations of sound. 
 This method "slides" the spectrogram of the shortest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
-for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. To accomplish this the margins
-of the signals are expanded by half the duration of the signal both before and after the provided time coordinates. 
+for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. 
 The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).
 }
 \examples{

@@ -1,4 +1,4 @@
-# warbleR
+# warbleR: Streamline Bioacoustic Analysis
 
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/warbleR)](https://www.r-pkg.org/pkg/warbleR)

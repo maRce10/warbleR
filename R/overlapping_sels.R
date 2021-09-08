@@ -32,7 +32,7 @@
 #' @return A data frame with the columns in X plus an additional column ('overlapping_sels') indicating 
 #' which selections overlap. The ones with the same number overlap with each other. If 
 #' \code{drop = TRUE} only the non-overlapping selections are return. If 2 or more selections 
-#' overlap only the first one is kept.  
+#' overlap only the first one is kept. The arguments 'priority' and 'priority.col' can be used to modified the criterium for droping overlapping selections. 
 #' @export
 #' @name overlapping_sels
 #' @examples
