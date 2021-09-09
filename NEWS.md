@@ -5,12 +5,12 @@
 * `wav_2_flac()` to convert '.wav' files into flac compresed lossless format
 * `gaps()` for calculating time intervals (i.e. gaps) between selections
 * `read_sound_files()` is now use to read sound files
-* `optimized_find_peaks()` to optimize cutoff when detecting signals using cross correlation 
-* `diagnose_detection()` for diagnosing detection
 * `split_sound_files()` now can also split associated selection tables
 
 ## Changes and additions:
 
+
+* `fix.selec` argument added to `check_sels()` to fix 'selec' column labels
 * warbleR now supports '.wav', '.flac', '.wac' and '.mp3' formats
 * New argument 'downsample' to speed up processing in `remove_silence()`
 * New printing methods for 'autodetec.output', 'find.peaks.output' and 'xcorr.output' object classes

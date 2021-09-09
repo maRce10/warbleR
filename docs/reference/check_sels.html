@@ -146,7 +146,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>check_sels</span><span class='op'>(</span><span class='va'>X</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, check.header <span class='op'>=</span> <span class='cn'>FALSE</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
-wav.size <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+wav.size <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, fix.selec <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='fu'>check_sels</span><span class='op'>(</span>
   X <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -155,7 +155,8 @@ wav.size <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span 
   check.header <span class='op'>=</span> <span class='cn'>FALSE</span>,
   pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
   wav.size <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  fix.selec <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -197,6 +198,10 @@ is calculated and added as a column. Size is return in MB. Default is <code>FALS
     <tr>
       <th>verbose</th>
       <td><p>Logical to control whether the summary messages are printed to the console. Defaut is <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>fix.selec</th>
+      <td><p>Logical to control if labels in 'selec' column should be fixed. This column should not be duplicated within a sound file. If that happens and <code>fix.selec = TRUE</code> duplicated labels will be changed. Default is <code>FALSE</code>.</p></td>
     </tr>
     </table>
 

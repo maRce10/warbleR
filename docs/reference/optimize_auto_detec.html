@@ -146,8 +146,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>optimize_auto_detec</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y</span>, threshold <span class='op'>=</span> <span class='fl'>10</span>, power <span class='op'>=</span> <span class='fl'>1</span>, wl <span class='op'>=</span> <span class='fl'>512</span>, ssmooth <span class='op'>=</span> <span class='fl'>0</span>, 
-hold.time <span class='op'>=</span> <span class='fl'>0</span>, mindur <span class='op'>=</span> <span class='cn'>NULL</span>, maxdur <span class='op'>=</span> <span class='cn'>NULL</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-by.sound.file <span class='op'>=</span> <span class='cn'>FALSE</span>, bp <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, previous.output <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+hold.time <span class='op'>=</span> <span class='fl'>0</span>, mindur <span class='op'>=</span> <span class='cn'>NULL</span>, maxdur <span class='op'>=</span> <span class='cn'>NULL</span>, thinning <span class='op'>=</span> <span class='fl'>1</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, 
+pb <span class='op'>=</span> <span class='cn'>TRUE</span>, by.sound.file <span class='op'>=</span> <span class='cn'>FALSE</span>, bp <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, previous.output <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,12 +164,12 @@ for sound file name (sound.files), selection number (selec), and start and end t
     </tr>
     <tr>
       <th>threshold</th>
-      <td><p>A numeric vector of length 1 specifying the amplitude threshold for detecting
+      <td><p>A numeric vector specifying the amplitude threshold for detecting
 signals (in %). <strong>Several values can be supplied for optimization</strong>.</p></td>
     </tr>
     <tr>
       <th>power</th>
-      <td><p>A numeric vector of length 1 indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change). <strong>Several values can be supplied for optimization</strong>.</p></td>
+      <td><p>A numeric vector indicating a power factor applied to the amplitude envelope. Increasing power will reduce low amplitude modulations and increase high amplitude modulations, in order to reduce background noise. Default is 1 (no change). <strong>Several values can be supplied for optimization</strong>.</p></td>
     </tr>
     <tr>
       <th>wl</th>
@@ -178,8 +178,8 @@ signals (in %). <strong>Several values can be supplied for optimization</strong>
     </tr>
     <tr>
       <th>ssmooth</th>
-      <td><p>A numeric vector of length 1 to smooth the amplitude envelope
-with a sum smooth function. Default is 0 (no smoothing).  <strong>Several values can be supplied for optimization</strong>.</p></td>
+      <td><p>A numeric vector to smooth the amplitude envelope
+with a sum smooth function. Default is 0 (no smoothing). <strong>Several values can be supplied for optimization</strong>.</p></td>
     </tr>
     <tr>
       <th>hold.time</th>
@@ -187,15 +187,22 @@ with a sum smooth function. Default is 0 (no smoothing).  <strong>Several values
     </tr>
     <tr>
       <th>mindur</th>
-      <td><p>Numeric vector of length 1 giving the shortest duration (in
+      <td><p>Numeric vector giving the shortest duration (in
 seconds) of the signals to be detected. It removes signals below that
 threshold. <strong>Several values can be supplied for optimization</strong>.</p></td>
     </tr>
     <tr>
       <th>maxdur</th>
-      <td><p>Numeric vector of length 1 giving the longest duration (in
+      <td><p>Numeric vector giving the longest duration (in
 seconds) of the signals to be detected. It removes signals above that
 threshold. <strong>Several values can be supplied for optimization</strong>.</p></td>
+    </tr>
+    <tr>
+      <th>thinning</th>
+      <td><p>Numeric vector in the range 0~1 indicating the proportional reduction of the number of
+samples used to represent amplitude envelopes (i.e. the thinning of the envelopes). Usually amplitude envelopes have many more samples
+than those needed to accurately represent amplitude variation in time, which affects the size of the
+output (usually very large R objects / files). Default is  <code>1</code> (no thinning). Higher sampling rates may afford higher size reduction (e.g. lower thinning values). Reduction is conducted by interpolation using <code><a href='https://rdrr.io/r/stats/approxfun.html'>approx</a></code>. Note that thinning may decrease time precision, and the higher the thinning the less precise the time detection. <strong>Several values can be supplied for optimization</strong>.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
