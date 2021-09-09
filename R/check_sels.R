@@ -2,7 +2,7 @@
 #' 
 #' \code{check_sels} checks whether selections can be read by subsequent functions.
 #' @usage check_sels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE,
-#' wav.size = FALSE, verbose = TRUE)
+#' wav.size = FALSE, verbose = TRUE, fix.selec = FALSE)
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections. The output of \code{\link{auto_detec}} can 
@@ -19,6 +19,7 @@
 #'  when the selection is imported into R (as when using \code{\link[tuneR]{readWave}}
 #'  is calculated and added as a column. Size is return in MB. Default is \code{FALSE}.
 #' @param verbose Logical to control whether the summary messages are printed to the console. Defaut is \code{TRUE}.
+#' @param fix.selec Logical to control if labels in 'selec' column should be fixed. This column should not be duplicated within a sound file. If that happens and \code{fix.selec = TRUE} duplicated labels will be changed. Default is \code{FALSE}.  
 #' @return A data frame including the columns in the input data frame (X) and the following additional columns:
 #' \itemize{
 #'    \item \code{check.res}: diagnose for each selection 
@@ -72,7 +73,7 @@
 #last modification on jul-5-2016 (MAS)
 
 check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALSE, 
-                      pb = TRUE, wav.size = FALSE, verbose = TRUE){
+                      pb = TRUE, wav.size = FALSE, verbose = TRUE, fix.selec = FALSE){
   
   #### set arguments from options
   # get function arguments
@@ -117,8 +118,14 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
   
-  # check for duplicates
-  if (any(duplicated(paste(X$sound.files, X$selec)))) stop("Duplicated selection labels for one or more sound files")
+  # check for duplicates and if fix.selec = TRUE
+  if (any(duplicated(paste(X$sound.files, X$selec)))) 
+    if (fix.selec) {
+      
+      X$selec <- do.call(c, lapply(unique(X$sound.files), function(x) seq_len(sum(X$sound.files == x))))
+      
+    } else
+    stop("Duplicated selection labels ('selec' column) for one or more sound files (can be fixed by setting fix.selec = TRUE)")
   
   #check additional columns
   if (!"channel" %in% colnames(X)) 

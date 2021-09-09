@@ -5,7 +5,7 @@
 \title{Check selection data frames}
 \usage{
 check_sels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE,
-wav.size = FALSE, verbose = TRUE)
+wav.size = FALSE, verbose = TRUE, fix.selec = FALSE)
 
 check_sels(
   X = NULL,
@@ -14,7 +14,8 @@ check_sels(
   check.header = FALSE,
   pb = TRUE,
   wav.size = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  fix.selec = FALSE
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ when the selection is imported into R (as when using \code{\link[tuneR]{readWave
 is calculated and added as a column. Size is return in MB. Default is \code{FALSE}.}
 
 \item{verbose}{Logical to control whether the summary messages are printed to the console. Defaut is \code{TRUE}.}
+
+\item{fix.selec}{Logical to control if labels in 'selec' column should be fixed. This column should not be duplicated within a sound file. If that happens and \code{fix.selec = TRUE} duplicated labels will be changed. Default is \code{FALSE}.}
 }
 \value{
 A data frame including the columns in the input data frame (X) and the following additional columns:

@@ -11,7 +11,8 @@ checksels(
   check.header = FALSE,
   pb = TRUE,
   wav.size = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  fix.selec = FALSE
 )
 }
 \description{
