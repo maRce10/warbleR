@@ -9,7 +9,8 @@
 
 ## Changes and additions:
 
-
+* `overlapping_sels()` has been updated to imporve performance
+* `unique.labs` argument in `overlapping_sels()` has been deprecated
 * `fix.selec` argument added to `check_sels()` to fix 'selec' column labels
 * warbleR now supports '.wav', '.flac', '.wac' and '.mp3' formats
 * New argument 'downsample' to speed up processing in `remove_silence()`

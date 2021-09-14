@@ -13,9 +13,10 @@ ovlp_sels(
   drop = FALSE,
   priority = NULL,
   priority.col = NULL,
-  unique.labs = TRUE,
+  unique.labs = NULL,
   indx.row = FALSE,
-  parallel = 1
+  parallel = 1,
+  verbose = TRUE
 )
 }
 \description{

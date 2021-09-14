@@ -234,7 +234,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
     results <- results[!duplicated(results$Recording_ID), ]
     
     if (pb)
-      write(file = "", x = paste0(nrow(results), " recordings found!"))
+      write(file = "", x = paste0(nrow(results), " recording(s) found!"))
     } 
   } else { 
     #stop if X is not a data frame

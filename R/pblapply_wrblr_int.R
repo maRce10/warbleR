@@ -2,7 +2,7 @@
 # that allows to define internally if progress bar would be used (pbapply::pblapply uses pboptions to do this) 
 #last modification on aug-10-2021 (MAS)
 #'    
-pblapply_wrblr_int <- function(X, FUN, cl = NULL, pbar = TRUE, ...) {
+pblapply_wrblr_int <- function(X, FUN, cl = 1, pbar = TRUE, ...) {
   
   # conver parallel 1 to null
   if (cl == 1) cl <- NULL

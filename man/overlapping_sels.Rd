@@ -5,8 +5,8 @@
 \title{Find overlapping selections}
 \usage{
 overlapping_sels(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, 
-drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = TRUE, 
-indx.row = FALSE, parallel = 1)
+drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = NULL, 
+indx.row = FALSE, parallel = 1, verbose = TRUE)
 }
 \arguments{
 \item{X}{'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound 
@@ -22,7 +22,7 @@ Default is \code{FALSE}.}
 \item{max.ovlp}{Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
 . Default is 0.}
 
-\item{relabel}{Logical. If \code{TRUE} then selections names (selec column) are reset within each sound files.
+\item{relabel}{Logical. If \code{TRUE} then selection names ('selec' column) are reset within each sound files.
 Default is \code{FALSE}.}
 
 \item{drop}{Logical. If \code{TRUE}, when 2 or more selections overlap the function will remove 
@@ -35,7 +35,7 @@ priority order. Default is \code{NULL}.}
 \item{priority.col}{Character vector of length 1 with the name of the column use to determine the priority of
 overlapped selections. Default is \code{NULL}.}
 
-\item{unique.labs}{Logical to control if labels are reused across different sound files (if \code{TRUE}, default).}
+\item{unique.labs}{DEPRECATED.}
 
 \item{indx.row}{Logical. If \code{TRUE} then a character column with the indices of all selections that overlapped with
 each selection is added to the ouput data frame (if \code{index = TRUE}). For instance, if the selections in rows 1,2 
@@ -44,9 +44,11 @@ and 3 all overlapped with each other, the 'indx.row' value would be "1/2/3" for 
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
+
+\item{verbose}{Logical to control if messages are printed to the console.}
 }
 \value{
-A data frame with the columns in X plus an additional column ('overlapping_sels') indicating 
+A data frame with the columns in X plus an additional column ('ovlp.sels') indicating 
 which selections overlap. The ones with the same number overlap with each other. If 
 \code{drop = TRUE} only the non-overlapping selections are return. If 2 or more selections 
 overlap only the first one is kept. The arguments 'priority' and 'priority.col' can be used to modified the criterium for droping overlapping selections.
@@ -66,8 +68,8 @@ overlapping_sels(X =  lbh_selec_table)
 # modified lbh_selec_table to make the first and second selection overlap
 Y <- lbh_selec_table
 Y$end[4] <- 1.5
-  
- overlapping_sels(X =  Y)
+
+overlapping_sels(X = Y)
 
 # drop overlapping
  overlapping_sels(X =  Y, drop = TRUE)

@@ -197,7 +197,7 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
     X$sel.id <- paste(X$sound.files, X$selec, sep = "-")
     
     # get which selection are found in which new files
-    ovlp.df <- overlapping_sels(ovlp.df, indx.row = TRUE, max.ovlp = 0.0000001, pb = pb , parallel = parallel)
+    ovlp.df <- warbleR::overlapping_sels(ovlp.df, indx.row = TRUE, max.ovlp = 0.0000001, pb = pb, parallel = parallel, verbose = FALSE)
     
     ovlp.df$..row <- 1:nrow(ovlp.df)
     
