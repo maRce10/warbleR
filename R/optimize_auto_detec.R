@@ -52,7 +52,7 @@
 #'
 #' @examples{
 #' # Save to temporary working directory
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_reference"))
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
@@ -60,7 +60,7 @@
 #' 
 #' # run auto_detec with thining
 #' ad <- auto_detec(output = "list", thinning = 1 / 10, ssmooth = 300, path = tempdir())
-#' optimize_auto_detec(X = lbh_selec_reference, Y = ad, threshold = c(5, 10, 15), path = tempdir())
+#' optimize_auto_detec(X = lbh_selec_table, Y = ad, threshold = c(5, 10, 15), path = tempdir())
 #' }
 #'
 #' @references {
@@ -70,7 +70,9 @@
 #last modification on dec-21-2021 (MAS)
 optimize_auto_detec <- function(X, Y, threshold = 10, power = 1, wl = 512, ssmooth = 0, hold.time = 0, mindur = NULL, maxdur = NULL, thinning = 1, parallel = 1, pb = TRUE, by.sound.file = FALSE, bp = NULL, path = NULL, previous.output = NULL){
   
-  # reset pb on exit
+  print("this function has been deprecated, please look at the ohun package for automatic signal detection (https://marce10.github.io/ohun/index.html")
+ 
+   # reset pb on exit
   on.exit(pbapply::pboptions(type = .Options$pboptions$type))
        
   #### set arguments from options
@@ -171,7 +173,7 @@ optimize_auto_detec <- function(X, Y, threshold = 10, power = 1, wl = 512, ssmoo
          return(ad)
           })
     
-      performance_l <- lapply(ad_results, function(Z) suppressWarnings(diagnose_detection(reference = X, detection = Z, by.sound.file = by.sound.file, time.diagnostics = TRUE)))   
+      performance_l <- lapply(ad_results, function(Z) suppressWarnings(diagnose_wrlbr_int(reference = X, detection = Z, by.sound.file = by.sound.file, time.diagnostics = TRUE)))   
         
       performance <- do.call(rbind, performance_l)
       
@@ -186,4 +188,248 @@ optimize_auto_detec <- function(X, Y, threshold = 10, power = 1, wl = 512, ssmoo
         
       return(performance)
     }
+}
+
+# internal, has been moved to ohun
+diagnose_wrlbr_int <- function(reference, detection, by.sound.file = FALSE, time.diagnostics = FALSE)
+{
+  #### set arguments from options
+  # get function arguments
+  argms <- methods::formalArgs(diagnose_wrlbr_int)
+  
+  # get warbleR options
+  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
+  
+  # remove options not as default in call and not in function arguments
+  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  
+  # get arguments set in the call
+  call.argms <- as.list(base::match.call())[-1]
+  
+  # remove arguments in options that are in call
+  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+  
+  # set options left
+  if (length(opt.argms) > 0)
+    for (q in 1:length(opt.argms))
+      assign(names(opt.argms)[q], opt.argms[[q]])
+  
+  
+  # remove rows with NAs in detection
+  detection <- detection[!is.na(detection$start), ]
+  
+  # run when detection is not empty
+  if (nrow(detection) > 0){
+    # look at detections matching 1 training selection at the time
+    performance_l <- lapply(unique(reference$sound.files), function(z){
+      
+      # get subset from template for that sound file
+      W <- reference[reference$sound.files == z, ]
+      
+      # get subset from detection for that sound file
+      Z <- detection[detection$sound.files == z, ]
+      
+      if (nrow(Z) > 0){
+        # add row labels to both
+        W$.row.id <- 1:nrow(W)
+        Z$.row.id <- 1:nrow(Z)
+        
+        # these are all the true positives
+        true.positives_l <- lapply(1:nrow(W), function(y){
+          
+          # defined as any detection that overlaps with the template selections
+          Q <- Z[(Z$start >= W$start[y] & Z$start < W$end[y]) |
+                   (Z$end > W$start[y] & Z$end <= W$end[y]) |
+                   (Z$start <= W$start[y] & Z$end >= W$end[y]) |
+                   (Z$start >= W$start[y] & Z$end  <= W$end[y]), ]
+          
+          # add row label to find false.negatives
+          Q$.template.row.id <- if (nrow(Q) > 0) W$.row.id[y] else
+            vector()
+          
+          return(Q)
+        })
+        
+        true.positives <- do.call(rbind, true.positives_l)
+        
+        # those not in true positives
+        false.positives <- Z[!Z$.row.id %in% true.positives$.row.id, ]
+        
+        performance <- data.frame(
+          sound.files = z,
+          true.positives = length(unique(true.positives$.template.row.id)),
+          false.positives = nrow(false.positives),
+          false.negatives = nrow(W) - length(unique(true.positives$.template.row.id)),
+          split.positives = sum(sapply(true.positives_l, nrow) > 1),
+          mean.duration.true.positives = mean(true.positives$end - true.positives$start),
+          mean.duration.false.positives = mean(false.positives$end - false.positives$start),
+          mean.duration.false.negatives = mean(true.positives$end[!W$.row.id %in% true.positives$.template.row.id] - true.positives$start[!W$.row.id %in% true.positives$.template.row.id]),
+          proportional.duration.true.positives = mean(true.positives$end - true.positives$start) / mean(W$end - W$start),
+          sensitivity = length(unique(true.positives$.template.row.id)) / nrow(W),
+          specificity =  length(unique(true.positives$.row.id)) / nrow(Z),
+          stringsAsFactors = FALSE
+        ) 
+        
+        # replace NaNs with NA
+        for(i in 1:ncol(performance))
+          if (is.nan(performance[, i])) performance[, i] <- NA
+        
+        # fix values when no false positives or true positives
+        performance$false.positives[performance$false.positives < 0] <- 0
+        performance$mean.duration.false.positives[is.na(performance$mean.duration.false.positives) | performance$false.positives == 0] <- NA
+        performance$mean.duration.true.positives[is.na(performance$mean.duration.true.positives) | performance$true.positives == 0] <- NA
+        
+        # make sensitvities higher than 1 (because of split positives) 1
+        performance$sensitivity[performance$sensitivity > 1] <- 1
+      } else
+        performance <- data.frame(
+          sound.files = z,
+          true.positives = 0,
+          false.positives = 0,
+          false.negatives = nrow(W),
+          split.positives = NA,
+          mean.duration.true.positives = NA,
+          mean.duration.false.positives = NA,
+          mean.duration.false.negatives = mean(W$end - W$start),
+          proportional.duration.true.positives = NA,
+          sensitivity = 0,
+          specificity = 0,
+          stringsAsFactors = FALSE
+        ) 
+      
+      
+      return(performance)
+    })
+    
+    out_df <- do.call(rbind, performance_l)
+    
+  } else
+    # output when there were no detections
+    out_df <-
+    data.frame(
+      sound.files = unique(reference$sound.files),
+      true.positives = 0,
+      false.positives = 0,
+      false.negatives = nrow(reference),
+      split.positives = NA,
+      mean.duration.true.positives = NA,
+      mean.duration.false.positives = NA,
+      mean.duration.false.negatives = NA,
+      proportional.duration.true.positives = NA,
+      sensitivity = 0,
+      specificity = 0,
+      stringsAsFactors = FALSE
+    ) 
+  
+  # summarize across sound files
+  if (!by.sound.file)
+    out_df <- summarize_diagnose_wrlbr_int(diagnostic = out_df, time.diagnostics = time.diagnostics)
+  
+  
+  # remove time diagnostics
+  if (!time.diagnostics)
+    out_df <- out_df[ , grep(".duration.", names(out_df), invert = TRUE)]
+  
+  return(out_df)
+}
+
+
+
+summarize_diagnose_wrlbr_int <- function(diagnostic, time.diagnostics = FALSE){
+  
+  # basic columns required in 'diagnostic'
+  basic_colms <- c("true.positives", "false.positives", "false.negatives", "split.positives", "sensitivity", "specificity")
+  
+  #check diagnostic
+  if (any(!(basic_colms %in% colnames(diagnostic))))
+    stop(paste(paste(
+      basic_colms[!(basic_colms %in% colnames(diagnostic))], collapse =
+        ", "
+    ), "column(s) not found in data frame"))
+  
+  # get extra column names (ideally should include tuning parameters)
+  extra_colms <- setdiff(colnames(diagnostic), c(basic_colms, c("sound.files", "mean.duration.true.positives", "mean.duration.false.positives", "mean.duration.false.negatives", "proportional.duration.true.positives")))
+  
+  # create column combining all extra columns
+  diagnostic$..combined.extra.colms <- if (length(extra_colms) > 0)
+    apply(diagnostic[, extra_colms, drop = FALSE], 1, paste, collapse = "~>~") else "1"
+  
+  # get which extra columns were numeric
+  if (length(extra_colms) > 0) numeric_colms <- sapply(diagnostic[, extra_colms, drop = FALSE], is.numeric)
+  
+  # switch to FALSE if no time columns
+  if (is.null(diagnostic$mean.duration.true.positives)) time.diagnostics <- FALSE
+  
+  summ_diagnostic_l <- lapply(unique(diagnostic$..combined.extra.colms), function(x){
+    # subset for each combination
+    Y <- diagnostic[diagnostic$..combined.extra.colms == x, ]
+    
+    # summarize across sound files
+    summ_diagnostic <- data.frame(
+      true.positives = sum(Y$true.positives, na.rm = TRUE),
+      false.positives = sum(Y$false.positives, na.rm = TRUE),
+      false.negatives = sum(Y$false.negatives, na.rm = TRUE),
+      split.positives = sum(Y$split.positives, na.rm = TRUE),
+      ..combined.extra.colms = x,
+      stringsAsFactors = FALSE
+    ) 
+    
+    # add time diagnostics
+    if (time.diagnostics){
+      
+      summ_diagnostic$mean.duration.true.positives <- mean(Y$mean.duration.true.positives, na.rm = TRUE)
+      summ_diagnostic$mean.duration.false.positives <- mean(Y$mean.duration.false.positives, na.rm = TRUE)
+      summ_diagnostic$mean.duration.false.negatives <- mean(Y$mean.duration.false.negatives, na.rm = TRUE)
+      summ_diagnostic$proportional.duration.true.positives <- weighted.mean(x = Y$proportional.duration.true.positives, w = Y$true.positives, na.rm = TRUE)
+      
+    }  
+    
+    # add sensitivity and specificity at the end
+    summ_diagnostic$sensitivity <- sum(Y$true.positives, na.rm = TRUE) / (sum(Y$true.positives, na.rm = TRUE) + sum(Y$false.negatives, na.rm = TRUE))
+    summ_diagnostic$specificity <- 1 - (sum(Y$false.positives, na.rm = TRUE) / (sum(Y$true.positives, na.rm = TRUE) + sum(Y$false.positives, na.rm = TRUE)))
+    
+    # replace NaNs with NA
+    for(i in 1:ncol(summ_diagnostic))
+      if (is.nan(summ_diagnostic[, i])) summ_diagnostic[, i] <- NA
+    
+    return(summ_diagnostic) 
+    
+  })
+  
+  # put all in a single data frame
+  summ_diagnostics_df <- do.call(rbind, summ_diagnostic_l)
+  
+  # add extra columns data
+  if (length(unique(diagnostic$..combined.extra.colms)) > 1){
+    
+    # extract extra columns as single columns
+    extra_colms_df <- do.call(rbind, strsplit(summ_diagnostics_df$..combined.extra.colms, "~>~"))
+    
+    # add column names
+    colnames(extra_colms_df) <- extra_colms
+    
+    # convert numeric columns
+    if (any(numeric_colms)){
+      extra_num_colms_df <- as.data.frame(apply(extra_colms_df[, numeric_colms, drop = FALSE], 2, as.numeric))
+      
+      # add non-numeric columns
+      if (any(!numeric_colms)) {
+        
+        non_num_colms_df <- extra_colms_df[, !numeric_colms, drop = FALSE]
+        colnames(non_num_colms_df) <- names(numeric_colms)[!numeric_colms]
+        extra_colms_df <- cbind(non_num_colms_df, extra_num_colms_df)
+        
+      } else
+        extra_colms_df <- extra_num_colms_df
+    }
+    
+    # put all together 
+    summ_diagnostics_df <- cbind(extra_colms_df, summ_diagnostics_df)
+  }
+  
+  # remove column with all extra columns info
+  summ_diagnostics_df$..combined.extra.colms <- NULL
+  
+  
+  return(summ_diagnostics_df)
 }

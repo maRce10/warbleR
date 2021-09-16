@@ -11,7 +11,7 @@
 #' @param index Logical. Indicates if only the index of the overlapping selections would be returned.
 #' Default is \code{FALSE}.
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
-#' @param max.ovlp Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
+#' @param max.ovlp DEPRECATED. Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
 #' . Default is 0. 
 #' @param relabel Logical. If \code{TRUE} then selection names ('selec' column) are reset within each sound files.  
 #' Default is \code{FALSE}.

@@ -44,9 +44,8 @@
 # last modification on jan-03-2020 (MAS)
 find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE, max.peak = FALSE, output = "data.frame") 
 {
-  
-  
-  
+  print("this function has been deprecated, please look at the ohun package for automatic signal detection (https://marce10.github.io/ohun/index.html")
+
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(find_peaks)

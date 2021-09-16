@@ -306,7 +306,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar 
     main <- do.call(paste, as.list(X[j, names(X) %in% title])) 
     
     f <- rec$sample.rate #for spectro display
-    fl<- flim #in case flim its higher than can be due to sampling rate
+    fl<- flim #in case flim its higher than nyquist frequency
     if (fl[2] > f / 2000) fl[2] <- f / 2000 
     len <- rec$samples/f  #for spectro display 
     start <- numeric() #save results
@@ -589,7 +589,8 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar 
           X$start[j] <- 0
         
         # fix if higher than file duration in extended selection tables
-        if (is_extended_selection_table(X) & X$end[j] > duration(attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == X$sound.files[j])[1]]]))
+        if (is_extended_selection_table(X)) 
+          if (X$end[j] > duration(attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == X$sound.files[j])[1]]]))
               X$end[j] <- duration(attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == X$sound.files[j])[1]]])
         
         if (frange) {

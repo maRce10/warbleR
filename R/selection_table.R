@@ -117,9 +117,6 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
                             extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, ...)
 {
   
-  
-  
-   
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(selection_table)
@@ -178,7 +175,6 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   # add wave object to extended file
   if (extended)
   { 
-    
     if (confirm.extended){
       exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024 )
       
@@ -211,7 +207,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
           check.results$song <- X[, by.song]          
           
           # temporal column to match songs by sound file
-          check.results$song.TEMP <- paste(X$sound.files, X[, by.song], sep = "-")   
+          check.results$song.TEMP <- paste(X$sound.files, X[, by.song, drop = TRUE], sep = "-")   
           Y$song.TEMP <- paste(Y$sound.files, Y[, by.song], sep = "-")   
           
           Y$mar.before <- sapply(unique(Y$song.TEMP), function(x) check.results$mar.before[which.min(check.results$orig.start[check.results$song.TEMP == x])])
@@ -417,7 +413,7 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
 #' 
 
 # function to subset extended selection table with [
-`[.selection_table` <- function(X, i = NULL, j = NULL, drop = TRUE) {
+`[.selection_table` <- function(X, i = NULL, j = NULL, drop = FALSE) {
   
   if (is.character(i)) i <- which(row.names(X) %in% i)
   if (is.character(j)) j <- which(names(X) %in% j)
@@ -451,7 +447,7 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
 #' 
 
 # function to subset extended selection table with [
-`[.extended_selection_table` <- function(X, i = NULL, j = NULL, drop = TRUE) {
+`[.extended_selection_table` <- function(X, i = NULL, j = NULL, drop = FALSE) {
   
   if (is.character(i)) i <- which(row.names(X) %in% i)
   if (is.character(j)) j <- which(names(X) %in% j)

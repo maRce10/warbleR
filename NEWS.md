@@ -9,6 +9,7 @@
 
 ## Changes and additions:
 
+* `selection_table` and `extended_selection_table` subsetting (`[`) drop behavior switched to `FALSE`
 * `overlapping_sels()` has been updated to imporve performance
 * `unique.labs` argument in `overlapping_sels()` has been deprecated
 * `fix.selec` argument added to `check_sels()` to fix 'selec' column labels

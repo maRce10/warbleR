@@ -18,6 +18,6 @@ selec.table
 future versions.
 }
 \details{
-Simulated coordinated singing events.
+Selection table of long-billed hermit songs
 }
 \keyword{datasets}

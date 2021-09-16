@@ -19,7 +19,7 @@ Default is \code{FALSE}.}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 
-\item{max.ovlp}{Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
+\item{max.ovlp}{DEPRECATED. Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
 . Default is 0.}
 
 \item{relabel}{Logical. If \code{TRUE} then selection names ('selec' column) are reset within each sound files.

@@ -146,8 +146,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>overlapping_sels</span><span class='op'>(</span><span class='va'>X</span>, index <span class='op'>=</span> <span class='cn'>FALSE</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, max.ovlp <span class='op'>=</span> <span class='fl'>0</span>, relabel <span class='op'>=</span> <span class='cn'>FALSE</span>, 
-drop <span class='op'>=</span> <span class='cn'>FALSE</span>, priority <span class='op'>=</span> <span class='cn'>NULL</span>, priority.col <span class='op'>=</span> <span class='cn'>NULL</span>, unique.labs <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-indx.row <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+drop <span class='op'>=</span> <span class='cn'>FALSE</span>, priority <span class='op'>=</span> <span class='cn'>NULL</span>, priority.col <span class='op'>=</span> <span class='cn'>NULL</span>, unique.labs <span class='op'>=</span> <span class='cn'>NULL</span>, 
+indx.row <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,12 +170,12 @@ Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>max.ovlp</th>
-      <td><p>Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
+      <td><p>DEPRECATED. Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
 . Default is 0.</p></td>
     </tr>
     <tr>
       <th>relabel</th>
-      <td><p>Logical. If <code>TRUE</code> then selections names (selec column) are reset within each sound files.
+      <td><p>Logical. If <code>TRUE</code> then selection names ('selec' column) are reset within each sound files.
 Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
@@ -196,7 +196,7 @@ overlapped selections. Default is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>unique.labs</th>
-      <td><p>Logical to control if labels are reused across different sound files (if <code>TRUE</code>, default).</p></td>
+      <td><p>DEPRECATED.</p></td>
     </tr>
     <tr>
       <th>indx.row</th>
@@ -210,11 +210,15 @@ and 3 all overlapped with each other, the 'indx.row' value would be "1/2/3" for 
       <td><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
     </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical to control if messages are printed to the console.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with the columns in X plus an additional column ('overlapping_sels') indicating 
+    <p>A data frame with the columns in X plus an additional column ('ovlp.sels') indicating 
 which selections overlap. The ones with the same number overlap with each other. If 
 <code>drop = TRUE</code> only the non-overlapping selections are return. If 2 or more selections 
 overlap only the first one is kept. The arguments 'priority' and 'priority.col' can be used to modified the criterium for droping overlapping selections.</p>
@@ -240,8 +244,8 @@ listed in a data frame similar to <code><a href='lbh_selec_table.html'>lbh_selec
 <span class='co'># modified lbh_selec_table to make the first and second selection overlap</span>
 <span class='va'>Y</span> <span class='op'>&lt;-</span> <span class='va'>lbh_selec_table</span>
 <span class='va'>Y</span><span class='op'>$</span><span class='va'>end</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>1.5</span>
-  
- <span class='fu'>overlapping_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>Y</span><span class='op'>)</span>
+
+<span class='fu'>overlapping_sels</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>Y</span><span class='op'>)</span>
 
 <span class='co'># drop overlapping</span>
  <span class='fu'>overlapping_sels</span><span class='op'>(</span>X <span class='op'>=</span>  <span class='va'>Y</span>, drop <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
