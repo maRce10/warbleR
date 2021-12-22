@@ -265,8 +265,10 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
     
     xcFUN <-  function(results, x){
       if (!file.exists(results$sound.files[x]))
-        download.file(url = paste("https://www.xeno-canto.org/download.php?XC=", results$Recording_ID[x], sep=""), destfile = file.path(path, results$sound.files[x]),
-                      quiet = TRUE,  mode = "wb", cacheOK = TRUE,
+        download.file(
+          url = paste("https://xeno-canto.org/", results$Recording_ID[x], "/download", sep = ""),
+          destfile = file.path(path, results$sound.files[x]),
+          quiet = TRUE,  mode = "wb", cacheOK = TRUE,
                       extra = getOption("download.file.extra"))
       return (NULL)
     }

@@ -9,6 +9,7 @@
 
 ## Changes and additions:
 
+* updated download URL in `quer_xc()`
 * `selection_table` and `extended_selection_table` subsetting (`[`) drop behavior switched to `FALSE`
 * `overlapping_sels()` has been updated to imporve performance
 * `unique.labs` argument in `overlapping_sels()` has been deprecated
