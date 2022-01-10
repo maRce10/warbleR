@@ -11,7 +11,7 @@
 
 * updated download URL in `quer_xc()`
 * `selection_table` and `extended_selection_table` subsetting (`[`) drop behavior switched to `FALSE`
-* `overlapping_sels()` has been updated to imporve performance
+* `overlapping_sels()` has been updated to improve performance
 * `unique.labs` argument in `overlapping_sels()` has been deprecated
 * `fix.selec` argument added to `check_sels()` to fix 'selec' column labels
 * warbleR now supports '.wav', '.flac', '.wac' and '.mp3' formats

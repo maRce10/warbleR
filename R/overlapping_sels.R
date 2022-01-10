@@ -11,7 +11,7 @@
 #' @param index Logical. Indicates if only the index of the overlapping selections would be returned.
 #' Default is \code{FALSE}.
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
-#' @param max.ovlp DEPRECATED. Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
+#' @param max.ovlp Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
 #' . Default is 0. 
 #' @param relabel Logical. If \code{TRUE} then selection names ('selec' column) are reset within each sound files.  
 #' Default is \code{FALSE}.
@@ -125,7 +125,7 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
   X$...ROWNAME... <- 1:nrow(X)
   
  # function that runs on a data frame from a single sound file 
-  ovlpFUN <- function(w, ndx.rw = indx.row) {
+  ovlpFUN <- function(w) {
    
     Y <- X[X$sound.files == w, ]
     
@@ -140,7 +140,7 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
     Y$indx.row <- sapply(1:nrow(Y), function(i) {
     
       # if any of those after i overlap
-      ovlp_rows <- Y$...ROWNAME...[Y$end > Y$start[i] & as.numeric(Y$...ROWNAME...) < as.numeric(Y$...ROWNAME...[i]) | Y$start < Y$end[i] & as.numeric(Y$...ROWNAME...) > as.numeric(Y$...ROWNAME...[i])]
+      ovlp_rows <- Y$...ROWNAME...[(Y$end - max.ovlp) > Y$start[i] & as.numeric(Y$...ROWNAME...) < as.numeric(Y$...ROWNAME...[i]) | Y$start < (Y$end[i] - max.ovlp) & as.numeric(Y$...ROWNAME...) > as.numeric(Y$...ROWNAME...[i])]
      
       if (length(ovlp_rows) > 0)
         out <- paste(sort(as.numeric(c(Y$...ROWNAME...[i], ovlp_rows))), collapse = "/") else
@@ -148,54 +148,11 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
         
       return(out)
     })
-    
-    
-    # paste(X$sound.files, )
-    
-    # put it in a triangular matrix
-    # out2 <- as.data.frame(lapply(out1, function(x) c(rep(0, nrow(X) - length(x)), x)), col.names = 1:length(out1))
-
-
-# lbls <- rep(NA, nrow(out2))
-
-###### using loop
-# for(w in 1:nrow(out2)){
-#   
-#   if (w == 1) lbls[w] <- max(out2) + 1 else
-#     if (length(which(out2[ w, ] != 0)) >= 2) {
-#       wh.mn <- which(out2[ w, ] != 0)
-#   lbls[w] <- lbls[wh.mn[- length(wh.mn)][1]]
-#       }  else   lbls[w] <- max(lbls, na.rm = TRUE) + 1 
-# }
-# 
-# # determine unique tag counts
-# unq <- table(lbls)
-# 
-# # add NAs to single tags
-# lbls[lbls %in% names(unq)[unq == 1]] <- NA
-# 
-# if (length(lbls[!is.na(lbls)]) > 0)
-# lbls2 <- lbls <- lbls - min(lbls, na.rm = TRUE) + 1
-# 
-# lbls.lvls <- unique(lbls)
-# 
-# lbls.lvls <- lbls.lvls[!is.na(lbls.lvls)]
-# 
-# if (length(lbls.lvls) > 0)
-# for(e in seq_len(length(lbls.lvls)))
-#   if (lbls.lvls[e] != lbls.lvls[1]) lbls[lbls2 == lbls.lvls[e]] <- max(lbls2[1:max(which(lbls2 == lbls.lvls[e - 1]), na.rm = TRUE)], na.rm = TRUE) + 1
-# 
-# # add index row
-# if (ndx.rw)
-# {  if (length(lbls.lvls) > 0)
-#   X$indx.row <- sapply(1:nrow(out2), function(z) paste(unique(c(rownames(X)[which(out2[z, ] != 0)], rownames(X)[which(out2[ , z] != 0)])), collapse = "/")) else X$indx.row <- NA
-# }
-    
-    } else 
+  } else 
      Y$indx.row <- NA
   
    return(Y)  
-    }
+ }
   
 # set clusters for windows OS
 if (Sys.info()[1] == "Windows" & parallel > 1)
@@ -216,8 +173,8 @@ ovlp_df$ovlp.sels[!is.na(ovlp_df$ovlp.sels)] <- factor(paste0(ovlp_df[!is.na(ovl
 # convert to numeric
 ovlp_df$ovlp.sels <- as.numeric(ovlp_df$ovlp.sels)
 
-if (index) return(which(!is.na(ovlp_df$ovlp.sels))) else{
-
+if (index) return(which(!is.na(ovlp_df$ovlp.sels))) else 
+  {
     # remove the ones overlapped  
     if (drop)
       {
