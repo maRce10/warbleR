@@ -81,6 +81,7 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
       if (nrow(Y) > 1)
         Y$gaps[-nrow(Y)] <- Y$end[-1] - Y$start[-nrow(Y)] 
         
+      Y <- as.data.frame(Y)
       return(Y)  
     }
   
@@ -93,9 +94,6 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
   
   # add order column to sort data after calculations
   X$..order <- 1:nrow(X)
-  
-  
-  
   
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
