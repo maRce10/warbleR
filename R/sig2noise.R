@@ -21,9 +21,9 @@
 #' \itemize{
 #' \item \code{1}: ratio of S mean amplitude envelope to 
 #'   N mean amplitude envelope (\code{mean(env(S))/mean(env(N))})
-#' \item \code{2}: ratio of S amplitude envelope quadratic mean to N amplitude envelope quadratic mean
+#' \item \code{2}: ratio of S amplitude envelope RMS (root mean square) to N amplitude envelope RMS
 #'  (\code{rms(env(S))/rms(env(N))})
-#' \item \code{3}: ratio of the difference between S amplitude envelope quadratic mean and N amplitude envelope quadratic mean to N amplitude envelope quadratic mean (\code{(rms(env(S)) - rms(env(N)))/rms(env(N))})
+#' \item \code{3}: ratio of the difference between S amplitude envelope RMS and N amplitude envelope RMS to N amplitude envelope RMS (\code{(rms(env(S)) - rms(env(N)))/rms(env(N))})
 #' }
 #' @param eq.dur Logical. Controls whether the noise segment that is measured has the same duration 
 #' than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then 'mar' argument is ignored.
@@ -230,7 +230,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  SNR_l <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(y) 
+  SNR_l <- warbleR:::pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(y) 
   { 
     snr_FUN(y, mar, bp, wl, type, before, in.dB, lim.dB)
   }) 
