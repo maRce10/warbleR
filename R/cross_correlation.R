@@ -162,15 +162,15 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   if (!is_extended_selection_table(X) | is_extended_selection_table(X) & !is.null(templates) | is_extended_selection_table(X) & !is.null(compare.matrix)){
     #return warning if not all sound files were found
     fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
-    if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
+    if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files)) & !is_extended_selection_table(X)) 
       write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                                  "sound file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
+    if (!is_extended_selection_table(X) | is_extended_selection_table(X) & !is.null(templates) | is_extended_selection_table(X) & !is.null(compare.matrix) & any(grep(pattern = "\\.wav$", x = compare.matrix[ , 2], ignore.case = TRUE))) {
     d <- which(X$sound.files %in% fs) 
-    if (length(d) == 0){
-      stop("The sound files are not in the working directory")
-    }  else {
+    if (length(d) == 0)
+      stop("The sound files are not in the working directory") else 
       X <- X[d, ]
     }
   }
