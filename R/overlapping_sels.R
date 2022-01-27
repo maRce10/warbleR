@@ -6,8 +6,7 @@
 #' indx.row = FALSE, parallel = 1, verbose = TRUE)
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound 
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The output of \code{\link{auto_detec}} can 
-#' be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above.
+#' end time of selections.
 #' @param index Logical. Indicates if only the index of the overlapping selections would be returned.
 #' Default is \code{FALSE}.
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
@@ -55,7 +54,7 @@
 #' }
 #' @details This function detects selections within a selection table that overlap in time. Selections must be 
 #' listed in a data frame similar to \code{\link{lbh_selec_table}}. Note that row names are set to \code{1:nrow(X)}.
-#' @seealso  \code{\link{filtersels}} \code{\link{lbh_selec_table}}
+#' @seealso  \code{\link{filtersels}}, \code{\link{lbh_selec_table}}
 #' 
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.

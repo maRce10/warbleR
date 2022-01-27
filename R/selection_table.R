@@ -8,9 +8,7 @@
 #' files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end": 
 #' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
 #' not provided the first channel (i.e. left channel) would be used by default. 
-#' Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input to double check selections. 
-#' The output of \code{\link{auto_detec}} can 
-#' be used as the input object for other \code{\link{warbleR}} functions.
+#' Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input. 
 #' @param max.dur the maximum duration of expected for a selection  (ie. end - start). If surpassed then an error message 
 #' will be generated. Useful for detecting errors in selection tables.
 #' @param path Character string containing the directory path where the sound files are located. 

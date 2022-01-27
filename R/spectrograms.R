@@ -9,8 +9,7 @@
 #' by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
-#' 'top.freq' and 'bottom.freq' columns are optional.
-#' The output of \code{\link{auto_detec}} can be used as the input data frame. If using an 
+#' 'top.freq' and 'bottom.freq' columns are optional. If using an 
 #' 'extended_selection_table' the sound files are not required (see \code{\link{selection_table}}). 
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.

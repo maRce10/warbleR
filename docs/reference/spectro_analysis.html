@@ -298,8 +298,7 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The output of <code><a href='auto_detec.html'>auto_detec</a></code> can be used 
- directly without any additional modification. The function measures 29 acoustic parameters (if <code>fast = TRUE</code>) on 
+    <p>The function measures 29 acoustic parameters (if <code>fast = TRUE</code>) on 
  each selection in the data frame. Most parameters are produced internally by 
  <code><a href='https://rdrr.io/pkg/seewave/man/specprop.html'>specprop</a></code>, <code><a href='https://rdrr.io/pkg/seewave/man/fpeaks.html'>fpeaks</a></code>, <code><a href='https://rdrr.io/pkg/seewave/man/fund.html'>fund</a></code>,
  and <code><a href='https://rdrr.io/pkg/seewave/man/dfreq.html'>dfreq</a></code> from the package seewave and <code><a href='https://rdrr.io/pkg/soundgen/man/analyze.html'>analyze</a></code> 
@@ -327,7 +326,8 @@ time intervals of 25% and 75% energy respectively (in s). See <code><a href='htt
 <span class='va'>sp_param</span> <span class='op'>&lt;-</span> <span class='fu'>spectro_analysis</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>,<span class='op'>]</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span>, fast <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># measuring harmonic-related parameters using progress bar</span>
-<span class='va'>sp_param</span> <span class='op'>&lt;-</span> <span class='fu'>spectro_analysis</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>,<span class='op'>]</span>, harmonicity <span class='op'>=</span> <span class='cn'>TRUE</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>sp_param</span> <span class='op'>&lt;-</span> <span class='fu'>spectro_analysis</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>,<span class='op'>]</span>, harmonicity <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, ovlp <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </pre>

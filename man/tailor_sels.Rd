@@ -14,8 +14,7 @@ tailor_sels(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
-end time of selections. The output of \code{\link{auto_detec}} can 
-be used as the input data frame. Other data frames can be used as input, but must have at least the 4 columns mentioned above. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.}
+end time of selections. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
 

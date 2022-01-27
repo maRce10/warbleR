@@ -31,9 +31,9 @@ set globally using the 'pb' option (see \code{\link{warbleR_options}}).}
 \itemize{
 \item \code{1}: ratio of S mean amplitude envelope to 
   N mean amplitude envelope (\code{mean(env(S))/mean(env(N))})
-\item \code{2}: ratio of S amplitude envelope quadratic mean to N amplitude envelope quadratic mean
+\item \code{2}: ratio of S amplitude envelope RMS (root mean square) to N amplitude envelope RMS
  (\code{rms(env(S))/rms(env(N))})
-\item \code{3}: ratio of the difference between S amplitude envelope quadratic mean and N amplitude envelope quadratic mean to N amplitude envelope quadratic mean (\code{(rms(env(S)) - rms(env(N)))/rms(env(N))})
+\item \code{3}: ratio of the difference between S amplitude envelope RMS and N amplitude envelope RMS to N amplitude envelope RMS (\code{(rms(env(S)) - rms(env(N)))/rms(env(N))})
 }}
 
 \item{eq.dur}{Logical. Controls whether the noise segment that is measured has the same duration 

@@ -4,8 +4,7 @@
 #' @usage check_sound_files(X = NULL, path = NULL)
 #' @param X Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The output of \code{\link{auto_detec}} can 
-#' also be used as the input data frame. If provided the function also returns the
+#' end time of selections. If provided the function also returns the
 #' smallest number of samples from the listed selections, which limits the minimum window 
 #' length (wl argument in other functions) that can be used in batch analyses. 
 #' This could be useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}).

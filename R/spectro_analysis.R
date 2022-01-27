@@ -100,8 +100,7 @@
 #' }
 #' @export
 #' @name spectro_analysis
-#' @details The output of \code{\link{auto_detec}} can be used 
-#'  directly without any additional modification. The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
+#' @details The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
 #'  each selection in the data frame. Most parameters are produced internally by 
 #'  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
 #'  and \code{\link[seewave]{dfreq}} from the package seewave and \code{\link[soundgen]{analyze}} 
@@ -122,7 +121,8 @@
 #' sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE, path = tempdir())
 #' 
 #' # measuring harmonic-related parameters using progress bar
-#' sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], harmonicity = TRUE, path = tempdir())
+#' sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], harmonicity = TRUE, 
+#' path = tempdir(), ovlp = 0)
 #' }
 #' 
 #' @references {
@@ -268,7 +268,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
 
   sg.param[, grep("freq$|_width$", names(sg.param))] <- sg.param[, grep("freq$|_width$", names(sg.param))] / 1000
   
-  sg.param <- as.data.frame(t(apply(sg.param[, grep("harmonics|HNR|_freq$|_width$", names(sg.param))], 2, mean, na.rm = TRUE)))
+  sg.param <- as.data.frame(t(apply(sg.param[, grep("harmonics|HNR$|_freq$|_width$", names(sg.param))], 2, mean, na.rm = TRUE)))
     
   ff <- ff[!is.na(ff)]
   
