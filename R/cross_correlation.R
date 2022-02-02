@@ -240,8 +240,8 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
           entire.sf <- setdiff(unlist(c(compare.matrix)), X$selection.id)
           
           # get duration of files
-          wvdr <- warbleR::info_sound_files(path = path, pb = pb)
-          
+          wvdr <- warbleR::info_sound_files(path = path, pb = FALSE)
+         
           wvdr <- wvdr[wvdr$sound.files %in% entire.sf, ]
           
           # put it in a data frame
