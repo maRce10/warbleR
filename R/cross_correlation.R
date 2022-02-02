@@ -117,15 +117,15 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path) & !is_extended_selection_table(X)) 
+    if (!dir.exists(path) & !warbleR::is_extended_selection_table(X)) 
       stop("'path' provided does not exist") else
         path <- normalizePath(path)
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), warbleR::is_selection_table(X), warbleR::is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   # if is extended all should have the same sampling rate
-  if (is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("all wave objects in the extended selection table must have the same sampling rate (they can be homogenized using resample_est_waves())")
+  if (warbleR::is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("all wave objects in the extended selection table must have the same sampling rate (they can be homogenized using resample_est_waves())")
   
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
@@ -159,15 +159,15 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
       if (!length(ovlp) == 1) stop("'ovlp' must be a numeric vector of length 1")}} 
   
   # extended selection table only need sound files in the working directory when doing detection
-  if (!is_extended_selection_table(X) | is_extended_selection_table(X) & !is.null(templates) | is_extended_selection_table(X) & !is.null(compare.matrix)){
+  if (!warbleR::is_extended_selection_table(X) | warbleR::is_extended_selection_table(X) & !is.null(templates) | warbleR::is_extended_selection_table(X) & !is.null(compare.matrix)){
     #return warning if not all sound files were found
     fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
-    if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files)) & !is_extended_selection_table(X)) 
+    if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files)) & !warbleR::is_extended_selection_table(X)) 
       write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                                  "sound file(s) not found"))
     
     #count number of sound files in working directory and if 0 stop
-    if (!is_extended_selection_table(X) | is_extended_selection_table(X) & !is.null(templates) | is_extended_selection_table(X) & !is.null(compare.matrix) & any(grep(pattern = "\\.wav$", x = compare.matrix[ , 2], ignore.case = TRUE))) {
+    if (!warbleR::is_extended_selection_table(X) | warbleR::is_extended_selection_table(X) & !is.null(templates) | warbleR::is_extended_selection_table(X) & !is.null(compare.matrix) & any(grep(pattern = "\\.wav$", x = compare.matrix[ , 2], ignore.case = TRUE))) {
     d <- which(X$sound.files %in% fs) 
     if (length(d) == 0)
       stop("The sound files are not in the working directory") else 
@@ -180,7 +180,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
   
   # check sampling rate is the same for all selections if not a selection table
-  if (is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("sampling rate must be the same for all selections")
+  if (warbleR::is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("sampling rate must be the same for all selections")
   
   # add selection id column to X
   X$selection.id <- paste(X$sound.files, X$selec, sep = "-")
@@ -240,7 +240,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
           entire.sf <- setdiff(unlist(c(compare.matrix)), X$selection.id)
           
           # get duration of files
-          wvdr <- info_wavs(path = path)
+          wvdr <- warbleR::info_sound_files(path = path, pb = pb)
           
           wvdr <- wvdr[wvdr$sound.files %in% entire.sf, ]
           
@@ -273,7 +273,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
           if (length(unique(wvdr$sample.rate)) > 1)
             stop("not all sound files have the same sampling rate")
           
-          if (is_extended_selection_table(X))  
+          if (warbleR::is_extended_selection_table(X))  
             if (unique(wvdr$sample.rate) != unique(attr(X, "check.results")$sample.rate))
               stop("not all sound files have the same sampling rate than the wave objects in the extended selection table")
           
@@ -335,7 +335,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   spcs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(e) spc_FUN(j = e, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands))
   
   # check sampling rate is the same for all selections if not a selection table
-  if (!is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop("sampling rate must be the same for all selections")
+  if (!warbleR::is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop("sampling rate must be the same for all selections")
   
     # add selection name
   names(spcs) <- X$selection.id
