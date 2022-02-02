@@ -483,6 +483,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   
   #list results
   if (output == "cor.mat") return(mat) else{
+
     
     output_list <- list(
       max.xcorr.matrix = mat, 
@@ -490,7 +491,8 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
       org.selection.table = X, 
       hop.size.ms = warbleR::read_sound_file(X, 1, header = TRUE, path = path)$sample.rate / wl, 
       errors = if (na.rm) errors else NA,
-      parameters = lapply(call.argms, eval),
+      # parameters = lapply(call.argms, eval),
+      parameters = call.argms,
       call = base::match.call(),
       spectrogram = type,
       warbleR.version = packageVersion("warbleR")
