@@ -589,11 +589,12 @@ print.selection_table <- function(x, ...) {
 #' Fix extended selection tables 
 #' 
 #' \code{fix_extended_selection_table} fixes extended selection tables that have lost their attributes
-#' @usage fix_extended_selection_table(X, Y)
+#' @usage fix_extended_selection_table(X, Y, to.by.song = FALSE)
 #' @param X an object of class 'selection_table' or data frame that contains columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end).  
 #' @param Y an object of class 'extended_selection_table'
+#' @param to.by.song Logical argument to control if the attributes are formatted to a match a 'by.song' extended selection table. This is required when 'X' is created by collapsing an Y by song (see 'by.song' argument in \code{\link{selection_table}}). Mostly needed internally by some warbleR functions.
 #' @export
 #' @name fix_extended_selection_table
 #' @examples{
@@ -623,7 +624,7 @@ print.selection_table <- function(x, ...) {
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on may-14-2018 (MAS)
 
-fix_extended_selection_table <- function(X, Y){
+fix_extended_selection_table <- function(X, Y, to.by.song = FALSE){
   #X is new data frame and Y the original one
   #add wave objects
   if (!is_extended_selection_table(Y)) stop("Y must be a extended selection table")
@@ -638,6 +639,34 @@ fix_extended_selection_table <- function(X, Y){
     for(i in xtr.attr) attr(X, i) <- attr(Y, i)
   
   attributes(X)$call <- base::match.call()
+  
+  # fix if by.song (used internally by spectrograms())
+  if (to.by.song){
+    
+    new_X_attr_list <- lapply(unique(X$sound.files), function(x){
+      
+      sub.Y.check <- attr(Y, "check.results")[attr(Y, "check.results")$sound.files == x, ]
+      sub.Y.check.1 <- sub.Y.check[1, ]
+      sub.Y.check.1$selec <- X$selec[X$sound.files == x]
+      sub.Y.check.1$start <- min(sub.Y.check$start)
+      sub.Y.check.1$orig.start <- min(sub.Y.check$orig.start)
+      sub.Y.check.1$end <- max(sub.Y.check$end)
+      sub.Y.check.1$orig.end <- max(sub.Y.check$orig.end)
+      wave <- attr(Y, "wave.objects")[[which(names(attr(Y, "wave.objects")) == x)]]
+      sub.Y.check.1$duration <- duration(wave)
+      sub.Y.check.1$wav.size <- round(wave@bit  * ifelse(wave@stereo, 2, 1) * wave@samp.rate * duration(wave) / 4) / 1024
+      sub.Y.check.1$mar.before <- sub.Y.check$mar.before[which.min(sub.Y.check$start)]
+      sub.Y.check.1$mar.after <- sub.Y.check$mar.before[which.max(sub.Y.check$start)]
+      sub.Y.check.1$n.samples <- length(wave)
+      
+      return(sub.Y.check.1)
+      })
+    
+    X_attr <- do.call(rbind, new_X_attr_list)
+    
+    attributes(X)$check.results <- X_attr
+  }
+    
   
   return(X)
 }

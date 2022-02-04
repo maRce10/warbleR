@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_sound_file.R
 \name{read_sound_file}
 \alias{read_sound_file}
-\title{A extended version of read_wave that reads several sound file formats and files from selection tables}
+\title{An extended version of read_wave that reads several sound file formats and files from selection tables}
 \usage{
 read_sound_file(X, index, from = X$start[index], to = X$end[index], channel = 1, 
 header = FALSE, path = NULL)

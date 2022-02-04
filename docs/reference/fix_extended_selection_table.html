@@ -145,7 +145,7 @@
     <p><code>fix_extended_selection_table</code> fixes extended selection tables that have lost their attributes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fix_extended_selection_table</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>fix_extended_selection_table</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y</span>, to.by.song <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,6 +159,10 @@ for sound file name (sound.files), selection number (selec), and start and end t
     <tr>
       <th>Y</th>
       <td><p>an object of class 'extended_selection_table'</p></td>
+    </tr>
+    <tr>
+      <th>to.by.song</th>
+      <td><p>Logical argument to control if the attributes are formatted to a match a 'by.song' extended selection table. This is required when 'X' is created by collapsing an Y by song (see 'by.song' argument in <code><a href='selection_table.html'>selection_table</a></code>). Mostly needed internally by some warbleR functions.</p></td>
     </tr>
     </table>
 

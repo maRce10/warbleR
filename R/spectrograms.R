@@ -118,9 +118,6 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
                        sc = FALSE, line = TRUE, col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3, mar = 0.05, 
                        it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...){
   
-  
-  
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(spectrograms)
@@ -239,8 +236,8 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
     X$selec <- 1
     
     # fix extended selection table again
-    if (is_extended_selection_table(Y)) X <- fix_extended_selection_table(X, Y)
-    } else Y <- NULL
+    if (warbleR::is_extended_selection_table(Y)) X <- fix_extended_selection_table(X, Y, to.by.song = TRUE)
+    } 
   
   #create function to run within Xapply functions downstream     
   specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path, fill){
@@ -277,7 +274,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
       fn <- paste(X$sound.files[i], "-", X[i, by.song], ".", it, sep = "")
    
     img_wrlbr_int(filename = fn, path = dest.path, 
-           width = pwc, height = (10.16) * picsize, units = "cm", res = res) 
+           width = pwc, height = (10.16) * picsize, units = "cm", res = res)
     
     # Change relative heights of rows for spectrogram when osci = TRUE
     if (osci) hts <- c(3, 2) else hts <- NULL
@@ -312,7 +309,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
       {   
         if (!is.null(by.song))
         {
-          W <- Y[Y$sound.files == X$sound.files[i] & Y[, by.song] == X[i, by.song], ,  drop= FALSE]
+          W <- Y[Y$sound.files == X$sound.files[i] & Y[, by.song, drop = TRUE] == X[i, by.song, drop = TRUE], ,  drop= FALSE]
           W$start <- W$start - X$start[i] + mar1
           W$end <- W$end - X$start[i] + mar1
         } else 
