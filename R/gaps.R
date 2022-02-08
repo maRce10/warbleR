@@ -31,8 +31,6 @@
 gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
 {
   
-  
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(gaps)
@@ -118,5 +116,4 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
   gaps_df$..by <- gaps_df$..order <- NULL
   
   return(gaps_df)
-
-  }
+}

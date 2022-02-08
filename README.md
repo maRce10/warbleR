@@ -16,7 +16,7 @@ The main features of the package are:
 The package offers functions to:
  - Explore and download Xeno ‐ Canto recordings
  - Explore, organize and manipulate multiple sound files
- - Detect signals automatically (in frequency and time)
+ - Detect signals automatically (in frequency and time) (but check the R package [ohun](https://marce10.github.io/ohun/index.html) for a more thorough and friendly implementation)
  - Create spectrograms of complete recordings or individual signals
  - Run different measures of acoustic signal structure
  - Evaluate the performance of measurement methods
