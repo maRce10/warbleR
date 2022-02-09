@@ -145,7 +145,8 @@
     <p><code>sound_pressure_level</code> measures sound pressure level in signals reference in a selection table.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sound_pressure_level</span><span class='op'>(</span><span class='va'>X</span>, reference <span class='op'>=</span> <span class='fl'>20</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sound_pressure_level</span><span class='op'>(</span><span class='va'>X</span>, reference <span class='op'>=</span> <span class='fl'>20</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+peak.amplitude <span class='op'>=</span> <span class='cn'>FALSE</span>, wl <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,12 +178,20 @@ set globally using the 'wav.path' option (see <code><a href='warbleR_options.htm
       <td><p>Logical argument to control if progress bar is shown. Default is <code>TRUE</code>. It can also be
 set globally using the 'pb' option (see <code><a href='warbleR_options.html'>warbleR_options</a></code>).</p></td>
     </tr>
+    <tr>
+      <th>peak.amplitude</th>
+      <td><p>Logical argument controlling if the sound pressure level across the entire signal is return or only that of the highest amplitude (i.e. peak amplitude) of the signal. Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>wl</th>
+      <td><p>A numeric vector of length 1 specifying the spectrogram window length. Default is 512.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The object supplied in 'X' with a new variable 
-with the sound pressure level values (SPL).</p>
+with the sound pressure level values ('SPL' or 'peak.amplitude' column, see argument 'peak.amplitude') in decibels.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Sound pressure level (SPL) is a logarithmic measure of the effective pressure of a sound relative to a reference, so it's a measure of sound intensity. Note that calibrated measures can be obtained only when the SPL of the environment where recordings were made is used as reference.
@@ -190,7 +199,7 @@ with the sound pressure level values (SPL).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-<a href='https://en.wikipedia.org/wiki/Signal-to-noise_ratio'>Wikipedia: Signal-to-noise ratio</a></p>
+<a href='https://en.wikipedia.org/wiki/Sound_pressure'>Wikipedia: Sound pressure level</a></p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>) and Grace Smith Vidaurre</p>

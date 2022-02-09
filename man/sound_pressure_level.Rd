@@ -5,7 +5,8 @@
 \alias{sound_pressure_level}
 \title{Measure sound pressure level}
 \usage{
-sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE)
+sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, 
+peak.amplitude = FALSE, wl = 100)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or any data frame with columns
@@ -24,10 +25,14 @@ set globally using the 'wav.path' option (see \code{\link{warbleR_options}}).}
 
 \item{pb}{Logical argument to control if progress bar is shown. Default is \code{TRUE}. It can also be
 set globally using the 'pb' option (see \code{\link{warbleR_options}}).}
+
+\item{peak.amplitude}{Logical argument controlling if the sound pressure level across the entire signal is return or only that of the highest amplitude (i.e. peak amplitude) of the signal. Default is \code{FALSE}.}
+
+\item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
 }
 \value{
 The object supplied in 'X' with a new variable 
-with the sound pressure level values (SPL).
+with the sound pressure level values ('SPL' or 'peak.amplitude' column, see argument 'peak.amplitude') in decibels.
 }
 \description{
 \code{sound_pressure_level} measures sound pressure level in signals reference in a selection table.
@@ -48,7 +53,7 @@ parallel = 1, pb = TRUE, path = tempdir())
 }
 \references{
 {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-\href{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}{Wikipedia: Signal-to-noise ratio}
+\href{https://en.wikipedia.org/wiki/Sound_pressure}{Wikipedia: Sound pressure level}
 }
 }
 \author{

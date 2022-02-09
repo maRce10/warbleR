@@ -1,7 +1,8 @@
 #' Measure sound pressure level
 #' 
 #' \code{sound_pressure_level} measures sound pressure level in signals reference in a selection table.
-#' @usage sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE)
+#' @usage sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, 
+#' peak.amplitude = FALSE, wl = 100)
 #' @param X object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end).
@@ -14,8 +15,10 @@
 #' set globally using the 'wav.path' option (see \code{\link{warbleR_options}}).
 #' @param pb Logical argument to control if progress bar is shown. Default is \code{TRUE}. It can also be
 #' set globally using the 'pb' option (see \code{\link{warbleR_options}}).
+#' @param peak.amplitude Logical argument controlling if the sound pressure level across the entire signal is return or only that of the highest amplitude (i.e. peak amplitude) of the signal. Default is \code{FALSE}. 
+#' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. 
 #' @return The object supplied in 'X' with a new variable 
-#' with the sound pressure level values (SPL). 
+#' with the sound pressure level values ('SPL' or 'peak.amplitude' column, see argument 'peak.amplitude') in decibels. 
 #' @export
 #' @name sound_pressure_level
 #' @encoding UTF-8
@@ -32,11 +35,11 @@
 #' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace Smith Vidaurre
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' \href{https://en.wikipedia.org/wiki/Signal-to-noise_ratio}{Wikipedia: Signal-to-noise ratio}
+#' \href{https://en.wikipedia.org/wiki/Sound_pressure}{Wikipedia: Sound pressure level}
 #' }
 #last modification on feb-08-2022 (MAS)
 
-sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, pb = TRUE){
+sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, peak.amplitude = FALSE, wl = 100){
   
   #### set arguments from options
   # get function arguments
@@ -111,10 +114,24 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
     
     signal <- read_wave(X, index = i, path = path)
     
-    sigamp <- seewave::rms(seewave::env(signal, envt = "abs", plot = FALSE))
+    # only if more than 9 samples above wl
+    if (!peak.amplitude | peak.amplitude & (length(signal) + 9) <= wl)
+    sigamp <- seewave::rms(seewave::env(signal, envt = "abs", plot = FALSE)) else {
+      # sample cut points 
+      cuts <- seq(1, length(signal), by = wl)
+      
+      # remove last one if few samples (SPL unreliable)
+      if (cuts[length(cuts)] - cuts[length(cuts) - 1]  < 10)
+            cuts <- cuts[-length(cuts)]
+      
+      sigamp <- sapply(2:length(cuts), function(e)
+        seewave::rms(seewave::env(signal[cuts[e - 1]:cuts[e]], envt = "abs", plot = FALSE))
+        )
+    }
+    
     signaldb <- 20 * log10(sigamp / X[i, reference])
 
-    return(signaldb)
+    return(max(signaldb))
   }
 
   # set clusters for windows OS
@@ -133,6 +150,10 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
     # Add SNR data to X
     z <- data.frame(X, SPL = unlist(SPL_l))
     
+    # rename column if peak.ampitude
+    if (peak.amplitude)
+        names(z)[ncol(z)] <- "peak.amplitude"
+      
   # fix extended selection table
     if (is_extended_selection_table(X)) z <- fix_extended_selection_table(X = z, Y = X)  
 
