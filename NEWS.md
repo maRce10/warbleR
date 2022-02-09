@@ -2,6 +2,7 @@
 
 ## New functions:
 
+* `sound_pressure_level()` to measure, well, sound pressure level
 * `find_clipping()` to detect clipped selections
 * `wav_2_flac()` to convert '.wav' files into flac compresed lossless format
 * `gaps()` for calculating time intervals (i.e. gaps) between selections
