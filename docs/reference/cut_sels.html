@@ -146,7 +146,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>cut_sels</span><span class='op'>(</span><span class='va'>X</span>, mar <span class='op'>=</span> <span class='fl'>0.05</span>, parallel <span class='op'>=</span> <span class='fl'>1</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>, dest.path <span class='op'>=</span> <span class='cn'>NULL</span>, pb <span class='op'>=</span> <span class='cn'>TRUE</span>,
-labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sound.files"</span>, <span class='st'>"selec"</span><span class='op'>)</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, norm <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
+labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sound.files"</span>, <span class='st'>"selec"</span><span class='op'>)</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>, norm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+keep.stereo <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>cut_sels</span><span class='op'>(</span>
   <span class='va'>X</span>,
@@ -158,6 +159,7 @@ labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/bas
   labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sound.files"</span>, <span class='st'>"selec"</span><span class='op'>)</span>,
   overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>,
   norm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  keep.stereo <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -209,6 +211,10 @@ overwritten. Default is <code>FALSE</code>.</p></td>
       <td><p>Logical indicating whether wave objects must be normalized first using the function <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code>. Additional arguments can be passed to <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code> using `...`.` Default is <code>FALSE</code>. See <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code> for available options.</p></td>
     </tr>
     <tr>
+      <th>keep.stereo</th>
+      <td><p>Logical. If <code>TRUE</code> both channels are kept in the clips, oterwise it will keep the channel referenced in the channel column (if supplied) or the first channel if a 'channel' column is not found in 'X'. Only applies to stereo (2-channel) files.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Additional arguments to be passed to the internal <code><a href='https://rdrr.io/pkg/tuneR/man/normalize.html'>normalize</a></code> function for customizing sound file output. Ignored if  <code>norm = FALSE</code>.</p></td>
     </tr>
@@ -220,7 +226,7 @@ overwritten. Default is <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function allow users to produce individual sound files from the selections
-listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth.</p>
+listed in a selection table as in <code><a href='lbh_selec_table.html'>lbh_selec_table</a></code>. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth. The function keeps the original number of channels in the output clips only for 1- and 2-channel files.</p>
 <p>see <code>cut_sels</code> for documentation. <code>cut_sels</code> will be deprecated in future versions.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

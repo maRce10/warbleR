@@ -4,8 +4,8 @@
 \alias{read_sound_file}
 \title{An extended version of read_wave that reads several sound file formats and files from selection tables}
 \usage{
-read_sound_file(X, index, from = X$start[index], to = X$end[index], channel = 1, 
-header = FALSE, path = NULL)
+read_sound_file(X, index, from = X$start[index], to = X$end[index], 
+channel = X$channel[index], header = FALSE, path = NULL)
 }
 \arguments{
 \item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
@@ -18,7 +18,7 @@ selection number (selec), and start and end time of signals (start and end). Alt
 
 \item{to}{Where to stop reading, in seconds. Default is \code{X$end[index]}.}
 
-\item{channel}{Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). Default is 1.}
+\item{channel}{Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). Default is \code{X$channel[index]}. If a 'channel' column does not exist it will read the first channel.}
 
 \item{header}{If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.}
 

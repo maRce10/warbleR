@@ -3,7 +3,8 @@
 #' \code{cut_sels} cuts selections from a selection table into individual sound files.
 #' @export cut_sels
 #' @usage cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
-#' labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, ...)
+#' labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE,
+#' keep.stereo = FALSE, ...)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end).
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
@@ -21,6 +22,7 @@
 #' @param overwrite Logical. If \code{TRUE} sound files with the same name will be 
 #' overwritten. Default is \code{FALSE}.
 #' @param norm Logical indicating whether wave objects must be normalized first using the function \code{\link[tuneR]{normalize}}. Additional arguments can be passed to \code{\link[tuneR]{normalize}} using `...`.` Default is \code{FALSE}. See \code{\link[tuneR]{normalize}} for available options.
+#' @param keep.stereo Logical. If \code{TRUE} both channels are kept in the clips, oterwise it will keep the channel referenced in the channel column (if supplied) or the first channel if a 'channel' column is not found in 'X'. Only applies to stereo (2-channel) files.
 #' @param ... Additional arguments to be passed to the internal \code{\link[tuneR]{normalize}} function for customizing sound file output. Ignored if  \code{norm = FALSE}. 
 #' @return Sound files of the signals listed in the input data frame.
 #' @family selection manipulation
@@ -28,7 +30,7 @@
 #'  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
 #' @name cut_sels
 #' @details This function allow users to produce individual sound files from the selections
-#' listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth.  
+#' listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth. The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
 #' @examples{ 
 #' # save wav file examples
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
@@ -51,10 +53,7 @@
 #last modification on mar-12-2018 (MAS)
 
 cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
-                     labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, ...){
-  
-  # reset pb
-  
+                     labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, keep.stereo = FALSE, ...){
   
   #### set arguments from options
   # get function arguments
@@ -96,6 +95,10 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
             "start", "end") %in% colnames(X))) 
     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+  
+  # create channel if not found
+  if (!is.null(X$channel))
+    X$channel <- 1
   
   #if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
@@ -139,7 +142,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
 
   #create function to run within Xapply functions downstream     
-  cutFUN <- function(X, i, mar, labels, dest.path){
+  cutFUN <- function(X, i, mar, labels, dest.path, keep.stereo){
     
     # Read sound files, initialize frequency and time limits for spectrogram
     r <- warbleR::read_sound_file(X = X, index = i, header = TRUE, path = path)
@@ -154,8 +157,17 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     if (t[2] > r$samples/f) t[2] <- r$samples/f
     
     # Cut wave
-    wvcut <- warbleR::read_sound_file(X = X, path = path, index = i, from = t[1], to = t[2])
-
+    wvcut <- warbleR::read_sound_file(X = X, path = path, index = i, from = t[1], to = t[2], channel = X$channel[i])
+    
+    # add second channel if stereo
+    if (keep.stereo & r$channels == 2){
+      wvcut_ch2 <- warbleR::read_sound_file(X = X, path = path, index = i, from = t[1], to = t[2],  channel = setdiff(1:2, X$channel[i]))
+      
+      if (X$channel[i] == 1)
+      wvcut <- Wave(left = wvcut@left, right = wvcut_ch2@left, samp.rate = wvcut@samp.rate, bit = wvcut@bit) else
+        wvcut <- Wave(left = wvcut_ch2@left, right = wvcut@left, samp.rate = wvcut@samp.rate, bit = wvcut@bit)
+    }
+    
     # save cut
     if (overwrite) unlink(file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav")))
 
@@ -175,7 +187,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   # run loop apply function
   out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
-    cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path)
+    cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path, keep.stereo)
   }) 
 }
 

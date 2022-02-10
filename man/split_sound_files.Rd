@@ -35,7 +35,7 @@ Wave files for each segment in the working directory (if \code{only.sels = FALSE
 \code{split_sound_files} splits sound files in shorter segments
 }
 \details{
-This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}}).
+This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}}). The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
 }
 \examples{
 {

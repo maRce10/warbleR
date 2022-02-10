@@ -145,8 +145,8 @@
     <p><code>read_sound_file</code> reads several sound file formats as well as files referenced in selection tables</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_sound_file</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>index</span>, from <span class='op'>=</span> <span class='va'>X</span><span class='op'>$</span><span class='va'>start</span><span class='op'>[</span><span class='va'>index</span><span class='op'>]</span>, to <span class='op'>=</span> <span class='va'>X</span><span class='op'>$</span><span class='va'>end</span><span class='op'>[</span><span class='va'>index</span><span class='op'>]</span>, channel <span class='op'>=</span> <span class='fl'>1</span>, 
-header <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>read_sound_file</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>index</span>, from <span class='op'>=</span> <span class='va'>X</span><span class='op'>$</span><span class='va'>start</span><span class='op'>[</span><span class='va'>index</span><span class='op'>]</span>, to <span class='op'>=</span> <span class='va'>X</span><span class='op'>$</span><span class='va'>end</span><span class='op'>[</span><span class='va'>index</span><span class='op'>]</span>, 
+channel <span class='op'>=</span> <span class='va'>X</span><span class='op'>$</span><span class='va'>channel</span><span class='op'>[</span><span class='va'>index</span><span class='op'>]</span>, header <span class='op'>=</span> <span class='cn'>FALSE</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,7 +171,7 @@ selection number (selec), and start and end time of signals (start and end). Alt
     </tr>
     <tr>
       <th>channel</th>
-      <td><p>Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). Default is 1.</p></td>
+      <td><p>Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). Default is <code>X$channel[index]</code>. If a 'channel' column does not exist it will read the first channel.</p></td>
     </tr>
     <tr>
       <th>header</th>

@@ -5,7 +5,8 @@
 \title{Cut selections into individual sound files}
 \usage{
 cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
-labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE, ...)
+labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE,
+keep.stereo = FALSE, ...)
 
 cut_sels(
   X,
@@ -17,6 +18,7 @@ cut_sels(
   labels = c("sound.files", "selec"),
   overwrite = FALSE,
   norm = FALSE,
+  keep.stereo = FALSE,
   ...
 )
 }
@@ -47,6 +49,8 @@ overwritten. Default is \code{FALSE}.}
 
 \item{norm}{Logical indicating whether wave objects must be normalized first using the function \code{\link[tuneR]{normalize}}. Additional arguments can be passed to \code{\link[tuneR]{normalize}} using `...`.` Default is \code{FALSE}. See \code{\link[tuneR]{normalize}} for available options.}
 
+\item{keep.stereo}{Logical. If \code{TRUE} both channels are kept in the clips, oterwise it will keep the channel referenced in the channel column (if supplied) or the first channel if a 'channel' column is not found in 'X'. Only applies to stereo (2-channel) files.}
+
 \item{...}{Additional arguments to be passed to the internal \code{\link[tuneR]{normalize}} function for customizing sound file output. Ignored if  \code{norm = FALSE}.}
 }
 \value{
@@ -57,7 +61,7 @@ Sound files of the signals listed in the input data frame.
 }
 \details{
 This function allow users to produce individual sound files from the selections
-listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth.
+listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth. The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
 
 see \code{\link{cut_sels}} for documentation. \code{\link{cut_sels}} will be deprecated in future versions.
 }

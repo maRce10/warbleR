@@ -20,7 +20,7 @@
 #' @export
 #' @name split_sound_files
 #' @return Wave files for each segment in the working directory (if \code{only.sels = FALSE}, named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the clips (sound.files) and the start and end of clips in the original files. Clips are saved in .wav format. If 'X' is supplied then a data frame with the position of the selections in the newly created clips is returned instead.
-#' @details This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}}).
+#' @details This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}}). The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
 #' @examples
 #' {
 #' #load data and save to temporary working directory
@@ -101,7 +101,6 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
     if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)")) 
   }
   
-  
   # check sgmnt duration
   if (is.null(sgmts))
   {
@@ -150,18 +149,24 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
 
   # if no sound files are produced
   if (!only.sels){
-  
-  
-  
+
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-    # split using a loop only the ones that are shorter than segments
+    # split using a loop only those shorter than segments
     a_l <- pblapply_wrblr_int(pbar = pb, X = which(split.df$org.sound.files != split.df$sound.files), cl =  cl, FUN = function(x) {
   
   # read clip    
-  clip <- warbleR::read_sound_file(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path)
+  clip <- warbleR::read_sound_file(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path, channel = 1)
+  
+  
+  # add second channel if stereo
+  if (warbleR::read_sound_file(X = split.df$org.sound.files[x], path = path, header = TRUE)$channels > 1){
+    clip_ch2 <- warbleR::read_sound_file(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path, channel = 2)
+    clip <- Wave(left = clip@left, right = clip_ch2@left, samp.rate = clip@samp.rate, bit = clip@bit)
+  }
+  
   
   # save   
   tuneR::writeWave(extensible = FALSE, object = clip, filename = file.path(path, split.df$sound.files[x]))

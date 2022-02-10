@@ -11,6 +11,7 @@
 
 ## Changes and additions:
 
+* `read_sound_files()` and consequently most other functions in warbleR will look at the 'channel' column for deciding which channel to read
 * updated download URL in `quer_xc()`
 * `selection_table` and `extended_selection_table` subsetting (`[`) drop behavior switched to `FALSE`
 * `overlapping_sels()` has been updated to improve performance

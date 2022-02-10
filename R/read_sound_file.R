@@ -1,15 +1,15 @@
 #' An extended version of read_wave that reads several sound file formats and files from selection tables
 #' 
 #' \code{read_sound_file} reads several sound file formats as well as files referenced in selection tables
-#' @usage read_sound_file(X, index, from = X$start[index], to = X$end[index], channel = 1, 
-#' header = FALSE, path = NULL) 
+#' @usage read_sound_file(X, index, from = X$start[index], to = X$end[index], 
+#' channel = X$channel[index], header = FALSE, path = NULL) 
 #' @param X 'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a sound file or URL address to sound file can be provided. The function can read sound files in 'wav', 'mp3', 'flac' and 'wac' format. The file name can contain the directory path.
 #' 'top.freq' and 'bottom.freq' columns are optional. Default is \code{NULL}.
 #' @param index Index of the selection in 'X' that will be read. Ignored if 'X' is \code{NULL}.
 #' @param from Where to start reading, in seconds. Default is \code{X$start[index]}.
 #' @param to Where to stop reading, in seconds. Default is \code{X$end[index]}.
-#' @param channel Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). Default is 1.
+#' @param channel Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). Default is \code{X$channel[index]}. If a 'channel' column does not exist it will read the first channel.
 #' @param header If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used. If 'X' refers to a sound file including its directory 'path' is ignored. 
@@ -56,7 +56,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on may-7-2018 (MAS)
 
-read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[index], channel = 1, header = FALSE, path = NULL) 
+read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[index], channel = X$channel[index], header = FALSE, path = NULL) 
 {
   
   # if is extended then index must be provided
@@ -103,6 +103,7 @@ read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[
     
     if (is.na(warbleR::try_na(from))) from <- 0
     if (is.na(warbleR::try_na(to))) to <- Inf
+    if (is.na(warbleR::try_na(channel))) channel <- 1
     
     object <- read_soundfile_wrblr_int(filename, header, from, to, extension = extsn, channel = channel)  
     

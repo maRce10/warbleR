@@ -114,8 +114,8 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
     
     signal <- read_wave(X, index = i, path = path)
     
-    # only if more than 9 samples above wl
-    if (!peak.amplitude | peak.amplitude & (length(signal) + 9) <= wl)
+    # only if more than 9 samples above twice wl (so it can have at least 2 segments)
+    if (!peak.amplitude | peak.amplitude & (length(signal) + 9) <= wl *2)
     sigamp <- seewave::rms(seewave::env(signal, envt = "abs", plot = FALSE)) else {
       # sample cut points 
       cuts <- seq(1, length(signal), by = wl)
