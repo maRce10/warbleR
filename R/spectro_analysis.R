@@ -135,9 +135,6 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
                    parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
                    wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...){
   
-  
-  # 
-  
   # error message if ape is not installed
   if (!requireNamespace("soundgen",quietly = TRUE) & harmonicity)
     stop("must install 'soundgen' when  harmonicity = TRUE")
@@ -291,7 +288,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
       
     #frequency spectrum analysis
     songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl.freq, wn = wn, flim = b)
-    analysis <- seewave::specprop(songspec, f = r@samp.rate, flim = b, plot = FALSE)
+    analysis <- specprop_wrblr_int(spec = songspec, f = r@samp.rate, flim = b, plot = FALSE)
 
     #from seewave's acoustat
     m <- sspectro(r, f = r@samp.rate, wl = ifelse(wl >= length(r@left), length(r@left) - 1, wl), ovlp = ovlp, wn = wn)
