@@ -4,6 +4,7 @@
 ^pkgdown$
 ^doc$
 ^Meta$
+^testing$
 ^README\\.Rmd$
 ^LICENSE\\.md$
 LICENSE.md

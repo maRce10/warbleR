@@ -37,7 +37,7 @@
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' \href{https://en.wikipedia.org/wiki/Sound_pressure}{Wikipedia: Sound pressure level}
 #' }
-#last modification on feb-08-2022 (MAS)
+#last modification on feb-23-2022 (MAS)
 
 sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, peak.amplitude = FALSE, wl = 100){
   
