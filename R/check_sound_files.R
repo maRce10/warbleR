@@ -107,7 +107,8 @@ check_sound_files <- function(X = NULL, path = NULL) {
   }
   
   a <- sapply(files, function(x) {
-    r <- try(suppressWarnings(warbleR::read_wave(X = x, path = path, header = TRUE)), silent = TRUE)
+    # print(x)
+    r <- try(suppressWarnings(warbleR::read_sound_file(X = x, path = path, header = TRUE)), silent = TRUE)
     if (is(r, "try-error")) return (NA) else
       return(r$sample.rate)  
     }) 
