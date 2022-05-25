@@ -1,9 +1,12 @@
 #' Measure the duration of sound files
 #' 
 #' \code{duration_sound_files} measures the duration of sound files
-#' @usage duration_sound_files(files = NULL, path = NULL)
+#' @usage duration_sound_files(files = NULL, path = NULL, skip.error = FALSE, 
+#' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 #' @param files Character vector with the names of the sound files to be measured. The sound files should be in the working directory or in the directory provided in 'path'.
-#' @param path Character string containing the directory path where the sound files are located. 
+#' @param path Character string containing the directory path where the sound files are located.
+#' @param file.format Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\\.wav$|\\.wac$|\\.mp3$|\\.flac$"). Note that several formats can be included using regular expression syntax as in \code{\link[base]{grep}}. For instance \code{"\\.wav$|\\.mp3$"} will only include .wav and .mp3 files. 
+#' @param skip.error Logical to control if errors are omitted. If so, files that could not be read will return \code{NA} in the 'duration' column. Default is \code{FALSE}, which will return an error if some files are problematic.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @return A data frame with the duration (in seconds) of the sound files.
 #' @export
@@ -25,7 +28,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) 
 #last modification on jul-5-2016 (MAS)
 
-duration_sound_files <- function(files = NULL, path = NULL) { 
+duration_sound_files <- function(files = NULL, path = NULL, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$") { 
   
   #### set arguments from options
   # get function arguments
@@ -58,16 +61,31 @@ duration_sound_files <- function(files = NULL, path = NULL) {
   if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
   
    if (is.null(files))
-  files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE) #list .wav files in working director    
+    files <- list.files(path = path, pattern = file.format, ignore.case = TRUE) #list .wav files in working director    
   
    #stop if no wav files are found
    if (length(files) == 0) stop("no sound files in working directory") 
   
-  a <- sapply(files, function(x) {
-    rec <- warbleR::read_sound_file(X = x, path = path, header = TRUE)
-    return(rec$samples/rec$sample.rate)  
+  durs <- sapply(files, function(x) {
+  
+    on.exit(rm(rec))
+  
+    if (!skip.error){
+      rec <- warbleR::read_sound_file(X = x, path = path, header = TRUE)
+    dur <- rec$samples / rec$sample.rate
+    } else  {
+      suppressWarnings(rec <- try(warbleR::read_sound_file(X = x, path = path, header = TRUE), silent = TRUE))
+      
+      if (is(rec, "try-error"))
+      dur <- NA else dur <- rec$samples / rec$sample.rate
+    
+      
+      } 
+        
+    return(dur)
   })
-   return(data.frame(sound.files = files, duration = a, row.names = NULL))
+  
+   return(data.frame(sound.files = files, duration = durs, row.names = NULL))
 
 }
 

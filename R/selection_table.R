@@ -3,7 +3,8 @@
 #' \code{selection_table} converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.
 #' @usage selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 #' extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, 
-#' pb = TRUE, parallel = 1, verbose = TRUE, ...)
+#' pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, 
+#' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav 
 #' files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end": 
 #' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
@@ -36,9 +37,11 @@
 #' If \code{NULL} (default), wave objects are created for each selection (e.g. by selection). 
 #' Ignored if \code{extended = FALSE}.
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
-#' @param parallel Numeric. Controls whether parallel computing is applied. 
+#' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
-  #' @param verbose Logical argument to control if summary messages are printed to the console. Default is \code{TRUE}.
+#' @param verbose Logical argument to control if summary messages are printed to the console. Default is \code{TRUE}.
+#' @param skip.error Logical to control if errors are omitted. If so, files that could not be read will be excluded and their name printed in the console. Default is \code{FALSE}, which will return an error if some files are problematic.
+#' @param file.format Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\\.wav$|\\.wac$|\\.mp3$|\\.flac$"). Note that several formats can be included using regular expression syntax as in \code{\link[base]{grep}}. For instance \code{"\\.wav$|\\.mp3$"} will only include .wav and .mp3 files. Ignored if \code{whole.recs = FALSE}. 
 #' @param ... Additional arguments to be passed to \code{\link{check_sels}} for customizing
 #' checking routine.
 #' @return An object of class selection_table which includes the original data frame plus the following additional attributes:
@@ -112,7 +115,7 @@
 #last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-                            extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, ...)
+                            extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ...)
 {
   
   #### set arguments from options
@@ -150,12 +153,24 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   
   # create a selection table for a row for each full length recording
   if (whole.recs){ 
-    sound.files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
+    sound.files <- list.files(path = path, pattern = file.format, ignore.case = TRUE)
     
     if (length(sound.files) == 0) stop("No sound files were found") 
     
-    X <- data.frame(sound.files, selec = 1, channel = 1, start = 0, end = duration_wavs(files = sound.files, path = path)$duration)
-  }
+    X <- data.frame(sound.files, selec = 1, channel = 1, start = 0, end = duration_wavs(files = sound.files, path = path, skip.error = skip.error)$duration)
+  
+    if (skip.error){
+      # get name of problematic files
+      error_files <- X$sound.files[is.na(X$end)]
+      
+      # remove them from output X
+      X <- X[!is.na(X$end), ]
+    } 
+    }
+  
+  # create error_files if not created
+  if (!exists("error_files"))
+      error_files <- vector()
   
   if (pb & verbose) write(file = "", x ="checking selections (step 1 of 2):")
   
@@ -284,6 +299,8 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   attributes(X)$warbleR.version <- packageVersion("warbleR")
   
   if (extended & confirm.extended & !is_extended_selection_table(X)) cat(crayon::silver(crayon::bold("'extended_selection_table' was not created")))
+  
+  if (skip.error & length(error_files) > 0) cat(crayon::silver(paste("\nthe following file(s) couldn't be read and were not included:", crayon::bold(paste(error_files, collapse = ",")))))
   
   return(X)
 }

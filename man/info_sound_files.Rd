@@ -4,7 +4,8 @@
 \alias{info_sound_files}
 \title{Get sound file parameter information}
 \usage{
-info_sound_files(path = NULL, parallel = 1, pb = TRUE)
+info_sound_files(path = NULL, parallel = 1, pb = TRUE, skip.error = FALSE, 
+file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 }
 \arguments{
 \item{path}{Character string containing the directory path where the sound files are located. 
@@ -14,6 +15,10 @@ If \code{NULL} (default) then the current working directory is used.}
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
+
+\item{skip.error}{Logical to control if errors are omitted. If so, files that could not be read will be excluded and their name printed in the console. Default is \code{FALSE}, which will return an error if some files are problematic.}
+
+\item{file.format}{Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$"). Note that several formats can be included using regular expression syntax as in \code{\link[base]{grep}}. For instance \code{"\\\.wav$|\\\.mp3$"} will only include .wav and .mp3 files.}
 }
 \value{
 A data frame with descriptive information about the sound files in the working directory (or 'path'). See "details".

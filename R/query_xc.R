@@ -78,9 +78,6 @@
 query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"), 
                    parallel = 1, path = NULL, pb = TRUE) {
   
-  
-  
-  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(query_xc)
@@ -118,11 +115,11 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
 
-  
-  
-  
+  # fix file name column names
+  if (!is.null(file.name)){
   file.name <- gsub(" ", "_", file.name) 
   file.name <- tolower(file.name) 
+  }
   
   if (is.null(X) & !is.null(file.name))  
   {
@@ -244,7 +241,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
     if (!is.null(file.name))
     {if (any(!c(file.name, "recording_id") %in% tolower(colnames(X)))) 
       stop(paste(paste(c(file.name, "recording_id")[!c(file.name, "recording_id") %in% tolower(colnames(X))], collapse=", "), "column(s) not found in data frame"))} else
-        if (!"recording_id" %in% colnames(X)) 
+        if (!"Recording_ID" %in% colnames(X)) 
           stop("Recording_ID column not found in data frame")
     
     download <- TRUE
@@ -261,7 +258,6 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       results$sound.files <- paste(paste(fn, results$Recording_ID, sep = "-"), ".mp3", sep = "")     
     } else
       results$sound.files <- paste0(results$Recording_ID, ".mp3")   
-    
     
     xcFUN <-  function(results, x){
       if (!file.exists(results$sound.files[x]))

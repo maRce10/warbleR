@@ -4,7 +4,13 @@
 \alias{wav_info}
 \title{alternative name for \code{\link{info_sound_files}}}
 \usage{
-wav_info(path = NULL, parallel = 1, pb = TRUE)
+wav_info(
+  path = NULL,
+  parallel = 1,
+  pb = TRUE,
+  skip.error = FALSE,
+  file.format = "\\\\.wav$|\\\\.wac$|\\\\.mp3$|\\\\.flac$"
+)
 }
 \description{
 alternative name for \code{\link{info_sound_files}}

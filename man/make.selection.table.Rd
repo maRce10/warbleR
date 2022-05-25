@@ -16,6 +16,8 @@ make.selection.table(
   pb = TRUE,
   parallel = 1,
   verbose = TRUE,
+  skip.error = FALSE,
+  file.format = "\\\\.wav$|\\\\.wac$|\\\\.mp3$|\\\\.flac$",
   ...
 )
 }

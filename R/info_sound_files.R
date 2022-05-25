@@ -1,12 +1,15 @@
 #' Get sound file parameter information
 #'
 #' \code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns sound file information 
-#' @usage info_sound_files(path = NULL, parallel = 1, pb = TRUE)
+#' @usage info_sound_files(path = NULL, parallel = 1, pb = TRUE, skip.error = FALSE, 
+#' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}. 
+#' @param skip.error Logical to control if errors are omitted. If so, files that could not be read will be excluded and their name printed in the console. Default is \code{FALSE}, which will return an error if some files are problematic.
+#' @param file.format Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$"). Note that several formats can be included using regular expression syntax as in \code{\link[base]{grep}}. For instance \code{"\\\.wav$|\\\.mp3$"} will only include .wav and .mp3 files.
 #' @return A data frame with descriptive information about the sound files in the working directory (or 'path'). See "details".  
 #' @export
 #' @name info_sound_files
@@ -38,7 +41,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on aug-15-2018 (MAS)
 
-info_sound_files <- function(path = NULL, parallel = 1, pb = TRUE)
+info_sound_files <- function(path = NULL, parallel = 1, pb = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$")
 {
   
   #### set arguments from options
@@ -69,7 +72,7 @@ info_sound_files <- function(path = NULL, parallel = 1, pb = TRUE)
         path <- normalizePath(path)
     
   # make a selection table from files
-  st <- selection_table(whole.recs = TRUE, path = path, parallel = parallel, pb = pb, verbose = FALSE)
+  st <- selection_table(whole.recs = TRUE, path = path, parallel = parallel, pb = pb, verbose = FALSE, skip.error = skip.error, file.format = file.format)
   
   #extract check sels
   cs <- attributes(st)$check.results
