@@ -10,7 +10,7 @@
 #' legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, 
 #' tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5), group.tag = NULL, 
 #' spec.mar = 0, spec.bg = "white", max.group.cols = NULL, sub.legend = FALSE, 
-#' rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE)
+#' rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE, highlight = FALSE, alpha = 0.3)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -34,7 +34,7 @@
 #' @param prop.mar Numeric vector of length 1. Specifies the margins adjacent to the 
 #' start and end points of selections as a proportion of the duration of the signal. If
 #' provided 'mar' argument is ignored. Default is \code{NULL}. Useful when having high 
-#' variation in signal duration. Ignored if \code{same.time.scale = FALSE}.
+#' variation in signal duration. Ignored if \code{same.time.scale = FALSE}. Must be > 0 and <= 1. 
 #' @param lab.mar Numeric vector of length 1. Specifies the space allocated to labels and tags (the upper margin). Default is 1.   
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default 
 #'   is 512.
@@ -118,7 +118,8 @@
 #' @param by.row Logical. If \code{TRUE} (default) catalogs are filled by rows. 
 #' @param box Logical. If \code{TRUE} (default) a box is drawn around spectrograms and 
 #' corresponding labels and tags. 
-#' are 
+#' @param highlight Logical. If \code{TRUE} a transparent white layer is plotted on the spectrogram areas outside the selection. The level of transparency is controlled with the argument 'alpha'. Default is \code{FAlSE}.
+#' @param alpha Numeric vector of length 1 controlling the level of transparency when highlighting selections (i.e. when \code{highlight = TRUE}, see highlight argument. Default is 0.3.  
 #' @return Image files with spectrograms of whole sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
@@ -211,7 +212,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
                     leg.wd = 1, img.suffix = NULL, img.prefix = NULL, tag.widths = c(1, 1), hatching = 0, 
                     breaks = c(5, 5), group.tag = NULL, spec.mar = 0, spec.bg = "white", 
                     max.group.cols = NULL, sub.legend = FALSE, rm.axes = FALSE, title = NULL,
-                    by.row = TRUE, box = TRUE)
+                    by.row = TRUE, box = TRUE, highlight = FALSE, alpha = 0.5)
 {
 
   #### set arguments from options
@@ -346,10 +347,6 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   #if it argument is not "jpeg" or "tiff"
   if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
   
-  
-  
-  
-  
   #if flim is not vector or length!=2 stop
   if (is.null(flim)) {
     if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else
@@ -378,21 +375,23 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     stop("legend should be be a value between 0 and 3")
   
   #lab.mar
-  if (!is.numeric(lab.mar) | lab.mar < 0)
-    stop("lab.mar should be <= 0")
+  if (!is.numeric(lab.mar) | lab.mar > 0)
+    stop("lab.mar should be >= 0")
   
   #prop.mar
   if (!is.null(prop.mar))
   {
-    if (!is.numeric(prop.mar) | prop.mar < 0)
-      stop("prop.mar should be <= 0")
-    if (!same.time.scale) prop.mar <- NULL
+    if (prop.mar < 0)
+      stop("prop.mar should be  > 0 and <= 1")
+    if (!same.time.scale){ 
+      prop.mar <- NULL
     cat("'prop.mar' ignored as same.time.scale = FALSE")
+    }
   }
   
   #spec.mar
-  if (!is.numeric(spec.mar) | spec.mar < 0)
-    stop("spec.mar should be <= 0")
+  if (!is.numeric(spec.mar) | spec.mar > 0)
+    stop("spec.mar should be >= 0")
   
   #hatching
   if (!is.numeric(hatching) | hatching < 0 | hatching > 3)
@@ -550,8 +549,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
    f <- r$sample.rate
 
     # change mar to prop.mar (if provided)
-    if (!is.null(prop.mar)) adj.mar <- (X$end[i] - X$start[i]) * prop.mar else
-      adj.mar <- mar
+   adj.mar <- if (!is.null(prop.mar)) (X$end[i] - X$start[i]) * prop.mar else mar
     
     t <- c(X$start[i] - adj.mar, X$end[i] + adj.mar) 
     
@@ -580,6 +578,8 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     X2 <- lapply(1:nrow(X), function(x)
     {
       Y <- as.data.frame(X)[x, ]
+      Y$orig.end <- Y$end
+      Y$orig.start <- Y$start
       dur <- Y$end - Y$start
       if (dur < max(rangs$mardur)) {
         Y$end  <- Y$end + (max(rangs$mardur) - dur)/2
@@ -753,8 +753,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
          f <- r$sample.rate
           
           # change mar to prop.mar (if provided)
-          if (!is.null(prop.mar)) adj.mar <- (X3$end[i] - X3$start[i]) * prop.mar else
-            adj.mar <- mar
+         adj.mar <-  if (!is.null(prop.mar))(X3$end[i] - X3$start[i]) * prop.mar else  mar
           
           t <- c(X3$start[i] - adj.mar, X3$end[i] + adj.mar)
           
@@ -784,10 +783,25 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
           
           # draw spectro
           if (fast.spec & !is.null(group.tag)) par(bg =  X3$colgroup[i], new = TRUE)
+          
           spectro_wrblr_int2(wave = rec, f = rec@samp.rate, flim = flim, wl = X3$...wl...[i], wn = X3$...wn...[i], ovlp = X3$...ovlp...[i], axisX = axisX, axisY = axisY, tlab = NULL, flab = NULL, palette = X3$pal[i], fast.spec = fast.spec, main = NULL, grid = gr, rm.zero = TRUE, cexlab = cex * 1.2, collevels = collevels, collev.min = X3$collev.min[i], cexaxis = cex * 1.2, add = TRUE)
           
+          #add transparent boxes around to highlight signals
+          if (highlight){
+            
+            if (!same.time.scale)
+              sig.pos <- c(adj.mar - (t[1] - (X3$start[i] - adj.mar)), X3$end[i] - X3$start[i] + adj.mar - (t[1] - (X3$start[i] - adj.mar))) else
+                sig.pos <- c(adj.mar - (t[1] - (X3$orig.start[i] - adj.mar)), X3$orig.end[i] - X3$orig.start[i] + adj.mar - (t[1] - (X3$orig.start[i] - adj.mar)))   
+                  
+                rect(xleft = c(par("usr")[1], sig.pos[2]), xright = c(sig.pos[1], par("usr")[2]), ybottom = flim[1], ytop = flim[2], border = NA, col = adjustcolor("white", alpha.f = alpha))
+              
+              if (!is.null(X3$bottom.freq[i]))
+                rect(xleft = sig.pos[c(1, 1)], xright = sig.pos[c(2, 2)], ybottom = c(flim[1], X3$top.freq[i]), ytop = c(X3$bottom.freq[i], flim[2]), border = NA, col = adjustcolor("white", alpha.f = alpha))
+        }    
+    
           #add box
-          if (box) boxw_wrblr_int(xys = m[i,], bty = "u", lwd = 1.5)
+          if (box) 
+            boxw_wrblr_int(xys = m[i,], bty = "u", lwd = 1.5)
         } 
         
         if (fig.type[i] == "lab") #plot labels

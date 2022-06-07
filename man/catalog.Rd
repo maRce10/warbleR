@@ -13,7 +13,7 @@ width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors, topo.colors)
 legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, 
 tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5), group.tag = NULL, 
 spec.mar = 0, spec.bg = "white", max.group.cols = NULL, sub.legend = FALSE, 
-rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE)
+rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE, highlight = FALSE, alpha = 0.3)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame with columns for sound file name (sound.files), selection number (selec), 
@@ -48,7 +48,7 @@ delineating spectrogram limits. Default is 0.05.}
 \item{prop.mar}{Numeric vector of length 1. Specifies the margins adjacent to the 
 start and end points of selections as a proportion of the duration of the signal. If
 provided 'mar' argument is ignored. Default is \code{NULL}. Useful when having high 
-variation in signal duration. Ignored if \code{same.time.scale = FALSE}.}
+variation in signal duration. Ignored if \code{same.time.scale = FALSE}. Must be > 0 and <= 1.}
 
 \item{lab.mar}{Numeric vector of length 1. Specifies the space allocated to labels and tags (the upper margin). Default is 1.}
 
@@ -164,8 +164,11 @@ page are shown in the legend. Default is \code{FALSE}.}
 \item{by.row}{Logical. If \code{TRUE} (default) catalogs are filled by rows.}
 
 \item{box}{Logical. If \code{TRUE} (default) a box is drawn around spectrograms and 
-corresponding labels and tags. 
-are}
+corresponding labels and tags.}
+
+\item{highlight}{Logical. If \code{TRUE} a transparent white layer is plotted on the spectrogram areas outside the selection. The level of transparency is controlled with the argument 'alpha'. Default is \code{FAlSE}.}
+
+\item{alpha}{Numeric vector of length 1 controlling the level of transparency when highlighting selections (i.e. when \code{highlight = TRUE}, see highlight argument. Default is 0.3.}
 }
 \value{
 Image files with spectrograms of whole sound files in the working directory. Multiple pages

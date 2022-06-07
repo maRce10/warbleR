@@ -103,7 +103,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   
  # function to convert single mp3  
  mp3_conv_FUN <- function(x, bit.depth) {
-   
+   print(x)
    # read mp3
    wv <- try(tuneR::readMP3(filename =  file.path(path, x)), silent = TRUE)
    
@@ -111,7 +111,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
    if(is(wv, "Wave") & !is.null(samp.rate))
    {
      if (wv@samp.rate != samp.rate * 1000) {
-      cat("'samp.rate' currently not available")
+      cat("'samp.rate' modification currently not available")
        
       # # filter first to avoid aliasing 
       #  if (wv@samp.rate > samp.rate * 1000)
@@ -126,14 +126,44 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
      
      }
    
-   wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
+   wv <- try(tuneR::writeWave(extensible = FALSE, object = wv, filename = file.path(dest.path, paste0(substr(x, 0, nchar(x) - 4), ".wav"))), silent = TRUE)
    
    return(NULL)
    }
 
+###### 
  
+ fix_sox_FUN <- function(x)
+ {
+   
+   px <- normalizePath(file.path(path, x))
+   
+   #name  and path of original file
+   cll <- paste0("sox '", px, "' -t wavpcm")
+   
+   if (!is.null(bit.depth))
+     cll <- paste(cll, paste("-b", bit.depth))
+   
+   cll <- paste0(cll, " '", file.path(dest.path, paste0(substr(x, 0, nchar(x) - 4), ".wav")), "'")
+
+   if (!is.null(samp.rate))
+     cll <- paste(cll, "rate", samp.rate * 1000)
+   
+   if (!is.null(mono))
+     cll <- paste(cll, "remix 1")
+   
+   if (!is.null(bit.depth))
+     cll <- paste(cll, "dither -s")
+   
+   if (Sys.info()[1] == "Windows")
+     cll <- gsub("'", "\"", cll)
+   
+   out <- system(cll, ignore.stdout = FALSE, intern = TRUE) 
+ }
  
- 
+
+###### 
+  
  # set clusters for windows OS
  if (Sys.info()[1] == "Windows" & parallel > 1)
    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
@@ -141,8 +171,10 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
  # run loop apply function
  out_l <- pblapply_wrblr_int(pbar = pb, X = files, cl = cl, FUN = function(i) 
  { 
-   suppressWarnings(mp3_conv_FUN(x = i, bit.depth))
- })
+   # suppressWarnings(mp3_conv_FUN(x = i, bit.depth))
+   fix_sox_FUN(i)
+   
+   })
  
  # make it a vector
  out <- unlist(out_l)
