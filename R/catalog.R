@@ -375,7 +375,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     stop("legend should be be a value between 0 and 3")
   
   #lab.mar
-  if (!is.numeric(lab.mar) | lab.mar > 0)
+  if (!is.numeric(lab.mar) | lab.mar < 0)
     stop("lab.mar should be >= 0")
   
   #prop.mar
@@ -390,7 +390,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   }
   
   #spec.mar
-  if (!is.numeric(spec.mar) | spec.mar > 0)
+  if (!is.numeric(spec.mar) | spec.mar < 0)
     stop("spec.mar should be >= 0")
   
   #hatching
@@ -594,7 +594,11 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     X <- do.call(rbind, X2)
     
     if (exists("X.orig")) X <- fix_extended_selection_table(X = as.data.frame(X), Y = X.orig)
+    
+    on.exit(cat(paste0("Time range: ", round(max(X$end - X$start) + (2 * mar), 3), "s;", " Freq. range: ", min(rangs$fl1), "-", flim[2], " kHz")))
     }
+  
+  
   
   # function to run on data frame subset   
   catalFUN <- function(X, nrow, ncol, page, labels, grid, fast.spec, flim,pal, width, height, tag.col.df, legend, cex, 
