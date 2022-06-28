@@ -286,6 +286,8 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
   {
     if (any(res$min.n.samples < 20))
       cat("all selections are OK but some have very few samples (less than 20, potentially problematic for some analyses) \nCheck 'min.n.samples' column") else
+        if (length(unique(res$sample.rate)) > 1)
+          cat("all selections are OK but not all sound files have the same sampling rate (potentially problematic, particularly for cross_correlation())") else 
         cat("all selections are OK \n")   
   }
     else cat(paste(sum(res$check.res != "OK"), "selection(s) are not OK \n"))

@@ -1,3 +1,9 @@
+# *warbleR 1.1.28*
+
+## Changes and additions:
+
+* Warning messages in `check_sels()` and `check_sound_files()` when having sound files/wave objects with different sampling rates
+
 # *warbleR 1.1.27*
 
 ## New functions:

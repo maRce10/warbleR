@@ -76,7 +76,7 @@ This function calculates the pairwise similarity of multiple signals by means of
 This method "slides" the spectrogram of the shortest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
 for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. 
-The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters).
+The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters). Make sure all sound files have the same sampling rate (can be checked with \code{\link{check_sels}} or \code{\link{check_sound_files}}).
 }
 \examples{
 {

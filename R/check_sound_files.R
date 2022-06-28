@@ -106,25 +106,27 @@ check_sound_files <- function(X = NULL, path = NULL) {
     files <- files[files %in% X$sound.files]
   }
   
-  a <- sapply(files, function(x) {
+  samp.rate <- sapply(files, function(x) {
     # print(x)
     r <- try(suppressWarnings(warbleR::read_sound_file(X = x, path = path, header = TRUE)), silent = TRUE)
     if (is(r, "try-error")) return (NA) else
       return(r$sample.rate)  
     }) 
   
-  if (length(files[is.na(a)])>0){
+  if (length(files[is.na(samp.rate)])>0){
     cat("Some file(s) cannot be read")
-    return(files[is.na(a)])
+    return(files[is.na(samp.rate)])
   } else {
-    cat("All files can be read") 
+    cat("All files can be read\n") 
     if (!is.null(X)) {
-      df <- merge(X, data.frame(f = a, sound.files = names(a)), by = "sound.files")
+      df <- merge(X, data.frame(f = samp.rate, sound.files = names(samp.rate)), by = "sound.files")
       
-      cat("smallest number of samples: ", floor(min((df$end - df$start)*df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start)*df$f)]),"; selection label: ", df$selec[which.min((df$end - df$start)*df$f)], ")", sep = "")
+      cat("smallest number of samples: ", floor(min((df$end - df$start)*df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start)*df$f)]),"; selection label: ", df$selec[which.min((df$end - df$start)*df$f)], ")\n", sep = "")
     }
   }
-}
+  if (length(unique(samp.rate)) > 1)
+    cat("Not all sound files have the same sampling rate (potentially problematic, particularly for cross_correlation())")
+  }
 
 ##############################################################################################################
 #' alternative name for \code{\link{check_sound_files}}
