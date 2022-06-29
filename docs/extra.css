@@ -46,7 +46,7 @@ pre {
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
-    background: #FAFAFA;
+    background: #e9f7ed;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     padding-left: 20px;
@@ -57,7 +57,7 @@ pre {
 
 pre code {
     color: #182125;
-    background: #FAFAFA;
+    background: #e9f7ed;
 }
 
 code {

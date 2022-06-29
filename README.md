@@ -37,10 +37,10 @@ library(warbleR)
 
 ```
 
-To install the latest developmental version from [github](https://github.com/) you will need the R package [devtools](https://cran.r-project.org/package=devtools):
+To install the latest developmental version from [github](https://github.com/) you will need the R package [remotes](https://cran.r-project.org/package=remotes):
 
 ```r
-devtools::install_github("maRce10/warbleR")
+remotes::install_github("maRce10/warbleR")
 
 #load package
 library(warbleR)
