@@ -42,50 +42,49 @@
 #' @return Data frame with 'sound.files' and 'selec' as in the input data frame, plus the following acoustic parameters: 
 #' \itemize{
 #'    \item \code{duration}: length of signal (in s)
-#'    \item \code{meanfreq}: mean frequency (in kHz). Mean of frequency spectrum (i.e. weighted average of frequency by amplitude within supplied band pass).  
-#'    \item \code{sd}: standard deviation of frequency (in kHz).  
-#'    \item \code{freq.median}: median frequency. The frequency at which the signal is divided in two frequency
+#'    \item \code{meanfreq}: mean frequency (in kHz). Calculated as the weighted average of the frequency spectrum (i.e. weighted by the amplitude within the supplied band pass).  
+#'    \item \code{sd}: standard deviation of frequency (in kHz). Calculated as the weighted standard deviation of the frequency spectrum (i.e. weighted by the amplitude within the supplied band pass).  
+#'    \item \code{freq.median}: median frequency. The frequency at which the frequency spectrum is divided in two frequency
 #'    intervals of equal energy (in kHz) 
-#'    \item \code{freq.Q25}: first quartile frequency. The frequency at which the signal is divided in two 
+#'    \item \code{freq.Q25}: first quartile frequency. The frequency at which the frequency spectrum is divided in two 
 #'    frequency intervals of 25\% and 75\% energy respectively (in kHz) 
-#'    \item \code{freq.Q75}: third quartile frequency. The frequency at which the signal is divided in two
+#'    \item \code{freq.Q75}: third quartile frequency. The frequency at which the frequency spectrum is divided in two
 #'    frequency intervals of 75\% and 25\% energy respectively (in kHz) 
 #'    \item \code{freq.IQR}: interquartile frequency range. Frequency range between 'freq.Q25' and 'freq.Q75' 
 #'    (in kHz) 
-#'    \item \code{time.median}: median time. The time at which the signal is divided in two time
+#'    \item \code{time.median}: median time. The time at which the time envelope is divided in two time
 #'    intervals of equal energy (in s) 
-#'    \item \code{time.Q25}: first quartile time. The time at which the signal is divided in two
+#'    \item \code{time.Q25}: first quartile time. The time at which the time envelope is divided in two
 #'time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seewave]{acoustat}}
-#'    \item \code{time.Q75}: third quartile time. The time at which the signal is divided in two
+#'    \item \code{time.Q75}: third quartile time. The time at which the time envelope is divided in two
 #'    time intervals of 75\% and 25\% energy respectively (in s). See \code{\link[seewave]{acoustat}}
 #'    \item \code{time.IQR}: interquartile time range. Time range between 'time.Q25' and 'time.Q75' 
 #'    (in s). See \code{\link[seewave]{acoustat}}
-#'    \item \code{skew}: skewness. Asymmetry of the spectrum (see note in \code{\link[seewave]{specprop}} description) 
-#'    \item \code{kurt}: kurtosis. Peakedness of the spectrum (see note in \code{\link[seewave]{specprop}} description)
+#'    \item \code{skew}: skewness. Asymmetry of the frequency spectrum (see note in \code{\link[seewave]{specprop}} description) 
+#'    \item \code{kurt}: kurtosis. Peakedness of the frequency spectrum (see note in \code{\link[seewave]{specprop}} description)
 #'    \item \code{sp.ent}: spectral entropy. Energy distribution of the frequency spectrum. Pure tone ~ 0; 
 #'    noisy ~ 1. See \code{\link[seewave]{sh}}
-#'    \item \code{time.ent}: time entropy. Energy distribution on the time envelope. Pure tone ~ 0; 
-#'    noisy ~ 1. See \code{\link[seewave]{th}}
+#'    \item \code{time.ent}: time entropy. Energy distribution on the time envelope. ~0 means amplitude concentrated in a specific time point, 1 means amplitude equally distributed across time. See \code{\link[seewave]{th}}
 #'    \item \code{entropy}: spectrographic entropy. Product of time and spectral entropy \code{sp.ent * time.ent}. 
 #'    See \code{\link[seewave]{H}}
 #'    \item \code{sfm}: spectral flatness. Similar to sp.ent (Pure tone ~ 0; 
 #'    noisy ~ 1). See \code{\link[seewave]{sfm}}
-#'    \item \code{meandom}: average of dominant frequency measured across the acoustic signal 
-#'    \item \code{mindom}: minimum of dominant frequency measured across the acoustic signal
-#'    \item \code{maxdom}: maximum of dominant frequency measured across the acoustic signal 
-#'    \item \code{dfrange}: range of dominant frequency measured across the acoustic signal 
+#'    \item \code{meandom}: average of dominant frequency measured across the spectrogram 
+#'    \item \code{mindom}: minimum of dominant frequency measured across the spectrogram
+#'    \item \code{maxdom}: maximum of dominant frequency measured across the spectrogram 
+#'    \item \code{dfrange}: range of dominant frequency measured across the spectrogram 
 #'    \item \code{modindx}: modulation index. Calculated as the cumulative absolute
 #'      difference between adjacent measurements of dominant frequencies divided
-#'      by the dominant frequency range. 1 means the signal is not modulated. 
-#'    \item \code{startdom}:  dominant frequency measurement at the start of the signal 
-#'    \item \code{enddom}: dominant frequency measurement at the end of the signal 
-#'    \item \code{dfslope}: slope of the change in dominant frequency through time ((enddom-startdom)/duration). Units are kHz/s.  
+#'      by the dominant frequency range (measured on the spectrogram). 1 means the signal is not modulated. 
+#'    \item \code{startdom}:  dominant frequency measurement at the start of the signal (measured on the spectrogram).
+#'    \item \code{enddom}: dominant frequency measurement at the end of the signal(measured on the spectrogram).
+#'    \item \code{dfslope}: slope of the change in dominant frequency (measured on the spectrogram) through time ((enddom-startdom)/duration). Units are kHz/s.  
 #'    \item \code{peakf}: peak frequency. Frequency with the highest energy. This 
 #'    parameter can take a considerable amount of time to measure. It's only 
 #'    generated if \code{fast = FALSE}. It provides a more accurate measure of peak
-#'    frequency than 'meanpeakf' but can be more easily affected by background noise.
+#'    frequency than 'meanpeakf' but can be more easily affected by background noise. Measured on the frequency spectrum.
 #'    \item \code{meanpeakf}: mean peak frequency. Frequency with highest energy from the 
-#'    mean frequency spectrum (see \code{\link[seewave]{meanspec}}). Typically more consistent than peakf.
+#'    mean frequency spectrum (see \code{\link[seewave]{meanspec}}). Typically more consistent than peakf in the presence of noise.
 #'    \item \code{meanfun}: average of fundamental frequency measured across the acoustic signal. Only measured if \code{harmonicity = TRUE}.
 #'    \item \code{minfun}: minimum fundamental  frequency measured across the acoustic signal. Only measured if \code{harmonicity = TRUE}.
 #'    \item \code{maxfun}: maximum fundamental frequency measured across the acoustic signal. Only measured if \code{harmonicity = TRUE}.

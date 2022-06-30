@@ -21,8 +21,7 @@ Imports:
     Rcpp, 
     knitr,
     crayon,
-    bioacoustics,
-    stringi
+    bioacoustics
 LinkingTo: Rcpp
 Depends: R (>= 3.2.1), tuneR, seewave (>= 2.0.1), NatureSounds
 LazyData: TRUE
