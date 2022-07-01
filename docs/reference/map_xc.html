@@ -85,31 +85,48 @@
     <h2>Arguments</h2>
     <dl><dt>X</dt>
 <dd><p>Data frame output from <code><a href="query_xc.html">query_xc</a></code>.</p></dd>
+
+
 <dt>img</dt>
 <dd><p>A logical argument specifying whether an image file of each species
 map should be returned, default is <code>TRUE</code>.</p></dd>
+
+
 <dt>it</dt>
 <dd><p>A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".</p></dd>
+
+
 <dt>res</dt>
 <dd><p>Numeric argument of length 1. Controls image resolution.
 Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 presentation quality.</p></dd>
+
+
 <dt>labels</dt>
 <dd><p>A logical argument defining whether dots depicting recording locations are labeled.
 If <code>TRUE</code> then the Recording_ID is used as label.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string with the directory path where the image files will be saved. 
 If <code>NULL</code> (default) then the current working directory is used.
 Ignored if <code>img = FALSE</code>.</p></dd>
+
+
 <dt>leaflet.map</dt>
 <dd><p>Logical to control whether the package 'leaflet' is used for displaying the maps. 'leaflet' maps are interactive and display information about recordings and links to the Xeno-Canto website. If <code>TRUE</code> a single map is displayed regardless of the number of species and all other image related arguments are ignored. Default is <code>FALSE</code>. The hovering label shows the species scientific name (or the subspecies if only 1 species is present in 'X'). Note that colors will be recycled if more after 18 species (or subspecies).</p></dd>
+
+
 <dt>leaflet.cluster</dt>
 <dd><p>Logical to control if icons are clustered by locality (as in Xeno-Canto maps). Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A map of 'Xeno-Canto' recordings per species (image file), or a faceted
+    
+
+<p>A map of 'Xeno-Canto' recordings per species (image file), or a faceted
   plot of species map(s) in the active graphic device.</p>
     </div>
     <div id="details">
@@ -155,7 +172,7 @@ working directory. Note that only recordings with geographic coordinates are dis
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

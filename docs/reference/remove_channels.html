@@ -82,20 +82,31 @@
     <dl><dt>files</dt>
 <dd><p>Character vector indicating the files that will be analyzed. If not provided. Optional.
 then all wave files in the working directory (or path) will be processed.</p></dd>
+
+
 <dt>channels</dt>
 <dd><p>Numeric vector indicating the index (or channel number) for the channels that will be kept (left = 1, right = 2; 3 to inf for multichannel sound files).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Sound files that have been converted are saved in the new 
+    
+
+<p>Sound files that have been converted are saved in the new 
 folder "converted_sound_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
 that were removed are also saved.</p>
     </div>
@@ -147,7 +158,7 @@ and original files are not modified.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

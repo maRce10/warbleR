@@ -84,41 +84,62 @@ rm.incomp <span class="op">=</span> <span class="cn">FALSE</span>, cutoff <span 
     <dl><dt>X</dt>
 <dd><p>Data frame containing columns for singing event (sing.event), 
 individual (indiv), and start and end time of signal (start and end).</p></dd>
+
+
 <dt>iterations</dt>
 <dd><p>number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.</p></dd>
+
+
 <dt>ovlp.method</dt>
 <dd><p>Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count' and 'duration'. As the name suggests, the 'count' method will count the number of overlapping signals while 'duration' will measure the total duration (in s) in which signals overlap. Default is 'count'.</p></dd>
+
+
 <dt>randomization</dt>
 <dd><p>Character string defining the procedure for signal randomization. Three methods are available:</p><ul><li><p><code>keep.gaps</code> the position of both signals and gaps (i.e. intervals between signals) are randomized. Default.</p></li>
 <li><p><code>sample.gaps</code> gaps are simulated using a lognormal distribution with
  mean and standard deviation derived from the observed gaps. Signal position is randomized.</p></li>
 <li><p><code>keep.song.order</code> only the position of gaps is randomized.</p></li>
 </ul><p>More details in Masco et al. (2015).</p></dd>
+
+
 <dt>less.than.chance</dt>
 <dd><p>Logical. If <code>TRUE</code> the test evaluates whether overlaps occur less often than expected by chance.
 If <code>FALSE</code> the opposite pattern is evaluated (whether overlaps occur more often than expected by chance). 
 Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>rm.incomp</dt>
 <dd><p>Logical. If <code>TRUE</code> removes the events that don't have 2 interacting individuals. Default is
 <code>FALSE</code>.</p></dd>
+
+
 <dt>cutoff</dt>
 <dd><p>Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
 this criterium are removed. Default is 2. 
 Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
 should be available in each singing event.</p></dd>
+
+
 <dt>rm.solo</dt>
 <dd><p>Logical. Controls if signals that are not alternated at the start or end of the 
 sequence are removed (if <code>TRUE</code>). For instance, the sequence of signals A-A-A-B-A-B-A-B-B-B (in which A and B represent different individuals, as in the 'indiv' column) would be subset to 
 A-B-A-B-A-B. Default is  <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame with the following columns:</p><ul><li><p><code>sing.event</code>: singing event ID</p></li>
+    
+
+<p>A data frame with the following columns:</p><ul><li><p><code>sing.event</code>: singing event ID</p></li>
 <li><p><code>obs.overlap</code>: observed amount of overlap (counts or total duration, depending on overlap method, see 'ovlp.method' argument)</p></li>
 <li><p><code>mean.random.ovlp</code>: mean amount of overlap expected by chance</p></li>
 <li><p><code>p.value</code>: p value</p></li>
@@ -184,7 +205,7 @@ randomization <span class="op">=</span> <span class="st">"keep.song.order"</span
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

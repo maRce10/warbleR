@@ -87,38 +87,64 @@ ff.method <span class="op">=</span> <span class="st">"seewave"</span>, entropy.r
 <dd><p>object of class 'selection_table', 'extended_selection_table' or data 
 frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).</p></dd>
+
+
 <dt>type</dt>
 <dd><p>Character string to determine the type of contour to be detected. Three options are available, "dominant" (default), "fundamental" and "entropy".</p></dd>
+
+
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.</p></dd>
+
+
 <dt>length.out</dt>
 <dd><p>A numeric vector of length 1 giving the number of measurements of fundamental 
 frequency desired (the length of the time series).</p></dd>
+
+
 <dt>wn</dt>
 <dd><p>Character vector of length 1 specifying window name. Default is 
 "hanning". See function <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html" class="external-link">ftwindow</a></code> for more options.</p></dd>
+
+
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying % of overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 70.</p></dd>
+
+
 <dt>bp</dt>
 <dd><p>A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz). Default is <code>NULL</code>.</p></dd>
+
+
 <dt>threshold</dt>
 <dd><p>amplitude threshold (%) for fundamental frequency detection. Default is 15.</p></dd>
+
+
 <dt>img</dt>
 <dd><p>Logical argument. If <code>FALSE</code>, image files are not produced. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>img.suffix</dt>
 <dd><p>A character vector of length 1 with a suffix (label) to add at the end of the names of 
 image files.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>clip.edges</dt>
 <dd><p>Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed. If 
@@ -126,34 +152,51 @@ which amplitude values above the threshold were not detected will be removed. If
 remaining values. Default is <code>FALSE</code>. 
 #' @param leglab A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 in the output image.</p></dd>
+
+
 <dt>leglab</dt>
 <dd><p>A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 in the output image.</p></dd>
+
+
 <dt>track.harm</dt>
 <dd><p>Logical. If <code>TRUE</code> warbleR's <code><a href="track_harmonic.html">track_harmonic</a></code> function is 
 used to track dominant frequency contours. Otherwise seewave's <code><a href="https://rdrr.io/pkg/seewave/man/dfreq.html" class="external-link">dfreq</a></code> is used by default. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>raw.contour</dt>
 <dd><p>Logical. If <code>TRUE</code> then a list with the original contours 
 (i.e. without interpolating values to make all contours of equal length) is returned (and no images are produced).</p></dd>
+
+
 <dt>adjust.wl</dt>
 <dd><p>Logical. If <code>TRUE</code> 'wl' (window length) is reset to be lower than the 
 number of samples in a selection if the number of samples is less than 'wl'. Default is <code>TRUE</code>. Used only for dominant frequency detection.</p></dd>
+
+
 <dt>ff.method</dt>
 <dd><p>Character. Selects the method used to detect fundamental
 frequency contours. Either 'tuneR' (using <code><a href="https://rdrr.io/pkg/tuneR/man/FF.html" class="external-link">FF</a></code>) or 'seewave' (using 
 <code><a href="https://rdrr.io/pkg/seewave/man/fund.html" class="external-link">fund</a></code>). Default is 'seewave'. 'tuneR' performs
 faster (and seems to be more accurate) than 'seewave'.</p></dd>
+
+
 <dt>entropy.range</dt>
 <dd><p>Numeric vector of length 2. Range of frequency in which to display the entropy values 
 on the spectrogram (when img = TRUE). Default is c(2, 10). Negative values can be used in order to stretch more
 the range.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to <code><a href="track_freq_contour.html">track_freq_contour</a></code>. for customizing
 graphical output.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame with the fundamental frequency values measured across the signals. If img is 
+    
+
+<p>A data frame with the fundamental frequency values measured across the signals. If img is 
 <code>TRUE</code> it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the fundamental frequencies 
 (see <code><a href="track_freq_contour.html">track_freq_contour</a></code> description for more details).</p>
@@ -223,7 +266,7 @@ clip.edges <span class="op">=</span> <span class="cn">TRUE</span>, length.out <s
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

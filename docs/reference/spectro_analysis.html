@@ -88,54 +88,85 @@ wn <span class="op">=</span> <span class="st">"hanning"</span>, fsmooth <span cl
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The output <code><a href="auto_detec.html">auto_detec</a></code> can
 be used as the input data frame.</p></dd>
+
+
 <dt>bp</dt>
 <dd><p>A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in bottom.freq
 and top.freq columns will be used as bandpass limits.  Lower limit of
  bandpass filter is not applied to fundamental frequencies.</p></dd>
+
+
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independently in the frequency domain.</p></dd>
+
+
 <dt>wl.freq</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram
 for measurements on the frequency spectrum. Default is 512. Higher values would provide 
 more accurate measurements. Note that this allows to increase measurement precision independently in the time and frequency domain. If <code>NULL</code> (default) then the 'wl' value is used.</p></dd>
+
+
 <dt>threshold</dt>
 <dd><p>amplitude threshold (%) for fundamental frequency and 
 dominant frequency detection. Default is 15.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>fast</dt>
 <dd><p>Logical. If <code>TRUE</code> (default) then the peakf acoustic parameter (see below) is not computed, which 
 substantially increases performance (~9 times faster). This argument will be removed in future version.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying % of overlap between two 
 consecutive windows, used for fundamental frequency (using <code><a href="https://rdrr.io/pkg/seewave/man/fund.html" class="external-link">fund</a></code> or <code><a href="https://rdrr.io/pkg/tuneR/man/FF.html" class="external-link">FF</a></code>) and dominant frequency (using <code><a href="https://rdrr.io/pkg/seewave/man/dfreq.html" class="external-link">dfreq</a></code>). 
 Default is 50.</p></dd>
+
+
 <dt>wn</dt>
 <dd><p>Character vector of length 1 specifying window name. Default is hanning'. 
 See function <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html" class="external-link">ftwindow</a></code> for more options.</p></dd>
+
+
 <dt>fsmooth</dt>
 <dd><p>A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for mean peak frequency detection. This help to average 
 amplitude "hills" to minimize the effect of amplitude modulation. Default is 0.1.</p></dd>
+
+
 <dt>harmonicity</dt>
 <dd><p>Logical. If <code>TRUE</code> harmonicity related parameters (fundamental frequency parameters [meanfun, minfun, maxfun], hn_freq, 
 hn_width, harmonics and HNR) are measured. Note that measuring these parameters 
 considerably increases computing time.</p></dd>
+
+
 <dt>nharmonics</dt>
 <dd><p>Numeric vector of length 1 setting the number of harmonics to analyze.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameters to be passed to <code><a href="https://rdrr.io/pkg/soundgen/man/analyze.html" class="external-link">analyze</a></code>, which measures parameters related to harmonicity.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Data frame with 'sound.files' and 'selec' as in the input data frame, plus the following acoustic parameters:</p><ul><li><p><code>duration</code>: length of signal (in s)</p></li>
+    
+
+<p>Data frame with 'sound.files' and 'selec' as in the input data frame, plus the following acoustic parameters:</p><ul><li><p><code>duration</code>: length of signal (in s)</p></li>
 <li><p><code>meanfreq</code>: mean frequency (in kHz). Calculated as the weighted average of the frequency spectrum (i.e. weighted by the amplitude within the supplied band pass).</p></li>
 <li><p><code>sd</code>: standard deviation of frequency (in kHz). Calculated as the weighted standard deviation of the frequency spectrum (i.e. weighted by the amplitude within the supplied band pass).</p></li>
 <li><p><code>freq.median</code>: median frequency. The frequency at which the frequency spectrum is divided in two frequency
@@ -243,7 +274,7 @@ path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

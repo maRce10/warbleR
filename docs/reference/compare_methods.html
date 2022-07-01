@@ -90,29 +90,47 @@ img <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...
 function, or any data frame with columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
 Default <code>NULL</code>.</p></dd>
+
+
 <dt>flim</dt>
 <dd><p>A numeric vector of length 2 for the frequency limit in kHz of 
 the spectrogram, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>bp</dt>
 <dd><p>numeric vector of length 2 giving the lower and upper limits of the 
 frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>mar</dt>
 <dd><p>Numeric vector of length 1. Specifies plot margins around selection in seconds. Default is 0.1.</p></dd>
+
+
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram and cross-correlation, default 
 is 512.</p></dd>
+
+
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying the percent overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 90.</p></dd>
+
+
 <dt>res</dt>
 <dd><p>Numeric argument of length 1. Controls image resolution.
 Default is 150.</p></dd>
+
+
 <dt>n</dt>
 <dd><p>Numeric argument of length 1. Defines the number of plots to be produce. 
 Default is 10.</p></dd>
+
+
 <dt>length.out</dt>
 <dd><p>A character vector of length 1 giving the number of measurements of fundamental or dominant
 frequency desired (the length of the time series). Default is 30.</p></dd>
+
+
 <dt>methods</dt>
 <dd><p>A character vector of length 2 giving the names of the acoustic distance
 methods that would be compared. The methods available are:</p><ul><li><p><code>XCORR</code>: cross-correlation (<code><a href="cross_correlation.html">cross_correlation</a></code> function)</p></li>
@@ -122,55 +140,88 @@ methods that would be compared. The methods available are:</p><ul><li><p><code>X
 <li><p><code>SPharm</code>: spectral parameters (<code><a href="spectro_analysis.html">spectro_analysis</a></code> function with argument <code>harmonicity  = TRUE</code>)</p></li>
 <li><p><code>MFCC</code>: statistical descriptors of Mel frequency cepstral coefficients (<code><a href="mfcc_stats.html">mfcc_stats</a></code> function)</p></li>
 </ul><p>Default <code>NULL</code>.</p></dd>
+
+
 <dt>it</dt>
 <dd><p>A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>sp</dt>
 <dd><p>DEPRECATED.</p></dd>
+
+
 <dt>custom1</dt>
 <dd><p>Data frame containing user parameters. The data frame must have 4 columns: the first 2 columns are 'sound.files'
 and "selec' columns as in 'X', the other 2 (columns 3 and 4) are
 2 numeric columns to be used as the 2 parameters representing custom measurements. If the data has more than 2 parameters try using PCA (i.e. <code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></code> function)to summarize it in 2 dimensions before using it as an input. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>custom2</dt>
 <dd><p>Data frame containing user parameters with the same format as 'custom1'. 'custom1' must be provided first. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>grid</dt>
 <dd><p>Logical argument to control the presence of a grid on the spectrograms (default is <code>TRUE</code>).</p></dd>
+
+
 <dt>clip.edges</dt>
 <dd><p>Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed when using dfDTW and 
 ffDTW methods. If <code>TRUE</code> this edges will be excluded and signal contour will be calculated on the
 remaining values. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>threshold</dt>
 <dd><p>amplitude threshold (%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
 and SP methods. Default is 15.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>Logical. If <code>TRUE</code> all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded in both methods under
 comparison. Only apply if XCORR is one of the methods being compared.</p></dd>
+
+
 <dt>scale</dt>
 <dd><p>Logical. If <code>TRUE</code> dominant and/or fundamental frequency values are z-transformed using the <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></code> function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
 comparison in the frequency contour, regardless of the pitch of signals. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>pal</dt>
 <dd><p>A color palette function to be used to assign colors in the 
 spectrograms, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is reverse.gray.colors.2.</p></dd>
+
+
 <dt>img</dt>
 <dd><p>A logical argument specifying whether an image files would be produced. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to a modified version of <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code> for customizing
 graphical output. This includes fast.spec, an argument that speeds up the plotting of spectrograms (see description in 
 <code><a href="spectrograms.html">spectrograms</a></code>).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Image files with 4 spectrograms of the selection being compared and scatterplots 
+    
+
+<p>Image files with 4 spectrograms of the selection being compared and scatterplots 
 of the acoustic space of all signals in the input data frame 'X'.</p>
     </div>
     <div id="details">
@@ -279,7 +330,7 @@ path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

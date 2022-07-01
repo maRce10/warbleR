@@ -84,23 +84,38 @@ channel <span class="op">=</span> <span class="va">X</span><span class="op">$</s
 <dd><p>'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a sound file or URL address to sound file can be provided. The function can read sound files in 'wav', 'mp3', 'flac' and 'wac' format. The file name can contain the directory path.
 'top.freq' and 'bottom.freq' columns are optional. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>index</dt>
 <dd><p>Index of the selection in 'X' that will be read. Ignored if 'X' is <code>NULL</code>.</p></dd>
+
+
 <dt>from</dt>
 <dd><p>Where to start reading, in seconds. Default is <code>X$start[index]</code>.</p></dd>
+
+
 <dt>to</dt>
 <dd><p>Where to stop reading, in seconds. Default is <code>X$end[index]</code>.</p></dd>
+
+
 <dt>channel</dt>
 <dd><p>Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). Default is <code>X$channel[index]</code>. If a 'channel' column does not exist it will read the first channel.</p></dd>
+
+
 <dt>header</dt>
 <dd><p>If <code>TRUE</code>, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used. If 'X' refers to a sound file including its directory 'path' is ignored.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of class "Wave".</p>
+    
+
+<p>An object of class "Wave".</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -163,7 +178,7 @@ is also used internally by warbleR functions to read wave objects from extended 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

@@ -83,24 +83,37 @@
     <dl><dt>checksels</dt>
 <dd><p>Data frame with results from <code><a href="check_sels.html">check_sels</a></code>. Default is <code>NULL</code>. If  both 'checksels' and 'files' are <code>NULL</code>
 then all files in 'path' are converted. Note that it only fixes/convert sound files in .wav format.</p></dd>
+
+
 <dt>files</dt>
 <dd><p>Character vector with the names of the .wav files to fix. Default is <code>NULL</code>. If  both 'checksels' and 'files'  are <code>NULL</code>
 then all files in 'path' are converted.</p></dd>
+
+
 <dt>samp.rate</dt>
 <dd><p>Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is <code>NULL</code>. 
 (remain unchanged).</p></dd>
+
+
 <dt>bit.depth</dt>
 <dd><p>Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
 Default is <code>NULL</code> (remain unchanged).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>mono</dt>
 <dd><p>Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is <code>NULL</code> (remain unchanged).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
+    
+
+<p>A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
 sound files in a format that can be imported in R.</p>
     </div>
     <div id="details">
@@ -144,7 +157,7 @@ then all files in 'path' are converted. Note that it only fixes/convert sound fi
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

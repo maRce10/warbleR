@@ -89,78 +89,128 @@ by.song <span class="op">=</span> <span class="cn">NULL</span>, sel.labels <span
 selection number (selec), and start and end time of signals (start and end). 
 'top.freq' and 'bottom.freq' columns are optional. If using an 
 'extended_selection_table' the sound files are not required (see <code><a href="selection_table.html">selection_table</a></code>).</p></dd>
+
+
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.</p></dd>
+
+
 <dt>flim</dt>
 <dd><p>A numeric vector of length 2 for the frequency limit (in kHz) of 
 the spectrogram, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. The function also 
 accepts 'frange' (default) which produces spectrograms with a frequency 
 limit around the range of each signal (adding a 1 kHz margin).</p></dd>
+
+
 <dt>wn</dt>
 <dd><p>Character vector of length 1 specifying window name. Default is 
 "hanning". See function <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html" class="external-link">ftwindow</a></code> for more options.</p></dd>
+
+
 <dt>pal</dt>
 <dd><p>A color palette function to be used to assign colors in the 
 plot, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is reverse.gray.colors.2.</p></dd>
+
+
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying the percent overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 70.</p></dd>
+
+
 <dt>inner.mar</dt>
 <dd><p>Numeric vector with 4 elements, default is c(5,4,4,2). 
 Specifies number of lines in inner plot margins where axis labels fall, 
 with form c(bottom, left, top, right). See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></code>.</p></dd>
+
+
 <dt>outer.mar</dt>
 <dd><p>Numeric vector with 4 elements, default is c(0,0,0,0). 
 Specifies number of lines in outer plot margins beyond axis labels, with 
 form c(bottom, left, top, right). See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></code>.</p></dd>
+
+
 <dt>picsize</dt>
 <dd><p>Numeric argument of length 1. Controls relative size of 
 spectrogram. Default is 1. Ignored when propwidth is <code>TRUE</code>.</p></dd>
+
+
 <dt>res</dt>
 <dd><p>Numeric argument of length 1. Controls image resolution.
 Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 presentation quality.</p></dd>
+
+
 <dt>cexlab</dt>
 <dd><p>Numeric vector of length 1 specifying the relative size of axis 
 labels. See <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>.</p></dd>
+
+
 <dt>propwidth</dt>
 <dd><p>Logical argument to scale the width of spectrogram 
 proportionally to duration of the selection. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>xl</dt>
 <dd><p>Numeric vector of length 1. A constant by which to scale 
 spectrogram width if propwidth = <code>TRUE</code>. Default is 1.</p></dd>
+
+
 <dt>osci</dt>
 <dd><p>Logical argument to add an oscillogram underneath spectrogram, as
 in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>gr</dt>
 <dd><p>Logical argument to add grid to spectrogram. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>sc</dt>
 <dd><p>Logical argument to add amplitude scale to spectrogram, default is 
 <code>FALSE</code>.</p></dd>
+
+
 <dt>line</dt>
 <dd><p>Logical argument to add lines at start and end times of selection 
 (or box if bottom.freq and top.freq columns are provided). Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>col</dt>
 <dd><p>Color of 'line'. Default is "#07889B".</p></dd>
+
+
 <dt>fill</dt>
 <dd><p>Fill color of box around selections. Default is  <code>adjustcolor("#07889B", alpha.f = 0.15)</code>.</p></dd>
+
+
 <dt>lty</dt>
 <dd><p>Type of 'line' as in <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></code>. Default is 1.</p></dd>
+
+
 <dt>mar</dt>
 <dd><p>Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 dealineating spectrogram limits. Default is 0.05.</p></dd>
+
+
 <dt>it</dt>
 <dd><p>A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>fast.spec</dt>
 <dd><p>Logical. If <code>TRUE</code> then image function is used internally to create spectrograms, 
 which substantially increases performance (much faster), although some options become unavailable, 
@@ -170,26 +220,39 @@ levels. Palette colors <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.h
 (which should be imported from the package monitoR) seem to work better with 'fast' spectrograms. 
 Palette colors <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.1</a></code>, <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.2</a></code>, <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.3</a></code> 
 offer decreasing darkness levels.</p></dd>
+
+
 <dt>by.song</dt>
 <dd><p>Character string with the column name containing song labels. If
 provide a single spectrogram containing all elements for each song will be produce. Note that 
 the function assumes that each song has a unique label within a sound file. If <code>NULL</code> (default), spectrograms are produced for single selections.</p></dd>
+
+
 <dt>sel.labels</dt>
 <dd><p>Character string with the name of the column(s) for selection 
 labeling. Default is 'selec'. Set to <code>NULL</code> to remove labels.</p></dd>
+
+
 <dt>title.labels</dt>
 <dd><p>Character string with the name(s) of the column(s) to use as title. Default is <code>NULL</code> (no title). Only sound file and song included if 'by.song' is provided.</p></dd>
+
+
 <dt>dest.path</dt>
 <dd><p>Character string containing the directory path where the image files will be saved.
 If <code>NULL</code> (default) then the folder containing the sound files will be used instead.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to the internal spectrogram 
 creating function for customizing graphical output. The function is a modified 
 version of <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>, so it takes the same arguments.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Image files containing spectrograms of the signals listed in the input data frame.</p>
+    
+
+<p>Image files containing spectrograms of the signals listed in the input data frame.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -252,7 +315,7 @@ wl <span class="op">=</span> <span class="fl">300</span>, path <span class="op">
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

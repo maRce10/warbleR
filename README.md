@@ -3,7 +3,7 @@ warbleR: Streamline Bioacoustic Analysis
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="vignettes/warbleR_sticker_v2.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
+<img src="vignettes/warbleR_sticker_v3.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Dependencies](https://tinyverse.netlify.com/badge/warbleR)](https://cran.r-project.org/package=warbleR)

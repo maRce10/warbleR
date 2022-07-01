@@ -83,18 +83,27 @@
 <dd><p>'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame with the 'sound.files' and 'selec' columns in X plus an additional column ('prop.clipped') indicating 
+    
+
+<p>A data frame with the 'sound.files' and 'selec' columns in X plus an additional column ('prop.clipped') indicating 
 the proportion of clipped samples for each row. If sound files are stereo the average proportion of the two channels is returned.</p>
     </div>
     <div id="details">
@@ -138,7 +147,7 @@ the proportion of clipped samples for each row. If sound files are stereo the av
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

@@ -82,27 +82,42 @@
     <h2>Arguments</h2>
     <dl><dt>samp.rate</dt>
 <dd><p>Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. THIS FEATURE IS CURRENTLY NOT AVAILABLE. However, downsampling can be done after .mp3's have been converted using the <code><a href="fix_wavs.html">fix_wavs</a></code> function (which uses <a href="http://sox.sourceforge.net/sox.html" class="external-link">SOX</a> instead). Default is <code>NULL</code> (e.g. keep original sampling rate).</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied. 
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the .mp3 files are located.
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>dest.path</dt>
 <dd><p>Character string containing the directory path where the .wav files will be saved. 
 If <code>NULL</code> (default) then the folder containing the sound files will be used.</p></dd>
+
+
 <dt>bit.depth</dt>
 <dd><p>Character string containing the units to be used for amplitude normalization. Check 
 <code><a href="https://rdrr.io/pkg/tuneR/man/normalize.html" class="external-link">normalize</a></code> for details. Default is 16.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>Logical. Control whether a .wav sound file that is already in the working directory should be 
 overwritten.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>.wav files saved in the working directory with same name as original mp3 files.</p>
+    
+
+<p>.wav files saved in the working directory with same name as original mp3 files.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -145,7 +160,7 @@ overwritten.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

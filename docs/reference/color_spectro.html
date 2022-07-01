@@ -87,60 +87,102 @@ f.mar <span class="op">=</span> <span class="cn">NULL</span>, interactive <span 
     <h2>Arguments</h2>
     <dl><dt>wave</dt>
 <dd><p>A 'wave' object produced by  <code><a href="https://rdrr.io/pkg/tuneR/man/readWave.html" class="external-link">readWave</a></code> or similar functions.</p></dd>
+
+
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram. Default 
 is 512.</p></dd>
+
+
 <dt>wn</dt>
 <dd><p>Character vector of length 1 specifying window name. Default is 
 "hanning". See function <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html" class="external-link">ftwindow</a></code> for more options.</p></dd>
+
+
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying the percent overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 70.</p></dd>
+
+
 <dt>dB</dt>
 <dd><p>Character vector of length 1 controlling the amplitude weights as in 
 <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 'max0'.</p></dd>
+
+
 <dt>collevels</dt>
 <dd><p>Numeric. Levels used to partition amplitude range as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>.
 Default is <code>NULL</code>.</p></dd>
+
+
 <dt>selec.col</dt>
 <dd><p>Character vector of length 1 specifying the color to be used to highlight selection. 
 See 'col.clm' for specifying unique colors for each selection. Default is 'red2'. Ignored if 'col.cm' 
 and 'X' are provided.</p></dd>
+
+
 <dt>col.clm</dt>
 <dd><p>Character vector of length 1 indicating the name of the column in 'X' that contains the
 color names for each selection. Ignored if <code>X == NULL</code> or <code>interactive != NULL</code>. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>base.col</dt>
 <dd><p>Character vector of length 1 specifying the color of the background spectrogram. 
 Default is 'black'.</p></dd>
+
+
 <dt>bg.col</dt>
 <dd><p>Character vector of length 1 specifying the background color for both base
 and highlighted spectrograms. Default is 'white'.</p></dd>
+
+
 <dt>strength</dt>
 <dd><p>Numeric vector of length 1 controlling the strength of the highlighting color (actually how many times it is repeated in the internal color palette). Must be a positive integer. Default is 1.</p></dd>
+
+
 <dt>cexlab</dt>
 <dd><p>Numeric vector of length 1 specifying the relative size of axis 
 labels. See <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 1.</p></dd>
+
+
 <dt>cexaxis</dt>
 <dd><p>Numeric vector of length 1 specifying the relative size of axis. See 
 <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 1.</p></dd>
+
+
 <dt>tlab</dt>
 <dd><p>Character vector of length 1 specifying the label of the time axis.</p></dd>
+
+
 <dt>flab</dt>
 <dd><p>Character vector of length 1 specifying the label of the frequency axis.</p></dd>
+
+
 <dt>title</dt>
 <dd><p>Logical argument to add a title to individual spectrograms. 
 Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>axisX</dt>
 <dd><p>Logical to control whether time axis is plotted. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>axisY</dt>
 <dd><p>Logical to control whether frequency axis is plotted. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>flim</dt>
 <dd><p>A numeric vector of length 2 for the frequency limit (in kHz) of 
 the spectrogram, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>rm.zero</dt>
 <dd><p>Logical indicated if the 0 at the start of the time axis should be removed. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>X</dt>
 <dd><p>Optional. Data frame containing columns for start and end time of signals ('start' and 'end') and low and high frequency ('bottom.freq' and 'top.freq').</p></dd>
+
+
 <dt>fast.spec</dt>
 <dd><p>Logical. If <code>TRUE</code> then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
@@ -149,21 +191,32 @@ This option is indicated for signals with high background noise levels. Palette 
 to work better with 'fast' spectrograms. Palette colors <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.1</a></code>, <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.2</a></code>, 
 <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.3</a></code> offer 
 decreasing darkness levels.</p></dd>
+
+
 <dt>t.mar</dt>
 <dd><p>Numeric vector of length 1. Specifies the margins adjacent to the start and end points to be added when highlighting selection. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>f.mar</dt>
 <dd><p>Numeric vector of length 1. Specifies the margins adjacent to the low and high frequencies to be added when highlighting selection. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>interactive</dt>
 <dd><p>Numeric. Allow user to interactively select the signals to be highlighted by clicking 
 on the graphic device. Users must select the opposite corners of a square delimiting the spectrogram region
 to be highlighted. Controls the number of signals that users would be able to select (2 clicks per signal).</p></dd>
+
+
 <dt>add</dt>
 <dd><p>Logical. If <code>TRUE</code> new highlighting can be applied to the current plot (which means
 that the function with <code>add = FALSE</code> should be run first). Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A plot is produced in the graphic device.</p>
+    
+
+<p>A plot is produced in the graphic device.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -231,7 +284,7 @@ highlighted can be provided in a selection table (as the example data 'lbh_selec
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

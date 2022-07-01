@@ -86,28 +86,45 @@ parallel <span class="op">=</span> <span class="fl">1</span>, pb <span class="op
     <dl><dt>from</dt>
 <dd><p>Directory path where image files to be copied are found. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>to</dt>
 <dd><p>Directory path where image files will be copied to.</p></dd>
+
+
 <dt>it</dt>
 <dd><p>A character vector of length 1 giving the image type to be used. "all",
 "tiff", "jpeg" and "pdf" are admitted ("all" includes all the rest). Default is "all".</p></dd>
+
+
 <dt>cut</dt>
 <dd><p>Logical. Determines if files are removed from the original location after
 being copied (cut) or not (just copied). Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>Logical. Determines if files that already exist in the destination directory 
 should be overwritten. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>create.folder</dt>
 <dd><p>Logical. Determines if files are moved to a new folder (which is named with the
 "folder.name" argument). Ignored if 'to' is provided. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>folder.name</dt>
 <dd><p>Character string with the name of the new folder where the files will be 
 copied to. Ignored if 'to' is provided. Default is <code>"image_files"</code>.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -173,7 +190,7 @@ to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/fi
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

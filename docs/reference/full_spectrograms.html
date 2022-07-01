@@ -90,53 +90,85 @@ overwrite <span class="op">=</span> <span class="cn">TRUE</span>, path <span cla
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number 
 (and selection comment, if available). Default is <code>NULL</code>. Alternatively, it can also take the output of <code><a href="cross_correlation.html">cross_correlation</a></code> or <code><a href="auto_detec.html">auto_detec</a></code> (when 'output' is a 'list', see <code><a href="cross_correlation.html">cross_correlation</a></code> or <code><a href="auto_detec.html">auto_detec</a></code>). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.</p></dd>
+
+
 <dt>flim</dt>
 <dd><p>A numeric vector of length 2 indicating the highest and lowest 
 frequency limits (kHz) of the spectrogram, as in 
 <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is <code>NULL</code>.</p></dd>
+
+
 <dt>sxrow</dt>
 <dd><p>A numeric vector of length 1. Specifies seconds of spectrogram
 per row. Default is 5.</p></dd>
+
+
 <dt>rows</dt>
 <dd><p>A numeric vector of length 1. Specifies number of rows per 
 image file. Default is 10.</p></dd>
+
+
 <dt>collevels</dt>
 <dd><p>A numeric vector of length 3. Specifies levels to partition the 
 amplitude range of the spectrogram (in dB). The more levels the higher the
 resolution of the spectrogram. Default is seq(-40, 0, 1).</p></dd>
+
+
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying % of overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 50. High values of ovlp 
 slow down the function but produce more accurate selection limits (when X is provided).</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.</p></dd>
+
+
 <dt>gr</dt>
 <dd><p>Logical argument to add grid to spectrogram. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>pal</dt>
 <dd><p>Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
 <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code> for more palettes.</p></dd>
+
+
 <dt>cex</dt>
 <dd><p>A numeric vector of length 1 giving the amount by which text 
 (including sound file and page number) should be magnified. Default is 1.</p></dd>
+
+
 <dt>it</dt>
 <dd><p>A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".</p></dd>
+
+
 <dt>flist</dt>
 <dd><p>character vector or factor indicating the subset of files that will be analyzed. Ignored
 if X is provided.</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>Logical argument. If <code>TRUE</code> all selections will be analyzed again 
 when code is rerun. If <code>FALSE</code> only the selections that do not have a image 
 file in the working directory will be analyzed. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>fast.spec</dt>
 <dd><p>Logical. If <code>TRUE</code> then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
@@ -145,26 +177,41 @@ This option is indicated for signals with high background noise levels. Palette 
 to work better with 'fast' spectrograms. Palette colors <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.1</a></code>, <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.2</a></code>, 
 <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.3</a></code> offer 
 decreasing darkness levels.</p></dd>
+
+
 <dt>labels</dt>
 <dd><p>Character string with the name of the column(s) for selection 
 labeling. Default is 'selec'. Set to <code>NULL</code> to remove labels.</p></dd>
+
+
 <dt>horizontal</dt>
 <dd><p>Logical. Controls if the images are produced as horizontal or vertical pages. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>song</dt>
 <dd><p>Character string with the name of the column to used as a label a for higher 
 organization level in the song (similar to 'song_colm' in <code><a href="song_analysis.html">song_analysis</a></code>). If supplied then lines above the selections belonging to the same
 'song' are plotted. Ignored if 'X' is not provided.</p></dd>
+
+
 <dt>suffix</dt>
 <dd><p>Character vector of length 1. Suffix for the output image file (to be added at the end of the default file name). Default is <code>NULL</code>.</p></dd>
+
+
 <dt>dest.path</dt>
 <dd><p>Character string containing the directory path where the image files will be saved.
 If <code>NULL</code> (default) then the folder containing the sound files will be used instead.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in <code><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>image files with spectrograms of whole sound files in the working directory. Multiple pages
+    
+
+<p>image files with spectrograms of whole sound files in the working directory. Multiple pages
 can be returned, depending on the length of each sound file.</p>
     </div>
     <div id="details">
@@ -223,7 +270,7 @@ pal <span class="op">=</span> <span class="va">reverse.heat.colors</span>, overw
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

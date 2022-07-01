@@ -85,65 +85,104 @@ file.name <span class="op">=</span> <span class="cn">NULL</span>, path <span cla
     <h2>Arguments</h2>
     <dl><dt>n</dt>
 <dd><p>Number of song subunits (e.g. elements). Default is 1.</p></dd>
+
+
 <dt>durs</dt>
 <dd><p>Numeric vector with the duration of subunits in seconds. It should either be a single value (which would 
 be used for all subunits) or a vector of length <code>n</code>.</p></dd>
+
+
 <dt>harms</dt>
 <dd><p>NUmeric vector of length 1 specifying the number of harmonics to simulate. 1 indicates that only the fundamental
 frequency harmonic will be simulated.</p></dd>
+
+
 <dt>harm.amps</dt>
 <dd><p>Numeric vector with the relative amplitude of each of the harmonics (including the fundamental frequency).</p></dd>
+
+
 <dt>am.amps</dt>
 <dd><p>Numeric vector with the relative amplitude for each step (see 'step' argument) to simulate amplitude modulation (only applied to the fundamental frequency). Should have the same length as the number of steps. Default is 1 (no amplitude modulation). If supplied 'fin' and 'fout' are ignored.</p></dd>
+
+
 <dt>gaps</dt>
 <dd><p>Numeric vector with the duration of gaps (silence between subunits) in seconds. It should either be a single value
 (which would be used for all subunits) or a vector  of length <code>n + 1</code>.</p></dd>
+
+
 <dt>freqs</dt>
 <dd><p>Numeric vector with the initial frequency of the subunits (and ending frequency if <code>diff.fun == "BB"</code>) in kHz. 
 It should either be a single value (which would  be used for all subunits) or a vector of length <code>n</code>.</p></dd>
+
+
 <dt>samp.rate</dt>
 <dd><p>Numeric vector of length 1. Sets the sampling frequency of the wave object (in kHz). Default is 44.1.</p></dd>
+
+
 <dt>sig2</dt>
 <dd><p>Numeric vector defining the sigma value of the brownian motion model. It should either be a single value
  (which would be used for all subunits) or a vector of length <code>n + 1</code>.  Higher values will produce faster 
 frequency modulations. Ignored if <code>diff.fun == "BB"</code>. Default is 0.1. Check the 'BB' function in the Sim.DiffProc package 
 for more details.</p></dd>
+
+
 <dt>steps</dt>
 <dd><p>Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during 
 the brownian motion process. If not all subunits have the same duration, longer units will be split in more steps (although 
 the average duration subunit will have the predefined number of steps). Default is 10.</p></dd>
+
+
 <dt>bgn</dt>
 <dd><p>Numeric vector of length 1 indicating the background noise level. 0 means no additional noise will 1 means 
 noise at the same amplitude than the song subunits. Default is 0.5.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>Numeric vector of length 1. This allows users to get the same results in different runs (using  <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></code> internally). Default is <code>NULL</code>.</p></dd>
+
+
 <dt>diff.fun</dt>
 <dd><p>Character vector of length 1 controlling the function used to simulate the brownian motion process of 
 frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time. Check the 'BB' function in the Sim.DiffProc package 
 for more details.</p></dd>
+
+
 <dt>fin</dt>
 <dd><p>Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1). 
 Default is 0.1. Note that 'fin' + 'fout' cannot be higher than 1.</p></dd>
+
+
 <dt>fout</dt>
 <dd><p>Numeric vector of length 1 setting the proportion of the sub-unit to fade-out amplitude (value between 0 and 1).
 Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.</p></dd>
+
+
 <dt>shape</dt>
 <dd><p>Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
 ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.</p></dd>
+
+
 <dt>selec.table</dt>
 <dd><p>Logical. If <code>TRUE</code> a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
 is returned. In that case the function returns a list with the selection table and the wave object. In addition,
 a ".wav" file in savd in the working directory. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>file.name</dt>
 <dd><p>Character string for naming the ".wav" file. Ignored if 
 'selec.table' is <code>FALSE</code>. If not provided the date-time stamp will be used.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. Ignored if 'selec.table' is <code>FALSE</code>. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A wave object containing the simulated songs. If 'selec.table' is <code>TRUE</code> the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.</p>
+    
+
+<p>A wave object containing the simulated songs. If 'selec.table' is <code>TRUE</code> the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -205,7 +244,7 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

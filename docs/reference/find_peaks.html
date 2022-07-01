@@ -82,24 +82,39 @@ max.peak <span class="op">=</span> <span class="cn">FALSE</span>, output <span c
     <h2>Arguments</h2>
     <dl><dt>xc.output</dt>
 <dd><p>output of <code><a href="cross_correlation.html">cross_correlation</a></code> after setting <code>output = "list"</code>.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>cutoff</dt>
 <dd><p>Numeric vector of length 1 with a value between 0 and 1 specifying the correlation cutoff for detecting peaks. Default is 0.4.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>max.peak</dt>
 <dd><p>Logical argument to control whether only the peak with the highest correlation value is returned (if TRUE; cutoff will be ignored). Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>output</dt>
 <dd><p>Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using <code><a href="full_spectrograms.html">full_spectrograms</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The function returns a data frame with time and correlation score for the  
+    
+
+<p>The function returns a data frame with time and correlation score for the  
 detected peaks.</p>
     </div>
     <div id="details">
@@ -150,7 +165,7 @@ compare.matrix <span class="op">=</span> <span class="va">comp_matrix</span>, pa
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

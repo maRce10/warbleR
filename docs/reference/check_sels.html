@@ -95,30 +95,47 @@ wav.size <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span 
 <dd><p>'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>check.header</dt>
 <dd><p>Logical. Controls whether sound file headers correspond to the actual file properties 
 (i.e. if is corrupted). This could significantly affect the performance of the function (much slower) particularly 
 with long sound files.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>wav.size</dt>
 <dd><p>Logical argument to control if the size of the wave object 
 when the selection is imported into R (as when using <code><a href="https://rdrr.io/pkg/tuneR/man/readWave.html" class="external-link">readWave</a></code>
 is calculated and added as a column. Size is return in MB. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Logical to control whether the summary messages are printed to the console. Defaut is <code>TRUE</code>.</p></dd>
+
+
 <dt>fix.selec</dt>
 <dd><p>Logical to control if labels in 'selec' column should be fixed. This column should not be duplicated within a sound file. If that happens and <code>fix.selec = TRUE</code> duplicated labels will be changed. Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame including the columns in the input data frame (X) and the following additional columns:</p><ul><li><p><code>check.res</code>: diagnose for each selection</p></li>
+    
+
+<p>A data frame including the columns in the input data frame (X) and the following additional columns:</p><ul><li><p><code>check.res</code>: diagnose for each selection</p></li>
 <li><p><code>duration</code>: duration of selection in seconds</p></li>
 <li><p><code>min.n.samples</code> number of samples in a selection. Note the number of samples available
 in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses.</p></li>
@@ -190,7 +207,7 @@ Sound files should be in the working directory (or the directory provided in 'pa
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

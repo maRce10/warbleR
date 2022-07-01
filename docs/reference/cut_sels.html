@@ -98,37 +98,60 @@ keep.stereo <span class="op">=</span> <span class="cn">FALSE</span>, <span class
     <dl><dt>X</dt>
 <dd><p>object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signals (start and end).</p></dd>
+
+
 <dt>mar</dt>
 <dd><p>Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
 delineating spectrogram limits. Default is 0.05.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>dest.path</dt>
 <dd><p>Character string containing the directory path where the cut sound files will be saved.
 If <code>NULL</code> (default) then the directory containing the sound files will be used instead.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>labels</dt>
 <dd><p>String vector. Provides the column names that will be used as labels to
 create sound file names. Note that they should provide unique names (otherwise 
 sound files will be overwritten). Default is <code>c("sound.files", "selec")</code>.</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>Logical. If <code>TRUE</code> sound files with the same name will be 
 overwritten. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>norm</dt>
 <dd><p>Logical indicating whether wave objects must be normalized first using the function <code><a href="https://rdrr.io/pkg/tuneR/man/normalize.html" class="external-link">normalize</a></code>. Additional arguments can be passed to <code><a href="https://rdrr.io/pkg/tuneR/man/normalize.html" class="external-link">normalize</a></code> using `...`.` Default is <code>FALSE</code>. See <code><a href="https://rdrr.io/pkg/tuneR/man/normalize.html" class="external-link">normalize</a></code> for available options.</p></dd>
+
+
 <dt>keep.stereo</dt>
 <dd><p>Logical. If <code>TRUE</code> both channels are kept in the clips, oterwise it will keep the channel referenced in the channel column (if supplied) or the first channel if a 'channel' column is not found in 'X'. Only applies to stereo (2-channel) files.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to the internal <code><a href="https://rdrr.io/pkg/tuneR/man/normalize.html" class="external-link">normalize</a></code> function for customizing sound file output. Ignored if  <code>norm = FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Sound files of the signals listed in the input data frame.</p>
+    
+
+<p>Sound files of the signals listed in the input data frame.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -181,7 +204,7 @@ listed in a selection table as in <code><a href="lbh_selec_table.html">lbh_selec
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

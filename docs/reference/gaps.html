@@ -83,17 +83,26 @@
 <dd><p>'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the sound 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections.</p></dd>
+
+
 <dt>by</dt>
 <dd><p>Character vector with column names. Controls the levels at which gaps will be measured. "sound.files" must always be included.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame identical to that supplied in 'X', with and additional column ('gaps') with the duration of the time interval between selections.</p>
+    
+
+<p>A data frame identical to that supplied in 'X', with and additional column ('gaps') with the duration of the time interval between selections.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -136,7 +145,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

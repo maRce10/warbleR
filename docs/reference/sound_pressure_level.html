@@ -84,27 +84,42 @@ peak.amplitude <span class="op">=</span> <span class="cn">FALSE</span>, wl <span
 <dd><p>object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end).</p></dd>
+
+
 <dt>reference</dt>
 <dd><p>Numeric vector of length 1 indicating the pressure (in µPa) to be used as reference. Alternatively, a character vector with the name of a numeric column containing reference values for each row can be supplied. Default is 20 (µPa).</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). It can also be
 set globally using the 'parallel' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located.
 If <code>NULL</code> (default) then the current working directory is used. It can also be
 set globally using the 'wav.path' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control if progress bar is shown. Default is <code>TRUE</code>. It can also be
 set globally using the 'pb' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).</p></dd>
+
+
 <dt>peak.amplitude</dt>
 <dd><p>Logical argument controlling if the sound pressure level across the entire signal is return or only that of the highest amplitude (i.e. peak amplitude) of the signal. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the spectrogram window length. Default is 512.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The object supplied in 'X' with a new variable 
+    
+
+<p>The object supplied in 'X' with a new variable 
 with the sound pressure level values ('SPL' or 'peak.amplitude' column, see argument 'peak.amplitude') in decibels.</p>
     </div>
     <div id="details">
@@ -146,7 +161,7 @@ parallel <span class="op">=</span> <span class="fl">1</span>, pb <span class="op
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

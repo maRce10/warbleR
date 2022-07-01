@@ -82,23 +82,34 @@ pb <span class="op">=</span> <span class="cn">TRUE</span>, parallel <span class=
     <h2>Arguments</h2>
     <dl><dt>files</dt>
 <dd><p>character vector with the names of files to be converted. If <code>NULL</code> all files in the working directory (or 'path' if supplied) are converted.</p></dd>
+
+
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the .wav files are located.
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>Logical. Control whether a .flac sound file that is already in the working directory should be 
 overwritten.</p></dd>
+
+
 <dt>pb</dt>
 <dd><p>Logical argument to control if progress bar is shown. Default is <code>TRUE</code>. It can also be
 set globally using the 'pb' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). It can also be
 set globally using the 'parallel' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>.wav files saved in the working directory with same name as original mp3 files.</p>
+    
+
+<p>.wav files saved in the working directory with same name as original mp3 files.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -141,7 +152,7 @@ set globally using the 'parallel' option (see <code><a href="warbleR_options.htm
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
