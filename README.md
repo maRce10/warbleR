@@ -14,7 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-%3E=%203.2.1-6666ff.svg)](https://cran.r-project.org/)
 [![packageversion](https://img.shields.io/badge/Package%20version-1.1.27-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2022--06--30-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2022--07--01-yellowgreen.svg)](/commits/master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
@@ -55,10 +55,7 @@ The package offers functions to:
 Most of the functions allow the parallelization of tasks, which
 distributes the tasks among several processors to improve computational
 efficiency. Tools to evaluate the performance of the analysis at each
-step are also available. In addition, warbleR satisfies the need for
-rigorous open source bioacoustic analysis, which facilitates
-opportunities for use in research and innovation of additional custom
-analyzes.
+step are also available.
 
 Install/load the package from CRAN as follows:
 
