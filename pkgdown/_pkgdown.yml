@@ -1,6 +1,6 @@
-pandoc: 1.19.2.1
-pkgdown: 1.4.1
-pkgdown_sha: ~
+url: ~
+template:
+  bootstrap: 5
 articles: 
 - title: vignettes
   navbar: vignettes
@@ -9,6 +9,5 @@ articles:
   - starts_with("warbleR_workflow_01")
   - starts_with("warbleR_workflow_02")
   - starts_with("warbleR_workflow_03")
-template:
-  params:
-    bootswatch: spacelab
+    
+    
