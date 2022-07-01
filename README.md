@@ -3,8 +3,6 @@ warbleR: Streamline Bioacoustic Analysis
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="vignettes/warbleR_sticker_v3.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
-
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Dependencies](https://tinyverse.netlify.com/badge/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Project Status: Active The project has reached a stable, usable state
@@ -18,6 +16,8 @@ version](https://img.shields.io/badge/R%3E%3D-%3E=%203.2.1-6666ff.svg)](https://
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
+
+<img src="vignettes/warbleR_sticker_v3.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
 
 [warbleR](https://cran.r-project.org/package=warbleR) is intended to
 facilitate the analysis of the structure of animal acoustic signals in
