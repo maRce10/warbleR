@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,51 +69,32 @@ window.type <span class="op">=</span> <span class="st">"none"</span>, open.end <
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>ts.df1</dt>
 <dd><p>Optional. Data frame with frequency contour time series of signals to be compared.</p></dd>
-
-
 <dt>ts.df2</dt>
 <dd><p>Optional. Data frame with frequency contour time series of signals to be compared.</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>. Note that progress bar is only used
 when parallel = 1.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). Not available in Windows OS.</p></dd>
-
-
 <dt>window.type</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></code> windowing control parameter. Character: "none", "itakura", or a function (see <code><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></code>).</p></dd>
-
-
 <dt>open.end</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></code> control parameter. Performs 
 open-ended alignments (see <code><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></code>).</p></dd>
-
-
 <dt>scale</dt>
 <dd><p>Logical. If <code>TRUE</code> dominant frequency values are z-transformed using the <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></code> function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
 comparison in the frequency contour, regardless of the pitch of signals. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>dist.mat</dt>
 <dd><p>Logical controlling whether a distance matrix (<code>TRUE</code>, 
 default) or a tabular data frame (<code>FALSE</code>) is returned.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to <code><a href="track_freq_contour.html">track_freq_contour</a></code> for customizing
 graphical output.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>A matrix with the pairwise dissimilarity values. If img is 
+    <p>A matrix with the pairwise dissimilarity values. If img is 
 <code>FALSE</code> it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the dominant frequencies.</p>
     </div>
@@ -176,7 +157,7 @@ The function uses the <code><a href="https://rdrr.io/r/stats/approxfun.html" cla
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

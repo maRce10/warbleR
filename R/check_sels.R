@@ -278,7 +278,7 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
     res$channel[!is.na(res$duration)][any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])] <- 1
   }
   
-  if (wav.size) res$wav.size <- round(res$bits  * res$channel * res$sample.rate * res$duration / 4) / 1024
+  if (wav.size) res$wav.size <- round(res$bits  * res$channel * res$sample.rate * res$duration / 4) / 10
   
   if(verbose){
   # inform result

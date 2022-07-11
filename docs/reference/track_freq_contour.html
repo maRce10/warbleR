@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,199 +79,123 @@
 <dd><p>object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
 The output <code><a href="auto_detec.html">auto_detec</a></code> can also be used as the input data frame.</p></dd>
-
-
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.</p></dd>
-
-
 <dt>wl.freq</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram
 for measurements on the frequency spectrum. Default is 512. Higher values would provide 
 more accurate measurements.</p></dd>
-
-
 <dt>flim</dt>
 <dd><p>A numeric vector of length 2 for the frequency limit of 
 the spectrogram (in kHz), as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>wn</dt>
 <dd><p>Character vector of length 1 specifying window name. Default is 
 "hanning". See function <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html" class="external-link">ftwindow</a></code> for more options.</p></dd>
-
-
 <dt>pal</dt>
 <dd><p>A color palette function to be used to assign colors in the 
 plot, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is reverse.gray.colors.2.</p></dd>
-
-
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying % of overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 70.</p></dd>
-
-
 <dt>inner.mar</dt>
 <dd><p>Numeric vector with 4 elements, default is c(5,4,4,2). 
 Specifies number of lines in inner plot margins where axis labels fall, 
 with form c(bottom, left, top, right). See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></code>.</p></dd>
-
-
 <dt>outer.mar</dt>
 <dd><p>Numeric vector with 4 elements, default is c(0,0,0,0). 
 Specifies number of lines in outer plot margins beyond axis labels, with 
 form c(bottom, left, top, right). See <code><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></code>.</p></dd>
-
-
 <dt>picsize</dt>
 <dd><p>Numeric argument of length 1. Controls relative size of 
 spectrogram. Default is 1.</p></dd>
-
-
 <dt>res</dt>
 <dd><p>Numeric argument of length 1. Controls image resolution.
 Default is 100 (faster) although 300 - 400 is recommended for publication/ 
 presentation quality.</p></dd>
-
-
 <dt>cexlab</dt>
 <dd><p>Numeric vector of length 1 specifying the relative size of axis 
 labels. See <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>.</p></dd>
-
-
 <dt>title</dt>
 <dd><p>Logical argument to add a title to individual spectrograms. 
 Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>propwidth</dt>
 <dd><p>Logical argument to scale the width of spectrogram 
 proportionally to duration of the selected call. Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>xl</dt>
 <dd><p>Numeric vector of length 1. A constant by which to scale 
 spectrogram width. Default is 1.</p></dd>
-
-
 <dt>osci</dt>
 <dd><p>Logical argument to add an oscillogram underneath spectrogram, as
 in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>gr</dt>
 <dd><p>Logical argument to add grid to spectrogram. Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>sc</dt>
 <dd><p>Logical argument to add amplitude scale to spectrogram, default is 
 <code>FALSE</code>.</p></dd>
-
-
 <dt>bp</dt>
 <dd><p>A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz) or "frange" to indicate that values in bottom.freq 
 and top.freq columns will be used as bandpass limits. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>cex</dt>
 <dd><p>Numeric vector of length 2, specifies relative size of points 
 plotted for frequency measurements and legend font/points, respectively. 
 See <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>.</p></dd>
-
-
 <dt>threshold</dt>
 <dd><p>amplitude threshold (%) for fundamental and dominant frequency detection as well as frequency range from the spectrum (see 'frange.detec'). Default is 15. WILL BE DEPRECATED. Use 'threshold.time' and 'threshold.time' instead.</p></dd>
-
-
 <dt>threshold.time</dt>
 <dd><p>amplitude threshold (%) for the time domain. Use for fundamental and dominant frequency detection. If <code>NULL</code> (default) then the 'threshold' value is used.</p></dd>
-
-
 <dt>threshold.freq</dt>
 <dd><p>amplitude threshold (%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If <code>NULL</code> (default) then the
 'threshold' value is used.</p></dd>
-
-
 <dt>contour</dt>
 <dd><p>Character vector, one of "df", "ff" or "both", specifying whether the
 dominant or fundamental frequencies or both should be plotted. Default is "both".</p></dd>
-
-
 <dt>col</dt>
 <dd><p>Vector of length 1 or 2 specifying colors of points plotted to mark 
 fundamental and dominant frequency measurements respectively (if both are plotted). Default is <code>c("#E37222B3",
 "#07889BB3")</code>. Extreme values (lowest and highest) are highlighted in yellow.</p></dd>
-
-
 <dt>pch</dt>
 <dd><p>Numeric vector of length 1 or 2 specifying plotting characters for 
 the frequency measurements. Default is c(21, 24).</p></dd>
-
-
 <dt>mar</dt>
 <dd><p>Numeric vector of length 1. Specifies the margins adjacent to the selections
 to set spectrogram limits. Default is 0.05.</p></dd>
-
-
 <dt>lpos</dt>
 <dd><p>Character vector of length 1 or numeric vector of length 2, 
 specifying position of legend. If the former, any keyword accepted by 
 xy.coords can be used (see below). If the latter, the first value will be the x 
 coordinate and the second value the y coordinate for the legend's position.
 Default is "topright".</p></dd>
-
-
 <dt>it</dt>
 <dd><p>A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
-
-
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
-
-
 <dt>img.suffix</dt>
 <dd><p>A character vector of length 1 with a suffix (label) to add at the end of the names of 
 image files. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>custom.contour</dt>
 <dd><p>A data frame with frequency contours for exactly the same sound files and selection as in X. 
 The frequency values are assumed to be equally spaced in between the start and end of the signal. The 
 first 2 columns of the data frame should contain the 'sound.files' and 'selec' columns and should be 
 identical to the corresponding columns in X (same order).</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>type</dt>
 <dd><p>A character vector of length 1 indicating the type of frequency contour plot to be drawn. 
 Possible types are "p" for points, "l" for lines and "b" for both.</p></dd>
-
-
 <dt>leglab</dt>
 <dd><p>A character vector of length 1 or 2 containing the label(s) of the frequency contour legend 
 in the output image.</p></dd>
-
-
 <dt>col.alpha</dt>
 <dd><p>A numeric vector of length 1  within [0,1] indicating how transparent the lines/points should be.</p></dd>
-
-
 <dt>line</dt>
 <dd><p>Logical argument to add red lines (or box if bottom.freq and top.freq columns are provided) at start and end times of selection. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>fast.spec</dt>
 <dd><p>Logical. If <code>TRUE</code> then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
@@ -280,53 +204,34 @@ This option is indicated for signals with high background noise levels. Palette 
 to work better with 'fast' spectrograms. Palette colors <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.1</a></code>, <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.2</a></code>, 
 <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.3</a></code> offer 
 decreasing darkness levels.</p></dd>
-
-
 <dt>ff.method</dt>
 <dd><p>Character. Selects the method used to calculate the fundamental
 frequency. Either 'tuneR' (using <code><a href="https://rdrr.io/pkg/tuneR/man/FF.html" class="external-link">FF</a></code>) or 'seewave' (using 
 <code><a href="https://rdrr.io/pkg/seewave/man/fund.html" class="external-link">fund</a></code>). Default is 'seewave'. 'tuneR' performs faster (and seems to be more accurate) than 'seewave'.</p></dd>
-
-
 <dt>frange.detec</dt>
 <dd><p>Logical. Controls whether frequency range of signal is automatically 
 detected  using the <code><a href="freq_range_detec.html">freq_range_detec</a></code> function. If so, the range is used as the 
 bandpass filter (overwriting 'bp' argument). Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>fsmooth</dt>
 <dd><p>A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for frequency range detection (when <code>frange.detec = TRUE</code>). This help to average amplitude "hills" to minimize the effect of
 amplitude modulation. Default is 0.1.</p></dd>
-
-
 <dt>widths</dt>
 <dd><p>Numeric vector of length 2 to control the relative widths of the spectro (first element) and spectrum (second element,  (when <code>frange.detec = TRUE</code>)).</p></dd>
-
-
 <dt>freq.continuity</dt>
 <dd><p>Numeric vector of length 1 to control whether dominant frequency detections
 outliers(i.e that differ from the frequency of the detections right before and after) would be removed. Should be given in kHz. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>clip.edges</dt>
 <dd><p>Integer vector of length 1 to control if how many 'frequency-wise discontinuous' detection would be remove at the start and end of signals (see 
 'freq.continuity' argument). Default is 2. Ignored if <code>freq.continuity = NULL</code>.</p></dd>
-
-
 <dt>track.harm</dt>
 <dd><p>Logical to control if <code><a href="track_harmonic.html">track_harmonic</a></code> or a modified version of <code><a href="https://rdrr.io/pkg/seewave/man/dfreq.html" class="external-link">dfreq</a></code> is used for dominant frequency detection. Default is <code>FALSE</code> (use <code><a href="https://rdrr.io/pkg/seewave/man/dfreq.html" class="external-link">dfreq</a></code>).</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>, so it takes the same arguments.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>Spectrograms of the signals listed in the input data frame showing the location of 
+    <p>Spectrograms of the signals listed in the input data frame showing the location of 
 the dominant and fundamental frequencies.</p>
     </div>
     <div class="section level2">
@@ -405,7 +310,7 @@ it <span class="op">=</span> <span class="st">"tiff"</span>, bp <span class="op"
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

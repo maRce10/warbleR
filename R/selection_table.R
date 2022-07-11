@@ -292,6 +292,10 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   
   attributes(X)$check.results <- check.results
   
+  # recalculate file size  
+  if (whole.recs)
+    attributes(X)$check.results$wav.size <- file.size(file.path(path, attributes(X)$check.results$sound.files)) / 1000000
+  
   if (is_extended_selection_table(X) & !is.null(by.song)) attributes(X)$by.song  <- list(by.song = TRUE, song.column = by.song) else attributes(X)$by.song  <- list(by.song = FALSE, song.column = by.song)
   
   attributes(X)$call <- base::match.call()

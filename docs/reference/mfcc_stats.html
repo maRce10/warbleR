@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,54 +72,33 @@ nbands <span class="op">=</span> <span class="fl">40</span>, parallel <span clas
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. The output of <code><a href="auto_detec.html">auto_detec</a></code> can
 be used as the input data frame.</p></dd>
-
-
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying % of overlap between two 
 consecutive windows. Internally this is used to set the 'hoptime' argument in <code><a href="https://rdrr.io/pkg/tuneR/man/melfcc.html" class="external-link">melfcc</a></code>. Default is 50.</p></dd>
-
-
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independently in the frequency domain.</p></dd>
-
-
 <dt>bp</dt>
 <dd><p>A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in minimum of 'bottom.freq'
 and maximum of 'top.freq' columns will be used as bandpass limits.</p></dd>
-
-
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located.</p></dd>
-
-
 <dt>numcep</dt>
 <dd><p>Numeric vector of length 1 controlling the number of cepstra to 
 return (see <code><a href="https://rdrr.io/pkg/tuneR/man/melfcc.html" class="external-link">melfcc</a></code>).</p></dd>
-
-
 <dt>nbands</dt>
 <dd><p>Numeric vector of length 1 controlling the number of warped spectral bands to use (see <code><a href="https://rdrr.io/pkg/tuneR/man/melfcc.html" class="external-link">melfcc</a></code>). Default is 40.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Additional parameters to be passed to <code><a href="https://rdrr.io/pkg/tuneR/man/melfcc.html" class="external-link">melfcc</a></code>.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>A data frame containing the descriptive statistics for each of the Mel-frequency 
+    <p>A data frame containing the descriptive statistics for each of the Mel-frequency 
 cepstral coefficients (set by 'numcep' argument). See details.</p>
     </div>
     <div class="section level2">
@@ -172,7 +151,7 @@ It also returns the mean and variance for the first and second derivatives of th
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

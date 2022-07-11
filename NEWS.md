@@ -3,6 +3,7 @@
 ## Changes and additions:
 
 * Warning messages in `check_sels()` and `check_sound_files()` when having sound files/wave objects with different sampling rates
+* Fix bug in file size estimation when 'whole.recs = TRUE' in `selection_table()` 
 
 # *warbleR 1.1.27*
 

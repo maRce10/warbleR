@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,95 +74,56 @@ templates <span class="op">=</span> <span class="cn">NULL</span>, surveys <span 
 <dd><p>'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
 selection number (selec), and start and end time of signal (start and end). 
 All selections must have the same sampling rate.</p></dd>
-
-
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.</p></dd>
-
-
 <dt>bp</dt>
 <dd><p>A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicate that values in lowest bottom.freq
 and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.</p></dd>
-
-
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying % of overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 70. High values of ovlp 
 slow down the function but produce more accurate results.</p></dd>
-
-
 <dt>dens</dt>
 <dd><p>DEPRECATED.</p></dd>
-
-
 <dt>wn</dt>
 <dd><p>A character vector of length 1 specifying the window name as in <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html" class="external-link">ftwindow</a></code>.</p></dd>
-
-
 <dt>cor.method</dt>
 <dd><p>A character vector of length 1 specifying the correlation method as in <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></code>.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
-
-
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>na.rm</dt>
 <dd><p>Logical. If <code>TRUE</code> all NAs produced when pairwise cross-correlations failed are removed from the 
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.</p></dd>
-
-
 <dt>cor.mat</dt>
 <dd><p>DEPRECATED. Use 'compare.matrix' instead.</p></dd>
-
-
 <dt>output</dt>
 <dd><p>Character vector of length 1 to determine if only the correlation matrix is returned ('cor.mat', default) or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'xcorr.output', can be used to find detection peaks with <code><a href="find_peaks.html">find_peaks</a></code> or to graphically explore detections using <code><a href="lspec.html">lspec</a></code>.</p></dd>
-
-
 <dt>templates</dt>
 <dd><p>Character vector with the selections in 'X' to be used as templates for cross-correlation detection. To refer to specific selections in 'X' the user must use the format "sound.file-selec" (e.g. "file1.wav-1"). If only the sound file name is included then the entire sound file is used as template.</p></dd>
-
-
 <dt>surveys</dt>
 <dd><p>Character vector with the selections in 'X' to be used as surveys for cross-correlation detection. To refer to specific selections in 'X' the user must use the format "sound.file-selec" (e.g. "file1.wav-1"). If only the sound file name is included then the entire sound file is used as survey.</p></dd>
-
-
 <dt>compare.matrix</dt>
 <dd><p>A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. <code>paste(X$sound.files, X$selec, sep = "-")</code>). Default is <code>NULL</code>. If the 'selec' ID is not supplied then the entire sound file is used instead. If 'compare.matrix' is supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values. Note that 'method' is automatically set to 2 (create spectrograms on the fly) when 'compare.matrix' is supplied but can be set back to 1. When supplied 'output' is forced to be 'list'.</p></dd>
-
-
 <dt>type</dt>
 <dd><p>A character vector of length 1 specifying the type of cross-correlation; either "fourier" (i.e. spectrographic cross-correlation using Fourier transform; internally using <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>; default) or "mfcc" (Mel cepstral coefficient spectrogram cross-correlation; internally using <code><a href="https://rdrr.io/pkg/tuneR/man/melfcc.html" class="external-link">melfcc</a></code>).</p></dd>
-
-
 <dt>nbands</dt>
 <dd><p>Numeric vector of length 1 controlling the number of warped spectral bands to calculate when using <code>type = "mfcc"</code> (see <code><a href="https://rdrr.io/pkg/tuneR/man/melfcc.html" class="external-link">melfcc</a></code>). Default is 40.</p></dd>
-
-
 <dt>method</dt>
 <dd><p>Numeric vector of length 1 to control the method used to create spectrogram matrices. Two option are available:</p><ul><li><p><code>1</code>:  matrices are created first (keeping them internally as a list) and cross-correlation is calculated on a second step. Note that this method may require lots of memory if selection and or sound files are large.</p></li>
 <li><p><code>2</code>: matrices are created "on the fly" (i.e. at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which will affect performance. Note that when using this method the function does not check if sound files have the same sampling rate which if not, may produce an error.</p></li>
 </ul></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>If <code>output = "cor.mat"</code> the function returns a matrix with 
+    <p>If <code>output = "cor.mat"</code> the function returns a matrix with 
 the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with 
 the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').</p>
     </div>
@@ -226,7 +187,7 @@ wl <span class="op">=</span> <span class="fl">300</span>, ovlp <span class="op">
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

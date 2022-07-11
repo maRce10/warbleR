@@ -12,7 +12,7 @@ time warping. Internally it applies the dtwDist function from the dtw package.">
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,128 +79,77 @@ adjust.wl <span class="op">=</span> <span class="cn">TRUE</span>, <span class="v
 frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
 The output of<code><a href="auto_detec.html">auto_detec</a></code> can be used as the input data frame.</p></dd>
-
-
 <dt>type</dt>
 <dd><p>Character string to determine the type of contour to be detected. Three options are available, "dominant" (default), "fundamental" and "entropy".</p></dd>
-
-
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram, default 
 is 512.</p></dd>
-
-
 <dt>wl.freq</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram
 for measurements on the frequency spectrum. Default is 512. Higher values would provide 
 more accurate measurements.</p></dd>
-
-
 <dt>length.out</dt>
 <dd><p>A numeric vector of length 1 giving the number of measurements of frequency desired (the length of the time series).</p></dd>
-
-
 <dt>wn</dt>
 <dd><p>Character vector of length 1 specifying window name. Default is 
 "hanning". See function <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html" class="external-link">ftwindow</a></code> for more options.</p></dd>
-
-
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying % of overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 70.</p></dd>
-
-
 <dt>bp</dt>
 <dd><p>A numeric vector of length 2 for the lower and upper limits of a 
 frequency bandpass filter (in kHz). Default is <code>NULL</code>.</p></dd>
-
-
 <dt>threshold</dt>
 <dd><p>amplitude threshold (%) for frequency detection. Default is 15.</p></dd>
-
-
 <dt>threshold.time</dt>
 <dd><p>amplitude threshold (%) for the time domain. Use for frequency detection. If <code>NULL</code> (default) then the 'threshold' value is used.</p></dd>
-
-
 <dt>threshold.freq</dt>
 <dd><p>amplitude threshold (%) for the frequency domain. Use for frequency range detection from the spectrum (see 'frange.detec'). If <code>NULL</code> (default) then the
 'threshold' value is used.</p></dd>
-
-
 <dt>img</dt>
 <dd><p>Logical argument. If <code>FALSE</code>, image files are not produced. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
-
-
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
-
-
 <dt>ts.df</dt>
 <dd><p>Optional. Data frame with frequency contour time series of signals to be compared. If provided "X" is ignored.</p></dd>
-
-
 <dt>img.suffix</dt>
 <dd><p>A character vector of length 1 with a suffix (label) to add at the end of the names of 
 image files. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>clip.edges</dt>
 <dd><p>Logical argument to control whether edges (start or end of signal) in
 which amplitude values above the threshold were not detected will be removed. If 
 <code>TRUE</code> (default) this edges will be excluded and contours will be calculated on the
 remaining values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).</p></dd>
-
-
 <dt>window.type</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></code> windowing control parameter. Character: "none", "itakura", or a function (see <code><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></code>).</p></dd>
-
-
 <dt>open.end</dt>
 <dd><p><code><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></code> control parameter. Performs 
 open-ended alignments (see <code><a href="https://rdrr.io/pkg/dtw/man/dtw.html" class="external-link">dtw</a></code>).</p></dd>
-
-
 <dt>scale</dt>
 <dd><p>Logical. If <code>TRUE</code> frequency values are z-transformed using the <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></code> function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
 comparison in the frequency contour, regardless of the pitch of signals. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>frange.detec</dt>
 <dd><p>DEPRECATED.</p></dd>
-
-
 <dt>fsmooth</dt>
 <dd><p>A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for frequency range detection (when <code>frange.detec = TRUE</code>). This help to average amplitude "hills" to minimize the effect of
 amplitude modulation. Default is 0.1.</p></dd>
-
-
 <dt>adjust.wl</dt>
 <dd><p>Logical. If <code>TRUE</code> 'wl' (window length) is reset to be lower than the 
 number of samples in a selection if the number of samples is less than 'wl'. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to <code><a href="track_freq_contour.html">track_freq_contour</a></code> for customizing
 graphical output.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>A matrix with the pairwise dissimilarity values. If img is 
+    <p>A matrix with the pairwise dissimilarity values. If img is 
 <code>FALSE</code> it also produces image files with the spectrograms of the signals listed in the 
 input data frame showing the location of the dominant frequencies.</p>
     </div>
@@ -265,7 +214,7 @@ bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

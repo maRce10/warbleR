@@ -456,16 +456,13 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   # run loop apply function
   lst <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) 
   { 
-    contour_FUN(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl)
+    round(contour_FUN(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl), 4)
   })
-  
-  #
+
   df <- data.frame(sound.files = X$sound.files, selec = X$selec, as.data.frame(matrix(unlist(lst),nrow = length(X$sound.files), byrow = TRUE)))
   
   colnames(df)[3:ncol(df)] <- paste("ffreq",1:(ncol(df)-2),sep = "-")
-  
-  df[ ,3:ncol(df)] <- round(df[ ,3:ncol(df)], 3)
-  
+
   return(df)
   
 }

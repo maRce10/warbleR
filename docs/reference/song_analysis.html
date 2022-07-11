@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,66 +72,41 @@ na.rm <span class="op">=</span> <span class="cn">FALSE</span>, weight <span clas
 <dd><p>'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the sound 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections.</p></dd>
-
-
 <dt>song_colm</dt>
 <dd><p>Character string with the column name containing song labels. 
 It can be used to label any hierarchical level at which parameters need to be calculated (e.g. syllables, phrases).
 Note that 
 the function assumes that song labels are not repeated within a sound file.</p></dd>
-
-
 <dt>mean_colm</dt>
 <dd><p>Numeric vector with the index of the columns that will be averaged. If <code>NULL</code> the mean of all numeric columns in 'X' is returned.</p></dd>
-
-
 <dt>min_colm</dt>
 <dd><p>Character vector with the name(s) of the columns for which the minimum 
 value is needed. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>max_colm</dt>
 <dd><p>Character vector with the name(s) of the columns for which the maximum 
 value is needed. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>elm_colm</dt>
 <dd><p>Character vector with the name(s) of the columns identifying the element labels (i.e. element types). If supplied 'unq.elms' and 'mean.elm.count' are returned. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>elm_fun</dt>
 <dd><p>Function to be applied to the sequence of elements composing a song. Default is <code>NULL</code>. Ignored if 'elm_colm' is not supplied. The name of the column containing the function's output is "elm_fun'.</p></dd>
-
-
 <dt>sd</dt>
 <dd><p>Logical value indicating whether standard deviation is also returned for
 variables in which averages are reported. Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>na.rm</dt>
 <dd><p>Logical value indicating whether 'NA' values should be ignored for calculations.</p></dd>
-
-
 <dt>weight</dt>
 <dd><p>Character vector defining 1 or more numeric vectors to weight average
 measurements (i.e. song parameters). Names of numeric columns in 'X' can also be used. See <code><a href="https://rdrr.io/r/stats/weighted.mean.html" class="external-link">weighted.mean</a></code>. 
  for more details.  Default is <code>NULL</code> (unweighted average).</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>A data frame similar to the input 'X' data frame, but in this case each row corresponds to a single song. The data frame contains the mean or extreme
+    <p>A data frame similar to the input 'X' data frame, but in this case each row corresponds to a single song. The data frame contains the mean or extreme
  values for numeric columns for each song. Columns that will be averaged can be defined with
  'mean_colm' (otherwise all numeric columns are used). Columns can be 
  weighted by other columns in the data set (e.g. duration, frequency range). In addition, the function returns the following song level parameters:</p><ul><li><p><code>elm.duration</code>: mean length of elements (in s)</p></li>
@@ -219,7 +194,7 @@ mean_colm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

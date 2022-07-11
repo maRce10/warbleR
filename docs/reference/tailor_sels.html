@@ -12,7 +12,7 @@ which the start/end times and frequency range of acoustic signals listed in a da
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,69 +78,43 @@ which the start/end times and frequency range of acoustic signals listed in a da
 <dd><p>'selection_table', 'extended_selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.</p></dd>
-
-
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the spectrogram window length. Default is 512.</p></dd>
-
-
 <dt>flim</dt>
 <dd><p>A numeric vector of length 2 specifying the frequency limit (in kHz) of 
 the spectrogram, as in the function <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. 
 Default is c(0,22).</p></dd>
-
-
 <dt>wn</dt>
 <dd><p>A character vector of length 1 specifying the window function (by default "hanning"). 
 See function <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html" class="external-link">ftwindow</a></code> for more options.</p></dd>
-
-
 <dt>mar</dt>
 <dd><p>Numeric vector of length 1. Specifies the margins adjacent to the 
 start and end points of the selections to define spectrogram limits. Default is 0.5.</p></dd>
-
-
 <dt>osci</dt>
 <dd><p>Logical argument. If <code>TRUE</code> adds a oscillogram whenever the spectrograms are produced 
 with higher resolution (see seltime). Default is <code>TRUE</code>.
 The external program must be closed before resuming analysis. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>pal</dt>
 <dd><p>A color palette function to be used to assign colors in the 
 plot, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is reverse.gray.colors.2. See Details.</p></dd>
-
-
 <dt>ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying the percent overlap between two 
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 70.</p></dd>
-
-
 <dt>auto.next</dt>
 <dd><p>Logical argument to control whether the functions moves automatically to the 
 next selection. The time interval before moving to the next selection is controlled by the 'pause' argument. Ignored if <code>ts.df = TRUE</code>.</p></dd>
-
-
 <dt>pause</dt>
 <dd><p>Numeric vector of length 1. Controls the duration of the waiting period before 
 moving to the next selection (in seconds). Default is 1.</p></dd>
-
-
 <dt>comments</dt>
 <dd><p>Logical argument specifying if 'sel.comment' (when in data frame) should be included 
 in the title of the spectrograms. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located.</p></dd>
-
-
 <dt>frange</dt>
 <dd><p>Logical argument specifying whether limits on frequency range should be
  recorded. 
 If <code>TRUE</code> (default) time and frequency limits are recorded.</p></dd>
-
-
 <dt>fast.spec</dt>
 <dd><p>Logical. If <code>TRUE</code> then image function is used internally to create spectrograms, which substantially 
 increases performance (much faster), although some options become unavailable, as sc (amplitude scale).
@@ -149,69 +123,44 @@ This option is indicated for signals with high background noise levels. Palette 
 to work better with 'fast' spectrograms. Palette colors <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.1</a></code>, <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.2</a></code>, 
 <code><a href="https://rdrr.io/pkg/monitoR/man/specCols.html" class="external-link">gray.3</a></code> offer 
 decreasing darkness levels.</p></dd>
-
-
 <dt>ext.window</dt>
 <dd><p>Logical. If <code>TRUE</code> then and external graphic window is used. Default 
 dimensions can be set using the 'width' and 'height' arguments. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>width</dt>
 <dd><p>Numeric of length 1 controlling the width of the external graphic window. Ignored
 if <code>ext.window = FALSE</code>. Default is 15.</p></dd>
-
-
 <dt>height</dt>
 <dd><p>Numeric of length 1 controlling the height of the external graphic window.
 Ignored if <code>ext.window = FALSE</code>. Default is 5.</p></dd>
-
-
 <dt>index</dt>
 <dd><p>Numeric vector indicating which selections (rows) of 'X' should be tailored. 
 Default is <code>NULL</code>. Ignored when the process is resumed. This can be useful when combined
 with <code><a href="filtersels.html">filtersels</a></code>) output (see 'index' argument in <code><a href="filtersels.html">filtersels</a></code>).</p></dd>
-
-
 <dt>collevels</dt>
 <dd><p>Numeric. Set of levels used to partition the amplitude range (see 
 <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>).</p></dd>
-
-
 <dt>title</dt>
 <dd><p>Character vector with the names of the columns to be included in the title for each
 selection.</p></dd>
-
-
 <dt>ts.df</dt>
 <dd><p>Optional. Data frame with frequency contour time series of signals to be tailored. If provided then 
 'autonext' is set to <code>FALSE</code>. Default is <code>NULL</code>. The data frame must include the 'sound.files' and 'selec' 
 columns for the same selections included in 'X'.</p></dd>
-
-
 <dt>col</dt>
 <dd><p>Character vector defining the color of the points when 'ts.df' is provided. Default is "#E37222" (orange).</p></dd>
-
-
 <dt>alpha</dt>
 <dd><p>Numeric of length one to adjust transparency of points when adjusting frequency contours.</p></dd>
-
-
 <dt>auto.contour</dt>
 <dd><p>Logical. If <code>TRUE</code> contours are displayed automatically
 (without having to click on 'contour'). Note that adjusting the selection box 
 (frequency/time limits) won't be available. Default is <code>FALSE</code>. Ignored if
 'ts.df' is not provided.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to the internal spectrogram creating function for customizing graphical output. The function is a modified version of <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>, so it takes the same arguments.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>data frame similar to X with the and a .csv file saved in the working directory with start and end time of 
+    <p>data frame similar to X with the and a .csv file saved in the working directory with start and end time of 
   selections.</p>
     </div>
     <div class="section level2">
@@ -281,7 +230,7 @@ columns for the same selections included in 'X'.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

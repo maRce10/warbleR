@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,54 +70,33 @@ files <span class="op">=</span> <span class="cn">NULL</span>, flist <span class=
     <dl><dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
-
-
 <dt>min.sil.dur</dt>
 <dd><p>Numeric. Controls the minimum duration of silence segments that would be removed.</p></dd>
-
-
 <dt>img</dt>
 <dd><p>Logical argument. If <code>FALSE</code>, image files are not produced. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>it</dt>
 <dd><p>A character vector of length 1  giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".</p></dd>
-
-
 <dt>flim</dt>
 <dd><p>A numeric vector of length 2 indicating the highest and lowest 
 frequency limits (kHz) of the spectrogram as in 
 <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is <code>NULL</code>. Ignored if `img = FALSE`.</p></dd>
-
-
 <dt>files</dt>
 <dd><p>character vector or factor indicating the subset of files that will be analyzed. If not provided
 then all wave files in the working directory (or path) will be processed.</p></dd>
-
-
 <dt>flist</dt>
 <dd><p>DEPRECATED. Please use 'files' instead.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>downsample</dt>
 <dd><p>Logical indicating whether files are downsampled to a 5000 kHz sampling rate. This can be used to speed up the process, but will make the function ignore sound/noise above 2500 kHz. Default is <code>TRUE</code>.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>Sound files for which silence segments have been removed are saved in the new 
+    <p>Sound files for which silence segments have been removed are saved in the new 
 folder "silence-removed_files" in .wav format. If `img = TRUE` then spectrogram images highlighting the silence segments 
 that were removed are also saved.</p>
     </div>
@@ -174,7 +153,7 @@ that were removed are also saved.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,39 +71,24 @@ header <span class="op">=</span> <span class="cn">FALSE</span>, path <span class
 <dd><p>'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a '.wav' file or URL address to a '.wav' or '.mp3' file can be provided. The file name can contain the directory path.
 'top.freq' and 'bottom.freq' columns are optional. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>index</dt>
 <dd><p>Index of the selection in 'X' that will be read. Ignored if 'X' is <code>NULL</code>.</p></dd>
-
-
 <dt>from</dt>
 <dd><p>Where to start reading, in seconds. Default is <code>X$start[index]</code>.</p></dd>
-
-
 <dt>to</dt>
 <dd><p>Where to stop reading, in seconds. Default is <code>X$end[index]</code>.  <code>Inf</code> can be used for reading the entire sound file (when 'X' is a sound file name),</p></dd>
-
-
 <dt>channel</dt>
 <dd><p>Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). If 
 <code>NULL</code> (default) or higher than the number of channels in a wave then the first channel is used. Only applies to '.wav' files in local directories.</p></dd>
-
-
 <dt>header</dt>
 <dd><p>If <code>TRUE</code>, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.</p></dd>
-
-
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used. If 'X' refers to a sound file including its directory 'path' is ignored.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>An object of class "Wave".</p>
+    <p>An object of class "Wave".</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -156,7 +141,7 @@ is also used internally by warbleR functions to read wave objects from extended 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

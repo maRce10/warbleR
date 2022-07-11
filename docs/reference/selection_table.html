@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,25 +75,17 @@ files, 2) "selec": unique selection identifier (within a sound file), 3) "start"
 end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
 not provided the first channel (i.e. left channel) would be used by default. 
 Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input.</p></dd>
-
-
 <dt>max.dur</dt>
 <dd><p>the maximum duration of expected for a selection  (ie. end - start). If surpassed then an error message 
 will be generated. Useful for detecting errors in selection tables.</p></dd>
-
-
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located. 
 If <code>NULL</code> (default) then the current working directory is used.</p></dd>
-
-
 <dt>whole.recs</dt>
 <dd><p>Logical. If <code>TRUE</code> the function will create a selection 
 table for all sound files in the working directory (or "path") with `start = 0` 
 and `end = duration_wavs()`. Default is if <code>FALSE</code>. Note that this will not create
 a extended selection table. If provided 'X' is ignored.</p></dd>
-
-
 <dt>extended</dt>
 <dd><p>Logical. If <code>TRUE</code>, the function will create an object of class 'extended_selection_table' 
 which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is 
@@ -101,60 +93,39 @@ and self-contained format that does not require the original sound files for run
 <code><a href="warbleR.html">warbleR</a></code>. This can largely facilitate the storing and sharing of (bio)acoustic data. Default 
 is if <code>FALSE</code>. An extended selection table won't be created if there is any issue with the selection. See 
 'details'.</p></dd>
-
-
 <dt>confirm.extended</dt>
 <dd><p>Logical. If <code>TRUE</code> then the size of the 'extended_selection_table' 
 will be estimated and the user will be asked for confirmation (in the console)
 before proceeding. Ignored if 'extended' is <code>FALSE</code>. This is used to prevent
 generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size.</p></dd>
-
-
 <dt>mar</dt>
 <dd><p>Numeric vector of length 1 specifying the margins (in seconds) 
 adjacent to the start and end points of the selections when creating extended 
 selection tables. Default is 0.1. Ignored if 'extended' is <code>FALSE</code>.</p></dd>
-
-
 <dt>by.song</dt>
 <dd><p>Character string with the column name containing song labels. If provided a wave object containing for 
 all selection belonging to a single song would be saved in the extended selection table (hence only applicable for 
 extended selection tables). Note that the function assumes that song labels are not repeated within a sound file. 
 If <code>NULL</code> (default), wave objects are created for each selection (e.g. by selection). 
 Ignored if <code>extended = FALSE</code>.</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
-
-
 <dt>verbose</dt>
 <dd><p>Logical argument to control if summary messages are printed to the console. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>skip.error</dt>
 <dd><p>Logical to control if errors are omitted. If so, files that could not be read will be excluded and their name printed in the console. Default is <code>FALSE</code>, which will return an error if some files are problematic.</p></dd>
-
-
 <dt>file.format</dt>
 <dd><p>Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\.wav$|\.wac$|\.mp3$|\.flac$"). Note that several formats can be included using regular expression syntax as in <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></code>. For instance <code>"\.wav$|\.mp3$"</code> will only include .wav and .mp3 files. Ignored if <code>whole.recs = FALSE</code>.</p></dd>
-
-
 <dt>...</dt>
 <dd><p>Additional arguments to be passed to <code><a href="check_sels.html">check_sels</a></code> for customizing
 checking routine.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>An object of class selection_table which includes the original data frame plus the following additional attributes:</p><ul><li><p>1) A data frame with the output of <code><a href="check_sels.html">check_sels</a></code> run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
+    <p>An object of class selection_table which includes the original data frame plus the following additional attributes:</p><ul><li><p>1) A data frame with the output of <code><a href="check_sels.html">check_sels</a></code> run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
 errors due to missing or mislabeled data, or selection out of the ranges of the original sound files.</p></li>
 <li><p>2) A list indicating if the selection table has been created by song (see 'by.song argument).</p></li>
 <li><p>3) If a extended selection table is created a list containing the wave objects for each selection (or song if 'by.song').</p></li>
@@ -237,7 +208,7 @@ confirm.extended <span class="op">=</span> <span class="cn">FALSE</span>, by.son
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

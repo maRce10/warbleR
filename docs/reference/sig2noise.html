@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,30 +71,20 @@ in.dB <span class="op">=</span> <span class="cn">TRUE</span>, before <span class
 <dd><p>object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end).</p></dd>
-
-
 <dt>mar</dt>
 <dd><p>numeric vector of length 1. Specifies the margins adjacent to
 the start and end points of selection over which to measure noise.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). It can also be
 set globally using the 'parallel' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).</p></dd>
-
-
 <dt>path</dt>
 <dd><p>Character string containing the directory path where the sound files are located.
 If <code>NULL</code> (default) then the current working directory is used. It can also be
 set globally using the 'wav.path' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control if progress bar is shown. Default is <code>TRUE</code>. It can also be
 set globally using the 'pb' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).</p></dd>
-
-
 <dt>type</dt>
 <dd><p>Numeric. Determine the formula to be used to calculate the signal-to-noise ratio (S = signal
 , N = background noise):</p><ul><li><p><code>1</code>: ratio of S mean amplitude envelope to 
@@ -103,43 +93,28 @@ set globally using the 'pb' option (see <code><a href="warbleR_options.html">war
  (<code>rms(env(S))/rms(env(N))</code>)</p></li>
 <li><p><code>3</code>: ratio of the difference between S amplitude envelope RMS and N amplitude envelope RMS to N amplitude envelope RMS (<code>(rms(env(S)) - rms(env(N)))/rms(env(N))</code>)</p></li>
 </ul></dd>
-
-
 <dt>eq.dur</dt>
 <dd><p>Logical. Controls whether the noise segment that is measured has the same duration 
 than the signal (if <code>TRUE</code>, default <code>FALSE</code>). If <code>TRUE</code> then 'mar' argument is ignored.</p></dd>
-
-
 <dt>in.dB</dt>
 <dd><p>Logical. Controls whether the signal-to-noise ratio is returned in decibels (20*log10(SNR)). 
 Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>before</dt>
 <dd><p>Logical. If <code>TRUE</code> noise is only measured right before the signal (instead of before and after). Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>lim.dB</dt>
 <dd><p>Logical. If <code>TRUE</code> the lowest signal-to-noise would be limited to -40 dB (if <code>in.dB = TRUE</code>). This would remove NA's that can be produced when noise segments have a higher amplitude than the signal 
 itself. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>bp</dt>
 <dd><p>Numeric vector of length 2 giving the lower and upper limits of a frequency bandpass filter (in kHz). Default is <code>NULL</code>.</p></dd>
-
-
 <dt>wl</dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram for applying bandpass. Default 
   is 10. Ignored if <code>bp = NULL</code>. It can also be
 set globally using the 'wl' option (see <code><a href="warbleR_options.html">warbleR_options</a></code>).
  Note that lower values will increase time resolution, which is more important for signal-to-noise ratio calculations.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>Data frame similar to <code><a href="auto_detec.html">auto_detec</a></code> output, but also includes a new variable 
+    <p>Data frame similar to <code><a href="auto_detec.html">auto_detec</a></code> output, but also includes a new variable 
 with the signal-to-noise values.</p>
     </div>
     <div class="section level2">
@@ -193,7 +168,7 @@ path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

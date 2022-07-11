@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,68 +72,43 @@ indx.row <span class="op">=</span> <span class="cn">FALSE</span>, parallel <span
 <dd><p>'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound 
 files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 end time of selections.</p></dd>
-
-
 <dt>index</dt>
 <dd><p>Logical. Indicates if only the index of the overlapping selections would be returned.
 Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>max.ovlp</dt>
 <dd><p>Numeric vector of length 1 specifying the maximum overlap allowed (in seconds)
 . Default is 0.</p></dd>
-
-
 <dt>relabel</dt>
 <dd><p>Logical. If <code>TRUE</code> then selection names ('selec' column) are reset within each sound files.
 Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>drop</dt>
 <dd><p>Logical. If <code>TRUE</code>, when 2 or more selections overlap the function will remove 
 all but one of the overlapping selection. Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>priority</dt>
 <dd><p>Character vector. Controls the priority criteria used for removing overlapped selections. It
 must list the levels of the column used to determine priority (argument priority.col) in the desired 
 priority order. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>priority.col</dt>
 <dd><p>Character vector of length 1 with the name of the column use to determine the priority of
 overlapped selections. Default is <code>NULL</code>.</p></dd>
-
-
 <dt>unique.labs</dt>
 <dd><p>DEPRECATED.</p></dd>
-
-
 <dt>indx.row</dt>
 <dd><p>Logical. If <code>TRUE</code> then a character column with the indices of all selections that overlapped with
 each selection is added to the ouput data frame (if <code>index = TRUE</code>). For instance, if the selections in rows 1,2 
 and 3 all overlapped with each other, the 'indx.row' value would be "1/2/3" for all. However, if selection 3 only overlaps
  with 2 but not with 1, then it returns, "1/2" for row 1, "1/2/3" for row 2, and "2/3" for row 3. Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>parallel</dt>
 <dd><p>Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></dd>
-
-
 <dt>verbose</dt>
 <dd><p>Logical to control if messages are printed to the console.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>A data frame with the columns in X plus an additional column ('ovlp.sels') indicating 
+    <p>A data frame with the columns in X plus an additional column ('ovlp.sels') indicating 
 which selections overlap. The ones with the same number overlap with each other. If 
 <code>drop = TRUE</code> only the non-overlapping selections are return. If 2 or more selections 
 overlap only the first one is kept. The arguments 'priority' and 'priority.col' can be used to modified the criterium for droping overlapping selections.</p>
@@ -185,7 +160,7 @@ listed in a data frame similar to <code><a href="lbh_selec_table.html">lbh_selec
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

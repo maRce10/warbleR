@@ -12,7 +12,7 @@ in time. The signals are represented by polygons of different colors."><!-- math
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.27</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,52 +73,33 @@ img <span class="op">=</span> <span class="cn">TRUE</span>, tlim <span class="op
     <dl><dt>X</dt>
 <dd><p>Data frame containing columns for singing event (sing.event), 
 individual (indiv), and start and end time of signal (start and end).</p></dd>
-
-
 <dt>only.coor</dt>
 <dd><p>Logical. If <code>TRUE</code> only the segment in which both individuals are singing is 
 included (solo singing is removed). Default is <code>FALSE</code>.</p></dd>
-
-
 <dt>ovlp</dt>
 <dd><p>Logical. If <code>TRUE</code> the vocalizations that overlap in time are highlighted. 
 Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>xl</dt>
 <dd><p>Numeric vector of length 1, a constant by which to scale 
 spectrogram width. Default is 1.</p></dd>
-
-
 <dt>res</dt>
 <dd><p>Numeric argument of length 1. Controls image resolution. Default is 80.</p></dd>
-
-
 <dt>it</dt>
 <dd><p>A character vector of length 1 giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".</p></dd>
-
-
 <dt>img</dt>
 <dd><p>Logical argument. If <code>FALSE</code>, image files are not produced and
 the graphs are shown in the current graphic device. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt>tlim</dt>
 <dd><p>Numeric vector of length 2 indicating the start and end time of the coordinated singing events
 to be displayed in the graphs.</p></dd>
-
-
 <dt>pb</dt>
 <dd><p>Logical argument to control progress bar and messages. Default is 
 <code>TRUE</code>.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>The function returns a list of graphs, one for each singing event in the input data frame. The graphs can be plotted by simply calling the list. If 'img' is <code>TRUE</code> then the graphs are also saved in the working 
+    <p>The function returns a list of graphs, one for each singing event in the input data frame. The graphs can be plotted by simply calling the list. If 'img' is <code>TRUE</code> then the graphs are also saved in the working 
 directory as files.</p>
     </div>
     <div class="section level2">
@@ -160,7 +141,7 @@ depicting the time of overlap.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>
