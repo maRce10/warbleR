@@ -2,7 +2,7 @@
 #' 
 #' \code{sound_pressure_level} measures sound pressure level in signals reference in a selection table.
 #' @usage sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, 
-#' peak.amplitude = FALSE, wl = 100)
+#' peak.amplitude = FALSE, wl = 100, bp = NULL)
 #' @param X object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end).
@@ -17,13 +17,14 @@
 #' set globally using the 'pb' option (see \code{\link{warbleR_options}}).
 #' @param peak.amplitude Logical argument controlling if the sound pressure level across the entire signal is return or only that of the highest amplitude (i.e. peak amplitude) of the signal. Default is \code{FALSE}. 
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. 
+#' @param bp Numeric vector of length 2 giving the lower and upper limits of a frequency bandpass filter (in kHz). Alternatively, when set to 'freq.range', the function will use the 'bottom.freq' and 'top.freq' for each signal as the bandpass range. Default is \code{NULL} (no bandpass filter).
 #' @return The object supplied in 'X' with a new variable 
 #' with the sound pressure level values ('SPL' or 'peak.amplitude' column, see argument 'peak.amplitude') in decibels. 
 #' @export
 #' @name sound_pressure_level
 #' @encoding UTF-8
 #' @details  Sound pressure level (SPL) is a logarithmic measure of the effective pressure of a sound relative to a reference, so it's a measure of sound intensity. Note that calibrated measures can be obtained only when the SPL of the environment where recordings were made is used as reference.
-#'   \code{\link{sig2noise}}.
+#' @seealso \code{\link{sig2noise}}.
 #' @examples
 #' {
 #' data(list = c("Phae.long1","lbh_selec_table"))
@@ -39,7 +40,7 @@
 #' }
 #last modification on feb-23-2022 (MAS)
 
-sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, peak.amplitude = FALSE, wl = 100){
+sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, peak.amplitude = FALSE, wl = 100, bp = NULL){
   
   #### set arguments from options
   # get function arguments
@@ -113,6 +114,19 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
   spl_FUN <- function(X, i, path, reference) {
     
     signal <- read_wave(X, index = i, path = path)
+    
+    # add band-pass frequency filter
+    if (!is.null(bp)) {
+      
+      # filter to bottom and top freq range
+      if (bp == "freq.range") 
+        bp <- c(X$bottom.freq[i], X$top.freq[i])
+      
+      signal <- seewave::ffilter(signal, f = signal@samp.rate, from = bp[1] * 1000, ovlp = 0,
+                                 to = bp[2] * 1000, bandpass = TRUE, wl = wl, 
+                                 output = "Wave")
+    }
+    
     
     # only if more than 9 samples above twice wl (so it can have at least 2 segments)
     if (!peak.amplitude | peak.amplitude & (length(signal) + 9) <= wl *2)
