@@ -5,7 +5,8 @@
 pblapply_wrblr_int <- function(X, FUN, cl = 1, pbar = TRUE, ...) {
   
   # conver parallel 1 to null
-  if (cl == 1) cl <- NULL
+  if (!inherits(cl, "cluster"))
+    if (cl == 1) cl <- NULL
   
   FUN <- match.fun(FUN)
   if (!is.vector(X) || is.object(X)) 

@@ -13,7 +13,7 @@ peak.amplitude = FALSE, wl = 100)
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end).}
 
-\item{reference}{Numeric vector of length 1 indicating the pressure (in µPa) to be used as reference. Alternatively, a character vector with the name of a numeric column containing reference values for each row can be supplied. Default is 20 (µPa).}
+\item{reference}{Numeric vector of length 1 indicating the pressure (in µPa) to be used as reference. Alternatively, a character vector with the name of a numeric column containing reference values for each row can be supplied. Default is 1 (µPa).}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). It can also be
@@ -35,11 +35,10 @@ The object supplied in 'X' with a new variable
 with the sound pressure level values ('SPL' or 'peak.amplitude' column, see argument 'peak.amplitude') in decibels.
 }
 \description{
-\code{sound_pressure_level} measures sound pressure level in signals reference in a selection table.
+\code{sound_pressure_level} measures sound pressure level in signals referenced in a selection table.
 }
 \details{
-Sound pressure level (SPL) is a logarithmic measure of the effective pressure of a sound relative to a reference, so it's a measure of sound intensity. Note that calibrated measures can be obtained only when the SPL of the environment where recordings were made is used as reference.
-  \code{\link{sig2noise}}.
+Sound pressure level (SPL) is a logarithmic measure of the effective pressure of a sound relative to a reference, so it's a measure of sound intensity. SPL is measured as the root mean square of the amplitude vector, and as such is only a useful metric of the variation in loudness for signals whithin the same recording. Absolute SPL values can only be obtained when including a sound of known loudness in the recording.
 }
 \examples{
 {
@@ -55,6 +54,9 @@ parallel = 1, pb = TRUE, path = tempdir())
 {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 \href{https://en.wikipedia.org/wiki/Sound_pressure}{Wikipedia: Sound pressure level}
 }
+}
+\seealso{
+\code{\link{sig2noise}}.
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}) and Grace Smith Vidaurre

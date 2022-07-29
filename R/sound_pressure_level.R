@@ -1,12 +1,12 @@
 #' Measure sound pressure level
 #' 
-#' \code{sound_pressure_level} measures sound pressure level in signals reference in a selection table.
+#' \code{sound_pressure_level} measures sound pressure level in signals referenced in a selection table.
 #' @usage sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, 
 #' peak.amplitude = FALSE, wl = 100)
 #' @param X object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end).
-#' @param reference Numeric vector of length 1 indicating the pressure (in µPa) to be used as reference. Alternatively, a character vector with the name of a numeric column containing reference values for each row can be supplied. Default is 20 (µPa).
+#' @param reference Numeric vector of length 1 indicating the pressure (in µPa) to be used as reference. Alternatively, a character vector with the name of a numeric column containing reference values for each row can be supplied. Default is 1 (µPa).
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). It can also be
 #' set globally using the 'parallel' option (see \code{\link{warbleR_options}}).
@@ -22,8 +22,8 @@
 #' @export
 #' @name sound_pressure_level
 #' @encoding UTF-8
-#' @details  Sound pressure level (SPL) is a logarithmic measure of the effective pressure of a sound relative to a reference, so it's a measure of sound intensity. Note that calibrated measures can be obtained only when the SPL of the environment where recordings were made is used as reference.
-#'   \code{\link{sig2noise}}.
+#' @details  Sound pressure level (SPL) is a logarithmic measure of the effective pressure of a sound relative to a reference, so it's a measure of sound intensity. SPL is measured as the root mean square of the amplitude vector, and as such is only a useful metric of the variation in loudness for signals whithin the same recording. Absolute SPL values can only be obtained when including a sound of known loudness in the recording.
+#' @seealso \code{\link{sig2noise}}.
 #' @examples
 #' {
 #' data(list = c("Phae.long1","lbh_selec_table"))
@@ -115,7 +115,7 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
     signal <- read_wave(X, index = i, path = path)
     
     # only if more than 9 samples above twice wl (so it can have at least 2 segments)
-    if (!peak.amplitude | peak.amplitude & (length(signal) + 9) <= wl *2)
+    if ((length(signal) + 9) <= wl *2)
     sigamp <- seewave::rms(seewave::env(signal, envt = "abs", plot = FALSE)) else {
       # sample cut points 
       cuts <- seq(1, length(signal), by = wl)
@@ -129,9 +129,11 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
         )
     }
     
-    signaldb <- 20 * log10(sigamp / X[i, reference])
-
-    return(max(signaldb))
+    signaldb <- 20 * log10(sigamp / X[i, reference, drop = TRUE])
+    
+    signaldb <- if(peak.amplitude) max(signaldb) else seewave::meandB(signaldb)
+    
+    return(signaldb)
   }
 
   # set clusters for windows OS
@@ -151,9 +153,8 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
     z <- data.frame(X, SPL = unlist(SPL_l))
     
     # rename column if peak.ampitude
-    if (peak.amplitude)
-        names(z)[ncol(z)] <- "peak.amplitude"
-      
+    names(z)[ncol(z)] <- if (peak.amplitude) "peak.amplitude" else "SPL"
+    
   # fix extended selection table
     if (is_extended_selection_table(X)) z <- fix_extended_selection_table(X = z, Y = X)  
 

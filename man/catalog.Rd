@@ -2,7 +2,7 @@
 % Please edit documentation in R/catalog.R
 \name{catalog}
 \alias{catalog}
-\title{Create catalog of vocal signals}
+\title{Create catalogs of vocal signals}
 \usage{
 catalog(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
 collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
