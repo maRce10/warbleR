@@ -3,17 +3,17 @@
 \encoding{UTF-8}
 \name{sound_pressure_level}
 \alias{sound_pressure_level}
-\title{Measure sound pressure level}
+\title{Measure relative sound pressure level}
 \usage{
-sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE, 
-peak.amplitude = FALSE, wl = 100)
+sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE,
+type = "single", wl = 100, bp = NULL, remove.bgn = FALSE, mar = NULL, envelope = "abs")
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 for sound file name (sound.files), selection number (selec), and start and end time of signal
 (start and end).}
 
-\item{reference}{Numeric vector of length 1 indicating the pressure (in µPa) to be used as reference. Alternatively, a character vector with the name of a numeric column containing reference values for each row can be supplied. Default is 1 (µPa).}
+\item{reference}{Numeric vector of length 1 indicating the pressure (in µPa) to be used as reference. Alternatively, a character vector with the name of a numeric column containing reference values for each row can be supplied. Default is 20 (µPa). NOT YET IMPLEMENTED.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). It can also be
@@ -26,26 +26,39 @@ set globally using the 'wav.path' option (see \code{\link{warbleR_options}}).}
 \item{pb}{Logical argument to control if progress bar is shown. Default is \code{TRUE}. It can also be
 set globally using the 'pb' option (see \code{\link{warbleR_options}}).}
 
-\item{peak.amplitude}{Logical argument controlling if the sound pressure level across the entire signal is return or only that of the highest amplitude (i.e. peak amplitude) of the signal. Default is \code{FALSE}.}
+\item{type}{Character string controlling how SPL is measured: #' \itemize{
+\item \code{single}: single SPL value obtained on the entire signal. Default.
+\item \code{mean}: average of SPL values measured across the signal.
+\item \code{peak}: maximum of several SPL values measured across the signal.   
+}}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
+
+\item{bp}{Numeric vector of length 2 giving the lower and upper limits of a frequency bandpass filter (in kHz). Alternatively, when set to 'freq.range', the function will use the 'bottom.freq' and 'top.freq' for each signal as the bandpass range. Default is \code{NULL} (no bandpass filter).}
+
+\item{remove.bgn}{Logical argument to control if SPL from background noise is excluded from the measured signal SPL. Default is \code{FALSE}.}
+
+\item{mar}{numeric vector of length 1. Specifies the margins adjacent to
+the start point of selection over which to measure background noise.}
+
+\item{envelope}{Character string vector with the method to calculate amplitude envelopes (in which SPL is measured), as in \code{\link[seewave]{env}}. Must be either 'abs' (absolute envelope, default) or 'hil' (Hilbert transformation).}
 }
 \value{
-The object supplied in 'X' with a new variable 
+The object supplied in 'X' with a new variable
 with the sound pressure level values ('SPL' or 'peak.amplitude' column, see argument 'peak.amplitude') in decibels.
 }
 \description{
-\code{sound_pressure_level} measures sound pressure level in signals referenced in a selection table.
+\code{sound_pressure_level} measures relative (uncalibrated) sound pressure level in signals referenced in a selection table.
 }
 \details{
-Sound pressure level (SPL) is a logarithmic measure of the effective pressure of a sound relative to a reference, so it's a measure of sound intensity. SPL is measured as the root mean square of the amplitude vector, and as such is only a useful metric of the variation in loudness for signals whithin the same recording. Absolute SPL values can only be obtained when including a sound of known loudness in the recording.
+Sound pressure level (SPL) is a logarithmic measure of the effective pressure of a sound relative to a reference, so it's a measure of sound intensity. SPL is measured as the root mean square of the amplitude vector, and as such is only a useful metric of the variation in loudness for signals within the same recording (or recorded with the same equipment and gain).
 }
 \examples{
 {
 data(list = c("Phae.long1","lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
 
-spl <- sound_pressure_level(X = lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], 
+spl <- sound_pressure_level(X = lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ],
 parallel = 1, pb = TRUE, path = tempdir())
 }
 
