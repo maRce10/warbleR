@@ -74,13 +74,13 @@ warbleR_options <- function(reset = FALSE, ...){
     # rename wav.path as path
     names(argms)[names(argms) == "wav.path"] <- "path"
     
-    if (!is.null(argms$path)) if (!dir.exists(argms$path)) stop("provided 'wav.path' doesn't exist") else
+    if (!is.null(argms$path)) if (!dir.exists(argms$path)) stop2("provided 'wav.path' doesn't exist") else
       argms$path <- normalizePath(argms$path)
     
-    if (!is.null(argms$img.path)) if (!dir.exists(argms$img.path)) stop("provided 'dest.path' doesn't exist") else
+    if (!is.null(argms$img.path)) if (!dir.exists(argms$img.path)) stop2("provided 'dest.path' doesn't exist") else
       argms$img.path <- normalizePath(argms$img.path)
     
-    if (!is.null(argms$dest.path)) if (!dir.exists(argms$dest.path)) stop("provided 'dest.path' doesn't exist") else
+    if (!is.null(argms$dest.path)) if (!dir.exists(argms$dest.path)) stop2("provided 'dest.path' doesn't exist") else
       argms$dest.path <- normalizePath(argms$dest.path)
     
     

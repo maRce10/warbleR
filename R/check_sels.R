@@ -98,24 +98,24 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path)
   
   #if X is not a data frame
-  if (all(!any(is.data.frame(X), is_selection_table(X)))) stop("X is not of a class 'data.frame' or 'selection_table'")
+  if (all(!any(is.data.frame(X), is_selection_table(X)))) stop2("X is not of a class 'data.frame' or 'selection_table'")
   
-  if (is_extended_selection_table(X)) stop("check_sels does not work on objects of class 'extended_selection_table'")
+  if (is_extended_selection_table(X)) stop2("check_sels does not work on objects of class 'extended_selection_table'")
   
   if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
-    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+    stop2(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if end or start are not numeric stop
-  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop2("'start' and 'end' must be numeric")
   
   #if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")  
   
   # check for duplicates and if fix.selec = TRUE
   if (any(duplicated(paste(X$sound.files, X$selec)))) 
@@ -124,14 +124,14 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
       X$selec <- do.call(c, lapply(unique(X$sound.files), function(x) seq_len(sum(X$sound.files == x))))
       
     } else
-    stop("Duplicated selection labels ('selec' column) for one or more sound files (can be fixed by setting fix.selec = TRUE)")
+    stop2("Duplicated selection labels ('selec' column) for one or more sound files (can be fixed by setting fix.selec = TRUE)")
   
   #check additional columns
   if (!"channel" %in% colnames(X)) 
   {
     X$channel <- 1
   } else {
-    if (!is.numeric(X$channel)) stop("'channel' must be numeric")
+    if (!is.numeric(X$channel)) stop2("'channel' must be numeric")
     if (any(is.na(X$channel))) {cat("NAs in 'channel', assumed to be channel 1 \n")
       X$channel[is.na(X$channel)] <- 1   
     }}
@@ -139,7 +139,7 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
   #check if files are in working directory
   files <- file.exists(file.path(path, unique(X$sound.files)))
   if (all(!files)) 
-    stop("no sound files found")
+    stop2("no sound files found")
   
   # update to new frequency range column names
   if (any(grepl("low.freq|high.freq", names(X)))) {
@@ -150,14 +150,14 @@ check_sels <- function(X = NULL, parallel =  1, path = NULL, check.header = FALS
   
   # check if freq lim are numeric
   if (any(names(X) == "bottom.freq"))
-    if (!is(X$bottom.freq, "numeric")) stop("'bottom.freq' is not numeric")
+    if (!is(X$bottom.freq, "numeric")) stop2("'bottom.freq' is not numeric")
   
   if (any(names(X) == "top.freq"))
-    if (!is(X$top.freq, "numeric")) stop("'top.freq' is not numeric")
+    if (!is(X$top.freq, "numeric")) stop2("'top.freq' is not numeric")
   
   # check if NAs in freq limits
   if (any(names(X) %in% c("bottom.freq", "top.freq")))
-  if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in 'top.freq' and/or 'bottom.freq' \n")  
+  if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop2("NAs found in 'top.freq' and/or 'bottom.freq' \n")  
   
   # function to run over each sound file
   csFUN <- function(x, X, pth){

@@ -66,7 +66,7 @@ wav_2_flac <- function(files = NULL, path = NULL, overwrite = FALSE, pb = TRUE, 
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path)
   
   # get files in path supplied
@@ -75,7 +75,7 @@ wav_2_flac <- function(files = NULL, path = NULL, overwrite = FALSE, pb = TRUE, 
   if (is.null(files))
     files <- files_in_path else {
       if (!all(files %in% files_in_path))
-        stop("some (or all) sound files were not found")
+        stop2("some (or all) sound files were not found")
  } 
   
   
@@ -110,7 +110,7 @@ wav2flac <- function(file, reverse = FALSE, overwrite = FALSE, exename = NULL,
     }
     if (system(paste(exe, "-v"), ignore.stderr = TRUE) != 
         0) {
-      stop("FLAC program was not found.")
+      stop2("FLAC program was not found.")
     }
     if (reverse) {
       e <- system(paste(exe, "-d", file), ignore.stderr = TRUE)
@@ -133,7 +133,7 @@ wav2flac <- function(file, reverse = FALSE, overwrite = FALSE, exename = NULL,
       exe <- paste(path2exe, exename, sep = "/")
     }
     if (!file.exists(exe)) {
-      stop("FLAC program was not found.")
+      stop2("FLAC program was not found.")
     }
     if (reverse) {
       e <- system(paste(shQuote(exe), "-d", shQuote(file, 

@@ -41,9 +41,9 @@
 rename_est_waves <- function(X, new.sound.files, new.selec = NULL){
   
   # check length of new.sound.files
-  if (length(new.sound.files) != nrow(X)) stop("length of 'new.sound.files' must be equal to number of rows in 'X'")
+  if (length(new.sound.files) != nrow(X)) stop2("length of 'new.sound.files' must be equal to number of rows in 'X'")
 
-  if (attributes(X)$by.song$by.song & length(unique(new.sound.files)) != length((attributes(X)$wave.objects))) stop("number of unique 'new.sound.files' must be equal to number of wave objects in 'X'")
+  if (attributes(X)$by.song$by.song & length(unique(new.sound.files)) != length((attributes(X)$wave.objects))) stop2("number of unique 'new.sound.files' must be equal to number of wave objects in 'X'")
   
   attributes(X)$check.results <-  attributes(X)$check.results[match(paste(X$sound.files, paste(X$selec)), paste(attributes(X)$check.results$sound.files, attributes(X)$check.results$selec)), ]
   
@@ -60,9 +60,9 @@ rename_est_waves <- function(X, new.sound.files, new.selec = NULL){
     }
   
   # check that every row has an unique ID
-  if (attributes(X)$by.song[[1]] & any(duplicated(paste(X$sound.files, X$selec)))) stop("new.sound.files + 'selec' don't generate unique labels for each row/selection") 
+  if (attributes(X)$by.song[[1]] & any(duplicated(paste(X$sound.files, X$selec)))) stop2("new.sound.files + 'selec' don't generate unique labels for each row/selection") 
   
-  if (!attributes(X)$by.song[[1]] & any(duplicated(new.sound.files))) stop("new.sound.files don't have unique labels for each row/selection")
+  if (!attributes(X)$by.song[[1]] & any(duplicated(new.sound.files))) stop2("new.sound.files don't have unique labels for each row/selection")
   
   # rename wave objects
   names(attributes(X)$wave.objects) <- sapply(names(attributes(X)$wave.objects), USE.NAMES = FALSE, function(x)

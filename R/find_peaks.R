@@ -70,7 +70,7 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path)
   
   
@@ -88,7 +88,7 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
     
     # check xc.output being a autodetec.output object
     if (!(is(xc.output, "xcorr.output") | is(xc.output, "xc.output"))) 
-      stop("'xc.output' must be and object of class 'xcorr.output'")
+      stop2("'xc.output' must be and object of class 'xcorr.output'")
     
     ## get peaks as the ones higher than previous and following scores  
     pks <- dat[c(FALSE, diff(dat$score) > 0) & c(rev(diff(rev(dat$score)) > 0), FALSE) & dat$score > cutoff, , drop = FALSE]

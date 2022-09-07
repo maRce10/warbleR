@@ -90,31 +90,31 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
     write(file = "", x = crayon::silver("'unique.labs' has been deprecated"))
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X))) stop2("X is not of a class 'data.frame', 'selection_table'")
   
   # check column names
   if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
-    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+    stop2(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
     
   #if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop2("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
-  if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))
+  if (any(X$end - X$start <= 0)) stop2(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))
   
  # priority
   if (!is.null(priority.col) & !is.null(priority))
   {
   #if col not found
-    if (!priority.col %in% names(X)) stop(paste('priority.col', priority.col, "not found"))
+    if (!priority.col %in% names(X)) stop2(paste('priority.col', priority.col, "not found"))
   
     #all levels of priority col should be in priority
-    if (!all(priority %in% unique(X[, priority.col]))) stop("Not all levels of 'priority.col' included in 'priority'") 
+    if (!all(priority %in% unique(X[, priority.col]))) stop2("Not all levels of 'priority.col' included in 'priority'") 
   }
 
   # order by start time

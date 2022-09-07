@@ -66,32 +66,32 @@ check_sound_files <- function(X = NULL, path = NULL) {
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path) 
   
   #return warning if not all sound files were found
   files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
-  if (length(files) == 0) stop("no sound files in working directory") 
+  if (length(files) == 0) stop2("no sound files in working directory") 
   
   
   if (!is.null(X))
   {
     #if X is not a data frame
-    if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+    if (!any(is.data.frame(X), is_selection_table(X))) stop2("X is not of a class 'data.frame' or 'selection_table'")
     
    if (!all(c("sound.files", "selec", 
               "start", "end") %in% colnames(X))) 
-      stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+      stop2(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                      "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
     
     #if there are NAs in start or end stop
-    if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+    if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")  
     
     #if end or start are not numeric stop
-    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop2("'start' and 'end' must be numeric")
     
     #if any start higher than end stop
-    if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
+    if (any(X$end - X$start <= 0)) stop2(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
     
     if (length(unique(X$sound.files[(X$sound.files %in% files)])) != length(unique(X$sound.files))) 
       cat(paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% files)])), 
@@ -100,7 +100,7 @@ check_sound_files <- function(X = NULL, path = NULL) {
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% files) 
     if (length(d) == 0){
-      stop("The sound files are not in the working directory")
+      stop2("The sound files are not in the working directory")
     }  else X <- X[d, , drop = FALSE]
     
     files <- files[files %in% X$sound.files]

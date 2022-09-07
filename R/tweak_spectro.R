@@ -133,7 +133,7 @@ tweak_spectro <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   # stop if pal is function
-  if (is.function(pal)) stop("'pal' should be a character vector")
+  if (is.function(pal)) stop2("'pal' should be a character vector")
   
   ## reset parameters
   # only seewave spectros
@@ -141,14 +141,14 @@ tweak_spectro <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   if (wn[1] == "all") wn <- c("bartlett", "blackman", "flattop", "hamming", "hanning", "rectangle")
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop2("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if (nrow(X) > 1){
   X <- X[1, , drop = FALSE]
   write(file = "", x = "Data frame provided has more than 1 selection (row), only the first one was used")
   }
   
-  if (length.out < 2) stop("'length.out' should be equal or higher than 2")
+  if (length.out < 2) stop2("'length.out' should be equal or higher than 2")
   
   exp.cols <- c("ovlp", "wl", "wn", "collev.min", "pal")[which(c(length(ovlp), length(wl), length(wn), length(collev.min), length(pal)) > 1)]
   

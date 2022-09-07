@@ -60,10 +60,10 @@ read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[
 {
   
   # if is extended then index must be provided
-  if (is.data.frame(X) & is.null(index)) stop('"index" needed when a  "data.frame", "selection_table", "extended_selection_table" is provided')
+  if (is.data.frame(X) & is.null(index)) stop2('"index" needed when a  "data.frame", "selection_table", "extended_selection_table" is provided')
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X), is.character(X), is.factor(X))) stop("X is not of a class 'data.frame', 'selection_table', 'extended_selection_table' or a sound file name")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X), is.character(X), is.factor(X))) stop2("X is not of a class 'data.frame', 'selection_table', 'extended_selection_table' or a sound file name")
   
   # if is not a data frame
   if (is.character(X) | is.factor(X)) {
@@ -77,7 +77,7 @@ read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[
       # download it
       download.file(url = X, destfile = temp.file, quiet = TRUE, mode = "wb", cacheOK = TRUE, extra = getOption("download.file.extra"))
       
-      if (!file.exists(temp.file)) stop("File couldn't be downloaded")
+      if (!file.exists(temp.file)) stop2("File couldn't be downloaded")
       
       # overwrite X
       X <- temp.file
@@ -91,7 +91,7 @@ read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[
     }
     
     # stop if extension not allowed
-    if (!extsn %in% c("unk", "wav", "mp3", "wac", "flac")) stop("File format cannot be read")
+    if (!extsn %in% c("unk", "wav", "mp3", "wac", "flac")) stop2("File format cannot be read")
     
     if (basename(as.character(X)) != X) filename <- X else
     {# if path wasn't provided and still doesn't exist
@@ -108,29 +108,29 @@ read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[
     object <- read_soundfile_wrblr_int(filename, header, from, to, extension = extsn, channel = channel)  
     
     if (is(object, "try-error")) 
-      stop("file cannot be read")  
+      stop2("file cannot be read")  
     
   } else {
     
     # check columns
     if (!all(c("sound.files", 
                "start", "end") %in% colnames(X))) 
-      stop(paste(paste(c("sound.files", "start", "end")[!(c("sound.files", 
+      stop2(paste(paste(c("sound.files", "start", "end")[!(c("sound.files", 
                                                             "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
     
     #if there are NAs in start or end stop
-    if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+    if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")  
     
     #if end or start are not numeric stop
-    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop2("'start' and 'end' must be numeric")
     
     #if any start higher than end stop
-    if (any(X$end - X$start < 0)) stop(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
+    if (any(X$end - X$start < 0)) stop2(paste("The start is higher than the end in", length(which(X$end - X$start<0)), "case(s)"))
     
     #check path to working directory
     if (is.null(path)) path <- getwd() else 
       if (!dir.exists(path)) 
-        stop("'path' provided does not exist") else
+        stop2("'path' provided does not exist") else
           path <- normalizePath(path)
         
         # convert attr(X, "check.results")$sound.files to character if factor
@@ -222,7 +222,7 @@ read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, ch
     }
     if (system(paste(exe, "-v"), ignore.stderr = TRUE) != 
         0) {
-      stop("FLAC program was not found.")
+      stop2("FLAC program was not found.")
     }
     
     system_call <- paste0(exe, " -d ", filename, " --output-name=", temp_wav, " --silent")
@@ -244,7 +244,7 @@ read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, ch
       exe <- paste(flac.path, "flac", sep = "/")
     }
     if (!file.exists(exe)) {
-      stop("FLAC program was not found.")
+      stop2("FLAC program was not found.")
     }
     
     system_call <- paste(shQuote(exe), "-d", shQuote(filename, 

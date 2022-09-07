@@ -198,50 +198,50 @@ auto_detec <-
     if (is.null(path))
       path <- getwd() else
       if (!dir.exists(path))
-        stop("'path' provided does not exist") else
+        stop2("'path' provided does not exist") else
       path <- normalizePath(path)
     
     #if bp is not vector or length!=2 stop
     if (!is.null(bp))
     {
       if (!is.vector(bp))
-        stop("'bp' must be a numeric vector of length 2")  else {
+        stop2("'bp' must be a numeric vector of length 2")  else {
         if (!length(bp) == 2)
-          stop("'bp' must be a numeric vector of length 2")
+          stop2("'bp' must be a numeric vector of length 2")
       }
     }
     
     #if ssmooth is not vector or length!=1 stop
       if (!is.vector(ssmooth))
-        stop("'ssmooth' must be a numeric vector of length 1") else {
+        stop2("'ssmooth' must be a numeric vector of length 1") else {
         if (!length(ssmooth) == 1)
-          stop("'ssmooth' must be a numeric vector of length 1")
+          stop2("'ssmooth' must be a numeric vector of length 1")
       }
 
     #if thinning is not vector or length!=1 between 1 and 0
     if (!is.vector(thinning) | !is.numeric(thinning))
-      stop("'thinning' must be a numeric vector of length 1")
+      stop2("'thinning' must be a numeric vector of length 1")
         if (thinning[1] > 1 | thinning[1] <= 0)
-          stop("'thinning' must be greater than 0 and lower than or equal to 1")
+          stop2("'thinning' must be greater than 0 and lower than or equal to 1")
     
     #if wl is not vector or length!=1 stop
     if (is.null(wl))
-      stop("'wl' must be a numeric vector of length 1") else {
+      stop2("'wl' must be a numeric vector of length 1") else {
       if (!is.vector(wl))
-        stop("'wl' must be a numeric vector of length 1") else {
+        stop2("'wl' must be a numeric vector of length 1") else {
         if (!length(wl) == 1)
-          stop("'wl' must be a numeric vector of length 1")
+          stop2("'wl' must be a numeric vector of length 1")
       }
     }
     
     #if threshold is not vector or length!=1 stop
     if (is.null(threshold))
       if (!is.numeric(threshold))
-      stop("'threshold' must be a numeric vector of length 1") else {
+      stop2("'threshold' must be a numeric vector of length 1") else {
       if (!is.vector(threshold))
-        stop("'threshold' must be a numeric vector of length 1") else {
+        stop2("'threshold' must be a numeric vector of length 1") else {
         if (!length(threshold) == 1)
-          stop("'threshold' must be a numeric vector of length 1")
+          stop2("'threshold' must be a numeric vector of length 1")
       }
     }
     
@@ -249,21 +249,21 @@ auto_detec <-
     if (!is.null(flist) &
         is.null(X) &
         any(!is.character(flist),!is.vector(flist)))
-      stop("'flist' must be a character vector")
+      stop2("'flist' must be a character vector")
     
     #if parallel is not numeric
     if (!is.numeric(parallel))
-      stop("'parallel' must be a numeric vector of length 1")
+      stop2("'parallel' must be a numeric vector of length 1")
     if (any(!(parallel %% 1 == 0), parallel < 1))
-      stop("'parallel' should be a positive integer")
+      stop2("'parallel' should be a positive integer")
     
     # check hold time
       if (!is.numeric(hold.time))
-        stop("'hold.time' must be a numeric vector of length 1")
+        stop2("'hold.time' must be a numeric vector of length 1")
     
     #stop if power is 0
     if (power == 0)
-      stop("'power' cannot equal to 0")
+      stop2("'power' cannot equal to 0")
     
     if (!is.null(X)) {
       
@@ -307,19 +307,19 @@ auto_detec <-
         ignore.case = TRUE
       )) == 0)
         if (is.null(path))
-          stop("No sound files in working directory") else
-            stop("No sound files found")
+          stop2("No sound files in working directory") else
+            stop2("No sound files found")
       
       
       #if X is not a data frame
       if (!any(is.data.frame(X), is_selection_table(X)))
-        stop("X is not of a class 'data.frame' or 'selection_table'")
+        stop2("X is not of a class 'data.frame' or 'selection_table'")
       
       #check if all columns are found
       if (any(!(c(
         "sound.files", "selec", "start", "end"
       ) %in% colnames(X))))
-        stop(paste(paste(
+        stop2(paste(paste(
           c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec",
                                                         "start", "end") %in% colnames(X))], collapse =
             ", "
@@ -327,15 +327,15 @@ auto_detec <-
       
       #if there are NAs in start or end stop
       if (any(is.na(c(X$end, X$start))))
-        stop("NAs found in start and/or end columns")
+        stop2("NAs found in start and/or end columns")
       
       #if end or start are not numeric stop
       if (any(!is(X$end, "numeric"),!is(X$start, "numeric")))
-        stop("'start' and 'end' must be numeric")
+        stop2("'start' and 'end' must be numeric")
       
       #if any start higher than end stop
       if (any(X$end - X$start <= 0))
-        stop(paste(
+        stop2(paste(
           "Start is higher than or equal to end in",
           length(which(X$end - X$start <= 0)),
           "case(s)"
@@ -353,7 +353,7 @@ auto_detec <-
       #count number of sound files in working directory and if 0 stop
       d <- which(X$sound.files %in% fs)
       if (length(d) == 0)
-        stop("The sound files are not in the working directory") else
+        stop2("The sound files are not in the working directory") else
         X <- X[d, ]
       xprov <- TRUE #to replace X if not provided
       } else {
@@ -371,7 +371,7 @@ auto_detec <-
       names(X)[2] <- "end"
       xprov <- FALSE #to replace X if not provided
       if (nrow(X) == 0)
-        stop("Files in 'flist' not in working directory")
+        stop2("Files in 'flist' not in working directory")
     
       X.class <- "selection.table"   
       }
@@ -460,7 +460,7 @@ auto_detec <-
           envp <- envelopes[envelopes$sound.files == X$sound.files[i], ] else
             envp <- envelopes[envelopes$sound.files == X$sound.files[i] & envelopes$org.selec == X$org.selec[i], ] 
           
-          if(nrow(envp) == 0) stop(paste("amplitude envelope not found for ", X$sound.files[i]))
+          if(nrow(envp) == 0) stop2(paste("amplitude envelope not found for ", X$sound.files[i]))
           
           # set sample rate
           f <- nrow(envp) / (X$end[i] - X$start[i])
@@ -492,7 +492,7 @@ auto_detec <-
           }
         n <- nrow(envp)
         
-        if (n < 2) stop("thinning is too high, no enough samples left for at least 1 sound file")
+        if (n < 2) stop2("thinning is too high, no enough samples left for at least 1 sound file")
         
           #### detection ####
           

@@ -113,15 +113,15 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  if (!is.data.frame(X))  stop("X is not a data frame")
+  if (!is.data.frame(X))  stop2("X is not a data frame")
   
   #stop if some cells are not labeled
-  if (any(is.na(X$sing.event))) stop("NA's in singing event names ('sing.event' column) not allowed")
+  if (any(is.na(X$sing.event))) stop2("NA's in singing event names ('sing.event' column) not allowed")
   
-  if (any(is.na(X$indiv))) stop("NA's in individual names ('indiv' column) not allowed")  
+  if (any(is.na(X$indiv))) stop2("NA's in individual names ('indiv' column) not allowed")  
   
   #if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")  
   
   #remove hidden levels
   X <- droplevels(X)
@@ -171,20 +171,20 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   } 
 
     #if nothing was left
-    if (nrow(X) == 0) stop("No events left after removing incomplete events")
+    if (nrow(X) == 0) stop2("No events left after removing incomplete events")
     
   #if iterations is not vector or length==1 stop
-  if (any(!is.vector(iterations),!is.numeric(iterations))) stop("'interations' must be a numeric vector of length 1") else{
-    if (!length(iterations) == 1) stop("'interations' must be a numeric vector of length 1")}
+  if (any(!is.vector(iterations),!is.numeric(iterations))) stop2("'interations' must be a numeric vector of length 1") else{
+    if (!length(iterations) == 1) stop2("'interations' must be a numeric vector of length 1")}
   
   iterations <- round(iterations)
   
   #interations should be positive
-  if (iterations < 1) stop("'iterations' must be a positive integer")
+  if (iterations < 1) stop2("'iterations' must be a positive integer")
   
   #if parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
   
   # randomization function
   rndmFUN <- function(Y){

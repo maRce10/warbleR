@@ -83,30 +83,30 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1, wi
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  if(is.null(ts.df1) & is.null(ts.df2)) stop("both 'ts.df1' or 'ts.df2' must be provided")
+  if(is.null(ts.df1) & is.null(ts.df2)) stop2("both 'ts.df1' or 'ts.df2' must be provided")
   
-  if(!all.equal(dim(ts.df1), dim(ts.df2))) stop("both time series data frames must have the same dimensions")
+  if(!all.equal(dim(ts.df1), dim(ts.df2))) stop2("both time series data frames must have the same dimensions")
   
   #stop if only 1 selection
-  if(nrow(ts.df1) < 2) stop("you need more than one selection for DTW")
+  if(nrow(ts.df1) < 2) stop2("you need more than one selection for DTW")
   
   if(!all(c("sound.files", "selec") %in% names(ts.df1))) 
-    stop(paste(paste(c("sound.files", "selec")[!(c("sound.files", "selec") %in% names(ts.df1))], collapse=", "), "column(s) not found in ts.df1"))
+    stop2(paste(paste(c("sound.files", "selec")[!(c("sound.files", "selec") %in% names(ts.df1))], collapse=", "), "column(s) not found in ts.df1"))
   
   if(!all(c("sound.files", "selec") %in% names(ts.df2))) 
-    stop(paste(paste(c("sound.files", "selec")[!(c("sound.files", "selec") %in% names(ts.df2))], collapse=", "), "column(s) not found in ts.df2"))
+    stop2(paste(paste(c("sound.files", "selec")[!(c("sound.files", "selec") %in% names(ts.df2))], collapse=", "), "column(s) not found in ts.df2"))
   
   
-  if(!all(sapply(ts.df1[,3:ncol(ts.df1)], is.numeric))) stop(" columns 3:ncol(ts.df) must be numeric")
+  if(!all(sapply(ts.df1[,3:ncol(ts.df1)], is.numeric))) stop2(" columns 3:ncol(ts.df) must be numeric")
   
   #order time series data frames
   ts.df1 <- ts.df1[order(ts.df1$sound.files, ts.df1$selec),]
   ts.df2 <- ts.df2[order(ts.df2$sound.files, ts.df2$selec),]
   
-  if(!all.equal(ts.df1[ ,names(ts.df1) %in% c("sound.files", "selec")], ts.df2[ ,names(ts.df2) %in% c("sound.files", "selec")])) stop("Selections/sound file labels differ between the two time series data frames")
+  if(!all.equal(ts.df1[ ,names(ts.df1) %in% c("sound.files", "selec")], ts.df2[ ,names(ts.df2) %in% c("sound.files", "selec")])) stop2("Selections/sound file labels differ between the two time series data frames")
   
 
-  if(any(is.na(ts.df1)) | any(is.na(ts.df2))) stop("missing values in time series are not allowed")
+  if(any(is.na(ts.df1)) | any(is.na(ts.df2))) stop2("missing values in time series are not allowed")
   
   
   if(scale)

@@ -67,50 +67,50 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path)
   
   #stop if files is not a character vector
-  if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
+  if (!is.null(files) & !is.character(files)) stop2("'files' must be a character vector")
   
   if (is.null(files))
     files <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE) #list .wav files in working director    
   
   #stop if no wav files are found
-  if (length(files) == 0) stop("no sound files in working directory") 
+  if (length(files) == 0) stop2("no sound files in working directory") 
   
   if (!is.null(X)){
     
     #if X is not a data frame
-    if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+    if (!any(is.data.frame(X), is_selection_table(X))) stop2("X is not of a class 'data.frame' or 'selection_table'")
     
-    if (is_extended_selection_table(X)) stop("This function cannot take extended selection tables ('X' argument)")
+    if (is_extended_selection_table(X)) stop2("This function cannot take extended selection tables ('X' argument)")
     
     #check if all columns are found
     if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) 
-      stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+      stop2(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                      "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
     
     #if there are NAs in start or end stop
-    if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")  
+    if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end columns")  
     
     #if end or start are not numeric stop
-    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop2("'start' and 'end' must be numeric")
     
     #if any start higher than end stop
-    if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)")) 
+    if (any(X$end - X$start <= 0)) stop2(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)")) 
   }
   
   # check sgmnt duration
   if (is.null(sgmts))
   {
-    if (!is.numeric(sgmt.dur)) stop("'sgmt.dur' must be numeric")
+    if (!is.numeric(sgmt.dur)) stop2("'sgmt.dur' must be numeric")
     } else 
-    if (!is.numeric(sgmts)) stop("'sgmts' must be numeric")
+    if (!is.numeric(sgmts)) stop2("'sgmts' must be numeric")
   
   # If parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
   
   # measure wav duration
   wvdr <- duration_wavs(path = path, files = files)

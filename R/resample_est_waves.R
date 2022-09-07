@@ -47,12 +47,12 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
   
   # error message if bioacoustics is not installed
   # if (!requireNamespace("bioacoustics",quietly = TRUE) & !sox)
-  #   stop("must install 'bioacoustics' to use mp32wav() when 'sox = FALSE'")
+  #   stop2("must install 'bioacoustics' to use mp32wav() when 'sox = FALSE'")
 
   #check bit.depth
-  if (length(bit.depth) >1) stop("'bit.depth' should have a single value")
+  if (length(bit.depth) >1) stop2("'bit.depth' should have a single value")
     bit.depth <- as.character(bit.depth)
-    if (!bit.depth %in% c("1", "8", "16", "24", "32", "64", "0")) stop('only this "bit.depth" values allowed c("1", "8", "16", "24", "32", "64", "0") \n see ?tuneR::normalize')
+    if (!bit.depth %in% c("1", "8", "16", "24", "32", "64", "0")) stop2('only this "bit.depth" values allowed c("1", "8", "16", "24", "32", "64", "0") \n see ?tuneR::normalize')
   
   
   

@@ -206,48 +206,48 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") else
+    if (!dir.exists(path)) stop2("'path' provided does not exist") else
       path <- normalizePath(path) 
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop2("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   if (!all(c("sound.files", "selec", 
              "start", "end") %in% colnames(X))) 
-    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+    stop2(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")  
+  if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")  
   
   #if end or start are not numeric stop
-  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop2("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
-  if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
+  if (any(X$end - X$start <= 0)) stop2(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
   
   #if any selections longer than 20 secs stop
-  if (any(X$end - X$start>20)) stop(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
+  if (any(X$end - X$start>20)) stop2(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))  
   
   # bp checking
   if(!is.null(bp))
   if (bp[1] != "frange")
-  {if (!is.vector(bp)) stop("'bp' must be a numeric vector of length 2") else{
-    if (!length(bp) == 2) stop("'bp' must be a numeric vector of length 2")} 
+  {if (!is.vector(bp)) stop2("'bp' must be a numeric vector of length 2") else{
+    if (!length(bp) == 2) stop2("'bp' must be a numeric vector of length 2")} 
   } else
-  {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'bp' = frange requires bottom.freq and top.freq columns in X")
-    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq") 
-    if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq") 
-    if (any(X$top.freq - X$bottom.freq < 0)) stop("top.freq should be higher than low.f")
+  {if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop2("'bp' = frange requires bottom.freq and top.freq columns in X")
+    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop2("NAs found in bottom.freq and/or top.freq") 
+    if (any(c(X$bottom.freq, X$top.freq) < 0)) stop2("Negative values found in bottom.freq and/or top.freq") 
+    if (any(X$top.freq - X$bottom.freq < 0)) stop2("top.freq should be higher than low.f")
   }
   
   #if it argument is not "jpeg" or "tiff" 
-  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  if (!any(it == "jpeg", it == "tiff")) stop2(paste("Image type", it, "not allowed"))  
   #if ff.method argument  
-  if (!any(ff.method == "seewave", ff.method == "tuneR")) stop(paste("ff.method", ff.method, "is not recognized"))  
+  if (!any(ff.method == "seewave", ff.method == "tuneR")) stop2(paste("ff.method", ff.method, "is not recognized"))  
   
   #if type not l b or p
-  if (!any(type %in% c("p", "l", "b"))) stop(paste("Type", type, "not allowed"))  
+  if (!any(type %in% c("p", "l", "b"))) stop2(paste("Type", type, "not allowed"))  
   
   # if frange.detec oscillo false
   if (frange.detec) osc <- FALSE
@@ -271,25 +271,25 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
     #count number of sound files in working directory and if 0 stop
     d <- which(X$sound.files %in% recs.wd) 
     if (length(d) == 0){
-      stop("The sound files are not in the working directory")
+      stop2("The sound files are not in the working directory")
     }  else X <- X[d, , drop = FALSE]
   }
   
   # If parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
   
   # Compare custom.contour to X
   if (!is.null(custom.contour) & is.data.frame(custom.contour)){
     #check if sound.files and selec columns are present and in the right order
-    if (!identical(names(custom.contour)[1:2], c("sound.files", "selec"))) stop("'sound.files' and/or 'selec' columns are not found in custom.contour")
+    if (!identical(names(custom.contour)[1:2], c("sound.files", "selec"))) stop2("'sound.files' and/or 'selec' columns are not found in custom.contour")
     
     #check if the info in sound.files and selec columns is the same for X and custom.contour
     #remove custom.contour selections not in X
     custom.contour <- custom.contour[paste(custom.contour[ , "sound.files"], custom.contour[ , "selec"]) %in% paste(as.data.frame(X)[ , "sound.files"], as.data.frame(X)[ , "selec"]), ]
     
     #stop if not the same number of selections
-    if (nrow(X) > nrow(custom.contour)) stop("selection(s) in X but not in custom.contour")
+    if (nrow(X) > nrow(custom.contour)) stop2("selection(s) in X but not in custom.contour")
     
     #order custom.contour as in X
     custom.contour <- custom.contour[match(paste(custom.contour[ , "sound.files"], custom.contour[ , "selec"]), paste(as.data.frame(X)[ , "sound.files"], as.data.frame(X)[ , "selec"])), ]      

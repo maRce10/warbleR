@@ -97,24 +97,24 @@ filter_sels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") else
+    if (!dir.exists(path)) stop2("'path' provided does not exist") else
       path <- normalizePath(path)
   
     #if X is not a data frame
-    if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+    if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop2("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
     
   #if it argument is not "jpeg" or "tiff" 
-  if (!any(it == "jpeg", it == "tiff", it == "pdf")) stop(paste("Image type", it, "not allowed"))  
+  if (!any(it == "jpeg", it == "tiff", it == "pdf")) stop2(paste("Image type", it, "not allowed"))  
   
 if (!all(c("sound.files", "selec") %in% colnames(X))) 
-  stop(paste(paste(c("sound.files", "selec")[!(c("sound.files", "selec") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
+  stop2(paste(paste(c("sound.files", "selec")[!(c("sound.files", "selec") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
 
 if (it != "pdf")
 {
   #check if files are in working directory
   imgs <- list.files(path = path, pattern = "\\.jpeg$|\\.tiff$", ignore.case = FALSE)
   if (length(imgs) == 0) 
-    stop("No image files in working directory")
+    stop2("No image files in working directory")
   
   # if not long spec
   if (!lspec){
@@ -145,7 +145,7 @@ if (it != "pdf")
 
   #   #remove the ones with no pX.it ending
     imgs <- grep("p\\d+\\.jpeg|p\\d+\\.tiff" ,imgs, value = TRUE)
-  if (length(imgs) == 0) stop("Images have not been produced by 'full_spectrograms' function")
+  if (length(imgs) == 0) stop2("Images have not been produced by 'full_spectrograms' function")
   
   #subset selection table
     miss.index <- gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", "", X$sound.files, ignore.case = TRUE) %in% gsub("-p\\d+\\.jpeg$|-p\\d+\\.tiff$" , "", imgs)
@@ -162,7 +162,7 @@ if (it != "pdf")
   #check if pdf files are in working directory
   imgs <- list.files(path = path, pattern = ".pdf$", ignore.case = FALSE)
   if (length(imgs) == 0) 
-    stop("No pdf files in working directory")
+    stop2("No pdf files in working directory")
   
   #subset selection table
   miss.index <- gsub("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", "", X$sound.files, ignore.case = TRUE) %in% gsub(".pdf$" , "", imgs)
@@ -179,7 +179,7 @@ if (it != "pdf")
 }
 
 if (!index)
-{if (nrow(Y) == 0) stop("Image files in working directory do not match sound file names in X (wrong working directory?)")
+{if (nrow(Y) == 0) stop2("Image files in working directory do not match sound file names in X (wrong working directory?)")
   return(Y)
   } else 
   {

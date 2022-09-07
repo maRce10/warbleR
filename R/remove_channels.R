@@ -62,18 +62,18 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #check path to working directory
-  if (is.null(path)) path <- getwd() else if (!dir.exists(path)) stop("'path' provided does not exist") else
+  if (is.null(path)) path <- getwd() else if (!dir.exists(path)) stop2("'path' provided does not exist") else
     path <- normalizePath(path)
   
   #read files
   fls <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
-  if (length(fls) == 0) stop("no sound files in working directory")
+  if (length(fls) == 0) stop2("no sound files in working directory")
   
   #subet based on file list provided (flist)
   if (!is.null(files)) fls <- fls[fls %in% files]
-  if (length(fls) == 0)  stop("sound files are not in working directory")
+  if (length(fls) == 0)  stop2("sound files are not in working directory")
   
   dir.create(file.path(path, "converted_sound_files"))
   

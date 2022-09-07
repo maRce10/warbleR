@@ -54,17 +54,17 @@ duration_sound_files <- function(files = NULL, path = NULL, skip.error = FALSE, 
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path)
   
   #stop if files is not a character vector
-  if (!is.null(files) & !is.character(files)) stop("'files' must be a character vector")
+  if (!is.null(files) & !is.character(files)) stop2("'files' must be a character vector")
   
    if (is.null(files))
     files <- list.files(path = path, pattern = file.format, ignore.case = TRUE) #list .wav files in working director    
   
    #stop if no wav files are found
-   if (length(files) == 0) stop("no sound files in working directory") 
+   if (length(files) == 0) stop2("no sound files in working directory") 
   
   durs <- sapply(files, function(x) {
   

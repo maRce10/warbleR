@@ -126,29 +126,29 @@ song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_co
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop2("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   # if extended only by song
   if (is_extended_selection_table(X))
-    if (!attributes(X)$by.song$by.song) stop("extended selection tables must be created 'by.song' to be used in song.param()")
+    if (!attributes(X)$by.song$by.song) stop2("extended selection tables must be created 'by.song' to be used in song.param()")
 
   #if parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
   
-  if (!any(names(X) == song_colm)) stop("'song_colm' not found")
+  if (!any(names(X) == song_colm)) stop2("'song_colm' not found")
   
   
   # check suplied column names
-  if (!is.null(mean_colm) & !any(names(X) %in% mean_colm)) stop("at least 1 'mean_colm' supplied not found")
+  if (!is.null(mean_colm) & !any(names(X) %in% mean_colm)) stop2("at least 1 'mean_colm' supplied not found")
   
-  if (!is.null(min_colm) & !any(names(X) %in% min_colm)) stop("at least 1 'min_colm' supplied not found")
+  if (!is.null(min_colm) & !any(names(X) %in% min_colm)) stop2("at least 1 'min_colm' supplied not found")
   
-  if (!is.null(max_colm) & !any(names(X) %in% max_colm)) stop("at least 1 'max_colm' supplied not found")
+  if (!is.null(max_colm) & !any(names(X) %in% max_colm)) stop2("at least 1 'max_colm' supplied not found")
   
-  if (!is.null(elm_colm) & !any(names(X) == elm_colm)) stop("'elm_colm' not found")
+  if (!is.null(elm_colm) & !any(names(X) == elm_colm)) stop2("'elm_colm' not found")
   
-  if (!is.null(elm_colm) & !is.null(elm_fun) & if(!is.null(elm_fun)) !is.function(get(as.character(quote(elm_fun)))) else FALSE) stop("'elm_fun' not found")
+  if (!is.null(elm_colm) & !is.null(elm_fun) & if(!is.null(elm_fun)) !is.function(get(as.character(quote(elm_fun)))) else FALSE) stop2("'elm_fun' not found")
   
   if (song_colm == "sound.files") {
     X$song <- X$sound.files
@@ -157,19 +157,19 @@ song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_co
   
   # stop if any song is found in more than 1 sound file
   # if (any(tapply(X$sound.files, X[,song_colm], function(x) length(unique(x))) > 1))
-  #  stop("At least 1 'song' is found in multiple sound files, which is not allowed. \n Try `tapply(X$sound.files, X$song, function(x) length(unique(x)))` to find 'problematic' songs (those higher than 1)")  
+  #  stop2("At least 1 'song' is found in multiple sound files, which is not allowed. \n Try `tapply(X$sound.files, X$song, function(x) length(unique(x)))` to find 'problematic' songs (those higher than 1)")  
   
   if (!all(c("sound.files", "selec", 
             "start", "end") %in% colnames(X))) 
-    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
+    stop2(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec", 
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   # if (is.null(X$duration)) X$duration <- X$end - X$start
 
-  if (!any(names(X) %in% weight) & !is.null(weight)) stop("'weight' column not found")
+  if (!any(names(X) %in% weight) & !is.null(weight)) stop2("'weight' column not found")
   
   if (!is.null(mean_colm))
-  if (!all(sapply(X[, mean_colm], is.numeric))) stop("not all columns in 'mean_colm' are numeric")
+  if (!all(sapply(X[, mean_colm], is.numeric))) stop2("not all columns in 'mean_colm' are numeric")
   
   songparam.FUN <- function(Y, song_colm, mean_colm, min_colm, max_colm, weight, na.rm) {
     

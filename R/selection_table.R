@@ -141,21 +141,21 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   
   #check path if not provided set to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") 
+    if (!dir.exists(path)) stop2("'path' provided does not exist") 
   
   # if by song but column not found
   if (!is.null(by.song))
-    if (!any(names(X) == by.song)) stop("'by.song' column not found")
+    if (!any(names(X) == by.song)) stop2("'by.song' column not found")
   
   # If parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
   
   # create a selection table for a row for each full length recording
   if (whole.recs){ 
     sound.files <- list.files(path = path, pattern = file.format, ignore.case = TRUE)
     
-    if (length(sound.files) == 0) stop("No sound files were found") 
+    if (length(sound.files) == 0) stop2("No sound files were found") 
     
     X <- data.frame(sound.files, selec = 1, channel = 1, start = 0, end = duration_wavs(files = sound.files, path = path, skip.error = skip.error)$duration)
   
@@ -176,7 +176,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   
   check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = FALSE, ...)        
   
-  if (any(check.results$check.res != "OK")) stop("Not all selections can be read (use check_sels() to locate problematic selections)")
+  if (any(check.results$check.res != "OK")) stop2("Not all selections can be read (use check_sels() to locate problematic selections)")
   
   X <- check.results[ , names(check.results) %in% names(X)]
   
@@ -648,7 +648,7 @@ print.selection_table <- function(x, ...) {
 fix_extended_selection_table <- function(X, Y, to.by.song = FALSE){
   #X is new data frame and Y the original one
   #add wave objects
-  if (!is_extended_selection_table(Y)) stop("Y must be a extended selection table")
+  if (!is_extended_selection_table(Y)) stop2("Y must be a extended selection table")
   attributes(X)$wave.objects <- attributes(Y)$wave.objects[names(attributes(Y)$wave.objects) %in% X$sound.files] 
   
   attributes(X)$check.results <- attributes(Y)$check.results[attributes(Y)$check.results$sound.files %in% X$sound.files, ]
@@ -707,9 +707,9 @@ rbind.selection_table <- function(..., deparse.level = 1) {
   X <- mcall[[1]]
   Y <- mcall[[2]]
   
-  if (!is_selection_table(X) | !is_selection_table(Y)) stop("both objects must be of class 'selection_table'")
+  if (!is_selection_table(X) | !is_selection_table(Y)) stop2("both objects must be of class 'selection_table'")
   
-  if (any(paste(X$sound.files, X$selec) %in% paste(Y$sound.files, Y$selec))) stop("Some sound files/selec are found in both selection tables")
+  if (any(paste(X$sound.files, X$selec) %in% paste(Y$sound.files, Y$selec))) stop2("Some sound files/selec are found in both selection tables")
   
   
   
@@ -768,11 +768,11 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
   X <- mcall[[1]]
   Y <- mcall[[2]]
 
-  if (!is_extended_selection_table(X) | !is_extended_selection_table(Y)) stop("both objects must be of class 'extended_selection_table'")
+  if (!is_extended_selection_table(X) | !is_extended_selection_table(Y)) stop2("both objects must be of class 'extended_selection_table'")
   
-  if (attr(X, "by.song")[[1]] != attr(Y, "by.song")[[1]]) stop("both objects should have been created either 'by song' or by element' (see 'by.song' argument in selection_table())")
+  if (attr(X, "by.song")[[1]] != attr(Y, "by.song")[[1]]) stop2("both objects should have been created either 'by song' or by element' (see 'by.song' argument in selection_table())")
   
-  if (any(paste(X$sound.files, X$selec) %in% paste(Y$sound.files, Y$selec))) stop("Some sound files/selec are found in both extended selection tables")
+  if (any(paste(X$sound.files, X$selec) %in% paste(Y$sound.files, Y$selec))) stop2("Some sound files/selec are found in both extended selection tables")
   
   waves.X <- names(attr(X, "wave.objects"))
   waves.Y <- names(attr(Y, "wave.objects"))

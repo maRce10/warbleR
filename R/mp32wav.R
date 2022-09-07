@@ -43,7 +43,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   
   # error message if bioacoustics is not installed
   if (!requireNamespace("bioacoustics", quietly = TRUE) & !is.null(samp.rate))
-    stop("must install 'bioacoustics' to use mp32wav() for changing sampling rate")
+    stop2("must install 'bioacoustics' to use mp32wav() for changing sampling rate")
   
   
   
@@ -72,33 +72,33 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path)
   
   #check dest.path to working directory
   if (is.null(dest.path)) dest.path <- getwd() else 
     if (!dir.exists(dest.path)) 
-      stop("'dest.path' provided does not exist") else
+      stop2("'dest.path' provided does not exist") else
         dest.path <- normalizePath(dest.path)
   
   #normalize
-  if (length(bit.depth) > 1) stop("'bit.depth' should have a single value")
+  if (length(bit.depth) > 1) stop2("'bit.depth' should have a single value")
     bit.depth <- as.character(bit.depth)
   
-  if (!bit.depth %in% c("1", "8", "16", "24", "32", "64", "0")) stop('only this "bit.depth" values allowed c("1", "8", "16", "24", "32", "64", "0") \n see ?tuneR::normalize')
+  if (!bit.depth %in% c("1", "8", "16", "24", "32", "64", "0")) stop2('only this "bit.depth" values allowed c("1", "8", "16", "24", "32", "64", "0") \n see ?tuneR::normalize')
     
   #if parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
           
   files <- list.files(path = path, pattern = ".mp3$", ignore.case = TRUE) #list .mp3 files in working directory
-  if (length(files) == 0) stop("no 'mp3' files in working directory")
+  if (length(files) == 0) stop2("no 'mp3' files in working directory")
   
   #exclude the ones that already have a .wav version
   if (!overwrite) {
     wavs <- list.files(path = dest.path, pattern = "\\.wav$", ignore.case = TRUE)
   files <- files[!substr(files, 0, nchar(files) - 4) %in% substr(wavs, 0, nchar(wavs) - 4)]
-  if (length(files) == 0) stop("all 'mp3' files have been converted")
+  if (length(files) == 0) stop2("all 'mp3' files have been converted")
   }
   
  # function to convert single mp3  

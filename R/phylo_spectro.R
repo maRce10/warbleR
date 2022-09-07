@@ -101,11 +101,11 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
 
   # error message if ape is not installed
   if (!requireNamespace("ape",quietly = TRUE))
-    stop("must install 'ape' to use phylo_spectro()")
+    stop2("must install 'ape' to use phylo_spectro()")
   
   # error message if jpeg package is not installed
   if (!requireNamespace("jpeg",quietly = TRUE))
-    stop("must install 'jpeg' to use this function")
+    stop2("must install 'jpeg' to use this function")
   
   # currenlt only horizontal is allowed
   if (!horizontal) cat("Currently only horizontal spectrograms are allowed")
@@ -113,7 +113,7 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
   
   #check path if not provided set to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") else
+    if (!dir.exists(path)) stop2("'path' provided does not exist") else
       path <- normalizePath(path)
   
   ## save par current setting and restores it later
@@ -145,7 +145,7 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
   if (!is.null(ladder)) tree <- ape::ladderize(phy = tree, right = ladder == "right")
   
  # check tip labels match
- if (!identical(sort(as.character(X$tip.label)), sort(tree$tip.label))) stop("tree tip labels (tree$tip.label) and 'tip.label' column in 'X' do not match")
+ if (!identical(sort(as.character(X$tip.label)), sort(tree$tip.label))) stop2("tree tip labels (tree$tip.label) and 'tip.label' column in 'X' do not match")
  
   #sort X as in tip labels
   X <- X[match(tree$tip.label, X$tip.label), ]

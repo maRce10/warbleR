@@ -88,30 +88,30 @@ remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg"
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") else
+    if (!dir.exists(path)) stop2("'path' provided does not exist") else
       path <- normalizePath(path) 
   
   #read files
   wavs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)  
   
   #stop if files are not in working directory
-  if (length(wavs) == 0) stop("no sound files in working directory")
+  if (length(wavs) == 0) stop2("no sound files in working directory")
   
   #subet based on file list provided (wavs)
   if (!is.null(files)) wavs <- wavs[wavs %in% files]
-  if (length(wavs) == 0)  stop("selected sound files are not in working directory")
+  if (length(wavs) == 0)  stop2("selected sound files are not in working directory")
 
   #if it argument is not "jpeg" or "tiff" 
-  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  if (!any(it == "jpeg", it == "tiff")) stop2(paste("Image type", it, "not allowed"))  
   
   #if parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
   
   wavs <- wavs[!is.na(wavs)]
   
   #stop if wavs are not in working directory
-  if (length(wavs) == 0) stop("all sound files have been processed")
+  if (length(wavs) == 0) stop2("all sound files have been processed")
   
   dir.create(file.path(path, "silence-removed_files"), showWarnings = FALSE)
   

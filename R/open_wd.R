@@ -26,7 +26,7 @@
 open_wd <- function(path = getwd(), verbose = TRUE){
   
   #check path to working directory
-  if (!dir.exists(path)) stop("'path' provided does not exist") else
+  if (!dir.exists(path)) stop2("'path' provided does not exist") else
     path <- normalizePath(path)
   
     if (.Platform['OS.type'] == "windows"){

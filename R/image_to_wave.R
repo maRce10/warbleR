@@ -57,17 +57,17 @@ image_to_wave <- function(file, duration = 1, samp.rate = 44.1,
   
   # error message if jpeg package is not installed
   if (!requireNamespace("png",quietly = TRUE))
-    stop("must install 'png' to use this function")
+    stop2("must install 'png' to use this function")
 
   # get previous graphic settings back when done
   opar <- par(mar = c(5, 4, 4, 2) + 0.1) 
   on.exit(par(opar))
   
     # check file 
-  if (!file.exists(file)) stop("'file' supplied was not found") 
+  if (!file.exists(file)) stop2("'file' supplied was not found") 
   
   # no higher than nyquist frequency
-  if (flim[2] > samp.rate / 2) stop("high frequency cannot be higher than half the sampling rate (Nyquist frequency)")
+  if (flim[2] > samp.rate / 2) stop2("high frequency cannot be higher than half the sampling rate (Nyquist frequency)")
 
   # read image
   mat <- png::readPNG(file)

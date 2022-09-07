@@ -97,22 +97,22 @@ optimize_auto_detec <- function(X, Y, threshold = 10, power = 1, wl = 512, ssmoo
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X))) stop2("X is not of a class 'data.frame', 'selection_table'")
   
-  if (is_extended_selection_table(X)) stop("This function cannot take extended selection tables ('X' argument)")
+  if (is_extended_selection_table(X)) stop2("This function cannot take extended selection tables ('X' argument)")
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") else
+    if (!dir.exists(path)) stop2("'path' provided does not exist") else
       path <- normalizePath(path)
    
         # check Y being a autodetec.output object
         if (!is(Y, "autodetec.output")) 
-          stop("'Y' must be and object of class 'autodetec.ouput'")
+          stop2("'Y' must be and object of class 'autodetec.ouput'")
         
         # check that all sound files in X have and envelope in Y
         if (!all(X$sound.files %in% unique(Y$envelopes$sound.files)))
-           stop("Not all sound files in 'X' are found in 'Y'")
+           stop2("Not all sound files in 'X' are found in 'Y'")
    
       # get all possible combinations of parameters
       exp_grd <- expand.grid(threshold = threshold, power = power, ssmooth = ssmooth, hold.time = hold.time, mindur = if(is.null(mindur)) -Inf else mindur, maxdur = if(is.null(maxdur)) Inf else maxdur, thinning = thinning)
@@ -342,7 +342,7 @@ summarize_diagnose_wrlbr_int <- function(diagnostic, time.diagnostics = FALSE){
   
   #check diagnostic
   if (any(!(basic_colms %in% colnames(diagnostic))))
-    stop(paste(paste(
+    stop2(paste(paste(
       basic_colms[!(basic_colms %in% colnames(diagnostic))], collapse =
         ", "
     ), "column(s) not found in data frame"))

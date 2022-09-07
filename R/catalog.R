@@ -237,11 +237,11 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop2("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") else
+    if (!dir.exists(path)) stop2("'path' provided does not exist") else
       path <- normalizePath(path)
   
   #read files
@@ -256,7 +256,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
       #count number of sound files in working directory and if 0 stop
       d <- which(X$sound.files %in% recs.wd)
       if (length(d) == 0){
-        stop("The sound files are not in the working directory")
+        stop2("The sound files are not in the working directory")
       }  else {
         X <- X[d, ]
       }
@@ -272,19 +272,19 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     X$collev.min <- collevels[1]  else collevels <- NULL
   
   #nrow must be equal or higher than 2
-  if (nrow < 2) stop("number of rows must be equal or higher than 2")
+  if (nrow < 2) stop2("number of rows must be equal or higher than 2")
   
   #rows must be equal or higher than 2
-  if (ncol < 1) stop("number of columns (ncol) must be equal or higher than 1")
+  if (ncol < 1) stop2("number of columns (ncol) must be equal or higher than 1")
   
   #missing columns
   if (!all(c("sound.files", "selec",
             "start", "end") %in% colnames(X)))
-    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec",
+    stop2(paste(paste(c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec",
                                                                    "start", "end") %in% colnames(X))], collapse=", "), "column(s) not found in data frame"))
   
   #tag.pal must be a color function
-  if (!is.list(tag.pal) & !is.null(tag.pal)) stop("'tag.pal' must be a list of color palette functions of length 1, 2 or 3")
+  if (!is.list(tag.pal) & !is.null(tag.pal)) stop2("'tag.pal' must be a list of color palette functions of length 1, 2 or 3")
   
   if (length(tag.pal) == 1) tag.pal[[2]] <- tag.pal[[1]]
   if (length(tag.pal) == 2 & !is.null(group.tag)) tag.pal[[3]] <- tag.pal[[2]]
@@ -298,91 +298,91 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   if (is.function(unlist(pal))) X$pal <- list(pal)
   
   # orientation
-  if (!orientation %in% c("v", "h")) stop("orientation should be either 'v' or 'h'")
+  if (!orientation %in% c("v", "h")) stop2("orientation should be either 'v' or 'h'")
   
   #missing label columns
   if (!all(labels %in% colnames(X)))
-    stop(paste(paste(labels[!(labels %in% colnames(X))], collapse=", "), "label column(s) not found in data frame"))
+    stop2(paste(paste(labels[!(labels %in% colnames(X))], collapse=", "), "label column(s) not found in data frame"))
   
   #if tags> 2
-  if (length(tags) > 2) stop("No more than 2 tags can be used at a time")
+  if (length(tags) > 2) stop2("No more than 2 tags can be used at a time")
   
   #missing tag columns
   if (!all(tags %in% colnames(X)))
-    stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
+    stop2(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
   
   #missing tag columns
   if (!all(tags %in% colnames(X)))
-    stop(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
+    stop2(paste(paste(tags[!(tags %in% colnames(X))], collapse=", "), "tag column(s) not found in data frame"))
   
   #if NAs in tags
   if (!is.null(tags))
   if (anyNA(X[,tags]))
-    stop("NAs are not allowed in tag columns")
+    stop2("NAs are not allowed in tag columns")
   
   if (!is.null(group.tag))
   {if (!group.tag %in% colnames(X))
-    stop("group.tag column not found in data frame") else
+    stop2("group.tag column not found in data frame") else
       X <- X[order(X[, group.tag]),]
     
     if (is.numeric(X[, group.tag]))
-      stop("group tag cannot be numeric")
+      stop2("group tag cannot be numeric")
     
     if (anyNA(X[,group.tag]))
-      stop("NAs are not allowed in 'group.tag' column")
+      stop2("NAs are not allowed in 'group.tag' column")
   }
   
   #if sel.comment column not found create it
   if (is.null(X$sel.comment) & !is.null(X)) X <- data.frame(X,sel.comment="")
   
   #if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")
+  if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")
   
   #if end or start are not numeric stop
-  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop2("'start' and 'end' must be numeric")
   
   #if any start higher than end stop
-  if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))
+  if (any(X$end - X$start <= 0)) stop2(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))
   
   #if it argument is not "jpeg" or "tiff"
-  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
+  if (!any(it == "jpeg", it == "tiff")) stop2(paste("Image type", it, "not allowed"))
   
   #if flim is not vector or length!=2 stop
   if (is.null(flim)) {
-    if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else
-      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")}
+    if (!is.vector(flim)) stop2("'flim' must be a numeric vector of length 2") else
+      if (!length(flim) == 2) stop2("'flim' must be a numeric vector of length 2")}
   
   #if wl is not vector or length!=1 stop
-  if (is.null(wl)) stop("'wl' must be a numeric vector of length 1") else {
-    if (!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
+  if (is.null(wl)) stop2("'wl' must be a numeric vector of length 1") else {
+    if (!is.vector(wl)) stop2("'wl' must be a numeric vector of length 1") else{
       if (!length(wl) > 2) wl <- wl[1]}}
   
   #if rows is not vector or length!=1 stop
-  if (is.null(nrow)) stop("'nrow' must be a numeric vector of length 1") else {
-    if (!is.vector(nrow)) stop("'nrow' must be a numeric vector of length 1") else{
-      if (!length(nrow) == 1) stop("'nrow' must be a numeric vector of length 1")}}
+  if (is.null(nrow)) stop2("'nrow' must be a numeric vector of length 1") else {
+    if (!is.vector(nrow)) stop2("'nrow' must be a numeric vector of length 1") else{
+      if (!length(nrow) == 1) stop2("'nrow' must be a numeric vector of length 1")}}
   
   #if ncol is not vector or length!=1 stop
-  if (is.null(ncol)) stop("'ncol' must be a numeric vector of length 1") else {
-    if (!is.vector(ncol)) stop("'ncol' must be a numeric vector of length 1") else{
-      if (!length(ncol) == 1) stop("'ncol' must be a numeric vector of length 1")}}
+  if (is.null(ncol)) stop2("'ncol' must be a numeric vector of length 1") else {
+    if (!is.vector(ncol)) stop2("'ncol' must be a numeric vector of length 1") else{
+      if (!length(ncol) == 1) stop2("'ncol' must be a numeric vector of length 1")}}
   
   # if levels are shared between tags
-  if (length(tags) == 2) if (any(unique(X[ ,tags[1]]) %in% unique(X[ ,tags[2]]))) stop("Tags cannot contained levels with the same labels")
+  if (length(tags) == 2) if (any(unique(X[ ,tags[1]]) %in% unique(X[ ,tags[2]]))) stop2("Tags cannot contained levels with the same labels")
   
   #legend
   if (!is.numeric(legend) | legend < 0 | legend > 3)
-    stop("legend should be be a value between 0 and 3")
+    stop2("legend should be be a value between 0 and 3")
   
   #lab.mar
   if (!is.numeric(lab.mar) | lab.mar < 0)
-    stop("lab.mar should be >= 0")
+    stop2("lab.mar should be >= 0")
   
   #prop.mar
   if (!is.null(prop.mar))
   {
     if (prop.mar < 0)
-      stop("prop.mar should be  > 0 and <= 1")
+      stop2("prop.mar should be  > 0 and <= 1")
     if (!same.time.scale){ 
       prop.mar <- NULL
     cat("'prop.mar' ignored as same.time.scale = FALSE")
@@ -391,11 +391,11 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   
   #spec.mar
   if (!is.numeric(spec.mar) | spec.mar < 0)
-    stop("spec.mar should be >= 0")
+    stop2("spec.mar should be >= 0")
   
   #hatching
   if (!is.numeric(hatching) | hatching < 0 | hatching > 3)
-    stop("hatching should be be a value between 0 and 3")
+    stop2("hatching should be be a value between 0 and 3")
   
   #set dimensions
   if (is.null(width))

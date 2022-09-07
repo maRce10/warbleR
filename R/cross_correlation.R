@@ -119,26 +119,26 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   #check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path) & !warbleR::is_extended_selection_table(X)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path)
   
   #if X is not a data frame
-  if (!any(is.data.frame(X), warbleR::is_selection_table(X), warbleR::is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+  if (!any(is.data.frame(X), warbleR::is_selection_table(X), warbleR::is_extended_selection_table(X))) stop2("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
   
   # if is extended all should have the same sampling rate
-  if (warbleR::is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("all wave objects in the extended selection table must have the same sampling rate (they can be homogenized using resample_est_waves())")
+  if (warbleR::is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop2("all wave objects in the extended selection table must have the same sampling rate (they can be homogenized using resample_est_waves())")
   
   #if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end") 
+  if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end") 
   
   #stop if only 1 selection
-  if (nrow(X) == 1 & is.null(compare.matrix)) stop("you need more than one selection to do cross-correlation")
+  if (nrow(X) == 1 & is.null(compare.matrix)) stop2("you need more than one selection to do cross-correlation")
   
   # bp needed when no bottom and top freq
-  if (bp[1] == "pairwise.freq.range" & is.null(X$bottom.freq))  stop("'bp' must be supplied when no frequency range columns are found in 'X' (bottom.freq & top.freq)")
+  if (bp[1] == "pairwise.freq.range" & is.null(X$bottom.freq))  stop2("'bp' must be supplied when no frequency range columns are found in 'X' (bottom.freq & top.freq)")
   
   # stop if no bp
-  if(is.null(bp[1])) stop("'bp' must be supplied")
+  if(is.null(bp[1])) stop2("'bp' must be supplied")
   
   # dens deprecated
   if (!is.null(dens))  write(file = "", x = "'dens' has been deprecated and will be ignored")
@@ -147,17 +147,17 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   if (!is.null(cor.mat))  write(file = "", x = "'cor.mat' has been deprecated and will be ignored")
   
   #check output
-  if (!any(output %in% c("cor.mat", "list"))) stop("'output' must be either 'cor.mat' or 'list'")  
+  if (!any(output %in% c("cor.mat", "list"))) stop2("'output' must be either 'cor.mat' or 'list'")  
   
   #if wl is not vector or length!=1 stop
-  if (!is.numeric(wl)) stop("'wl' must be a numeric vector of length 1") else {
-    if (!is.vector(wl)) stop("'wl' must be a numeric vector of length 1") else{
-      if (!length(wl) == 1) stop("'wl' must be a numeric vector of length 1")}} 
+  if (!is.numeric(wl)) stop2("'wl' must be a numeric vector of length 1") else {
+    if (!is.vector(wl)) stop2("'wl' must be a numeric vector of length 1") else{
+      if (!length(wl) == 1) stop2("'wl' must be a numeric vector of length 1")}} 
   
   #if ovlp is not vector or length!=1 stop
-  if (!is.numeric(ovlp)) stop("'ovlp' must be a numeric vector of length 1") else {
-    if (!is.vector(ovlp)) stop("'ovlp' must be a numeric vector of length 1") else{
-      if (!length(ovlp) == 1) stop("'ovlp' must be a numeric vector of length 1")}} 
+  if (!is.numeric(ovlp)) stop2("'ovlp' must be a numeric vector of length 1") else {
+    if (!is.vector(ovlp)) stop2("'ovlp' must be a numeric vector of length 1") else{
+      if (!length(ovlp) == 1) stop2("'ovlp' must be a numeric vector of length 1")}} 
   
   # extended selection table only need sound files in the working directory when doing detection
   if (!warbleR::is_extended_selection_table(X) | warbleR::is_extended_selection_table(X) & !is.null(templates) | warbleR::is_extended_selection_table(X) & !is.null(compare.matrix)){
@@ -171,17 +171,17 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
     if (!warbleR::is_extended_selection_table(X) | warbleR::is_extended_selection_table(X) & !is.null(templates) | warbleR::is_extended_selection_table(X) & !is.null(compare.matrix) & any(grep(pattern = "\\.wav$", x = compare.matrix[ , 2], ignore.case = TRUE))) {
     d <- which(X$sound.files %in% fs) 
     if (length(d) == 0)
-      stop("The sound files are not in the working directory") else 
+      stop2("The sound files are not in the working directory") else 
       X <- X[d, ]
     }
   }
   
   # If parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
   
   # check sampling rate is the same for all selections if not a selection table
-  if (warbleR::is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop("sampling rate must be the same for all selections")
+  if (warbleR::is_extended_selection_table(X) & length(unique(attr(X, "check.results")$sample.rate)) > 1) stop2("sampling rate must be the same for all selections")
   
   # add selection id column to X
   X$selection.id <- paste(X$sound.files, X$selec, sep = "-")
@@ -189,11 +189,11 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   # if templates were supplied
   if (!is.null(templates))
     if (!all(templates %in% X$selection.id))
-      stop("not all templates are referenced in 'X'")
+      stop2("not all templates are referenced in 'X'")
   
   # check surveys
   if (!all(surveys %in% list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)))
-    stop("not all sound files in 'surveys' are found in the working directory or 'path'")
+    stop2("not all sound files in 'surveys' are found in the working directory or 'path'")
   
   # if templates were supplied but no compare.matrix use files in working directory
   if (!is.null(templates) & is.null(compare.matrix))
@@ -272,11 +272,11 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
           wvdr <- do.call(rbind, out)        
           
           if (length(unique(wvdr$sample.rate)) > 1)
-            stop("not all sound files have the same sampling rate")
+            stop2("not all sound files have the same sampling rate")
           
           if (warbleR::is_extended_selection_table(X))  
             if (unique(wvdr$sample.rate) != unique(attr(X, "check.results")$sample.rate))
-              stop("not all sound files have the same sampling rate than the wave objects in the extended selection table")
+              stop2("not all sound files have the same sampling rate than the wave objects in the extended selection table")
           
           #get intersect of column names
           int.nms <- intersect(names(X), names(wvdr))
@@ -336,7 +336,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   spcs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(e) spc_FUN(j = e, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands))
   
   # check sampling rate is the same for all selections if not a selection table
-  if (!warbleR::is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop("sampling rate must be the same for all selections")
+  if (!warbleR::is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop2("sampling rate must be the same for all selections")
   
     # add selection name
   names(spcs) <- X$selection.id
@@ -438,7 +438,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
     
     #remove them from mat
     mat <- mat[rownames(mat) %in% com.case, colnames(mat) %in% com.case]
-    if (nrow(mat) == 0) stop("Not selections remained after removing NAs (na.rm = TRUE)")
+    if (nrow(mat) == 0) stop2("Not selections remained after removing NAs (na.rm = TRUE)")
   } 
 } else {
   mat <- data.frame(compare.matrix, score = mx.xcrrs)

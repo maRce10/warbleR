@@ -88,13 +88,13 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   # check path to working directory
   if (is.null(path)) path <- getwd() else 
     if (!dir.exists(path)) 
-      stop("'path' provided does not exist") else
+      stop2("'path' provided does not exist") else
         path <- normalizePath(path)
   
   # check path to working directory
   if (!is.null(dest.path))
   {
-    if (!dir.exists(dest.path)) stop("'dest.path' provided does not exist") else 
+    if (!dir.exists(dest.path)) stop2("'dest.path' provided does not exist") else 
       dest.path <- normalizePath(dest.path)
     } else  
     dir.create(dest.path <- file.path(path, "consolidated_files"), showWarnings = FALSE)
@@ -105,7 +105,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
     fe <- file.exists(as.character(files))
     
     # stop if files are not in working directory
-    if (length(fe) == 0) stop("files were not found") 
+    if (length(fe) == 0) stop2("files were not found") 
     
     if (length(fe) < length(files)) cat("some files were not found")
 
@@ -114,7 +114,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
     files <- list.files(path = path, pattern = file.ext, ignore.case = TRUE, recursive = TRUE, full.names = TRUE) 
   
   # stop if files are not in working directory
-  if (length(files) == 0) stop("no files found in working directory and/or subdirectories")
+  if (length(files) == 0) stop2("no files found in working directory and/or subdirectories")
   
   # create new names for duplicated songs
   old_name <- basename(files)
@@ -137,8 +137,8 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   X$duplicate <- sapply(paste0(X$old_name, X$file_size_bytes), function(y) if (length(which(paste0(X$old_name, X$file_size_bytes) == y)) > 1) return("possible.dupl") else return(NA))
   
   # If parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop("'parallel' should be a positive integer")
+  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
+  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
   
   
   #create function to run within Xapply functions downstream     

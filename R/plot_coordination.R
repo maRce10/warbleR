@@ -50,7 +50,7 @@ plot_coordination <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1, 
   
   # error message if ggplot2 is not installed
   if (!requireNamespace("ggplot2",quietly = TRUE))
-    stop("must install 'ggplot2' to use plot_coordination()")
+    stop2("must install 'ggplot2' to use plot_coordination()")
   
   #### set arguments from options
   # get function arguments
@@ -73,39 +73,39 @@ plot_coordination <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1, 
     for (q in 1:length(opt.argms))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
-  if (!is.data.frame(X))  stop("X is not a data frame")
+  if (!is.data.frame(X))  stop2("X is not a data frame")
   
   #stop if some events have less than 10 observations
   if (any(table(X$sing.event) < 10)) warning("At least one singing event with less than 10 vocalizations")
   
   #stop if some cells are not labeled
-  if (any(is.na(X$sing.event))) stop("NA's in singing event names ('sing.event' column) not allowed")
+  if (any(is.na(X$sing.event))) stop2("NA's in singing event names ('sing.event' column) not allowed")
   
-  if (any(is.na(X$indiv))) stop("NA's in individual names ('indiv' column) not allowed")  
+  if (any(is.na(X$indiv))) stop2("NA's in individual names ('indiv' column) not allowed")  
   
-  if (any(is.na(X$start))) stop("NA's in 'start' column not allowed")  
+  if (any(is.na(X$start))) stop2("NA's in 'start' column not allowed")  
   
-  if (any(is.na(X$end))) stop("NA's in 'end' column  not allowed")
+  if (any(is.na(X$end))) stop2("NA's in 'end' column  not allowed")
   
   if (!is.null(tlim)) X <- X[X$start > tlim[1] & X$end < tlim[2], ] 
 
     #if it argument is not "jpeg" or "tiff" 
-  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))  
+  if (!any(it == "jpeg", it == "tiff")) stop2(paste("Image type", it, "not allowed"))  
     
     #stop if some events do not have 2 individuals 
     qw <- as.data.frame((tapply(X$sing.event, list(X$sing.event, X$indiv), length)))
     qw <- tapply(X$indiv, X$sing.event, function(x) length(unique(x)))
     
-  if (any(qw != 2)) stop("Some singing events don't have 2 interacting individuals ('indiv' column)")
+  if (any(qw != 2)) stop2("Some singing events don't have 2 interacting individuals ('indiv' column)")
   
   #if xl is not vector or length!=1 stop
-  if (is.null(xl)) stop("'xl' must be a numeric vector of length 1") else {
-    if (!is.vector(xl)) stop("'xl' must be a numeric vector of length 1") else{
-      if (!length(xl) == 1) stop("'xl' must be a numeric vector of length 1")}}  
+  if (is.null(xl)) stop2("'xl' must be a numeric vector of length 1") else {
+    if (!is.vector(xl)) stop2("'xl' must be a numeric vector of length 1") else{
+      if (!length(xl) == 1) stop2("'xl' must be a numeric vector of length 1")}}  
   
   #if res is not vector or length==1 stop
-  if (!is.vector(res)) stop("'res' must be a numeric vector of length 1") else{
-    if (!length(res) == 1) stop("'res' must be a numeric vector of length 1")}
+  if (!is.vector(res)) stop2("'res' must be a numeric vector of length 1") else{
+    if (!length(res) == 1) stop2("'res' must be a numeric vector of length 1")}
   
   X$sing.event <- as.character(X$sing.event)
   

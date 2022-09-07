@@ -51,11 +51,11 @@ map_xc <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
 
   # error message if maps is not installed
   if (!requireNamespace("maps",quietly = TRUE))
-    stop("must install 'maps' to use this function")
+    stop2("must install 'maps' to use this function")
   
   # error message if leaflet is not installed
   if (!requireNamespace("leaflet",quietly = TRUE) & leaflet.map)
-    stop("must install 'leaflet' to use leaflet style maps (when 'leaflet.map = TRUE')")
+    stop2("must install 'leaflet' to use leaflet style maps (when 'leaflet.map = TRUE')")
   
   #### set arguments from options
   # get function arguments
@@ -80,10 +80,10 @@ map_xc <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
   
   #check path if not provided set to working directory
   if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop("'path' provided does not exist") 
+    if (!dir.exists(path)) stop2("'path' provided does not exist") 
   
   #stop if X is not a data frame
-  if (!is.data.frame(X))  stop("X is not a data frame")
+  if (!is.data.frame(X))  stop2("X is not a data frame")
   
   # make species column
   X$species <- paste(X$Genus, X$Specific_epithet)
@@ -94,13 +94,13 @@ map_xc <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
   X <- X[!is.na(X$Latitude) & !is.na(X$Longitude), , drop = FALSE]
 
   #stop if no rows left
-  if (nrow(X) == 0)  stop("not  a single  with observation has coordinates")
+  if (nrow(X) == 0)  stop2("not  a single  with observation has coordinates")
   
   # if no leatfet map
   if (!leaflet.map){
   
     #if it argument is not "jpeg" or "tiff" 
-    if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed")) 
+    if (!any(it == "jpeg", it == "tiff")) stop2(paste("Image type", it, "not allowed")) 
     
     # get species names (common name)
     spn <- length(unique(X$English_name))

@@ -64,15 +64,15 @@
 move_imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite = FALSE, create.folder = TRUE, folder.name = "image_files", parallel = 1, pb = TRUE)
 {
   if (is.null(from)) from <- getwd()
-  if (is.null(to) & !create.folder) stop("Either 'to' must be provided or 'create.folder' set to TRUE")
+  if (is.null(to) & !create.folder) stop2("Either 'to' must be provided or 'create.folder' set to TRUE")
   if (is.null(to) & create.folder) {
     to <- file.path(from, folder.name)
-    if (dir.exists(to)) stop('Directory with folder name provided already exists')
+    if (dir.exists(to)) stop2('Directory with folder name provided already exists')
     dir.create(to)
   }
   
   # Check directory permissions
-  if (file.access(to, 2) == -1) stop(paste("You don't have permission to copy files into", to))
+  if (file.access(to, 2) == -1) stop2(paste("You don't have permission to copy files into", to))
   
 
   #### set arguments from options
