@@ -1395,5 +1395,5 @@ wpd_feature_wrblr_int <- function(wave, normalize = FALSE, thr1 = 6, thr2 = 0.5)
 # stop function that doesn't print call
 stop2 <- function (...) 
 {
-  stop2(..., call. = FALSE)
+  stop(..., call. = FALSE)
 }
