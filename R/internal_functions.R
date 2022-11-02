@@ -148,7 +148,7 @@ filled_contour_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = seq(0, 1
                                       zlim = range(z, finite = TRUE), levels = pretty(zlim, nlevels), add = FALSE,
                                       nlevels = 20, color.palette = cm.colors, col = color.palette(length(levels) - 
                                                                                                      1), plot.title, plot.axes, key.title, asp = NA, xaxs = "i", 
-                                      yaxs = "i", las = 1, axisX = TRUE, axisY = TRUE, bg.col = "white") 
+                                      yaxs = "i", las = 1, axisX = TRUE, axisY = TRUE, bg.col = "white", bx = TRUE) 
 {
   if (missing(z)) {
     if (!missing(x)) {
@@ -190,7 +190,7 @@ filled_contour_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = seq(0, 1
     }
   }
   else plot.axes
-  box()
+  if (bx) box()
   if (missing(plot.title)) 
     title()
   else plot.title
@@ -774,7 +774,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
                               scalefontlab = 1, scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, 
                               tlim = NULL, trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
                               heights = c(3, 1), oma = rep(0, 4), rnd = NULL, rm.lwst = FALSE, 
-                              colwave =  adjustcolor("#07889B", alpha.f = 0.7), ...) 
+                              colwave = adjustcolor("#07889B", alpha.f = 0.7), box = TRUE, ...) 
 {
   
   if(wl >= length(wave@left))  wl <- length(wave@left) - 1 
@@ -873,6 +873,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
       if (dB == "C") 
         z <- dBweight(Y * 1000, dBref = z)$C
       if (dB == "D") 
+        
         z <- dBweight(Y * 1000, dBref = z)$D
     }
   }
@@ -958,7 +959,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
           col.axis = colaxis, col.lab = collab, bg = colbg, 
           cex.lab = cexlab + 0.2)
       if (!fast.spec)
-        seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
+        filled_contour_wrblr_int(x = X, y = Y, z = Z, levels = collevels, 
                                        nlevels = 20, plot.title = title(main = main, 
                                                                         xlab = tlab, ylab = flab), plot.axes = {
                                                                           if (axisX) {
@@ -967,7 +968,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
                                                                           if (axisY) {
                                                                             axis(2, at = yat, labels = ylabel)
                                                                           }
-                                                                        }, color.palette = palette) 
+                                                                        }, color.palette = palette, bx = box) 
       else {
         image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
         title(main) 
@@ -1006,7 +1007,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
                          }, ...)
       par(mar = c(0, 4.1, 2.1, 2.1), las = 1, cex.lab = cexlab)
       if (!fast.spec)
-        filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels,
+        filled_contour_wrblr_int(x = X, y = Y, z = Z, levels = collevels,
                               nlevels = 20, plot.title = title(main = main, 
                                                                xlab = "", ylab = flab), color.palette = palette, 
                               plot.axes = {
@@ -1015,10 +1016,10 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
                                 } else {
                                   NULL
                                 }
-                              }, col.lab = collab, colaxis = colaxis, ...) else {
+                              }, col.lab = collab, colaxis = colaxis, bx = box,...) else {
                                 image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
                                 if (axisY) axis(2, at = yat, labels = ylabel)
-                                box()
+                                if(box) box()
                                 if (!is.null(main)) title(main)            
                               }
       if (grid) 
@@ -1036,7 +1037,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
           cex.lab = cexlab, ...)
       
       if (!fast.spec)
-        seewave::filled.contour.modif2(x = X, y = Y, z = Z, levels = collevels, 
+       filled_contour_wrblr_int(x = X, y = Y, z = Z, levels = collevels, 
                                        nlevels = 20, plot.title = title(main = main, 
                                                                         xlab = tlab, ylab = flab), plot.axes = {
                                                                           if (axisX) {
@@ -1046,7 +1047,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
                                                                             axis(2, at = yat, labels = ylabel)
                                                                           }
                                                                         }, color.palette = palette, col.lab = collab, 
-                                       colaxis = colaxis) else{
+                                       colaxis = colaxis, bx = box) else {
                                          image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab)
                                          title(main) 
                                        }
@@ -1135,7 +1136,8 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
                                tlab = "Time (s)", flab = "Frequency (kHz)", alab = "Amplitude", 
                                scalelab = "Amplitude\n(dB)", main = NULL, scalefontlab = 1, 
                                scalecexlab = 0.75, axisX = TRUE, axisY = TRUE, tlim = NULL, 
-                               trel = TRUE, flim = NULL, flimd = NULL, widths = c(6, 1), 
+                               trel = TRUE, flim = NULL, flimd = NULL, widths
+                               = c(6, 1), 
                                heights = c(3, 1), oma = rep(0, 4), listen = FALSE, fast.spec = FALSE, 
                                rm.zero = FALSE, amp.cutoff = NULL, X = NULL, palette.2 = reverse.topo.colors, bx = TRUE, add = FALSE, collev.min = NULL) 
 {

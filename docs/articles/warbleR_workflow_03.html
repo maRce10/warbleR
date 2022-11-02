@@ -4,15 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="warbleR">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
 <center><font size="7"><b>warbleR: Acoustic (dis)similarity, coordinated singing and simulating songs</b></font></center> • warbleR</title>
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="&lt;center&gt;&lt;font size=">
 </head>
 <body>
@@ -21,79 +21,101 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
+<![endif]--><div class="container template-article">
+      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">warbleR</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.28</span>
+      </span>
+    </div>
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
-    
-    <a class="navbar-brand me-2" href="../index.html">warbleR</a>
-
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.28</small>
-
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
 </li>
-<li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <h6 class="dropdown-header" data-toc-skip>vignettes</h6>
-    <a class="dropdown-item" href="../articles/Intro_to_warbleR.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    <a class="dropdown-item" href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    <a class="dropdown-item" href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-    <a class="dropdown-item" href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
-  </div>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="divider">
+    <li class="dropdown-header">vignettes</li>
+    <li>
+      <a href="../articles/Intro_to_warbleR.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_01.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Import sound files and select signals&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_02.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Visual inspection and signal classification&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+    <li>
+      <a href="../articles/warbleR_workflow_03.html">&lt;center&gt;&lt;font size="7"&gt;&lt;b&gt;warbleR&amp;#58; Acoustic (dis)similarity, coordinated singing and simulating songs&lt;/b&gt;&lt;/font&gt;&lt;/center&gt;</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/maRce10/warbleR/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/maRce10/warbleR/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
-
-    
+<!--/.nav-collapse -->
   </div>
-</nav><div class="container template-article">
+<!--/.container -->
+</div>
+<!--/.navbar -->
 
+      
 
-
-
-<div class="row">
-  <main id="main"><div class="page-header">
-      <img src="" class="logo" alt=""><h1><center><font size="7"><b>warbleR: Acoustic (dis)similarity, coordinated singing and simulating songs</b></font></center></h1>
-                        <h4 data-toc-skip class="author"><center>
-<a href="https://marceloarayasalas.weebly.com" class="external-link">Marcelo Araya-Salas,
+      </header><script src="warbleR_workflow_03_files/header-attrs-2.17/header-attrs.js"></script><div class="row">
+  <div class="col-md-9 contents">
+    <div class="page-header toc-ignore">
+      <h1 data-toc-skip><center>
+<font size="7"><b>warbleR: Acoustic (dis)similarity, coordinated singing
+and simulating songs</b></font>
+</center></h1>
+                        <h4 class="author"><center>
+<a href="https://marceloarayasalas.weebly.com">Marcelo Araya-Salas,
 PhD</a>
 </center></h4>
-                        <h4 data-toc-skip class="author">
+                        <h4 class="author">
 <center>
-<a href="https://smith-vidaurre.com/" class="external-link">Grace Smith-Vidaurre</a>
+<a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a>
 </center>
  </h4>
             
-            <h4 data-toc-skip class="date"><center>
-“2022-07-11”
+            <h4 class="date"><center>
+“2022-11-01”
 </center></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/HEAD/vignettes/warbleR_workflow_03.Rmd" class="external-link"><code>vignettes/warbleR_workflow_03.Rmd</code></a></small>
-      <div class="d-none name"><code>warbleR_workflow_03.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/warbleR_workflow_03.Rmd"><code>vignettes/warbleR_workflow_03.Rmd</code></a></small>
+      <div class="hidden name"><code>warbleR_workflow_03.Rmd</code></div>
+
     </div>
 
     
@@ -107,9 +129,10 @@ PhD</a>
 <p> </p>
 <!-- <center> <h1><b>Acoustic (dis)similarity and coordinated singing</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2022-07-11 </center> -->
-<div class="section level2">
-<h2 id="bioacoustics-in-r-with-warbler">Bioacoustics in R with <code>warbleR</code><a class="anchor" aria-label="anchor" href="#bioacoustics-in-r-with-warbler"></a>
+<!-- <center> 2022-11-01 </center> -->
+<div id="bioacoustics-in-r-with-warbler" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bioacoustics-in-r-with-warbler" class="anchor"></a>Bioacoustics in R with <code>warbleR</code>
 </h2>
 <p>Bioacoustics research encompasses a wide range of questions, study
 systems and methods, including the software used for analyses. The
@@ -125,12 +148,12 @@ databases like <em>xeno-canto</em></p></li>
 temporal coordinates (start and end points) of selected acoustic signals
 within recordings</p></li>
 </ol>
-<div class="section level3">
-<h3 id="package-repositories">Package repositories<a class="anchor" aria-label="anchor" href="#package-repositories"></a>
-</h3>
-<p>These packages are both available on <em>CRAN</em>: <a href="https://cran.r-project.org/package=warbleR" class="external-link"><code>warbleR</code></a>,
-<a href="https://cran.r-project.org/package=Rraven" class="external-link"><code>Rraven</code></a>,
-as well as on <em>GitHub</em>: <a href="https://github.com/maRce10/warbleR" class="external-link"><code>warbleR</code></a>, <a href="https://github.com/maRce10/Rraven" class="external-link"><code>Rraven</code></a>. The
+<div id="package-repositories" class="section level3">
+<h3 class="hasAnchor">
+<a href="#package-repositories" class="anchor"></a>Package repositories</h3>
+<p>These packages are both available on <em>CRAN</em>: <a href="https://cran.r-project.org/package=warbleR"><code>warbleR</code></a>,
+<a href="https://cran.r-project.org/package=Rraven"><code>Rraven</code></a>,
+as well as on <em>GitHub</em>: <a href="https://github.com/maRce10/warbleR"><code>warbleR</code></a>, <a href="https://github.com/maRce10/Rraven"><code>Rraven</code></a>. The
 GitHub repository will always contain the latest functions and updates.
 You can also check out an article in <em>Methods in Ecology and
 Evolution</em> documenting the <code>warbleR</code> package
@@ -138,20 +161,21 @@ Evolution</em> documenting the <code>warbleR</code> package
 <p>We welcome all users to provide feedback, contribute updates or new
 functions and report bugs to warbleR’s GitHub repository.</p>
 <p>Please note that <code>warbleR</code> and <code>Rraven</code> use
-functions from the <a href="https://cran.r-project.org/package=seewave" class="external-link"><code>seewave</code></a>,
-<a href="https://cran.r-project.org/package=monitoR" class="external-link"><code>monitoR</code></a>,
-<a href="https://cran.r-project.org/package=tuneR" class="external-link"><code>tuneR</code></a>
-and <a href="https://cran.r-project.org/package=dtw" class="external-link"><code>dtw</code></a>
+functions from the <a href="https://cran.r-project.org/package=seewave"><code>seewave</code></a>,
+<a href="https://cran.r-project.org/package=monitoR"><code>monitoR</code></a>,
+<a href="https://cran.r-project.org/package=tuneR"><code>tuneR</code></a>
+and <a href="https://cran.r-project.org/package=dtw"><code>dtw</code></a>
 packages internally. <code>warbleR</code> and <code>Rraven</code> have
 been designed to make bioacoustics analyses more accessible to
 <code>R</code> users, and such analyses would not be possible without
 the tools provided by the packages above. These packages should be given
 credit when using <code>warbleR</code> and <code>Rraven</code> by
 including citations in publications as appropriate
-(e.g. <code>citation("seewave")</code>).</p>
+(e.g. <code><a href="https://rdrr.io/r/utils/citation.html">citation("seewave")</a></code>).</p>
 </div>
-<div class="section level3">
-<h3 id="parallel-processing-in-warbler">Parallel processing in <code>warbleR</code><a class="anchor" aria-label="anchor" href="#parallel-processing-in-warbler"></a>
+<div id="parallel-processing-in-warbler" class="section level3">
+<h3 class="hasAnchor">
+<a href="#parallel-processing-in-warbler" class="anchor"></a>Parallel processing in <code>warbleR</code>
 </h3>
 <p>Parallel processing, or using multiple cores on your machine, can
 greatly speed up analyses. All iterative <code>warbleR</code> functions
@@ -162,9 +186,9 @@ progress during normal or parallel processing. See
 running time using parallel processing.</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="vignette-introduction">
-<strong>Vignette introduction</strong><a class="anchor" aria-label="anchor" href="#vignette-introduction"></a>
+<div id="vignette-introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#vignette-introduction" class="anchor"></a><strong>Vignette introduction</strong>
 </h2>
 <p>In the previous vignette, we performed quality control processing of
 selected signals and made lexicons for visual classification. Here we
@@ -203,37 +227,37 @@ helpful to modify the code for your research questions.</p>
 documentation for the function in question
 (e.g. <code><a href="../reference/cross_correlation.html">?cross_correlation</a></code>).  </p>
 </div>
-<div class="section level2">
-<h2 id="prepare-for-analyses">
-<strong>Prepare for analyses</strong><a class="anchor" aria-label="anchor" href="#prepare-for-analyses"></a>
+<div id="prepare-for-analyses" class="section level2">
+<h2 class="hasAnchor">
+<a href="#prepare-for-analyses" class="anchor"></a><strong>Prepare for analyses</strong>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marce10.github.io/warbleR/">warbleR</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marce10.github.io/warbleR/">warbleR</a></span><span class="op">)</span>
 
 <span class="co"># set your working directory appropriately</span>
 <span class="co"># setwd("/path/to/working directory")</span>
 
 <span class="co"># run this if you have restarted RStudio between vignettes without saving your workspace</span>
 <span class="co"># assumes that you are in your /home/username directory</span>
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"warbleR_example"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"warbleR_example"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Check your location</span>
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>This vignette series will not always include all available
 <code>warbleR</code> functions, as existing functions are updated and
 new functions are added. To see all functions available in this
 package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The package must be loaded in your working environment</span>
-<span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="st">"package:warbleR"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="st">"package:warbleR"</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="extract-acoustic-parameters-as-time-series">
-<strong>Extract acoustic parameters as time series</strong><a class="anchor" aria-label="anchor" href="#extract-acoustic-parameters-as-time-series"></a>
+<div id="extract-acoustic-parameters-as-time-series" class="section level2">
+<h2 class="hasAnchor">
+<a href="#extract-acoustic-parameters-as-time-series" class="anchor"></a><strong>Extract acoustic parameters as time series</strong>
 </h2>
-<div class="section level3">
-<h3 id="detect-frequency-range">Detect frequency range<a class="anchor" aria-label="anchor" href="#detect-frequency-range"></a>
-</h3>
+<div id="detect-frequency-range" class="section level3">
+<h3 class="hasAnchor">
+<a href="#detect-frequency-range" class="anchor"></a>Detect frequency range</h3>
 <p><em>Raven</em> selection tables can return low and high frequencies
 in your selections (e.g. if <code>all.data</code> or
 <code>freq.cols</code> in <code>run_raven</code> or
@@ -270,20 +294,20 @@ selections and visualize/detect frequency ranges.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># here we will use a data set with sound files that have been already annotated</span>
 <span class="co"># read the selections back into the global environment </span>
-<span class="va">Tin.sels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"manualoc_output.csv"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">Tin.sels</span><span class="op">)</span>
+<span class="va">Tin.sels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"manualoc_output.csv"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">Tin.sels</span><span class="op">)</span>
 
 <span class="co"># cut the original wave file by selections for freq_range_detec below</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="fu">seewave</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/seewave/man/cutw.html" class="external-link">cutw</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html" class="external-link">readWave</a></span><span class="op">(</span><span class="st">"Tinamus-major-154191.wav"</span><span class="op">)</span>, from <span class="op">=</span> <span class="va">Tin.sels</span><span class="op">$</span><span class="va">start</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, to <span class="op">=</span> <span class="va">Tin.sels</span><span class="op">$</span><span class="va">end</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, f <span class="op">=</span> <span class="fl">44100</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"Wave"</span><span class="op">)</span>, filename <span class="op">=</span> <span class="st">"Tinamus-major-154191-1.wav"</span><span class="op">)</span>
+<span class="fu">writeWave</span><span class="op">(</span><span class="fu">seewave</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/seewave/man/cutw.html">cutw</a></span><span class="op">(</span><span class="fu">readWave</span><span class="op">(</span><span class="st">"Tinamus-major-154191.wav"</span><span class="op">)</span>, from <span class="op">=</span> <span class="va">Tin.sels</span><span class="op">$</span><span class="va">start</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, to <span class="op">=</span> <span class="va">Tin.sels</span><span class="op">$</span><span class="va">end</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, f <span class="op">=</span> <span class="fl">44100</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"Wave"</span><span class="op">)</span>, filename <span class="op">=</span> <span class="st">"Tinamus-major-154191-1.wav"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="fu">seewave</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/seewave/man/cutw.html" class="external-link">cutw</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html" class="external-link">readWave</a></span><span class="op">(</span><span class="st">"Tinamus-major-154191.wav"</span><span class="op">)</span>, from <span class="op">=</span> <span class="va">Tin.sels</span><span class="op">$</span><span class="va">start</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, to <span class="op">=</span> <span class="va">Tin.sels</span><span class="op">$</span><span class="va">end</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, f <span class="op">=</span> <span class="fl">44100</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"Wave"</span><span class="op">)</span>, filename <span class="op">=</span> <span class="st">"Tinamus-major-154191-2.wav"</span><span class="op">)</span></code></pre></div>
+<span class="fu">writeWave</span><span class="op">(</span><span class="fu">seewave</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/seewave/man/cutw.html">cutw</a></span><span class="op">(</span><span class="fu">readWave</span><span class="op">(</span><span class="st">"Tinamus-major-154191.wav"</span><span class="op">)</span>, from <span class="op">=</span> <span class="va">Tin.sels</span><span class="op">$</span><span class="va">start</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, to <span class="op">=</span> <span class="va">Tin.sels</span><span class="op">$</span><span class="va">end</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, f <span class="op">=</span> <span class="fl">44100</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, output <span class="op">=</span> <span class="st">"Wave"</span><span class="op">)</span>, filename <span class="op">=</span> <span class="st">"Tinamus-major-154191-2.wav"</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># note that changing the threshold argument in combination with the bandpass argument can improve the detection</span>
-<span class="fu"><a href="../reference/freq_range_detec.html">freq_range_detec</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html" class="external-link">readWave</a></span><span class="op">(</span><span class="st">"Tinamus-major-154191-1.wav"</span><span class="op">)</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">15</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/freq_range_detec.html">freq_range_detec</a></span><span class="op">(</span><span class="fu">readWave</span><span class="op">(</span><span class="st">"Tinamus-major-154191-1.wav"</span><span class="op">)</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">15</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># here, giving a strict bandpass with very low threshold improves freq_range detection</span>
 <span class="co"># since the curving end of the tinamou signal is lower amplitude than the rest of the signal</span>
-<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html" class="external-link">readWave</a></span><span class="op">(</span><span class="st">"Tinamus-major-154191-1.wav"</span><span class="op">)</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu">readWave</span><span class="op">(</span><span class="st">"Tinamus-major-154191-1.wav"</span><span class="op">)</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">1</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>The function <code>freq_range</code> allows you to simultaneously
 return the frequency ranges for all signals in a selection table,
 including the graphical output as <code>freq_range_detec</code>. Check
@@ -293,27 +317,28 @@ data frame with the newly calculated low and high frequency
 measurements.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># use arguments from freq_range_detec above</span>
-<span class="va">fr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_range.html">freq_range</a></span><span class="op">(</span><span class="va">Tin.sels</span>, threshold <span class="op">=</span> <span class="fl">1</span>, res <span class="op">=</span> <span class="fl">100</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fr</span><span class="op">)</span></code></pre></div>
+<span class="va">fr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_range.html">freq_range</a></span><span class="op">(</span><span class="va">Tin.sels</span>, threshold <span class="op">=</span> <span class="fl">1</span>, res <span class="op">=</span> <span class="fl">100</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">fr</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="extract-spectral-entropy-as-a-time-series">Extract spectral entropy as a time series<a class="anchor" aria-label="anchor" href="#extract-spectral-entropy-as-a-time-series"></a>
-</h3>
+<div id="extract-spectral-entropy-as-a-time-series" class="section level3">
+<h3 class="hasAnchor">
+<a href="#extract-spectral-entropy-as-a-time-series" class="anchor"></a>Extract spectral entropy as a time series</h3>
 <p>Spectral entropy can be calculated as time series in selected signals
 and plotted onto image files. Previously, spectral entropy was only
 available as a sole measurement across a selection, as measured by
 <code>spectro_analysis</code>. Check out the resulting image files in
 your working directory.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Phae.hisnrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"Phae_hisnrt.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">Phae.hisnrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"Phae_hisnrt.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span><span class="op">)</span>
 
-<span class="va">se</span> <span class="op">&lt;-</span> <span class="fu">entropy_ts</span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, length.out <span class="op">=</span> <span class="fl">10</span>, threshold <span class="op">=</span> <span class="fl">10</span>, img <span class="op">=</span> <span class="cn">TRUE</span>, img.suffix <span class="op">=</span> <span class="st">"entropy_ts"</span>, type <span class="op">=</span> <span class="st">"b"</span>, ovlp <span class="op">=</span> <span class="fl">90</span>, sp.en.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">25</span>, <span class="fl">10</span><span class="op">)</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, picsize <span class="op">=</span> <span class="fl">0.75</span>, title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">se</span> <span class="op">&lt;-</span> <span class="fu">entropy_ts</span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, length.out <span class="op">=</span> <span class="fl">10</span>, threshold <span class="op">=</span> <span class="fl">10</span>, img <span class="op">=</span> <span class="cn">TRUE</span>, img.suffix <span class="op">=</span> <span class="st">"entropy_ts"</span>, type <span class="op">=</span> <span class="st">"b"</span>, ovlp <span class="op">=</span> <span class="fl">90</span>, sp.en.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">25</span>, <span class="fl">10</span><span class="op">)</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, picsize <span class="op">=</span> <span class="fl">0.75</span>, title <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></code></pre></div>
-<div class="section level4">
-<h4 id="visualizing-frequency-contours-with-track_freq_contour">Visualizing frequency contours with
-<code>track_freq_contour</code><a class="anchor" aria-label="anchor" href="#visualizing-frequency-contours-with-track_freq_contour"></a>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></code></pre></div>
+<div id="visualizing-frequency-contours-with-track_freq_contour" class="section level4">
+<h4 class="hasAnchor">
+<a href="#visualizing-frequency-contours-with-track_freq_contour" class="anchor"></a>Visualizing frequency contours with
+<code>track_freq_contour</code>
 </h4>
 <p>The function <code>track_freq_contour</code> allows you to create
 spectrograms and visualize the accuracy of dominant frequency and
@@ -331,10 +356,10 @@ used in <code>track_freq_contour</code>, use that same bandpass while
 running <code>spectro_analysis</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Note that the dominant frequency measurements are almost always more accurate</span>
-<span class="fu"><a href="../reference/track_freq_contour.html">track_freq_contour</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>, it <span class="op">=</span> <span class="st">"jpeg"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/track_freq_contour.html">track_freq_contour</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>, it <span class="op">=</span> <span class="st">"jpeg"</span><span class="op">)</span>
 
 <span class="co"># We can change the lower end of bandpass to make the frequency measurements more precise</span>
-<span class="fu"><a href="../reference/track_freq_contour.html">track_freq_contour</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">12</span><span class="op">)</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"purple"</span>, <span class="st">"orange"</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">3</span><span class="op">)</span>, res <span class="op">=</span> <span class="fl">100</span>, it <span class="op">=</span> <span class="st">"jpeg"</span>, picsize <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/track_freq_contour.html">track_freq_contour</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">12</span><span class="op">)</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"purple"</span>, <span class="st">"orange"</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">17</span>, <span class="fl">3</span><span class="op">)</span>, res <span class="op">=</span> <span class="fl">100</span>, it <span class="op">=</span> <span class="st">"jpeg"</span>, picsize <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <!-- <center> ![track_freq_contour image](Phaethornis-longirostris-154072.wav-108-trackfreqs.jpeg)</center> -->
 <p> </p>
 <p>Note that the fundamental frequency measurements are not always very
@@ -342,10 +367,10 @@ accurate, so we will remove fundamental frequency measurements later
 on.</p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="extract-fundamental-or-dominant-frequency-contours-as-a-time-series">Extract fundamental or dominant frequency contours as a time
-series<a class="anchor" aria-label="anchor" href="#extract-fundamental-or-dominant-frequency-contours-as-a-time-series"></a>
-</h3>
+<div id="extract-fundamental-or-dominant-frequency-contours-as-a-time-series" class="section level3">
+<h3 class="hasAnchor">
+<a href="#extract-fundamental-or-dominant-frequency-contours-as-a-time-series" class="anchor"></a>Extract fundamental or dominant frequency contours as a time
+series</h3>
 <p>These functions return a data frame that contains estimated frequency
 contours as a time series across each signal in the input data frame.
 You can also specify if you want to create image files with the
@@ -362,18 +387,18 @@ contours are those that can be visualized using
 <code class="sourceCode R"><span class="co"># Fundamental frequency contour</span>
 <span class="va">ff_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_ts.html">freq_ts</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, length.out <span class="op">=</span> <span class="fl">20</span>, threshold <span class="op">=</span> <span class="fl">15</span>, img <span class="op">=</span> <span class="cn">TRUE</span>, img.suffix <span class="op">=</span> <span class="st">"ff"</span>, type <span class="op">=</span> <span class="st">"p"</span>, ovlp <span class="op">=</span> <span class="fl">70</span>, clip.edges <span class="op">=</span> <span class="cn">FALSE</span>, leglab <span class="op">=</span> <span class="st">"ffts"</span>, ff.method <span class="op">=</span> <span class="st">"tuneR"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ff_df</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">ff_df</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Dominant frequency contour</span>
 
 <span class="co"># Uses seewave function dfreq by default</span>
 <span class="va">df_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_ts.html">freq_ts</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, length.out <span class="op">=</span> <span class="fl">20</span>, threshold <span class="op">=</span> <span class="fl">15</span>, img <span class="op">=</span> <span class="cn">TRUE</span>, img.suffix <span class="op">=</span> <span class="st">"ff"</span>, type <span class="op">=</span> <span class="st">"p"</span>, ovlp <span class="op">=</span> <span class="fl">70</span>, clip.edges <span class="op">=</span> <span class="cn">FALSE</span>, leglab <span class="op">=</span> <span class="st">"ffts"</span>, fsmooth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">df_df</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">df_df</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="manually-tailor-frequency-contours-with-tailor_sels">Manually tailor frequency contours with tailor_sels<a class="anchor" aria-label="anchor" href="#manually-tailor-frequency-contours-with-tailor_sels"></a>
-</h3>
+<div id="manually-tailor-frequency-contours-with-tailor_sels" class="section level3">
+<h3 class="hasAnchor">
+<a href="#manually-tailor-frequency-contours-with-tailor_sels" class="anchor"></a>Manually tailor frequency contours with tailor_sels</h3>
 <p>The functions above to track/extract dominant and fundamental
 frequency contours perform best with more tonal signals. The frequency
 measurements for signals with harmonic structure tend to jump around,
@@ -407,33 +432,33 @@ contours.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Use the original data frame of songs for the main tailor_sels dataset</span>
 <span class="co"># the data frame with the fundamental frequency contours is provided for manual tracing</span>
-<span class="fu"><a href="../reference/tailor_sels.html">tailor_sels</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, wn <span class="op">=</span> <span class="st">"hanning"</span>, mar <span class="op">=</span> <span class="fl">0.1</span>,
- osci <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sound.files"</span>, <span class="st">"selec"</span><span class="op">)</span>, auto.contour <span class="op">=</span> <span class="cn">TRUE</span>, ts.df <span class="op">=</span> <span class="va">ff_df</span>, col <span class="op">=</span> <span class="st">"red"</span>, alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>
+<span class="fu"><a href="../reference/tailor_sels.html">tailor_sels</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, wn <span class="op">=</span> <span class="st">"hanning"</span>, mar <span class="op">=</span> <span class="fl">0.1</span>,
+ osci <span class="op">=</span> <span class="cn">TRUE</span>, title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sound.files"</span>, <span class="st">"selec"</span><span class="op">)</span>, auto.contour <span class="op">=</span> <span class="cn">TRUE</span>, ts.df <span class="op">=</span> <span class="va">ff_df</span>, col <span class="op">=</span> <span class="st">"red"</span>, alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>
 
 <span class="co"># rename your tailor_sels output csv as desired, then read it back into R</span>
-<span class="va">mff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"seltailor_output_mff.csv"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">mff</span><span class="op">)</span>
+<span class="va">mff</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"seltailor_output_mff.csv"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">mff</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/track_freq_contour.html">track_freq_contour</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>, it <span class="op">=</span> <span class="st">"jpeg"</span>, custom.contour <span class="op">=</span> <span class="va">mff</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/track_freq_contour.html">track_freq_contour</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>, it <span class="op">=</span> <span class="st">"jpeg"</span>, custom.contour <span class="op">=</span> <span class="va">mff</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="count-inflections-across-frequency-contours">Count inflections across frequency contours<a class="anchor" aria-label="anchor" href="#count-inflections-across-frequency-contours"></a>
-</h3>
+<div id="count-inflections-across-frequency-contours" class="section level3">
+<h3 class="hasAnchor">
+<a href="#count-inflections-across-frequency-contours" class="anchor"></a>Count inflections across frequency contours</h3>
 <p>This function calculates the modulation index for any frequency
 contour or time series. The function <code>spectro_analysis</code> (see
 below) also calculates a modulation index for signals, but as a single
 value across the length of the signal.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inflections.html">inflections</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">df_df</span>, pb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">df_inf</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">df_inf</span><span class="op">)</span></code></pre></div>
 <p>##<strong>Quantitative measurements of acoustic
 (dis)similarity</strong></p>
 </div>
-<div class="section level3">
-<h3 id="compare-methods-for-quantitative-analysis-of-signal-structure">Compare methods for quantitative analysis of signal structure<a class="anchor" aria-label="anchor" href="#compare-methods-for-quantitative-analysis-of-signal-structure"></a>
-</h3>
+<div id="compare-methods-for-quantitative-analysis-of-signal-structure" class="section level3">
+<h3 class="hasAnchor">
+<a href="#compare-methods-for-quantitative-analysis-of-signal-structure" class="anchor"></a>Compare methods for quantitative analysis of signal structure</h3>
 <p>This section on <code>compare_methods</code> is taken directly from
-<a href="https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html" class="external-link">Marcelo
+<a href="https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html">Marcelo
 Araya-Salas’s bioacoustics blog</a> with slight modifications.</p>
 <p>Bioacoustic research relies on quantifying the structure of acoustic
 signals and comparing that structure across behavioral/ecological
@@ -461,10 +486,10 @@ signal-to-noise ratio (SNR). Here we will pick up the workflow with
 these filtered and tailored selections, using the data frame
 <code>Phae.hisnrt</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Phae.hisnrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"Phae_hisnrt.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">Phae.hisnrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"Phae_hisnrt.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/compare_methods.html">compare_methods</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">Phae.hisnrt</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>, 
-                wl <span class="op">=</span> <span class="fl">300</span>, n <span class="op">=</span> <span class="fl">10</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"XCORR"</span>, <span class="st">"dfDTW"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/compare_methods.html">compare_methods</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">Phae.hisnrt</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>, 
+                wl <span class="op">=</span> <span class="fl">300</span>, n <span class="op">=</span> <span class="fl">10</span>, methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"XCORR"</span>, <span class="st">"dfDTW"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><code>compare_methods</code> will produce 10 image files in the
 working directory (since we specified <code>n = 10</code>) that look
 like this:</p>
@@ -500,60 +525,60 @@ measured by the function <code>spectro_analysis</code>), you need a
 large enough dataset, as the PCA that summarizes the spectral parameters
 needs more units (rows) that variables (columns).</p>
 </div>
-<div class="section level3">
-<h3 id="measure-acoustic-parameters-with-spectro_analysis">Measure acoustic parameters with spectro_analysis<a class="anchor" aria-label="anchor" href="#measure-acoustic-parameters-with-spectro_analysis"></a>
-</h3>
+<div id="measure-acoustic-parameters-with-spectro_analysis" class="section level3">
+<h3 class="hasAnchor">
+<a href="#measure-acoustic-parameters-with-spectro_analysis" class="anchor"></a>Measure acoustic parameters with spectro_analysis</h3>
 <p>We can now perform acoustic measurements with the function
 <code>spectro_analysis</code>. This function relies on the temporal
 coordinates in selection tables to measure 29 parameters across
 selections. <code>spectro_analysis</code> is a batch process that is
 faster than calculating measurements manually, e.g. one selection and
 recording at a time. <code>spectro_analysis</code> uses and customizes
-several functions available in the <a href="https://cran.r-project.org/package=seewave" class="external-link"><code>seewave package</code></a>.</p>
+several functions available in the <a href="https://cran.r-project.org/package=seewave"><code>seewave package</code></a>.</p>
 <p>Use the bandpass filter to your advantage here, to filter out low or
 high background noise before performing measurements. Also note that
 changing the amplitude threshold will change the amplitude at which
 noises (including non-target signals) are detected for measurements.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spectro_analysis.html">spectro_analysis</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">params</span>, <span class="st">"acoustic_parameters.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spectro_analysis.html">spectro_analysis</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">params</span>, <span class="st">"acoustic_parameters.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Remove parameters derived from fundamental frequency (based on
 <code>track_freq_contour</code> results).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="va">params</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"fun|peakf"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>, invert <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></code></pre></div>
+<code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="va">params</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"fun|peakf"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">params</span><span class="op">)</span>, invert <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="calculate-acoustic-parameters-by-song-type">Calculate acoustic parameters by song type<a class="anchor" aria-label="anchor" href="#calculate-acoustic-parameters-by-song-type"></a>
-</h3>
+<div id="calculate-acoustic-parameters-by-song-type" class="section level3">
+<h3 class="hasAnchor">
+<a href="#calculate-acoustic-parameters-by-song-type" class="anchor"></a>Calculate acoustic parameters by song type</h3>
 <p>In addition to calculating acoustic parameters per individual signals
 using <code>spectro_analysis</code>, you can also calculate these
 acoustic parameters by song type (average, minimum and maximum values
 per song type group).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Phae.long1"</span>, <span class="st">"Phae.long2"</span>, <span class="st">"Phae.long3"</span>, <span class="st">"Phae.long4"</span>, <span class="st">"selec.table"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="va">Phae.long1</span>,<span class="st">"Phae.long1.wav"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="va">Phae.long2</span>,<span class="st">"Phae.long2.wav"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="va">Phae.long3</span>,<span class="st">"Phae.long3.wav"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="va">Phae.long4</span>,<span class="st">"Phae.long4.wav"</span><span class="op">)</span> 
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Phae.long1"</span>, <span class="st">"Phae.long2"</span>, <span class="st">"Phae.long3"</span>, <span class="st">"Phae.long4"</span>, <span class="st">"selec.table"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">writeWave</span><span class="op">(</span><span class="va">Phae.long1</span>,<span class="st">"Phae.long1.wav"</span><span class="op">)</span>
+<span class="fu">writeWave</span><span class="op">(</span><span class="va">Phae.long2</span>,<span class="st">"Phae.long2.wav"</span><span class="op">)</span>
+<span class="fu">writeWave</span><span class="op">(</span><span class="va">Phae.long3</span>,<span class="st">"Phae.long3.wav"</span><span class="op">)</span>
+<span class="fu">writeWave</span><span class="op">(</span><span class="va">Phae.long4</span>,<span class="st">"Phae.long4.wav"</span><span class="op">)</span> 
 
 <span class="co"># Add a 'song' column</span>
-<span class="va">selec.table</span><span class="op">$</span><span class="va">song</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span>
+<span class="va">selec.table</span><span class="op">$</span><span class="va">song</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span>
 
 <span class="co"># Measure acoustic parameters</span>
-<span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spectro_analysis.html">spectro_analysis</a></span><span class="op">(</span><span class="va">selec.table</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">11</span><span class="op">)</span>, <span class="fl">300</span>, fast <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/spectro_analysis.html">spectro_analysis</a></span><span class="op">(</span><span class="va">selec.table</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">11</span><span class="op">)</span>, <span class="fl">300</span>, fast <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># Add song data</span>
-<span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">sp</span>, <span class="va">selec.table</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sound.files"</span>, <span class="st">"selec"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">sp</span>, <span class="va">selec.table</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sound.files"</span>, <span class="st">"selec"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Caculate song-level parameters for all numeric parameters</span>
 <span class="va">sng</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/song_analysis.html">song_analysis</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sp</span>, song_colm <span class="op">=</span> <span class="st">"song"</span>, parallel <span class="op">=</span> <span class="fl">1</span>, pb <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">sng</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">sng</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="dynamic-time-warping-of-frequency-contours">Dynamic time warping of frequency contours<a class="anchor" aria-label="anchor" href="#dynamic-time-warping-of-frequency-contours"></a>
-</h3>
+<div id="dynamic-time-warping-of-frequency-contours" class="section level3">
+<h3 class="hasAnchor">
+<a href="#dynamic-time-warping-of-frequency-contours" class="anchor"></a>Dynamic time warping of frequency contours</h3>
 <p>This section on dynamic time warping methods is taken directly from
-<a href="https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html" class="external-link">Marcelo
+<a href="https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html">Marcelo
 Araya-Salas’s bioacoustics blog</a> with slight modifications.</p>
 <p>The dynamic time warping methods in <code>warbleR</code> all rely on
 functions from the <code>dtw</code> package, and are available for both
@@ -575,23 +600,23 @@ functions tend to work best on more tonal signals. Check out the
 resulting image files in your working directory.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Harmonic Phaethornis signals </span>
-<span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_DTW.html">freq_DTW</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, length.out <span class="op">=</span> <span class="fl">30</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">9</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">300</span>, img <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_DTW.html">freq_DTW</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, length.out <span class="op">=</span> <span class="fl">30</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">9</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">300</span>, img <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Tonal Tinamou signals</span>
-<span class="va">Tin.sels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"Tinamus-major-154191_sels.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">Tin.sels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"Tinamus-major-154191_sels.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_DTW.html">freq_DTW</a></span><span class="op">(</span><span class="va">Tin.sels</span>, length.out <span class="op">=</span> <span class="fl">30</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">512</span>, img <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
-<p>Check out <a href="https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html" class="external-link">Marcelo’s
+<span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_DTW.html">freq_DTW</a></span><span class="op">(</span><span class="va">Tin.sels</span>, length.out <span class="op">=</span> <span class="fl">30</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">512</span>, img <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></code></pre></div>
+<p>Check out <a href="https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html">Marcelo’s
 blog</a> for a great example of how to evaluate whether or not the
 dynamic time warping (dis)similarity measurements accurately represents
 acoustic differences.</p>
 </div>
-<div class="section level3">
-<h3 id="spectrographic-cross-correlation">Spectrographic cross-correlation<a class="anchor" aria-label="anchor" href="#spectrographic-cross-correlation"></a>
-</h3>
+<div id="spectrographic-cross-correlation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#spectrographic-cross-correlation" class="anchor"></a>Spectrographic cross-correlation</h3>
 <p>Cross-correlation calculates the pairwise similarity of multiple
 signals by spectrogram cross-correlation. <code>cross_correlation</code>
 calculates a correlation of the amplitude values at each step by sliding
@@ -618,49 +643,49 @@ comparison, with the recording-selection names as the matrix dimension
 names.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_correlation.html">cross_correlation</a></span><span class="op">(</span><span class="va">Phae.hisnrt</span>, wl <span class="op">=</span> <span class="fl">300</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">xc</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">xc</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="analysis-of-geographic-variation-using-spectro_analysis-measurements">Analysis of geographic variation using <code>spectro_analysis</code>
-measurements<a class="anchor" aria-label="anchor" href="#analysis-of-geographic-variation-using-spectro_analysis-measurements"></a>
-</h2>
+<div id="analysis-of-geographic-variation-using-spectro_analysis-measurements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#analysis-of-geographic-variation-using-spectro_analysis-measurements" class="anchor"></a>Analysis of geographic variation using <code>spectro_analysis</code>
+measurements</h2>
 <p>We can evaluate whether or not the observed variation in song
 structure is reflected by the meters we just measured. For this we will
 conduct a Principal Component Analysis on scaled (z-transformed) meters
 and look at the grouping of songs (data points) in the scatter plot.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Run the PCA with only numeric variables of params</span>
-<span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">params</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">params</span>, <span class="va">is.numeric</span><span class="op">)</span><span class="op">]</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">params</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">params</span>, <span class="va">is.numeric</span><span class="op">)</span><span class="op">]</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># Check loadings</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></code></pre></div>
 <pre><code>Importance of components:
                          PC1    PC2    PC3     PC4     PC5     PC6    PC7     PC8     PC9    PC10    PC11    PC12    PC13   PC14    PC15    PC16
 Standard deviation     3.799 2.6465 1.7684 1.01130 0.93681 0.88418 0.8449 0.72613 0.63069 0.52078 0.44692 0.43914 0.41945 0.3552 0.23923 0.18924
 Proportion of Variance 0.481 0.2335 0.1042 0.03409 0.02925 0.02606 0.0238 0.01758 0.01326 0.00904 0.00666 0.00643 0.00586 0.0042 0.00191 0.00119
 Cumulative Proportion  0.481 0.7145 0.8187 0.85280 0.88205 0.90811 0.9319 0.94948 0.96274 0.97178 0.97844 0.98487 0.99073 0.9949 0.99685 0.99804
                           PC17    PC18    PC19    PC20    PC21    PC22      PC23
-Standard deviation     0.15921 0.15130 0.07228 0.05806 0.03699 0.02449 2.212e-15
+Standard deviation     0.15921 0.15130 0.07228 0.05806 0.03699 0.02449 2.283e-15
 Proportion of Variance 0.00084 0.00076 0.00017 0.00011 0.00005 0.00002 0.000e+00
 Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00</code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Extract PCA scores</span>
-<span class="va">pcascor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">pca</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="va">pcascor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">pca</span><span class="op">[[</span><span class="fl">5</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
 
 <span class="co"># Plot the 2 first PCs</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, 
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">20</span>, 
      cex <span class="op">=</span> <span class="fl">1</span>, xlab <span class="op">=</span> <span class="st">"PC1"</span>, ylab <span class="op">=</span> <span class="st">"PC2"</span><span class="op">)</span>
 
 <span class="co"># Add recordings/individuals labels </span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">params</span><span class="op">$</span><span class="va">sound.files</span>, <span class="va">mean</span><span class="op">)</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, <span class="va">params</span><span class="op">$</span><span class="va">sound.files</span>, <span class="va">mean</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">params</span><span class="op">$</span><span class="va">sound.files</span>, <span class="va">mean</span><span class="op">)</span>
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, <span class="va">params</span><span class="op">$</span><span class="va">sound.files</span>, <span class="va">mean</span><span class="op">)</span>
 
-<span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">".wav"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">x</span>, split <span class="op">=</span> <span class="st">"-"</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>
+<span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">".wav"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, split <span class="op">=</span> <span class="st">"-"</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>
   <span class="op">}</span>, USE.NAMES <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">labs</span>, cex <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">labs</span>, cex <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span></code></pre></div>
 <p><img src="warbleR_workflow_03_files/figure-html/unnamed-chunk-29-1.png" width="1604.16666666667"></p>
 <p>Songs are grouped by sound file. As each sound file represents a
 single individual, this suggests that songs have individual signatures.
@@ -680,29 +705,29 @@ to the plot by using symbols to represent song types.</p>
 <code class="sourceCode R"><span class="co"># Create a song type variable</span>
 
 <span class="co"># First, extract recording ID</span>
-<span class="va">songtype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">".wav"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">x</span>, split <span class="op">=</span> <span class="st">"-"</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>
+<span class="va">songtype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">".wav"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, split <span class="op">=</span> <span class="st">"-"</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>
   <span class="op">}</span>, USE.NAMES <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Now change IDs for letters representing song types</span>
-<span class="va">songtype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"154070|154072"</span>, <span class="st">"A"</span>, <span class="va">songtype</span><span class="op">)</span>
-<span class="va">songtype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"154129|154161"</span>, <span class="st">"B"</span>, <span class="va">songtype</span><span class="op">)</span>
-<span class="va">songtype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"154138"</span>, <span class="st">"C"</span>, <span class="va">songtype</span><span class="op">)</span>
+<span class="va">songtype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"154070|154072"</span>, <span class="st">"A"</span>, <span class="va">songtype</span><span class="op">)</span>
+<span class="va">songtype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"154129|154161"</span>, <span class="st">"B"</span>, <span class="va">songtype</span><span class="op">)</span>
+<span class="va">songtype</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"154138"</span>, <span class="st">"C"</span>, <span class="va">songtype</span><span class="op">)</span>
 
 <span class="co"># Add song type as a variable representing symbol type</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span><span class="op">)</span>, 
-pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">songtype</span><span class="op">)</span><span class="op">)</span>, 
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">params</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span><span class="op">)</span>, 
+pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">songtype</span><span class="op">)</span><span class="op">)</span>, 
      cex <span class="op">=</span> <span class="fl">1</span>, xlab <span class="op">=</span> <span class="st">"PC1"</span>, ylab <span class="op">=</span> <span class="st">"PC2"</span><span class="op">)</span>
 
 <span class="co"># Add song type labels </span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">songtype</span>, <span class="va">mean</span><span class="op">)</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, <span class="va">songtype</span>, <span class="va">mean</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">songtype</span>, <span class="va">mean</span><span class="op">)</span>
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">pcascor</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, <span class="va">songtype</span>, <span class="va">mean</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">songtype</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">songtype</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="warbleR_workflow_03_files/figure-html/unnamed-chunk-30-1.png" width="1604.16666666667"></p>
 <p>Songs of the same song type are more similar (they cluster together).
 This PCA confirms that the visually obvious differences in the song
-structures are well described by the meters measured in <a href="https://cran.r-project.org/package=warbleR" class="external-link"><code>warbleR</code></a>.
+structures are well described by the meters measured in <a href="https://cran.r-project.org/package=warbleR"><code>warbleR</code></a>.
 Likewise, it also confirms that we can detect biologically relevant
 differences from sound files that have undergone <em>mp3</em>
 compression and conversion back to <em>wav</em> format (see also
@@ -711,9 +736,9 @@ analysis were for publication we would have to run other filtering steps
 on the acoustic parameters generated by <code>spectro_analysis</code>,
 including removing any collinear variables.</p>
 </div>
-<div class="section level2">
-<h2 id="coordinated-singing-analysis">Coordinated singing analysis<a class="anchor" aria-label="anchor" href="#coordinated-singing-analysis"></a>
-</h2>
+<div id="coordinated-singing-analysis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#coordinated-singing-analysis" class="anchor"></a>Coordinated singing analysis</h2>
 <p><code>warbleR</code> contains functions to visualize and test whether
 or not singing bouts between individuals can be considered coordinated
 singing. The function <code>plot_coordination</code> plots signals as
@@ -726,8 +751,8 @@ run simultaneously for many singing events, if all are contained in a
 single data frame (see <code>test_coordination</code> documentation for
 more information).</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sim_coor_sing</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">sim_coor_sing</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">sim_coor_sing</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">sim_coor_sing</span><span class="op">)</span></code></pre></div>
 <p>The <code>sim_coor_sing</code> dataset contains three types of
 singing bouts:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -743,11 +768,11 @@ coordinated singing, since <code>less.than.chance</code> is set to
 <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/test_coordination.html">test_coordination</a></span><span class="op">(</span><span class="va">sim_coor_sing</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, less.than.chance <span class="op">=</span> <span class="cn">TRUE</span>, cutoff <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cs</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cs</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="simulating-songs">Simulating songs<a class="anchor" aria-label="anchor" href="#simulating-songs"></a>
-</h2>
+<div id="simulating-songs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#simulating-songs" class="anchor"></a>Simulating songs</h2>
 <p>You can simulate songs using <code>warbleR</code>. Depending on your
 question, you can simulate songs with different numbers of subunits,
 subunit durations, numbers of harmonics, amplitudes, gaps between
@@ -764,7 +789,7 @@ simulated under Brownian motion frequency drift.</p>
 <span class="va">ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sim_songs.html">sim_songs</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span>, harms <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
 <span class="co"># plot the simulated song</span>
-<span class="fu">seewave</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></span><span class="op">(</span><span class="va">ss</span><span class="op">)</span></code></pre></div>
+<span class="fu">seewave</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/seewave/man/spectro.html">spectro</a></span><span class="op">(</span><span class="va">ss</span><span class="op">)</span></code></pre></div>
 <p> </p>
 <p>This vignette concludes the <code>warbleR</code> vignette series.
 After running the code in this third vignette, you should now have an
@@ -799,20 +824,20 @@ flexible and rigorous bioacoustics analyses. The output of
 <code>warbleR</code> functions can be used in other packages for
 statistical analyses, such as machine learning.</p>
 </div>
-<div class="section level2">
-<h2 id="citation">
-<strong>Citation</strong><a class="anchor" aria-label="anchor" href="#citation"></a>
+<div id="citation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citation" class="anchor"></a><strong>Citation</strong>
 </h2>
 <p>Please cite <code>warbleR</code> when you use the package:</p>
 <p>Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an R package
 to streamline analysis of animal acoustic signals. Methods Ecol Evol. 8,
 184-191.</p>
 </div>
-<div class="section level2">
-<h2 id="reporting-bugs">
-<strong>Reporting bugs</strong><a class="anchor" aria-label="anchor" href="#reporting-bugs"></a>
+<div id="reporting-bugs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#reporting-bugs" class="anchor"></a><strong>Reporting bugs</strong>
 </h2>
-<p>Please report any bugs <a href="https://github.com/maRce10/warbleR/issues" class="external-link">here</a>.  </p>
+<p>Please report any bugs <a href="https://github.com/maRce10/warbleR/issues">here</a>.  </p>
 <p><font size="5"><a name="References">References</a></font></p>
 <ol style="list-style-type: decimal">
 <li>Araya-Salas, M. and G. Smith-Vidaurre. 2016. warbleR: an R package
@@ -821,28 +846,31 @@ Ecology and Evolution</em>. doi: 10.1111/2041-210X.12624</li>
 </ol>
 <p> </p>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
-    </nav></aside>
+  </div>
+
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
+
 </div>
 
 
 
-    <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Marcelo Araya-Salas, Grace Smith-Vidaurre.</p>
+      <footer><div class="copyright">
+  <p>Developed by Marcelo Araya-Salas, Grace Smith-Vidaurre.</p>
 </div>
 
-<div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<div class="pkgdown">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
-    </footer>
+      </footer>
 </div>
 
   
 
-  
 
   
 </body>

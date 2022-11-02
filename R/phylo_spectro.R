@@ -2,7 +2,8 @@
 #' 
 #' \code{phylo_spectro} Add spectrograms to the tips of an objects of class phylo.
 #' @usage phylo_spectro(X, tree, type = "phylogram", par.mar = rep(1, 4), 
-#' size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, ...) 
+#' size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, axis = TRUE, 
+#' box = TRUE, ...) 
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
 #' (sound.files), selection number (selec), and start and end time of signals (start and end). 
 #' 'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '\code{tree$tip.label}). This column is used to match rows and tip labels. If using an 
@@ -24,6 +25,8 @@
 #' \code{NULL} (no ladderization). See \code{\link[ape]{ladderize}} for more details.
 #' @param horizontal Logical. Controls whether spectrograms in a fan phylogeny are place in a horizontal position 
 #' \code{FALSE} or in the same angle as the tree tips. Currently only horizontal spectrograms are available. 
+#' @param box Logical to control if the box around spectrograms is plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.
+#' @param axis Logical to control if the Y and X axis of spectrograms are plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to the internal spectrogram 
 #' creating function (\code{\link{spectrograms}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 
 #' customizing graphical output. Only rightwards phylogenies can be plotted.
@@ -68,15 +71,16 @@
 #'
 #' # no margin in spectrograms and showing tip labels (higher offset)
 #' phylo_spectro(X = X, tree = tree, offset = 0.1, par.mar = c(0, 0, 0, 6), 
-#' inner.mar = rep(0, 4), size = 2)
+#' inner.mar = rep(0, 4), size = 2, box = FALSE, axis = FALSE)
 #' 
 #' # print fan tree and no margin in spectrograms
 #' phylo_spectro(X = X, tree = tree, offset = 0.6, par.mar = rep(3, 4),
-#' inner.mar = rep(0, 4), size = 2, type = "fan", show.tip.label = FALSE)
+#' inner.mar = rep(0, 4), size = 2, type = "fan", show.tip.label = FALSE, box = FALSE, axis = FALSE)
 #' 
 #' # changing edge color and witdh
 #' phylo_spectro(X = X, tree = tree, offset = 0.2, par.mar = rep(3, 4), inner.mar = rep(0, 4), 
-#' size = 2, type = "fan", show.tip.label = FALSE, edge.color = "red", edge.width = 2)
+#' size = 2, type = "fan", show.tip.label = FALSE, edge.color = "red", edge.width = 2, 
+#' box = FALSE, axis = FALSE)
 #' 
 #' # plotting a tree representing cross-correlation distances 
 #' xcorr_mat <- cross_correlation(X, bp = c(1, 10))
@@ -87,7 +91,7 @@
 #' 
 #' phylo_spectro(X = X, tree = xc.tree, offset = 0.03, par.mar = rep(3, 4), 
 #' inner.mar = rep(0, 4), size = 0.3, type = "fan", show.tip.label = FALSE, 
-#' edge.color = "red", edge.width = 2)
+#' edge.color = "red", edge.width = 2, box = FALSE, axis = FALSE)
 #'   }
 #' }
 #' @references {
@@ -97,7 +101,7 @@
 #last modification on oct-1-2018 (MAS)
 
 phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size = 1, offset = 0, 
-                         path = NULL, ladder = NULL, horizontal = TRUE, ...) {
+                         path = NULL, ladder = NULL, horizontal = TRUE, axis = TRUE, box = TRUE, ...) {
 
   # error message if ape is not installed
   if (!requireNamespace("ape",quietly = TRUE))

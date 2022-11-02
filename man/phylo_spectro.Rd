@@ -5,7 +5,8 @@
 \title{Add spectrograms onto phylogenetic trees}
 \usage{
 phylo_spectro(X, tree, type = "phylogram", par.mar = rep(1, 4), 
-size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, ...)
+size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, axis = TRUE, 
+box = TRUE, ...)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
@@ -37,6 +38,10 @@ tree is reorganized to get the ladderized effect when plotted). Only 'left' of '
 
 \item{horizontal}{Logical. Controls whether spectrograms in a fan phylogeny are place in a horizontal position 
 \code{FALSE} or in the same angle as the tree tips. Currently only horizontal spectrograms are available.}
+
+\item{axis}{Logical to control if the Y and X axis of spectrograms are plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.}
+
+\item{box}{Logical to control if the box around spectrograms is plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram 
 creating function (\code{\link{spectrograms}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 
@@ -87,15 +92,16 @@ phylo_spectro(X = X, tree = tree, par.mar = c(0, 0, 0, 8), size = 2)
 
 # no margin in spectrograms and showing tip labels (higher offset)
 phylo_spectro(X = X, tree = tree, offset = 0.1, par.mar = c(0, 0, 0, 6), 
-inner.mar = rep(0, 4), size = 2)
+inner.mar = rep(0, 4), size = 2, box = FALSE, axis = FALSE)
 
 # print fan tree and no margin in spectrograms
 phylo_spectro(X = X, tree = tree, offset = 0.6, par.mar = rep(3, 4),
-inner.mar = rep(0, 4), size = 2, type = "fan", show.tip.label = FALSE)
+inner.mar = rep(0, 4), size = 2, type = "fan", show.tip.label = FALSE, box = FALSE, axis = FALSE)
 
 # changing edge color and witdh
 phylo_spectro(X = X, tree = tree, offset = 0.2, par.mar = rep(3, 4), inner.mar = rep(0, 4), 
-size = 2, type = "fan", show.tip.label = FALSE, edge.color = "red", edge.width = 2)
+size = 2, type = "fan", show.tip.label = FALSE, edge.color = "red", edge.width = 2, 
+box = FALSE, axis = FALSE)
 
 # plotting a tree representing cross-correlation distances 
 xcorr_mat <- cross_correlation(X, bp = c(1, 10))
@@ -106,7 +112,7 @@ X$tip.label <- xc.tree$tip.label
 
 phylo_spectro(X = X, tree = xc.tree, offset = 0.03, par.mar = rep(3, 4), 
 inner.mar = rep(0, 4), size = 0.3, type = "fan", show.tip.label = FALSE, 
-edge.color = "red", edge.width = 2)
+edge.color = "red", edge.width = 2, box = FALSE, axis = FALSE)
   }
 }
 }

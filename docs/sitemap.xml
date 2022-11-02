@@ -1,37 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://marce10.github.io/warbleR/404.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/articles/Intro_to_warbleR.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_01.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_02.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_03.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/authors.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/index.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/news/index (Marcelo Araya's conflicted copy 2020-10-24).html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/news/index.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/auto_detec.html</loc>
@@ -58,9 +28,6 @@
     <loc>https://marce10.github.io/warbleR/reference/checksels.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/checkwavs.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/color.spectro.html</loc>
   </url>
   <url>
@@ -85,12 +52,6 @@
     <loc>https://marce10.github.io/warbleR/reference/coor.test.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/coor_graph.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/coor_test.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/cross_correlation.html</loc>
   </url>
   <url>
@@ -103,43 +64,16 @@
     <loc>https://marce10.github.io/warbleR/reference/df_DTW.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/df_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/dfts.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/diagnose_detection.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/duration_sound_files.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/duration_wavs.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/entropy_ts.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/envelope.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/est_rename_waves.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/est_resample.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/ffDTW.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/ff_DTW.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/ff_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/ffts.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/filter_sels.html</loc>
@@ -166,10 +100,10 @@
     <loc>https://marce10.github.io/warbleR/reference/fixwavs.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/frange.detec.html</loc>
+    <loc>https://marce10.github.io/warbleR/reference/frange.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/frange.html</loc>
+    <loc>https://marce10.github.io/warbleR/reference/frange.detec.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/freq_DTW.html</loc>
@@ -181,16 +115,7 @@
     <loc>https://marce10.github.io/warbleR/reference/freq_range_detec.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/freq_track.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/freq_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/full_spec.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/full_spec2pdf.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/full_spectrogram2pdf.html</loc>
@@ -202,19 +127,7 @@
     <loc>https://marce10.github.io/warbleR/reference/gaps.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/harmonic_track.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/image_to_wave.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/imp.raven.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/index (Marcelo Araya's conflicted copy 2020-10-24).html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/index.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/inflections.html</loc>
@@ -235,9 +148,6 @@
     <loc>https://marce10.github.io/warbleR/reference/is_selection_table.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/lbh_selec_reference.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/lbh_selec_table.html</loc>
   </url>
   <url>
@@ -251,12 +161,6 @@
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/make.selection.table.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/manual_loc.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/manualoc.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/map_xc.html</loc>
@@ -289,15 +193,6 @@
     <loc>https://marce10.github.io/warbleR/reference/optimize_auto_detec.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/optimize_autodetec.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/optimize_cross_correlation.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/optimize_find_peaks.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/overlapping_sels.html</loc>
   </url>
   <url>
@@ -323,9 +218,6 @@
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/print.xcorr.output.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/quer_xc.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/querxc.html</loc>
@@ -358,9 +250,6 @@
     <loc>https://marce10.github.io/warbleR/reference/rename_waves_est.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/resample_est.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/resample_est_waves.html</loc>
   </url>
   <url>
@@ -368,24 +257,6 @@
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/rm_sil.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/se_ts.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/sel_check.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/sel_cut.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/sel_filter.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/sel_overlap.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/sel_tailor.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/selec.table.html</loc>
@@ -401,9 +272,6 @@
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/signal_2_noise.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/sim.coor.sing.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/sim_coor_sing.html</loc>
@@ -436,12 +304,6 @@
     <loc>https://marce10.github.io/warbleR/reference/sound_pressure_level.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/sp.en.ts.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/spec_an.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/spec_param.html</loc>
   </url>
   <url>
@@ -452,9 +314,6 @@
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/spectro_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/spectro_tweak.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/spectrograms.html</loc>
@@ -472,9 +331,6 @@
     <loc>https://marce10.github.io/warbleR/reference/sub-.selection_table.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/summarize_diagnostic.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/tailor_sels.html</loc>
   </url>
   <url>
@@ -482,12 +338,6 @@
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/track_freq_contour.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/track_freqs.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/track_harm.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/track_harmonic.html</loc>
@@ -511,19 +361,10 @@
     <loc>https://marce10.github.io/warbleR/reference/wav_2_flac.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/wav_check.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/wav_dur.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/wav_fix.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/wav_info.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/wav_split.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/wavdur.html</loc>
@@ -532,18 +373,21 @@
     <loc>https://marce10.github.io/warbleR/reference/wpd_features.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/x_corr.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/xc_maps.html</loc>
-  </url>
-  <url>
-    <loc>https://marce10.github.io/warbleR/reference/xc_query.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/xcmaps.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/xcorr.html</loc>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/warbleR/articles/Intro_to_warbleR.html</loc>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_01.html</loc>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_02.html</loc>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_03.html</loc>
   </url>
 </urlset>

@@ -35,6 +35,8 @@ specreator(
   sel.labels = "selec",
   title.labels = NULL,
   dest.path = NULL,
+  box = TRUE,
+  axis = TRUE,
   ...
 )
 }

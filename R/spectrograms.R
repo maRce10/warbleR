@@ -6,7 +6,8 @@
 #' cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 #' col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3, 
 #' mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, 
-#' by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...)
+#' by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, 
+#' box = TRUE, axis = TRUE, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
 #' selection number (selec), and start and end time of signals (start and end). 
 #' 'top.freq' and 'bottom.freq' columns are optional. If using an 
@@ -75,6 +76,8 @@
 #' @param title.labels Character string with the name(s) of the column(s) to use as title. Default is \code{NULL} (no title). Only sound file and song included if 'by.song' is provided.
 #' @param dest.path Character string containing the directory path where the image files will be saved.
 #' If \code{NULL} (default) then the folder containing the sound files will be used instead.
+#' @param box Logical to control if the box around the spectrogram is plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.
+#' @param axis Logical to control if the Y and X axis are of the spectrogram are plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to the internal spectrogram 
 #' creating function for customizing graphical output. The function is a modified 
 #' version of \code{\link[seewave]{spectro}}, so it takes the same arguments. 
@@ -116,7 +119,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
                         inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, 
                         cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE,  gr = FALSE,
                        sc = FALSE, line = TRUE, col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3, mar = 0.05, 
-                       it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...){
+                       it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, box = TRUE, axis = TRUE, ...){
   
   #### set arguments from options
   # get function arguments
@@ -290,7 +293,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
   spectro_wrblr_int(wave = warbleR::read_sound_file(X = X, path = path, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning",
                      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black", 
                      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)", 
-                     flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, ...)
+                     flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, box = box, axisX = axis, axisY = axis, ...)
     
     # Add title to spectrogram
     if (is.null(title.labels)){ 

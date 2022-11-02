@@ -9,7 +9,8 @@ ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, re
 cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
 col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3, 
 mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, 
-by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, ...)
+by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, 
+box = TRUE, axis = TRUE, ...)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
@@ -109,6 +110,10 @@ labeling. Default is 'selec'. Set to \code{NULL} to remove labels.}
 
 \item{dest.path}{Character string containing the directory path where the image files will be saved.
 If \code{NULL} (default) then the folder containing the sound files will be used instead.}
+
+\item{box}{Logical to control if the box around the spectrogram is plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.}
+
+\item{axis}{Logical to control if the Y and X axis are of the spectrogram are plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram 
 creating function for customizing graphical output. The function is a modified 

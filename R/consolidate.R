@@ -114,7 +114,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
     files <- list.files(path = path, pattern = file.ext, ignore.case = TRUE, recursive = TRUE, full.names = TRUE) 
   
   # stop if files are not in working directory
-  if (length(files) == 0) stop2("no files found in working directory and/or subdirectories")
+  if (length(files) == 0) stop2("no files found in working directory and/or subdirectories") else cat(paste(length(files), "files were found"))
   
   # create new names for duplicated songs
   old_name <- basename(files)
@@ -144,9 +144,6 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   #create function to run within Xapply functions downstream     
   copyFUN <- function(i, dp, df) file.copy(from = file.path(df$original_dir[i], df$old_name[i]), to = file.path(dp, df$new_name[i]), ...)
 
-  
-  
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
