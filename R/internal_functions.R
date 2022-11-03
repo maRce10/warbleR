@@ -78,7 +78,8 @@ fade_env_wrblr_int <- function(nvlp, fin = 0.1, fout = 0.2, shape = "linear")
   
   
   MID <- rep(1, n - (length(IN) + length(OUT)))
-  return(c(IN, MID, rev(OUT)))
+  MID <- nvlp[(length(IN) + 1):(n - length(OUT))]
+    return(c(IN, MID, rev(OUT)))
 }
 
 

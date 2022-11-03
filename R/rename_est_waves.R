@@ -4,7 +4,7 @@
 #' @export rename_est_waves
 #' @usage rename_est_waves(X, new.sound.files, new.selec = NULL)
 #' @param X object of class 'extended_selection_table'. 
-#' @param new.sound.files Character vector of length equals to the number of rows in 'X'. Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'. Must be provided and must contain unique labels for each row if the extended selection table was created by element (see  \code{\link{selection_table}}). If created by song, then a single name for each sound file should be supplied.
+#' @param new.sound.files Character vector of length equals to the number of wave objects in the extended selection table (\code{length(attr(X, "wave.objects"))}).Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'.
 #' @param new.selec Numeric or character vector of length equals to the number of rows in 'X' to specify the 'selec' column labels. Default is \code{NULL}. If not provided the 'selec' column is kept unchanged. Note that the combination of 'sound.files' and 'selec' columns must produce unique IDs for each selection (row).
 #' @return An extended selection table with rename sound files names in data frame and attributes. The function adds columns with the previous sound file names (and 'selec' if provided).
 #' @family extended selection table manipulation
@@ -36,12 +36,12 @@
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-#last modification on nov-12-2019 (MAS)
+#last modification on nov-12-2019 (MAS)}
 
 rename_est_waves <- function(X, new.sound.files, new.selec = NULL){
   
   # check length of new.sound.files
-  if (length(new.sound.files) != nrow(X)) stop2("length of 'new.sound.files' must be equal to number of rows in 'X'")
+  if (length(new.sound.files) !=  length(attr(X, "wave.objects"))) stop2("length of 'new.sound.files' must be equal to number of wave objects (length(attr(W, 'wave.objects')))")
 
   if (attributes(X)$by.song$by.song & length(unique(new.sound.files)) != length((attributes(X)$wave.objects))) stop2("number of unique 'new.sound.files' must be equal to number of wave objects in 'X'")
   

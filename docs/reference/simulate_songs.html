@@ -145,11 +145,12 @@
     <p><code>simulate_songs</code> simulate animal vocalizations in a wave object under brownian motion frequency drift.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>simulate_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span>, durs <span class='op'>=</span> <span class='fl'>0.2</span>, harms <span class='op'>=</span> <span class='fl'>3</span>, harm.amps <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span><span class='op'>)</span>, am.amps <span class='op'>=</span> <span class='fl'>1</span>, 
-gaps <span class='op'>=</span> <span class='fl'>0.1</span>, freqs <span class='op'>=</span> <span class='fl'>5</span>, samp.rate <span class='op'>=</span> <span class='fl'>44.1</span>, sig2 <span class='op'>=</span> <span class='fl'>0.5</span>, 
-steps <span class='op'>=</span> <span class='fl'>10</span>, bgn <span class='op'>=</span> <span class='fl'>0.5</span>, seed <span class='op'>=</span> <span class='cn'>NULL</span>, diff.fun <span class='op'>=</span> <span class='st'>"GBM"</span>, 
-fin <span class='op'>=</span> <span class='fl'>0.1</span>, fout <span class='op'>=</span> <span class='fl'>0.2</span>, shape <span class='op'>=</span> <span class='st'>"linear"</span>, selec.table <span class='op'>=</span> <span class='cn'>FALSE</span>, 
-file.name <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>simulate_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span>, durs <span class='op'>=</span> <span class='fl'>0.2</span>, harms <span class='op'>=</span> <span class='fl'>3</span>, harm.amps <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>0.5</span>, <span class='fl'>0.2</span><span class='op'>)</span>, am.amps <span class='op'>=</span> <span class='fl'>1</span>,
+gaps <span class='op'>=</span> <span class='fl'>0.1</span>, freqs <span class='op'>=</span> <span class='fl'>5</span>, samp.rate <span class='op'>=</span> <span class='fl'>44.1</span>, sig2 <span class='op'>=</span> <span class='fl'>0.5</span>,
+steps <span class='op'>=</span> <span class='fl'>10</span>, bgn <span class='op'>=</span> <span class='fl'>0.5</span>, seed <span class='op'>=</span> <span class='cn'>NULL</span>, diff.fun <span class='op'>=</span> <span class='st'>"GBM"</span>,
+fin <span class='op'>=</span> <span class='fl'>0.1</span>, fout <span class='op'>=</span> <span class='fl'>0.2</span>, shape <span class='op'>=</span> <span class='st'>"linear"</span>, selec.table <span class='op'>=</span> <span class='cn'>FALSE</span>,
+file.name <span class='op'>=</span> <span class='cn'>NULL</span>, path <span class='op'>=</span> <span class='cn'>NULL</span>,
+hrm.freqs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>2</span><span class='op'>/</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span>, <span class='fl'>3</span><span class='op'>/</span><span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>6</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>7</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>8</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>9</span>, <span class='fl'>1</span><span class='op'>/</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,7 +161,7 @@ file.name <span class='op'>=</span> <span class='cn'>NULL</span>, path <span cla
     </tr>
     <tr>
       <th>durs</th>
-      <td><p>Numeric vector with the duration of subunits in seconds. It should either be a single value (which would 
+      <td><p>Numeric vector with the duration of subunits in seconds. It should either be a single value (which would
 be used for all subunits) or a vector of length <code>n</code>.</p></td>
     </tr>
     <tr>
@@ -174,7 +175,7 @@ frequency harmonic will be simulated.</p></td>
     </tr>
     <tr>
       <th>am.amps</th>
-      <td><p>Numeric vector with the relative amplitude for each step (see 'step' argument) to simulate amplitude modulation (only applied to the fundamental frequency). Should have the same length as the number of steps. Default is 1 (no amplitude modulation). If supplied 'fin' and 'fout' are ignored.</p></td>
+      <td><p>Numeric vector with the relative amplitude for each step (see 'step' argument) to simulate amplitude modulation (only applied to the fundamental frequency). Should have the same length as the number of steps. Default is 1 (no amplitude modulation).</p></td>
     </tr>
     <tr>
       <th>gaps</th>
@@ -183,7 +184,7 @@ frequency harmonic will be simulated.</p></td>
     </tr>
     <tr>
       <th>freqs</th>
-      <td><p>Numeric vector with the initial frequency of the subunits (and ending frequency if <code>diff.fun == "BB"</code>) in kHz. 
+      <td><p>Numeric vector with the initial frequency of the subunits (and ending frequency if <code>diff.fun == "BB"</code>) in kHz.
 It should either be a single value (which would  be used for all subunits) or a vector of length <code>n</code>.</p></td>
     </tr>
     <tr>
@@ -193,19 +194,19 @@ It should either be a single value (which would  be used for all subunits) or a 
     <tr>
       <th>sig2</th>
       <td><p>Numeric vector defining the sigma value of the brownian motion model. It should either be a single value
- (which would be used for all subunits) or a vector of length <code>n + 1</code>.  Higher values will produce faster 
-frequency modulations. Ignored if <code>diff.fun == "BB"</code>. Default is 0.1. Check the 'BB' function in the Sim.DiffProc package 
+ (which would be used for all subunits) or a vector of length <code>n + 1</code>.  Higher values will produce faster
+frequency modulations. Ignored if <code>diff.fun == "BB"</code>. Default is 0.1. Check the 'BB' function in the Sim.DiffProc package
 for more details.</p></td>
     </tr>
     <tr>
       <th>steps</th>
-      <td><p>Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during 
-the brownian motion process. If not all subunits have the same duration, longer units will be split in more steps (although 
+      <td><p>Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during
+the brownian motion process. If not all subunits have the same duration, longer units will be split in more steps (although
 the average duration subunit will have the predefined number of steps). Default is 10.</p></td>
     </tr>
     <tr>
       <th>bgn</th>
-      <td><p>Numeric vector of length 1 indicating the background noise level. 0 means no additional noise will 1 means 
+      <td><p>Numeric vector of length 1 indicating the background noise level. 0 means no additional noise will 1 means
 noise at the same amplitude than the song subunits. Default is 0.5.</p></td>
     </tr>
     <tr>
@@ -214,13 +215,13 @@ noise at the same amplitude than the song subunits. Default is 0.5.</p></td>
     </tr>
     <tr>
       <th>diff.fun</th>
-      <td><p>Character vector of length 1 controlling the function used to simulate the brownian motion process of 
-frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time. Check the 'BB' function in the Sim.DiffProc package 
+      <td><p>Character vector of length 1 controlling the function used to simulate the brownian motion process of
+frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time. Check the 'BB' function in the Sim.DiffProc package
 for more details.</p></td>
     </tr>
     <tr>
       <th>fin</th>
-      <td><p>Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1). 
+      <td><p>Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1).
 Default is 0.1. Note that 'fin' + 'fout' cannot be higher than 1.</p></td>
     </tr>
     <tr>
@@ -241,13 +242,17 @@ a ".wav" file in savd in the working directory. Default is <code>FALSE</code>.</
     </tr>
     <tr>
       <th>file.name</th>
-      <td><p>Character string for naming the ".wav" file. Ignored if 
+      <td><p>Character string for naming the ".wav" file. Ignored if
 'selec.table' is <code>FALSE</code>. If not provided the date-time stamp will be used.</p></td>
     </tr>
     <tr>
       <th>path</th>
-      <td><p>Character string containing the directory path where the sound files are located. Ignored if 'selec.table' is <code>FALSE</code>. 
+      <td><p>Character string containing the directory path where the sound files are located. Ignored if 'selec.table' is <code>FALSE</code>.
 If <code>NULL</code> (default) then the current working directory is used.</p></td>
+    </tr>
+    <tr>
+      <th>hrm.freqs</th>
+      <td><p>Numeric vector with the frequencies of the harmonics relative to the fundamental frequency. The default values are c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10).</p></td>
     </tr>
     </table>
 
@@ -256,8 +261,8 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     <p>A wave object containing the simulated songs. If 'selec.table' is <code>TRUE</code> the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This functions uses a geometric (<code>diff.fun == "GBM"</code>) or Brownian bridge (<code>diff.fun == "BB"</code>) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time). 
-The function can also simulate pure tones (<code>diff.fun == "pure.tone"</code>, 'sig2' is ignored). 
+    <p>This functions uses a geometric (<code>diff.fun == "GBM"</code>) or Brownian bridge (<code>diff.fun == "BB"</code>) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time).
+The function can also simulate pure tones (<code>diff.fun == "pure.tone"</code>, 'sig2' is ignored).
 Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -273,10 +278,10 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
     <pre class="examples"><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
  <span class='co'># simulate a song with 3 elements and no harmonics</span>
  <span class='va'>sm_sng</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>3</span>, harms <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
- 
+
  <span class='co'># plot spectro</span>
  <span class='fu'>seewave</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span><span class='op'>(</span><span class='va'>sm_sng</span><span class='op'>)</span>
- 
+
  <span class='co'># simulate a song with 5 elements and 2 extra harmonics</span>
 <span class='va'>sm_sng2</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span>, harms <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
@@ -284,8 +289,8 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
  <span class='fu'>seewave</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></span><span class='op'>(</span><span class='va'>sm_sng2</span><span class='op'>)</span>
 
 <span class='co'># six pure tones with frequency ranging form 4 to 6 and returning selection table</span>
-<span class='va'>sm_sng</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>6</span>, harms <span class='op'>=</span> <span class='fl'>1</span>, seed <span class='op'>=</span> <span class='fl'>1</span>, diff.fun <span class='op'>=</span> <span class='st'>"pure.tone"</span>, 
-                  freqs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>6</span>, length.out <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>, selec.table <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+<span class='va'>sm_sng</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_songs</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>6</span>, harms <span class='op'>=</span> <span class='fl'>1</span>, seed <span class='op'>=</span> <span class='fl'>1</span>, diff.fun <span class='op'>=</span> <span class='st'>"pure.tone"</span>,
+                  freqs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>6</span>, length.out <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>, selec.table <span class='op'>=</span> <span class='cn'>TRUE</span>,
                   path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># plot spectro</span>

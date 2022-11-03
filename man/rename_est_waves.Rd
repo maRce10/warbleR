@@ -9,7 +9,7 @@ rename_est_waves(X, new.sound.files, new.selec = NULL)
 \arguments{
 \item{X}{object of class 'extended_selection_table'.}
 
-\item{new.sound.files}{Character vector of length equals to the number of rows in 'X'. Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'. Must be provided and must contain unique labels for each row if the extended selection table was created by element (see  \code{\link{selection_table}}). If created by song, then a single name for each sound file should be supplied.}
+\item{new.sound.files}{Character vector of length equals to the number of wave objects in the extended selection table (\code{length(attr(X, "wave.objects"))}).Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'.}
 
 \item{new.selec}{Numeric or character vector of length equals to the number of rows in 'X' to specify the 'selec' column labels. Default is \code{NULL}. If not provided the 'selec' column is kept unchanged. Note that the combination of 'sound.files' and 'selec' columns must produce unique IDs for each selection (row).}
 }

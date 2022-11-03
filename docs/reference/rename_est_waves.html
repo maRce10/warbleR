@@ -156,7 +156,7 @@
     </tr>
     <tr>
       <th>new.sound.files</th>
-      <td><p>Character vector of length equals to the number of rows in 'X'. Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'. Must be provided and must contain unique labels for each row if the extended selection table was created by element (see  <code><a href='selection_table.html'>selection_table</a></code>). If created by song, then a single name for each sound file should be supplied.</p></td>
+      <td><p>Character vector of length equals to the number of wave objects in the extended selection table (<code><a href='https://rdrr.io/r/base/length.html'>length(attr(X, "wave.objects"))</a></code>).Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'.</p></td>
     </tr>
     <tr>
       <th>new.selec</th>

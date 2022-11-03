@@ -85,7 +85,7 @@ in the working directory
    }
 If no errors are found the a selection table or extended selection table will be generated. 
 Note that the sound files should be in the working directory (or the directory provided in 'path').
-This is useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}, \code{\link{cross_correlation}}, \code{\link{catalog}}, \code{\link{freq_DTW}}). Note also that corrupt files can be
+This is useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}, \code{\link{cross_correlation}},  \code{\link{catalog}}, \code{\link{freq_DTW}}). Note also that corrupt files can be
 fixed using \code{\link{fix_wavs}} ('sox' must be installed to be able to run this function).
 The 'selection_table' class can be input in subsequent functions. 
 

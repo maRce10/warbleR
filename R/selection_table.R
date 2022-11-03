@@ -60,7 +60,7 @@
 #'    }
 #' If no errors are found the a selection table or extended selection table will be generated. 
 #' Note that the sound files should be in the working directory (or the directory provided in 'path').
-#' This is useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}, \code{\link{cross_correlation}}, \code{\link{catalog}}, \code{\link{freq_DTW}}). Note also that corrupt files can be
+#' This is useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}, \code{\link{cross_correlation}},  \code{\link{catalog}}, \code{\link{freq_DTW}}). Note also that corrupt files can be
 #' fixed using \code{\link{fix_wavs}} ('sox' must be installed to be able to run this function).
 #' The 'selection_table' class can be input in subsequent functions. 
 #' 
@@ -513,7 +513,10 @@ print.extended_selection_table <- function(x, ...) {
   if (!is.null(attributes(x)$call)){
     cat(crayon::silver(paste("* The output of the following", "call: \n")))
     
-    cll <- paste0(deparse(attributes(x)$call))
+    cll <- deparse(attributes(x)$call)
+    if (length(cll) > 1) cll <- paste(cll, collapse = " ")
+    if(nchar(as.character(cll)) > 250) 
+      cll <- paste(substr(x = as.character(cll), start = 0, stop = 250), "...")
     cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
   }
   
@@ -803,23 +806,3 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
   
   return(W)
 }
-
-## Example
-# data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-#
-# 
-#
-# writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-# writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-# writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-# writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
-# 
-# # create extended selection table
-# # st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE)
-# st1 <- st[1:5, ]
-# 
-# st2 <- st[6:10, ]
-# 
-# # fix selection table
-# st <- rbind(X = st1, Y = st2)
-
