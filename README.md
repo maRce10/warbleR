@@ -8,16 +8,16 @@ warbleR: Streamline Bioacoustic Analysis
 [![Project Status: Active The project has reached a stable, usable state
 and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Licence](https://img.shields.io/badge/https://img.shields.io/badge/licence-GPL--2-blue.svg.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-%3E=%203.2.1-6666ff.svg)](https://cran.r-project.org/)
-[![packageversion](https://img.shields.io/badge/Package%20version-1.1.27-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2022--07--01-yellowgreen.svg)](/commits/master)
+[![packageversion](https://img.shields.io/badge/Package%20version-1.1.28-orange.svg?style=flat-square)](commits/develop)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2022--11--08-yellowgreen.svg)](/commits/master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
 
-<img src="vignettes/warbleR_sticker_v3.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
+<img src="vignettes/warbleR_sticker_v4.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
 
 [warbleR](https://cran.r-project.org/package=warbleR) is intended to
 facilitate the analysis of the structure of animal acoustic signals in
@@ -39,7 +39,7 @@ The main features of the package are:
 
 The package offers functions to:
 
--   Explore and download Xeno ‐ Canto recordings
+-   Explore and download [Xeno‐Canto](xeno-canto.org/) recordings
 -   Explore, organize and manipulate multiple sound files
 -   Detect signals automatically (in frequency and time) (but check the
     R package [ohun](https://marce10.github.io/ohun/index.html) for a

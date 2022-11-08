@@ -15,7 +15,7 @@ adjust.wl = TRUE, ...)
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data 
 frame containing columns for sound file name (sound.files), 
 selection number (selec), and start and end time of signal (start and end).
-The output of\code{\link{auto_detec}} can be used as the input data frame.}
+The output of \code{\link{auto_detec}} can be used as the input data frame.}
 
 \item{type}{Character string to determine the type of contour to be detected. Three options are available, "dominant" (default), "fundamental" and "entropy".}
 
