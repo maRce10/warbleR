@@ -45,8 +45,18 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   if (!requireNamespace("bioacoustics", quietly = TRUE) & !is.null(samp.rate))
     stop2("must install 'bioacoustics' to use mp32wav() for changing sampling rate")
   
-  
-  
+  # error message if sox is not installed / available on path (Darwin)
+  if (Sys.info()[1] == "Darwin") {
+                return <-
+                        system(paste("which sox", sep = " "),
+                               ignore.stderr = TRUE,
+                               intern = FALSE,
+                               ignore.stdout = TRUE)
+                
+                if (return == 1) {
+                        stop2("Sox is not installed or is not available in path")
+                }
+        }
   
   #### set arguments from options
   # get function arguments
