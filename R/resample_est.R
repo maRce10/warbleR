@@ -1,7 +1,7 @@
 #' Resample wave objects in a extended selection table
 #' 
-#' \code{resample_est_waves} changes sampling rate and bit depth of wave objects in a extended selection table.
-#' @usage resample_est_waves(X, samp.rate = 44.1, bit.depth = 16,
+#' \code{resample_est} changes sampling rate and bit depth of wave objects in a extended selection table.
+#' @usage resample_est(X, samp.rate = 44.1, bit.depth = 16,
 #'  avoid.clip = TRUE, pb = FALSE, parallel = 1)
 #' @param X object of class 'extended_selection_table' (see \code{\link{selection_table}}).
 #' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
@@ -15,7 +15,7 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @return  An extended selection table with the modified wave objects. 
 #' @export
-#' @name resample_est_waves
+#' @name resample_est
 #' @details This function aims to simplify the process of homogenizing sound 
 #' files (sampling rate and bit depth). This is a necessary step before running 
 #' any further (bio)acoustic analysis. \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed.
@@ -32,7 +32,7 @@
 #' path = tempdir())
 #' 
 #' # resample
-#' Y <- resample_est_waves(X)
+#' Y <- resample_est(X)
 #' }
 #' @family extended selection table manipulation
 #' @seealso \code{\link{mp32wav}}, \code{\link{fix_wavs}}
@@ -42,7 +42,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #' #last modification on oct-15-2018 (MAS)
 
-resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE, pb = FALSE, parallel = 1)
+resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE, pb = FALSE, parallel = 1)
 {
   
   # error message if bioacoustics is not installed
@@ -53,13 +53,10 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
   if (length(bit.depth) >1) stop2("'bit.depth' should have a single value")
     bit.depth <- as.character(bit.depth)
     if (!bit.depth %in% c("1", "8", "16", "24", "32", "64", "0")) stop2('only this "bit.depth" values allowed c("1", "8", "16", "24", "32", "64", "0") \n see ?tuneR::normalize')
-  
-  
-  
-  
+
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(mp32wav)
+  argms <- methods::formalArgs(resample_est)
   
   # get warbleR options
   opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
@@ -157,10 +154,10 @@ resample_est_waves <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip =
 }
 
 ##############################################################################################################
-#' alternative name for \code{\link{resample_est_waves}}
+#' alternative name for \code{\link{resample_est}}
 #'
 #' @keywords internal
-#' @details see \code{\link{resample_est_waves}} for documentation. \code{\link{resample_est_waves}} will be deprecated in future versions.
+#' @details see \code{\link{resample_est}} for documentation. \code{\link{resample_est_waves}} will be deprecated in future versions.
 #' @export
 
-resample_est_waves <- resample_est_waves
+resample_est_waves <- resample_est

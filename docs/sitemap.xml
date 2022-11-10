@@ -10,6 +10,9 @@
     <loc>https://marce10.github.io/warbleR/reference/autodetec.html</loc>
   </url>
   <url>
+    <loc>https://marce10.github.io/warbleR/reference/by_element_est.html</loc>
+  </url>
+  <url>
     <loc>https://marce10.github.io/warbleR/reference/catalog.html</loc>
   </url>
   <url>
@@ -248,6 +251,9 @@
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/rename_waves_est.html</loc>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/warbleR/reference/resample_est.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/resample_est_waves.html</loc>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Resample wave objects in a extended selection table — resample_est_waves • warbleR</title>
+<title>alternative name for resample_est — resample_est_waves • warbleR</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Resample wave objects in a extended selection table — resample_est_waves" />
-<meta property="og:description" content="resample_est_waves changes sampling rate and bit depth of wave objects in a extended selection table." />
+<meta property="og:title" content="alternative name for resample_est — resample_est_waves" />
+<meta property="og:description" content="alternative name for resample_est" />
 
 
 
@@ -136,19 +136,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Resample wave objects in a extended selection table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/resample_est_waves.R'><code>R/resample_est_waves.R</code></a></small>
+    <h1>alternative name for <code><a href='resample_est.html'>resample_est</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/maRce10/warbleR/blob/master/R/resample_est.R'><code>R/resample_est.R</code></a></small>
     <div class="hidden name"><code>resample_est_waves.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>resample_est_waves</code> changes sampling rate and bit depth of wave objects in a extended selection table.</p>
+    <p>alternative name for <code><a href='resample_est.html'>resample_est</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>resample_est_waves</span><span class='op'>(</span><span class='va'>X</span>, samp.rate <span class='op'>=</span> <span class='fl'>44.1</span>, bit.depth <span class='op'>=</span> <span class='fl'>16</span>,
- avoid.clip <span class='op'>=</span> <span class='cn'>TRUE</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span>, parallel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-
-<span class='fu'>resample_est_waves</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>resample_est_waves</span><span class='op'>(</span>
   <span class='va'>X</span>,
   samp.rate <span class='op'>=</span> <span class='fl'>44.1</span>,
   bit.depth <span class='op'>=</span> <span class='fl'>16</span>,
@@ -157,76 +154,11 @@
   parallel <span class='op'>=</span> <span class='fl'>1</span>
 <span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>X</th>
-      <td><p>object of class 'extended_selection_table' (see <code><a href='selection_table.html'>selection_table</a></code>).</p></td>
-    </tr>
-    <tr>
-      <th>samp.rate</th>
-      <td><p>Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>bit.depth</th>
-      <td><p>Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.</p></td>
-    </tr>
-    <tr>
-      <th>avoid.clip</th>
-      <td><p>Logical to control whether the volume is automatically 
-adjusted to avoid clipping high amplitude samples when resampling. Ignored if
- '<code>sox = FALSE</code>. Default is <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>pb</th>
-      <td><p>Logical argument to control progress bar. Default is <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>Numeric. Controls whether parallel computing is applied.
-It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An extended selection table with the modified wave objects.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function aims to simplify the process of homogenizing sound 
-files (sampling rate and bit depth). This is a necessary step before running 
-any further (bio)acoustic analysis. <a href='http://sox.sourceforge.net/sox.html'>SOX</a> must be installed.</p>
-<p>see <code>resample_est_waves</code> for documentation. <code>resample_est_waves</code> will be deprecated in future versions.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>see <code><a href='resample_est.html'>resample_est</a></code> for documentation. <code>resample_est_waves</code> will be deprecated in future versions.</p>
 
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='mp32wav.html'>mp32wav</a></code>, <code><a href='fix_wavs.html'>fix_wavs</a></code></p>
-<p>Other extended selection table manipulation: 
-<code><a href='rename_est_waves.html'>rename_est_waves</a>()</code></p></div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Marcelo Araya-Salas (<a href='mailto:marcelo.araya@ucr.ac.cr'>marcelo.araya@ucr.ac.cr</a>)
-#last modification on oct-15-2018 (MAS)</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Phae.long1"</span>, <span class='st'>"Phae.long2"</span>, <span class='st'>"Phae.long3"</span>, <span class='st'>"Phae.long4"</span>, <span class='st'>"selec_table"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long1</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long1.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long2</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long2.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long3</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long3.wav"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>writeWave</span><span class='op'>(</span><span class='va'>Phae.long4</span>, <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"Phae.long4.wav"</span><span class='op'>)</span><span class='op'>)</span> 
-
-<span class='co'># create extended selection table</span>
-<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='selection_table.html'>selection_table</a></span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>lbh_selec_table</span>, extended <span class='op'>=</span> <span class='cn'>TRUE</span>, confirm.extended <span class='op'>=</span> <span class='cn'>FALSE</span>, pb <span class='op'>=</span> <span class='cn'>FALSE</span>, 
-path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># resample</span>
-<span class='va'>Y</span> <span class='op'>&lt;-</span> <span class='fu'>resample_est_waves</span><span class='op'>(</span><span class='va'>X</span><span class='op'>)</span>
-<span class='op'>}</span>
-</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

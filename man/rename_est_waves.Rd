@@ -53,7 +53,8 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 \seealso{
 Other extended selection table manipulation: 
-\code{\link{resample_est_waves}()}
+\code{\link{by_element_est}()},
+\code{\link{resample_est}()}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

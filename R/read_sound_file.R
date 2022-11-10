@@ -165,7 +165,7 @@ read_sound_file <- function (X, index = NULL, from = X$start[index], to = X$end[
             # if to is infinite then duration of sound file
             if (is.infinite(to)) to <- length(object@left)/object@samp.rate
             
-            # if margin before  != 0 and 
+            # if margin before != 0 and 
             if (attr(X, "check.results")$mar.before[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & attr(X, "check.results")$mar.after[attr(X, "check.results")$sound.files == X$sound.files[index] & attr(X, "check.results")$selec == X$selec[index]] != 0 & any(to < length(object@left)/object@samp.rate, from > 0))  object <- seewave::cutw(object, from = from, to = to, output = "Wave") 
           }
         }
