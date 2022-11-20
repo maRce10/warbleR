@@ -8,7 +8,7 @@
 
 ffDTW <- ff_DTW <- function(...) write(file = "", x = "This function has been deprecated. DTW distances between fundamental frequency contours can be calculated using `freq_DTW`")
 
-ffts <- ff_ts <- function(...) write(file = "", x = "This function has been deprecated. Fundamental frequency contours can be calculated using `freq_ts`")
+freq_ts <- ff_ts <- function(...) write(file = "", x = "This function has been deprecated. Fundamental frequency contours can be calculated using `freq_ts`")
 
 dfts <- df_ts <- function(...) write(file = "", x = "This function has been deprecated. Dominant frequency contours can be calculated using `freq_ts`")
 

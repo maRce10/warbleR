@@ -73,7 +73,7 @@ by_element_est <- function(X, mar = 0.1, pb = FALSE, parallel = 1)
   # extract single wave object per row
   wavs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), FUN = function(x){
     
-    wav <- read_sound_file(X = X, index = x, from = X$start[x] - mar, to = X$end[x] + mar)
+    wav <- warbleR::read_sound_file(X = X, index = x, from = X$start[x] - mar, to = X$end[x] + mar)
     
     return(wav)
   })

@@ -30,7 +30,7 @@ BugReports: https://github.com/maRce10/warbleR/issues/
 NeedsCompilation: no
 Suggests: ggplot2, rmarkdown, jpeg, ape, soundgen, wavethresh, png, pracma, Sim.DiffProc, maps, leaflet, kableExtra
 VignetteBuilder: knitr, rmarkdown
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 Packaged: 2016-04-18 23:45:31 UTC; m
 Repository: CRAN

@@ -149,7 +149,7 @@ filled_contour_wrblr_int <- function (x = seq(0, 1, len = nrow(z)), y = seq(0, 1
                                       zlim = range(z, finite = TRUE), levels = pretty(zlim, nlevels), add = FALSE,
                                       nlevels = 20, color.palette = cm.colors, col = color.palette(length(levels) - 
                                                                                                      1), plot.title, plot.axes, key.title, asp = NA, xaxs = "i", 
-                                      yaxs = "i", las = 1, axisX = TRUE, axisY = TRUE, bg.col = "white", bx = TRUE) 
+                                      yaxs = "i", las = 1, axisX = TRUE, axisY = TRUE, bg.col = "white", bx = TRUE, cex.axis = 1) 
 {
   if (missing(z)) {
     if (!missing(x)) {
@@ -1017,7 +1017,7 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
                                 } else {
                                   NULL
                                 }
-                              }, col.lab = collab, colaxis = colaxis, bx = box,...) else {
+                              }, col.lab = collab, colaxis = colaxis, bx = box, ...) else {
                                 image(x = X, y = Y, z = Z, col = palette(30), xlab = tlab, ylab = flab, axes = FALSE)
                                 if (axisY) axis(2, at = yat, labels = ylabel)
                                 if(box) box()

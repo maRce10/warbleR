@@ -318,7 +318,7 @@ points(x = trck_hrm[ , 1] + 0.1, y =  trck_hrm[ , 2], cex = 1, col = "red", pch 
 ```{r, echo=TRUE, eval=FALSE}
 
 # Fundamental frequency contour
-ff_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "ffts", ff.method = "tuneR")
+ff_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "freq_ts", ff.method = "tuneR")
 
 str(ff_df)
 
@@ -329,7 +329,7 @@ str(ff_df)
 # Dominant frequency contour
 
 # Uses seewave function dfreq by default
-df_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "ffts", fsmooth = 0.2)
+df_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "freq_ts", fsmooth = 0.2)
 
 str(df_df)
 
@@ -463,7 +463,7 @@ This section on dynamic time warping methods is taken directly from [Marcelo Ara
 
 The dynamic time warping methods in `warbleR` all rely on functions from the `dtw` package, and are available for both dominant and fundamental frequencies. `df_DTW` and `ff_DTW` calculate the dominant and fundamental frequency contours, respectively, of each signal and compares using dynamic time warping. You can interpolate measurements across the frequency time series using the `length.out` argument. 
 
-These functions return a matrix of pairwise acoustic dissimilarity (e.g. acoustic "distance") measurements that can be used in analyses of acoustic similarity, as well as image files with the frequency contours plotted over the spectrograms. If you require only the time series without the dynamic time warping analysis for either the dominant or fundamental frequency, check out the functions `freq_ts`and `ffts`.
+These functions return a matrix of pairwise acoustic dissimilarity (e.g. acoustic "distance") measurements that can be used in analyses of acoustic similarity, as well as image files with the frequency contours plotted over the spectrograms. If you require only the time series without the dynamic time warping analysis for either the dominant or fundamental frequency, check out the functions `freq_ts`and `freq_ts`.
 
 Note that as the `freq_range` and `freq_range_detec` functions, the dynamic time warping functions tend to work best on more tonal signals. Check out the resulting image files in your working directory. 
 ```{r, eval=FALSE, echo=TRUE}

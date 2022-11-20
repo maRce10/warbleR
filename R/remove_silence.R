@@ -55,147 +55,260 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #last modification on mar-13-2018 (MAS)
 
-remove_silence <- function(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL, 
-                   files = NULL, flist = NULL, parallel = 1, pb = TRUE, downsample = TRUE)
-{
-
-  
-  
-  
-  # flist deprecated
-  if (!is.null(flist))  write(file = "", x = "'flist' has been deprecated and will be ignored. Please use 'files' instead.")
-  
-  #### set arguments from options
-  # get function arguments
-  argms <- methods::formalArgs(remove_silence)
-  
-  # get warbleR options
-  opt.argms <- if(!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
-  
-  # remove options not as default in call and not in function arguments
-  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
-  
-  # get arguments set in the call
-  call.argms <- as.list(base::match.call())[-1]
-  
-  # remove arguments in options that are in call
-  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
-  
-  # set options left
-  if (length(opt.argms) > 0)
-    for (q in 1:length(opt.argms))
-      assign(names(opt.argms)[q], opt.argms[[q]])
-  
-  #check path to working directory
-  if (is.null(path)) path <- getwd() else 
-    if (!dir.exists(path)) stop2("'path' provided does not exist") else
-      path <- normalizePath(path) 
-  
-  #read files
-  wavs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)  
-  
-  #stop if files are not in working directory
-  if (length(wavs) == 0) stop2("no sound files in working directory")
-  
-  #subet based on file list provided (wavs)
-  if (!is.null(files)) wavs <- wavs[wavs %in% files]
-  if (length(wavs) == 0)  stop2("selected sound files are not in working directory")
-
-  #if it argument is not "jpeg" or "tiff" 
-  if (!any(it == "jpeg", it == "tiff")) stop2(paste("Image type", it, "not allowed"))  
-  
-  #if parallel is not numeric
-  if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1") 
-  if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
-  
-  wavs <- wavs[!is.na(wavs)]
-  
-  #stop if wavs are not in working directory
-  if (length(wavs) == 0) stop2("all sound files have been processed")
-  
-  dir.create(file.path(path, "silence-removed_files"), showWarnings = FALSE)
-  
-  rm.sil.FUN <- function(fl, f = 5000, msd = min.sil.dur, flm = flim, mg = img) {
+remove_silence <-
+  function(path = NULL,
+           min.sil.dur = 2,
+           img = TRUE,
+           it = "jpeg",
+           flim = NULL,
+           files = NULL,
+           flist = NULL,
+           parallel = 1,
+           pb = TRUE,
+           downsample = TRUE)
+  {
+    # flist deprecated
+    if (!is.null(flist))
+      write(file = "", x = "'flist' has been deprecated and will be ignored. Please use 'files' instead.")
     
-    # read wave
-    wv <- warbleR::read_sound_file(X = fl, path = path)  
+    #### set arguments from options
+    # get function arguments
+    argms <- methods::formalArgs(remove_silence)
     
-    #in case flim is higher than can be due to sampling rate
-    if (!is.null(flim)) {
-    if (flm[2] > floor(wv@samp.rate / 2000)) flm[2] <- floor(wv@samp.rate / 2000) 
-    } else
-      flm <- c(0, floor(wv@samp.rate / 2000)) 
+    # get warbleR options
+    opt.argms <-
+      if (!is.null(getOption("warbleR")))
+        getOption("warbleR") else
+      SILLYNAME <- 0
     
-    #downsample to speed up process
-    if (downsample) wv1 <- tuneR::downsample(object = wv, samp.rate =  f) else wv1 <- wv
+    # remove options not as default in call and not in function arguments
+    opt.argms <-
+      opt.argms[!sapply(opt.argms, is.null) &
+                  names(opt.argms) %in% argms]
     
-    # save temporary file
-    temp_file_name <- paste0(tempfile(), ".wav")
-    writeWave(wv1, temp_file_name)
-  
-    ad <- warbleR::auto_detec(threshold = 0.06, mindur = 0.0001, ssmooth = if (length(wv1) < 1500) 512 else 1500, parallel = 1, pb = FALSE, flist = if(downsample) basename(temp_file_name) else fl, path = if(downsample) dirname(temp_file_name) else path)
+    # get arguments set in the call
+    call.argms <- as.list(base::match.call())[-1]
     
-    # remove the silence less than min.sil.dur 
-    ad$remove <- "no"
+    # remove arguments in options that are in call
+    opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
     
-    if (nrow(ad) > 1) for(i in 1:(nrow(ad) - 1)) {
-      if (ad$start[i + 1] - ad$end[i] < msd) { 
-        ad$start[i + 1] <- ad$start[i]
-        ad$remove[i] <- "yes"
-        }
-    }
+    # set options left
+    if (length(opt.argms) > 0)
+      for (q in 1:length(opt.argms))
+        assign(names(opt.argms)[q], opt.argms[[q]])
     
-    ad <- ad[ad$remove == "no", ]
+    #check path to working directory
+    if (is.null(path))
+      path <- getwd() else
+      if (!dir.exists(path))
+        stop2("'path' provided does not exist") else
+      path <- normalizePath(path)
     
-    if (img)
-    {
-      img_wrlbr_int(filename = paste0(fl, ".rm.silence.", it), path = file.path(path, "silence-removed_files"),  res = 160, units = "in", width = 8.5, height = 4) 
+    #read files
+    wavs <-
+      list.files(path = path,
+                 pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$",
+                 ignore.case = TRUE)
     
-      par(mar = c(4, 4, 1, 1))
-      spectro_wrblr_int(wv, ovlp = 70, grid = FALSE, scale = FALSE, palette = monitoR::gray.3, axisX = TRUE, fast.spec = TRUE, flim = flm)
+    #stop if files are not in working directory
+    if (length(wavs) == 0)
+      stop2("no sound files in working directory")
     
-      # label silence in spectro
-      if (nrow(ad) > 1) lapply(1:(nrow(ad) - 1), function(z)
+    #subet based on file list provided (wavs)
+    if (!is.null(files))
+      wavs <- wavs[wavs %in% files]
+    if (length(wavs) == 0)
+      stop2("selected sound files are not in working directory")
+    
+    #if it argument is not "jpeg" or "tiff"
+    if (!any(it == "jpeg", it == "tiff"))
+      stop2(paste("Image type", it, "not allowed"))
+    
+    #if parallel is not numeric
+    if (!is.numeric(parallel))
+      stop2("'parallel' must be a numeric vector of length 1")
+    if (any(!(parallel %% 1 == 0), parallel < 1))
+      stop2("'parallel' should be a positive integer")
+    
+    wavs <- wavs[!is.na(wavs)]
+    
+    #stop if wavs are not in working directory
+    if (length(wavs) == 0)
+      stop2("all sound files have been processed")
+    
+    dir.create(file.path(path, "silence-removed_files"), showWarnings = FALSE)
+    
+    rm.sil.FUN <-
+      function(fl,
+               f = 5000,
+               msd = min.sil.dur,
+               flm = flim,
+               mg = img) {
+        # read wave
+        wv <- warbleR::read_sound_file(X = fl, path = path)
+        
+        #in case flim is higher than can be due to sampling rate
+        if (!is.null(flim)) {
+          if (flm[2] > floor(wv@samp.rate / 2000))
+            flm[2] <- floor(wv@samp.rate / 2000)
+        } else
+          flm <- c(0, floor(wv@samp.rate / 2000))
+        
+        #downsample to speed up process
+        if (downsample)
+          wv1 <-
+            tuneR::downsample(object = wv, samp.rate =  f) else
+          wv1 <- wv
+        
+        # save temporary file
+        temp_file_name <- paste0(tempfile(), ".wav")
+        writeWave(wv1, temp_file_name)
+        
+        ad <-
+          auto_detec(
+            threshold = 0.06,
+            mindur = 0.0001,
+            ssmooth = if (length(wv1) < 1500)
+              512  else
+              1500,
+            parallel = 1,
+            pb = FALSE,
+            flist = if (downsample)
+              basename(temp_file_name) else
+              fl,
+            path = if (downsample)
+              dirname(temp_file_name) else
+              path
+          )
+        
+        # remove the silence less than min.sil.dur
+        ad$remove <- "no"
+        
+        if (nrow(ad) > 1)
+          for (i in 1:(nrow(ad) - 1)) {
+            if (ad$start[i + 1] - ad$end[i] < msd) {
+              ad$start[i + 1] <- ad$start[i]
+              ad$remove[i] <- "yes"
+            }
+          }
+        
+        ad <- ad[ad$remove == "no",]
+        
+        if (img)
         {
-        # add arrow
-        arrows(x0 = ad$end[z], y0 = flm[1] + flm[2]/2, x1 = ad$start[z + 1], y1 = flm[1] + flm[2]/2, code = 3,
-               col = adjustcolor("red2", alpha.f = 0.5), lty = "solid", lwd = 4, angle = 30)
-
-        # add silence label
-        text(x = mean(c(ad$end[z], ad$start[z + 1])), y = flm[1] + flm[2]/1.8, labels = "Silence", col = adjustcolor("red2", alpha.f = 0.5), pos = 3)
-
-      }) else  {text(x = (length(wv@left)/wv@samp.rate)/2, y = flm[1] + flm[2]/1.2, labels = "No silence(s) detected", col = adjustcolor("red2", alpha.f = 0.8), pos = 3)
+          img_wrlbr_int(
+            filename = paste0(fl, ".rm.silence.", it),
+            path = file.path(path, "silence-removed_files"),
+            res = 160,
+            units = "in",
+            width = 8.5,
+            height = 4
+          )
+          
+          par(mar = c(4, 4, 1, 1))
+          spectro_wrblr_int(
+            wv,
+            ovlp = 70,
+            grid = FALSE,
+            scale = FALSE,
+            palette = monitoR::gray.3,
+            axisX = TRUE,
+            fast.spec = TRUE,
+            flim = flm
+          )
+          
+          # label silence in spectro
+          if (nrow(ad) > 1)
+            lapply(1:(nrow(ad) - 1), function(z)
+            {
+              # add arrow
+              arrows(
+                x0 = ad$end[z],
+                y0 = flm[1] + flm[2] / 2,
+                x1 = ad$start[z + 1],
+                y1 = flm[1] + flm[2] / 2,
+                code = 3,
+                col = adjustcolor("red2", alpha.f = 0.5),
+                lty = "solid",
+                lwd = 4,
+                angle = 30
+              )
+              
+              # add silence label
+              text(
+                x = mean(c(ad$end[z], ad$start[z + 1])),
+                y = flm[1] + flm[2] / 1.8,
+                labels = "Silence",
+                col = adjustcolor("red2", alpha.f = 0.5),
+                pos = 3
+              )
+              
+            }) else  {
+            text(
+              x = (length(wv@left) / wv@samp.rate) / 2,
+              y = flm[1] + flm[2] / 1.2,
+              labels = "No silence(s) detected",
+              col = adjustcolor("red2", alpha.f = 0.8),
+              pos = 3
+            )
+          }
+          
+          dev.off()
         }
-
-            dev.off()    
-    }
+        
+        #cut silence from file
+        if (nrow(ad) > 1) {
+          for (z in (nrow(ad) - 1):1)
+            wv <-
+              deletew(
+                wave = wv,
+                from = ad$end[z],
+                to = ad$start[z + 1],
+                plot = FALSE,
+                output = "Wave"
+              )
+          writeWave(
+            object = wv,
+            filename = file.path(path, "silence-removed_files", fl),
+            extensible = FALSE
+          )
+        } else
+          file.copy(from = file.path(path, fl),
+                    to = file.path(path, "silence-removed_files", fl))
+      }
     
-    #cut silence from file
-    if (nrow(ad) > 1) {
-      for(z in (nrow(ad) - 1):1)   
-        wv <- deletew(wave = wv, from = ad$end[z], to = ad$start[z + 1], plot = FALSE, output = "Wave")
-    writeWave(object = wv, filename = file.path(path, "silence-removed_files", fl), extensible = FALSE)
-    } else  
-      file.copy(from = file.path(path, fl), to = file.path(path, "silence-removed_files", fl))
-    }
-  
-  if (pb) cat("searching for silence segments in wave files:")
-  
-  
-  
-  
-  # set clusters for windows OS
-  if (Sys.info()[1] == "Windows" & parallel > 1)
-    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
-  
-  # run loop apply function
-  out <- pblapply_wrblr_int(pbar = pb, X = wavs, cl = cl, FUN = function(i) 
-  { 
-    rm.sil.FUN(fl = i, f = 5000, msd = min.sil.dur, flm = flim, mg = img) 
-  }) 
+    if (pb)
+      cat("searching for silence segments in wave files:")
+    
+    
+    
+    
+    # set clusters for windows OS
+    if (Sys.info()[1] == "Windows" & parallel > 1)
+      cl <-
+      parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else
+      cl <- parallel
+    
+    # run loop apply function
+    out <-
+      pblapply_wrblr_int(
+        pbar = pb,
+        X = wavs,
+        cl = cl,
+        FUN = function(i)
+        {
+          rm.sil.FUN(
+            fl = i,
+            f = 5000,
+            msd = min.sil.dur,
+            flm = flim,
+            mg = img
+          )
+        }
+      )
+    
+  }
 
-}
-  
 ##############################################################################################################
 #' alternative name for \code{\link{remove_silence}}
 #'

@@ -143,22 +143,17 @@ auto_detec <-
     
     if (!is.null(flim))
       write(file = "", x = crayon::silver("'flim' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    
     if (!is.null(rows))
       write(file = "", x = crayon::silver("'rows' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))  
     
     if (!is.null(sxrow))
       write(file = "", x = crayon::silver("'sxrow' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    
     if (!is.null(osci))
       write(file = "", x = crayon::silver("'osci' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    
     if (!is.null(res))
       write(file = "", x = crayon::silver("'res' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    
     if (!is.null(ls))
       write(file = "", x = crayon::silver("'ls' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    
     if (!is.null(redo))
       write(file = "", x = crayon::silver("'redo' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
     
@@ -432,7 +427,7 @@ auto_detec <-
           
           # extract envelope
           envp <-
-            warbleR::envelope(
+            envelope(
               x = amp_vector,
               ssmooth = ssmooth
             )
@@ -466,7 +461,7 @@ auto_detec <-
           f <- nrow(envp) / (X$end[i] - X$start[i])
           
           if (ssmooth > 0)
-            warbleR::envelope(x = envp$amplitude, ssmooth = ssmooth)
+            envelope(x = envp$amplitude, ssmooth = ssmooth)
           
           # convert to matrix of 1 column as the output of env()
           envp <- matrix(data = envp$amplitude, ncol = 1)
