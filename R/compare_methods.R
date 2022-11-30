@@ -422,7 +422,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
    
     if (any(sapply(spmat, anyNA))){
       spmat <- spmat[, !sapply(spmat, anyNA)]
-     warning("some NAs prdouced by SPharm, columns were removed")
+     warning2("some NAs prdouced by SPharm, columns were removed")
       }
 
     PCsp <- prcomp(scale(spmat[,3:ncol(spmat)]), center = TRUE, scale. = TRUE, rank. = 2)$x

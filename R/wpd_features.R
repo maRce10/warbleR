@@ -91,7 +91,7 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
   if (any(X$end - X$start <= 0)) stop2(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
   
   #if any selections longer than 20 secs warning
-  if (any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
+  if (any(X$end - X$start>20)) warning2(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
   
   #return warning if not all sound files were found
   if (!is_extended_selection_table(X))

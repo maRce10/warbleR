@@ -790,15 +790,15 @@ spectro_wrblr_int <- function(wave, f, wl = 512, wn = "hanning", zp = 0,
   if (complex) {
     if (plot) {
       plot <- FALSE
-      warning("\n'plot' was turned to 'FALSE'")
+      warning2("\n'plot' was turned to 'FALSE'")
     }
     if (norm) {
       norm <- FALSE
-      warning("\n'norm' was turned to 'FALSE'")
+      warning2("\n'norm' was turned to 'FALSE'")
     }
     if (!is.null(dB)) {
       dB <- NULL
-      warning("\n'dB' was turned to 'NULL'")
+      warning2("\n'dB' was turned to 'NULL'")
     }
   }
   
@@ -1157,11 +1157,11 @@ spectro_wrblr_int2 <- function(wave, f, wl = 512, wn = "hanning", zp = 0, ovlp =
   
   if (complex & norm) {
     norm <- FALSE
-    warning("\n'norm' was turned to 'FALSE'")
+    warning2("\n'norm' was turned to 'FALSE'")
   }
   if (complex & !is.null(dB)) {
     dB <- NULL
-    warning("\n'dB' was turned to 'NULL'")
+    warning2("\n'dB' was turned to 'NULL'")
   }
   input <- seewave::inputw(wave = wave, f = f)
   
@@ -1399,4 +1399,10 @@ wpd_feature_wrblr_int <- function(wave, normalize = FALSE, thr1 = 6, thr2 = 0.5)
 stop2 <- function (...) 
 {
   stop(..., call. = FALSE)
+}
+
+# warning function that doesn't print call
+warning2 <- function (...) 
+{
+  warning2(..., call. = FALSE)
 }

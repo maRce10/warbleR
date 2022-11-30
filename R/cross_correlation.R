@@ -434,7 +434,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   {
     com.case <- intersect(rownames(mat)[stats::complete.cases(mat)], colnames(mat)[stats::complete.cases(t(mat))])
     if (length(which(is.na(mat))) > 0) 
-      warning(paste(length(which(is.na(mat))), "pairwise comparisons failed and were removed"))
+      warning2(paste(length(which(is.na(mat))), "pairwise comparisons failed and were removed"))
     
     #remove them from mat
     mat <- mat[rownames(mat) %in% com.case, colnames(mat) %in% com.case]

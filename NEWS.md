@@ -4,7 +4,7 @@
 
 * Warning messages in `check_sels()` and `check_sound_files()` when having sound files/wave objects with different sampling rates
 * Fix bug in file size estimation when 'whole.recs = TRUE' in `selection_table()` 
-* Box and axis can e removed in `phylo_spectro()`
+* Box and axis can be removed in `phylo_spectro()`
 
 ## New functions:
 

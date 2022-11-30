@@ -159,15 +159,15 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
     if (any(indiv.cnt != 2))
       if (rm.incomp){
       X <- X[X$sing.event %in% names(indiv.cnt)[indiv.cnt == 2], ]
-      warning("Some events didn't have 2 interacting individuals and were excluded")
-      } else warning("Some singing events don't have 2 interacting individuals ('indiv' column)")
+      warning2("Some events didn't have 2 interacting individuals and were excluded")
+      } else warning2("Some singing events don't have 2 interacting individuals ('indiv' column)")
   
 
 # deal with cutoff value    
   if (any(sng.cnt))
     {
     X <- X[X$sing.event %in% names(indiv.cnt)[!sng.cnt], ]
-    warning("Some individuals didn't have more songs that the 'cutoff' and the events were excluded")
+    warning2("Some individuals didn't have more songs that the 'cutoff' and the events were excluded")
   } 
 
     #if nothing was left

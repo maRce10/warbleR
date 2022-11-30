@@ -112,7 +112,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL,
     if (any(X$end - X$start <= 0)) stop2(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))  
     
     #if any selections longer than 20 secs warning
-    if (any(X$end - X$start>20)) warning(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
+    if (any(X$end - X$start>20)) warning2(paste(length(which(X$end - X$start>20)), "selection(s) longer than 20 sec"))
     
     # bp checking
     if (bp[1] != "frange")

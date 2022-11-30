@@ -780,7 +780,7 @@ rbind.extended_selection_table <- function(..., deparse.level = 1) {
   waves.X <- names(attr(X, "wave.objects"))
   waves.Y <- names(attr(Y, "wave.objects"))
   
-  if (any(waves.X %in% waves.Y)) cat("Some wave object names are found in both extended selection tables, they are assumed to refer to the same wave object and only one copy will be kept (use rename_est_waves() to change sound file/wave objetc names if needed)")
+  if (any(waves.X %in% waves.Y)) warning2("Some wave object names are found in both extended selection tables, they are assumed to refer to the same wave object and only one copy will be kept (use rename_est_waves() to change sound file/wave object names if needed)")
   
   cl.nms <- intersect(names(X), names(Y))
   
