@@ -713,9 +713,7 @@ rbind.selection_table <- function(..., deparse.level = 1) {
   if (!is_selection_table(X) | !is_selection_table(Y)) stop2("both objects must be of class 'selection_table'")
   
   if (any(paste(X$sound.files, X$selec) %in% paste(Y$sound.files, Y$selec))) stop2("Some sound files/selec are found in both selection tables")
-  
-  
-  
+
   cl.nms <- intersect(names(X), names(Y))
   
   W <- rbind(as.data.frame(X[ , cl.nms, drop = FALSE]), as.data.frame(Y[ , cl.nms, drop = FALSE]), make.row.names = TRUE,

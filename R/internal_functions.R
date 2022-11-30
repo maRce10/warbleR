@@ -1404,5 +1404,5 @@ stop2 <- function (...)
 # warning function that doesn't print call
 warning2 <- function (...) 
 {
-  warning2(..., call. = FALSE)
+  warning(..., call. = FALSE)
 }
