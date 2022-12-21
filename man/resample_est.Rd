@@ -32,7 +32,7 @@ An extended selection table with the modified wave objects.
 \details{
 This function aims to simplify the process of homogenizing sound 
 files (sampling rate and bit depth). This is a necessary step before running 
-any further (bio)acoustic analysis. \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed.
+any further (bio)acoustic analysis. \href{https://sox.sourceforge.net/sox.html}{SOX} must be installed.
 }
 \examples{
 \dontrun{

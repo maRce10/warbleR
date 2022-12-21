@@ -4,7 +4,7 @@ pagetitle: Import sound files and select signals
 author: 
 - <center><a href="https://marceloarayasalas.weebly.com">Marcelo Araya-Salas, PhD</a></center>
 - <center><a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a></center>
-date:  <center>"`r Sys.Date()`"</center>
+date:  <center>`r Sys.Date()`</center>
 output:
   rmarkdown::html_document:
     self_contained: yes
@@ -31,11 +31,9 @@ editor_options:
 <!-- &nbsp;  -->
 
 
-<center>![warbleR logo](logo.png)</center>
-
-&nbsp; 
-
 ## Bioacoustics in R with `warbleR`
+
+<img src="warbleR_sticker_v4.png" alt="warbleR logo" align="right" width="25%" height="25%">
 
 Bioacoustics research encompasses a wide range of questions, study systems and methods, including the software used for analyses. The `warbleR` and `Rraven` packages leverage the flexibility of the `R` environment to offer a broad and accessible bioinformatics tool set. These packages fundamentally rely upon two types of data to perform bioacoustics analyses in R:
 

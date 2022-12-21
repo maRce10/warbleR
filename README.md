@@ -12,7 +12,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-%3E=%203.2.1-6666ff.svg)](https://cran.r-project.org/)
 [![packageversion](https://img.shields.io/badge/Package%20version-1.1.28-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2022--11--08-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2022--12--20-yellowgreen.svg)](/commits/master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
@@ -31,26 +31,26 @@ batch analysis of acoustic signals.
 
 The main features of the package are:
 
--   Diverse tools for measuring acoustic structure
--   The use of loops to apply tasks through acoustic signals referenced
-    in a selection table
--   The production of images in the working directory with spectrograms
-    to allow users organize data and verify acoustic analyses
+- Diverse tools for measuring acoustic structure
+- The use of loops to apply tasks through acoustic signals referenced in
+  a selection table
+- The production of images in the working directory with spectrograms to
+  allow users organize data and verify acoustic analyses
 
 The package offers functions to:
 
--   Explore and download [Xeno‐Canto](xeno-canto.org/) recordings
--   Explore, organize and manipulate multiple sound files
--   Detect signals automatically (in frequency and time) (but check the
-    R package [ohun](https://marce10.github.io/ohun/index.html) for a
-    more thorough and friendly implementation)
--   Create spectrograms of complete recordings or individual signals
--   Run different measures of acoustic signal structure
--   Evaluate the performance of measurement methods
--   Catalog signals
--   Characterize different structural levels in acoustic signals
--   Statistical analysis of duet coordination
--   Consolidate databases and annotation tables
+- Explore and download [Xeno‐Canto](https://xeno-canto.org/) recordings
+- Explore, organize and manipulate multiple sound files
+- Detect signals automatically (in frequency and time) (but check the R
+  package [ohun](https://marce10.github.io/ohun/index.html) for a more
+  thorough and friendly implementation)
+- Create spectrograms of complete recordings or individual signals
+- Run different measures of acoustic signal structure
+- Evaluate the performance of measurement methods
+- Catalog signals
+- Characterize different structural levels in acoustic signals
+- Statistical analysis of duet coordination
+- Consolidate databases and annotation tables
 
 Most of the functions allow the parallelization of tasks, which
 distributes the tasks among several processors to improve computational
@@ -80,8 +80,8 @@ library(warbleR)
 For details and example usage, visit the [warbleR package
 website](https://marce10.github.io/warbleR/index.html).
 
-A full description of the package can be found in this [journal
-article](https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/2041-210X.12624).
+A full description of the package (although a bit outdated) can be found
+in this [journal article](https://doi.org/10.1111/2041-210X.12624).
 
 ------------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ follows:
 Araya-Salas, M. and Smith-Vidaurre, G. (2017), *warbleR: an r package to
 streamline analysis of animal acoustic signals*. Methods Ecol Evol. 8,
 184-191.
-[PDF](https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/2041-210X.12624)
+[link](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12624)
 
 NOTE: please also cite the
 [tuneR](https://cran.r-project.org/package=tuneR) and

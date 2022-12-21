@@ -20,17 +20,13 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-&nbsp; 
-
-<center>![warbleR logo](logo.png)</center>
-
-&nbsp; 
-
 <!-- <center> <h1><b>Visual inspection and classification of signals</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
 <!-- <center> `r Sys.Date()` </center> -->
 
 ## Bioacoustics in R with `warbleR`
+
+<img src="warbleR_sticker_v4.png" alt="warbleR logo" align="right" width="25%" height="25%">
 
 Bioacoustics research encompasses a wide range of questions, study systems and methods, including the software used for analyses. The `warbleR` and `Rraven` packages leverage the flexibility of the `R` environment to offer a broad and accessible bioinformatics tool set. These packages fundamentally rely upon two types of data to begin bioacoustic analyses in R:
 

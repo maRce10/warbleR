@@ -1406,3 +1406,17 @@ warning2 <- function (...)
 {
   warning(..., call. = FALSE)
 }
+
+## internal function to subtract SPL from background noise
+# signal = signal SPL
+# noise = noise SPL
+lessdB <- lessdB_wrblr_int <- function(signal.noise, noise){
+  
+  puttative_SPLs <- seq(0.01, signal.noise, by = 0.01)
+  
+  sum_SPLs <-  20 * log10((10^(puttative_SPLs/20)) + (10^(noise/20)))
+  
+  signal_SPL <- puttative_SPLs[which.min(abs(sum_SPLs - signal.noise))]
+  
+  return(signal_SPL)
+}

@@ -112,12 +112,6 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
   if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1")
   if (any(!(parallel %% 1 == 0),parallel < 1)) stop2("'parallel' should be a positive integer")
 
-  # get reference as column (add temporary column)
-  # if (is.numeric(reference)){
-  #   X$...REFERENCE_TMP <- reference
-  #   reference <- "...REFERENCE_TMP"
-  #   }
-
   # need mar if remove.bgn TRUE
   if (remove.bgn & is.null(mar))
     stop2("'mar' must be supplied if 'remove.bgn = TRUE'")
@@ -173,7 +167,7 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
       noisedb <- 20 * log10(noiseamp)
       
       # remove noise SPL from signal SPL
-      signaldb <- lessdB(signal.noise = signaldb, noise = noisedb)
+      signaldb <- lessdB_wrblr_int(signal.noise = signaldb, noise = noisedb)
     } 
     
     
@@ -205,16 +199,4 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
     return(z)
 }
 
-## internal function to subtract SPL from background noise
-# signal = signal SPL
-# noise = noise SPL
-lessdB <- function(signal.noise, noise){
-  
-  puttative_SPLs <- seq(0.01, signal.noise, by = 0.01)
-  
-  sum_SPLs <-  20 * log10((10^(puttative_SPLs/20)) + (10^(noise/20)))
-  
-  signal_SPL <- puttative_SPLs[which.min(abs(sum_SPLs - signal.noise))]
-  
-  return(signal_SPL)
-}
+

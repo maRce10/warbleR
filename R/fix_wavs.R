@@ -14,7 +14,7 @@
 #' @param path Character string containing the directory path where the sound files are located. 
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param mono Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{NULL} (remain unchanged).
-# #' @param sox Logical indicating if \href{http://sox.sourceforge.net/sox.html}{SOX} should be used for resampling. If \code{TRUE} SOX must be installed. Default is \code{FALSE}.
+# #' @param sox Logical indicating if \href{https://sox.sourceforge.net/sox.html}{SOX} should be used for resampling. If \code{TRUE} SOX must be installed. Default is \code{FALSE}.
 #' @return  A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
 #' sound files in a format that can be imported in R. 
 #' @export
@@ -23,7 +23,7 @@
 #' \code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
 #' names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 #' all .wav sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
-#' ('converted_sound_files'). Internally the function calls \href{http://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{http://sox.sourceforge.net/sox.html}{SOX} must be installed). If  both 'checksels' and 'files' are \code{NULL}
+#' ('converted_sound_files'). Internally the function calls \href{https://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{https://sox.sourceforge.net/sox.html}{SOX} must be installed). If  both 'checksels' and 'files' are \code{NULL}
 #' then all files in 'path' are converted. Note that it only fixes/convert sound files in .wav format.
 #'   
 #' @examples

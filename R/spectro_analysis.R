@@ -119,11 +119,12 @@
 #' # measuring peakf
 #' sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE, path = tempdir())
 #' 
+#' \donttest{
 #' # measuring harmonic-related parameters using progress bar
 #' sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], harmonicity = TRUE, 
 #' path = tempdir(), ovlp = 0)
 #' }
-#' 
+#' }
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' }

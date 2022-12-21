@@ -8,7 +8,7 @@ mp32wav(samp.rate = NULL, parallel = 1, path = NULL,
  dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)
 }
 \arguments{
-\item{samp.rate}{Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. THIS FEATURE IS CURRENTLY NOT AVAILABLE. However, downsampling can be done after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{http://sox.sourceforge.net/sox.html}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).}
+\item{samp.rate}{Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. THIS FEATURE IS CURRENTLY NOT AVAILABLE. However, downsampling can be done after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{https://sox.sourceforge.net/sox.html}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied. 
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}

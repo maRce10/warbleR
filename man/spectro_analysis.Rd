@@ -144,11 +144,12 @@ sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], pb = FALSE, path = tempd
 # measuring peakf
 sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE, path = tempdir())
 
+\donttest{
 # measuring harmonic-related parameters using progress bar
 sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], harmonicity = TRUE, 
 path = tempdir(), ovlp = 0)
 }
-
+}
 }
 \references{
 {

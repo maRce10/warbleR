@@ -31,7 +31,7 @@ A single wave object.
 This function converts images in 'png' format into wave objects using the inverse Fourier transformation.
 }
 \examples{
-{ 
+\donttest{ 
  ### create image with text to use in the spectrogram
  # remove margins of plot
  par(mar = rep(0, 4))

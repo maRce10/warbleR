@@ -22,7 +22,7 @@ The main features of the package are:
 
 The package offers functions to:
 
- - Explore and download [Xeno‐Canto](xeno-canto.org/) recordings
+ - Explore and download [Xeno‐Canto](https://xeno-canto.org/) recordings
  - Explore, organize and manipulate multiple sound files
  - Detect signals automatically (in frequency and time) (but check the R package [ohun](https://marce10.github.io/ohun/index.html) for a more thorough and friendly implementation)
  - Create spectrograms of complete recordings or individual signals
@@ -57,12 +57,12 @@ library(warbleR)
 
 For details and example usage, visit the [warbleR package website](https://marce10.github.io/warbleR/index.html).
 
-A full description of the package can be found in this [journal article](https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/2041-210X.12624).
+A full description of the package (although a bit outdated) can be found in this [journal article](https://doi.org/10.1111/2041-210X.12624).
 
 --- 
 
 Please cite [warbleR](https://cran.r-project.org/package=warbleR) as follows:
 
-Araya-Salas, M. and Smith-Vidaurre, G. (2017), *warbleR: an r package to streamline analysis of animal acoustic signals*.   Methods Ecol Evol. 8, 184-191. [PDF](https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/2041-210X.12624)
+Araya-Salas, M. and Smith-Vidaurre, G. (2017), *warbleR: an r package to streamline analysis of animal acoustic signals*.   Methods Ecol Evol. 8, 184-191. [link](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12624)
 
 NOTE: please also cite the [tuneR](https://cran.r-project.org/package=tuneR) and [seewave](https://cran.r-project.org/package=seewave) packages if you use any spectrogram-creating or acoustic-measuring functions
