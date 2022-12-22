@@ -17,7 +17,7 @@ version](https://img.shields.io/badge/R%3E%3D-%3E=%203.2.1-6666ff.svg)](https://
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
 
-<img src="vignettes/warbleR_sticker_v4.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
+<img src="vignettes/warbleR_sticker.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
 
 [warbleR](https://cran.r-project.org/package=warbleR) is intended to
 facilitate the analysis of the structure of animal acoustic signals in
