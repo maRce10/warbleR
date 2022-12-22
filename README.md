@@ -8,11 +8,11 @@ warbleR: Streamline Bioacoustic Analysis
 [![Project Status: Active The project has reached a stable, usable state
 and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Licence](https://img.shields.io/badge/https://img.shields.io/badge/licence-GPL--2-blue.svg.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Licence](https://img.shields.io/badge/https://img.shields.io/badge/licence-GPL--2-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-%3E=%203.2.1-6666ff.svg)](https://cran.r-project.org/)
 [![packageversion](https://img.shields.io/badge/Package%20version-1.1.28-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2022--12--20-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2022--12--22-yellowgreen.svg)](/commits/master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
