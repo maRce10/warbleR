@@ -7,8 +7,19 @@ editor_options:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) [![Dependencies](https://tinyverse.netlify.com/badge/warbleR)](https://cran.r-project.org/package=warbleR) [![Project Status: Active  The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![Licence](https://img.shields.io/badge/https://img.shields.io/badge/licence-GPL--2-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) [![minimal R version](https://img.shields.io/badge/R%3E%3D-`r strsplit(gsub("depends: R \\(|\\)", "", grep("DEPENDS", ignore.case = TRUE, readLines(con = "./DESCRIPTION"), value = TRUE), ignore.case = TRUE), ",")[[1]][1]`-6666ff.svg)](https://cran.r-project.org/) [![packageversion](https://img.shields.io/badge/Package%20version-`r gsub("version: |version:", "", grep("version", ignore.case = TRUE, readLines(con = "./DESCRIPTION"), value = TRUE), ignore.case = TRUE)`-orange.svg?style=flat-square)](commits/develop) [![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
+<!-- badges: start -->
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) 
+[![Dependencies](https://tinyverse.netlify.com/badge/warbleR)](https://cran.r-project.org/package=warbleR) 
+[![Project Status: Active  The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) 
+[![Licence](https://img.shields.io/badge/licence-GPL--2-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) 
+[![minimal R version](https://img.shields.io/badge/R%3E%3D-`r strsplit(gsub("depends: R \\(|\\)", "", grep("DEPENDS", ignore.case = TRUE, readLines(con = "./DESCRIPTION"), value = TRUE), ignore.case = TRUE), ",")[[1]][1]`-6666ff.svg)](https://cran.r-project.org/) 
+[![packageversion](https://img.shields.io/badge/Package%20version-`r gsub("version: |version:", "", grep("version", ignore.case = TRUE, readLines(con = "./DESCRIPTION"), value = TRUE), ignore.case = TRUE)`-orange.svg?style=flat-square)](commits/develop) 
+[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master) 
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
+[![Codecov test coverage](https://codecov.io/gh/maRce10/warbleR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/maRce10/warbleR?branch=master)
+<!-- badges: end -->
+
 
 <img src="vignettes/warbleR_sticker.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
 
@@ -35,6 +46,8 @@ The package offers functions to:
 
 Most of the functions allow the parallelization of tasks, which distributes the tasks among several processors to improve computational efficiency. Tools to evaluate the performance of the analysis at each step are also available.
 
+## Installing
+
 Install/load the package from CRAN as follows:
 
 ```{r, eval = FALSE}
@@ -55,11 +68,18 @@ library(warbleR)
 
 ```
 
-For details and example usage, visit the [warbleR package website](https://marce10.github.io/warbleR/index.html).
+## Usage
 
+Take a look at the [package vignettes](https://marce10.github.io/warbleR/articles/) with detailed examples on how to organize functions in an acoustic analysis workflow. 
+´
 A full description of the package (although a bit outdated) can be found in this [journal article](https://doi.org/10.1111/2041-210X.12624).
 
---- 
+## Other packages
+
+The packages [seewave](https://cran.r-project.org/package=seewave) and  [tuneR](https://cran.r-project.org/package=seewave) provide a huge variety of functions for acoustic analysis and manipulation. They moslty works on wave objects already imported into the R environment. The package  [baRulho](https://cran.r-project.org/package=baRulho) focuses on quantifying habitat-induced degradatio of acoustic signals with data inputs and ouputs similar to those of [warbleR](https://cran.r-project.org/package=warbleR).  The package [Rraven](https://cran.r-project.org/package=Rraven) facilitates the exchange of data between R and [Raven sound analysis software](https://ravensoundsoftware.com) ([Cornell Lab of Ornithology](https://www.birds.cornell.edu/home)) and can be very helpful for incorporating Raven as the annotating tool into acoustic analysis workflow in R. The package [ohun](https://github.com/maRce10/ohun) works on automated detection of sound events, providing functions to diagnose and optimize detection routines. [dynaSpec](https://cran.r-project.org/package=seewave) is allows to create dynamic spectrograms (i.e. spectrogram videos).
+
+
+## Citation
 
 Please cite [warbleR](https://cran.r-project.org/package=warbleR) as follows:
 

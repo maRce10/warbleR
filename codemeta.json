@@ -1,0 +1,436 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "identifier": "warbleR",
+  "description": "Functions aiming to facilitate the analysis of the structure of animal acoustic signals in 'R'. 'warbleR' makes use of the basic sound analysis tools from the package 'seewave', and offers new tools for acoustic structure analysis. The main features of the package are the use of loops to apply tasks through acoustic signals referenced in a selection (annotation) table and the production of spectrograms in image files that allow to organize data and verify acoustic analyzes. The package offers functions to explore, organize and manipulate multiple sound files, explore and download 'Xeno-Canto' recordings, detect signals automatically, create spectrograms of complete recordings or individual signals, run different measures of acoustic signal structure, evaluate the performance of measurement methods, catalog signals, characterize different structural levels in acoustic signals, run statistical analysis of duet coordination and consolidate databases and annotation tables, among others.",
+  "name": "warbleR: Streamline Bioacoustic Analysis",
+  "codeRepository": "https://github.com/maRce10/warbleR",
+  "issueTracker": "https://github.com/maRce10/warbleR/issues/",
+  "license": "https://spdx.org/licenses/GPL-2.0",
+  "version": "1.1.28",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Marcelo",
+      "familyName": "Araya-Salas",
+      "email": "marcelo.araya@ucr.ac.cr",
+      "@id": "https://orcid.org/0000-0003-3594-619X"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Grace",
+      "familyName": "Smith-Vidaurre",
+      "email": "gsmithvi@gmail.com"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Marcelo",
+      "familyName": "Araya-Salas",
+      "email": "marcelo.araya@ucr.ac.cr",
+      "@id": "https://orcid.org/0000-0003-3594-619X"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "jpeg",
+      "name": "jpeg",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=jpeg"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ape",
+      "name": "ape",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ape"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "soundgen",
+      "name": "soundgen",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=soundgen"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "wavethresh",
+      "name": "wavethresh",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=wavethresh"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "png",
+      "name": "png",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=png"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "pracma",
+      "name": "pracma",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=pracma"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Sim.DiffProc",
+      "name": "Sim.DiffProc",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Sim.DiffProc"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "maps",
+      "name": "maps",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=maps"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "leaflet",
+      "name": "leaflet",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=leaflet"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "kableExtra",
+      "name": "kableExtra",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=kableExtra"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    }
+  ],
+  "softwareRequirements": {
+    "1": {
+      "@type": "SoftwareApplication",
+      "identifier": "dtw",
+      "name": "dtw",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dtw"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
+      "identifier": "fftw",
+      "name": "fftw",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=fftw"
+    },
+    "3": {
+      "@type": "SoftwareApplication",
+      "identifier": "graphics",
+      "name": "graphics"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
+      "identifier": "grDevices",
+      "name": "grDevices"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
+      "identifier": "monitoR",
+      "name": "monitoR",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=monitoR"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
+      "identifier": "parallel",
+      "name": "parallel"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
+      "identifier": "pbapply",
+      "name": "pbapply",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=pbapply"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "RCurl",
+      "name": "RCurl",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=RCurl"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "rjson",
+      "name": "rjson",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rjson"
+    },
+    "10": {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
+    },
+    "11": {
+      "@type": "SoftwareApplication",
+      "identifier": "utils",
+      "name": "utils"
+    },
+    "12": {
+      "@type": "SoftwareApplication",
+      "identifier": "methods",
+      "name": "methods"
+    },
+    "13": {
+      "@type": "SoftwareApplication",
+      "identifier": "Rcpp",
+      "name": "Rcpp",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Rcpp"
+    },
+    "14": {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    "15": {
+      "@type": "SoftwareApplication",
+      "identifier": "crayon",
+      "name": "crayon",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=crayon"
+    },
+    "16": {
+      "@type": "SoftwareApplication",
+      "identifier": "bioacoustics",
+      "name": "bioacoustics",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=bioacoustics"
+    },
+    "17": {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.2.1"
+    },
+    "18": {
+      "@type": "SoftwareApplication",
+      "identifier": "tuneR",
+      "name": "tuneR",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tuneR"
+    },
+    "19": {
+      "@type": "SoftwareApplication",
+      "identifier": "seewave",
+      "name": "seewave",
+      "version": ">= 2.0.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=seewave"
+    },
+    "20": {
+      "@type": "SoftwareApplication",
+      "identifier": "NatureSounds",
+      "name": "NatureSounds",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=NatureSounds"
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "3366.212KB",
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "datePublished": "2017",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "M.",
+          "familyName": "Araya-Salas"
+        },
+        {
+          "@type": "Person",
+          "givenName": "G.",
+          "familyName": "Smith-Vidaurre"
+        }
+      ],
+      "name": "warbleR: an r package to streamline analysis of animal acoustic signals",
+      "url": "https://dx.doi.org/10.1111/2041-210X.12624",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "datePublished": "2017",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "name": "Methods in Ecology and Evolution"
+        }
+      }
+    }
+  ],
+  "relatedLink": ["https://marce10.github.io/warbleR/", "https://CRAN.R-project.org/package=warbleR"],
+  "releaseNotes": "https://github.com/maRce10/warbleR/blob/master/NEWS.md",
+  "readme": "https://github.com/maRce10/warbleR/blob/master/README.md",
+  "contIntegration": "https://app.codecov.io/gh/maRce10/warbleR?branch=master",
+  "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html", "https://www.repostatus.org/#active"],
+  "keywords": ["bioacoustics", "animal-acoustic-signals", "streamline-analysis", "audio-processing", "spectrogram"]
+}

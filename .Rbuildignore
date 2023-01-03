@@ -8,3 +8,5 @@
 ^README\.Rmd$
 ^LICENSE\.md$
 LICENSE.md
+^codecov\.yml$
+^codemeta\.json$
