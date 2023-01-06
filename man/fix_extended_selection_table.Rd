@@ -15,6 +15,9 @@ for sound file name (sound.files), selection number (selec), and start and end t
 
 \item{to.by.song}{Logical argument to control if the attributes are formatted to a match a 'by.song' extended selection table. This is required when 'X' is created by collapsing an Y by song (see 'by.song' argument in \code{\link{selection_table}}). Mostly needed internally by some warbleR functions.}
 }
+\value{
+An extended selection table.
+}
 \description{
 \code{fix_extended_selection_table} fixes extended selection tables that have lost their attributes
 }

@@ -27,6 +27,9 @@ images). Default is \code{FALSE} (i.e. no suffix).}
 
 \item{...}{Additional arguments to be passed to the internal pdf creating function \code{\link[grDevices]{pdf}} for customizing output.}
 }
+\value{
+Image files in pdf format with spectrogram catalogs in the working directory.
+}
 \description{
 \code{catalog2pdf} combines \code{\link{catalog}} jpeg images into pdfs
 }

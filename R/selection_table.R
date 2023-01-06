@@ -640,6 +640,7 @@ print.selection_table <- function(x, ...) {
 #' (start and end).
 #' @param Y an object of class 'extended_selection_table'
 #' @param to.by.song Logical argument to control if the attributes are formatted to a match a 'by.song' extended selection table. This is required when 'X' is created by collapsing an Y by song (see 'by.song' argument in \code{\link{selection_table}}). Mostly needed internally by some warbleR functions.
+#' @return An extended selection table. 
 #' @export
 #' @name fix_extended_selection_table
 #' @examples{

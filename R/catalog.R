@@ -120,7 +120,7 @@
 #' corresponding labels and tags. 
 #' @param highlight Logical. If \code{TRUE} a transparent white layer is plotted on the spectrogram areas outside the selection. The level of transparency is controlled with the argument 'alpha'. Default is \code{FAlSE}.
 #' @param alpha Numeric vector of length 1 controlling the level of transparency when highlighting selections (i.e. when \code{highlight = TRUE}, see highlight argument. Default is 0.5.
-#' @return Image files with spectrograms of whole sound files in the working directory. Multiple pages
+#' @return Image files with spectrogram catalogs in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
 #' @name catalog

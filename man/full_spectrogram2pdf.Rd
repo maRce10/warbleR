@@ -22,6 +22,9 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 }
+\value{
+Image files in pdf format with spectrograms of entire sound files in the working directory.
+}
 \description{
 \code{full_spectrogram2pdf} combines \code{\link{full_spectrograms}} images in .jpeg format to a single pdf file.
 }

@@ -171,7 +171,7 @@ corresponding labels and tags.}
 \item{alpha}{Numeric vector of length 1 controlling the level of transparency when highlighting selections (i.e. when \code{highlight = TRUE}, see highlight argument. Default is 0.5.}
 }
 \value{
-Image files with spectrograms of whole sound files in the working directory. Multiple pages
+Image files with spectrogram catalogs in the working directory. Multiple pages
 can be returned, depending on the length of each sound file.
 }
 \description{

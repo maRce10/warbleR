@@ -15,9 +15,10 @@
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
+#' @return A data frame with rows for each of the selections in 'X' in addition to four wavelet packet decomposition features: max.energy, position, spread and width.
 #' @export
 #' @name wpd_features
-#' @details Measures wavelet packet decomposition features. STILL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
+#' @details Measures wavelet packet decomposition features. STILL UNDER DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
 #' @seealso \code{\link{mfcc_stats}}, \code{\link{mfcc_stats}}
 #' @examples
 #' {

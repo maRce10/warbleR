@@ -132,7 +132,7 @@
 * argument 'cor.mat' in 'xcorr()' has been deprecated 
 * new argument 'output' in 'xcorr()'
 * new example data 'comp_matrix' and 'lbh_selec_table2' for using on 'find_peaks()'
-* 'xcorr()' can run cross-correlation over whole sound files
+* 'xcorr()' can run cross-correlation over entire sound files
 * 'seltailor()' can take now extended selection tables
 
 ## New functions:

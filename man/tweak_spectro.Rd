@@ -46,7 +46,7 @@ palette most be provided as character string rather than as a function. See
 graphical output. Check out \code{\link{catalog}} for more details.}
 }
 \value{
-Image files with spectrograms of whole sound files in the working directory. Multiple pages
+Image files with spectrograms of entire sound files in the working directory. Multiple pages
 can be returned, depending on the length of each sound file.
 }
 \description{

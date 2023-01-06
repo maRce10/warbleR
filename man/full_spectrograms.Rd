@@ -2,7 +2,7 @@
 % Please edit documentation in R/full_spectrograms.R
 \name{full_spectrograms}
 \alias{full_spectrograms}
-\title{Create long spectrograms of whole sound files}
+\title{Create long spectrograms of entire sound files}
 \usage{
 full_spectrograms(X = NULL, flim = NULL, sxrow = 5, rows = 10,
 collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512, gr = FALSE,
@@ -88,11 +88,11 @@ If \code{NULL} (default) then the folder containing the sound files will be used
 \item{...}{Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in \code{\link[grDevices]{png}}.}
 }
 \value{
-image files with spectrograms of whole sound files in the working directory. Multiple pages
+image files with spectrograms of entire sound files in the working directory. Multiple pages
 can be returned, depending on the length of each sound file.
 }
 \description{
-\code{full_spectrograms} produces image files with spectrograms of whole sound files split into multiple
+\code{full_spectrograms} produces image files with spectrograms of entire sound files split into multiple
   rows.
 }
 \details{

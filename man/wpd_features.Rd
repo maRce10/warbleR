@@ -27,11 +27,14 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 }
+\value{
+A data frame with rows for each of the selections in 'X' in addition to four wavelet packet decomposition features: max.energy, position, spread and width.
+}
 \description{
 \code{wpd_features} Measure wavelet packet decomposition features.
 }
 \details{
-Measures wavelet packet decomposition features. STILL IN DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
+Measures wavelet packet decomposition features. STILL UNDER DEVELOPMENT. USE IT UNDER YOUR OWN RISK.
 }
 \examples{
 {

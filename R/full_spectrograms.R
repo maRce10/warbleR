@@ -1,6 +1,6 @@
-#' Create long spectrograms of whole sound files
+#' Create long spectrograms of entire sound files
 #'
-#' \code{full_spectrograms} produces image files with spectrograms of whole sound files split into multiple
+#' \code{full_spectrograms} produces image files with spectrograms of entire sound files split into multiple
 #'   rows.
 #' @usage full_spectrograms(X = NULL, flim = NULL, sxrow = 5, rows = 10,
 #' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512, gr = FALSE,
@@ -60,7 +60,7 @@
 #' @param dest.path Character string containing the directory path where the image files will be saved.
 #' If \code{NULL} (default) then the folder containing the sound files will be used instead.
 #' @param ... Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in \code{\link[grDevices]{png}}.
-#' @return image files with spectrograms of whole sound files in the working directory. Multiple pages
+#' @return image files with spectrograms of entire sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file.
 #' @export
 #' @name full_spectrograms

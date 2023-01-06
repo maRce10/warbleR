@@ -12,6 +12,9 @@ open_wd(path = getwd(), verbose = TRUE)
 
 \item{verbose}{Logical to control whether the 'path' is printed in the console. Defaut is \code{TRUE}.}
 }
+\value{
+Opens the working directory using the default file browser.
+}
 \description{
 \code{open_wd} opens the working directory in the default file browser.
 }

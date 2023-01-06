@@ -34,6 +34,9 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 }
+\value{
+Image files moved into user-defined folders.
+}
 \description{
 \code{move_imgs} moves/copies image files created by \code{\link{warbleR}} between
 directories (folders).

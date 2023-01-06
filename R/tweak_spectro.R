@@ -31,7 +31,7 @@
 #' @param rm.axes Logical. If \code{TRUE} frequency and time axes are excluded. Default is \code{TRUE}.
 #' @param ... Additional arguments to be passed to \code{\link{catalog}} function for customizing
 #' graphical output. Check out \code{\link{catalog}} for more details.
-#' @return Image files with spectrograms of whole sound files in the working directory. Multiple pages
+#' @return Image files with spectrograms of entire sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file. 
 #' @export
 #' @name tweak_spectro
