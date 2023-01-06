@@ -12,3 +12,4 @@ LICENSE.md
 ^codemeta\.json$
 ^\.github$
 ^CONTRIBUTING\.md$
+^tic\.R$
