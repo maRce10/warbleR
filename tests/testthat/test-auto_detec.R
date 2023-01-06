@@ -12,7 +12,7 @@ test_that("basic detection", {
 
 test_that("supplying X", {
   tuneR::writeWave(NatureSounds::Phae.long1, file.path(tempdir(), "Phae.long1.wav"), extensible = FALSE)
-  
+  tuneR::writeWave(NatureSounds::Phae.long2, file.path(tempdir(), "Phae.long2.wav"), extensible = FALSE)
   splX <- split_sound_files(sgmts = 2, only.sels = TRUE, path = tempdir())
   
   splX$sound.files <- splX$org.sound.files

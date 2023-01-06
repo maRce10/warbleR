@@ -1,6 +1,7 @@
 # internal warbleR function called by catalog. Type argument similar to par("bty") but added _ for only bottom and - for top
 # xys must be a 4 element numeric vector c(x1, x2, y1, y2)
-
+#' @noRd
+#' 
 boxw_wrblr_int <- function(xys = NULL, bty = "o", col = "black", lwd = 1, lty = 1) {
   if (is.null(xys)) {
     wh <- par("din")
