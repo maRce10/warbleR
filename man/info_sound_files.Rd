@@ -4,11 +4,11 @@
 \alias{info_sound_files}
 \title{Get sound file parameter information}
 \usage{
-info_sound_files(path = NULL, parallel = 1, pb = TRUE, skip.error = FALSE, 
+info_sound_files(path = NULL, parallel = 1, pb = TRUE, skip.error = FALSE,
 file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 }
 \arguments{
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
@@ -44,7 +44,7 @@ writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
- 
+
 #get info
 info_sound_files(path = tempdir())
 }

@@ -4,12 +4,12 @@
 \alias{wpd_features}
 \title{Measure wavelet packet decomposition features (EXPERIMENTAL)}
 \usage{
-wpd_features(X, normalize = TRUE, threshold1 = 6, 
+wpd_features(X, normalize = TRUE, threshold1 = 6,
 threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)
 }
 \arguments{
-\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
-files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
+files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
 end time of selections. The output of \code{\link{auto_detec}} can
 also be used as the input data frame.}
 
@@ -19,7 +19,7 @@ also be used as the input data frame.}
 
 \item{threshold2}{Threshold for width detection. Equivalent to threshold 2 (th2) in equation 7 in Selin et al (2007).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
@@ -35,12 +35,12 @@ Measures wavelet packet decomposition features. STILL IN DEVELOPMENT. USE IT UND
 }
 \examples{
 {
-data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table"))
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
-# not normalize
-wpd_features(lbh_selec_table[1:5, ], threshold2 = 0.3, nor = FALSE)
+  # not normalize
+  wpd_features(lbh_selec_table[1:5, ], threshold2 = 0.3, nor = FALSE)
 }
 
 }

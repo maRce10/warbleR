@@ -4,7 +4,7 @@
 \alias{find_annotations}
 \title{Obtain annotations from audioblast.org data base}
 \usage{
-find_annotations(qword, parallel = 1, pb = TRUE, warbler.format = FALSE, 
+find_annotations(qword, parallel = 1, pb = TRUE, warbler.format = FALSE,
 download = FALSE, X = NULL, path = NULL)
 }
 \arguments{
@@ -25,7 +25,7 @@ directory. Default is \code{FALSE}.}
 will be downloaded using the 'recording_url' column information (\code{download} argument is automatically set to \code{TRUE}). This can be used to select
 the recordings to be downloaded based on their attributes. Default is \code{NULL}.}
 
-\item{path}{Character string containing the directory path where the sound files will be saved. 
+\item{path}{Character string containing the directory path where the sound files will be saved.
 If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
@@ -39,7 +39,7 @@ This function queries for annotations on acoustic media in the open-access
 online repository audioblast.org.
 }
 \examples{
- \dontrun{
+\dontrun{
 ann <- find_annotations(qword = "Thyroptera")
 }
 }

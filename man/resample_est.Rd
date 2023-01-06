@@ -14,7 +14,7 @@ resample_est(X, samp.rate = 44.1, bit.depth = 16,
 
 \item{bit.depth}{Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.}
 
-\item{avoid.clip}{Logical to control whether the volume is automatically 
+\item{avoid.clip}{Logical to control whether the volume is automatically
 adjusted to avoid clipping high amplitude samples when resampling. Ignored if
  '\code{sox = FALSE}. Default is \code{TRUE}.}
 
@@ -30,8 +30,8 @@ An extended selection table with the modified wave objects.
 \code{resample_est} changes sampling rate and bit depth of wave objects in a extended selection table.
 }
 \details{
-This function aims to simplify the process of homogenizing sound 
-files (sampling rate and bit depth). This is a necessary step before running 
+This function aims to simplify the process of homogenizing sound
+files (sampling rate and bit depth). This is a necessary step before running
 any further (bio)acoustic analysis. \href{https://sox.sourceforge.net/sox.html}{SOX} must be installed.
 }
 \examples{
@@ -40,11 +40,13 @@ data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec_tab
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # create extended selection table
-X <- selection_table(X = lbh_selec_table, extended = TRUE, confirm.extended = FALSE, pb = FALSE, 
-path = tempdir())
+X <- selection_table(
+  X = lbh_selec_table, extended = TRUE, confirm.extended = FALSE, pb = FALSE,
+  path = tempdir()
+)
 
 # resample
 Y <- resample_est(X)

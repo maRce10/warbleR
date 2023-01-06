@@ -7,8 +7,8 @@
 sort_colms(X)
 }
 \arguments{
-\item{X}{Data frame containing columns for sound file (sound.files), selection 
-(selec), start and end time of signals ('start' and 'end') and low and high 
+\item{X}{Data frame containing columns for sound file (sound.files), selection
+(selec), start and end time of signals ('start' and 'end') and low and high
 frequency ('bottom.freq' and 'top.freq', optional). See the example data 'lbh_selec_table'.}
 }
 \value{
@@ -27,16 +27,16 @@ library(warbleR)
 data("selec.table")
 
 # mess column order
-selec.table <- selec.table[, sample(1:ncol(selec.table))] 
- 
- #check names
- names(selec.table)
- 
- selec.table <- sort_colms(X = selec.table)
+selec.table <- selec.table[, sample(1:ncol(selec.table))]
 
- #check names again
- names(selec.table)
-  
+# check names
+names(selec.table)
+
+selec.table <- sort_colms(X = selec.table)
+
+# check names again
+names(selec.table)
+
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

@@ -202,7 +202,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
   #return warning if not all sound files were found
   fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
   if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) 
-    write(file = "", x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
+    warning2(x = paste(length(unique(X$sound.files))-length(unique(X$sound.files[(X$sound.files %in% fs)])), 
                   "sound file(s) not found"))
   
   #count number of sound files in working directory and if 0 stop

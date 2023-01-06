@@ -29,7 +29,7 @@ set globally using the 'pb' option (see \code{\link{warbleR_options}}).}
 \item{type}{Character string controlling how SPL is measured: #' \itemize{
 \item \code{single}: single SPL value obtained on the entire signal. Default.
 \item \code{mean}: average of SPL values measured across the signal.
-\item \code{peak}: maximum of several SPL values measured across the signal.   
+\item \code{peak}: maximum of several SPL values measured across the signal.
 }}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512.}
@@ -55,11 +55,13 @@ Sound pressure level (SPL) is a logarithmic measure of the effective pressure of
 }
 \examples{
 {
-data(list = c("Phae.long1","lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
+  data(list = c("Phae.long1", "lbh_selec_table"))
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) # save sound files
 
-spl <- sound_pressure_level(X = lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ],
-parallel = 1, pb = TRUE, path = tempdir())
+  spl <- sound_pressure_level(
+    X = lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ],
+    parallel = 1, pb = TRUE, path = tempdir()
+  )
 }
 
 }

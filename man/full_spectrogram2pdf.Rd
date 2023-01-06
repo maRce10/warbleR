@@ -4,20 +4,20 @@
 \alias{full_spectrogram2pdf}
 \title{\code{full_spectrogram2pdf} combines \code{\link{full_spectrograms}} images in .jpeg format to a single pdf file.}
 \usage{
-full_spectrogram2pdf(keep.img = TRUE, overwrite = FALSE, 
+full_spectrogram2pdf(keep.img = TRUE, overwrite = FALSE,
 parallel = 1, path = NULL, pb = TRUE)
 }
 \arguments{
 \item{keep.img}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 (including sound file and page number) should be magnified. Default is 1.}
 
-\item{overwrite}{Logical argument. If \code{TRUE} all jpeg pdf will be produced again 
+\item{overwrite}{Logical argument. If \code{TRUE} all jpeg pdf will be produced again
 when code is rerun. If \code{FALSE} only the ones missing will be produced. Default is \code{FALSE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
@@ -33,17 +33,19 @@ a single pdf (for each sound file).
 \dontrun{
 # save sound file examples
 data(list = c("Phae.long1", "Phae.long2"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
-full_spectrograms(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, 
-it = "jpeg", path = tempdir())
+full_spectrograms(
+  sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300,
+  it = "jpeg", path = tempdir()
+)
 
-#now create single pdf removing jpeg
+# now create single pdf removing jpeg
 full_spectrogram2pdf(keep.img = FALSE, path = tempdir())
 
 # check this floder
- tempdir()
+tempdir()
 }
 
 }
@@ -53,7 +55,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{full_spectrograms}}, \code{\link{catalog2pdf}}, 
+\code{\link{full_spectrograms}}, \code{\link{catalog2pdf}},
 \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
 }
 \author{

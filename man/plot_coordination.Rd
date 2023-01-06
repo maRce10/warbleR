@@ -4,20 +4,20 @@
 \alias{plot_coordination}
 \title{Coordinated singing graphs}
 \usage{
-plot_coordination(X, only.coor = FALSE, ovlp = TRUE, xl = 1, res= 80, it = "jpeg", 
+plot_coordination(X, only.coor = FALSE, ovlp = TRUE, xl = 1, res= 80, it = "jpeg",
 img = TRUE, tlim = NULL, pb = TRUE)
 }
 \arguments{
-\item{X}{Data frame containing columns for singing event (sing.event), 
+\item{X}{Data frame containing columns for singing event (sing.event),
 individual (indiv), and start and end time of signal (start and end).}
 
-\item{only.coor}{Logical. If \code{TRUE} only the segment in which both individuals are singing is 
+\item{only.coor}{Logical. If \code{TRUE} only the segment in which both individuals are singing is
 included (solo singing is removed). Default is \code{FALSE}.}
 
-\item{ovlp}{Logical. If \code{TRUE} the vocalizations that overlap in time are highlighted. 
+\item{ovlp}{Logical. If \code{TRUE} the vocalizations that overlap in time are highlighted.
 Default is \code{TRUE}.}
 
-\item{xl}{Numeric vector of length 1, a constant by which to scale 
+\item{xl}{Numeric vector of length 1, a constant by which to scale
 spectrogram width. Default is 1.}
 
 \item{res}{Numeric argument of length 1. Controls image resolution. Default is 80.}
@@ -31,21 +31,21 @@ the graphs are shown in the current graphic device. Default is \code{TRUE}.}
 \item{tlim}{Numeric vector of length 2 indicating the start and end time of the coordinated singing events
 to be displayed in the graphs.}
 
-\item{pb}{Logical argument to control progress bar and messages. Default is 
+\item{pb}{Logical argument to control progress bar and messages. Default is
 \code{TRUE}.}
 }
 \value{
-The function returns a list of graphs, one for each singing event in the input data frame. The graphs can be plotted by simply calling the list. If 'img' is \code{TRUE} then the graphs are also saved in the working 
+The function returns a list of graphs, one for each singing event in the input data frame. The graphs can be plotted by simply calling the list. If 'img' is \code{TRUE} then the graphs are also saved in the working
 directory as files.
 }
 \description{
-\code{plot_coordination} creates graphs of coordinated singing and highlights the signals that overlap 
+\code{plot_coordination} creates graphs of coordinated singing and highlights the signals that overlap
 in time. The signals are represented by polygons of different colors.
 }
 \details{
 This function provides visualization for coordination of acoustic signals. Signals are shown as
-polygon across a time axis. It also shows which signals overlap, the amount of overlap, and 
-highlights the individual responsible for the overlap using a color code. The width of the polygons 
+polygon across a time axis. It also shows which signals overlap, the amount of overlap, and
+highlights the individual responsible for the overlap using a color code. The width of the polygons
 depicting the time of overlap.
 }
 \examples{

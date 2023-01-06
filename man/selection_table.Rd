@@ -5,48 +5,48 @@
 \title{Create 'selection_table' and 'extended_selection_table' objects}
 \usage{
 selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, 
-pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, 
+extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL,
+pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
 file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", ...)
 }
 \arguments{
-\item{X}{data frame with the following columns: 1) "sound.files": name of the .wav 
-files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end": 
+\item{X}{data frame with the following columns: 1) "sound.files": name of the .wav
+files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end":
 end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
-not provided the first channel (i.e. left channel) would be used by default. 
+not provided the first channel (i.e. left channel) would be used by default.
 Frequency parameters (including top and bottom frequency) should be provided in kHz. Alternatively, a 'selection_table' class object can be input.}
 
-\item{max.dur}{the maximum duration of expected for a selection  (ie. end - start). If surpassed then an error message 
+\item{max.dur}{the maximum duration of expected for a selection  (ie. end - start). If surpassed then an error message
 will be generated. Useful for detecting errors in selection tables.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{whole.recs}{Logical. If \code{TRUE} the function will create a selection 
-table for all sound files in the working directory (or "path") with `start = 0` 
+\item{whole.recs}{Logical. If \code{TRUE} the function will create a selection
+table for all sound files in the working directory (or "path") with `start = 0`
 and `end = duration_wavs()`. Default is if \code{FALSE}. Note that this will not create
 a extended selection table. If provided 'X' is ignored.}
 
-\item{extended}{Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table' 
-which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is 
-and self-contained format that does not require the original sound files for running most acoustic analysis in 
-\code{\link{warbleR}}. This can largely facilitate the storing and sharing of (bio)acoustic data. Default 
-is if \code{FALSE}. An extended selection table won't be created if there is any issue with the selection. See 
+\item{extended}{Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table'
+which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is
+and self-contained format that does not require the original sound files for running most acoustic analysis in
+\code{\link{warbleR}}. This can largely facilitate the storing and sharing of (bio)acoustic data. Default
+is if \code{FALSE}. An extended selection table won't be created if there is any issue with the selection. See
 'details'.}
 
-\item{confirm.extended}{Logical. If \code{TRUE} then the size of the 'extended_selection_table' 
+\item{confirm.extended}{Logical. If \code{TRUE} then the size of the 'extended_selection_table'
 will be estimated and the user will be asked for confirmation (in the console)
 before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
 generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size.}
 
-\item{mar}{Numeric vector of length 1 specifying the margins (in seconds) 
-adjacent to the start and end points of the selections when creating extended 
+\item{mar}{Numeric vector of length 1 specifying the margins (in seconds)
+adjacent to the start and end points of the selections when creating extended
 selection tables. Default is 0.1. Ignored if 'extended' is \code{FALSE}.}
 
-\item{by.song}{Character string with the column name containing song labels. If provided a wave object containing for 
-all selection belonging to a single song would be saved in the extended selection table (hence only applicable for 
-extended selection tables). Note that the function assumes that song labels are not repeated within a sound file. 
-If \code{NULL} (default), wave objects are created for each selection (e.g. by selection). 
+\item{by.song}{Character string with the column name containing song labels. If provided a wave object containing for
+all selection belonging to a single song would be saved in the extended selection table (hence only applicable for
+extended selection tables). Note that the function assumes that song labels are not repeated within a sound file.
+If \code{NULL} (default), wave objects are created for each selection (e.g. by selection).
 Ignored if \code{extended = FALSE}.}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
@@ -67,7 +67,7 @@ checking routine.}
 An object of class selection_table which includes the original data frame plus the following additional attributes:
 \itemize{
    \item 1) A data frame with the output of \code{\link{check_sels}} run on the input data frame. If a extended selection table is created it will also include the original values in the input data frame for each selections. This are used by downstream warbleR functions to improve efficiency and avoid
-errors due to missing or mislabeled data, or selection out of the ranges of the original sound files. 
+errors due to missing or mislabeled data, or selection out of the ranges of the original sound files.
    \item 2) A list indicating if the selection table has been created by song (see 'by.song argument).
    \item 3) If a extended selection table is created a list containing the wave objects for each selection (or song if 'by.song').
    }
@@ -76,59 +76,65 @@ errors due to missing or mislabeled data, or selection out of the ranges of the 
 \code{selection_table} converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.
 }
 \details{
-This function creates and object of class 'selection_table' or 'extended_selection_table' (if \code{extended = TRUE}, see below). First, the function checks: 
+This function creates and object of class 'selection_table' or 'extended_selection_table' (if \code{extended = TRUE}, see below). First, the function checks:
 \itemize{
    \item 1) if the selections listed in the data frame correspond to .wav files
 in the working directory
-   \item 2) if the sound files can be read and if so, 
+   \item 2) if the sound files can be read and if so,
    \item 3) if the start and end time of the selections are found within the duration of the sound files
    }
-If no errors are found the a selection table or extended selection table will be generated. 
+If no errors are found the a selection table or extended selection table will be generated.
 Note that the sound files should be in the working directory (or the directory provided in 'path').
 This is useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}, \code{\link{cross_correlation}},  \code{\link{catalog}}, \code{\link{freq_DTW}}). Note also that corrupt files can be
 fixed using \code{\link{fix_wavs}} ('sox' must be installed to be able to run this function).
-The 'selection_table' class can be input in subsequent functions. 
+The 'selection_table' class can be input in subsequent functions.
 
-When \code{extended = TRUE} the function will generate an object of class 'extended_selection_table' which 
+When \code{extended = TRUE} the function will generate an object of class 'extended_selection_table' which
 will also contains the wave objects for each of the selections in the data frame.
 This transforms selection tables into self-contained objects as they no longer need the original
 sound files to run acoustic analysis. This can largely facilitate the storing and sharing of (bio)acoustic data.
-Extended selection table size will be a function of the number of selections \code{nrow(X)}, sampling rate, selection 
+Extended selection table size will be a function of the number of selections \code{nrow(X)}, sampling rate, selection
 duration and margin duration. As a guide, a selection table
 with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.15
- seconds) at 22.5 kHz sampling rate and the default margin (\code{mar = 0.1}) 
- will generate a extended selection table of ~31 MB (~310 MB for a 10000 rows 
+ seconds) at 22.5 kHz sampling rate and the default margin (\code{mar = 0.1})
+ will generate a extended selection table of ~31 MB (~310 MB for a 10000 rows
  selection table). You can check the size of the output extended selection table
- with the \code{\link[utils]{object.size}} function. Note that extended selection table created 'by.song' could be 
+ with the \code{\link[utils]{object.size}} function. Note that extended selection table created 'by.song' could be
  considerable larger.
 }
 \examples{
 {
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", 
-"lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+  data(list = c(
+    "Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4",
+    "lbh_selec_table"
+  ))
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+  writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-# make selection table
-st <- selection_table(X = lbh_selec_table, path = tempdir())
+  # make selection table
+  st <- selection_table(X = lbh_selec_table, path = tempdir())
 
-is_selection_table(st)
+  is_selection_table(st)
 
-#' # make extended selection table
-st <- selection_table(X = lbh_selec_table, extended = TRUE, 
-confirm.extended = FALSE, 
-path = tempdir())
+  #' # make extended selection table
+  st <- selection_table(
+    X = lbh_selec_table, extended = TRUE,
+    confirm.extended = FALSE,
+    path = tempdir()
+  )
 
-is_extended_selection_table(st)
+  is_extended_selection_table(st)
 
-### make extended selection by song  
-# create a song variable
-lbh_selec_table$song <- as.numeric(as.factor(lbh_selec_table$sound.files))
+  ### make extended selection by song
+  # create a song variable
+  lbh_selec_table$song <- as.numeric(as.factor(lbh_selec_table$sound.files))
 
-st <- selection_table(X = lbh_selec_table, extended = TRUE, 
-confirm.extended = FALSE, by.song = "song", path = tempdir())
+  st <- selection_table(
+    X = lbh_selec_table, extended = TRUE,
+    confirm.extended = FALSE, by.song = "song", path = tempdir()
+  )
 }
 
 }

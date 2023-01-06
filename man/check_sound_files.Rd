@@ -7,14 +7,14 @@
 check_sound_files(X = NULL, path = NULL)
 }
 \arguments{
-\item{X}{Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound 
-files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+\item{X}{Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound
+files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
 end time of selections. If provided the function also returns the
-smallest number of samples from the listed selections, which limits the minimum window 
-length (wl argument in other functions) that can be used in batch analyses. 
+smallest number of samples from the listed selections, which limits the minimum window
+length (wl argument in other functions) that can be used in batch analyses.
 This could be useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 }
 \value{
@@ -26,7 +26,7 @@ If all sound files are ok, returns message "All files can be read".
 }
 \details{
 This function checks if sound files in the working directory can be read.
-Users must set the working directory where they wish to check sound files beforehand. 
+Users must set the working directory where they wish to check sound files beforehand.
 If X is provided it also returns the smallest number of samples from
 the selections listed in X (if all files can be read). Note that corrupt files can be
 fixed using \code{\link{fix_wavs}}) ('sox' must be installed to be able to run this function).

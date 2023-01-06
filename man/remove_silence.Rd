@@ -4,11 +4,11 @@
 \alias{remove_silence}
 \title{Remove silence in wave files}
 \usage{
-remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL, 
+remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL,
 files = NULL, flist = NULL, parallel = 1, pb = TRUE, downsample = TRUE)
 }
 \arguments{
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{min.sil.dur}{Numeric. Controls the minimum duration of silence segments that would be removed.}
@@ -18,8 +18,8 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{it}{A character vector of length 1  giving the image type to be used. Currently only
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
-\item{flim}{A numeric vector of length 2 indicating the highest and lowest 
-frequency limits (kHz) of the spectrogram as in 
+\item{flim}{A numeric vector of length 2 indicating the highest and lowest
+frequency limits (kHz) of the spectrogram as in
 \code{\link[seewave]{spectro}}. Default is \code{NULL}. Ignored if `img = FALSE`.}
 
 \item{files}{character vector or factor indicating the subset of files that will be analyzed. If not provided
@@ -35,8 +35,8 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{downsample}{Logical indicating whether files are downsampled to a 5000 kHz sampling rate. This can be used to speed up the process, but will make the function ignore sound/noise above 2500 kHz. Default is \code{TRUE}.}
 }
 \value{
-Sound files for which silence segments have been removed are saved in the new 
-folder "silence-removed_files" in .wav format. If `img = TRUE` then spectrogram images highlighting the silence segments 
+Sound files for which silence segments have been removed are saved in the new
+folder "silence-removed_files" in .wav format. If `img = TRUE` then spectrogram images highlighting the silence segments
 that were removed are also saved.
 }
 \description{
@@ -52,7 +52,7 @@ data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
 sil <- silence(samp.rate = 22500, duration = 3, xunit = "time")
 
 
-wv1 <- pastew(pastew(Phae.long1, sil, f = 22500, output = "Wave"), 
+wv1 <- pastew(pastew(Phae.long1, sil, f = 22500, output = "Wave"),
 Phae.long2, f = 22500, output = "Wave")
 
 #check silence in between amplitude peaks

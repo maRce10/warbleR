@@ -4,11 +4,11 @@
 \alias{read_sound_file}
 \title{An extended version of read_wave that reads several sound file formats and files from selection tables}
 \usage{
-read_sound_file(X, index, from = X$start[index], to = X$end[index], 
+read_sound_file(X, index, from = X$start[index], to = X$end[index],
 channel = X$channel[index], header = FALSE, path = NULL)
 }
 \arguments{
-\item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files), 
+\item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files),
 selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a sound file or URL address to sound file can be provided. The function can read sound files in 'wav', 'mp3', 'flac' and 'wac' format. The file name can contain the directory path.
 'top.freq' and 'bottom.freq' columns are optional. Default is \code{NULL}.}
 
@@ -22,7 +22,7 @@ selection number (selec), and start and end time of signals (start and end). Alt
 
 \item{header}{If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used. If 'X' refers to a sound file including its directory 'path' is ignored.}
 }
 \value{
@@ -42,15 +42,15 @@ data(list = c("Phae.long1"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 
 # read from selection table
-read_sound_file(X = lbh_selec_table, index  =  1, path = tempdir())
+read_sound_file(X = lbh_selec_table, index = 1, path = tempdir())
 
 # from extended selection table
 library(NatureSounds)
 read_sound_file(X = lbh.est, index = 1)
 
 # read from selection table
-read_sound_file(X = lbh_selec_table, index  =  1, path = tempdir())
-  
+read_sound_file(X = lbh_selec_table, index = 1, path = tempdir())
+
 # read WAV
 filepath <- system.file("extdata", "recording.wav", package = "bioacoustics")
 read_sound_file(filepath)
@@ -64,7 +64,7 @@ filepath <- system.file("extdata", "recording_20170716_230503.wac", package = "b
 read_sound_file(filepath, from = 0, to = 0.2)
 
 # URL file
-read_sound_file(X = 'https://www.xeno-canto.org/513948/download')
+read_sound_file(X = "https://www.xeno-canto.org/513948/download")
 }
 
 }

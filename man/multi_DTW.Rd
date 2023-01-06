@@ -4,7 +4,7 @@
 \alias{multi_DTW}
 \title{A wrapper on \code{\link[dtw]{dtwDist}} for comparing multivariate contours}
 \usage{
-multi_DTW(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1, 
+multi_DTW(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1,
 window.type = "none", open.end = FALSE, scale = FALSE, dist.mat = TRUE, ...)
 }
 \arguments{
@@ -20,21 +20,21 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{window.type}{\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).}
 
-\item{open.end}{\code{\link[dtw]{dtw}} control parameter. Performs 
+\item{open.end}{\code{\link[dtw]{dtw}} control parameter. Performs
 open-ended alignments (see \code{\link[dtw]{dtw}}).}
 
-\item{scale}{Logical. If \code{TRUE} dominant frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
+\item{scale}{Logical. If \code{TRUE} dominant frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the
 comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.}
 
-\item{dist.mat}{Logical controlling whether a distance matrix (\code{TRUE}, 
+\item{dist.mat}{Logical controlling whether a distance matrix (\code{TRUE},
 default) or a tabular data frame (\code{FALSE}) is returned.}
 
 \item{...}{Additional arguments to be passed to \code{\link{track_freq_contour}} for customizing
 graphical output.}
 }
 \value{
-A matrix with the pairwise dissimilarity values. If img is 
-\code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
+A matrix with the pairwise dissimilarity values. If img is
+\code{FALSE} it also produces image files with the spectrograms of the signals listed in the
 input data frame showing the location of the dominant frequencies.
 }
 \description{
@@ -50,10 +50,10 @@ The function uses the \code{\link[stats:approxfun]{approx}} function to interpol
 }
 \examples{
 \dontrun{
-#load data
+# load data
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) # save sound files
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
@@ -62,7 +62,7 @@ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 df <- freq_ts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
 se <- sets(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
 
-# run function 
+# run function
 multi_DTW(df, se)
 }
 

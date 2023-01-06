@@ -4,7 +4,7 @@
 \alias{find_peaks}
 \title{Find cross-correlation peaks}
 \usage{
-find_peaks(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE, 
+find_peaks(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = TRUE,
 max.peak = FALSE, output = "data.frame")
 }
 \arguments{
@@ -15,7 +15,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{cutoff}{Numeric vector of length 1 with a value between 0 and 1 specifying the correlation cutoff for detecting peaks. Default is 0.4.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
@@ -25,7 +25,7 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{output}{Character vector of length 1 to determine if only the detected peaks are returned ('cormat') or a list ('list') containing 1) the peaks  and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'peaks.output', can be used to graphically explore detections using \code{\link{full_spectrograms}}.}
 }
 \value{
-The function returns a data frame with time and correlation score for the  
+The function returns a data frame with time and correlation score for the
 detected peaks.
 }
 \description{
@@ -36,19 +36,21 @@ This function finds cross-correlation peaks along signals (analogous to \code{\l
 }
 \examples{
 {
-# load data
-data(list = c("Phae.long4", "Phae.long2", "lbh_selec_table2", "comp_matrix"))
+  # load data
+  data(list = c("Phae.long4", "Phae.long2", "lbh_selec_table2", "comp_matrix"))
 
-# save sound files
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  # save sound files
+  writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
-# run cross-correlation
-xc.output <- cross_correlation(X = lbh_selec_table2, output = "list", 
-compare.matrix = comp_matrix, path = tempdir())
+  # run cross-correlation
+  xc.output <- cross_correlation(
+    X = lbh_selec_table2, output = "list",
+    compare.matrix = comp_matrix, path = tempdir()
+  )
 
-# find peaks
-pks <- find_peaks(xc.output = xc.output, path = tempdir())
+  # find peaks
+  pks <- find_peaks(xc.output = xc.output, path = tempdir())
 }
 }
 \references{

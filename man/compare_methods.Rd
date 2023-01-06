@@ -4,45 +4,45 @@
 \alias{compare_methods}
 \title{Assessing the performance of acoustic distance measurements}
 \usage{
-compare_methods(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 512, ovlp = 90, 
-res = 150, n = 10, length.out = 30, 
-methods = NULL, 
-it = "jpeg", parallel = 1, path = NULL, sp = NULL, custom1 = NULL, 
-custom2 = NULL, pb = TRUE, grid = TRUE,  clip.edges = TRUE, 
-threshold = 15, na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2, 
+compare_methods(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 512, ovlp = 90,
+res = 150, n = 10, length.out = 30,
+methods = NULL,
+it = "jpeg", parallel = 1, path = NULL, sp = NULL, custom1 = NULL,
+custom2 = NULL, pb = TRUE, grid = TRUE,  clip.edges = TRUE,
+threshold = 15, na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2,
 img = TRUE, ...)
 }
 \arguments{
-\item{X}{'selection_table' object or data frame with results from \code{\link{auto_detec}} 
-function, or any data frame with columns for sound file name (sound.files), 
+\item{X}{'selection_table' object or data frame with results from \code{\link{auto_detec}}
+function, or any data frame with columns for sound file name (sound.files),
 selection number (selec), and start and end time of signal (start and end).
 Default \code{NULL}.}
 
-\item{flim}{A numeric vector of length 2 for the frequency limit in kHz of 
+\item{flim}{A numeric vector of length 2 for the frequency limit in kHz of
 the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
-\item{bp}{numeric vector of length 2 giving the lower and upper limits of the 
+\item{bp}{numeric vector of length 2 giving the lower and upper limits of the
 frequency bandpass filter (in kHz) used in the acoustic distance methods. Default is \code{NULL}.}
 
 \item{mar}{Numeric vector of length 1. Specifies plot margins around selection in seconds. Default is 0.1.}
 
-\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram and cross-correlation, default 
+\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram and cross-correlation, default
 is 512.}
 
-\item{ovlp}{Numeric vector of length 1 specifying the percent overlap between two 
+\item{ovlp}{Numeric vector of length 1 specifying the percent overlap between two
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 90.}
 
 \item{res}{Numeric argument of length 1. Controls image resolution.
 Default is 150.}
 
-\item{n}{Numeric argument of length 1. Defines the number of plots to be produce. 
+\item{n}{Numeric argument of length 1. Defines the number of plots to be produce.
 Default is 10.}
 
 \item{length.out}{A character vector of length 1 giving the number of measurements of fundamental or dominant
 frequency desired (the length of the time series). Default is 30.}
 
 \item{methods}{A character vector of length 2 giving the names of the acoustic distance
-methods that would be compared. The methods available are: 
+methods that would be compared. The methods available are:
 \itemize{
    \item \code{XCORR}: cross-correlation (\code{\link{cross_correlation}} function)
    \item \code{dfDTW}: dynamic time warping on dominant frequency contours (\code{\link{freq_DTW}} function)
@@ -59,7 +59,7 @@ methods that would be compared. The methods available are:
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{sp}{DEPRECATED.}
@@ -75,59 +75,59 @@ and "selec' columns as in 'X', the other 2 (columns 3 and 4) are
 \item{grid}{Logical argument to control the presence of a grid on the spectrograms (default is \code{TRUE}).}
 
 \item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
-which amplitude values above the threshold were not detected will be removed when using dfDTW and 
+which amplitude values above the threshold were not detected will be removed when using dfDTW and
 ffDTW methods. If \code{TRUE} this edges will be excluded and signal contour will be calculated on the
 remaining values. Default is \code{TRUE}.}
 
-\item{threshold}{amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW 
+\item{threshold}{amplitude threshold (\%) for dominant and/or fundamental frequency detection when using dfDTW, ffDTW
 and SP methods. Default is 15.}
 
-\item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
+\item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the
 results. This means that all selections with at least 1 cross-correlation that failed are excluded in both methods under
 comparison. Only apply if XCORR is one of the methods being compared.}
 
-\item{scale}{Logical. If \code{TRUE} dominant and/or fundamental frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
+\item{scale}{Logical. If \code{TRUE} dominant and/or fundamental frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the
 comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.}
 
-\item{pal}{A color palette function to be used to assign colors in the 
+\item{pal}{A color palette function to be used to assign colors in the
 spectrograms, as in \code{\link[seewave]{spectro}}. Default is reverse.gray.colors.2.}
 
 \item{img}{A logical argument specifying whether an image files would be produced. Default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to a modified version of \code{\link[seewave]{spectro}} for customizing
-graphical output. This includes fast.spec, an argument that speeds up the plotting of spectrograms (see description in 
+graphical output. This includes fast.spec, an argument that speeds up the plotting of spectrograms (see description in
 \code{\link{spectrograms}}).}
 }
 \value{
-Image files with 4 spectrograms of the selection being compared and scatterplots 
+Image files with 4 spectrograms of the selection being compared and scatterplots
 of the acoustic space of all signals in the input data frame 'X'.
 }
 \description{
 \code{compare_methods} creates graphs to visually assess performance of acoustic distance measurements
 }
 \details{
-This function produces graphs with spectrograms from 4 signals in the 
+This function produces graphs with spectrograms from 4 signals in the
 provided data frame that allow visual inspection of the performance of acoustic
 distance methods at comparing those signals. The signals are randomly picked up
 from the provided data frame (X argument).The spectrograms are all plotted with
 the same frequency and time scales. The function compares 2 methods at a time. The
-methods available are: cross-correlation 
-(XCORR, from \code{\link{cross_correlation}}), dynamic time warping on dominant frequency time 
-series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{freq_ts}} output), dynamic time 
-warping on dominant frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on 
-\code{\link{freq_ts}} output), spectral parameters (SP, from \code{\link{spectro_analysis}}). The graph also 
-contains 2 scatterplots (1 for each method) of the acoustic space of all signals in the 
-input data frame 'X', including the centroid as black dot. The compared selections are randomly picked up from the pool of 
-selections in the input data frame. The argument 'n' defines the number of comparisons (i.e. graphs) 
-to be produced. The acoustic pairwise distance between signals is shown next 
-to the arrows linking them. The font color of a distance value correspond to the font 
-color of the method that generated it, as shown in the scatterplots. Distances are 
-standardized, being 0 the distance of a signal to itself and 1 the farthest pairwise 
-distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{prcomp}}) 
-is applied to calculate distances when using spectral parameters (SP) and descriptors of cepstral coefficients (MFCC). In those cases the first 2 PC's are used. Classical 
-Multidimensional Scalling (also known as Principal Coordinates Analysis, 
-(\code{\link[stats]{cmdscale}})) is used for cross-correlation (XCORR) and any dynamic time warping method. The graphs are return as image files in the 
-working directory. The file name contains the methods being compared and the 
+methods available are: cross-correlation
+(XCORR, from \code{\link{cross_correlation}}), dynamic time warping on dominant frequency time
+series (dfDTW, from \code{\link[dtw]{dtw}} applied on \code{\link{freq_ts}} output), dynamic time
+warping on dominant frequency time series (ffDTW, from \code{\link[dtw]{dtw}} applied on
+\code{\link{freq_ts}} output), spectral parameters (SP, from \code{\link{spectro_analysis}}). The graph also
+contains 2 scatterplots (1 for each method) of the acoustic space of all signals in the
+input data frame 'X', including the centroid as black dot. The compared selections are randomly picked up from the pool of
+selections in the input data frame. The argument 'n' defines the number of comparisons (i.e. graphs)
+to be produced. The acoustic pairwise distance between signals is shown next
+to the arrows linking them. The font color of a distance value correspond to the font
+color of the method that generated it, as shown in the scatterplots. Distances are
+standardized, being 0 the distance of a signal to itself and 1 the farthest pairwise
+distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{prcomp}})
+is applied to calculate distances when using spectral parameters (SP) and descriptors of cepstral coefficients (MFCC). In those cases the first 2 PC's are used. Classical
+Multidimensional Scalling (also known as Principal Coordinates Analysis,
+(\code{\link[stats]{cmdscale}})) is used for cross-correlation (XCORR) and any dynamic time warping method. The graphs are return as image files in the
+working directory. The file name contains the methods being compared and the
 row number of the selections. This function uses internally a modified version
 of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms. Custom data can also be compared against the available methods (or against each other) using the arguments 'custom1' and 'custom2'.
 }
@@ -140,31 +140,39 @@ writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-compare_methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", path = tempdir())
+compare_methods(
+  X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+  ovlp = 90, res = 200, n = 10, length.out = 30,
+  methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", path = tempdir()
+)
 
-#remove progress bar
-compare_methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE, path = tempdir())
+# remove progress bar
+compare_methods(
+  X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+  ovlp = 90, res = 200, n = 10, length.out = 30,
+  methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE, path = tempdir()
+)
 
-#check this folder!
+# check this folder!
 getwd()
 
 
-#compare SP and XCORR
-compare_methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("XCORR", "SP"), parallel = 1, it = "jpeg", path = tempdir())
+# compare SP and XCORR
+compare_methods(
+  X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+  ovlp = 90, res = 200, n = 10, length.out = 30,
+  methods = c("XCORR", "SP"), parallel = 1, it = "jpeg", path = tempdir()
+)
 
-#compare SP method against dfDTW
-compare_methods(X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
-ovlp = 90, res = 200, n = 10, length.out = 30,
-methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg", 
-path = tempdir())
+# compare SP method against dfDTW
+compare_methods(
+  X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+  ovlp = 90, res = 200, n = 10, length.out = 30,
+  methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg",
+  path = tempdir()
+)
 
-#alternatively we can provide our own SP matrix
+# alternatively we can provide our own SP matrix
 Y <- spectro_analysis(lbh_selec_table, path = tempdir())
 
 # selec a subset of variables
@@ -176,8 +184,10 @@ Y <- prcomp(Y[, 3:ncol(Y)])$x
 # add sound files and selec columns
 Y <- data.frame(lbh_selec_table[, c(1, 3)], Y[, 1:2])
 
-compare_methods(X = lbh_selec_table, methods = c("dfDTW"), custom1 = Y, 
-path = tempdir())
+compare_methods(
+  X = lbh_selec_table, methods = c("dfDTW"), custom1 = Y,
+  path = tempdir()
+)
 }
 
 }
@@ -188,7 +198,7 @@ path = tempdir())
 \href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
 }
 \author{
-Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}). It uses 
-internally a modified version of the \code{\link[seewave]{spectro}} function from 
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}). It uses
+internally a modified version of the \code{\link[seewave]{spectro}} function from
 seewave package to create spectrograms.
 }

@@ -4,27 +4,27 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav(samp.rate = NULL, parallel = 1, path = NULL, 
+mp32wav(samp.rate = NULL, parallel = 1, path = NULL,
  dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)
 }
 \arguments{
 \item{samp.rate}{Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. THIS FEATURE IS CURRENTLY NOT AVAILABLE. However, downsampling can be done after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{https://sox.sourceforge.net/sox.html}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).}
 
-\item{parallel}{Numeric. Controls whether parallel computing is applied. 
+\item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
 \item{path}{Character string containing the directory path where the .mp3 files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{dest.path}{Character string containing the directory path where the .wav files will be saved. 
+\item{dest.path}{Character string containing the directory path where the .wav files will be saved.
 If \code{NULL} (default) then the folder containing the sound files will be used.}
 
-\item{bit.depth}{Character string containing the units to be used for amplitude normalization. Check 
+\item{bit.depth}{Character string containing the units to be used for amplitude normalization. Check
 \code{\link[tuneR]{normalize}} for details. Default is 16.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
-\item{overwrite}{Logical. Control whether a .wav sound file that is already in the working directory should be 
+\item{overwrite}{Logical. Control whether a .wav sound file that is already in the working directory should be
 overwritten.}
 }
 \value{
@@ -46,7 +46,7 @@ query_xc(qword = "Phaethornis aethopygus", download = TRUE, path = tempdir())
 # Convert all files to .wav format
 mp32wav(path = tempdir(), dest.path = tempdir())
 
-#check this folder!!
+# check this folder!!
 tempdir()
 }
 

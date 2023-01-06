@@ -7,11 +7,11 @@
 find_clipping(X, path = NULL, parallel = 1, pb = TRUE)
 }
 \arguments{
-\item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
-files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
+\item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
+files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end":
 end time of selections.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
@@ -20,7 +20,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 }
 \value{
-A data frame with the 'sound.files' and 'selec' columns in X plus an additional column ('prop.clipped') indicating 
+A data frame with the 'sound.files' and 'selec' columns in X plus an additional column ('prop.clipped') indicating
 the proportion of clipped samples for each row. If sound files are stereo the average proportion of the two channels is returned.
 }
 \description{
@@ -31,12 +31,12 @@ Clipping (i.e. saturation) occurs when an audio signal is amplified above the ma
 }
 \examples{
 {
-# load data
-data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  # load data
+  data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table"))
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) # save sound files
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
- find_clipping(X =  lbh_selec_table[1:5, ], path = tempdir())
+  find_clipping(X = lbh_selec_table[1:5, ], path = tempdir())
 }
 }
 \references{

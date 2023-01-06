@@ -14,7 +14,7 @@ Marcelo Araya Salas, warbleR
 selec.table
 }
 \description{
-\code{selec.table} alternative name for \code{lbh_selec_table}. \code{selec.table} will be deprecated in 
+\code{selec.table} alternative name for \code{lbh_selec_table}. \code{selec.table} will be deprecated in
 future versions.
 }
 \details{

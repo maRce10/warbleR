@@ -5,7 +5,7 @@
 \alias{comp_matrix}
 \title{Example matrix listing selections to be compared by \code{\link{cross_correlation}}}
 \format{
-A data frame with 11 rows and 6 variables: \describe{ 
+A data frame with 11 rows and 6 variables: \describe{
  \item{sound.files}{recording names}
  \item{channel}{channel in which signal is found}
  \item{selec}{selection numbers within recording}

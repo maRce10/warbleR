@@ -5,7 +5,7 @@
 \alias{lbh_selec_table2}
 \title{Example data frame of selections (i.e. selection table).}
 \format{
-A data frame with 2 rows and 7 variables: \describe{ 
+A data frame with 2 rows and 7 variables: \describe{
  \item{sound.files}{recording names}
  \item{channel}{channel in which signal is found}
  \item{selec}{selection numbers within recording}
@@ -25,8 +25,8 @@ data(lbh_selec_table2)
 \code{lbh_selec_table2} is a data frame containing the start, end, low and high frequency of 2 selections. Mostly to be used as an example in  \code{\link{find_peaks}}.
 }
 \details{
-A data frame containing the start, end, low and high frequency of 
-\emph{Phaethornis longirostris} (Long-billed Hermit) songs from the 
+A data frame containing the start, end, low and high frequency of
+\emph{Phaethornis longirostris} (Long-billed Hermit) songs from the
 example sound files included in this package. Similar than 'lbh_selec_table'.
 but it contains only 2 selections.
 }

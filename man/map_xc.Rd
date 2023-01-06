@@ -5,7 +5,7 @@
 \title{Maps of 'Xeno-Canto' recordings by species}
 \usage{
 map_xc(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
- path = NULL, leaflet.map = FALSE, 
+ path = NULL, leaflet.map = FALSE,
  leaflet.cluster = FALSE)
 }
 \arguments{
@@ -18,13 +18,13 @@ map should be returned, default is \code{TRUE}.}
 "tiff" and "jpeg" are admitted. Default is "jpeg".}
 
 \item{res}{Numeric argument of length 1. Controls image resolution.
-Default is 100 (faster) although 300 - 400 is recommended for publication/ 
+Default is 100 (faster) although 300 - 400 is recommended for publication/
 presentation quality.}
 
 \item{labels}{A logical argument defining whether dots depicting recording locations are labeled.
 If \code{TRUE} then the Recording_ID is used as label.}
 
-\item{path}{Character string with the directory path where the image files will be saved. 
+\item{path}{Character string with the directory path where the image files will be saved.
 If \code{NULL} (default) then the current working directory is used.
 Ignored if \code{img = FALSE}.}
 
@@ -42,7 +42,7 @@ A map of 'Xeno-Canto' recordings per species (image file), or a faceted
 }
 \details{
 This function creates maps for visualizing the geographic spread of recordings from the open-access
-online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of 
+online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of
 \code{\link{query_xc}} as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
 working directory. Note that only recordings with geographic coordinates are displayed.
 }
@@ -51,10 +51,10 @@ working directory. Note that only recordings with geographic coordinates are dis
 # search in xeno-canto
 X <- query_xc("Phaethornis anthophilus", download = FALSE)
 
-#create image in R graphic device
+# create image in R graphic device
 map_xc(X, img = FALSE)
 
-#create leaflet map
+# create leaflet map
 map_xc(X, leaflet.map = TRUE)
 }
 

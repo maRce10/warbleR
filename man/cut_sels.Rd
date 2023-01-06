@@ -23,7 +23,7 @@ cut_sels(
 )
 }
 \arguments{
-\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files), 
+\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files),
 selection number (selec), and start and end time of signals (start and end).}
 
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
@@ -32,7 +32,7 @@ delineating spectrogram limits. Default is 0.05.}
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{dest.path}{Character string containing the directory path where the cut sound files will be saved.
@@ -41,10 +41,10 @@ If \code{NULL} (default) then the directory containing the sound files will be u
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{labels}{String vector. Provides the column names that will be used as labels to
-create sound file names. Note that they should provide unique names (otherwise 
+create sound file names. Note that they should provide unique names (otherwise
 sound files will be overwritten). Default is \code{c("sound.files", "selec")}.}
 
-\item{overwrite}{Logical. If \code{TRUE} sound files with the same name will be 
+\item{overwrite}{Logical. If \code{TRUE} sound files with the same name will be
 overwritten. Default is \code{FALSE}.}
 
 \item{norm}{Logical indicating whether wave objects must be normalized first using the function \code{\link[tuneR]{normalize}}. Additional arguments can be passed to \code{\link[tuneR]{normalize}} using `...`.` Default is \code{FALSE}. See \code{\link[tuneR]{normalize}} for available options.}
@@ -66,7 +66,7 @@ listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave 
 see \code{\link{cut_sels}} for documentation. \code{\link{cut_sels}} will be deprecated in future versions.
 }
 \examples{
-{ 
+{
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
@@ -76,7 +76,7 @@ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # cut selections
 cut_sels(lbh_selec_table, path = tempdir())
- 
+
 #check this folder!!
 tempdir()
 }
@@ -88,7 +88,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{seltailor}} for tailoring selections 
+\code{\link{seltailor}} for tailoring selections
  \href{https://marce10.github.io/2017/06/06/Individual_sound_files_for_each_selection.html}{blog post on cutting sound files}
 }
 \author{

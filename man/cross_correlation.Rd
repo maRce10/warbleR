@@ -4,26 +4,26 @@
 \alias{cross_correlation}
 \title{Time-frequency cross-correlation}
 \usage{
-cross_correlation(X, wl = 512, bp = "pairwise.freq.range", ovlp = 70, 
-dens = NULL, wn = 'hanning', cor.method = "pearson", parallel = 1, 
-path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat", 
+cross_correlation(X, wl = 512, bp = "pairwise.freq.range", ovlp = 70,
+dens = NULL, wn = 'hanning', cor.method = "pearson", parallel = 1,
+path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
 templates = NULL, surveys = NULL, compare.matrix = NULL, type = "fourier",
  nbands = 40, method = 1)
 }
 \arguments{
-\item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files), 
-selection number (selec), and start and end time of signal (start and end). 
+\item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files),
+selection number (selec), and start and end time of signal (start and end).
 All selections must have the same sampling rate.}
 
-\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
+\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512.}
 
-\item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
+\item{bp}{A numeric vector of length 2 for the lower and upper limits of a
 frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicate that values in lowest bottom.freq
 and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.}
 
-\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
-consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of ovlp 
+\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two
+consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of ovlp
 slow down the function but produce more accurate results.}
 
 \item{dens}{DEPRECATED.}
@@ -35,12 +35,12 @@ slow down the function but produce more accurate results.}
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
-\item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the 
+\item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.}
 
 \item{cor.mat}{DEPRECATED. Use 'compare.matrix' instead.}
@@ -59,51 +59,55 @@ results. This means that all selections with at least 1 cross-correlation that f
 
 \item{method}{Numeric vector of length 1 to control the method used to create spectrogram matrices. Two option are available:
 \itemize{
-   \item \code{1}:  matrices are created first (keeping them internally as a list) and cross-correlation is calculated on a second step. Note that this method may require lots of memory if selection and or sound files are large. 
+   \item \code{1}:  matrices are created first (keeping them internally as a list) and cross-correlation is calculated on a second step. Note that this method may require lots of memory if selection and or sound files are large.
    \item \code{2}: matrices are created "on the fly" (i.e. at the same time that cross-correlation is calculated). More memory efficient but may require extracting the same matrix several times, which will affect performance. Note that when using this method the function does not check if sound files have the same sampling rate which if not, may produce an error.
    }}
 }
 \value{
-If \code{output = "cor.mat"} the function returns a matrix with 
-the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with 
+If \code{output = "cor.mat"} the function returns a matrix with
+the maximum (peak) correlation for each pairwise comparison (if 'compare.matrix' is not supplied) or the peak correlation for each comparison in the supplied 'compare.matrix'. Otherwise it will return a list that includes 1) a matrix with
 the maximum correlation for each pairwise comparison ('max.xcorr.matrix') and 2) a data frame with the correlation statistic for each "sliding" step ('scores').
 }
 \description{
 \code{cross_correlation} estimates the similarity of two sound waves by means of time-frequency cross-correlation
 }
 \details{
-This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel frequency ceptral coefficients spectrograms can be used as time-frequency representations of sound. 
+This function calculates the pairwise similarity of multiple signals by means of time-frequency cross-correlation. Fourier or Mel frequency ceptral coefficients spectrograms can be used as time-frequency representations of sound.
 This method "slides" the spectrogram of the shortest selection over the longest one calculating a correlation of the amplitude values at each step.
 The function runs pairwise cross-correlations on several signals and returns a list including the correlation statistic
-for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison. 
+for each "sliding" step as well as the maximum (peak) correlation for each pairwise comparison.
 The correlation matrix could have NA's if some of the pairwise correlation did not work (common when sound files have been modified by band-pass filters). Make sure all sound files have the same sampling rate (can be checked with \code{\link{check_sels}} or \code{\link{check_sound_files}}).
 }
 \examples{
 {
-#load data
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4","lbh_selec_table"))
+  # load data
+  data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
-#save sound files
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) 
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+  # save sound files
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+  writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-# run cross correlation on spectrograms (SPCC)
-xcor <- cross_correlation(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
+  # run cross correlation on spectrograms (SPCC)
+  xcor <- cross_correlation(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
 
-# run cross correlation on Mel cepstral coefficients (mfccs)
-xcor <- cross_correlation(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir(), type = "mfcc")
-  
-# using the 'compare.matrix' argument to specify pairwise comparisons
-# create matrix with ID of signals to compare
-cmp.mt <- cbind(
-paste(lbh_selec_table$sound.files[1:10], lbh_selec_table$selec[1:10], sep = "-"), 
-paste(lbh_selec_table$sound.files[2:11], lbh_selec_table$selec[2:11], sep = "-"))
+  # run cross correlation on Mel cepstral coefficients (mfccs)
+  xcor <- cross_correlation(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir(), 
+  type = "mfcc")
 
-# run cross-correlation on the selected pairwise comparisongs
-xcor <- cross_correlation(X = lbh_selec_table, compare.matrix = cmp.mt, 
-wl = 300, ovlp = 90, path = tempdir())
+  # using the 'compare.matrix' argument to specify pairwise comparisons
+  # create matrix with ID of signals to compare
+  cmp.mt <- cbind(
+    paste(lbh_selec_table$sound.files[1:10], lbh_selec_table$selec[1:10], sep = "-"),
+    paste(lbh_selec_table$sound.files[2:11], lbh_selec_table$selec[2:11], sep = "-")
+  )
+
+  # run cross-correlation on the selected pairwise comparisongs
+  xcor <- cross_correlation(
+    X = lbh_selec_table, compare.matrix = cmp.mt,
+    wl = 300, ovlp = 90, path = tempdir()
+  )
 }
 }
 \references{

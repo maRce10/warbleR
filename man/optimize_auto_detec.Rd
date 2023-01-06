@@ -4,8 +4,8 @@
 \alias{optimize_auto_detec}
 \title{Optimize the detection of signals based on a-priori detections}
 \usage{
-optimize_auto_detec(X, Y, threshold = 10, power = 1, wl = 512, ssmooth = 0, 
-hold.time = 0, mindur = NULL, maxdur = NULL, thinning = 1, parallel = 1, 
+optimize_auto_detec(X, Y, threshold = 10, power = 1, wl = 512, ssmooth = 0,
+hold.time = 0, mindur = NULL, maxdur = NULL, thinning = 1, parallel = 1,
 pb = TRUE, by.sound.file = FALSE, bp = NULL, path = NULL, previous.output = NULL)
 }
 \arguments{
@@ -59,12 +59,12 @@ If \code{NULL} (default) then the current working directory is used. Only needed
 \value{
 A data frame in which each row shows the result of a detection job with a particular combination of tuning parameters (including in the data frame). It also includes the following diagnostic metrics:
 \itemize{
- \item \code{true.positives}: number of detections that correspond to signals referenced in 'X'. Matching is defined as some degree of overlap in time. In a perfect detection routine it should be equal to the number of rows in 'X'. 
+ \item \code{true.positives}: number of detections that correspond to signals referenced in 'X'. Matching is defined as some degree of overlap in time. In a perfect detection routine it should be equal to the number of rows in 'X'.
  \item \code{false.positives}: number of detections that don't match any of the signals referenced in 'X'. In a perfect detection routine it should be 0.
  \item \code{false.negatives}: number of signals in 'reference' that were not detected (not found in 'detection'. In a perfect detection routine it should be 0.
- \item \code{split.positives}: number of signals referenced in 'X' that were overlapped by more than 1 detection (i.e. detections that were split). In a perfect detection routine it should be 0.  
- \item \code{mean.duration.true.positives}: mean duration of true positives (in s).  
- \item \code{mean.duration.false.positives}: mean duration of false positives (in s). 
+ \item \code{split.positives}: number of signals referenced in 'X' that were overlapped by more than 1 detection (i.e. detections that were split). In a perfect detection routine it should be 0.
+ \item \code{mean.duration.true.positives}: mean duration of true positives (in s).
+ \item \code{mean.duration.false.positives}: mean duration of false positives (in s).
  \item \code{mean.duration.false.negatives}: mean duration of false negatives (in s). Only included when \code{time.diagnostics = TRUE}.
  \item \code{proportional.duration.true.positives}: ratio of total duration of true positives to the total duration of signals referenced in 'X'. In a perfect detection routine it should be 1.
  \item \code{sensitivity}: Proportion of signals referenced in 'X' that were detected. In a perfect detection routine it should be 1.

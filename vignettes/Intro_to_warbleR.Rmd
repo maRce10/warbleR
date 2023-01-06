@@ -78,7 +78,7 @@ These objects are created with the `selection_table()` function. The function ta
 The sample data "lbh_selec_table" contains these columns:
 ```{r extn_sel_2, echo = FALSE, message = FALSE}
 
-#load packages
+# load packages
 library(warbleR)
 library(knitr)
 
@@ -89,16 +89,15 @@ data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 
-warbleR_options(wav.path = tempdir()) 
+warbleR_options(wav.path = tempdir())
 
-options(knitr.table.format = "html") 
+options(knitr.table.format = "html")
 opts_chunk$set(comment = "")
 opts_knit$set(root.dir = tempdir())
 options(width = 100, max.print = 100)
-
 ```
 
 ```{r extn_sel_4.1, eval=FALSE}
@@ -106,21 +105,21 @@ options(width = 100, max.print = 100)
 data("lbh_selec_table")
 
 lbh_selec_table
-
 ```
 
 ```{r extn_sel_4.2, echo=FALSE, eval = TRUE}
 
 library(kableExtra)
-kbl <- kable(lbh_selec_table, align = "c", row.names = F,  format = "html")
+kbl <- kable(lbh_selec_table, align = "c", row.names = F, format = "html")
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
-kbl <- scroll_box(kbl, width = "740px",
-box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL)
+kbl <- scroll_box(kbl,
+  width = "740px",
+  box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL
+)
 
 kbl
-
 ```
 
 
@@ -134,7 +133,7 @@ data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # parametros globales
 warbleR_options(wav.path = tempdir())
@@ -147,13 +146,11 @@ st
 ```{r, eval = TRUE, echo = FALSE}
 
 st <- selection_table(X = lbh_selec_table, pb = FALSE)
-
 ```
 
 ```{r, eval = TRUE, echo = FALSE}
 
 st
-
 ```
 
 
@@ -164,7 +161,6 @@ Selection tables have their own class in R:
 ```{r}
 
 class(st)
-
 ```
 &nbsp;
 
@@ -181,17 +177,18 @@ Now, as mentioned earlier, you need the `selection_table()` function to create a
 warbleR_options(wav.path = tempdir())
 
 
-ext_st <- selection_table(X = lbh_selec_table, pb = FALSE, 
-          extended = TRUE, confirm.extended = FALSE)
-
+ext_st <- selection_table(
+  X = lbh_selec_table, pb = FALSE,
+  extended = TRUE, confirm.extended = FALSE
+)
 ```
 
 ```{r extn_sel_4.33, eval = TRUE, echo = FALSE}
 
-ext_st <- selection_table(X = lbh_selec_table, pb = FALSE, 
-          extended = TRUE, confirm.extended = FALSE)
-
-
+ext_st <- selection_table(
+  X = lbh_selec_table, pb = FALSE,
+  extended = TRUE, confirm.extended = FALSE
+)
 ```
 &nbsp;
 
@@ -206,7 +203,6 @@ Several functions can be used to deal with objects of this class. You can test i
 ```{r extn_sel_5}
 
 is_extended_selection_table(ext_st)
-
 ```
 &nbsp;
 
@@ -217,7 +213,6 @@ You can subset the selection in the same way that any other data frame and it wi
 ext_st2 <- ext_st[1:2, ]
 
 is_extended_selection_table(ext_st2)
-
 ```
 
 There is also a generic version of `print()` for this class of objects:
@@ -226,7 +221,6 @@ There is also a generic version of `print()` for this class of objects:
 
 ## print
 print(ext_st)
-
 ```
 
 ... which is equivalent to:
@@ -234,13 +228,11 @@ print(ext_st)
 ```{r extn_sel_7.1, eval=FALSE}
 
 ext_st
-
 ```
 
 ```{r extn_sel_7/2, echo=FALSE}
 
 print(ext_st)
-
 ```
 &nbsp;
 
@@ -254,9 +246,8 @@ ext_st4 <- ext_st[6:11, ]
 
 ext_st5 <- rbind(ext_st3, ext_st4)
 
-#print
+# print
 ext_st5
-
 ```
 
 ```{r extn_sel_8.1, echo=FALSE}
@@ -267,16 +258,14 @@ ext_st4 <- ext_st[6:11, ]
 
 ext_st5 <- rbind(ext_st3, ext_st4)
 
-#print
+# print
 print(ext_st5)
-
 ```
 
 ```{r extn_sel_8.2}
 
 # igual q el original
 all.equal(ext_st, ext_st5)
-
 ```
 &nbsp;
 
@@ -285,7 +274,6 @@ The 'wave' objects can be read individually using `read_wave()`, a wrapper for t
 ```{r extn_sel_8.21}
 
 wv1 <- read_wave(X = ext_st, index = 3, from = 0, to = 0.37)
-
 ```
 &nbsp;
 
@@ -305,15 +293,14 @@ spectro(wv1, wl = 150, grid = FALSE, scale = FALSE, ovlp = 90)
 ```{r extn_sel_8.23, out.width= 750}
 par(mfrow = c(3, 2), mar = rep(0, 4))
 
-for(i in 1:6){
-  
+for (i in 1:6) {
   wv <- read_wave(X = ext_st, index = i, from = 0.05, to = 0.32)
 
-  spectro(wv, wl = 150, grid = FALSE, scale = FALSE, axisX = FALSE,
-          axisY = FALSE, ovlp = 90)
-
+  spectro(wv,
+    wl = 150, grid = FALSE, scale = FALSE, axisX = FALSE,
+    axisY = FALSE, ovlp = 90
+  )
 }
-
 ```
 &nbsp;
 
@@ -331,7 +318,6 @@ mrg_ext_st <- merge(ext_st, Y, by = "sound.files")
 
 # check class
 is_extended_selection_table(mrg_ext_st)
-
 ```
 &nbsp;
 
@@ -344,7 +330,6 @@ mrg_ext_st <- fix_extended_selection_table(X = mrg_ext_st, Y = ext_st)
 
 # check class
 is_extended_selection_table(mrg_ext_st)
-
 ```
 &nbsp;
 
@@ -371,16 +356,16 @@ sp
 
 sp <- spectro_analysis(ext_st)
 
-kbl <- kable(sp, align = "c", row.names = F,  format = "html")
+kbl <- kable(sp, align = "c", row.names = F, format = "html")
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
-kbl <- scroll_box(kbl, width = "740px",
-box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL)
+kbl <- scroll_box(kbl,
+  width = "740px",
+  box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL
+)
 
 kbl
-
-
 ```
 
 &nbsp; 
@@ -400,15 +385,16 @@ snr
 
 snr <- sig2noise(ext_st, mar = 0.05)
 
-kbl <- kable(snr, align = "c", row.names = F,  format = "html")
+kbl <- kable(snr, align = "c", row.names = F, format = "html")
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
-kbl <- scroll_box(kbl, width = "740px",
-box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL)
+kbl <- scroll_box(kbl,
+  width = "740px",
+  box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL
+)
 
 kbl
-
 ```
 
 &nbsp; 
@@ -420,7 +406,6 @@ kbl
 dtw.dist <- freq_DTW(ext_st, img = FALSE)
 
 dtw.dist
-
 ```
 
 
@@ -428,15 +413,16 @@ dtw.dist
 
 dtw.dist <- freq_DTW(ext_st, img = FALSE)
 
-kbl <- kable(dtw.dist, align = "c", row.names = T,  format = "html")
+kbl <- kable(dtw.dist, align = "c", row.names = T, format = "html")
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
-kbl <- scroll_box(kbl, width = "740px",
-box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL)
+kbl <- scroll_box(kbl,
+  width = "740px",
+  box_css = "border: 1px solid #ddd; padding: 1px; ", extra_css = NULL
+)
 
 kbl
-
 ```
 
 &nbsp; 
@@ -448,15 +434,18 @@ The use of *extended_selection_table* objects can improve performance (in our ca
 ```{r extn_sel_13, eval = FALSE}
 
 # create long selection table
-lng.selec.table <- do.call(rbind, replicate(10, lbh_selec_table, 
-                        simplify = FALSE))
+lng.selec.table <- do.call(rbind, replicate(10, lbh_selec_table,
+  simplify = FALSE
+))
 
 # relabels selec
 lng.selec.table$selec <- 1:nrow(lng.selec.table)
 
 # create extended selection table
-lng_ext_st <- selection_table(X = lng.selec.table, pb = FALSE, 
-                        extended = TRUE, confirm.extended = FALSE)
+lng_ext_st <- selection_table(
+  X = lng.selec.table, pb = FALSE,
+  extended = TRUE, confirm.extended = FALSE
+)
 
 
 # load packages
@@ -464,12 +453,13 @@ library(microbenchmark)
 library(ggplot2)
 
 # check performance
-mbmrk.snr <- microbenchmark(extended = sig2noise(lng_ext_st, 
-      mar = 0.05), regular = sig2noise(lng.selec.table, 
-                    mar = 0.05), times = 50)
+mbmrk.snr <- microbenchmark(extended = sig2noise(lng_ext_st,
+  mar = 0.05
+), regular = sig2noise(lng.selec.table,
+  mar = 0.05
+), times = 50)
 
 autoplot(mbmrk.snr) + ggtitle("sig2noise")
-
 ```
 &nbsp;
 
@@ -493,7 +483,6 @@ data("Phae.long.est")
 Phae.long.est
 
 table(Phae.long.est$lek.song.type)
-
 ```
 
 The ability to compress large data sets and the ease of performing analyzes that require a single R object can simplify the exchange of data and the reproducibility of bioacoustic analyzes.
@@ -512,12 +501,12 @@ wf <- ls("package:warbleR")
 
 wf <- wf[-c(2, 7, 8, 10, 12, 16, 17, 19, 20, 23, 24, 28, 31, 32, 33, 38, 42, 43, 44, 47, 50, 53, 59, 64, 66, 68, 68, 72, 74, 80, 81, 85, 90, 93, 94, 96)]
 
-df <- data.frame(funciones = wf, `Obtener-preparar grabaciones` = "", `Anotar` = "", `Medir` = "",  `Revision` = "", `Inspeccion visual` = "", `Analisis estadistico` = "", `Otros` = "")
+df <- data.frame(funciones = wf, `Obtener-preparar grabaciones` = "", `Anotar` = "", `Medir` = "", `Revision` = "", `Inspeccion visual` = "", `Analisis estadistico` = "", `Otros` = "")
 
 df2 <- edit(df)
 
 
-df2$`organizar.anotaciones` <- "" 
+df2$`organizar.anotaciones` <- ""
 
 names(df2) <- names(df2)[c(1:3, 9, 4:8)]
 
@@ -533,12 +522,11 @@ names(df4) <- c("Funcion", "Obtener-preparar grabaciones", "Anotar", "Organizar 
 
 rownames(df4) <- 1:nrow(df4)
 
-df5 <- df4[order(df4$`Obtener-preparar grabaciones`, df4$Anotar, df4$`Organizar anotaciones`, df4$`Medir estructura`, df4$Verificar, df4$`Inspeccion visual`, df4$`Analisis estadistico`, df4$Otros, decreasing = TRUE),]
+df5 <- df4[order(df4$`Obtener-preparar grabaciones`, df4$Anotar, df4$`Organizar anotaciones`, df4$`Medir estructura`, df4$Verificar, df4$`Inspeccion visual`, df4$`Analisis estadistico`, df4$Otros, decreasing = TRUE), ]
 
-df4 <- df4[c(5, 8, 18, 29, 34, 35, 37, 38, 39, 55, 56, 26, 1, 19, 40, 46, 4, 11, 16, 17, 24, 25, 32, 41, 45, 7, 12, 13, 14, 15, 23, 27, 30, 42, 47, 48, 57, 2,  3, 28, 44, 50, 51, 52, 58, 9, 10, 21, 22, 59, 6, 20, 31, 33, 36, 43, 49, 53, 54), ]
+df4 <- df4[c(5, 8, 18, 29, 34, 35, 37, 38, 39, 55, 56, 26, 1, 19, 40, 46, 4, 11, 16, 17, 24, 25, 32, 41, 45, 7, 12, 13, 14, 15, 23, 27, 30, 42, 47, 48, 57, 2, 3, 28, 44, 50, 51, 52, 58, 9, 10, 21, 22, 59, 6, 20, 31, 33, 36, 43, 49, 53, 54), ]
 
 # write.csv(df4, "cuadro de funciones warbleR.csv", row.names = FALSE)
-
 ```
 
  <img src="analysis-workflow.png" alt="analysis workflow">
@@ -563,16 +551,15 @@ cf2 <- cf[cf$`Obtener preparar grabaciones` == "x", c("Function", "Description",
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
-kbl <- kable(cf2, align = "c", row.names = F,  format = "html", escape = F)
+kbl <- kable(cf2, align = "c", row.names = F, format = "html", escape = F)
 
 kbl <- column_spec(kbl, 1, bold = TRUE)
 
 kbl <- column_spec(kbl, 2:4, italic = TRUE)
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
 kbl
-
 ```
 
 &nbsp; 
@@ -583,20 +570,19 @@ It is recommended to make annotations in other programs and then import them int
 
 ```{r, echo = FALSE, eval = TRUE}
 
-cf2 <- cf[cf$Anotar == "x",  c("Function", "Description", "Works on", "Output")]
+cf2 <- cf[cf$Anotar == "x", c("Function", "Description", "Works on", "Output")]
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
-kbl <- kable(cf2, align = "c", row.names = F,  format = "html", escape = F)
+kbl <- kable(cf2, align = "c", row.names = F, format = "html", escape = F)
 
 kbl <- column_spec(kbl, 1, bold = TRUE)
 
 kbl <- column_spec(kbl, 2:4, italic = TRUE)
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
 kbl
-
 ```
 
 &nbsp; 
@@ -607,20 +593,19 @@ The annotations (or selection tables) can be manipulated and refined with a vari
 
 ```{r, echo = FALSE, eval = TRUE}
 
-cf2 <- cf[cf$`Organizar anotaciones` == "x",  c("Function", "Description", "Works on", "Output")]
+cf2 <- cf[cf$`Organizar anotaciones` == "x", c("Function", "Description", "Works on", "Output")]
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
-kbl <- kable(cf2, align = "c", row.names = F,  format = "html", escape = F)
+kbl <- kable(cf2, align = "c", row.names = F, format = "html", escape = F)
 
 kbl <- column_spec(kbl, 1, bold = TRUE)
 
 kbl <- column_spec(kbl, 2:4, italic = TRUE)
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
 kbl
-
 ```
 
 &nbsp; 
@@ -638,20 +623,19 @@ Most functions gravitate around these methods, or variations of these methods:
 
 ```{r, echo = FALSE, eval = TRUE}
 
-cf2 <- cf[cf$`Medir estructura` == "x",  c("Function", "Description", "Works on", "Output")]
+cf2 <- cf[cf$`Medir estructura` == "x", c("Function", "Description", "Works on", "Output")]
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
-kbl <- kable(cf2, align = "c", row.names = F,  format = "html", escape = F)
+kbl <- kable(cf2, align = "c", row.names = F, format = "html", escape = F)
 
 kbl <- column_spec(kbl, 1, bold = TRUE)
 
 kbl <- column_spec(kbl, 2:4, italic = TRUE)
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
 kbl
-
 ```
 
 &nbsp; 
@@ -662,20 +646,19 @@ Functions are provided to detect inconsistencies in the selection tables or modi
 
 ```{r, echo = FALSE, eval = TRUE}
 
-cf2 <- cf[cf$Verificar == "x",  c("Function", "Description", "Works on", "Output")]
+cf2 <- cf[cf$Verificar == "x", c("Function", "Description", "Works on", "Output")]
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
-kbl <- kable(cf2, align = "c", row.names = F,  format = "html", escape = F)
+kbl <- kable(cf2, align = "c", row.names = F, format = "html", escape = F)
 
 kbl <- column_spec(kbl, 1, bold = TRUE)
 
 kbl <- column_spec(kbl, 2:4, italic = TRUE)
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
 kbl
-
 ```
 
 &nbsp; 
@@ -684,20 +667,19 @@ kbl
 
 ```{r, echo = FALSE, eval = TRUE}
 
-cf2 <- cf[cf$`Inspeccion visual` == "x",  c("Function", "Description", "Works on", "Output")]
+cf2 <- cf[cf$`Inspeccion visual` == "x", c("Function", "Description", "Works on", "Output")]
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
-kbl <- kable(cf2, align = "c", row.names = F,  format = "html", escape = F)
+kbl <- kable(cf2, align = "c", row.names = F, format = "html", escape = F)
 
 kbl <- column_spec(kbl, 1, bold = TRUE)
 
 kbl <- column_spec(kbl, 2:4, italic = TRUE)
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
 kbl
-
 ```
 
 &nbsp; 
@@ -708,20 +690,19 @@ Finally, **warbleR** offers functions to simplify the use of extended selection 
 
 ```{r, echo = FALSE, eval = TRUE}
 
-cf2 <- cf[cf$`Analisis estadistico` == "x" | cf$Otros == "x",  c("Function", "Description", "Works on", "Output")]
+cf2 <- cf[cf$`Analisis estadistico` == "x" | cf$Otros == "x", c("Function", "Description", "Works on", "Output")]
 
 cf2$Function <- cell_spec(x = cf2$Function, link = paste0("https://marce10.github.io/warbleR/reference/", cf2$Function, ".html"))
 
-kbl <- kable(cf2, align = "c", row.names = F,  format = "html", escape = F)
+kbl <- kable(cf2, align = "c", row.names = F, format = "html", escape = F)
 
 kbl <- column_spec(kbl, 1, bold = TRUE)
 
 kbl <- column_spec(kbl, 2:4, italic = TRUE)
 
-kbl <-  kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+kbl <- kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
 
 kbl
-
 ```
 
 &nbsp;
@@ -743,5 +724,4 @@ kbl
 ```{r session info, echo=F}
 
 sessionInfo()
-
 ```

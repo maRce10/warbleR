@@ -28,7 +28,7 @@ writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # create extended selection table
-ext_st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE, 
+ext_st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE,
 path = tempdir())
 
 # remove attributes

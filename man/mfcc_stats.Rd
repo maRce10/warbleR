@@ -4,27 +4,27 @@
 \alias{mfcc_stats}
 \title{Calculate descriptive statistics on Mel-frequency cepstral coefficients}
 \usage{
-mfcc_stats(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL, numcep = 25, 
+mfcc_stats(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL, numcep = 25,
 nbands = 40, parallel = 1, pb = TRUE, ...)
 }
 \arguments{
-\item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
-files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+\item{X}{'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
+files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
 end time of selections. The output of \code{\link{auto_detec}} can
 be used as the input data frame.}
 
-\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
+\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two
 consecutive windows. Internally this is used to set the 'hoptime' argument in \code{\link[tuneR]{melfcc}}. Default is 50.}
 
 \item{wl}{A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independently in the frequency domain.}
 
-\item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
+\item{bp}{A numeric vector of length 2 for the lower and upper limits of a
 frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in minimum of 'bottom.freq'
 and maximum of 'top.freq' columns will be used as bandpass limits.}
 
 \item{path}{Character string containing the directory path where the sound files are located.}
 
-\item{numcep}{Numeric vector of length 1 controlling the number of cepstra to 
+\item{numcep}{Numeric vector of length 1 controlling the number of cepstra to
 return (see \code{\link[tuneR]{melfcc}}).}
 
 \item{nbands}{Numeric vector of length 1 controlling the number of warped spectral bands to use (see \code{\link[tuneR]{melfcc}}). Default is 40.}
@@ -37,7 +37,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{...}{Additional parameters to be passed to \code{\link[tuneR]{melfcc}}.}
 }
 \value{
-A data frame containing the descriptive statistics for each of the Mel-frequency 
+A data frame containing the descriptive statistics for each of the Mel-frequency
 cepstral coefficients (set by 'numcep' argument). See details.
 }
 \description{
@@ -46,7 +46,7 @@ cepstral coefficients (set by 'numcep' argument). See details.
 \details{
 The function calculates descriptive statistics on Mel-frequency cepstral coefficients (MFCCs) for each of the signals (rows) in a selection
 data frame. The descriptive statistics are: minimum, maximum, mean, median, skewness, kurtosis and
-variance. 
+variance.
 It also returns the mean and variance for the first and second derivatives of the coefficients. These parameters are commonly used in acoustic signal processing and detection (e.g. Salamon et al 2014).
 }
 \examples{
@@ -62,7 +62,7 @@ mel_st <- mfcc_stats(X = lbh_selec_table, pb = FALSE, path = tempdir())
 
 head(mel_st)
 
-# measure 12 coefficients 
+# measure 12 coefficients
 mel_st12 <- mfcc_stats(X = lbh_selec_table, numcep = 12, pb = FALSE, path = tempdir())
 
  head(mel_st)

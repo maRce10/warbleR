@@ -19,23 +19,23 @@ check_sels(
 )
 }
 \arguments{
-\item{X}{'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav 
-files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+\item{X}{'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
+files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
 end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{check.header}{Logical. Controls whether sound file headers correspond to the actual file properties 
-(i.e. if is corrupted). This could significantly affect the performance of the function (much slower) particularly 
+\item{check.header}{Logical. Controls whether sound file headers correspond to the actual file properties
+(i.e. if is corrupted). This could significantly affect the performance of the function (much slower) particularly
 with long sound files.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
-\item{wav.size}{Logical argument to control if the size of the wave object 
+\item{wav.size}{Logical argument to control if the size of the wave object
 when the selection is imported into R (as when using \code{\link[tuneR]{readWave}}
 is calculated and added as a column. Size is return in MB. Default is \code{FALSE}.}
 
@@ -46,7 +46,7 @@ is calculated and added as a column. Size is return in MB. Default is \code{FALS
 \value{
 A data frame including the columns in the input data frame (X) and the following additional columns:
 \itemize{
-   \item \code{check.res}: diagnose for each selection 
+   \item \code{check.res}: diagnose for each selection
    \item \code{duration}: duration of selection in seconds
    \item \code{min.n.samples} number of samples in a selection. Note the number of samples available
 in a selection limits the minimum window length (wl argument in other functions) that can be used in batch analyses.
@@ -60,29 +60,29 @@ in a selection limits the minimum window length (wl argument in other functions)
 \code{check_sels} checks whether selections can be read by subsequent functions.
 }
 \details{
-This function checks the information in a selection data frame or selection table (i.e. data frame with annotations on sound files) 
+This function checks the information in a selection data frame or selection table (i.e. data frame with annotations on sound files)
 to avoid problems in any warbleR analysis downstream. It specifically checks if:
 \itemize{
-   \item 'X' is an object of class 'data.frame' or 'selection_table' (see \code{\link{selection_table}}) and contains 
-   the required columns to be used on any warbleR function ('sound.files', 'selec', 'start', 'end', if not returns an error) 
+   \item 'X' is an object of class 'data.frame' or 'selection_table' (see \code{\link{selection_table}}) and contains
+   the required columns to be used on any warbleR function ('sound.files', 'selec', 'start', 'end', if not returns an error)
    \item  'sound.files' in 'X' correspond to sound files in the working directory or in the provided 'path'
     (if no file is found returns an error, if some files are not found returns error info in the ouput data frame)
-   \item time ('start', 'end') and frequency ('bottom.freq', 'top.freq', if provided) limit parameters are numeric and 
+   \item time ('start', 'end') and frequency ('bottom.freq', 'top.freq', if provided) limit parameters are numeric and
    don't contain NAs (if not returns an error)
    \item there are no duplicated selection labels ('selec') within a sound file (if not returns an error)
    \item sound files can be read (error info in the ouput data frame)
    \item the start and end time of the selections are found within the duration of the sound files (error info in the ouput data frame)
    \item sound files can be read (error info in the ouput data frame)
-   \item sound files header is not corrupted (only if \code{header = TRUE}, error info in the ouput data frame)    
+   \item sound files header is not corrupted (only if \code{header = TRUE}, error info in the ouput data frame)
    \item selection time position (start and end) doesn't exceeds sound file length (error info in the ouput data frame)
    \item 'top.freq' is lower than half the sample rate (nyquist frequency, error info in the ouput data frame)
    \item negative values aren't found in time or frequency limit parameters (error info in the ouput data frame)
    \item 'start' higher than 'end' or 'bottom.freq' higher than 'top.freq' (error info in the ouput data frame)
    \item 'channel' value is not higher than number of channels in sound files (error info in the ouput data frame)
-} 
+}
 The function returns a data frame that includes the information in 'X' plus additional columns about the format of sound
 files (see 'Value') as well as the result of the checks ('check.res' column, value is 'OK' if everything is fine).
-Sound files should be in the working directory (or the directory provided in 'path'). Corrupt files can be fixed using 
+Sound files should be in the working directory (or the directory provided in 'path'). Corrupt files can be fixed using
 \code{\link{fix_wavs}}.
 
 see \code{\link{check_sels}} for documentation. \code{\link{check_sels}} will be deprecated in future versions.

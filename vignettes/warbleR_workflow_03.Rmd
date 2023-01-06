@@ -80,29 +80,30 @@ For more details about function arguments, input or output, read the documentati
 rm(list = ls())
 
 # unload all non-based packages
-out <- sapply(paste('package:', names(sessionInfo()$otherPkgs), sep = ""), function(x) try(detach(x, unload = FALSE, character.only = TRUE), silent = TRUE))
+out <- sapply(paste("package:", names(sessionInfo()$otherPkgs), sep = ""), function(x) try(detach(x, unload = FALSE, character.only = TRUE), silent = TRUE))
 
 # load packages
 X <- c("warbleR", "knitr")
 invisible(lapply(X, library, character.only = TRUE))
 # library(kableExtra)
 
-options(knitr.table.format = "html") 
+options(knitr.table.format = "html")
 # opts_chunk$set(comment = "")
 # opts_knit$set(root.dir = tempdir())
 options(width = 150, max.print = 100)
 
 # from https://stackoverflow.com/questions/28961431/computationally-heavy-r-vignettes, so that vignettes will be built upon installation, but not executed during R CMD check (which is contributing to the /doc being too large)
-is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
-             "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
+is_check <- ("CheckExEnv" %in% search()) || any(c(
+  "_R_CHECK_TIMINGS_",
+  "_R_CHECK_LICENSE_"
+) %in% names(Sys.getenv()))
 knitr::opts_chunk$set(eval = !is_check, comment = "")
 
 # for vignette checking and image file output
 # setwd("~/Desktop/R/warbleR_example2/")
 
-#website to fix gifs
-#https://ezgif.com/optimize
-
+# website to fix gifs
+# https://ezgif.com/optimize
 ```
 
 ## **Prepare for analyses**
@@ -116,11 +117,10 @@ library(warbleR)
 
 # run this if you have restarted RStudio between vignettes without saving your workspace
 # assumes that you are in your /home/username directory
-setwd(file.path(getwd(),"warbleR_example"))
+setwd(file.path(getwd(), "warbleR_example"))
 
 # Check your location
 getwd()
-
 ```
 
 This vignette series will not always include all available `warbleR` functions, as existing functions are updated and new functions are added. To see all functions available in this package:
@@ -129,7 +129,6 @@ This vignette series will not always include all available `warbleR` functions, 
 
 # The package must be loaded in your working environment
 ls("package:warbleR")
-
 ```
 
 ## **Extract acoustic parameters as time series**
@@ -146,7 +145,7 @@ Download a tinamou recording from _xeno-canto_, make selections and visualize/de
 
 ```{r, eval=FALSE, echo=TRUE}
 
-tin <- query_xc(qword = 'Tinamus', download = FALSE)
+tin <- query_xc(qword = "Tinamus", download = FALSE)
 
 # select a single recording
 tin <- tin[tin$Recordist == "Marcelo Araya-Salas", ]
@@ -155,7 +154,6 @@ tin <- tin[tin$Recordist == "Marcelo Araya-Salas", ]
 query_xc(X = tin, download = TRUE)
 
 mp32wav()
-
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -163,7 +161,6 @@ mp32wav()
 # Hiding the text that goes with the chunk below
 
 # If you have _Raven_ installed on your local machine, you can use _Rraven_ to call this software and make selections. Make sure to include arguments from imp_raven to ensure that the selection table is imported with the correct columns for downstream functions. We will use the _Tinamus major_ signals for detecting frequency range below, so if you do not have _Raven_ installed on your machine, you can use the code below as a reference for your own signals.
-
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -180,19 +177,17 @@ write.csv(Tin.sels, "Tinamus-major-154191_sels.csv", row.names = FALSE)
 
 # generate individual cuts for freqeuency range measurements below
 cut_sels(Tin.sels, mar = 0.05, labels = c("sound.files", "selec"))
-
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
 
 # Tin.sels <- read.csv("Tinamus-major-154191_sels.csv", header = TRUE)
-
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
 
 # here we will use a data set with sound files that have been already annotated
-# read the selections back into the global environment 
+# read the selections back into the global environment
 Tin.sels <- read.csv("manualoc_output.csv")
 str(Tin.sels)
 
@@ -200,14 +195,12 @@ str(Tin.sels)
 writeWave(seewave::cutw(readWave("Tinamus-major-154191.wav"), from = Tin.sels$start[1], to = Tin.sels$end[1], f = 44100, plot = FALSE, output = "Wave"), filename = "Tinamus-major-154191-1.wav")
 
 writeWave(seewave::cutw(readWave("Tinamus-major-154191.wav"), from = Tin.sels$start[2], to = Tin.sels$end[2], f = 44100, plot = FALSE, output = "Wave"), filename = "Tinamus-major-154191-2.wav")
-
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
 
 # note that changing the threshold argument in combination with the bandpass argument can improve the detection
 freq_range_detec(readWave("Tinamus-major-154191-1.wav"), flim = c(0, 2.5), bp = c(0, 3), threshold = 15, plot = TRUE)
-
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -215,7 +208,6 @@ freq_range_detec(readWave("Tinamus-major-154191-1.wav"), flim = c(0, 2.5), bp = 
 # here, giving a strict bandpass with very low threshold improves freq_range detection
 # since the curving end of the tinamou signal is lower amplitude than the rest of the signal
 c(readWave("Tinamus-major-154191-1.wav"), flim = c(0, 2.5), bp = c(0, 3), threshold = 1, plot = TRUE)
-
 ```
 
 The function `freq_range` allows you to simultaneously return the frequency ranges for all signals in a selection table, including the graphical output as `freq_range_detec`. Check out the resulting image file in your graphics device. In addition to image files, this function returns the original selection table, as a data frame with the newly calculated low and high frequency measurements. 
@@ -225,7 +217,6 @@ The function `freq_range` allows you to simultaneously return the frequency rang
 # use arguments from freq_range_detec above
 fr <- freq_range(Tin.sels, threshold = 1, res = 100, flim = c(0, 2.5), bp = c(0.5, 2.5))
 str(fr)
-
 ```
 
 ### Extract spectral entropy as a time series 
@@ -235,7 +226,6 @@ Spectral entropy can be calculated as time series in selected signals and plotte
 ```{r, eval = FALSE, echo=FALSE}
 
 Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
-
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -246,7 +236,6 @@ str(Phae.hisnrt)
 se <- entropy_ts(Phae.hisnrt, wl = 300, length.out = 10, threshold = 10, img = TRUE, img.suffix = "entropy_ts", type = "b", ovlp = 90, sp.en.range = c(-25, 10), flim = c(2, 10), picsize = 0.75, title = FALSE)
 
 str(se)
-
 ```
 
 #### Visualizing frequency contours with `track_freq_contour`
@@ -264,7 +253,6 @@ track_freq_contour(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(1, 12), it = "
 
 # We can change the lower end of bandpass to make the frequency measurements more precise
 track_freq_contour(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(2, 12), col = c("purple", "orange"), pch = c(17, 3), res = 100, it = "jpeg", picsize = 0.8)
-
 ```
 
 <!-- <center> ![track_freq_contour image](Phaethornis-longirostris-154072.wav-108-trackfreqs.jpeg)</center> -->
@@ -288,27 +276,25 @@ nm <- paste(paste(as.character(Phae.hisnrt$sound.files[1]), as.character(Phae.hi
 
 writeWave(seewave::cutw(readWave(as.character(Phae.hisnrt$sound.files[1])), from = Phae.hisnrt$start[1], to = Phae.hisnrt$end[1], f = 44100, plot = FALSE, output = "Wave"), filename = nm)
 
-trck_hrm <- track_harmonic(readWave(nm), f = 44100, ovlp = 70, fftw = FALSE, threshold = 15, bandpass = NULL, clip = 0.1, plot = TRUE, xlab = "Time (s)", ylab = "Frequency (kHz)",  adjust.wl = FALSE, dfrq = FALSE)
+trck_hrm <- track_harmonic(readWave(nm), f = 44100, ovlp = 70, fftw = FALSE, threshold = 15, bandpass = NULL, clip = 0.1, plot = TRUE, xlab = "Time (s)", ylab = "Frequency (kHz)", adjust.wl = FALSE, dfrq = FALSE)
 
 # plot spectrogram
 spectro(readWave(nm), grid = FALSE, scale = FALSE, f = 22050, ovlp = 90, palette = reverse.gray.colors.2, collevels = seq(-40, 0, 1), wl = 300, osc = FALSE, flim = c(2, 10), main = "warbleR's 'track_harmonic'")
 
 # plot detected frequency contour
-points(x = trck_hrm[ , 1] + 0.1, y =  trck_hrm[ , 2], cex = 1, col = "red", pch = 20)
-
+points(x = trck_hrm[, 1] + 0.1, y = trck_hrm[, 2], cex = 1, col = "red", pch = 20)
 ```
 
 ```{r, echo=FALSE, eval=FALSE}
 
 # with a Tinamou tonal signal
-trck_hrm <- track_harmonic(readWave("Tinamus-major-154191-1.wav"), f = 44100, ovlp = 70, fftw = FALSE, threshold = 15, bandpass = NULL, plot = TRUE, xlab = "Time (s)", ylab = "Frequency (kHz)",  adjust.wl = FALSE, dfrq = FALSE)
+trck_hrm <- track_harmonic(readWave("Tinamus-major-154191-1.wav"), f = 44100, ovlp = 70, fftw = FALSE, threshold = 15, bandpass = NULL, plot = TRUE, xlab = "Time (s)", ylab = "Frequency (kHz)", adjust.wl = FALSE, dfrq = FALSE)
 
 # plot spectrogram
 spectro(readWave("Tinamus-major-154191-2.wav"), grid = FALSE, scale = FALSE, f = 44100, ovlp = 90, palette = reverse.gray.colors.2, collevels = seq(-40, 0, 1), wl = 300, osc = FALSE, flim = c(0, 4), main = "warbleR's 'track_harmonic'")
 
 # plot detected frequency contour
-points(x = trck_hrm[ , 1] + 0.1, y =  trck_hrm[ , 2], cex = 1, col = "red", pch = 20)
-
+points(x = trck_hrm[, 1] + 0.1, y = trck_hrm[, 2], cex = 1, col = "red", pch = 20)
 ```
 
 ```{r, echo=TRUE, eval=FALSE}
@@ -317,7 +303,6 @@ points(x = trck_hrm[ , 1] + 0.1, y =  trck_hrm[ , 2], cex = 1, col = "red", pch 
 ff_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "freq_ts", ff.method = "tuneR")
 
 str(ff_df)
-
 ```
 
 ```{r, echo=TRUE, eval=FALSE}
@@ -328,7 +313,6 @@ str(ff_df)
 df_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "freq_ts", fsmooth = 0.2)
 
 str(df_df)
-
 ```
 
 ### Manually tailor frequency contours with tailor_sels
@@ -343,15 +327,16 @@ When the new graphics window for `tailor_sels` appears, it will show spectrogram
 
 # Use the original data frame of songs for the main tailor_sels dataset
 # the data frame with the fundamental frequency contours is provided for manual tracing
-tailor_sels(Phae.hisnrt, wl = 300, flim = c(2, 10), wn = "hanning", mar = 0.1,
- osci = TRUE, title = c("sound.files", "selec"), auto.contour = TRUE, ts.df = ff_df, col = "red", alpha = 0.6)
+tailor_sels(Phae.hisnrt,
+  wl = 300, flim = c(2, 10), wn = "hanning", mar = 0.1,
+  osci = TRUE, title = c("sound.files", "selec"), auto.contour = TRUE, ts.df = ff_df, col = "red", alpha = 0.6
+)
 
 # rename your tailor_sels output csv as desired, then read it back into R
 mff <- read.csv("seltailor_output_mff.csv")
 str(mff)
 
 track_freq_contour(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(1, 12), it = "jpeg", custom.contour = mff)
-
 ```
 
 ### Count inflections across frequency contours
@@ -362,7 +347,6 @@ This function calculates the modulation index for any frequency contour or time 
 
 df_inf <- inflections(X = df_df, pb = TRUE)
 str(df_inf)
-
 ```
 
 ##**Quantitative measurements of acoustic (dis)similarity**
@@ -383,9 +367,10 @@ In the last vignette, we tailored selections of _Phaethornis longirostris_ songs
 
 Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
 
-compare_methods(X = Phae.hisnrt, flim = c(0, 10), bp = c(0, 10), 
-                wl = 300, n = 10, methods = c("XCORR", "dfDTW"))
-
+compare_methods(
+  X = Phae.hisnrt, flim = c(0, 10), bp = c(0, 10),
+  wl = 300, n = 10, methods = c("XCORR", "dfDTW")
+)
 ```
 
 
@@ -409,21 +394,18 @@ Use the bandpass filter to your advantage here, to filter out low or high backgr
 ```{r, eval=TRUE, echo=FALSE}
 
 params <- read.csv("acoustic_parameters.csv")
-
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
 
 params <- spectro_analysis(Phae.hisnrt, bp = c(2, 10), threshold = 15)
 write.csv(params, "acoustic_parameters.csv", row.names = FALSE)
-
 ```
 
 Remove parameters derived from fundamental frequency (based on `track_freq_contour` results).
 ```{r, eval=FALSE, echo=TRUE}
 
 params <- params[, grep("fun|peakf", colnames(params), invert = TRUE)]
-
 ```
 
 ### Calculate acoustic parameters by song type
@@ -433,10 +415,10 @@ In addition to calculating acoustic parameters per individual signals using `spe
 ```{r, eval=FALSE, echo=TRUE}
 
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
-writeWave(Phae.long1,"Phae.long1.wav")
-writeWave(Phae.long2,"Phae.long2.wav")
-writeWave(Phae.long3,"Phae.long3.wav")
-writeWave(Phae.long4,"Phae.long4.wav") 
+writeWave(Phae.long1, "Phae.long1.wav")
+writeWave(Phae.long2, "Phae.long2.wav")
+writeWave(Phae.long3, "Phae.long3.wav")
+writeWave(Phae.long4, "Phae.long4.wav")
 
 # Add a 'song' column
 selec.table$song <- rep(1:4, each = 3)[1:11]
@@ -450,7 +432,6 @@ sp <- merge(sp, selec.table, by = c("sound.files", "selec"))
 # Caculate song-level parameters for all numeric parameters
 sng <- song_analysis(X = sp, song_colm = "song", parallel = 1, pb = TRUE)
 str(sng)
-
 ```
 
 ### Dynamic time warping of frequency contours
@@ -464,11 +445,10 @@ These functions return a matrix of pairwise acoustic dissimilarity (e.g. acousti
 Note that as the `freq_range` and `freq_range_detec` functions, the dynamic time warping functions tend to work best on more tonal signals. Check out the resulting image files in your working directory. 
 ```{r, eval=FALSE, echo=TRUE}
 
-# Harmonic Phaethornis signals 
+# Harmonic Phaethornis signals
 dm <- freq_DTW(Phae.hisnrt, length.out = 30, flim = c(2, 10), bp = c(2, 9), wl = 300, img = TRUE)
 
 str(dm)
-
 ```
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -478,7 +458,6 @@ Tin.sels <- read.csv("Tinamus-major-154191_sels.csv", header = TRUE)
 
 dm <- freq_DTW(Tin.sels, length.out = 30, flim = c(0, 2.5), bp = c(0.5, 2.5), wl = 512, img = TRUE)
 str(dm)
-
 ```
 
 Check out [Marcelo's blog](https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html) for a great example of how to evaluate whether or not the dynamic time warping (dis)similarity measurements accurately represents acoustic differences. 
@@ -498,7 +477,6 @@ Here our output is a matrix of peak correlation per pairwise comparison, with th
 
 xc <- cross_correlation(Phae.hisnrt, wl = 300, na.rm = FALSE)
 str(xc)
-
 ```
 
 
@@ -518,19 +496,20 @@ summary(pca)
 pcascor <- as.data.frame(pca[[5]])
 
 # Plot the 2 first PCs
-plot(pcascor[, 1], pcascor[, 2], col = as.numeric(as.factor(params$sound.files)), pch = 20, 
-     cex = 1, xlab = "PC1", ylab = "PC2")
+plot(pcascor[, 1], pcascor[, 2],
+  col = as.numeric(as.factor(params$sound.files)), pch = 20,
+  cex = 1, xlab = "PC1", ylab = "PC2"
+)
 
-# Add recordings/individuals labels 
+# Add recordings/individuals labels
 x <- tapply(pcascor[, 1], params$sound.files, mean)
 y <- tapply(pcascor[, 2], params$sound.files, mean)
 
-labs <- gsub(".wav", "", unique(sapply(as.character(params$sound.files), function(x){
+labs <- gsub(".wav", "", unique(sapply(as.character(params$sound.files), function(x) {
   strsplit(x, split = "-", fixed = TRUE)[[1]][3]
-  }, USE.NAMES = FALSE)))
+}, USE.NAMES = FALSE)))
 
 text(x, y, labs, cex = 0.75)
-
 ```
 
 Songs are grouped by sound file. As each sound file represents a single individual, this suggests that songs have individual signatures. Let's look at the song type level. First, we need to classify the songs by song type. We can check the spectrograms we previously created to do this.
@@ -545,9 +524,9 @@ Songs from sound files 154070 and 154072 seem to belong to the same song type. S
 # Create a song type variable
 
 # First, extract recording ID
-songtype <- gsub(".wav", "", sapply(as.character(params$sound.files), function(x){
+songtype <- gsub(".wav", "", sapply(as.character(params$sound.files), function(x) {
   strsplit(x, split = "-", fixed = TRUE)[[1]][3]
-  }, USE.NAMES = FALSE))
+}, USE.NAMES = FALSE))
 
 # Now change IDs for letters representing song types
 songtype <- gsub("154070|154072", "A", songtype)
@@ -555,16 +534,17 @@ songtype <- gsub("154129|154161", "B", songtype)
 songtype <- gsub("154138", "C", songtype)
 
 # Add song type as a variable representing symbol type
-plot(pcascor[, 1], pcascor[, 2], col = as.numeric(as.factor(params$sound.files)), 
-pch = as.numeric(as.factor(songtype)), 
-     cex = 1, xlab = "PC1", ylab = "PC2")
+plot(pcascor[, 1], pcascor[, 2],
+  col = as.numeric(as.factor(params$sound.files)),
+  pch = as.numeric(as.factor(songtype)),
+  cex = 1, xlab = "PC1", ylab = "PC2"
+)
 
-# Add song type labels 
+# Add song type labels
 x <- tapply(pcascor[, 1], songtype, mean)
 y <- tapply(pcascor[, 2], songtype, mean)
 
 text(x, y, unique(songtype), cex = 1)
-
 ```
 
 Songs of the same song type are more similar (they cluster together). This PCA confirms that the visually obvious differences in the song structures are well described by the meters measured in [`warbleR`](https://cran.r-project.org/package=warbleR). Likewise, it also confirms that we can detect biologically relevant differences from sound files that have undergone _mp3_ compression and conversion back to _wav_ format (see also <a href='#References'> <sup>[2]</sup></a>). Importantly, if this analysis were for publication we would have to run other filtering steps on the acoustic parameters generated by `spectro_analysis`, including removing any collinear variables. 
@@ -579,7 +559,6 @@ The function `test_coordination` uses a Monte Carlo randomization test to determ
 
 data(sim_coor_sing)
 str(sim_coor_sing)
-
 ```
 
 The `sim_coor_sing` dataset contains three types of singing bouts:
@@ -590,7 +569,6 @@ g <- plot_coordination(sim_coor_sing, it = "jpeg", img = FALSE, res = 300)
 
 # print list of plots to graphics device
 g
-
 ```
 
 We can test for overlapping or alternating coordinated singing using the `less.than.chance` argument in `test_coordination`. Here we will test for alternating coordinated singing, since `less.than.chance` is set to `TRUE`.
@@ -598,7 +576,6 @@ We can test for overlapping or alternating coordinated singing using the `less.t
 
 cs <- test_coordination(sim_coor_sing, iterations = 1000, less.than.chance = TRUE, cutoff = 10)
 str(cs)
-
 ```
 
 ## Simulating songs
@@ -618,7 +595,6 @@ ss <- sim_songs(n = 3, harms = 3)
 
 # plot the simulated song
 seewave::spectro(ss)
-
 ```
 
 &nbsp; 

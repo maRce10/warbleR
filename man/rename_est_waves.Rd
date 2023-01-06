@@ -23,7 +23,7 @@ An extended selection table with rename sound files names in data frame and attr
 This function allow users to change the names of 'sound.files' and 'selec' columns in extended selection tables. These names can become very long after manipulations used to produce extended tables.
 }
 \examples{
-{ 
+{
 data("lbh.est")
 
 # order by sound file name

@@ -14,27 +14,27 @@ then all files in 'path' are converted. Note that it only fixes/convert sound fi
 \item{files}{Character vector with the names of the .wav files to fix. Default is \code{NULL}. If  both 'checksels' and 'files'  are \code{NULL}
 then all files in 'path' are converted.}
 
-\item{samp.rate}{Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}. 
+\item{samp.rate}{Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
 (remain unchanged).}
 
 \item{bit.depth}{Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
 Default is \code{NULL} (remain unchanged).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{mono}{Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{NULL} (remain unchanged).}
 }
 \value{
-A folder inside the working directory (or path provided) all 'converted_sound_files', containing 
+A folder inside the working directory (or path provided) all 'converted_sound_files', containing
 sound files in a format that can be imported in R.
 }
 \description{
 \code{fix_wavs} fixes sound files in .wav format so they can be imported into R.
 }
 \details{
-This function aims to simplify the process of converting sound files that cannot be imported into R and/or homogenizing sound files. Problematic files can be determined using \code{\link{check_wavs}} or \code{\link{check_sels}}. The  
-\code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file 
+This function aims to simplify the process of converting sound files that cannot be imported into R and/or homogenizing sound files. Problematic files can be determined using \code{\link{check_wavs}} or \code{\link{check_sels}}. The
+\code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file
 names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 all .wav sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
 ('converted_sound_files'). Internally the function calls \href{https://sox.sourceforge.net/sox.html}{SOX} (if 'sox = TRUE', \href{https://sox.sourceforge.net/sox.html}{SOX} must be installed). If  both 'checksels' and 'files' are \code{NULL}
@@ -43,8 +43,9 @@ then all files in 'path' are converted. Note that it only fixes/convert sound fi
 \examples{
 \dontrun{
 # Load example files and save to temporary working directory
+#
 
-#check this folder
+# check this folder
 tempdir()
 }
 

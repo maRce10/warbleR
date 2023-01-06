@@ -5,39 +5,39 @@
 \title{Highlight spectrogram regions}
 \usage{
 color_spectro(wave, wl = 512, wn = "hanning", ovlp = 70,
-dB = "max0", collevels = NULL, selec.col = "red2", col.clm = NULL, 
-base.col = "black", bg.col = "white", strength = 1, 
-cexlab = 1, cexaxis = 1, tlab = "Time (s)", flab = "Frequency (kHz)", 
-title = NULL, axisX = TRUE, axisY = TRUE, flim = NULL, 
-rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL, 
+dB = "max0", collevels = NULL, selec.col = "red2", col.clm = NULL,
+base.col = "black", bg.col = "white", strength = 1,
+cexlab = 1, cexaxis = 1, tlab = "Time (s)", flab = "Frequency (kHz)",
+title = NULL, axisX = TRUE, axisY = TRUE, flim = NULL,
+rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL,
 f.mar = NULL, interactive = NULL, add = FALSE)
 }
 \arguments{
 \item{wave}{A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.}
 
-\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram. Default 
+\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram. Default
 is 512.}
 
-\item{wn}{Character vector of length 1 specifying window name. Default is 
+\item{wn}{Character vector of length 1 specifying window name. Default is
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options.}
 
-\item{ovlp}{Numeric vector of length 1 specifying the percent overlap between two 
+\item{ovlp}{Numeric vector of length 1 specifying the percent overlap between two
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
-\item{dB}{Character vector of length 1 controlling the amplitude weights as in 
+\item{dB}{Character vector of length 1 controlling the amplitude weights as in
 \code{\link[seewave]{spectro}}. Default is 'max0'.}
 
 \item{collevels}{Numeric. Levels used to partition amplitude range as in \code{\link[seewave]{spectro}}.
 Default is \code{NULL}.}
 
-\item{selec.col}{Character vector of length 1 specifying the color to be used to highlight selection. 
-See 'col.clm' for specifying unique colors for each selection. Default is 'red2'. Ignored if 'col.cm' 
+\item{selec.col}{Character vector of length 1 specifying the color to be used to highlight selection.
+See 'col.clm' for specifying unique colors for each selection. Default is 'red2'. Ignored if 'col.cm'
 and 'X' are provided.}
 
 \item{col.clm}{Character vector of length 1 indicating the name of the column in 'X' that contains the
 color names for each selection. Ignored if \code{X == NULL} or \code{interactive != NULL}. Default is \code{NULL}.}
 
-\item{base.col}{Character vector of length 1 specifying the color of the background spectrogram. 
+\item{base.col}{Character vector of length 1 specifying the color of the background spectrogram.
 Default is 'black'.}
 
 \item{bg.col}{Character vector of length 1 specifying the background color for both base
@@ -45,43 +45,43 @@ and highlighted spectrograms. Default is 'white'.}
 
 \item{strength}{Numeric vector of length 1 controlling the strength of the highlighting color (actually how many times it is repeated in the internal color palette). Must be a positive integer. Default is 1.}
 
-\item{cexlab}{Numeric vector of length 1 specifying the relative size of axis 
+\item{cexlab}{Numeric vector of length 1 specifying the relative size of axis
 labels. See \code{\link[seewave]{spectro}}. Default is 1.}
 
-\item{cexaxis}{Numeric vector of length 1 specifying the relative size of axis. See 
+\item{cexaxis}{Numeric vector of length 1 specifying the relative size of axis. See
 \code{\link[seewave]{spectro}}. Default is 1.}
 
 \item{tlab}{Character vector of length 1 specifying the label of the time axis.}
 
 \item{flab}{Character vector of length 1 specifying the label of the frequency axis.}
 
-\item{title}{Logical argument to add a title to individual spectrograms. 
+\item{title}{Logical argument to add a title to individual spectrograms.
 Default is \code{TRUE}.}
 
 \item{axisX}{Logical to control whether time axis is plotted. Default is \code{TRUE}.}
 
 \item{axisY}{Logical to control whether frequency axis is plotted. Default is \code{TRUE}.}
 
-\item{flim}{A numeric vector of length 2 for the frequency limit (in kHz) of 
+\item{flim}{A numeric vector of length 2 for the frequency limit (in kHz) of
 the spectrogram, as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
 \item{rm.zero}{Logical indicated if the 0 at the start of the time axis should be removed. Default is \code{FALSE}.}
 
 \item{X}{Optional. Data frame containing columns for start and end time of signals ('start' and 'end') and low and high frequency ('bottom.freq' and 'top.freq').}
 
-\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
+This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}},
 \code{\link[monitoR:specCols]{gray.3}}, \code{\link[monitoR:specCols]{topo.1}} and \code{\link[monitoR:specCols]{rainbow.1}} (which should be imported from the package monitoR) seem
-to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
-\code{\link[monitoR:specCols]{gray.3}} offer 
+to work better with 'fast' spectrograms. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}},
+\code{\link[monitoR:specCols]{gray.3}} offer
 decreasing darkness levels.}
 
 \item{t.mar}{Numeric vector of length 1. Specifies the margins adjacent to the start and end points to be added when highlighting selection. Default is \code{NULL}.}
 
 \item{f.mar}{Numeric vector of length 1. Specifies the margins adjacent to the low and high frequencies to be added when highlighting selection. Default is \code{NULL}.}
 
-\item{interactive}{Numeric. Allow user to interactively select the signals to be highlighted by clicking 
+\item{interactive}{Numeric. Allow user to interactively select the signals to be highlighted by clicking
 on the graphic device. Users must select the opposite corners of a square delimiting the spectrogram region
 to be highlighted. Controls the number of signals that users would be able to select (2 clicks per signal).}
 
@@ -95,31 +95,35 @@ A plot is produced in the graphic device.
 \code{color_spectro} highlights spectrogram regions specified by users
 }
 \details{
-This function highlights regions of the spectrogram with different colors. The regions to be 
+This function highlights regions of the spectrogram with different colors. The regions to be
 highlighted can be provided in a selection table (as the example data 'lbh_selec_table') or interactively ('interactive' argument).
 }
 \examples{
-\dontrun{ 
+\dontrun{
 data(list = c("Phae.long1", "lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) # save sound files
 
- # subset selection table
- st <- lbh_selec_table[lbh_selec_table$sound.files == "Phae.long1.wav",]
- 
- # read wave file as an R object
- sgnl <- tuneR::readWave(file.path(tempdir(), st$sound.files[1]))
- 
- # create color column
- st$colors <- c("red2", "blue", "green")
- 
- # highlight selections
- color_spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5), 
- dB = "B", X = st, col.clm = "colors", base.col = "skyblue",  t.mar = 0.07, f.mar = 0.1, 
- interactive = NULL)
- 
- # interactive (selected manually: you have to select them by clicking on the spectrogram)
- color_spectro(wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5),
-  dB = "B", col.clm = "colors", t.mar = 0.07, f.mar = 1, interactive = 2)
+# subset selection table
+st <- lbh_selec_table[lbh_selec_table$sound.files == "Phae.long1.wav", ]
+
+# read wave file as an R object
+sgnl <- tuneR::readWave(file.path(tempdir(), st$sound.files[1]))
+
+# create color column
+st$colors <- c("red2", "blue", "green")
+
+# highlight selections
+color_spectro(
+  wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5),
+  dB = "B", X = st, col.clm = "colors", base.col = "skyblue", t.mar = 0.07, f.mar = 0.1,
+  interactive = NULL
+)
+
+# interactive (selected manually: you have to select them by clicking on the spectrogram)
+color_spectro(
+  wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5),
+  dB = "B", col.clm = "colors", t.mar = 0.07, f.mar = 1, interactive = 2
+)
 }
 
 }
@@ -127,8 +131,8 @@ writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files
 {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 }
 \seealso{
-\code{\link{track_freq_contour}} for creating spectrograms to visualize 
-  frequency measurements by \code{\link{spectro_analysis}}, \code{\link{snr_spectrograms}} for 
+\code{\link{track_freq_contour}} for creating spectrograms to visualize
+  frequency measurements by \code{\link{spectro_analysis}}, \code{\link{snr_spectrograms}} for
   creating spectrograms to optimize noise margins used in \code{\link{sig2noise}}
 
 Other spectrogram creators: 

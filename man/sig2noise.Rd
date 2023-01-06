@@ -27,66 +27,70 @@ set globally using the 'wav.path' option (see \code{\link{warbleR_options}}).}
 set globally using the 'pb' option (see \code{\link{warbleR_options}}).}
 
 \item{type}{Numeric. Determine the formula to be used to calculate the signal-to-noise ratio (S = signal
-, N = background noise): 
+, N = background noise):
 \itemize{
-\item \code{1}: ratio of S mean amplitude envelope to 
+\item \code{1}: ratio of S mean amplitude envelope to
   N mean amplitude envelope (\code{mean(env(S))/mean(env(N))})
 \item \code{2}: ratio of S amplitude envelope RMS (root mean square) to N amplitude envelope RMS
  (\code{rms(env(S))/rms(env(N))})
 \item \code{3}: ratio of the difference between S amplitude envelope RMS and N amplitude envelope RMS to N amplitude envelope RMS (\code{(rms(env(S)) - rms(env(N)))/rms(env(N))})
 }}
 
-\item{eq.dur}{Logical. Controls whether the noise segment that is measured has the same duration 
+\item{eq.dur}{Logical. Controls whether the noise segment that is measured has the same duration
 than the signal (if \code{TRUE}, default \code{FALSE}). If \code{TRUE} then 'mar' argument is ignored.}
 
-\item{in.dB}{Logical. Controls whether the signal-to-noise ratio is returned in decibels (20*log10(SNR)). 
+\item{in.dB}{Logical. Controls whether the signal-to-noise ratio is returned in decibels (20*log10(SNR)).
 Default is \code{TRUE}.}
 
 \item{before}{Logical. If \code{TRUE} noise is only measured right before the signal (instead of before and after). Default is \code{FALSE}.}
 
-\item{lim.dB}{Logical. If \code{TRUE} the lowest signal-to-noise would be limited to -40 dB (if \code{in.dB = TRUE}). This would remove NA's that can be produced when noise segments have a higher amplitude than the signal 
+\item{lim.dB}{Logical. If \code{TRUE} the lowest signal-to-noise would be limited to -40 dB (if \code{in.dB = TRUE}). This would remove NA's that can be produced when noise segments have a higher amplitude than the signal
 itself. Default is \code{TRUE}.}
 
 \item{bp}{Numeric vector of length 2 giving the lower and upper limits of a frequency bandpass filter (in kHz). Default is \code{NULL}.}
 
-\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram for applying bandpass. Default 
+\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram for applying bandpass. Default
   is 10. Ignored if \code{bp = NULL}. It can also be
 set globally using the 'wl' option (see \code{\link{warbleR_options}}).
  Note that lower values will increase time resolution, which is more important for signal-to-noise ratio calculations.}
 }
 \value{
-Data frame similar to \code{\link{auto_detec}} output, but also includes a new variable 
+Data frame similar to \code{\link{auto_detec}} output, but also includes a new variable
 with the signal-to-noise values.
 }
 \description{
 \code{sig2noise} measures signal-to-noise ratio across multiple files.
 }
 \details{
-Signal-to-noise ratio (SNR) is a measure of the level of a desired signal compared to 
- background noise. The function divides the mean amplitude of the signal by 
-  the mean amplitude of the background noise adjacent to the signal. 
-  A general margin to apply before and after the acoustic signal must 
-  be specified. Setting margins for individual signals that have been 
-  previously clipped from larger files may take some optimization, as 
+Signal-to-noise ratio (SNR) is a measure of the level of a desired signal compared to
+ background noise. The function divides the mean amplitude of the signal by
+  the mean amplitude of the background noise adjacent to the signal.
+  A general margin to apply before and after the acoustic signal must
+  be specified. Setting margins for individual signals that have been
+  previously clipped from larger files may take some optimization, as
   for calls within a larger file that are irregularly separated. When
-  margins overlap with another acoustic signal nearby, the signal-to-noise 
-  ratio (SNR) will be inaccurate. Any SNR less than or equal to one suggests 
+  margins overlap with another acoustic signal nearby, the signal-to-noise
+  ratio (SNR) will be inaccurate. Any SNR less than or equal to one suggests
   background noise is equal to or overpowering the acoustic signal.
   \code{\link{snr_spectrograms}} can be used to troubleshoot different noise margins.
 }
 \examples{
 {
-data(list = c("Phae.long1","lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) #save sound files 
+  data(list = c("Phae.long1", "lbh_selec_table"))
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav")) # save sound files
 
-# specifying the correct margin is important
-# use snr_spectrograms to troubleshoot margins for sound files
-sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.2, 
-path = tempdir())
+  # specifying the correct margin is important
+  # use snr_spectrograms to troubleshoot margins for sound files
+  sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ],
+    mar = 0.2,
+    path = tempdir()
+  )
 
-# this smaller margin doesn't overlap neighboring signals
-sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ], mar = 0.1, 
-path = tempdir())
+  # this smaller margin doesn't overlap neighboring signals
+  sig2noise(lbh_selec_table[grep("Phae.long1", lbh_selec_table$sound.files), ],
+    mar = 0.1,
+    path = tempdir()
+  )
 }
 
 }

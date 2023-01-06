@@ -24,22 +24,22 @@ An object of class \code{selection_table} created by \code{\link{selection_table
 }
 \examples{
 {
-# load data
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
+  # load data
+  data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
-is_selection_table(lbh_selec_table)
+  is_selection_table(lbh_selec_table)
 
-# save wave files in temporary directory
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+  # save wave files in temporary directory
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+  writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-st <- selection_table(lbh_selec_table, path = tempdir())
+  st <- selection_table(lbh_selec_table, path = tempdir())
 
-is_selection_table(st)
+  is_selection_table(st)
 
-class(st)
+  class(st)
 }
 }
 \seealso{

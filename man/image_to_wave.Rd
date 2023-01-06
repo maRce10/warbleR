@@ -4,7 +4,7 @@
 \alias{image_to_wave}
 \title{Convert images into wave objects}
 \usage{
-image_to_wave(file, duration = 1, samp.rate = 44.1, 
+image_to_wave(file, duration = 1, samp.rate = 44.1,
 bit.depth = 16, flim = c(0, samp.rate / 2), plot = TRUE)
 }
 \arguments{
@@ -16,7 +16,7 @@ bit.depth = 16, flim = c(0, samp.rate / 2), plot = TRUE)
 
 \item{bit.depth}{Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files. Default is 16.}
 
-\item{flim}{Numeric vector of length 2 indicating the highest and lowest 
+\item{flim}{Numeric vector of length 2 indicating the highest and lowest
 frequency limits (kHz) in which the image would be located. Default is \code{c(0, samp.rate / 2)}.}
 
 \item{plot}{Logical argument to control if image is plotted after being imported into R.}
@@ -31,36 +31,36 @@ A single wave object.
 This function converts images in 'png' format into wave objects using the inverse Fourier transformation.
 }
 \examples{
-\donttest{ 
- ### create image with text to use in the spectrogram
- # remove margins of plot
- par(mar = rep(0, 4))
- 
- # empty plot
- plot(0, type='n',axes = FALSE, ann = FALSE, xlim = c(0, 1), ylim = c(0, 1))
- 
- # text to include
- text <- " warbleR "
- 
- # add text
- text(x = 0.5, y = 0.5, labels = text, cex = 11, font = 1)
- 
- # save image in temporary directory
- dev2bitmap(file.path(tempdir(), "temp-img.png"), type = "pngmono", res = 30)
- 
- # read it 
-  wv <- image_to_wave(file = file.path(tempdir(), "temp-img.png"), plot = TRUE, flim = c(1, 12))
+\donttest{
+### create image with text to use in the spectrogram
+# remove margins of plot
+par(mar = rep(0, 4))
 
- # output wave object
- # wv
-  
- ## plot it   
- # reset margins
- par(mar = c(5, 4, 4, 2) + 0.1)
- 
- # plot spectrogram
- # spectro(wave = wv, scale = FALSE, collevels = seq(-30, 0, 5),
- # palette = reverse.terrain.colors, ovlp = 90, grid = FALSE, flim = c(2, 11))
+# empty plot
+plot(0, type = "n", axes = FALSE, ann = FALSE, xlim = c(0, 1), ylim = c(0, 1))
+
+# text to include
+text <- " warbleR "
+
+# add text
+text(x = 0.5, y = 0.5, labels = text, cex = 11, font = 1)
+
+# save image in temporary directory
+dev2bitmap(file.path(tempdir(), "temp-img.png"), type = "pngmono", res = 30)
+
+# read it
+wv <- image_to_wave(file = file.path(tempdir(), "temp-img.png"), plot = TRUE, flim = c(1, 12))
+
+# output wave object
+# wv
+
+## plot it
+# reset margins
+par(mar = c(5, 4, 4, 2) + 0.1)
+
+# plot spectrogram
+# spectro(wave = wv, scale = FALSE, collevels = seq(-30, 0, 5),
+# palette = reverse.terrain.colors, ovlp = 90, grid = FALSE, flim = c(2, 11))
 }
 
 }

@@ -84,22 +84,24 @@ Several song subunits (e.g. elements) can be simulated as well as the correspond
 }
 \examples{
 \dontrun{
- # simulate a song with 3 elements and no harmonics
- sm_sng <- simulate_songs(n = 3, harms = 1)
+# simulate a song with 3 elements and no harmonics
+sm_sng <- simulate_songs(n = 3, harms = 1)
 
- # plot spectro
- seewave::spectro(sm_sng)
+# plot spectro
+seewave::spectro(sm_sng)
 
- # simulate a song with 5 elements and 2 extra harmonics
+# simulate a song with 5 elements and 2 extra harmonics
 sm_sng2 <- simulate_songs(n = 5, harms = 3)
 
- # plot spectrogram
- seewave::spectro(sm_sng2)
+# plot spectrogram
+seewave::spectro(sm_sng2)
 
 # six pure tones with frequency ranging form 4 to 6 and returning selection table
-sm_sng <- simulate_songs(n = 6, harms = 1, seed = 1, diff.fun = "pure.tone",
-                  freqs = seq(4, 6, length.out = 6), selec.table = TRUE,
-                  path = tempdir())
+sm_sng <- simulate_songs(
+  n = 6, harms = 1, seed = 1, diff.fun = "pure.tone",
+  freqs = seq(4, 6, length.out = 6), selec.table = TRUE,
+  path = tempdir()
+)
 
 # plot spectro
 seewave::spectro(sm_sng$wave, flim = c(2, 8))

@@ -53,9 +53,8 @@ Install/load the package from CRAN as follows:
 ```{r, eval = FALSE}
 install.packages("warbleR")
 
-#load package
+# load package
 library(warbleR)
-
 ```
 
 To install the latest developmental version from [github](https://github.com/) you will need the R package [remotes](https://cran.r-project.org/package=remotes):
@@ -63,9 +62,8 @@ To install the latest developmental version from [github](https://github.com/) y
 ```{r, eval = FALSE}
 remotes::install_github("maRce10/warbleR")
 
-#load package
+# load package
 library(warbleR)
-
 ```
 
 ## Usage

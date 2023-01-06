@@ -4,20 +4,20 @@
 \alias{freq_range}
 \title{Detect frequency range iteratively}
 \usage{
-freq_range(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10, 
-dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL, 
+freq_range(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10,
+dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL,
 propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50,
-pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL, 
+pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL,
 img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
 }
 \arguments{
-\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
-files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+\item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
+files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
 end time of selections. The output of \code{\link{auto_detec}} can
 also be used as the input data frame.}
 
-\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
-is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) 
+\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
+is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}})
 and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}).}
 
 \item{it}{A character vector of length 1 giving the image type to be used. Currently only
@@ -31,44 +31,44 @@ amplitude modulation. Default is 0.1.}
 
 \item{threshold}{Amplitude threshold (\%) for frequency range detection. The frequency range (not the cumulative amplitude) is represented as percentage (100\% = highest amplitude). Default is 10. Ignored if 'dB.threshold' is supplied.}
 
-\item{dB.threshold}{Amplitude threshold for frequency range detection (in dB). The value indicates the decrease in dB in relation to the highest amplitude (e.g. the peak frequency) in which range will be detected. For instance a dB.threshold = 20 means that the amplitude threshold would be 20 dB below the highest amplitude. If provided 'threshold' is ignored. Default is \code{NULL}. 
+\item{dB.threshold}{Amplitude threshold for frequency range detection (in dB). The value indicates the decrease in dB in relation to the highest amplitude (e.g. the peak frequency) in which range will be detected. For instance a dB.threshold = 20 means that the amplitude threshold would be 20 dB below the highest amplitude. If provided 'threshold' is ignored. Default is \code{NULL}.
 Note that the power spectrum is normalized when using a dB scale, so it looks different than the one produced when no dB scale is used (e.g. when using 'threshold' argument).}
 
-\item{wn}{Character vector of length 1 specifying window name. Default is 
+\item{wn}{Character vector of length 1 specifying window name. Default is
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}).}
 
-\item{flim}{A numeric vector of length 2 for the frequency limit of 
+\item{flim}{A numeric vector of length 2 for the frequency limit of
 the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is \code{NULL}.}
 
-\item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
-frequency bandpass filter (in kHz) or "frange" to indicate that values in 'bottom.freq' 
+\item{bp}{A numeric vector of length 2 for the lower and upper limits of a
+frequency bandpass filter (in kHz) or "frange" to indicate that values in 'bottom.freq'
 and 'top.freq' columns will be used as bandpass limits. Default is c(0, 22).}
 
-\item{propwidth}{Logical argument to scale the width of spectrogram 
+\item{propwidth}{Logical argument to scale the width of spectrogram
 proportionally to duration of the selected call. Default is \code{FALSE}.}
 
-\item{xl}{Numeric vector of length 1. A constant by which to scale 
+\item{xl}{Numeric vector of length 1. A constant by which to scale
 spectrogram width. Default is 1.}
 
-\item{picsize}{Numeric argument of length 1. Controls relative size of 
+\item{picsize}{Numeric argument of length 1. Controls relative size of
 spectrogram. Default is 1.}
 
 \item{res}{Numeric argument of length 1. Controls image resolution.
-Default is 100 (faster) although 300 - 400 is recommended for publication/ 
+Default is 100 (faster) although 300 - 400 is recommended for publication/
 presentation quality.}
 
-\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially 
+\item{fast.spec}{Logical. If \code{TRUE} then image function is used internally to create spectrograms, which substantially
 increases performance (much faster), although some options become unavailable, as collevels, and sc (amplitude scale).
-This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
+This option is indicated for signals with high background noise levels. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}},
 \code{\link[monitoR:specCols]{gray.3}}, \code{\link[monitoR:specCols]{topo.1}} and \code{\link[monitoR:specCols]{rainbow.1}} (which should be imported from the package monitoR) seem
-to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}}, 
-\code{\link[monitoR:specCols]{gray.3}} offer 
+to work better with 'fast.spec' spectrograms. Palette colors \code{\link[monitoR:specCols]{gray.1}}, \code{\link[monitoR:specCols]{gray.2}},
+\code{\link[monitoR:specCols]{gray.3}} offer
 decreasing darkness levels.}
 
-\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
+\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 50. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}).}
 
-\item{pal}{Color palette function for spectrogram. Default is reverse.gray.colors.2. See 
+\item{pal}{Color palette function for spectrogram. Default is reverse.gray.colors.2. See
 \code{\link[seewave]{spectro}} for more palettes. Palettes as \code{\link[monitoR:specCols]{gray.2}} may work better when \code{fast.spec = TRUE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
@@ -83,12 +83,12 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{mar}{Numeric vector of length 1. Specifies the margins adjacent to the selections
 to set spectrogram limits. Default is 0.05.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 
-\item{impute}{Logical. If \code{TRUE} then missing range values are imputed 
+\item{impute}{Logical. If \code{TRUE} then missing range values are imputed
 with the corresponding bandpass value (hence ignored when \code{bp = NULL}). Default is \code{FALSE}.}
 }
 \value{
@@ -99,24 +99,26 @@ The original data frame with an additional 2 columns for low and high frequency 
 }
 \details{
 This functions aims to automatize the detection of frequency ranges. The frequency range is calculated as follows:
-\itemize{  
- \item bottom.freq = the start frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.  
+\itemize{
+ \item bottom.freq = the start frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.
  \item top.freq = the end frequency of the amplitude 'hill' containing the highest amplitude at the given threshold.
   }
-  If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is 
+  If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is
   generated for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges excluded by the bandpass ('bp' argument), dotted lines highlighting the detected range. The function \code{\link{freq_range_detec}} is used internally.
 }
 \examples{
 {
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+  data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+  writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-freq_range(X = lbh_selec_table, wl = 112, fsmooth = 1, threshold = 13, widths = c(4, 1),
-img = TRUE, pb = TRUE, it = "tiff", line = TRUE, mar = 0.1, bp = c(1,10.5), 
-flim = c(0, 11), path = tempdir())
+  freq_range(
+    X = lbh_selec_table, wl = 112, fsmooth = 1, threshold = 13, widths = c(4, 1),
+    img = TRUE, pb = TRUE, it = "tiff", line = TRUE, mar = 0.1, bp = c(1, 10.5),
+    flim = c(0, 11), path = tempdir()
+  )
 }
 
 }

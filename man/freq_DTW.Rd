@@ -4,37 +4,37 @@
 \alias{freq_DTW}
 \title{Acoustic dissimilarity using dynamic time warping on dominant frequency contours}
 \usage{
-freq_DTW(X = NULL, type = "dominant", wl = 512, wl.freq = 512, length.out = 20, 
-wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, threshold.time = NULL, 
-threshold.freq = NULL, img = TRUE, parallel = 1, path = NULL, ts.df = NULL, 
-img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, window.type = "none", 
-open.end = FALSE, scale = FALSE, frange.detec = FALSE,  fsmooth = 0.1, 
+freq_DTW(X = NULL, type = "dominant", wl = 512, wl.freq = 512, length.out = 20,
+wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, threshold.time = NULL,
+threshold.freq = NULL, img = TRUE, parallel = 1, path = NULL, ts.df = NULL,
+img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, window.type = "none",
+open.end = FALSE, scale = FALSE, frange.detec = FALSE,  fsmooth = 0.1,
 adjust.wl = TRUE, ...)
 }
 \arguments{
-\item{X}{object of class 'selection_table', 'extended_selection_table' or data 
-frame containing columns for sound file name (sound.files), 
+\item{X}{object of class 'selection_table', 'extended_selection_table' or data
+frame containing columns for sound file name (sound.files),
 selection number (selec), and start and end time of signal (start and end).
 The output of \code{\link{auto_detec}} can be used as the input data frame.}
 
 \item{type}{Character string to determine the type of contour to be detected. Three options are available, "dominant" (default), "fundamental" and "entropy".}
 
-\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default 
+\item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512.}
 
 \item{wl.freq}{A numeric vector of length 1 specifying the window length of the spectrogram
-for measurements on the frequency spectrum. Default is 512. Higher values would provide 
+for measurements on the frequency spectrum. Default is 512. Higher values would provide
 more accurate measurements.}
 
 \item{length.out}{A numeric vector of length 1 giving the number of measurements of frequency desired (the length of the time series).}
 
-\item{wn}{Character vector of length 1 specifying window name. Default is 
+\item{wn}{Character vector of length 1 specifying window name. Default is
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options.}
 
-\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
+\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70.}
 
-\item{bp}{A numeric vector of length 2 for the lower and upper limits of a 
+\item{bp}{A numeric vector of length 2 for the lower and upper limits of a
 frequency bandpass filter (in kHz). Default is \code{NULL}.}
 
 \item{threshold}{amplitude threshold (\%) for frequency detection. Default is 15.}
@@ -49,27 +49,27 @@ frequency bandpass filter (in kHz). Default is \code{NULL}.}
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{ts.df}{Optional. Data frame with frequency contour time series of signals to be compared. If provided "X" is ignored.}
 
-\item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of 
+\item{img.suffix}{A character vector of length 1 with a suffix (label) to add at the end of the names of
 image files. Default is \code{NULL}.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{clip.edges}{Logical argument to control whether edges (start or end of signal) in
-which amplitude values above the threshold were not detected will be removed. If 
+which amplitude values above the threshold were not detected will be removed. If
 \code{TRUE} (default) this edges will be excluded and contours will be calculated on the
 remaining values. Note that DTW cannot be applied if missing values (e.i. when amplitude is not detected).}
 
 \item{window.type}{\code{\link[dtw]{dtw}} windowing control parameter. Character: "none", "itakura", or a function (see \code{\link[dtw]{dtw}}).}
 
-\item{open.end}{\code{\link[dtw]{dtw}} control parameter. Performs 
+\item{open.end}{\code{\link[dtw]{dtw}} control parameter. Performs
 open-ended alignments (see \code{\link[dtw]{dtw}}).}
 
-\item{scale}{Logical. If \code{TRUE} frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the 
+\item{scale}{Logical. If \code{TRUE} frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the
 comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.}
 
 \item{frange.detec}{DEPRECATED.}
@@ -78,15 +78,15 @@ comparison in the frequency contour, regardless of the pitch of signals. Default
 sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
 amplitude modulation. Default is 0.1.}
 
-\item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
+\item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the
 number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.}
 
 \item{...}{Additional arguments to be passed to \code{\link{track_freq_contour}} for customizing
 graphical output.}
 }
 \value{
-A matrix with the pairwise dissimilarity values. If img is 
-\code{FALSE} it also produces image files with the spectrograms of the signals listed in the 
+A matrix with the pairwise dissimilarity values. If img is
+\code{FALSE} it also produces image files with the spectrograms of the signals listed in the
 input data frame showing the location of the dominant frequencies.
 }
 \description{
@@ -103,19 +103,22 @@ The function uses the \code{\link[stats:approxfun]{approx}} function to interpol
 }
 \examples{
 {
-#load data
-data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) #save sound files 
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+  # load data
+  data(list = c("Phae.long1", "Phae.long2", "lbh_selec_table"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav")) # save sound files
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 
-# dominant frequency 
-freq_DTW(lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9), 
-wl = 300, path = tempdir())
+  # dominant frequency
+  freq_DTW(lbh_selec_table,
+    length.out = 30, flim = c(1, 12), bp = c(2, 9),
+    wl = 300, path = tempdir()
+  )
 
-# fundamental frequency
-freq_DTW(lbh_selec_table, type = "fundamental", length.out = 30, flim = c(1, 12), 
-bp = c(2, 9), wl = 300, path = tempdir())
-
+  # fundamental frequency
+  freq_DTW(lbh_selec_table,
+    type = "fundamental", length.out = 30, flim = c(1, 12),
+    bp = c(2, 9), wl = 300, path = tempdir()
+  )
 }
 
 }
@@ -126,7 +129,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 \seealso{
 \code{\link{spectrograms}} for creating spectrograms from selections,
- \code{\link{snr_spectrograms}} for creating spectrograms to 
+ \code{\link{snr_spectrograms}} for creating spectrograms to
   optimize noise margins used in \code{\link{sig2noise}} and \code{\link{freq_ts}}, \code{\link{freq_ts}}, for frequency contour overlaid spectrograms.
  \href{https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html}{blog post on DTW similarity}
 

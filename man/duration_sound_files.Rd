@@ -4,7 +4,7 @@
 \alias{duration_sound_files}
 \title{Measure the duration of sound files}
 \usage{
-duration_sound_files(files = NULL, path = NULL, skip.error = FALSE, 
+duration_sound_files(files = NULL, path = NULL, skip.error = FALSE,
 file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 }
 \arguments{
@@ -28,12 +28,12 @@ This function returns the duration (in seconds) of sound files.
 }
 \examples{
 {
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+  data(list = c("Phae.long1", "Phae.long2", "Phae.long3"))
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 
-duration_sound_files(path = tempdir())
+  duration_sound_files(path = tempdir())
 }
 
 }

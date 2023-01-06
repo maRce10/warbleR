@@ -5,11 +5,11 @@
 \title{Randomization test for singing coordination}
 \usage{
 test_coordination(X, iterations = 1000, ovlp.method = "count",
-randomization = "keep.gaps", less.than.chance = TRUE, parallel = 1, pb = TRUE, 
+randomization = "keep.gaps", less.than.chance = TRUE, parallel = 1, pb = TRUE,
 rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE)
 }
 \arguments{
-\item{X}{Data frame containing columns for singing event (sing.event), 
+\item{X}{Data frame containing columns for singing event (sing.event),
 individual (indiv), and start and end time of signal (start and end).}
 
 \item{iterations}{number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.}
@@ -26,7 +26,7 @@ individual (indiv), and start and end time of signal (start and end).}
 More details in Masco et al. (2015).}
 
 \item{less.than.chance}{Logical. If \code{TRUE} the test evaluates whether overlaps occur less often than expected by chance.
-If \code{FALSE} the opposite pattern is evaluated (whether overlaps occur more often than expected by chance). 
+If \code{FALSE} the opposite pattern is evaluated (whether overlaps occur more often than expected by chance).
 Default is \code{TRUE}.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
@@ -37,13 +37,13 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{rm.incomp}{Logical. If \code{TRUE} removes the events that don't have 2 interacting individuals. Default is
 \code{FALSE}.}
 
-\item{cutoff}{Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting 
-this criterium are removed. Default is 2. 
-Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual 
+\item{cutoff}{Numeric. Determines the minimum number of signals per individual in a singing event. Events not meeting
+this criterium are removed. Default is 2.
+Note that randomization tests are not reliable with very small sample sizes. Ideally 10 or more signals per individual
 should be available in each singing event.}
 
-\item{rm.solo}{Logical. Controls if signals that are not alternated at the start or end of the 
-sequence are removed (if \code{TRUE}). For instance, the sequence of signals A-A-A-B-A-B-A-B-B-B (in which A and B represent different individuals, as in the 'indiv' column) would be subset to 
+\item{rm.solo}{Logical. Controls if signals that are not alternated at the start or end of the
+sequence are removed (if \code{TRUE}). For instance, the sequence of signals A-A-A-B-A-B-A-B-B-B (in which A and B represent different individuals, as in the 'indiv' column) would be subset to
 A-B-A-B-A-B. Default is  \code{FALSE}.}
 }
 \value{
@@ -52,21 +52,21 @@ A data frame with the following columns:
    \item \code{sing.event}: singing event ID
    \item \code{obs.overlap}: observed amount of overlap (counts or total duration, depending on overlap method, see 'ovlp.method' argument)
    \item \code{mean.random.ovlp}: mean amount of overlap expected by chance
-   \item \code{p.value}: p value 
-   \item \code{coor.score}: coordination score (\emph{sensu} Araya-Salas et al. 2017), 
-   calculated as: 
-   \deqn{(obs.overlap - mean.random.ovlp) / mean.random.ovlp} 
-   Positive values indicate a tendency to overlap while negative values indicate a tendency to alternate. NA values will be returned when events cannot be randomized (e.g. too few signals). 
+   \item \code{p.value}: p value
+   \item \code{coor.score}: coordination score (\emph{sensu} Araya-Salas et al. 2017),
+   calculated as:
+   \deqn{(obs.overlap - mean.random.ovlp) / mean.random.ovlp}
+   Positive values indicate a tendency to overlap while negative values indicate a tendency to alternate. NA values will be returned when events cannot be randomized (e.g. too few signals).
    }
 }
 \description{
 Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing (or any other simultaneously occurring behavior).
 }
 \details{
-This function calculates the probability of finding an equal or more extreme amount of song overlap (higher or lower) in a coordinated singing event (or any pair-coordinated behavior). 
-The function shuffles the sequences of signals and silence-between-signals for both individuals to produce 
+This function calculates the probability of finding an equal or more extreme amount of song overlap (higher or lower) in a coordinated singing event (or any pair-coordinated behavior).
+The function shuffles the sequences of signals and silence-between-signals for both individuals to produce
 a null distribution of overlaps expected by chance. The observed overlaps is compared to this
-expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher) 
+expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher)
 than the observed value. All procedures described in Masco et al. (2015) are implemented. In addition, either the number (\code{ovlp.method = "count"}) or the total duration (\code{ovlp.method = "duration"}) in which signals overlap can be used for estimating the overall degree of overlap. The function runs one test for each singing event in the input data frame. This function assumes that there are no overlaps between signals belonging to the same individual. See Masco et al. (2015) for recommendations on randomization procedures for specific signal structures.
 }
 \examples{
@@ -85,7 +85,7 @@ test_coordination(sim_coor_sing)
 test_coordination(sim_coor_sing, less.than.chance = FALSE)
 
 # using "duration" method and "keep.song.order" as randomization procedure
-test_coordination(sim_coor_sing, ovlp.method =  "duration", 
+test_coordination(sim_coor_sing, ovlp.method =  "duration",
 randomization = "keep.song.order")
 }
 
@@ -96,10 +96,10 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
  Methods in Ecology and Evolution, 8(2), 184-191.
 
 Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
- (2017) To overlap or not to overlap: context-dependent coordinated singing in 
+ (2017) To overlap or not to overlap: context-dependent coordinated singing in
  lekking long-billed hermits. Animal Behavior  124, 57-65.
 
-Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song 
+Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song
 Overlap Null model Generator (SONG): a new tool for distinguishing between random
 and non-random song overlap. Bioacoustics.
 

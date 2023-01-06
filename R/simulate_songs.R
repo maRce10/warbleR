@@ -55,29 +55,31 @@
 #' Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.
 #' @examples
 #' \dontrun{
-#'  # simulate a song with 3 elements and no harmonics
-#'  sm_sng <- simulate_songs(n = 3, harms = 1)
+#' # simulate a song with 3 elements and no harmonics
+#' sm_sng <- simulate_songs(n = 3, harms = 1)
 #'
-#'  # plot spectro
-#'  seewave::spectro(sm_sng)
+#' # plot spectro
+#' seewave::spectro(sm_sng)
 #'
-#'  # simulate a song with 5 elements and 2 extra harmonics
+#' # simulate a song with 5 elements and 2 extra harmonics
 #' sm_sng2 <- simulate_songs(n = 5, harms = 3)
 #'
-#'  # plot spectrogram
-#'  seewave::spectro(sm_sng2)
+#' # plot spectrogram
+#' seewave::spectro(sm_sng2)
 #'
 #' # six pure tones with frequency ranging form 4 to 6 and returning selection table
-#' sm_sng <- simulate_songs(n = 6, harms = 1, seed = 1, diff.fun = "pure.tone",
-#'                   freqs = seq(4, 6, length.out = 6), selec.table = TRUE,
-#'                   path = tempdir())
+#' sm_sng <- simulate_songs(
+#'   n = 6, harms = 1, seed = 1, diff.fun = "pure.tone",
+#'   freqs = seq(4, 6, length.out = 6), selec.table = TRUE,
+#'   path = tempdir()
+#' )
 #'
 #' # plot spectro
 #' seewave::spectro(sm_sng$wave, flim = c(2, 8))
 #'
 #' # selection table
 #' sm_sng$selec.table
-#'}
+#' }
 #'
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
@@ -106,164 +108,186 @@ simulate_songs <-
            file.name = NULL,
            path = NULL,
            hrm.freqs = c(1 / 2, 1 / 3, 2 / 3, 1 / 4, 3 / 4, 1 /
-                           5, 1 / 6, 1 / 7, 1 / 8, 1 / 9, 1 / 10)) {
+             5, 1 / 6, 1 / 7, 1 / 8, 1 / 9, 1 / 10)) {
     # error message if wavethresh is not installed
-    if (!requireNamespace("Sim.DiffProc", quietly = TRUE))
+    if (!requireNamespace("Sim.DiffProc", quietly = TRUE)) {
       stop2("must install 'Sim.DiffProc' to use this function")
-    
-    
+    }
+
+
     # reset working directory
-    if (selec.table)
-    {
+    if (selec.table) {
       on.exit(options(warn = .Options$warn))
-      
+
       #### set arguments from options
       # get function arguments
       argms <- methods::formalArgs(simulate_songs)
-      
+
       # get warbleR options
       opt.argms <-
-        if (!is.null(getOption("warbleR")))
+        if (!is.null(getOption("warbleR"))) {
           getOption("warbleR")
-      else
-        SILLYNAME <- 0
-      
+        } else {
+          SILLYNAME <- 0
+        }
+
       # remove options not as default in call and not in function arguments
       opt.argms <-
         opt.argms[!sapply(opt.argms, is.null) &
-                    names(opt.argms) %in% argms]
-      
+          names(opt.argms) %in% argms]
+
       # get arguments set in the call
       call.argms <- as.list(base::match.call())[-1]
-      
+
       # remove arguments in options that are in call
       opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
-      
+
       # set options left
-      if (length(opt.argms) > 0)
-        for (q in 1:length(opt.argms))
+      if (length(opt.argms) > 0) {
+        for (q in 1:length(opt.argms)) {
           assign(names(opt.argms)[q], opt.argms[[q]])
-      
-      #check path to working directory
-      if (is.null(path))
+        }
+      }
+
+      # check path to working directory
+      if (is.null(path)) {
         path <- getwd()
-      else
-        if (!dir.exists(path))
-          stop("'path' provided does not exist")
-      else
+      } else if (!dir.exists(path)) {
+        stop("'path' provided does not exist")
+      } else {
         path <- normalizePath(path)
-      
+      }
     }
-    
+
     if (length(durs) != n &
-        length(durs) != 1)
+      length(durs) != 1) {
       stop("length of 'durs' should be 1 or equal to 'n'")
+    }
     if (length(am.amps) != steps &
-        length(am.amps) != 1)
+      length(am.amps) != 1) {
       stop("length of 'am.amps' should be 1 or equal to number of 'steps'")
-    if (length(harm.amps) != harms  &
-        harms > 1)
+    }
+    if (length(harm.amps) != harms &
+      harms > 1) {
       stop("length of 'harm.amps' should be equal to 'harms'")
+    }
     if (length(gaps) != n + 1 &
-        length(gaps) != 1)
+      length(gaps) != 1) {
       stop("length of 'gaps' should be 1 or equal to 'n' + 1")
-    if (length(durs) == 1 & n != 1)
+    }
+    if (length(durs) == 1 & n != 1) {
       durs <- rep(durs, n)
+    }
     if (length(am.amps) == 1 &
-        steps != 1)
+      steps != 1) {
       am.amps <- rep(am.amps, steps)
-    if (length(am.amps) > 1)
+    }
+    if (length(am.amps) > 1) {
       am.amps <- am.amps / max(am.amps)
-    if (length(sig2) == 1 & n != 1)
+    }
+    if (length(sig2) == 1 & n != 1) {
       sig2 <- rep(sig2, n)
-    if (length(gaps) == 1)
+    }
+    if (length(gaps) == 1) {
       gaps <- rep(gaps, n + 1)
-    if (length(freqs) == 1 & n != 1)
+    }
+    if (length(freqs) == 1 & n != 1) {
       freqs <- rep(freqs, n)
-    if (harms < 1)
+    }
+    if (harms < 1) {
       stop("'harms' should at least 1")
-    if (harms > 10)
+    }
+    if (harms > 10) {
       harms <- 10
-    if (harms > 1)
+    }
+    if (harms > 1) {
       harm.amps <- harm.amps / max(harm.amps)
-    
+    }
+
     # set diffusion function
-    if (diff.fun == "GBM")
+    if (diff.fun == "GBM") {
       df_fn <- Sim.DiffProc::GBM
-    if (diff.fun == "BB")
+    }
+    if (diff.fun == "BB") {
       df_fn <- Sim.DiffProc::BB
-    
-    if (!is.null(seed))
+    }
+
+    if (!is.null(seed)) {
       seeds <- 1:(3 * n) + seed
-    
+    }
+
     # harmonics frequencies relative to fundamental
     hrm_freqs <- sort(1 / hrm.freqs)
-    
+
     # simulate frequency contour and amplitude envelope of song elements and gaps
     frq_amp <- lapply(seq_len(n), function(x) {
       # number of freq values
       N <- round(x = steps * durs[x] / mean(durs), digits = 0)
-      
+
       # simulate frequency modulation
-      if (diff.fun != "pure.tone")
+      if (diff.fun != "pure.tone") {
         sng_frq <-
           as.vector((df_fn(
             N = ifelse(N < 2, 2, N), sigma = sig2[x]
           ) * sample(c(-1, 1), 1)) + freqs[x])
-      else
+      } else {
         sng_frq <- rep(freqs[x], ifelse(N < 2, 2, N))
-      
+      }
+
       # patch to avoid negative numbers
       sng_frq <- abs(sng_frq)
       sng_frq[sng_frq == 0] <- 0.01
-      
+
       app_n <- round(durs[x] * (samp.rate * 1000), 0)
-      
+
       sng_frq <-
         stats::spline(x = sng_frq, n = ifelse(app_n < 2, 2, app_n))$y
-      
+
       frng <- range(sng_frq)
-      
+
       sng_amp <-
         stats::spline(x = am.amps, n = length(sng_frq))$y * harm.amps[1]
-      
+
       # if (fin != 0 & fout != 0 & length(unique(am.amps)) == 1)
-      if (fin != 0 & fout != 0)
+      if (fin != 0 & fout != 0) {
         sng_amp <-
-        fade_env_wrblr_int(
-          nvlp = sng_amp,
-          fin = fin,
-          fout = fout,
-          shape = shape
-        )
-      
+          fade_env_wrblr_int(
+            nvlp = sng_amp,
+            fin = fin,
+            fout = fout,
+            shape = shape
+          )
+      }
+
       # add starting gap
       if (x == 1) {
-        if (!is.null(seed))
+        if (!is.null(seed)) {
           set.seed(seeds[x + n])
+        }
         gp_frq1 <-
-          sample(1:((samp.rate * 1000) / 2),  round(gaps[1] * (samp.rate * 1000), 0), replace = TRUE)
-        
+          sample(1:((samp.rate * 1000) / 2), round(gaps[1] * (samp.rate * 1000), 0), replace = TRUE)
+
         sng_frq <- c(gp_frq1, sng_frq)
-        
+
         gp_amp1 <-
           rep(x = 0.000001, round(gaps[1] * (samp.rate * 1000), 0))
-        
+
         sng_amp <- c(gp_amp1, sng_amp)
       }
-      
-      if (!is.null(seed))
+
+      if (!is.null(seed)) {
         set.seed(seeds[x + (n * 2)])
+      }
       gp_frq <-
-        sample(1:((samp.rate * 1000) / 2),  round(gaps[x + 1] * (samp.rate * 1000), 0), replace = TRUE)
-      
+        sample(1:((samp.rate * 1000) / 2), round(gaps[x + 1] * (samp.rate * 1000), 0), replace = TRUE)
+
       gp_amp <-
         rep(x = 0.000001, round(gaps[x + 1] * (samp.rate * 1000), 0))
-      
+
       frq <- c(sng_frq, gp_frq)
-      
+
       amp <- c(sng_amp, gp_amp)
-      
+
       return(data.frame(
         frq,
         amp,
@@ -272,27 +296,31 @@ simulate_songs <-
         subunit = x
       ))
     })
-    
+
     frq_amp <- do.call(rbind, frq_amp)
-    
+
     # add noise
     ns <-
-      noisew(f = (samp.rate * 1000),
-             d = nrow(frq_amp) / (samp.rate * 1000))
-    
+      noisew(
+        f = (samp.rate * 1000),
+        d = nrow(frq_amp) / (samp.rate * 1000)
+      )
+
     # fix noise samples to match songs
-    while (length(ns) < nrow(frq_amp))
+    while (length(ns) < nrow(frq_amp)) {
       ns[length(ns) + 1] <- sample(ns, 1)
-    while (length(ns) > nrow(frq_amp))
+    }
+    while (length(ns) > nrow(frq_amp)) {
       ns <- ns[1:(length(ns) - 1)]
-    
+    }
+
     # standardize noise amplitude (range = c(0, bgn))
     ns <- ns + abs(min(ns))
     ns <- ns / max(ns)
     ns <- ns * bgn
     frq_amp$amp <- (frq_amp$amp + ns) * 1000
-    
-    #create WAV
+
+    # create WAV
     wv <-
       synth2(
         env = frq_amp$amp,
@@ -300,53 +328,57 @@ simulate_songs <-
         f = (samp.rate * 1000),
         plot = FALSE
       )
-    
-    if (harms > 1)
-      for (i in seq_len(harms - 1))
+
+    if (harms > 1) {
+      for (i in seq_len(harms - 1)) {
         wv <-
-      wv + synth2(
-        env = frq_amp$amp / harm.amps[1] * harm.amps[i + 1],
-        ifreq = frq_amp$frq * 1000 * hrm_freqs[i],
-        f = (samp.rate * 1000),
-        plot = FALSE
-      )
-    
+          wv + synth2(
+            env = frq_amp$amp / harm.amps[1] * harm.amps[i + 1],
+            ifreq = frq_amp$frq * 1000 * hrm_freqs[i],
+            f = (samp.rate * 1000),
+            plot = FALSE
+          )
+      }
+    }
+
     wv <-
-      tuneR::Wave(left = wv,
-                  samp.rate = (samp.rate * 1000),
-                  bit = 16)
-    
+      tuneR::Wave(
+        left = wv,
+        samp.rate = (samp.rate * 1000),
+        bit = 16
+      )
+
     # normalize
     wv <- tuneR::normalize(wv, unit = "16")
-    
+
     # create selection table and save sound file
-    if (selec.table)
-    {
-      if (is.null(file.name))
+    if (selec.table) {
+      if (is.null(file.name)) {
         file.name <-
           gsub(" ", "_", paste0(format(Sys.time()), ".wav"))
-      else
+      } else {
         file.name <- paste0(file.name, ".wav")
-      
+      }
+
       # fix name if file already exists
       nchr <- nchar(file.name) - 4
       x <- 1
-      
+
       while (file.exists(file.path(path, file.name))) {
         file.name <- paste0(substr(file.name, 0, nchr), "_", x, ".wav")
         x <- x + 1
       }
-      
+
       options(warn = -1)
       writeWave(
         object = wv,
         filename = file.path(path, file.name),
         extensible = FALSE
       )
-      
+
       start <-
         cumsum(c(gaps[1], durs[-length(durs)] + gaps[-c(1, length(gaps))]))
-      
+
       st <-
         data.frame(
           sound.files = file.name,
@@ -361,13 +393,13 @@ simulate_songs <-
             frq_amp$top.freq, frq_amp$subunit, mean
           ))
         )
-      
     }
-    
-    if (selec.table)
+
+    if (selec.table) {
       return(list(selec.table = st, wave = wv))
-    else
+    } else {
       return(wv)
+    }
   }
 
 ##############################################################################################################

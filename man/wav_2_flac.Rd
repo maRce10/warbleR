@@ -4,7 +4,7 @@
 \alias{wav_2_flac}
 \title{Convert .wav files to .flac}
 \usage{
-wav_2_flac(files = NULL, path = NULL, overwrite = FALSE, 
+wav_2_flac(files = NULL, path = NULL, overwrite = FALSE,
 pb = TRUE, parallel = 1)
 }
 \arguments{
@@ -13,7 +13,7 @@ pb = TRUE, parallel = 1)
 \item{path}{Character string containing the directory path where the .wav files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{overwrite}{Logical. Control whether a .flac sound file that is already in the working directory should be 
+\item{overwrite}{Logical. Control whether a .flac sound file that is already in the working directory should be
 overwritten.}
 
 \item{pb}{Logical argument to control if progress bar is shown. Default is \code{TRUE}. It can also be
@@ -46,7 +46,7 @@ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 # Convert all files to .flac format
 wav_2_flac(path = tempdir())
 
-#check this folder!!
+# check this folder!!
 open_wd(tempdir())
 }
 

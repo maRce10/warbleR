@@ -1,11 +1,11 @@
 #'
 #' \code{auto_detec} automatically detects the start and end of vocalizations in sound files based
 #' on amplitude, duration, and frequency range attributes.
-#' @usage auto_detec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1, 
-#'    output = 'data.frame', thinning = 1, path = NULL, pb = TRUE, ssmooth = 0, 
+#' @usage auto_detec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1,
+#'    output = 'data.frame', thinning = 1, path = NULL, pb = TRUE, ssmooth = 0,
 #'    bp = NULL, flist = NULL, hold.time = 0, mindur = NULL, maxdur = NULL, envt = NULL,
-#'    msmooth = NULL, osci = NULL, xl = NULL, picsize = NULL, res = NULL, flim = NULL, 
-#'    ls = NULL, sxrow = NULL, rows = NULL,  redo = NULL, img = NULL, it = NULL, 
+#'    msmooth = NULL, osci = NULL, xl = NULL, picsize = NULL, res = NULL, flim = NULL,
+#'    ls = NULL, sxrow = NULL, rows = NULL,  redo = NULL, img = NULL, it = NULL,
 #'    set = NULL, smadj = NULL, pal = NULL, fast.spec = NULL)
 #' @param X 'selection_table' object or a data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
@@ -22,7 +22,7 @@
 #' @param thinning Numeric vector of length 1 in the range 0~1 indicating the proportional reduction of the number of
 #' samples used to represent amplitude envelopes (i.e. the thinning of the envelopes). Usually amplitude envelopes have many more samples
 #' than those needed to accurately represent amplitude variation in time, which affects the size of the
-#' output (usually very large R objects / files). Default is  \code{1} (no thinning). Higher sampling rates can afford higher size reduction (e.g. lower thinning values). Reduction is conducted by interpolation using \code{\link[stats]{approx}}. Note that thinning may decrease time precision, and the higher the thinning the less precise the time detection. 
+#' output (usually very large R objects / files). Default is  \code{1} (no thinning). Higher sampling rates can afford higher size reduction (e.g. lower thinning values). Reduction is conducted by interpolation using \code{\link[stats]{approx}}. Note that thinning may decrease time precision, and the higher the thinning the less precise the time detection.
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
@@ -35,7 +35,7 @@
 #' @param hold.time Numeric vector of length 1. Specifies the time range at which selections will be merged (i.e. if 2 selections are separated by less than the specified hold.time they will be merged in to a single selection). Default is  \code{0}.
 #' @param mindur Numeric vector of length 1 giving the shortest duration (in
 #'   seconds) of the signals to be detected. It removes signals below that
-#'   threshold. 
+#'   threshold.
 #' @param maxdur Numeric vector of length 1 giving the longest duration (in
 #'   seconds) of the signals to be detected. It removes signals above that
 #'   threshold.
@@ -68,15 +68,17 @@
 #'    data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the \code{\link[seewave]{timer}} function from seewave package to detect signals.
 #'
 #' @examples {
-#' # Save to temporary working directory
-#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
-#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+#'   # Save to temporary working directory
+#'   data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
+#'   writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#'   writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#'   writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#'   writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
-#' ad <- auto_detec(threshold = 5, ssmooth = 300,
-#' bp = c(2, 9), wl = 300, path = tempdir())
+#'   ad <- auto_detec(
+#'     threshold = 5, ssmooth = 300,
+#'     bp = c(2, 9), wl = 300, path = tempdir()
+#'   )
 #' }
 #'
 #' @references {
@@ -85,7 +87,7 @@
 #' @seealso \code{\link{optimize_auto_detec}}
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}). Implements a
 #' modified version of the timer function from seewave.
-#last modification on nov-18-2020 (MAS)
+# last modification on nov-18-2020 (MAS)
 
 auto_detec <-
   function(X = NULL,
@@ -93,7 +95,7 @@ auto_detec <-
            threshold = 15,
            parallel = 1,
            power = 1,
-           output = 'data.frame',
+           output = "data.frame",
            thinning = 1,
            path = NULL,
            pb = TRUE,
@@ -119,263 +121,329 @@ auto_detec <-
            set = NULL,
            smadj = NULL,
            pal = NULL,
-           fast.spec = NULL
-           ) {
-  
+           fast.spec = NULL) {
+    warning2("This function will be deprecated in future warbleR versions, please look at the ohun package for automatic signal detection functions (https://marce10.github.io/ohun/index.html)")
+
     # message deprecated
-    if (!is.null(smadj))
-      write(file = "", x = crayon::silver("'smadj' has been deprecated"))
-    
-    if (!is.null(envt))
-      write(file = "", x = crayon::silver("'envt' has been deprecated. Only absolute envelopes can be used now"))
-    
-    if (!is.null(msmooth))
-      write(file = "", x = crayon::silver("'msmooth' has been deprecated. Only 'ssmooth' is available for smoothing"))
-    
-    if (!is.null(img))
-      write(file = "", x = crayon::silver("'img' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
-    
-    if (!is.null(xl))
-      write(file = "", x = crayon::silver("'xl' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
-    
-    if (!is.null(picsize))
-      write(file = "", x = crayon::silver("'picsize' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
-    
-    if (!is.null(flim))
-      write(file = "", x = crayon::silver("'flim' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    if (!is.null(rows))
-      write(file = "", x = crayon::silver("'rows' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))  
-    
-    if (!is.null(sxrow))
-      write(file = "", x = crayon::silver("'sxrow' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    if (!is.null(osci))
-      write(file = "", x = crayon::silver("'osci' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    if (!is.null(res))
-      write(file = "", x = crayon::silver("'res' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    if (!is.null(ls))
-      write(file = "", x = crayon::silver("'ls' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))    
-    if (!is.null(redo))
-      write(file = "", x = crayon::silver("'redo' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
-    
-    if (!is.null(it))
-      write(file = "", x = crayon::silver("'it' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
-    
-    if (!is.null(set))
-      write(file = "", x = crayon::silver("'set' has been deprecated. Use full_spectrograms() to create images from auto_detec() output"))
-    
+    if (!is.null(smadj)) {
+      warning2("'smadj' has been deprecated")
+    }
+
+    if (!is.null(envt)) {
+      warning2("'envt' has been deprecated. Only absolute envelopes can be used now")
+    }
+
+    if (!is.null(msmooth)) {
+      warning2("'msmooth' has been deprecated. Only 'ssmooth' is available for smoothing")
+    }
+
+    if (!is.null(img)) {
+      warning2("'img' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(xl)) {
+      warning2("'xl' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(picsize)) {
+      warning2("'picsize' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(flim)) {
+      warning2("'flim' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(rows)) {
+      warning2("'rows' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(sxrow)) {
+      warning2("'sxrow' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(osci)) {
+      warning2("'osci' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(res)) {
+      warning2("'res' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(ls)) {
+      warning2("'ls' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(redo)) {
+      warning2("'redo' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(it)) {
+      warning2("'it' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
+    if (!is.null(set)) {
+      warning2("'set' has been deprecated. Use full_spectrograms() to create images from auto_detec() output")
+    }
+
     #### set arguments from options
     # get function arguments
     argms <- methods::formalArgs(auto_detec)
-    
+
     # get warbleR options
     opt.argms <-
-      if (!is.null(getOption("warbleR")))
-        getOption("warbleR") else
-      SILLYNAME <- 0
-    
+      if (!is.null(getOption("warbleR"))) {
+        getOption("warbleR")
+      } else {
+        SILLYNAME <- 0
+      }
+
     # remove options not as default in call and not in function arguments
     opt.argms <-
       opt.argms[!sapply(opt.argms, is.null) &
-                  names(opt.argms) %in% argms]
-    
+        names(opt.argms) %in% argms]
+
     # get arguments set in the call
     call.argms <- as.list(base::match.call())[-1]
-    
+
     # remove arguments in options that are in call
     opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
-    
-    # set options left
-    if (length(opt.argms) > 0)
-      for (q in 1:length(opt.argms))
-        assign(names(opt.argms)[q], opt.argms[[q]])
-    
-    #check path if not provided set to working directory
-    if (is.null(path))
-      path <- getwd() else
-      if (!dir.exists(path))
-        stop2("'path' provided does not exist") else
-      path <- normalizePath(path)
-    
-    #if bp is not vector or length!=2 stop
-    if (!is.null(bp))
-    {
-      if (!is.vector(bp))
-        stop2("'bp' must be a numeric vector of length 2")  else {
-        if (!length(bp) == 2)
-          stop2("'bp' must be a numeric vector of length 2")
-      }
-    }
-    
-    #if ssmooth is not vector or length!=1 stop
-      if (!is.vector(ssmooth))
-        stop2("'ssmooth' must be a numeric vector of length 1") else {
-        if (!length(ssmooth) == 1)
-          stop2("'ssmooth' must be a numeric vector of length 1")
-      }
 
-    #if thinning is not vector or length!=1 between 1 and 0
-    if (!is.vector(thinning) | !is.numeric(thinning))
+    # set options left
+    if (length(opt.argms) > 0) {
+      for (q in 1:length(opt.argms)) {
+        assign(names(opt.argms)[q], opt.argms[[q]])
+      }
+    }
+
+    # check path if not provided set to working directory
+    if (is.null(path)) {
+      path <- getwd()
+    } else if (!dir.exists(path)) {
+      stop2("'path' provided does not exist")
+    } else {
+      path <- normalizePath(path)
+    }
+
+    # if bp is not vector or length!=2 stop
+    if (!is.null(bp)) {
+      if (!is.vector(bp)) {
+        stop2("'bp' must be a numeric vector of length 2")
+      } else {
+        if (!length(bp) == 2) {
+          stop2("'bp' must be a numeric vector of length 2")
+        }
+      }
+    }
+
+    # if ssmooth is not vector or length!=1 stop
+    if (!is.vector(ssmooth)) {
+      stop2("'ssmooth' must be a numeric vector of length 1")
+    } else {
+      if (!length(ssmooth) == 1) {
+        stop2("'ssmooth' must be a numeric vector of length 1")
+      }
+    }
+
+    # if thinning is not vector or length!=1 between 1 and 0
+    if (!is.vector(thinning) | !is.numeric(thinning)) {
       stop2("'thinning' must be a numeric vector of length 1")
-        if (thinning[1] > 1 | thinning[1] <= 0)
-          stop2("'thinning' must be greater than 0 and lower than or equal to 1")
-    
-    #if wl is not vector or length!=1 stop
-    if (is.null(wl))
-      stop2("'wl' must be a numeric vector of length 1") else {
-      if (!is.vector(wl))
-        stop2("'wl' must be a numeric vector of length 1") else {
-        if (!length(wl) == 1)
+    }
+    if (thinning[1] > 1 | thinning[1] <= 0) {
+      stop2("'thinning' must be greater than 0 and lower than or equal to 1")
+    }
+
+    # if wl is not vector or length!=1 stop
+    if (is.null(wl)) {
+      stop2("'wl' must be a numeric vector of length 1")
+    } else {
+      if (!is.vector(wl)) {
+        stop2("'wl' must be a numeric vector of length 1")
+      } else {
+        if (!length(wl) == 1) {
           stop2("'wl' must be a numeric vector of length 1")
+        }
       }
     }
-    
-    #if threshold is not vector or length!=1 stop
-    if (is.null(threshold))
-      if (!is.numeric(threshold))
-      stop2("'threshold' must be a numeric vector of length 1") else {
-      if (!is.vector(threshold))
-        stop2("'threshold' must be a numeric vector of length 1") else {
-        if (!length(threshold) == 1)
+
+    # if threshold is not vector or length!=1 stop
+    if (is.null(threshold)) {
+      if (!is.numeric(threshold)) {
+        stop2("'threshold' must be a numeric vector of length 1")
+      } else {
+        if (!is.vector(threshold)) {
           stop2("'threshold' must be a numeric vector of length 1")
+        } else {
+          if (!length(threshold) == 1) {
+            stop2("'threshold' must be a numeric vector of length 1")
+          }
+        }
       }
     }
-    
-    #if flist is not character vector
+
+    # if flist is not character vector
     if (!is.null(flist) &
-        is.null(X) &
-        any(!is.character(flist),!is.vector(flist)))
+      is.null(X) &
+      any(!is.character(flist), !is.vector(flist))) {
       stop2("'flist' must be a character vector")
-    
-    #if parallel is not numeric
-    if (!is.numeric(parallel))
+    }
+
+    # if parallel is not numeric
+    if (!is.numeric(parallel)) {
       stop2("'parallel' must be a numeric vector of length 1")
-    if (any(!(parallel %% 1 == 0), parallel < 1))
+    }
+    if (any(!(parallel %% 1 == 0), parallel < 1)) {
       stop2("'parallel' should be a positive integer")
-    
+    }
+
     # check hold time
-      if (!is.numeric(hold.time))
-        stop2("'hold.time' must be a numeric vector of length 1")
-    
-    #stop if power is 0
-    if (power == 0)
+    if (!is.numeric(hold.time)) {
+      stop2("'hold.time' must be a numeric vector of length 1")
+    }
+
+    # stop if power is 0
+    if (power == 0) {
       stop2("'power' cannot equal to 0")
-    
+    }
+
     if (!is.null(X)) {
-      
       # extract selection table and envelopes
       if (is(X, "autodetec.output")) {
-        
         X.class <- "autodetec.output"
-      
-        if(pb) 
-        write(file = "", x = crayon::cyan("Working on a 'autodetec.output' object"))
-      
-      # warn if thinning is used twice
-        if (!is.null(X$parameters$thinning) & pb)  
-          if(X$parameters$thinning < 1 & thinning < 1) 
-            write(file = "", x = crayon::magenta("'thinning' was already applied when creating 'X'. Keep in mind that when 'thinning' is too high it can affect detection precision"))
+
+        if (pb) {
+          message(x = crayon::cyan("Working on an 'autodetec.output' object"))
+        }
 
         # warn if thinning is used twice
-        if (!is.null(X$parameters$ssmooth))  
-          {
-          if(X$parameters$ssmooth < 1 & !is.null(ssmooth) & pb) 
-            write(file = "", x = crayon::magenta("'smooth' was already applied when creating 'X'. Keep in mind that it won't be a 1:1 relation to amplitude samples any longer"))
-        
-          if (!is.null(X$parameters$thinning) & pb)
-          if(X$parameters$thinning < 1 & !is.null(ssmooth)) 
-            write(file = "", x = crayon::magenta("'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer"))
+        if (!is.null(X$parameters$thinning) & pb) {
+          if (X$parameters$thinning < 1 & thinning < 1) {
+            message(x = crayon::magenta("'thinning' was already applied when creating 'X'. Keep in mind that when 'thinning' is too high it can affect detection precision"))
           }
-        
-      # set variable to state S was provided  
-      xprov <- TRUE
-      
-      } else 
-        X.class <- "selection.table"   
-      
-      # if is selection table  
-      if (X.class == "selection.table") { 
-      
-        #if files not found
-      if (length(list.files(
-        path = path,
-        pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$",
-        ignore.case = TRUE
-      )) == 0)
-        if (is.null(path))
-          stop2("No sound files in working directory") else
-            stop2("No sound files found")
-      
-      
-      #if X is not a data frame
-      if (!any(is.data.frame(X), is_selection_table(X)))
-        stop2("X is not of a class 'data.frame' or 'selection_table'")
-      
-      #check if all columns are found
-      if (any(!(c(
-        "sound.files", "selec", "start", "end"
-      ) %in% colnames(X))))
-        stop2(paste(paste(
-          c("sound.files", "selec", "start", "end")[!(c("sound.files", "selec",
-                                                        "start", "end") %in% colnames(X))], collapse =
-            ", "
-        ), "column(s) not found in data frame"))
-      
-      #if there are NAs in start or end stop
-      if (any(is.na(c(X$end, X$start))))
-        stop2("NAs found in start and/or end columns")
-      
-      #if end or start are not numeric stop
-      if (any(!is(X$end, "numeric"),!is(X$start, "numeric")))
-        stop2("'start' and 'end' must be numeric")
-      
-      #if any start higher than end stop
-      if (any(X$end - X$start <= 0))
-        stop2(paste(
-          "Start is higher than or equal to end in",
-          length(which(X$end - X$start <= 0)),
-          "case(s)"
-        ))
-      
-      #return warning if not all sound files were found
-      fs <-
-        list.files(path = path,
-                   pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$",
-                   ignore.case = TRUE)
-      if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files)))
-        cat(paste(length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% fs)])),
-                  "sound file(s) not found"))
-      
-      #count number of sound files in working directory and if 0 stop
-      d <- which(X$sound.files %in% fs)
-      if (length(d) == 0)
-        stop2("The sound files are not in the working directory") else
-        X <- X[d, ]
-      xprov <- TRUE #to replace X if not provided
+        }
+
+        # warn if thinning is used twice
+        if (!is.null(X$parameters$ssmooth)) {
+          if (X$parameters$ssmooth < 1 & !is.null(ssmooth) & pb) {
+            message(x = crayon::magenta("'smooth' was already applied when creating 'X'. Keep in mind that it won't be a 1:1 relation to amplitude samples any longer"))
+          }
+
+          if (!is.null(X$parameters$thinning) & pb) {
+            if (X$parameters$thinning < 1 & !is.null(ssmooth)) {
+              message(x = crayon::magenta("'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer"))
+            }
+          }
+        }
+
+        # set variable to state S was provided
+        xprov <- TRUE
       } else {
-        
+        X.class <- "selection.table"
+      }
+
+      # if is selection table
+      if (X.class == "selection.table") {
+        # if files not found
+        if (length(list.files(
+          path = path,
+          pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$",
+          ignore.case = TRUE
+        )) == 0) {
+          if (is.null(path)) {
+            stop2("No sound files in working directory")
+          } else {
+            stop2("No sound files found")
+          }
+        }
+
+
+        # if X is not a data frame
+        if (!any(is.data.frame(X), is_selection_table(X))) {
+          stop2("X is not of a class 'data.frame' or 'selection_table'")
+        }
+
+        # check if all columns are found
+        if (any(!(c(
+          "sound.files", "selec", "start", "end"
+        ) %in% colnames(X)))) {
+          stop2(paste(paste(
+            c("sound.files", "selec", "start", "end")[!(c(
+              "sound.files", "selec",
+              "start", "end"
+            ) %in% colnames(X))],
+            collapse =
+              ", "
+          ), "column(s) not found in data frame"))
+        }
+
+        # if there are NAs in start or end stop
+        if (any(is.na(c(X$end, X$start)))) {
+          stop2("NAs found in start and/or end columns")
+        }
+
+        # if end or start are not numeric stop
+        if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) {
+          stop2("'start' and 'end' must be numeric")
+        }
+
+        # if any start higher than end stop
+        if (any(X$end - X$start <= 0)) {
+          stop2(paste(
+            "Start is higher than or equal to end in",
+            length(which(X$end - X$start <= 0)),
+            "case(s)"
+          ))
+        }
+
+        # return warning if not all sound files were found
+        fs <-
+          list.files(
+            path = path,
+            pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$",
+            ignore.case = TRUE
+          )
+        if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) {
+          cat(paste(
+            length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% fs)])),
+            "sound file(s) not found"
+          ))
+        }
+
+        # count number of sound files in working directory and if 0 stop
+        d <- which(X$sound.files %in% fs)
+        if (length(d) == 0) {
+          stop2("The sound files are not in the working directory")
+        } else {
+          X <- X[d, ]
+        }
+        xprov <- TRUE # to replace X if not provided
+      } else {
         # extract selection table and envelopes as separate objects
         envelopes <- X$envelopes
         X <- X$org.selection.table
-        }
+      }
     } else {
-      if (!is.null(flist))
-        X <- warbleR::duration_wavs(files = flist, path = path) else
+      if (!is.null(flist)) {
+        X <- warbleR::duration_wavs(files = flist, path = path)
+      } else {
         X <- warbleR::duration_wavs(path = path)
+      }
       X$start <- 0
       X$selec <- 1
       names(X)[2] <- "end"
-      xprov <- FALSE #to replace X if not provided
-      if (nrow(X) == 0)
+      xprov <- FALSE # to replace X if not provided
+      if (nrow(X) == 0) {
         stop2("Files in 'flist' not in working directory")
-    
-      X.class <- "selection.table"   
       }
-    
+
+      X.class <- "selection.table"
+    }
+
     # if parallel was not called
-    if (pb)
-        cat("Detecting signals in sound files:")
-    
-   # function for detecting signals
+    if (pb) {
+      cat("Detecting signals in sound files:")
+    }
+
+    # function for detecting signals
     adFUN <-
       function(i,
                X,
@@ -389,42 +457,42 @@ auto_detec <-
                maxdur,
                output,
                power,
-               X.class
-               )
-      {
-        
+               X.class) {
         # set threshold as proportion
         thres <- threshold / 100
-        
+
         if (X.class == "selection.table") {
-        
-        # read wave object
-        song <- warbleR::read_sound_file(X = X,
-                                   path = path,
-                                   index = i)
-        
+          # read wave object
+          song <- warbleR::read_sound_file(
+            X = X,
+            path = path,
+            index = i
+          )
+
           # set sample rate and duration
           f <- song@samp.rate
-          
-          #filter frequnecies below 1000 Hz
-          if (!is.null(bp))
+
+          # filter frequnecies below 1000 Hz
+          if (!is.null(bp)) {
             f.song <-
-            seewave::ffilter(
-              song,
-              f = f,
-              from = bp[1] * 1000,
-              to = bp[2] * 1000,
-              bandpass = TRUE,
-              wl = wl,
-              output = "Wave"
-            ) else
-              f.song <- song
-          
-          #detect songs based on amplitude (modified from seewave::timer function)
+              seewave::ffilter(
+                song,
+                f = f,
+                from = bp[1] * 1000,
+                to = bp[2] * 1000,
+                bandpass = TRUE,
+                wl = wl,
+                output = "Wave"
+              )
+          } else {
+            f.song <- song
+          }
+
+          # detect songs based on amplitude (modified from seewave::timer function)
           amp_vector <- f.song@left
-         
+
           n <- length(amp_vector)
-          
+
           # extract envelope
           envp <-
             envelope(
@@ -434,141 +502,147 @@ auto_detec <-
 
           # flat edges (first and last 100 ms) if lower than lowest amp value
           if (length(envp) > f / 5) {
-            min.envp <- min(envp[(f / 10):(length(envp) - f / 5)]) 
-            
-            if (envp[1] < min.envp) envp[1:min(which(envp >= min.envp))] <-min.envp
-  
+            min.envp <- min(envp[(f / 10):(length(envp) - f / 5)])
+
+            if (envp[1] < min.envp) envp[1:min(which(envp >= min.envp))] <- min.envp
+
             if (envp[length(envp)] < min.envp) envp[max(which(envp >= min.envp)):length(envp)] <- min.envp
-          }        
+          }
           # force to be in the range 0-1
           envp <- envp - min(envp)
           envp <- envp / max(envp)
           envp <- matrix(envp, ncol = 1)
+        }
 
-        } 
-        
         # if autodetec output
         if (X.class == "autodetec.output") { # if is and autodetec.output object
-        
+
           # extract envelopes from autodetec.output object
-          if (is.null(X$org.selec))
-          envp <- envelopes[envelopes$sound.files == X$sound.files[i], ] else
-            envp <- envelopes[envelopes$sound.files == X$sound.files[i] & envelopes$org.selec == X$org.selec[i], ] 
-          
-          if(nrow(envp) == 0) stop2(paste("amplitude envelope not found for ", X$sound.files[i]))
-          
+          if (is.null(X$org.selec)) {
+            envp <- envelopes[envelopes$sound.files == X$sound.files[i], ]
+          } else {
+            envp <- envelopes[envelopes$sound.files == X$sound.files[i] & envelopes$org.selec == X$org.selec[i], ]
+          }
+
+          if (nrow(envp) == 0) stop2(paste("amplitude envelope not found for ", X$sound.files[i]))
+
           # set sample rate
           f <- nrow(envp) / (X$end[i] - X$start[i])
-          
-          if (ssmooth > 0)
+
+          if (ssmooth > 0) {
             envelope(x = envp$amplitude, ssmooth = ssmooth)
-          
+          }
+
           # convert to matrix of 1 column as the output of env()
           envp <- matrix(data = envp$amplitude, ncol = 1)
-      
         }
-        
-         # thin
-          if (!is.null(thinning)) {
-            
-            # reduce size of envelope
-            app_env <-
-              stats::approx(
-                x = seq(0, X$end[i] - X$start[i], length.out = nrow(envp)),
-                y = envp[, 1],
-                n = round(nrow(envp) * thinning),
-                method = "linear"
-              )$y
-            
-            # back into a 1 column matrix
-            envp <- matrix(data = app_env, ncol = 1)
-            
-            f <- (X$end[i] - X$start[i]) / nrow(envp)
-          }
-        n <- nrow(envp)
-        
-        if (n < 2) stop2("thinning is too high, no enough samples left for at least 1 sound file")
-        
-          #### detection ####
-          
-        # add power
-          if (power != 1){
-            envp <- envp ^ power
-            envp <- envp / max(envp)
-            }
-          
-          
-          # get binary values if above or below threshold
-          binary_treshold <- ifelse(envp <= thres, yes = 1, no = 2)
-          n2 <- length(binary_treshold)
-          
-          cross <- sapply(2:length(binary_treshold), function(x) {
-            
-            if (binary_treshold[x] > binary_treshold[x - 1]) out <- "u" # u means going up
-            if (binary_treshold[x] < binary_treshold[x - 1]) out <- "d" # d means going down
-            if (binary_treshold[x]  == binary_treshold[x - 1])  
-              if (binary_treshold[x] == 2)  out <- "a"  else# a means above
-                out <- "b" # b means below
-            
-            return(out)
-            
-            })      
-          
-          cross <- c(if (binary_treshold[1] == 1) "b" else "a", cross)
-          
-          # time series
-          cross_ts <- ts(cross,
-             start = X$start[i],
-             end =  X$end[i],
-             frequency = length(cross) / ( X$end[i] - X$start[i]))
 
-          starts <- time(cross_ts)[cross_ts == "u"]
-          ends <- time(cross_ts)[cross_ts == "d"]
-          
-          # if there are both starts and ends detected
-          if (length(starts) > 0 & length(ends) > 0){
-            # if  start is not the first detection
-                if (starts[1] > ends[1]) starts <- c(0, starts)
+        # thin
+        if (!is.null(thinning)) {
+          # reduce size of envelope
+          app_env <-
+            stats::approx(
+              x = seq(0, X$end[i] - X$start[i], length.out = nrow(envp)),
+              y = envp[, 1],
+              n = round(nrow(envp) * thinning),
+              method = "linear"
+            )$y
+
+          # back into a 1 column matrix
+          envp <- matrix(data = app_env, ncol = 1)
+
+          f <- (X$end[i] - X$start[i]) / nrow(envp)
+        }
+        n <- nrow(envp)
+
+        if (n < 2) stop2("thinning is too high, no enough samples left for at least 1 sound file")
+
+        #### detection ####
+
+        # add power
+        if (power != 1) {
+          envp <- envp^power
+          envp <- envp / max(envp)
+        }
+
+
+        # get binary values if above or below threshold
+        binary_treshold <- ifelse(envp <= thres, yes = 1, no = 2)
+        n2 <- length(binary_treshold)
+
+        cross <- sapply(2:length(binary_treshold), function(x) {
+          if (binary_treshold[x] > binary_treshold[x - 1]) out <- "u" # u means going up
+          if (binary_treshold[x] < binary_treshold[x - 1]) out <- "d" # d means going down
+          if (binary_treshold[x] == binary_treshold[x - 1]) {
+            if (binary_treshold[x] == 2) {
+              out <- "a"
+            } else { # a means above
+              out <- "b"
+            }
+          } # b means below
+
+          return(out)
+        })
+
+        cross <- c(if (binary_treshold[1] == 1) "b" else "a", cross)
+
+        # time series
+        cross_ts <- ts(cross,
+          start = X$start[i],
+          end = X$end[i],
+          frequency = length(cross) / (X$end[i] - X$start[i])
+        )
+
+        starts <- time(cross_ts)[cross_ts == "u"]
+        ends <- time(cross_ts)[cross_ts == "d"]
+
+        # if there are both starts and ends detected
+        if (length(starts) > 0 & length(ends) > 0) {
+          # if  start is not the first detection
+          if (starts[1] > ends[1]) starts <- c(0, starts)
           if (starts[length(starts)] > ends[length(ends)]) ends <- c(ends, X$end[i] - X$start[i])
+        }
+
+        # if there is no end
+        if (length(starts) > 0 & length(ends) == 0) ends <- X$end[i] - X$start[i]
+
+        # if there is no start
+        if (length(ends) > 0 & length(starts) == 0) starts <- 0
+
+
+        # put time of detection in data frame
+        detec_tab <-
+          data.frame(
+            sound.files = X$sound.files[i],
+            duration = if (length(starts) > 0) ends - starts else NA,
+            org.selec = X$selec[i], # this one allows to relate to segments in a segmented sound file n X (several selection for the same sound file)
+            selec = NA,
+            start = if (length(starts) > 0) starts else NA,
+            end = if (length(ends) > 0) ends else NA,
+            stringsAsFactors = FALSE
+          )
+
+
+        # remove signals based on duration
+        if (!is.null(mindur)) {
+          detec_tab <- detec_tab[detec_tab$duration > mindur, ]
+        }
+        if (!is.null(maxdur)) {
+          detec_tab <- detec_tab[detec_tab$duration < maxdur, ]
+        }
+
+        if (nrow(detec_tab) > 0) {
+          if (xprov) {
+            detec_tab$selec <-
+              paste(X$selec[i], 1:nrow(detec_tab), sep = "-")
+          } else {
+            detec_tab$selec <- 1:nrow(detec_tab)
           }
-          
-          # if there is no end
-          if (length(starts) > 0 & length(ends) == 0) ends <- X$end[i] - X$start[i]
-          
-          # if there is no start
-          if (length(ends) > 0 & length(starts) == 0) starts <- 0
-          
-          
-          #put time of detection in data frame
+        }
+
+        # if nothing was detected
+        if (nrow(detec_tab) == 0) {
           detec_tab <-
-            data.frame(
-              sound.files = X$sound.files[i],
-              duration = if(length(starts) > 0) ends - starts else NA,
-              org.selec = X$selec[i], # this one allows to relate to segments in a segmented sound file n X (several selection for the same sound file)
-              selec = NA,
-              start = if(length(starts) > 0) starts else NA,
-              end = if(length(ends) > 0) ends else NA,
-              stringsAsFactors = FALSE
-            )
-          
-          
-          #remove signals based on duration
-          if (!is.null(mindur))
-            detec_tab <- detec_tab[detec_tab$duration > mindur, ]
-          if (!is.null(maxdur))
-            detec_tab <- detec_tab[detec_tab$duration < maxdur, ]
-          
-          if (nrow(detec_tab) > 0)
-          {
-            if (xprov)
-              detec_tab$selec <-
-                paste(X$selec[i], 1:nrow(detec_tab), sep = "-") else
-                  detec_tab$selec <- 1:nrow(detec_tab)
-          }
-          
-          #if nothing was detected
-          if (nrow(detec_tab) == 0)
-            detec_tab <-
             data.frame(
               sound.files = X$sound.files[i],
               duration = NA,
@@ -578,151 +652,165 @@ auto_detec <-
               end = NA,
               stringsAsFactors = FALSE
             )
+        }
 
-        
-          
-        if (output == "data.frame")
+
+
+        if (output == "data.frame") {
           # return data frame or list
-          return(detec_tab) else {
-            output_list <- list(
-              selec.table = detec_tab,
-              envelopes = data.frame(
-                sound.files = X$sound.files[i],
-                org.selec = X$selec[i],
-                time = seq(X$start[i], X$end[i], along.with = envp),
-                # abs.time = NA,
-                amplitude = envp,
-                stringsAsFactors = FALSE
-              )
+          return(detec_tab)
+        } else {
+          output_list <- list(
+            selec.table = detec_tab,
+            envelopes = data.frame(
+              sound.files = X$sound.files[i],
+              org.selec = X$selec[i],
+              time = seq(X$start[i], X$end[i], along.with = envp),
+              # abs.time = NA,
+              amplitude = envp,
+              stringsAsFactors = FALSE
             )
-           
-            return(output_list)
-          }
+          )
 
+          return(output_list)
+        }
       }
-    
-    #Apply over each sound file
+
+    # Apply over each sound file
     # set clusters for windows OS
-    if (Sys.info()[1] == "Windows" & parallel > 1)
-      cl <- parallel::makeCluster(parallel) else
+    if (Sys.info()[1] == "Windows" & parallel > 1) {
+      cl <- parallel::makeCluster(parallel)
+    } else {
       cl <- parallel
-    
+    }
+
     # run function over sound files or selections in loop
-    ad <- pblapply_wrblr_int(pbar = pb, 
+    ad <- pblapply_wrblr_int(
+      pbar = pb,
       X = 1:nrow(X),
       cl = cl,
-      FUN = function(i)
-      {
-        adFUN(i,
-              X,
-              wl,
-              bp,
-              envt,
-              thinning,
-              threshold,
-              ssmooth,
-              mindur,
-              maxdur,
-              output,
-              power,
-              X.class
-              )
+      FUN = function(i) {
+        adFUN(
+          i,
+          X,
+          wl,
+          bp,
+          envt,
+          thinning,
+          threshold,
+          ssmooth,
+          mindur,
+          maxdur,
+          output,
+          power,
+          X.class
+        )
       }
     )
-    
-    if (output == "data.frame")
-      detections <- do.call(rbind, ad) else
-    {
+
+    if (output == "data.frame") {
+      detections <- do.call(rbind, ad)
+    } else {
       # if output is a list
-      detections <- do.call(rbind, lapply(ad, '[[', 1))
-      
+      detections <- do.call(rbind, lapply(ad, "[[", 1))
+
       # envelopes
-      envelopes <- do.call(rbind, lapply(ad, '[[', 2))
-      
+      envelopes <- do.call(rbind, lapply(ad, "[[", 2))
+
       # make sound files a factor to reduce size
       envelopes$sound.files <- as.factor(envelopes$sound.files)
-      
-      if (!xprov)
+
+      if (!xprov) {
         envelopes$org.selec <- NULL
+      }
     }
-   
+
     # remove NAs in detections
     detections <- detections[!is.na(detections$sound.files), ]
-    
-     #rename rows
-    if (nrow(detections) > 0)
-    rownames(detections) <- 1:nrow(detections)
-    
+
+    # rename rows
+    if (nrow(detections) > 0) {
+      rownames(detections) <- 1:nrow(detections)
+    }
+
     # remove org.selec if X was not provided
-    if (!xprov)
-    detections$org.selec <- NULL
-    
+    if (!xprov) {
+      detections$org.selec <- NULL
+    }
+
     # merge selections based on hold time
     if (hold.time > 0 & nrow(detections) > 1) {
-      
       # detections$end <- detections$end + hold.time
       detections$ovlp.sels <- NA
-      
+
       # label overlapping signals (as in ovlp_sels())
       # calculate overlapping selection after adding hope time
-      for(e in 1:(nrow(detections) - 1)) {
+      for (e in 1:(nrow(detections) - 1)) {
         # if overlap
-      if (detections$sound.files[e] == detections$sound.files[e + 1])
-        if (detections$end[e] + hold.time >= detections$start[e + 1]) 
-          if (all(is.na(detections$ovlp.sels))) detections$ovlp.sels[c(e, e + 1)] <- 1 else # return 1 if is the first overlap
-            if (is.na(detections$ovlp.sels[e])) # if current is NA add 1
-            detections$ovlp.sels[c(e, e + 1)] <- max(detections$ovlp.sels, na.rm = TRUE) + 1 else
-              detections$ovlp.sels[e + 1] <- detections$ovlp.sels[e] # otherwise use current for next
-        }
+        if (detections$sound.files[e] == detections$sound.files[e + 1]) {
+          if (detections$end[e] + hold.time >= detections$start[e + 1]) {
+            if (all(is.na(detections$ovlp.sels))) {
+              detections$ovlp.sels[c(e, e + 1)] <- 1
+            } else # return 1 if is the first overlap
+            if (is.na(detections$ovlp.sels[e])) { # if current is NA add 1
+              detections$ovlp.sels[c(e, e + 1)] <- max(detections$ovlp.sels, na.rm = TRUE) + 1
+            } else {
+              detections$ovlp.sels[e + 1] <- detections$ovlp.sels[e]
+            }
+          }
+        } # otherwise use current for next
+      }
 
       # subset non-overlapping and overlapping
       no_ovlp <- detections[is.na(detections$ovlp.sels), ]
       ovlp <- detections[!is.na(detections$ovlp.sels), ]
-      
+
       # if some overlaps detected
-      if (nrow(ovlp) > 0)  {
-        
+      if (nrow(ovlp) > 0) {
         # loop to merge selections
         out <-
           pblapply_wrblr_int(pbar = pb, X = unique(ovlp$ovlp.sels), cl = cl, FUN = function(x) {
             # subset for one level
             Y <- ovlp[ovlp$ovlp.sels == x, ]
-            
+
             # keep only one per overlapping group label
             Z <- Y[1, , drop = FALSE]
-            
+
             # start is the minimum of all starts
             Z$start <- min(Y$start)
-            
+
             # end is the maximum of all ends
             Z$end <- max(Y$end)
-            
+
             # # omit merging if result is larger than maximum duration
             # if (Z$end - Z$start <= maxdur)
-              # return(Z) else return(Y)
+            # return(Z) else return(Y)
             return(Z)
-            })
-        
+          })
+
         # put list together in a data frame
         ovlp <- do.call(rbind, out)
-        
+
         # add non-overlapping selections
         detections <- rbind(ovlp, no_ovlp)
-        
+
         # order selections by sound file and time
         detections <- detections[order(detections$sound.files, detections$start), ]
-      } else detections <- no_ovlp # if not return non-overlapping
+      } else {
+        detections <- no_ovlp
+      } # if not return non-overlapping
     }
-    
+
     # remove extra column
     detections$ovlp.sels <- NULL
-    
+
     # recalculate duration (gets messed up when using hold time)
     detections$duration[!is.na(detections$start)] <- detections$end[!is.na(detections$start)] - detections$start[!is.na(detections$start)]
-    
+
     # output as data frame or list
-    if (output == "data.frame")
-      return(detections) else {
+    if (output == "data.frame") {
+      return(detections)
+    } else {
       output_list <- list(
         selection.table = detections,
         envelopes = envelopes,
@@ -732,12 +820,11 @@ auto_detec <-
         hop.size.ms = warbleR::read_sound_file(X, 1, header = TRUE, path = path)$sample.rate / wl,
         warbleR.version = packageVersion("warbleR")
       )
-      
+
       # add class autodetec
       class(output_list) <- c("list", "autodetec.output")
-      
+
       return(output_list)
-     
     }
   }
 
@@ -761,39 +848,41 @@ autodetec <- auto_detec
 #' @keywords internal
 #'
 #' @export
-#' 
+#'
 
 print.autodetec.output <- function(x, ...) {
-  
   cat(crayon::cyan(paste("Object of class", crayon::bold("'autodetec.output' \n"))))
-  
+
   cat(crayon::silver(paste(crayon::bold("\nContains: \n"), "The output of the following", crayon::italic("auto_detec()"), "call: \n")))
-  
+
   cll <- paste0(deparse(x$call))
   cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
-  
+
   cat(crayon::silver(paste(crayon::bold("\nIncludes"), "(as elements in a list): \n* A selection table data frame ('selection.table') of detections with"), nrow(x$selection.table), "rows and", ncol(x$selection.table), "columns: \n"))
-  
-  #print data frame
-  #define columns to show
-  cols <- if (ncol(x$selection.table) > 6)  1:6 else 1:ncol(x$selection.table)
-  
-  kntr_tab <- knitr::kable(head(x$selection.table[, cols]), escape = FALSE, digits  = 4, justify = "centre", format = "pipe")
-  
-  for(i in 1:length(kntr_tab)) cat(crayon::silver(paste0(kntr_tab[i], "\n")))
-  
+
+  # print data frame
+  # define columns to show
+  cols <- if (ncol(x$selection.table) > 6) 1:6 else 1:ncol(x$selection.table)
+
+  kntr_tab <- knitr::kable(head(x$selection.table[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
+
+  for (i in 1:length(kntr_tab)) cat(crayon::silver(paste0(kntr_tab[i], "\n")))
+
   if (ncol(x$selection.table) > 6) cat(crayon::silver(paste0("... ", ncol(x$selection.table) - 6, " more column(s) (", paste(colnames(x$selection.table)[7:ncol(x$selection.table)], collapse = ", "), ")")))
-  if (nrow(x$selection.table) > 6) cat(crayon::silver(paste0(if (ncol(x$selection.table) <= 6) "..." else "", " and ", nrow(x$selection.table) - 6, " more row(s) \n")))  
-  
+  if (nrow(x$selection.table) > 6) cat(crayon::silver(paste0(if (ncol(x$selection.table) <= 6) "..." else "", " and ", nrow(x$selection.table) - 6, " more row(s) \n")))
+
   cat(crayon::silver("\n* A data frame ('envelopes',", nrow(x$envelopes), "rows) with the wave envelopes from", length(unique(x$envelopes$sound.files)), "sound file(s) included in the", crayon::italic("auto_detec()"), "call \n"))
-  
+
   cat(crayon::silver(paste("\n* A selection table data frame ('org.selection.table') in which detections were run, with"), nrow(x$org.selection.table), "rows and", ncol(x$selection.table), "columns \n"))
- 
-  if (any(names(x$parameters) == "thinning"))
+
+  if (any(names(x$parameters) == "thinning")) {
     cat(crayon::silver(paste0("\n A thinning of ", x$parameters$thinning, " was applied to wave envelopes \n")))
-  
+  }
+
   # print warbleR version
-  if (!is.null(x$warbleR.version))
-    cat(crayon::silver(paste0("\n Created by warbleR ", x$warbleR.version))) else
-      cat(crayon::silver("\n Created by warbleR < 1.1.27"))
+  if (!is.null(x$warbleR.version)) {
+    cat(crayon::silver(paste0("\n Created by warbleR ", x$warbleR.version)))
+  } else {
+    cat(crayon::silver("\n Created by warbleR < 1.1.27"))
+  }
 }

@@ -145,7 +145,7 @@ tweak_spectro <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   
   if (nrow(X) > 1){
   X <- X[1, , drop = FALSE]
-  write(file = "", x = "Data frame provided has more than 1 selection (row), only the first one was used")
+   warning2(x = "Data frame provided has more than 1 selection (row), only the first one was used")
   }
   
   if (length.out < 2) stop2("'length.out' should be equal or higher than 2")

@@ -12,7 +12,7 @@ then all wave files in the working directory (or path) will be processed.}
 
 \item{channels}{Numeric vector indicating the index (or channel number) for the channels that will be kept (left = 1, right = 2; 3 to inf for multichannel sound files).}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
+\item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
@@ -21,16 +21,16 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{pb}{Logical argument to control progress bar and messages. Default is \code{TRUE}.}
 }
 \value{
-Sound files that have been converted are saved in the new 
-folder "converted_sound_files". If `img = TRUE` then spectrogram images highlighting the silence segments 
+Sound files that have been converted are saved in the new
+folder "converted_sound_files". If `img = TRUE` then spectrogram images highlighting the silence segments
 that were removed are also saved.
 }
 \description{
 \code{remove_channels} remove channels in wave files
 }
 \details{
-The function removes channels from wave files. It works on regular and 
-multichannel wave files. Converted files are saved in a new directory ("converted_sound_files") 
+The function removes channels from wave files. It works on regular and
+multichannel wave files. Converted files are saved in a new directory ("converted_sound_files")
 and original files are not modified.
 }
 \examples{

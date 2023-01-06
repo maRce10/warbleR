@@ -40,7 +40,8 @@ Suggests:
     maps,
     leaflet,
     kableExtra,
-    covr
+    covr,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr, rmarkdown
 RoxygenNote: 7.2.3
 Encoding: UTF-8
@@ -49,3 +50,4 @@ Repository: CRAN
 Language: en-US
 Authors@R: c(person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "marcelo.araya@ucr.ac.cr", comment = c(ORCID = "0000-0003-3594-619X")), person("Grace", "Smith-Vidaurre", role = c("aut"), email = "gsmithvi@gmail.com"))
 Date/Publication: 2016-04-19 08:12:11
+Config/testthat/edition: 3

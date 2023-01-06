@@ -10,3 +10,5 @@
 LICENSE.md
 ^codecov\.yml$
 ^codemeta\.json$
+^\.github$
+^CONTRIBUTING\.md$

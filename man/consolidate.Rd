@@ -4,15 +4,15 @@
 \alias{consolidate}
 \title{Consolidate (sound) files into a single directory}
 \usage{
-consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$", 
+consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$",
 parallel = 1, save.csv = TRUE, ...)
 }
 \arguments{
 \item{files}{character vector or factor indicating the subset of files that will be analyzed. The files names
 should include the full file path. Optional.}
 
-\item{path}{Character string containing the directory path where the sound files are located. 
-'wav.path' set by \code{\link{warbleR_options}} is ignored. 
+\item{path}{Character string containing the directory path where the sound files are located.
+'wav.path' set by \code{\link{warbleR_options}} is ignored.
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{dest.path}{Character string containing the directory path where the sound files will be saved.
@@ -32,11 +32,11 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \value{
 All (sound) files are consolidated (copied) to a single directory ("consolidated_files"). The function returns a data frame with each of the files that were copied in a row and the following information:
 \itemize{
- \item \code{original_dir} the path to the original file 
+ \item \code{original_dir} the path to the original file
  \item \code{old_name} the name of the original file
  \item \code{new_name} the name of the new file. This will be the same as 'old_name' if the name was not duplicated (i.e. no files in other directories with the same name).
  \item \code{file_size_bytes} size of the file in bytes.
- \item \code{duplicate} indicates whether a file is likely to be duplicated (i.e. if files with the same name were found in other directories). If so it will be labeled as 'possible.dupl', otherwise it will contain NAs. 
+ \item \code{duplicate} indicates whether a file is likely to be duplicated (i.e. if files with the same name were found in other directories). If so it will be labeled as 'possible.dupl', otherwise it will contain NAs.
 }
 If \code{csv = TRUE} (default)
 a 'file_names_info.csv' file with the same information as the output data frame is also saved in the consolidated directory.
@@ -45,12 +45,12 @@ a 'file_names_info.csv' file with the same information as the output data frame 
 \code{consolidate} copies (sound) files scattered in several directories into a single one.
 }
 \details{
-This function allows users to put files scattered in several directories into a 
+This function allows users to put files scattered in several directories into a
 single one. By default it works on sound files in '.wav' format but can work with
 other type of files (for instance '.txt' selection files).
 }
 \examples{
-{ 
+{
 # save wav file examples
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 

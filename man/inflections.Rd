@@ -30,7 +30,7 @@ data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # measure frequency contours
 dom.freq.ts <- freq_ts(X = lbh_selec_table, path = tempdir())

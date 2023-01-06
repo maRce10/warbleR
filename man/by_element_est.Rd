@@ -9,8 +9,8 @@ by_element_est(X, mar = 0.1, pb = FALSE, parallel = 1)
 \arguments{
 \item{X}{object of class 'extended_selection_table' (see \code{\link{selection_table}}).}
 
-\item{mar}{Numeric vector of length 1 specifying the margins (in seconds) 
-adjacent to the start and end points of the selections when creating the ''by element' extended 
+\item{mar}{Numeric vector of length 1 specifying the margins (in seconds)
+adjacent to the start and end points of the selections when creating the ''by element' extended
 selection table. Default is 0.1.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{FALSE}.}
@@ -29,18 +29,20 @@ This function converts extended selection tables in 'by song' format (several se
 }
 \examples{
 \dontrun{
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec_table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav")) 
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # create extended selection table
-by_song_est <- selection_table(lbh_selec_table, path = tempdir(),
- extended = TRUE, by.song = "song", confirm.extended = FALSE)
- 
- # conver o by element
- by_element_est <- by_element_est(by_song_est, mar = 0.05)
+by_song_est <- selection_table(lbh_selec_table,
+  path = tempdir(),
+  extended = TRUE, by.song = "song", confirm.extended = FALSE
+)
+
+# conver o by element
+by_element_est <- by_element_est(by_song_est, mar = 0.05)
 }
 }
 \references{

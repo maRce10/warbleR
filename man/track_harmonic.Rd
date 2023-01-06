@@ -4,8 +4,8 @@
 \alias{track_harmonic}
 \title{Track harmonic frequency contour}
 \usage{
-track_harmonic(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, at = NULL, 
-tlim = NULL, threshold = 10, bandpass = NULL, clip = NULL, plot = TRUE, 
+track_harmonic(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, at = NULL,
+tlim = NULL, threshold = 10, bandpass = NULL, clip = NULL, plot = TRUE,
 xlab = "Times (s)", ylab = "Frequency (kHz)",  ylim = c(0, f/2000),
 adjust.wl = FALSE, dfrq = FALSE, ...)
 
@@ -35,13 +35,13 @@ track_harmonic(
 
 \item{f}{Sampling frequency of the wave object (in Hz). Does not need to be specified if embedded in wave.}
 
-\item{wl}{A numeric vector of length 1 specifying the window length for the FFT, default 
+\item{wl}{A numeric vector of length 1 specifying the window length for the FFT, default
 is 512.}
 
-\item{wn}{Character vector of length 1 specifying window name. Default is 
+\item{wn}{Character vector of length 1 specifying window name. Default is
 "hanning". See function \code{\link[seewave]{ftwindow}} for more options. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}}) and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{plot = TRUE}).}
 
-\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two 
+\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two
 consecutive time windows, as in \code{\link[seewave]{spectro}}. Default is 0.}
 
 \item{fftw}{if TRUE calls the function FFT of the library fftw. See Notes of the \code{\link[seewave]{spectro}} function.
@@ -49,7 +49,7 @@ Default is \code{FALSE}.}
 
 \item{at}{Time position where the harmonic frequency contour has to be computed (in seconds). Default is \code{NULL}.}
 
-\item{tlim}{time range in which to measure frequency contours. Default is \code{NULL} (which means it will measure 
+\item{tlim}{time range in which to measure frequency contours. Default is \code{NULL} (which means it will measure
 across the entire wave object).}
 
 \item{threshold}{Amplitude threshold (\%) for dominant frequency and detection. Default is 10.}
@@ -64,10 +64,10 @@ across the entire wave object).}
 
 \item{ylab}{Label of the frequency axis.}
 
-\item{ylim}{A numeric vector of length 2 for the frequency limit of 
+\item{ylim}{A numeric vector of length 2 for the frequency limit of
 the spectrogram (in kHz), as in \code{\link[seewave]{spectro}}. Default is c(0, f/2000).}
 
-\item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the 
+\item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the
 number of samples in a selection if the number of samples is less than 'wl'. Default is \code{FALSE}.}
 
 \item{dfrq}{Logical. If \code{TRUE} seewave's \code{\link[seewave]{dfreq}} is used instead. Default is \code{FALSE}.}
@@ -78,7 +78,7 @@ number of samples in a selection if the number of samples is less than 'wl'. Def
 \code{track_harmonic} tracks the frequency contour of the dominant harmonic.
 }
 \details{
-This is a modified version of seewave's \code{\link[seewave]{dfreq}} function that allows to track the frequency 
+This is a modified version of seewave's \code{\link[seewave]{dfreq}} function that allows to track the frequency
 contour of a dominant harmonic even when the highest amplitude jumps between harmonics. The arguments and default values of the
 original \code{\link[seewave]{dfreq}} function have been kept unchanged to facilitate switching between the 2 functions.
 

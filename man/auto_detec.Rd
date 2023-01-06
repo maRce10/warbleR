@@ -5,11 +5,11 @@
 \title{\code{auto_detec} automatically detects the start and end of vocalizations in sound files based
 on amplitude, duration, and frequency range attributes.}
 \usage{
-auto_detec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1, 
-   output = 'data.frame', thinning = 1, path = NULL, pb = TRUE, ssmooth = 0, 
+auto_detec(X = NULL, wl = 512, threshold = 15, parallel = 1, power = 1,
+   output = 'data.frame', thinning = 1, path = NULL, pb = TRUE, ssmooth = 0,
    bp = NULL, flist = NULL, hold.time = 0, mindur = NULL, maxdur = NULL, envt = NULL,
-   msmooth = NULL, osci = NULL, xl = NULL, picsize = NULL, res = NULL, flim = NULL, 
-   ls = NULL, sxrow = NULL, rows = NULL,  redo = NULL, img = NULL, it = NULL, 
+   msmooth = NULL, osci = NULL, xl = NULL, picsize = NULL, res = NULL, flim = NULL,
+   ls = NULL, sxrow = NULL, rows = NULL,  redo = NULL, img = NULL, it = NULL,
    set = NULL, smadj = NULL, pal = NULL, fast.spec = NULL)
 }
 \arguments{
@@ -112,15 +112,17 @@ This function determines the start and end of signals in the sound file selectio
 }
 \examples{
 {
-# Save to temporary working directory
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
-writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+  # Save to temporary working directory
+  data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
+  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+  writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+  writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+  writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-ad <- auto_detec(threshold = 5, ssmooth = 300,
-bp = c(2, 9), wl = 300, path = tempdir())
+  ad <- auto_detec(
+    threshold = 5, ssmooth = 300,
+    bp = c(2, 9), wl = 300, path = tempdir()
+  )
 }
 
 }
