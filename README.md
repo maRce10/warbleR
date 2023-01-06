@@ -13,12 +13,13 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-%3E=%203.2.1-6666ff.svg)](https://cran.r-project.org/)
 [![packageversion](https://img.shields.io/badge/Package%20version-1.1.28-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2023--01--03-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2023--01--06-yellowgreen.svg)](/commits/master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
 [![Codecov test
 coverage](https://codecov.io/gh/maRce10/warbleR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/maRce10/warbleR?branch=master)
+[![R-CMD-check](https://github.com/maRce10/ohun/workflows/R-CMD-check/badge.svg)](https://github.com/maRce10/ohun/actions)
 <!-- badges: end -->
 
 <img src="vignettes/warbleR_sticker.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
@@ -69,7 +70,7 @@ Install/load the package from CRAN as follows:
 ``` r
 install.packages("warbleR")
 
-#load package
+# load package
 library(warbleR)
 ```
 
@@ -80,7 +81,7 @@ To install the latest developmental version from
 ``` r
 remotes::install_github("maRce10/warbleR")
 
-#load package
+# load package
 library(warbleR)
 ```
 
