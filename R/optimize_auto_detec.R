@@ -137,13 +137,13 @@ optimize_auto_detec <- function(X, Y, threshold = 10, power = 1, wl = 512, ssmoo
 
 
   if (nrow(exp_grd) == 0) {
-    cat("all combinations were already evaluated on previous call to this function (based on 'pevious.output')")
+    message2("all combinations were already evaluated on previous call to this function (based on 'pevious.output')")
 
     return(previous.output)
   } else {
     # warn about number of combinations
-    cat(paste(nrow(exp_grd), "combinations will be evaluated:"))
-    cat("\n")
+    message2(paste(nrow(exp_grd), "combinations will be evaluated:"))
+    message2("\n")
 
     # only files in X
     flist <- unique(as.character(X$sound.files))

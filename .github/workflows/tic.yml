@@ -61,7 +61,7 @@ jobs:
       - name: Extra deps
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get install -y make libssl-dev libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev cmake libfftw3-3 libfftw3-dev libsndfile1 libsndfile1-dev flac
+          sudo apt-get install -y make libssl-dev libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev cmake libfftw3-3 libfftw3-dev libsndfile1 libsndfile1-dev flac sox
           sudo apt-add-repository -r ppa:armagetronad-dev/ppa
           sudo apt update -q
 

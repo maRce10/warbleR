@@ -12,7 +12,7 @@ try_na(expr, silent = TRUE, outFile)
 \item{silent}{Logical to control whether the report of error messages is suppressed. Default is \code{TRUE}.}
 
 \item{outFile}{A connection, or a character string naming the file to print to
-(via cat(*, file = outFile)); used only if silent is false, as by default.}
+(via message2(*, file = outFile)); used only if silent is false, as by default.}
 }
 \value{
 Returns an `NA` if any error occurs during the evaluation of a expression.

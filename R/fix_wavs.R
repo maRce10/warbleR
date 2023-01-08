@@ -180,6 +180,8 @@ fix_wavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth
   # fix_FUN <- if (sox)  fix_sox_FUN else fix_bio_FUN
 
   out <- pblapply_wrblr_int(pbar = TRUE, X = fls, FUN = fix_sox_FUN)
+  
+  return(NULL)
 }
 
 

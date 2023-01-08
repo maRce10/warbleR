@@ -306,7 +306,7 @@ remove_silence <-
       }
 
     if (pb) {
-      cat("searching for silence segments in wave files:")
+      message2("searching for silence segments in wave files:")
     }
 
 

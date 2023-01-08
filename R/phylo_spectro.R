@@ -112,7 +112,7 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
     stop2("must install 'jpeg' to use this function")
   
   # currenlt only horizontal is allowed
-  if (!horizontal) cat("Currently only horizontal spectrograms are allowed")
+  if (!horizontal) message2("Currently only horizontal spectrograms are allowed")
   horizontal <- TRUE
   
   #check path if not provided set to working directory

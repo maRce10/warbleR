@@ -127,7 +127,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
     # downsample and filter if samp.rate different than mp3
     if (is(wv, "Wave") & !is.null(samp.rate)) {
       if (wv@samp.rate != samp.rate * 1000) {
-        cat("'samp.rate' modification currently not available")
+        message2("'samp.rate' modification currently not available")
 
         # # filter first to avoid aliasing
         #  if (wv@samp.rate > samp.rate * 1000)
@@ -199,9 +199,9 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   out <- unlist(out_l)
 
   if (any(sapply(out, function(x) is(x, "try-error")))) {
-    cat(paste("the following file(s) could not be converted:\n", paste(files[sapply(out, function(x) is(x, "try-error"))], collapse = ", ")))
+    message2(paste("the following file(s) could not be converted:\n", paste(files[sapply(out, function(x) is(x, "try-error"))], collapse = ", ")))
 
-    cat(paste("\nErrors found: \n", paste(unique(out[sapply(out, function(x) is(x, "try-error"))]), collapse = ", ")))
+    message2(paste("\nErrors found: \n", paste(unique(out[sapply(out, function(x) is(x, "try-error"))]), collapse = ", ")))
   }
 }
 

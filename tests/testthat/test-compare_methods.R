@@ -17,6 +17,12 @@ test_that("SP vs dfDTW", {
   
   imgs <- list.files(path = tempdir(), pattern = "comp.meth-dfDTW-SP")
 
+  unlink(list.files(path = tempdir(), pattern = "comp.meth-dfDTW-SP", full.names = TRUE))
+  
+  fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
+  
+  unlink(fls)
+  
   # highlight selections
   expect_equal(length(imgs), 10)
 })

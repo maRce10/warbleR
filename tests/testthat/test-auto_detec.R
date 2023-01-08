@@ -7,6 +7,10 @@ test_that("basic detection", {
     bp = c(2, 9), wl = 120, mindur = 0.1, maxdur = 1, path = tempdir(), flist = "Phae.long1.wav"
   ))
 
+  fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
+  
+  unlink(fls)
+  
   expect_equal(nrow(ad), 3)
 })
 
@@ -21,7 +25,9 @@ test_that("supplying X", {
   suppressWarnings(ad <- autodetec(threshold = 10, ssmooth = 300, power = 1,parallel = 1, X = splX,
                   bp=c(2,9), wl = 120, mindur=0.1, maxdur=1,  path = tempdir()))
   
+  fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
   
+  unlink(fls)
   
   expect_equal(nrow(ad), 5)
 })

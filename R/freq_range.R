@@ -155,7 +155,7 @@ freq_range <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thr
   if (!is_extended_selection_table(X)) {
     fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) {
-      cat(paste(
+      message2(paste(
         length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% fs)])),
         "sound file(s) not found"
       ))

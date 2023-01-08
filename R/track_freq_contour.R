@@ -287,7 +287,7 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
   if (!is_extended_selection_table(X)) {
     recs.wd <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) {
-      cat(paste(
+      message2(paste(
         length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
         "sound file(s) not found"
       ))

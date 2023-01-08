@@ -113,7 +113,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
     # stop if files are not in working directory
     if (length(fe) == 0) stop2("files were not found")
 
-    if (length(fe) < length(files)) cat("some files were not found")
+    if (length(fe) < length(files)) message2("some files were not found")
 
     files <- files[fe]
   } else {
@@ -121,7 +121,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   }
 
   # stop if files are not in working directory
-  if (length(files) == 0) stop2("no files found in working directory and/or subdirectories") else cat(paste(length(files), "files were found"))
+  if (length(files) == 0) stop2("no files found in working directory and/or subdirectories") else message2(paste(length(files), "files were found"))
 
   # create new names for duplicated songs
   old_name <- basename(files)

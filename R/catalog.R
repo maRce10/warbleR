@@ -385,7 +385,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
       stop2("prop.mar should be  > 0 and <= 1")
     if (!same.time.scale){ 
       prop.mar <- NULL
-    cat("'prop.mar' ignored as same.time.scale = FALSE")
+    message2("'prop.mar' ignored as same.time.scale = FALSE")
     }
   }
   
@@ -595,7 +595,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     
     if (exists("X.orig")) X <- fix_extended_selection_table(X = as.data.frame(X), Y = X.orig)
     
-    on.exit(cat(paste0("Time range: ", round(max(X$end - X$start) + (2 * mar), 3), "s;", " frequency range: ", min(rangs$fl1), "-", flim[2], " kHz")))
+    on.exit(message2(paste0("Time range: ", round(max(X$end - X$start) + (2 * mar), 3), "s;", " frequency range: ", min(rangs$fl1), "-", flim[2], " kHz")))
     }
   
   

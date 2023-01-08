@@ -155,7 +155,7 @@ freq_DTW <- function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, lengt
 
     # run freq_ts function
     if (pb) {
-     message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "):"))
+     message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "): \n"))
     }
 
     # get contours

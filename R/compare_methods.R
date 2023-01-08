@@ -312,7 +312,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   if (!is_extended_selection_table(X)) {
     fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) {
-      cat(paste(
+      message2(paste(
         length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% fs)])),
         "sound file(s) not found"
       ))
@@ -523,10 +523,10 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   if (nrow(X) == 4) {
     n <- 1
     combs <- as.matrix(1:4)
-    cat("Only 1 possible combination of signals")
+    message2("Only 1 possible combination of signals")
   } else if (n > ncol(combs)) {
     n <- ncol(combs)
-    cat(paste("Only", n, "possible combinations of signals"))
+    message2(paste("Only", n, "possible combinations of signals"))
   }
 
   if (nrow(X) > 4) combs <- as.data.frame(combs[, sample(1:ncol(combs), n)])

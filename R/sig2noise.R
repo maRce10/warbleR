@@ -139,7 +139,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   if (!is_extended_selection_table(X)) {
     fs <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) {
-      cat(paste(
+      message2(paste(
         length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% fs)])),
         "sound file(s) not found"
       ))

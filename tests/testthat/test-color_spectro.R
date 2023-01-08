@@ -12,10 +12,16 @@ test_that("without selection table", {
   # create color column
   st$colors <- c("red2", "blue", "green")
 
-  # highlight selections
- expect_equal(color_spectro(
+  cs <- color_spectro(
     wave = sgnl, wl = 300, ovlp = 90, flim = c(1, 8.6), collevels = seq(-40, 0, 5),
     dB = "B", X = st, col.clm = "colors", base.col = "skyblue", t.mar = 0.07, f.mar = 0.1,
     interactive = NULL
-  ), c(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0))
+  )
+  
+  fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
+  
+  unlink(fls)
+  
+  # highlight selections
+ expect_equal(cs, c(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0))
 })

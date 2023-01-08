@@ -141,7 +141,7 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
   } else {
     if (!is.numeric(X$channel)) stop2("'channel' must be numeric")
     if (any(is.na(X$channel))) {
-      cat("NAs in 'channel', assumed to be channel 1 \n")
+      message2("NAs in 'channel', assumed to be channel 1 \n")
       X$channel[is.na(X$channel)] <- 1
     }
   }
@@ -156,7 +156,7 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
   if (any(grepl("low.freq|high.freq", names(X)))) {
     names(X)[names(X) == "low.freq"] <- "bottom.freq"
     names(X)[names(X) == "high.freq"] <- "top.freq"
-    cat("'low.freq' and 'high.freq' renamed as 'bottom.freq' and 'top.freq' \n")
+    message2("'low.freq' and 'high.freq' renamed as 'bottom.freq' and 'top.freq' \n")
   }
 
   # check if freq lim are numeric
@@ -288,7 +288,7 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
 
   # if channel number is equal or smaller than the number of channels in the wav file
   if (any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])) {
-    cat("\n some selections listed as having more than 1 channel found in sound files with only 1 channel; channel field relabeled as '1' \n")
+    message2("\n some selections listed as having more than 1 channel found in sound files with only 1 channel; channel field relabeled as '1' \n")
     res$channel[!is.na(res$duration)][any(res$channel[!is.na(res$duration)] > res$channels[!is.na(res$duration)])] <- 1
   }
 
@@ -298,14 +298,14 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
     # inform result
     if (all(res$check.res == "OK")) {
       if (any(res$min.n.samples < 20)) {
-        cat("all selections are OK but some have very few samples (less than 20, potentially problematic for some analyses) \nCheck 'min.n.samples' column")
+        message2("all selections are OK but some have very few samples (less than 20, potentially problematic for some analyses) \nCheck 'min.n.samples' column")
       } else if (length(unique(res$sample.rate)) > 1) {
-        cat("all selections are OK but not all sound files have the same sampling rate (potentially problematic, particularly for cross_correlation())")
+        message2("all selections are OK but not all sound files have the same sampling rate (potentially problematic, particularly for cross_correlation())")
       } else {
-        cat("all selections are OK \n")
+        message2("all selections are OK \n")
       }
     } else {
-      cat(paste(sum(res$check.res != "OK"), "selection(s) are not OK \n"))
+      message2(paste(sum(res$check.res != "OK"), "selection(s) are not OK \n"))
     }
   }
   # return data frame

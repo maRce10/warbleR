@@ -45,13 +45,11 @@
 # last modification on mar-12-2018 (MAS)
 
 full_spectrogram2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE) {
-  # error message if jpeg package is not installed
+
+    # error message if jpeg package is not installed
   if (!requireNamespace("jpeg", quietly = TRUE)) {
     stop2("must install 'jpeg' to use this function")
   }
-
-
-
 
   #### set arguments from options
   # get function arguments

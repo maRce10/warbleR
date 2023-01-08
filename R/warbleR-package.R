@@ -31,8 +31,6 @@
 #'
 #'   \code{\link{query_xc}}: Download recordings and/or metadata from 'Xeno-Canto'
 #'
-#'   \code{\link{find_annotations}}: Obtain annotations from audioblast.org data base
-#'
 #'   \code{\link{sim_songs}}: Simulate animal vocalizations
 #'
 #'

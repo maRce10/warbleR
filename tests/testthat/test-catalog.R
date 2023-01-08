@@ -11,5 +11,10 @@ test_that("basic catalog", {
   
   catalog_file <- list.files(tempdir(), pattern = "tiff")
   
+  
+  fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
+  
+  unlink(fls)
+  
   expect_equal("Catalog_p1.tiff", catalog_file)
 })

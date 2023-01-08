@@ -181,7 +181,7 @@ filter_sels <- function(X, path = NULL, lspec = FALSE, img.suffix = NULL, it = "
     if (nrow(Y) == 0) stop2("Image files in working directory do not match sound file names in X (wrong working directory?)")
     return(Y)
   } else {
-    if (length(Y) == 0) cat("Index vector is of length 0")
+    if (length(Y) == 0) message2("Index vector is of length 0")
     return(Y)
   }
 }

@@ -102,7 +102,7 @@ check_sound_files <- function(X = NULL, path = NULL) {
     if (any(X$end - X$start <= 0)) stop2(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))
 
     if (length(unique(X$sound.files[(X$sound.files %in% files)])) != length(unique(X$sound.files))) {
-      cat(paste(
+      message2(paste(
         length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% files)])),
         "sound file(s) not found"
       ))
@@ -130,18 +130,18 @@ check_sound_files <- function(X = NULL, path = NULL) {
   })
 
   if (length(files[is.na(samp.rate)]) > 0) {
-    cat("Some file(s) cannot be read")
+    message2("Some file(s) cannot be read")
     return(files[is.na(samp.rate)])
   } else {
-    cat("All files can be read\n")
+    message2("All files can be read\n")
     if (!is.null(X)) {
       df <- merge(X, data.frame(f = samp.rate, sound.files = names(samp.rate)), by = "sound.files")
 
-      cat("smallest number of samples: ", floor(min((df$end - df$start) * df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start) * df$f)]), "; selection label: ", df$selec[which.min((df$end - df$start) * df$f)], ")\n", sep = "")
+      message2(paste("smallest number of samples: ", floor(min((df$end - df$start) * df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start) * df$f)]), "; selection label: ", df$selec[which.min((df$end - df$start) * df$f)], ")\n", sep = ""))
     }
   }
   if (length(unique(samp.rate)) > 1) {
-    cat("Not all sound files have the same sampling rate (potentially problematic, particularly for cross_correlation())")
+    message2("Not all sound files have the same sampling rate (potentially problematic, particularly for cross_correlation())")
   }
 }
 

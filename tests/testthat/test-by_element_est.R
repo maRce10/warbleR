@@ -13,5 +13,9 @@ test_that("basic est convertion", {
 
   bs_est <- by_element_est(by_song_est, mar = 0.05, pb = FALSE)
 
+  fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
+  
+  unlink(fls)
+  
   expect_true(!attr(bs_est, "by.song"))
 })

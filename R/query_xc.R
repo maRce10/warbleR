@@ -150,7 +150,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
     q <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword))
 
     if (as.numeric(q$numRecordings) == 0) {
-      cat("No recordings were found")
+      message2("No recordings were found")
     } else {
       nms <- c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "type", "file", "lic", "url", "q", "time", "date")
 

@@ -184,7 +184,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   if (!is_extended_selection_table(X)) {
     recs.wd <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
     if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files)) & pb) {
-      cat(paste(
+      message2(paste(
         length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
         "sound file(s) not found"
       ))
@@ -205,9 +205,9 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
 
   if (pb) {
     if (img) {
-      cat("Creating spectrograms overlaid with fundamental frequency measurements:")
+      message2("Creating spectrograms overlaid with fundamental frequency measurements:")
     } else {
-      cat("Measuring fundamental frequency:")
+      message2("Measuring fundamental frequency:")
     }
   }
 

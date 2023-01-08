@@ -114,7 +114,7 @@ move_imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
   imgs <- list.files(path = from, pattern = pattern, ignore.case = TRUE)
 
   if (length(imgs) == 0) {
-    cat(paste("No image files were found in", from))
+    message2(paste("No image files were found in", from))
   } else {
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -133,7 +133,7 @@ move_imgs <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrite 
 
     # a <- file.copy(from = file.path(from, imgs), to = file.path(to, imgs), overwrite = overwrite)
 
-    if (all(!a) & !overwrite) cat(paste("All files already existed in", to)) else if (any(!a) & !overwrite) cat(paste("Some files already existed in 'to'", to))
+    if (all(!a) & !overwrite) message2(paste("All files already existed in", to)) else if (any(!a) & !overwrite) message2(paste("Some files already existed in 'to'", to))
 
     if (cut) unlink(file.path(from, imgs)[a])
   }
