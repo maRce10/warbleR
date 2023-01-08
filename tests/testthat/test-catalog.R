@@ -1,5 +1,9 @@
 test_that("basic catalog", {
   
+  fls <- list.files(path = tempdir(), pattern = "wav$|wac$|mp3$|flac$|jpeg$|tiff$", full.names = TRUE)
+  
+  unlink(fls)
+  
   data(list = c("Phae.long1", "lbh_selec_table"))
   writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
   
