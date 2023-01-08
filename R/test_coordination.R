@@ -53,8 +53,7 @@
 #' #load  simulated singing data (see data documentation)
 #' data(sim_coor_sing)
 #'
-#' # set global options
-#' # this can also be set within the function call
+#' # set global options (this can also be set within the function call)
 #' warbleR_options(iterations = 100, pb = FALSE)
 #'
 #' # testing if coordination happens less than expected by chance

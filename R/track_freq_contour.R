@@ -739,6 +739,9 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
       custom.contour
     )
   })
+  
+  return(NULL)
+  
 }
 
 

@@ -1,5 +1,6 @@
 test_that("basic catalog", {
   
+  unlink(file.path(tempdir(), "converted_sound_files"), recursive = TRUE)
   fls <- list.files(path = tempdir(), pattern = "wav$|wac$|mp3$|flac$|jpeg$|tiff$", full.names = TRUE)
   
   unlink(fls)

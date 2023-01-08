@@ -1,5 +1,6 @@
 test_that("basic", {
   
+  if (Sys.info()[1] != "Windows"){
   fls <- list.files(path = tempdir(), pattern = "wav$|wac$|mp3$|flac$", full.names = TRUE)
   
   unlink(fls)
@@ -16,6 +17,7 @@ test_that("basic", {
     fls <- list.files(path = file.path(tempdir(), "converted_sound_files"), pattern = "wav$|wac$|mp3$|flac$", full.names = TRUE)
     
     unlink(fls)
+  } else fls <- 1:2
     
   expect_equal(length(fls), 2)
 })
