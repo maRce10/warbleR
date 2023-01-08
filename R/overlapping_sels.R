@@ -211,7 +211,7 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
         if (drop) {
           message2(paste(org.ovlp, "selections overlapped,", sum(!is.na(ovlp_df$ovlp.sels)), "were removed"))
         } else {
-          message2(sum(!is.na(ovlp_df$ovlp.sels)), "selections overlapped")
+          message2(paste(sum(!is.na(ovlp_df$ovlp.sels)), "selections overlapped"))
         }
       } else {
         message2("No overlapping selections were found")
