@@ -180,7 +180,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
 
   if (pb & verbose) {
-    message(x = crayon::black(x = "checking selections (step 1 of 2):"))
+    message2(x = crayon::black(x = "checking selections (step 1 of 2):"))
   }
 
   check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = FALSE, ...)
@@ -254,7 +254,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         }
 
         if (pb) {
-          message(x = crayon::black("saving wave objects into extended selection table (step 2 of 2):"))
+          message2(x = crayon::black("saving wave objects into extended selection table (step 2 of 2):"))
         }
 
         attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))

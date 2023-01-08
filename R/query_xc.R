@@ -140,7 +140,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
   if (is.null(X)) {
     # search recs in xeno-canto (results are returned in pages with 500 recordings each)
     if (pb & download) {
-      message(file = "", x = "Obtaining recording list...")
+     message2(x = "Obtaining recording list...")
     }
 
     # format JSON
@@ -239,7 +239,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       results <- results[!duplicated(results$Recording_ID), ]
 
       if (pb) {
-        message(file = "", x = paste0(nrow(results), " recording(s) found!"))
+       message2(x = paste0(nrow(results), " recording(s) found!"))
       }
     }
   } else {
@@ -288,7 +288,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
 
     # set clusters for windows OS
     if (pb) {
-      message(file = "", x = "Downloading files...")
+     message2(x = "Downloading files...")
     }
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -300,7 +300,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       xcFUN(results, x)
     })
 
-    if (pb) message(file = "", x = "double-checking downloaded files")
+    if (pb)message2(x = "double-checking downloaded files")
 
     # check if some files have no data
     fl <- list.files(path = path, pattern = ".mp3$")

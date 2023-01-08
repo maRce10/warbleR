@@ -155,7 +155,7 @@ freq_DTW <- function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, lengt
 
     # run freq_ts function
     if (pb) {
-      message(file = "", x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "):"))
+     message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "):"))
     }
 
     # get contours
@@ -185,7 +185,7 @@ freq_DTW <- function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, lengt
                            the start and/or end of the signal)")
 
   if (pb & is.null(ts.df)) {
-    message(file = "", x = paste0("calculating DTW distances (step ", current.step + 1, " of ", total.steps, ", no progress bar):"))
+   message2(x = paste0("calculating DTW distances (step ", current.step + 1, " of ", total.steps, ", no progress bar):"))
   }
 
 

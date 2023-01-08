@@ -361,7 +361,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
   if (method == 1) {
     # create spectrograms
     if (pb) {
-      message(x = paste0("creating spectrogram matrices (step ", current.step, " of ", total.steps, "):"))
+      message2(x = paste0("creating spectrogram matrices (step ", current.step, " of ", total.steps, "):"))
     }
 
 
@@ -421,7 +421,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
 
   # run cross-correlation
   if (pb) {
-    message(x = paste0("running cross-correlation (step ", current.step + 1, " of ", total.steps, "):"))
+    message2(x = paste0("running cross-correlation (step ", current.step + 1, " of ", total.steps, "):"))
   }
 
   # set parallel cores

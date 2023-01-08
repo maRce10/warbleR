@@ -77,7 +77,7 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FA
   if (is.null(X)) {
     # search annotations
     if (pb) {
-      message(file = "", x = "Obtaining annotations...")
+     message2(x = "Obtaining annotations...")
     }
 
     # replace speaces if species or add % at the end if genus
@@ -132,7 +132,7 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FA
       results[indx] <- lapply(results[indx], as.character)
 
       if (pb) {
-        message(file = "", x = paste0(nrow(results), " annotations found!"))
+       message2(x = paste0(nrow(results), " annotations found!"))
       }
 
       # convert to numeric
@@ -200,7 +200,7 @@ find_annotations <- function(qword, parallel = 1, pb = TRUE, warbler.format = FA
 
     # set clusters for windows OS
     if (pb) {
-      message(file = "", x = "Downloading files...")
+     message2(x = "Downloading files...")
     }
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
