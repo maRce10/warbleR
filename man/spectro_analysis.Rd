@@ -147,7 +147,7 @@ sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], pb = FALSE, fast = FALSE
 \donttest{
 # measuring harmonic-related parameters using progress bar
 sp_param <- spectro_analysis(X = lbh_selec_table[1:8,], harmonicity = TRUE, 
-path = tempdir(), ovlp = 0)
+path = tempdir(), ovlp = 70)
 }
 }
 }

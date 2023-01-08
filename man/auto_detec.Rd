@@ -108,7 +108,7 @@ This function determines the start and end of signals in the sound file selectio
   each entire sound file. It can also create long spectrograms highlighting the start and of the detected
   signals for all sound files in the working directory (if \code{img = TRUE}). Sound files should be located in the
    working directory or the path to the sound files should be provided using the 'path' argument. The input
-   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the \code{\link[seewave]{timer}} function from seewave package to detect signals.
+   data frame should have the following columns: c("sound.files","selec","start","end"). This function uses a modified version of the \code{\link[seewave]{timer}} function from seewave package to detect signals. Note that warbleR function for signal detection will be deprecated in future warbleR versions. Look at the ohun package for automatic signal detection functions.
 }
 \examples{
 {
@@ -132,7 +132,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{optimize_auto_detec}}
+\code{\link{cross_correlation}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}). Implements a

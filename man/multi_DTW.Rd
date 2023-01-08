@@ -60,7 +60,7 @@ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # measure
 df <- freq_ts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
-se <- sets(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir())
+se <- freq_ts(X = lbh_selec_table, threshold = 10, img = FALSE, path = tempdir(), type = "entropy")
 
 # run function
 multi_DTW(df, se)
