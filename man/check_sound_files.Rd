@@ -45,7 +45,7 @@ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 # without selection data frame
 check_sound_files(path = tempdir())
 
-# without selection data frame
+# with selection data frame
 check_sound_files(X = lbh_selec_table, path = tempdir())
 }
 }

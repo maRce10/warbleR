@@ -2372,11 +2372,11 @@ warning2 <- function(...) {
 }
 
 # message function that changes colors
-message2 <- function(x, color = "red") 
+message2 <- function(x, color = "black") 
   message(colortext(x, as = color))
 
 
-colortext <- function(text, as = c("red", "blue", "green", "magenta", "cyan", "orange", "black")) {
+colortext <- function(text, as = c("red", "blue", "green", "magenta", "cyan", "orange", "black", "silver")) {
   if (has_color()) {
     unclass(cli::make_ansi_style(warbleR_style(as))(text))
   } else {
@@ -2388,7 +2388,7 @@ has_color <- function() {
   cli::num_ansi_colors() > 1
 }
 
-warbleR_style <- function(color = c("red", "blue", "green", "magenta", "cyan", "orange", "black")) {
+warbleR_style <- function(color = c("red", "blue", "green", "magenta", "cyan", "orange", "black", "silver")) {
   type <- match.arg(color)
   
   c(
@@ -2398,7 +2398,8 @@ warbleR_style <- function(color = c("red", "blue", "green", "magenta", "cyan", "
     magenta = "magenta",
     cyan = "cyan",
     orange = "orange",
-    black = "black"
+    black = "black",
+    silver = "silver"
   )[[color]]
 }
 

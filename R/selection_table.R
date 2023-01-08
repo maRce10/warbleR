@@ -180,7 +180,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
 
   if (pb & verbose) {
-    message2(x = crayon::black(x = "checking selections (step 1 of 2):"))
+    message2(x = "checking selections (step 1 of 2):")
   }
 
   check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = FALSE, ...)
@@ -199,7 +199,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
     if (confirm.extended) {
       exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024)
 
-      cat(crayon::magenta(paste0("Expected 'extended_selection_table' size is ~", ifelse(round(exp.size) == 0, round(exp.size, 2), round(exp.size)), "MB (~", round(exp.size / 1024, 5), " GB) \n Do you want to proceed? (y/n): \n")))
+      message2(x = paste0("Expected 'extended_selection_table' size is ~", ifelse(round(exp.size) == 0, round(exp.size, 2), round(exp.size)), "MB (~", round(exp.size / 1024, 5), " GB) \n Do you want to proceed? (y/n): "), color = "magenta")
       answer <- readline(prompt = "")
     } else {
       answer <- "yeah dude!"
@@ -254,7 +254,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         }
 
         if (pb) {
-          message2(x = crayon::black("saving wave objects into extended selection table (step 2 of 2):"))
+          message2(x = "saving wave objects into extended selection table (step 2 of 2):")
         }
 
         attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))
@@ -316,9 +316,11 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 
   attributes(X)$warbleR.version <- packageVersion("warbleR")
 
-  if (extended & confirm.extended & !is_extended_selection_table(X)) cat(crayon::silver(crayon::bold("'extended_selection_table' was not created")))
+  if (extended & confirm.extended & !is_extended_selection_table(X))
+    message2(color = "silver", x = cli::style_bold("'extended_selection_table' was not created"))
 
-  if (skip.error & length(error_files) > 0) cat(crayon::silver(paste("\nthe following file(s) couldn't be read and were not included:", crayon::bold(paste(error_files, collapse = ",")))))
+  if (skip.error & length(error_files) > 0) 
+    message2(color = "silver", x = paste("\nthe following file(s) couldn't be read and were not included:", cli::style_bold(paste(error_files, collapse = ","))))
 
   return(X)
 }
@@ -517,69 +519,70 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
 #'
 
 print.extended_selection_table <- function(x, ...) {
-  cat(crayon::black(paste("Object of class", crayon::bold("'extended_selection_table' \n"))))
+  message2(paste("Object of class", cli::style_bold("'extended_selection_table'")))
 
   # print call
   if (!is.null(attributes(x)$call)) {
-    cat(crayon::silver(paste("* The output of the following", "call: \n")))
+   message2(color = "silver", x = paste("* The output of the following", "call:"))
 
     cll <- deparse(attributes(x)$call)
     if (length(cll) > 1) cll <- paste(cll, collapse = " ")
     if (nchar(as.character(cll)) > 250) {
       cll <- paste(substr(x = as.character(cll), start = 0, stop = 250), "...")
     }
-    cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
+   message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll)))
   }
 
-  cat(crayon::silver(paste(crayon::bold("\nContains:"), "\n*  A selection table data frame with"), nrow(x), "row(s) and", ncol(x), "columns: \n"))
+ message2(color = "silver", x = paste(cli::style_bold("\nContains:"), "\n*  A selection table data frame with", nrow(x), "row(s) and", ncol(x), "columns:"))
 
   # define columns to show
   cols <- if (ncol(x) > 6) 1:6 else 1:ncol(x)
 
   kntr_tab <- knitr::kable(head(x[, cols, drop = FALSE]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab)) cat(crayon::silver(paste0(kntr_tab[i], "\n")))
+  for (i in 1:length(kntr_tab))
+    message2(color = "silver", x = paste0(kntr_tab[i]))
 
-  if (ncol(x) > 6) cat(crayon::silver(paste0("... ", ncol(x) - 6, " more column(s) (", paste(colnames(x)[7:ncol(x)], collapse = ", "), ")")))
-  if (nrow(x) > 6) cat(crayon::silver(paste0(if (ncol(x) <= 6) "..." else "", " and ", nrow(x) - 6, " more row(s) \n")))
+  if (ncol(x) > 6)
+    message2(color = "silver", x = paste0("... ", ncol(x) - 6, " more column(s) (", paste(colnames(x)[7:ncol(x)], collapse = ", "), ")"))
+  if (nrow(x) > 6)
+    message2(color = "silver", x = paste0(if (ncol(x) <= 6) "..." else "", " and ", nrow(x) - 6, " more row(s)"))
 
-  cat(crayon::silver(paste0("\n* ", length(attr(x, "wave.objects")), " wave object(s) (as attributes): ")))
+ message2(color = "silver", x = paste0("\n* ", length(attr(x, "wave.objects")), " wave object(s) (as attributes): "))
 
-  cat(crayon::silver(head(names(attr(x, "wave.objects")))))
+ message2(color = "silver", x = head(names(attr(x, "wave.objects"))))
 
-  if (length(attr(x, "wave.objects")) > 6) cat(crayon::silver(paste0("... and ", length(attr(x, "wave.objects")) - 6, " more")))
+  if (length(attr(x, "wave.objects")) > 6)message2(color = "silver", x = paste0("... and ", length(attr(x, "wave.objects")) - 6, " more"))
 
-  cat("\n ")
-
-  cat(crayon::silver("\n* A data frame (check.results) generated by check_sels() (as attribute) \n"))
+ message2(color = "silver", x = "\n* A data frame (check.results) generated by check_sels() (as attribute)")
 
   if (attr(x, "by.song")[[1]]) {
-    cat(crayon::silver(paste0(crayon::bold("\nAdditional information:"), "\n* The selection table was created", crayon::italic(crayon::bold(" by song ")), "(see 'class_extended_selection_table') \n")))
+   message2(color = "silver", x = paste0(cli::style_bold("\nAdditional information:"), "\n* The selection table was created", cli::style_italic(cli::style_bold(" by song ")), "(see 'class_extended_selection_table')"))
   } else {
-    cat(crayon::silver(paste0("\nThe selection table was created", crayon::italic(crayon::bold(" by element ")), "(see 'class_extended_selection_table') \n")))
+   message2(color = "silver", x = paste0("\nThe selection table was created", cli::style_italic(cli::style_bold(" by element ")), "(see 'class_extended_selection_table')"))
   }
 
   # print number of sampling rates
   smp.rts <- unique(attr(x, "check.results")$sample.rate)
   if (length(smp.rts) == 1) {
-    cat(crayon::silver(paste0("* ", length(smp.rts), " sampling rate(s) (in kHz): ", paste(crayon::bold(smp.rts), collapse = "/"), " \n")))
+   message2(color = "silver", x = paste0("* ", length(smp.rts), " sampling rate(s) (in kHz): ", paste(cli::style_bold(smp.rts), collapse = "/")))
   } else {
-    cat(crayon::red(paste0("* ", length(smp.rts), " sampling rate(s): ", paste(crayon::bold(smp.rts), collapse = "/"), " \n")))
+    message2(paste0("* ", length(smp.rts), " sampling rate(s): ", paste(cli::style_bold(smp.rts), collapse = "/")), color = "red")
   }
 
   # print number of sampling rates
   bt.dps <- unique(attr(x, "check.results")$bits)
   if (length(bt.dps) == 1) {
-    cat(crayon::silver(paste0("* ", length(bt.dps), " bit depth(s): ", paste(crayon::bold(bt.dps), collapse = "/"), " \n")))
+   message2(color = "silver", x = paste0("* ", length(bt.dps), " bit depth(s): ", paste(cli::style_bold(bt.dps), collapse = "/")))
   } else {
-    cat(crayon::red(paste0("* ", length(bt.dps), " bit depth(s): ", paste(crayon::bold(bt.dps), collapse = "/"), " \n")))
+    message2(paste0("* ", length(bt.dps), " bit depth(s): ", paste(cli::style_bold(bt.dps), collapse = "/")),  color = "red")
   }
 
   # print warbleR version
   if (!is.null(attr(x, "warbleR.version"))) {
-    cat(crayon::silver(paste0("* Created by warbleR ", attr(x, "warbleR.version"))))
+   message2(color = "silver", x = paste0("* Created by warbleR ", attr(x, "warbleR.version")))
   } else {
-    cat(crayon::silver("* Created by warbleR < 1.1.21"))
+   message2(color = "silver", x = "* Created by warbleR < 1.1.21")
   }
 }
 
@@ -595,17 +598,17 @@ print.extended_selection_table <- function(x, ...) {
 #'
 
 print.selection_table <- function(x, ...) {
-  cat(crayon::black(paste("Object of class", crayon::bold("'selection_table' \n"))))
+  message2(paste("Object of class", cli::style_bold("'selection_table'")))
 
   # print call
   if (!is.null(attributes(x)$call)) {
-    cat(crayon::silver(paste("* The output of the following", "call: \n")))
+   message2(color = "silver", x = paste("* The output of the following", "call:"))
 
     cll <- paste0(deparse(attributes(x)$call))
-    cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
+   message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll)))
   }
 
-  cat(crayon::silver(paste(crayon::bold("\nContains:"), "\n*  A selection table data frame with"), nrow(x), "rows and", ncol(x), "columns: \n"))
+ message2(color = "silver", x = paste(cli::style_bold("\nContains:"), "*  A selection table data frame with", nrow(x), "rows and", ncol(x), "columns:"))
 
   # print data frame
   # define columns to show
@@ -613,19 +616,21 @@ print.selection_table <- function(x, ...) {
 
   kntr_tab <- knitr::kable(head(x[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab)) cat(crayon::silver(paste0(kntr_tab[i], "\n")))
+  for (i in 1:length(kntr_tab)) 
+    message2(color = "silver", x = paste0(kntr_tab[i], ""))
 
-  if (ncol(x) > 6) cat(crayon::silver(paste0("... ", ncol(x) - 6, " more column(s) (", paste(colnames(x)[7:ncol(x)], collapse = ", "), ")")))
-  if (nrow(x) > 6) cat(crayon::silver(paste0(if (ncol(x) <= 6) "..." else "", " and ", nrow(x) - 6, " more row(s) \n")))
+  if (ncol(x) > 6)
+    message2(color = "silver", x = paste0("... ", ncol(x) - 6, " more column(s) (", paste(colnames(x)[7:ncol(x)], collapse = ", "), ")"))
+  if (nrow(x) > 6)message2(color = "silver", x = paste0(if (ncol(x) <= 6) "..." else "", " and ", nrow(x) - 6, " more row(s)"))
 
 
-  cat(crayon::silver("\n * A data frame (check.results) generated by check_sels() (as attribute) \n"))
+ message2(color = "silver", x = "\n * A data frame (check.results) generated by check_sels() (as attribute) ")
 
   # print warbleR version
   if (!is.null(attr(x, "warbleR.version"))) {
-    cat(crayon::silver(paste0("created by warbleR ", attr(x, "warbleR.version"))))
+   message2(color = "silver", x = paste0("created by warbleR ", attr(x, "warbleR.version")))
   } else {
-    cat(crayon::silver("created by warbleR < 1.1.21"))
+   message2(color = "silver", x = "created by warbleR < 1.1.21")
   }
 }
 

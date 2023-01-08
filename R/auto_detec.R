@@ -311,25 +311,25 @@ auto_detec <-
         X.class <- "autodetec.output"
 
         if (pb) {
-          message2(x = crayon::cyan("Working on an 'autodetec.output' object"))
+          message2(x = "Working on an 'autodetec.output' object", color = "cyan")
         }
 
         # warn if thinning is used twice
         if (!is.null(X$parameters$thinning) & pb) {
           if (X$parameters$thinning < 1 & thinning < 1) {
-            message2(x = crayon::magenta("'thinning' was already applied when creating 'X'. Keep in mind that when 'thinning' is too high it can affect detection precision"))
+            message2(color = "cyan", x ="'thinning' was already applied when creating 'X'. Keep in mind that when 'thinning' is too high it can affect detection precision")
           }
         }
 
         # warn if thinning is used twice
         if (!is.null(X$parameters$ssmooth)) {
           if (X$parameters$ssmooth < 1 & !is.null(ssmooth) & pb) {
-            message2(x = crayon::magenta("'smooth' was already applied when creating 'X'. Keep in mind that it won't be a 1:1 relation to amplitude samples any longer"))
+            message2(color = "cyan", x ="'smooth' was already applied when creating 'X'. Keep in mind that it won't be a 1:1 relation to amplitude samples any longer")
           }
 
           if (!is.null(X$parameters$thinning) & pb) {
             if (X$parameters$thinning < 1 & !is.null(ssmooth)) {
-              message2(x = crayon::magenta("'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer"))
+              message2(color = "cyan", x ="'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer")
             }
           }
         }
@@ -402,7 +402,7 @@ auto_detec <-
             ignore.case = TRUE
           )
         if (length(unique(X$sound.files[(X$sound.files %in% fs)])) != length(unique(X$sound.files))) {
-          cat(paste(
+          warning(paste(
             length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% fs)])),
             "sound file(s) not found"
           ))
@@ -440,7 +440,7 @@ auto_detec <-
 
     # if parallel was not called
     if (pb) {
-      cat("Detecting signals in sound files:")
+      message2("Detecting signals in sound files:")
     }
 
     # function for detecting signals
@@ -851,14 +851,14 @@ autodetec <- auto_detec
 #'
 
 print.autodetec.output <- function(x, ...) {
-  cat(crayon::cyan(paste("Object of class", crayon::bold("'autodetec.output' \n"))))
+  message2(x = paste("Object of class", cli::style_bold("'autodetec.output' \n")), "cyan")
 
-  cat(crayon::silver(paste(crayon::bold("\nContains: \n"), "The output of the following", crayon::italic("auto_detec()"), "call: \n")))
+  message2(x = paste(cli::style_bold("\nContains: \n"), "The output of the following", cli::style_italic("auto_detec()"), "call: \n"), "silver")
 
   cll <- paste0(deparse(x$call))
-  cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
+  message2(cli::style_italic(gsub("    ", "", cll), "\n"), "silver")
 
-  cat(crayon::silver(paste(crayon::bold("\nIncludes"), "(as elements in a list): \n* A selection table data frame ('selection.table') of detections with"), nrow(x$selection.table), "rows and", ncol(x$selection.table), "columns: \n"))
+  message2(x = paste(cli::style_bold("\nIncludes"), "(as elements in a list): \n* A selection table data frame ('selection.table') of detections with", nrow(x$selection.table), "rows and", ncol(x$selection.table), "columns: \n"), "silver")
 
   # print data frame
   # define columns to show
@@ -866,23 +866,23 @@ print.autodetec.output <- function(x, ...) {
 
   kntr_tab <- knitr::kable(head(x$selection.table[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab)) cat(crayon::silver(paste0(kntr_tab[i], "\n")))
+  for (i in 1:length(kntr_tab)) message2(paste0(kntr_tab[i], "\n"), "silver")
 
-  if (ncol(x$selection.table) > 6) cat(crayon::silver(paste0("... ", ncol(x$selection.table) - 6, " more column(s) (", paste(colnames(x$selection.table)[7:ncol(x$selection.table)], collapse = ", "), ")")))
-  if (nrow(x$selection.table) > 6) cat(crayon::silver(paste0(if (ncol(x$selection.table) <= 6) "..." else "", " and ", nrow(x$selection.table) - 6, " more row(s) \n")))
+  if (ncol(x$selection.table) > 6) message2(paste0("... ", ncol(x$selection.table) - 6, " more column(s) (", paste(colnames(x$selection.table)[7:ncol(x$selection.table)], collapse = ", "), ")"), "silver")
+  if (nrow(x$selection.table) > 6) message2(paste0(if (ncol(x$selection.table) <= 6) "..." else "", " and ", nrow(x$selection.table) - 6, " more row(s) \n"), "silver")
 
-  cat(crayon::silver("\n* A data frame ('envelopes',", nrow(x$envelopes), "rows) with the wave envelopes from", length(unique(x$envelopes$sound.files)), "sound file(s) included in the", crayon::italic("auto_detec()"), "call \n"))
+ message2(paste("\n* A data frame ('envelopes',", nrow(x$envelopes), "rows) with the wave envelopes from", length(unique(x$envelopes$sound.files)), "sound file(s) included in the", cli::style_italic("auto_detec()"), "call \n"), "silver")
 
-  cat(crayon::silver(paste("\n* A selection table data frame ('org.selection.table') in which detections were run, with"), nrow(x$org.selection.table), "rows and", ncol(x$selection.table), "columns \n"))
+ message2(paste("\n* A selection table data frame ('org.selection.table') in which detections were run, with", nrow(x$org.selection.table), "rows and", ncol(x$selection.table), "columns \n"), "silver")
 
   if (any(names(x$parameters) == "thinning")) {
-    cat(crayon::silver(paste0("\n A thinning of ", x$parameters$thinning, " was applied to wave envelopes \n")))
+    message2(paste0("\n A thinning of ", x$parameters$thinning, " was applied to wave envelopes \n"), "silver")
   }
 
   # print warbleR version
   if (!is.null(x$warbleR.version)) {
-    cat(crayon::silver(paste0("\n Created by warbleR ", x$warbleR.version)))
+   message2(paste0("\n Created by warbleR ", x$warbleR.version), "silver")
   } else {
-    cat(crayon::silver("\n Created by warbleR < 1.1.27"))
+  message2("\n Created by warbleR < 1.1.27", "silver")
   }
 }

@@ -196,13 +196,12 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
 #'
 
 print.find_peaks.output <- function(x, ...) {
-  cat(crayon::cyan(paste("Object of class", crayon::bold("'find_peaks.output' \n"))))
+  message2(color = "cyan", x = paste("Object of class", cli::style_bold("'find_peaks.output' \n")))
 
-  cat(crayon::silver(paste(crayon::bold("\nContains: \n"), "The output of a detection routine from the following", crayon::italic("find_peaks()"), "call: \n")))
+ message2(color = "silver", x = paste(cli::style_bold("\nContains: \n"), "The output of a detection routine from the following", cli::style_italic("find_peaks()"), "call: \n"))
 
   cll <- paste0(deparse(x$call))
-  cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
-
+ message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll), "\n"))
 
   # print count of detections per sound file
   # define columns to show
@@ -211,20 +210,20 @@ print.find_peaks.output <- function(x, ...) {
   }
   names(tab)[2] <- "detections"
 
-  cat(crayon::silver("\n The following peaks (i.e. detections, found in the 'selection.table' list element) per sound files were found: \n"))
+ message2(color = "silver", x = "\n The following peaks (i.e. detections, found in the 'selection.table' list element) per sound files were found: \n")
 
   kntr_tab <- knitr::kable(head(tab), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab)) cat(crayon::silver(paste0(kntr_tab[i], "\n")))
+  for (i in 1:length(kntr_tab))message2(color = "silver", x = paste0(kntr_tab[i], "\n"))
 
-  cat(crayon::silver("\n The peaks are found in the 'selection.table' list element \n"))
+ message2(color = "silver", x = "\n The peaks are found in the 'selection.table' list element \n")
 
-  cat(crayon::silver(paste("\n Use", crayon::bold(crayon::italic("full_spectrograms()")), "to plot detections along spectrograms \n")))
+ message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("full_spectrograms()")), "to plot detections along spectrograms \n"))
 
   # print warbleR version
   if (!is.null(x$warbleR.version)) {
-    cat(crayon::silver(paste0("\n Created by warbleR ", x$warbleR.version)), "\n")
+   message2(color = "silver", x = paste0("\n Created by warbleR ", x$warbleR.version, "\n"))
   } else {
-    cat(crayon::silver("\n Created by warbleR < 1.1.27 \n"))
+   message2(color = "silver", x = "\n Created by warbleR < 1.1.27 \n")
   }
 }

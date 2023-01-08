@@ -157,8 +157,8 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
+#' @importFrom cli style_bold style_italic make_ansi_style num_ansi_colors
 #' @importFrom knitr kable
-# @importFrom crayon silver bold cyan italic red
 #' @importFrom methods formalArgs new is slotNames slot
 #' @importFrom dtw dtwDist
 #' @importFrom Rcpp evalCpp

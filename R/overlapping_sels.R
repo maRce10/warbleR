@@ -88,7 +88,7 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
   }
 
   if (!is.null(unique.labs)) {
-    warning2(x = crayon::silver("'unique.labs' has been deprecated"))
+    warning2("'unique.labs' has been deprecated")
   }
 
   # if X is not a data frame

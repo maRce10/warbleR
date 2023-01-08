@@ -570,19 +570,19 @@ xcorr <- cross_correlation
 #'
 
 print.xcorr.output <- function(x, ...) {
-  cat(crayon::cyan(paste("Object of class", crayon::bold("'xcorr.output' \n"))))
+  message2(color = "cyan", x = paste("Object of class", cli::style_bold("'xcorr.output'")))
 
-  cat(crayon::silver(paste(crayon::bold("\nContains: \n"), "The output of a detection routine from the following", crayon::italic("cross_correlation()"), "call: \n")))
+ message2(color = "silver", x = paste(cli::style_bold("\nContains:"), "The output of a detection routine from the following", cli::style_italic("cross_correlation()"), "call:"))
 
   cll <- paste0(deparse(x$call))
-  cat(crayon::silver(crayon::italic(gsub("    ", "", cll), "\n")))
+ message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll)))
 
   max.scores <- x$max.xcorr.matrix
   max.scores$X2 <- gsub("-entire.file", "", max.scores$X2)
   max.scores$score <- NULL
   names(max.scores) <- c("template", "survey")
 
-  cat(crayon::silver(paste("\n The routine was run on", x$spectrogram, "spectrograms using the following templates and surveys (selections or files in which templates were looked for): \n")))
+ message2(color = "silver", x = paste("\n The routine was run on", x$spectrogram, "spectrograms using the following templates and surveys (selections or files in which templates were looked for):"))
 
   # print data frame
   # define columns to show
@@ -590,24 +590,27 @@ print.xcorr.output <- function(x, ...) {
 
   kntr_tab <- knitr::kable(head(max.scores[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab)) cat(crayon::silver(paste0(kntr_tab[i], "\n")))
+  for (i in 1:length(kntr_tab))
+    message2(color = "silver", x = paste0(kntr_tab[i]))
 
-  if (nrow(max.scores) > 6) cat(crayon::silver(paste0(if (ncol(max.scores) <= 6) "..." else "", " and ", nrow(max.scores) - 6, " more row(s) (run ", crayon::italic(paste0(gsub("[^[:alnum:]=\\.]", "", x$call[2]), "$max.xcorr.matrix[, 1:2]")), " to see it all) \n")))
+  if (nrow(max.scores) > 6)
+    message2(color = "silver", x = paste0(if (ncol(max.scores) <= 6) "..." else "", " and ", nrow(max.scores) - 6, " more row(s) (run ", cli::style_italic(paste0(gsub("[^[:alnum:]=\\.]", "", x$call[2]), "$max.xcorr.matrix[, 1:2]")), " to see it all)"))
 
 
-  cat(crayon::silver(paste(crayon::bold("\nIncludes:"), "\n* A data frame ('max.xcorr.matrix') with the highest correlation value for each pair of templates and surveys \n")))
+ message2(color = "silver", x = paste(cli::style_bold("\nIncludes:"), "\n* A data frame ('max.xcorr.matrix') with the highest correlation value for each pair of templates and surveys"))
 
-  cat(crayon::silver("\n* A data frame ('scores',", nrow(x$scores), "rows) with the cross correlation scores for each of the", nrow(max.scores), "template/survey combination(s) \n"))
-  cat(crayon::silver(paste("\n* A selection table data frame ('org.selection.table') referencing the templates location in sound files \n")))
+ message2(color = "silver", x = paste("\n* A data frame ('scores',", nrow(x$scores), "rows) with the cross correlation scores for each of the", nrow(max.scores), "template/survey combination(s)"))
+ 
+ message2(color = "silver", x = paste("\n* A selection table data frame ('org.selection.table') referencing the templates location in sound files"))
 
-  cat(crayon::silver(paste("\n Use", crayon::bold(crayon::italic("full_spectrograms()")), "to plot cross_correlation scores along spectrograms \n")))
+ message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("full_spectrograms()")), "to plot cross_correlation scores along spectrograms"))
 
-  cat(crayon::silver(paste("\n Use", crayon::bold(crayon::italic("find_peaks()")), "to extract detections from this object \n")))
+ message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("find_peaks()")), "to extract detections from this object"))
 
   # print warbleR version
   if (!is.null(x$warbleR.version)) {
-    cat(crayon::silver(paste0("\n Created by warbleR ", x$warbleR.version)), "\n")
+   message2(color = "silver", x = paste0("\n Created by warbleR ", x$warbleR.version))
   } else {
-    cat(crayon::silver("\n Created by warbleR < 1.1.27 \n"))
+   message2(color = "silver", x = "\n Created by warbleR < 1.1.27")
   }
 }
