@@ -144,7 +144,10 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
     }
 
     # format JSON
-    qword <- gsub(" ", "%20", qword)
+    if (grepl("\\:", qword)) # if using advanced search replace spaces with "&" 
+    qword <- gsub(" ", "&", qword) else
+      qword <- gsub(" ", "%20", qword)
+    
 
     # initialize search
     q <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword))
