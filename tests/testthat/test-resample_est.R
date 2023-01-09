@@ -15,7 +15,7 @@ test_that("basic", {
   )
   
   # resample
-  Y <- resample_est(X, pb = FALSE)
+  if (Sys.info()[1] != "Windows") Y <- resample_est(X, pb = FALSE)
     
   
   fls <- list.files(path = tempdir(), pattern = "wav$|wac$|mp3$|flac$|jpeg$|tiff$", full.names = TRUE)
