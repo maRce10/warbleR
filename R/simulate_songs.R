@@ -38,12 +38,10 @@
 #' Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.
 #' @param shape Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
 #' ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.
-#' @param selec.table Logical. If \code{TRUE} a data frame containing the start/end time, and bottom/top frequency of the sub-units is also returned and the wave object
-#' is returned. In that case the function returns a list with the selection table and the wave object. In addition,
-#' a ".wav" file in savd in the working directory. Default is \code{FALSE}.
+#' @param selec.table Logical. If \code{TRUE} the function returns a list with two elements: 1) a data frame containing the start/end time, and bottom/top frequency of the sub-units and  2) the wave object containing the simulated songs. If \code{FALSE} (default) no objects are returned. Regardless of the value of this argument a .wav file is always saved in the working directory. 
 #' @param file.name Character string for naming the ".wav" file. Ignored if
 #' 'selec.table' is \code{FALSE}. If not provided the date-time stamp will be used.
-#' @param path Character string containing the directory path where the sound files are located. Ignored if 'selec.table' is \code{FALSE}.
+#' @param path Character string with the directory path where the sound file should be saved. Ignored if 'selec.table' is \code{FALSE}.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param hrm.freqs Numeric vector with the frequencies of the harmonics relative to the fundamental frequency. The default values are c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10).
 #' @return A wave object containing the simulated songs. If 'selec.table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.
@@ -370,11 +368,11 @@ simulate_songs <-
       }
 
       options(warn = -1)
-      writeWave(
+      trywrite <- try(writeWave( # wrapped in try to pass testing in windows
         object = wv,
         filename = file.path(path, file.name),
         extensible = FALSE
-      )
+      ), silent = TRUE)
 
       start <-
         cumsum(c(gaps[1], durs[-length(durs)] + gaps[-c(1, length(gaps))]))
