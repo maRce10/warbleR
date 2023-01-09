@@ -3,7 +3,7 @@
 #' \code{warbleR_options} sets global parameters for warbleR functions
 #' @usage warbleR_options(reset = FALSE, ...)
 #' @param reset Logical. If \code{TRUE} then all global parameters are removed. Default is \code{FALSE}.
-#' @param ... Arguments in `parameter = value`` form, or a list of tagged values. The tags (i.e. parameters)
+#' @param ... Arguments in `parameter = value` form, or a list of tagged values. The tags (i.e. parameters)
 #'  must come from the list of parameters described below.
 #' @return When parameters are set by warbleR_options, their former values are
 #' returned in an invisible named list. Such a list can be passed as an argument to

@@ -163,7 +163,7 @@ remove_silence <-
         wv <- warbleR::read_sound_file(X = fl, path = path)
 
         # in case flim is higher than can be due to sampling rate
-        if (!is.null(flim)) {
+        if (!is.null(flm)) {
           if (flm[2] > floor(wv@samp.rate / 2000)) {
             flm[2] <- floor(wv@samp.rate / 2000)
           }

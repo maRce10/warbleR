@@ -442,8 +442,8 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
         # return X
         return(X[X$tailored != "delete", ])
 
-       message2(x = "all selections have been analyzed")
-        stop2()
+       # message2(x = "all selections have been analyzed")
+        stop2(x = "all selections have been analyzed")
       }
       h <- h + 1
     }
@@ -467,8 +467,8 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
         # return X
         return(X[X$tailored != "delete", ])
 
-       message2(x = "all selections have been analyzed")
-        stop2()
+       # message2(x = "all selections have been analyzed")
+        stop2("all selections have been analyzed")
       }
       h <- h + 1
     }
@@ -481,8 +481,8 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
       # return X
       return(X[X$tailored != "delete", ])
 
-     message2(x = "Stopped by user")
-      stop2()
+     # message2(x = "Stopped by user")
+      stop2("Stopped by user")
     }
 
     # while not inside buttons
@@ -520,8 +520,8 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
           # return X
           return(X[X$tailored != "delete", ])
 
-         message2(x = "all selections have been analyzed")
-          stop2()
+         # message2(x = "all selections have been analyzed")
+          stop2(x = "all selections have been analyzed")
         } else {
           h <- h + 1
           break
@@ -550,8 +550,8 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
           return(X[X$tailored != "delete", ])
 
           options(show.error.messages = FALSE)
-         message2(x = "all selections have been analyzed")
-          stop2()
+         # message2(x = "all selections have been analyzed")
+          stop2(x = "all selections have been analyzed")
         } else {
           h <- h + 1
           break
@@ -568,8 +568,8 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
         # return X
         return(X[X$tailored != "delete", ])
 
-       message2(x = "Stopped by user")
-        stop2()
+       # message2(x = "Stopped by user")
+        stop2(x = "Stopped by user")
       }
 
       if (exists("prev.plot")) xy2 <- locator(n = 1, type = "n")
@@ -628,8 +628,8 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
           # return X
           return(X[X$tailored != "delete", ])
 
-         message2(x = "all selections have been analyzed")
-          stop2()
+         # message2(x = "all selections have been analyzed")
+          stop2(x = "all selections have been analyzed")
         } else {
           Sys.sleep(pause)
           h <- h + 1

@@ -10,8 +10,7 @@
 #'  (e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song'
 #'  will search for all recordings in which the sound type description contains the word 'song'.
 #'  Several tags can be included in the same query. The query "phaethornis cnt:belize' will only return
-#'  results for birds in the genus \emph{Phaethornis} that were recorded in  Belize.
-#'  See \href{https://www.xeno-canto.org/help/search}{Xeno-Canto's search help} for a full description and see examples below
+#'  results for birds in the genus \emph{Phaethornis} that were recorded in  Belize. Make sure taxonomy related tags are found first in multi-tag queries. See \href{https://www.xeno-canto.org/help/search}{Xeno-Canto's search help} for a full description and see examples below
 #'  for queries using terms with more than one word.
 #' @param download Logical argument. If \code{FALSE} only the recording file names and
 #'   associated metadata are downloaded. If \code{TRUE}, recordings are also downloaded to the working

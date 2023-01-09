@@ -43,7 +43,7 @@ Measures wavelet packet decomposition features. STILL UNDER DEVELOPMENT. USE IT 
   writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
   # not normalize
-  wpd_features(lbh_selec_table[1:5, ], threshold2 = 0.3, nor = FALSE)
+  wpd_features(lbh_selec_table[1:5, ], threshold2 = 0.3, nor = FALSE, path = tempdir())
 }
 
 }

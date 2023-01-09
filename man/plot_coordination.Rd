@@ -50,7 +50,7 @@ depicting the time of overlap.
 }
 \examples{
 \dontrun{
-# load simulate singing events  (see data documentation)
+# load simulate singing events (see data documentation)
 data(sim_coor_sing)
 
 #' # make plot_coordination in graphic device format

@@ -78,8 +78,6 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
   }
 
 
-
-
   # set clusters for windows OS and no soz
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -137,8 +135,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
   })
 
   # }
-
-
+  
   # replace with resampled waves
   attributes(X)$wave.objects <- out
 
