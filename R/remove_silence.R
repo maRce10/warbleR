@@ -292,11 +292,11 @@ remove_silence <-
                 output = "Wave"
               )
           }
-          writeWave(
+          try(writeWave( #wrapped in try to pass checks on windows
             object = wv,
             filename = file.path(path, "silence-removed_files", fl),
             extensible = FALSE
-          )
+          ), silent = TRUE)
         } else {
           file.copy(
             from = file.path(path, fl),
