@@ -30,17 +30,22 @@ test_that("no axis", {
   
   unlink(fls)
   
-  data(list = c("Phae.long1", "lbh_selec_table"))
-  writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-  
-  # create extended selection table
-  catalog(X = lbh_selec_table[1:3, ], flim = c(1, 10), nrow = 3, ncol = 4, same.time.scale = F, ovlp = 90, parallel = 1, 
-          mar = 0.01, wl = 200, gr = FALSE, it = "tiff", pb = F, fast.spec = T, res = 260,
-          orientation = "h", labels = c("sound.files", "selec"), tags = c("selec", "sound.files"), legend = 2, cex = 1, 
-          tag.pal = list(terrain.colors), leg.wd = 4, collev = seq(-65, 0, 5), by.row = T, spec.mar =1, path = tempdir(), rm.axes = TRUE)
-  
-  catalog_file <- list.files(tempdir(), pattern = "tiff")
-  
+  data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
+  sil <- silence(samp.rate = 22500, duration = 3, xunit = "time")
+
+
+  wv1 <- pastew(pastew(Phae.long1, sil, f = 22500, output = "Wave"),
+  Phae.long2, f = 22500, output = "Wave")
+
+  #check silence in between amplitude peaks
+  env(wv1)
+
+   #save wave file
+   writeWave(object = wv1, filename = file.path(tempdir(), "wv1.wav"),
+    extensible = FALSE)
+
+  #remove silence
+   if (Sys.info()[1] != "Windows") rs <- remove_silence(files = "wv1.wav", pb = FALSE, path = tempdir())
   
   fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
   
