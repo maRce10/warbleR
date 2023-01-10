@@ -70,7 +70,7 @@ library(warbleR)
 ## Usage
 
 Take a look at the [package vignettes](https://marce10.github.io/warbleR/articles/) with detailed examples on how to organize functions in an acoustic analysis workflow. 
-´
+
 A full description of the package (although a bit outdated) can be found in this [journal article](https://doi.org/10.1111/2041-210X.12624).
 
 ## Other packages
