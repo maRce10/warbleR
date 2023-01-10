@@ -6,11 +6,11 @@
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'  species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}.
 #'  More complex queries can be done by using search terms that follow the
-#'  xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings
+#'  xeno-canto advance query syntax. This syntax uses tags to search within a particular aspect of the recordings
 #'  (e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song'
 #'  will search for all recordings in which the sound type description contains the word 'song'.
 #'  Several tags can be included in the same query. The query "phaethornis cnt:belize' will only return
-#'  results for birds in the genus \emph{Phaethornis} that were recorded in  Belize. Make sure taxonomy related tags are found first in multi-tag queries. See \href{https://www.xeno-canto.org/help/search}{Xeno-Canto's search help} for a full description and see examples below
+#'  results for birds in the genus \emph{Phaethornis} that were recorded in Belize. Queries are case insensitive. Make sure taxonomy related tags (Genus or scientific name) are found first in multi-tag queries. See \href{https://www.xeno-canto.org/help/search}{Xeno-Canto's search help} for a full description and see examples below
 #'  for queries using terms with more than one word.
 #' @param download Logical argument. If \code{FALSE} only the recording file names and
 #'   associated metadata are downloaded. If \code{TRUE}, recordings are also downloaded to the working
@@ -142,13 +142,23 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
      message2(x = "Obtaining recording list...")
     }
 
-    # format JSON
-    if (grepl("\\:", qword)) # if using advanced search replace spaces with "&" 
-    qword <- gsub(" ", "&", qword) else
+    # format query qword
+    if (grepl("\\:", qword)){ # if using advanced search
+      
+      # replace first space with %20 when using full species name
+      first_colon_pos <- gregexpr(":", qword)[[1]][1]
+      spaces_pos <- gregexpr(" ", qword)[[1]]
+      
+      if (length(spaces_pos) > 1)
+        if (all(spaces_pos[1:2] < first_colon_pos))
+          qword <- paste0(substr(qword, start = 0, stop = spaces_pos - 1), "%20", substr(qword, start = spaces_pos + 1, stop = nchar(qword)))
+      
+      # replace remaining spaces with "&" 
+      qword <- gsub(" ", "&", qword)
+    } else
       qword <- gsub(" ", "%20", qword)
-    
 
-    # initialize search
+        # initialize search
     q <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword))
 
     if (as.numeric(q$numRecordings) == 0) {

@@ -11,12 +11,11 @@ parallel = 1, path = NULL, pb = TRUE)
 \item{qword}{Character vector of length one indicating the genus, or genus and
 species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}.
 More complex queries can be done by using search terms that follow the
-xeno-canto advance query syntax.This syntax uses tags to search within a particular aspect of the recordings
+xeno-canto advance query syntax. This syntax uses tags to search within a particular aspect of the recordings
 (e.g. country, location, sound type). Tags are of the form tag:searchterm'. For instance, 'type:song'
 will search for all recordings in which the sound type description contains the word 'song'.
 Several tags can be included in the same query. The query "phaethornis cnt:belize' will only return
-results for birds in the genus \emph{Phaethornis} that were recorded in  Belize.
-See \href{https://www.xeno-canto.org/help/search}{Xeno-Canto's search help} for a full description and see examples below
+results for birds in the genus \emph{Phaethornis} that were recorded in Belize. Queries are case insensitive. Make sure taxonomy related tags (Genus or scientific name) are found first in multi-tag queries. See \href{https://www.xeno-canto.org/help/search}{Xeno-Canto's search help} for a full description and see examples below
 for queries using terms with more than one word.}
 
 \item{download}{Logical argument. If \code{FALSE} only the recording file names and

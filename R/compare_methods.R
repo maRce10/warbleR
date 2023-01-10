@@ -398,9 +398,9 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   }
 
   if ("dfDTW" %in% methods) {
-    if (pb) {
+    if (pb) 
       message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "):"), color = "black")
-    }
+    
 
     dtwmat <- warbleR::freq_ts(X,
       wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
@@ -722,4 +722,6 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   a1 <- pblapply_wrblr_int(pbar = pb, X = 1:ncol(combs), cl = cl, FUN = function(u) {
     comp.methFUN(X, u, res, bidims, m, mar, flim)
   })
+  
+return(NULL)  
 }
