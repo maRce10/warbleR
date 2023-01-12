@@ -1,0 +1,15 @@
+PKG_CXXFLAGS = -I$(LIB_FFTW)/include -I../windows/include/
+
+PKG_CXX_STD = CXX11
+
+PKG_LIBS = -L$(LIB_FFTW)/lib -L../windows/lib${R_ARCH}/ -lfftw3 -fopenmp -lsoxr-lsr -lsoxr -s
+
+all: clean winlibs
+
+clean:
+	rm -f $(SHLIB) $(OBJECTS)
+
+winlibs:
+	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" --vanilla "../tools/winlibs.R"
+
+.PHONY: all winlibs clean

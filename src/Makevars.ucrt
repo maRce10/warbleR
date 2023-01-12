@@ -1,0 +1,11 @@
+
+PKG_CXX_STD = CXX11
+
+PKG_LIBS = -lfftw3 -fopenmp -lsox
+
+all: clean 
+
+clean:
+	rm -f $(SHLIB) $(OBJECTS)
+
+.PHONY: all clean
