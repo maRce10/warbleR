@@ -65,7 +65,7 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -214,7 +214,7 @@ print.find_peaks.output <- function(x, ...) {
 
   kntr_tab <- knitr::kable(head(tab), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab))message2(color = "silver", x = paste0(kntr_tab[i], "\n"))
+  for (i in seq_len(length(kntr_tab)))message2(color = "silver", x = paste0(kntr_tab[i], "\n"))
 
  message2(color = "silver", x = "\n The peaks are found in the 'selection.table' list element")
 

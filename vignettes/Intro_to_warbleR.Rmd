@@ -1,9 +1,9 @@
 ---
-title: <center><font size="7"><b>Introduction to warbleR</b></font></center>
+title: <font size="7"><b>Introduction to warbleR</b></font>
 pagetitle: Introduction to warbleR
 author: 
-- <center><a href="https://marceloarayasalas.weebly.com">Marcelo Araya-Salas, PhD</a> & <a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
-date:  <center>"`r Sys.Date()`"</center>
+- <a href="https://marceloarayasalas.weebly.com">Marcelo Araya-Salas, PhD</a> & <a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> 
+date:  "`r Sys.Date()`"
 output:
   rmarkdown::html_document:
     self_contained: yes
@@ -29,6 +29,14 @@ editor_options:
 <!-- </script> -->
 
 <!-- &nbsp;  -->
+```{css, echo = FALSE}
+
+div#header h1.title, div#header h3.subtitle, div#header h4.author, div#header h4.date {
+  text-align: center
+}
+
+```
+
 
 <img src="warbleR_sticker.png" alt="warbleR logo" align="right" width="25%" height="25%">
 

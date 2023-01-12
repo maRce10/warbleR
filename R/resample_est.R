@@ -72,7 +72,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }

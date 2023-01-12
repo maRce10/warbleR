@@ -76,7 +76,7 @@ map_xc <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }

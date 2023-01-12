@@ -120,7 +120,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -352,6 +352,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     if (is.null(fl)) {
       fl <- c(0, floor(f / 2000))
     }
+    
     # in case flim is higher than can be due to sampling rate
     frli <- fl
     if (frli[2] > ceiling(f / 2000) - 1) frli[2] <- ceiling(f / 2000) - 1
@@ -392,10 +393,10 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
         # for rows with complete spectro
         if (all(((x) * sl + li * (sl) * (j - 1)) - sl < dur & (x) * sl + li * (sl) * (j - 1) < dur)) {
-          spectro_wrblr_int(rec,
+          suppressWarnings(spectro_wrblr_int(rec,
             f = f, wl = wl, flim = frli, tlim = c(((x) * sl + li * (sl) * (j - 1)) - sl, (x) * sl + li * (sl) * (j - 1)),
             ovlp = ovlp, collevels = collevels, grid = gr, scale = FALSE, palette = pal, axisX = TRUE, fast.spec = fast.spec
-          )
+          ))
           if (x == 1) {
             text((sl - 0.01 * sl) + (li * sl) * (j - 1), frli[2] - (frli[2] - frli[1]) / 10, paste(substring(z,
               first = 1,
@@ -569,9 +570,6 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
       dev.off() # reset graphic device
     })
   }
-
-
-
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {

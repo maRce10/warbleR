@@ -97,7 +97,7 @@ freq_range_detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, dB.t
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }

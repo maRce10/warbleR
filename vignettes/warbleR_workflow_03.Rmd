@@ -1,11 +1,11 @@
 ---
-title: <center><font size="7"><b>warbleR&#58; Acoustic (dis)similarity, coordinated singing and simulating songs</b></font></center>
+title: <font size="7"><b>warbleR&#58; Acoustic (dis)similarity, coordinated singing and simulating songs</b></font>
 pagetitle: Acoustic (dis)similarity, coordinated singing and simulating songs
 author: 
-- <center><a href="https://marceloarayasalas.weebly.com">Marcelo Araya-Salas, PhD</a> </center>
-- <center><a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> </center>
+- <a href="https://marceloarayasalas.weebly.com">Marcelo Araya-Salas, PhD</a> 
+- <a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> 
  &nbsp; 
-date:  <center>"`r Sys.Date()`"</center>
+date:  "`r Sys.Date()`"
 output:
   rmarkdown::html_document:
     self_contained: yes
@@ -23,6 +23,12 @@ vignette: >
 <!-- <center> <h1><b>Acoustic (dis)similarity and coordinated singing</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
 <!-- <center> `r Sys.Date()` </center> -->
+
+```{css, echo = FALSE}
+div#header h1.title, div#header h3.subtitle, div#header h4.author, div#header h4.date {
+  text-align: center
+}
+```
 
 ## Bioacoustics in R with `warbleR`
 

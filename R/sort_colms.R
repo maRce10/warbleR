@@ -16,7 +16,7 @@
 #' data("selec.table")
 #'
 #' # mess column order
-#' selec.table <- selec.table[, sample(1:ncol(selec.table))]
+#' selec.table <- selec.table[, sample(seq_len(ncol(selec.table)))]
 #'
 #' # check names
 #' names(selec.table)
@@ -36,7 +36,7 @@ sort_colms <- function(X) {
 
   mtch <- mtch[!is.na(mtch)]
 
-  X <- X[, c(mtch, setdiff(1:ncol(X), mtch))]
+  X <- X[, c(mtch, setdiff(seq_len(ncol(X)), mtch))]
 
   return(X)
 }

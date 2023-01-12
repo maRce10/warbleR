@@ -55,7 +55,7 @@ inflections <- function(X = NULL, parallel = 1, pb = TRUE) {
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -83,7 +83,7 @@ inflections <- function(X = NULL, parallel = 1, pb = TRUE) {
     cl <- parallel
   }
 
-  if (is.data.frame(X)) lvs <- 1:nrow(X) else lvs <- 1:length(X)
+  if (is.data.frame(X)) lvs <- 1:nrow(X) else lvs <- seq_len(length(X))
 
   # run loop apply function
   out <- pblapply_wrblr_int(pbar = pb, X = lvs, cl = cl, FUN = function(i) {

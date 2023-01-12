@@ -27,7 +27,7 @@ library(warbleR)
 data("selec.table")
 
 # mess column order
-selec.table <- selec.table[, sample(1:ncol(selec.table))]
+selec.table <- selec.table[, sample(seq_len(ncol(selec.table)))]
 
 # check names
 names(selec.table)

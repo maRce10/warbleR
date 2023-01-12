@@ -209,7 +209,7 @@ auto_detec <-
 
     # set options left
     if (length(opt.argms) > 0) {
-      for (q in 1:length(opt.argms)) {
+      for (q in seq_len(length(opt.argms))) {
         assign(names(opt.argms)[q], opt.argms[[q]])
       }
     }
@@ -861,11 +861,11 @@ print.autodetec.output <- function(x, ...) {
 
   # print data frame
   # define columns to show
-  cols <- if (ncol(x$selection.table) > 6) 1:6 else 1:ncol(x$selection.table)
+  cols <- if (ncol(x$selection.table) > 6) 1:6 else seq_len(ncol(x$selection.table))
 
   kntr_tab <- knitr::kable(head(x$selection.table[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab)) message2(paste0(kntr_tab[i], "\n"), "silver")
+  for (i in seq_len(length(kntr_tab))) message2(paste0(kntr_tab[i], "\n"), "silver")
 
   if (ncol(x$selection.table) > 6) message2(paste0("... ", ncol(x$selection.table) - 6, " more column(s) (", paste(colnames(x$selection.table)[7:ncol(x$selection.table)], collapse = ", "), ")"), "silver")
   if (nrow(x$selection.table) > 6) message2(paste0(if (ncol(x$selection.table) <= 6) "..." else "", " and ", nrow(x$selection.table) - 6, " more row(s) \n"), "silver")

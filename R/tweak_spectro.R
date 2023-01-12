@@ -129,7 +129,7 @@ tweak_spectro <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
   
   # set options left
   if (length(opt.argms) > 0)
-    for (q in 1:length(opt.argms))
+    for (q in seq_len(length(opt.argms)))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   # stop if pal is function

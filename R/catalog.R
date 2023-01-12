@@ -233,7 +233,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   
   # set options left
   if (length(opt.argms) > 0)
-    for (q in 1:length(opt.argms))
+    for (q in seq_len(length(opt.argms)))
       assign(names(opt.argms)[q], opt.argms[[q]])
   
   #if X is not a data frame
@@ -445,7 +445,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     }  else {
       X$col1 <- as.factor(X$col1)
       X$col1 <- droplevels(X$col1)
-      levels(X$col1) <- boxcols[1:length(unique(X$col1))]
+      levels(X$col1) <- boxcols[seq_len(length(unique(X$col1)))]
     }
     
     #add to df for legend
@@ -537,7 +537,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     X <- rapply(X, as.factor, classes="character", how="replace")
     X$colgroup <- X[,group.tag] 
     X$colgroup <- droplevels(as.factor(X$colgroup))
-    levels(X$colgroup) <- grcl[1:length(unique(X$colgroup))]
+    levels(X$colgroup) <- grcl[seq_len(length(unique(X$colgroup)))]
   }
  
    ## repair sel table
@@ -874,7 +874,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
             sq <- sq[finncol]
             out <- lapply(sq, function(p)
             {
-              out <- lapply(1:length(xs), function(w)
+              out <- lapply(seq_len(length(xs)), function(w)
               {
                 lines(y = c(0.9, 1.04), x = c(xs[w], xs[w]) + p)
                 text(y = 0.75, x = xs[w] + p, labels = xlab[w], cex = cex)
@@ -1026,7 +1026,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-  out <- pblapply_wrblr_int(pbar = pb, X = 1:length(Xlist), cl = cl, FUN = function(z) 
+  out <- pblapply_wrblr_int(pbar = pb, X = seq_len(length(Xlist)), cl = cl, FUN = function(z) 
     { 
     catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
              width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)}

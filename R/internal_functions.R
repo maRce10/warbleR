@@ -42,7 +42,7 @@ boxw_wrblr_int <-
     if (bty == "-")
       cmb <- matrix(cmb[, 3], nrow = 4)
     
-    for (i in 1:ncol(cmb)) {
+    for (i in seq_len(ncol(cmb))) {
       lines(
         x = cmb[1:2, i],
         y = cmb[3:4, i],
@@ -1289,6 +1289,7 @@ spectro_wrblr_int <-
            colwave = adjustcolor("#07889B", alpha.f = 0.7),
            box = TRUE,
            ...) {
+    
     if (wl >= length(wave@left))
       wl <- length(wave@left) - 1
     if (wl %% 2 != 0)
@@ -1414,27 +1415,32 @@ spectro_wrblr_int <-
       }
     }
     Z <- t(z)
+    # fix when no amplitude variation is found i wave
+    if (all(is.nan(Z)))
+      Z[ , ] <- - Inf
+    
     if (plot) {
       if (!isTRUE(norm) && isTRUE(scale)) {
         stop2("dB colour scale cannot be plot when 'norm' is FALSE")
       }
-      maxz <- round(max(z, na.rm = TRUE))
+      suppressWarnings(maxz <- round(max(z, na.rm = TRUE)))
+      
       if (!is.null(dB)) {
         if (is.null(collevels)) {
           collevels <- seq(maxz - 30, maxz, by = 1)
         }
-        if (is.null(contlevels)) {
+        if (is.null(contlevels) & cont) {
           contlevels <- seq(maxz - 30, maxz, by = 10)
         }
       } else {
         if (is.null(collevels)) {
           collevels <- seq(0, maxz, length = 30)
         }
-        if (is.null(contlevels)) {
+        if (is.null(contlevels) & cont) {
           contlevels <- seq(0, maxz, length = 3)
         }
       }
-      Zlim <- range(Z, finite = TRUE, na.rm = TRUE)
+      suppressWarnings(Zlim <- range(Z, finite = TRUE, na.rm = TRUE))
       if (osc & scale) {
         layout(matrix(c(3, 1, 2, 0), ncol = 2, byrow = TRUE),
                widths = widths,
@@ -1757,11 +1763,10 @@ spectro_wrblr_int <-
           col.lab = collab,
           bg = colbg,
           cex.axis = cexaxis,
-          cex.lab = cexlab,
-          ...
+          cex.lab = cexlab
         )
         
-        if (!fast.spec) {
+       if (!fast.spec) {
           filled_contour_wrblr_int(
             x = X,
             y = Y,
@@ -1786,6 +1791,7 @@ spectro_wrblr_int <-
             colaxis = colaxis,
             bx = box
           )
+
         } else {
           image(
             x = X,

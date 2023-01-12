@@ -142,7 +142,7 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
  
   # set options left
   if (length(opt.argms) > 0)
-    for (q in 1:length(opt.argms))
+    for (q in seq_len(length(opt.argms)))
       assign(names(opt.argms)[q], opt.argms[[q]])
  
   # ladderize
@@ -166,7 +166,7 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
   
  # add new arguments to call (if present rewrite if no add)
   if (length(shr.args) > 0)
-    for(i in 1:length(shr.args))
+    for(i in seq_len(length(shr.args)))
       if( any(names(cll.spec) == names(shr.args)[i])) cll.spec[names(cll.spec) == names(shr.args)[i]] <- shr.args[[i]] else
       {
         cll.spec[[length(cll.spec) + 1]] <- shr.args[[i]]
@@ -185,7 +185,7 @@ phylo_spectro <- function(X, tree, type = "phylogram", par.mar = rep(1, 4), size
   
   # add new arguments to call (if present rewrite if no add)
   if (length(shr.args2) > 0)
-    for(i in 1:length(shr.args2))
+    for(i in seq_len(length(shr.args2)))
       if( any(names(cll.phylo) == names(shr.args2)[i])) cll.phylo[names(cll.phylo) == names(shr.args2)[i]] <- shr.args2[[i]] else
       {
         cll.phylo[[length(cll.phylo) + 1]] <- shr.args2[[i]]

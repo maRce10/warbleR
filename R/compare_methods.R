@@ -207,7 +207,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -529,7 +529,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     message2(paste("Only", n, "possible combinations of signals"))
   }
 
-  if (nrow(X) > 4) combs <- as.data.frame(combs[, sample(1:ncol(combs), n)])
+  if (nrow(X) > 4) combs <- as.data.frame(combs[, sample(seq_len(ncol(combs)), n)])
 
   # create matrix for sppliting screen
   m <- rbind(
@@ -719,7 +719,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     cl <- parallel
   }
 
-  a1 <- pblapply_wrblr_int(pbar = pb, X = 1:ncol(combs), cl = cl, FUN = function(u) {
+  a1 <- pblapply_wrblr_int(pbar = pb, X = seq_len(ncol(combs)), cl = cl, FUN = function(u) {
     comp.methFUN(X, u, res, bidims, m, mar, flim)
   })
   

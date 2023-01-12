@@ -63,7 +63,7 @@ by_element_est <- function(X, mar = 0.1, pb = FALSE, parallel = 1) {
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }

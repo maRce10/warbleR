@@ -65,7 +65,7 @@ track_harmonic <- function(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = F
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -154,7 +154,7 @@ track_harmonic <- function(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = F
     maxi <- NULL
     y2 <- NULL
 
-    for (i in 1:ncol(y1))
+    for (i in seq_len(ncol(y1)))
     {
       # standardize z between 0-1
       z <- y1[, i] / max(y1[, i])

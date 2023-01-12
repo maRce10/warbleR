@@ -36,26 +36,27 @@ batch analysis of acoustic signals.
 
 The main features of the package are:
 
-- Diverse tools for measuring acoustic structure
-- The use of loops to apply tasks through acoustic signals referenced in
-  a selection table
-- The production of images in the working directory with spectrograms to
-  allow users organize data and verify acoustic analyses
+-   Diverse tools for measuring acoustic structure
+-   The use of loops to apply tasks through acoustic signals referenced
+    in a selection table
+-   The production of images in the working directory with spectrograms
+    to allow users organize data and verify acoustic analyses
 
 The package offers functions to:
 
-- Explore and download [Xeno‐Canto](https://xeno-canto.org/) recordings
-- Explore, organize and manipulate multiple sound files
-- Detect signals automatically (in frequency and time) (but check the R
-  package [ohun](https://marce10.github.io/ohun/index.html) for a more
-  thorough and friendly implementation)
-- Create spectrograms of complete recordings or individual signals
-- Run different measures of acoustic signal structure
-- Evaluate the performance of measurement methods
-- Catalog signals
-- Characterize different structural levels in acoustic signals
-- Statistical analysis of duet coordination
-- Consolidate databases and annotation tables
+-   Explore and download [Xeno‐Canto](https://xeno-canto.org/)
+    recordings
+-   Explore, organize and manipulate multiple sound files
+-   Detect signals automatically (in frequency and time) (but check the
+    R package [ohun](https://marce10.github.io/ohun/index.html) for a
+    more thorough and friendly implementation)
+-   Create spectrograms of complete recordings or individual signals
+-   Run different measures of acoustic signal structure
+-   Evaluate the performance of measurement methods
+-   Catalog signals
+-   Characterize different structural levels in acoustic signals
+-   Statistical analysis of duet coordination
+-   Consolidate databases and annotation tables
 
 Most of the functions allow the parallelization of tasks, which
 distributes the tasks among several processors to improve computational

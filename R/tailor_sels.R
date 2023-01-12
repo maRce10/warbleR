@@ -148,7 +148,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -202,7 +202,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
 
       mxts <- max(sapply(ts.df, nrow))
 
-      out <- lapply(1:length(ts.df), function(x) {
+      out <- lapply(seq_len(length(ts.df)), function(x) {
         z <- ts.df[[x]]
         df <- data.frame(t(c(z$frequency, rep(NA, mxts - nrow(z)), z$absolute.time, rep(NA, mxts - nrow(z)))))
         colnames(df) <- paste0(colnames(df), rep(c("...FREQ", "...TIME"), each = mxts))
@@ -372,7 +372,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
     # mid position ofbuttons in c(0, 1) range
     ys <- c(-mrg, mrg, mrg, -mrg)
 
-    grYs <- lapply(1:length(cpy), function(x) {
+    grYs <- lapply(seq_len(length(cpy)), function(x) {
       grY <- grconvertY(y = cpy[x] - ys, from = "npc", to = "user")
       polygon(x = xs, y = grY, border = "#4ABDAC", col = adjustcolor("#E37222", alpha.f = 0.22), lwd = 2)
 
@@ -486,7 +486,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
     }
 
     # while not inside buttons
-    out <- sapply(1:length(labels), function(w) out <- !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[w]]) & xy$y < max(grYs[[w]])))
+    out <- sapply(seq_len(length(labels)), function(w) out <- !all(xy$x > min(xs) & xy$x < max(xs) & xy$y > min(grYs[[w]]) & xy$y < max(grYs[[w]])))
 
     while (all(out)) {
       # select second point

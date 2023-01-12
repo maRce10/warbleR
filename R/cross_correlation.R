@@ -120,7 +120,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -586,11 +586,11 @@ print.xcorr.output <- function(x, ...) {
 
   # print data frame
   # define columns to show
-  cols <- if (ncol(max.scores) > 6) 1:6 else 1:ncol(max.scores)
+  cols <- if (ncol(max.scores) > 6) 1:6 else seq_len(ncol(max.scores))
 
   kntr_tab <- knitr::kable(head(max.scores[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab))
+  for (i in seq_len(length(kntr_tab)))
     message2(color = "silver", x = paste0(kntr_tab[i]))
 
   if (nrow(max.scores) > 6)

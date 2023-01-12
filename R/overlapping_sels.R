@@ -82,7 +82,7 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -194,7 +194,7 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
 
         # create numeric vector to order resulting data frame before dropping
         ordr <- as.character(ovlp_df[, priority.col])
-        for (i in 1:length(priority)) {
+        for (i in seq_len(length(priority))) {
           ordr[ordr == priority[i]] <- i
         }
 

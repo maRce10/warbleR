@@ -94,7 +94,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -179,7 +179,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
         a <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))
 
         # put together as data frame
-        d <- lapply(1:length(a$recordings), function(z) data.frame(t(unlist(a$recordings[[z]]))))
+        d <- lapply(seq_len(length(a$recordings)), function(z) data.frame(t(unlist(a$recordings[[z]]))))
 
         d2 <- lapply(d, function(x) {
           if (!all(nms %in% names(x))) {

@@ -140,7 +140,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 
   # set options left
   if (length(opt.argms) > 0) {
-    for (q in 1:length(opt.argms)) {
+    for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
@@ -453,7 +453,7 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
   if (is.character(i)) i <- which(row.names(X) %in% i)
   if (is.character(j)) j <- which(names(X) %in% j)
   if (is.null(i)) i <- 1:nrow(X)
-  if (is.null(j)) j <- 1:ncol(X)
+  if (is.null(j)) j <- seq_len(ncol(X))
 
   Y <- as.data.frame(X)[i, j, drop = drop]
 
@@ -485,7 +485,7 @@ is_extended_selection_table <- function(x) inherits(x, "extended_selection_table
   if (is.character(i)) i <- which(row.names(X) %in% i)
   if (is.character(j)) j <- which(names(X) %in% j)
   if (is.null(i)) i <- 1:nrow(X)
-  if (is.null(j)) j <- 1:ncol(X)
+  if (is.null(j)) j <- seq_len(ncol(X))
 
   Y <- as.data.frame(X)[i, j, drop = drop]
 
@@ -536,11 +536,11 @@ print.extended_selection_table <- function(x, ...) {
  message2(color = "silver", x = paste(cli::style_bold("\nContains:"), "\n*  A selection table data frame with", nrow(x), "row(s) and", ncol(x), "columns:"))
 
   # define columns to show
-  cols <- if (ncol(x) > 6) 1:6 else 1:ncol(x)
+  cols <- if (ncol(x) > 6) 1:6 else seq_len(ncol(x))
 
   kntr_tab <- knitr::kable(head(x[, cols, drop = FALSE]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab))
+  for (i in seq_len(length(kntr_tab)))
     message2(color = "silver", x = paste0(kntr_tab[i]))
 
   if (ncol(x) > 6)
@@ -612,11 +612,11 @@ print.selection_table <- function(x, ...) {
 
   # print data frame
   # define columns to show
-  cols <- if (ncol(x) > 6) 1:6 else 1:ncol(x)
+  cols <- if (ncol(x) > 6) 1:6 else seq_len(ncol(x))
 
   kntr_tab <- knitr::kable(head(x[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in 1:length(kntr_tab)) 
+  for (i in seq_len(length(kntr_tab))) 
     message2(color = "silver", x = paste0(kntr_tab[i], ""))
 
   if (ncol(x) > 6)
