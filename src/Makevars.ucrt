@@ -1,7 +1,7 @@
 
 PKG_CXX_STD = CXX11
 
-PKG_LIBS = -lfftw3 -fopenmp -lsox
+PKG_LIBS = -lfftw3 -lsox
 
 all: clean 
 
