@@ -13,7 +13,7 @@
 #' (and selection comment, if available). Default is \code{NULL}. Alternatively, it can also take the output of \code{\link{cross_correlation}} or \code{\link{auto_detec}} (when 'output' is a 'list', see \code{\link{cross_correlation}} or \code{\link{auto_detec}}). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest
 #'   frequency limits (kHz) of the spectrogram, as in
-#'   \code{\link[seewave]{spectro}}. Default is \code{NULL}.
+#'   \code{\link[seewave]{spectro}}. Default is \code{NULL}. Alternatively, a character vector similar to \code{c("-1", "1")} in which the first number is the value to be added to the minimum bottom frequency in 'X' and the second the value to be added to the maximum top frequency in 'X'. This is computed independently for each sound file so the frequency limit better fits the frequency range of the annotated signals. This is useful when plotting annotated spectrograms with marked differences in the frequency range of annotations among sond files. Note that top frequency adjustment is ignored if 'song' labels are included (argument 'song').     
 #' @param sxrow A numeric vector of length 1. Specifies seconds of spectrogram
 #'   per row. Default is 5.
 #' @param rows A numeric vector of length 1. Specifies number of rows per
@@ -254,20 +254,18 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
       files <- files[files %in% W$sound.files]
     }
 
-
-
     # stop if files are not in working directory
     if (length(files) == 0) stop("sound files in X are not in working directory")
   }
 
   # if flim is not vector or length!=2 stop
   if (!is.null(flim)) {
-    if (!is.vector(flim)) {
-      stop("'flim' must be a numeric vector of length 2")
-    } else {
-      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")
+    if (!is.vector(flim)) 
+      stop("'flim' must be a numeric vector of length 2") else 
+      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2") else
+      if (is.character(flim) & is.null(X)) stop("'X' must be supplied when 'flim' is a character vector (dynamic frequency limits)") else
+        if (is.character(flim) & is.null(X$top.freq) | is.null(X$top.freq)) stop("'X' must contain 'top.freq' and 'bottom.freq' columns if 'flim' is a character vector (dynamic frequency limits)")
     }
-  }
 
   # if wl is not vector or length!=1 stop
   if (is.null(wl)) {
@@ -342,16 +340,18 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
   if (length(files) == 0) stop("all sound files have been processed")
 
   # create function for making spectrograms
-  # z = sound files, fl = flim, sl = sxrow, li = rows, li = duplicated rows if Y provided, X = selection table, W = contours, autod = if Y comes from autodetec
-
   lspecFUN <- function(z, fl, sl, li, X, W) {
     rec <- warbleR::read_sound_file(X = z, path = path) # read wave file
 
     f <- rec@samp.rate # set sampling rate
 
-    if (is.null(fl)) {
-      fl <- c(0, floor(f / 2000))
-    }
+    if (is.null(fl)) 
+        fl <- c(0, floor(f / 2000)) else # if fl is dynamic
+          if (is.character(fl))
+            fl <- c(min(X$bottom.freq[X$sound.files == z]) + as.numeric(fl[1]), max(X$top.freq[X$sound.files == z]) + as.numeric(fl[2]))
+    
+    if (fl[1] < 0)
+      fl[1] <- 0
     
     # in case flim is higher than can be due to sampling rate
     frli <- fl
@@ -393,6 +393,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
         # for rows with complete spectro
         if (all(((x) * sl + li * (sl) * (j - 1)) - sl < dur & (x) * sl + li * (sl) * (j - 1) < dur)) {
+          
           suppressWarnings(spectro_wrblr_int(rec,
             f = f, wl = wl, flim = frli, tlim = c(((x) * sl + li * (sl) * (j - 1)) - sl, (x) * sl + li * (sl) * (j - 1)),
             ovlp = ovlp, collevels = collevels, grid = gr, scale = FALSE, palette = pal, axisX = TRUE, fast.spec = fast.spec
@@ -403,6 +404,8 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
               last = nchar(z) - 4
             ), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
           }
+          
+          # add annotations
           if (!is.null(X)) {
             # loop for elements
             if (nrow(Y) > 0) {

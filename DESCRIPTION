@@ -23,7 +23,7 @@ Imports:
     cli
 LinkingTo: Rcpp
 Depends: R (>= 3.2.1), tuneR, seewave (>= 2.0.1), NatureSounds
-SystemRequirements: C++11, GNU make, Ghostscript, libsndfile
+SystemRequirements: C++11, fftw3, GNU make, sox, Ghostscript, libsndfile
 LazyData: TRUE
 URL: https://marce10.github.io/warbleR/
 BugReports: https://github.com/maRce10/warbleR/issues/
