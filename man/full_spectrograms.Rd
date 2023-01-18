@@ -18,7 +18,7 @@ for sound file name (sound.files), selection number (selec), and start and end t
 
 \item{flim}{A numeric vector of length 2 indicating the highest and lowest
 frequency limits (kHz) of the spectrogram, as in
-\code{\link[seewave]{spectro}}. Default is \code{NULL}.}
+\code{\link[seewave]{spectro}}. Default is \code{NULL}. Alternatively, a character vector similar to \code{c("-1", "1")} in which the first number is the value to be added to the minimum bottom frequency in 'X' and the second the value to be added to the maximum top frequency in 'X'. This is computed independently for each sound file so the frequency limit better fits the frequency range of the annotated signals. This is useful when plotting annotated spectrograms with marked differences in the frequency range of annotations among sond files. Note that top frequency adjustment is ignored if 'song' labels are included (argument 'song').}
 
 \item{sxrow}{A numeric vector of length 1. Specifies seconds of spectrogram
 per row. Default is 5.}
