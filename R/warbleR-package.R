@@ -156,6 +156,7 @@
 #' @import utils
 #' @import parallel
 #' @importFrom cli style_bold style_italic make_ansi_style num_ansi_colors
+#' @importFrom testthat capture_output_lines
 #' @importFrom knitr kable
 #' @importFrom methods formalArgs new is slotNames slot
 #' @importFrom dtw dtwDist

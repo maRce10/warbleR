@@ -203,7 +203,7 @@ read_mp3_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, cha
 }
 
 read_wac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, channel = 1) {
-  obj <- bioacoustics::read_wac(file = filename)[[1]]
+  text_output <- testthat::capture_output_lines(obj <- bioacoustics::read_wac(file = filename)[[1]])
   if (from > 0 | to != Inf) obj <- seewave::cutw(wave = obj, f = obj@samp.rate, from = from, to = to, output = "Wave")
 
   if (header) {

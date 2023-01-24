@@ -20,7 +20,8 @@ Imports:
     Rcpp, 
     knitr,
     bioacoustics,
-    cli
+    cli,
+    testthat (>= 3.0.0)
 LinkingTo: Rcpp
 Depends: R (>= 3.2.1), tuneR, seewave (>= 2.0.1), NatureSounds
 SystemRequirements: C++11, fftw3, GNU make, sox, Ghostscript, libsndfile, GDAL
@@ -41,8 +42,7 @@ Suggests:
     maps,
     leaflet,
     kableExtra,
-    covr,
-    testthat (>= 3.0.0)
+    covr
 VignetteBuilder: knitr, rmarkdown
 RoxygenNote: 7.2.3
 Encoding: UTF-8

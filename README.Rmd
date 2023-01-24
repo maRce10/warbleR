@@ -8,17 +8,7 @@ editor_options:
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <!-- badges: start -->
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) 
-[![Dependencies](https://tinyverse.netlify.com/badge/warbleR)](https://cran.r-project.org/package=warbleR) 
-[![Project Status: Active  The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) 
-[![Licence](https://img.shields.io/badge/licence-GPL--2-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) 
-[![minimal R version](https://img.shields.io/badge/R%3E%3D-`r strsplit(gsub("depends: R \\(|\\)", "", grep("DEPENDS", ignore.case = TRUE, readLines(con = "./DESCRIPTION"), value = TRUE), ignore.case = TRUE), ",")[[1]][1]`-6666ff.svg)](https://cran.r-project.org/) 
-[![packageversion](https://img.shields.io/badge/Package%20version-`r gsub("version: |version:", "", grep("version", ignore.case = TRUE, readLines(con = "./DESCRIPTION"), value = TRUE), ignore.case = TRUE)`-orange.svg?style=flat-square)](commits/develop) 
-[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master) 
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
-[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
-[![Codecov test coverage](https://codecov.io/gh/maRce10/warbleR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/maRce10/warbleR?branch=master)
-[![R-CMD-check](https://github.com/maRce10/ohun/workflows/R-CMD-check/badge.svg)](https://github.com/maRce10/ohun/actions)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)[![Dependencies](https://tinyverse.netlify.com/badge/warbleR)](https://cran.r-project.org/package=warbleR)[![Project Status: Active  The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)[![Licence](https://img.shields.io/badge/licence-GPL--2-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)[![minimal R version](https://img.shields.io/badge/R%3E%3D-`r strsplit(gsub("depends: R \\(|\\)", "", grep("DEPENDS", ignore.case = TRUE, readLines(con = "./DESCRIPTION"), value = TRUE), ignore.case = TRUE), ",")[[1]][1]`-6666ff.svg)](https://cran.r-project.org/)[![packageversion](https://img.shields.io/badge/Package%20version-`r gsub("version: |version:", "", grep("version", ignore.case = TRUE, readLines(con = "./DESCRIPTION"), value = TRUE), ignore.case = TRUE)`-orange.svg?style=flat-square)](commits/develop)[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)[![Codecov test coverage](https://codecov.io/gh/maRce10/warbleR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/maRce10/warbleR?branch=master)[![R-CMD-check](https://github.com/maRce10/ohun/workflows/R-CMD-check/badge.svg)](https://github.com/maRce10/ohun/actions)
 <!-- badges: end -->
 
 

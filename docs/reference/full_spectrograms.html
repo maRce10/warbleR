@@ -167,7 +167,7 @@ for sound file name (sound.files), selection number (selec), and start and end t
       <th>flim</th>
       <td><p>A numeric vector of length 2 indicating the highest and lowest
 frequency limits (kHz) of the spectrogram, as in
-<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is <code>NULL</code>.</p></td>
+<code><a href='https://rdrr.io/pkg/seewave/man/spectro.html'>spectro</a></code>. Default is <code>NULL</code>. Alternatively, a character vector similar to <code><a href='https://rdrr.io/r/base/c.html'>c("-1", "1")</a></code> in which the first number is the value to be added to the minimum bottom frequency in 'X' and the second the value to be added to the maximum top frequency in 'X'. This is computed independently for each sound file so the frequency limit better fits the frequency range of the annotated signals. This is useful when plotting annotated spectrograms with marked differences in the frequency range of annotations among sond files. Note that top frequency adjustment is ignored if 'song' labels are included (argument 'song').</p></td>
     </tr>
     <tr>
       <th>sxrow</th>
