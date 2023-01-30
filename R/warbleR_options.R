@@ -98,6 +98,12 @@ warbleR_options <- function(reset = FALSE, ...) {
       }
     }
 
+    # check flac path
+    if (!is.null(argms$flac.path)) {
+      if (system(paste(argms$flac.path, "-v"), ignore.stderr = TRUE) !=
+          0) 
+        stop2("FLAC program was not found")
+    }
 
     if (length(argms) > 0) {
       if (length(argms) == 1 && is.list(argms[[1]])) {

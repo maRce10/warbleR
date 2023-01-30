@@ -33,7 +33,7 @@ An object of class "Wave".
 }
 \details{
 The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files, including those referenced in selection tables. It
-is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details). Note that reading 'flac' files requires creating a temporary copy in 'wav' format, which can be particularly slow for long files.
+is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details). For reading 'flac' files on windows the path to the .exe is required. This can be set globally using the 'flac.path' argument in \code{\link{warbleR_options}}. Note that reading 'flac' files requires creating a temporary copy in 'wav' format, which can be particularly slow for long files.
 }
 \examples{
 \dontrun{

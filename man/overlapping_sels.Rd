@@ -48,8 +48,9 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 }
 \value{
 A data frame with the columns in X plus an additional column ('ovlp.sels') indicating
-which selections overlap. The ones with the same number overlap with each other. If
-\code{drop = TRUE} only the non-overlapping selections are return. If 2 or more selections
+which selections overlap. For instance, if the selections in rows 1,2
+ overlap and 2 and 3 also overlap, the 'ovlp.sels' label would be the same for all 3 selections. If
+\code{drop = TRUE} only the non-overlapping selections are returned.and if 2 or more selections
 overlap only the first one is kept. The arguments 'priority' and 'priority.col' can be used to modified the criterium for droping overlapping selections.
 }
 \description{

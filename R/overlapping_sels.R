@@ -30,8 +30,9 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param verbose Logical to control if messages are printed to the console.
 #' @return A data frame with the columns in X plus an additional column ('ovlp.sels') indicating
-#' which selections overlap. The ones with the same number overlap with each other. If
-#' \code{drop = TRUE} only the non-overlapping selections are return. If 2 or more selections
+#' which selections overlap. For instance, if the selections in rows 1,2
+#'  overlap and 2 and 3 also overlap, the 'ovlp.sels' label would be the same for all 3 selections. If
+#' \code{drop = TRUE} only the non-overlapping selections are returned.and if 2 or more selections
 #' overlap only the first one is kept. The arguments 'priority' and 'priority.col' can be used to modified the criterium for droping overlapping selections.
 #' @export
 #' @name overlapping_sels
@@ -174,13 +175,17 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
 
   rownames(ovlp_df) <- 1:nrow(ovlp_df)
 
-  ovlp_df$ovlp.sels <- ovlp_df$indx.row
+  ovlp_df$ovlp.sels <- NA
 
-  # unique labels
-  ovlp_df$ovlp.sels[!is.na(ovlp_df$ovlp.sels)] <- factor(paste0(ovlp_df[!is.na(ovlp_df$ovlp.sels), "sound.files"], ovlp_df[!is.na(ovlp_df$ovlp.sels), "ovlp.sels"]), levels = unique(as.character(paste0(ovlp_df[!is.na(ovlp_df$ovlp.sels), "sound.files"], ovlp_df[!is.na(ovlp_df$ovlp.sels), "ovlp.sels"]))))
+  # give unique label to each group of overlapping selections  
+  if (any(!is.na(ovlp_df$indx.row))) {
 
-  # convert to numeric
-  ovlp_df$ovlp.sels <- as.numeric(ovlp_df$ovlp.sels)
+    overlap_row_id <- strsplit((ovlp_df$indx.row), split = "/")
+    
+       for(i in which(!is.na(ovlp_df$indx.row)))
+         ovlp_df$ovlp.sels[i] <- if (i == 1) 1 else
+           if (any(overlap_row_id[[i]] %in% overlap_row_id[[i- 1]]))  ovlp_df$ovlp.sels[i- 1] else if (any(!is.na(ovlp_df$ovlp.sels[1:(i -1)]))) max(ovlp_df$ovlp.sels[1:(i -1)], na.rm = TRUE) + 1 else 1
+  }
 
   if (index) {
     return(which(!is.na(ovlp_df$ovlp.sels)))
