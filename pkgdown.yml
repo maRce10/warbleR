@@ -1,0 +1,13 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  Intro_to_warbleR: Intro_to_warbleR.html
+  warbleR_workflow_01: warbleR_workflow_01.html
+  warbleR_workflow_02: warbleR_workflow_02.html
+  warbleR_workflow_03: warbleR_workflow_03.html
+last_built: 2023-01-30T17:19Z
+urls:
+  reference: https://marce10.github.io/warbleR/reference
+  article: https://marce10.github.io/warbleR/articles
+
