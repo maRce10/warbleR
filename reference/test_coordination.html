@@ -78,7 +78,7 @@ individual (indiv), and start and end time of signal (start and end).</p></dd>
 
 
 <dt>ovlp.method</dt>
-<dd><p>Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count' and 'duration'. As the name suggests, the 'count' method will count the number of overlapping signals while 'duration' will measure the total duration (in s) in which signals overlap. Default is 'count'.</p></dd>
+<dd><p>Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count', 'time.overlap' (previously call 'duration') and 'time.distance'. As the name suggests, the 'count' method will count the number of overlapping signals, 'time.overlap' will measure the total duration (in s) in which signals overlap, and 'time.closest' will quantify the time to the other individual's closest signal. Default is 'count'. 'time.closest' is the only method that can take more than 2 individuals.</p></dd>
 
 
 <dt>randomization</dt>
@@ -141,14 +141,14 @@ A-B-A-B-A-B. Default is  <code>FALSE</code>.</p></dd>
 The function shuffles the sequences of signals and silence-between-signals for both individuals to produce
 a null distribution of overlaps expected by chance. The observed overlaps is compared to this
 expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher)
-than the observed value. All procedures described in Masco et al. (2015) are implemented. In addition, either the number (<code>ovlp.method = "count"</code>) or the total duration (<code>ovlp.method = "duration"</code>) in which signals overlap can be used for estimating the overall degree of overlap. The function runs one test for each singing event in the input data frame. This function assumes that there are no overlaps between signals belonging to the same individual. See Masco et al. (2015) for recommendations on randomization procedures for specific signal structures.</p>
+than the observed value. All procedures described in Masco et al. (2015) are implemented. In addition, either the number (<code>ovlp.method = "count"</code>) or the total duration (<code>ovlp.method = "time.overlap"</code>) in which signals overlap can be used for estimating the overall degree of overlap. The function runs one test for each singing event in the input data frame. This function assumes that there are no overlaps between signals belonging to the same individual. See Masco et al. (2015) for recommendations on randomization procedures for specific signal structures.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals.
  Methods in Ecology and Evolution, 8(2), 184-191.Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
- (2017) To overlap or not to overlap: context-dependent coordinated singing in
- lekking long-billed hermits. Animal Behavior  124, 57-65.Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song
+(2017) To overlap or not to overlap: context-dependent coordinated singing in
+lekking long-billed hermits. Animal Behavior  124, 57-65.Keenan EL, Odom KJ, M Araya-Salas, KG Horton, M Strimas-Mackey,MA Meatte, NI Mann,PJ Slater,JJ Price, and CN Templeton . 2020. Breeding season length predicts duet coordination and consistency in Neotropical wrens (Troglodytidae). Proceeding of the Royal Society B. 20202482.Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song
 Overlap Null model Generator (SONG): a new tool for distinguishing between random
 and non-random song overlap. Bioacoustics.Rivera-Caceres K, E Quiros-Guerrero E, M Araya-Salas, C Templeton &amp; W Searcy. (2018). Early development of vocal interaction rules in a duetting songbird. Royal Society Open Science. 5, 171791.Rivera-Caceres K, E Quiros-Guerrero, M Araya-Salas &amp; W Searcy. (2016). Neotropical wrens learn new duet as adults. Proceedings of the Royal Society B. 285, 20161819</p>
     </div>
@@ -173,13 +173,13 @@ and non-random song overlap. Bioacoustics.Rivera-Caceres K, E Quiros-Guerrero E,
 <span class="r-in"><span><span class="fu">test_coordination</span><span class="op">(</span><span class="va">sim_coor_sing</span>, less.than.chance <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># using "duration" method and "keep.song.order" as randomization procedure</span></span></span>
-<span class="r-in"><span><span class="fu">test_coordination</span><span class="op">(</span><span class="va">sim_coor_sing</span>, ovlp.method <span class="op">=</span>  <span class="st">"duration"</span>,</span></span>
+<span class="r-in"><span><span class="fu">test_coordination</span><span class="op">(</span><span class="va">sim_coor_sing</span>, ovlp.method <span class="op">=</span>  <span class="st">"time.overlap"</span>,</span></span>
 <span class="r-in"><span>randomization <span class="op">=</span> <span class="st">"keep.song.order"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sing.event obs.ovlp mean.random.ovlp p.value coor.score</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     altern 1.098593         3.232433    0.00     -0.660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       ovlp 5.991010         3.630573    1.00      0.650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    uncoord 3.097526         3.250848    0.36     -0.047</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     altern 1.098593         3.234261    0.00      -0.66</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       ovlp 5.991010         3.651997    1.00       0.64</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    uncoord 3.097526         3.225044    0.35      -0.04</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
