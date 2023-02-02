@@ -7,7 +7,12 @@
 #' @param  X Data frame containing columns for singing event (sing.event),
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param iterations number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.
-#' @param ovlp.method Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count' and 'duration'. As the name suggests, the 'count' method will count the number of overlapping signals while 'duration' will measure the total duration (in s) in which signals overlap. Default is 'count'.
+#' @param ovlp.method Character string defining the method to measure the amount of overlap. Three methods are available:
+#' \itemize{
+#'    \item \code{count}: count the number of overlapping signals (default)
+#'    \item \code{time.overlap}: measure the total duration (in s) in which signals overlap
+#'    \item \code{time.distance}: measure the time (in s) to the other individual's closest signal. This is the only method that can take more than 2 individuals.
+#'    }
 #' @param randomization Character string defining the procedure for signal randomization. Three methods are available:
 #' \itemize{
 #'  \item \code{keep.gaps} the position of both signals and gaps (i.e. intervals between signals) are randomized. Default.
@@ -48,7 +53,7 @@
 #' The function shuffles the sequences of signals and silence-between-signals for both individuals to produce
 #' a null distribution of overlaps expected by chance. The observed overlaps is compared to this
 #' expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher)
-#' than the observed value. All procedures described in Masco et al. (2015) are implemented. In addition, either the number (\code{ovlp.method = "count"}) or the total duration (\code{ovlp.method = "duration"}) in which signals overlap can be used for estimating the overall degree of overlap. The function runs one test for each singing event in the input data frame. This function assumes that there are no overlaps between signals belonging to the same individual. See Masco et al. (2015) for recommendations on randomization procedures for specific signal structures.
+#' than the observed value. All procedures described in Masco et al. (2015) are implemented. In addition, either the number (\code{ovlp.method = "count"}) or the total duration (\code{ovlp.method = "time.overlap"}) in which signals overlap can be used for estimating the overall degree of overlap. The function runs one test for each singing event in the input data frame. This function assumes that there are no overlaps between signals belonging to the same individual. See Masco et al. (2015) for recommendations on randomization procedures for specific signal structures.
 #' @examples{
 #' #load  simulated singing data (see data documentation)
 #' data(sim_coor_sing)
@@ -63,7 +68,7 @@
 #' test_coordination(sim_coor_sing, less.than.chance = FALSE)
 #'
 #' # using "duration" method and "keep.song.order" as randomization procedure
-#' test_coordination(sim_coor_sing, ovlp.method =  "duration",
+#' test_coordination(sim_coor_sing, ovlp.method =  "time.overlap",
 #' randomization = "keep.song.order")
 #' }
 #'
@@ -73,8 +78,10 @@
 #'  Methods in Ecology and Evolution, 8(2), 184-191.
 #'
 #' Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
-#'  (2017) To overlap or not to overlap: context-dependent coordinated singing in
-#'  lekking long-billed hermits. Animal Behavior  124, 57-65.
+#' (2017) To overlap or not to overlap: context-dependent coordinated singing in
+#' lekking long-billed hermits. Animal Behavior  124, 57-65.
+#'  
+#' Keenan EL, Odom KJ, M Araya-Salas, KG Horton, M Strimas-Mackey,MA Meatte, NI Mann,PJ Slater,JJ Price, and CN Templeton . 2020. Breeding season length predicts duet coordination and consistency in Neotropical wrens (Troglodytidae). Proceeding of the Royal Society B. 20202482.
 #'
 #' Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song
 #' Overlap Null model Generator (SONG): a new tool for distinguishing between random
@@ -157,7 +164,7 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   sng.cnt <- apply(qw, 1, function(x) any(na.omit(x) < cutoff))
 
   # complete singing events
-  if (any(indiv.cnt != 2)) {
+  if (any(indiv.cnt < 2)) {
     if (rm.incomp) {
       X <- X[X$sing.event %in% names(indiv.cnt)[indiv.cnt == 2], ]
       warning2("Some events didn't have 2 interacting individuals and were excluded")
@@ -166,6 +173,9 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
     }
   }
 
+  # if any more event has more than 2 individuals
+  if (any(indiv.cnt > 2) & ovlp.method != "time.closest")
+    stop2("Some events have more than 2 individuals, this is only possible with ovlp.method = 'time.closest'")
 
   # deal with cutoff value
   if (any(sng.cnt)) {
@@ -183,10 +193,11 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
     if (!length(iterations) == 1) stop2("'interations' must be a numeric vector of length 1")
   }
 
+  # round iterations
   iterations <- round(iterations)
 
   # interations should be positive
-  if (iterations < 1) stop2("'iterations' must be a positive integer")
+  if (iterations < 2) stop2("'iterations' must be > 1")
 
   # if parallel is not numeric
   if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1")
@@ -195,88 +206,65 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   # randomization function
   rndmFUN <- function(Y) {
     Y <- Y[order(Y$start), ]
-
-    # remove solo singing
-    # if (rm.solo)
-    # {
-    #   fst <- max(c(which(Y$start==min(Y$start[Y$indiv==unique(Y$indiv)[1]])),
-    #                which(Y$start==min(Y$start[Y$indiv==unique(Y$indiv)[2]])))) - 1
-    #
-    #   lst <- min(c(which(Y$start==max(Y$start[Y$indiv==unique(Y$indiv)[1]])),
-    #                which(Y$start==max(Y$start[Y$indiv==unique(Y$indiv)[2]])))) + 1
-    #
-    #   Y <- Y[fst:lst, ]
-    # }
-
-    Y1 <- Y[Y$indiv == unique(Y$indiv)[1], ]
-    Y2 <- Y[Y$indiv == unique(Y$indiv)[2], ]
-
+    Y_list <- split(Y, Y$indiv)
+    
     # null model
     # duration of signals
-    dur1 <- Y1$end - Y1$start
-    dur2 <- Y2$end - Y2$start
-
+    durs <- lapply(Y_list, function(x) x$end - x$start)
+    
     # duration of gaps
-    gap1 <- sapply(1:(nrow(Y1) - 1), function(x) {
-      Y1$start[x + 1] - Y1$end[x]
+    gaps <- lapply(Y_list, function(y) sapply(1:(nrow(y) - 1), function(x) {
+      y$start[x + 1] - y$end[x]
     })
-    gap2 <- sapply(1:(nrow(Y2) - 1), function(x) {
-      Y2$start[x + 1] - Y2$end[x]
-    })
-
+    )
+    
     # randomize
     rnd.dfs <- lapply(1:iterations, function(x) {
       # randomize gaps
       if (randomization %in% c("keep.gaps", "keep.song.order")) {
-        gap1 <- sample(gap1)
-        gap2 <- sample(gap2)
+        gaps <- lapply(gaps, sample)
       }
 
       if (randomization == "sample.gaps") {
         # generate gaps from lognormal distribution
-        gap1 <- stats::rlnorm(n = length(gap1), meanlog = mean(log(c(gap1, gap2))), sdlog = stats::sd(log(c(gap1, gap2))))
-
-        gap2 <- stats::rlnorm(n = length(gap2), meanlog = mean(log(c(gap1, gap2))), sdlog = stats::sd(log(c(gap1, gap2))))
-      }
+        gaps <- lapply(gaps, function(x)
+          stats::rlnorm(n = length(x), meanlog = mean(log(unlist(gaps))), sdlog = stats::sd(log(unlist(gaps))))
+          )
+        }
 
       # randomize signals
       if (randomization %in% c("keep.gaps", "sample.gaps")) {
-        dur1 <- sample(dur1)
-        dur2 <- sample(dur2)
+        durs <- lapply(durs, sample)
       }
 
       # put all back together as a sequence of signals and gaps
-      nbt1 <- NULL
-      for (i in 1:(length(dur1) - 1))
-      {
-        nbt1[i] <- dur1[i] + gap1[i]
-        if (i != 1) nbt1[i] <- nbt1[i] + nbt1[i - 1]
-      }
-      nbt1 <- c(0, nbt1)
-      nbt1 <- nbt1 + min(Y1$start)
-      net1 <- nbt1 + dur1
+      ndfs_list <- lapply(names(Y_list), function(x){
+        
+        nbt <- NULL
+        for (i in 1:(length(durs[[x]]) - 1))
+        {
+          nbt[i] <- durs[[x]][i] + gaps[[x]][i]
+          if (i != 1) nbt[i] <- nbt[i] + nbt[i - 1]
+        }
+        nbt <- c(0, nbt)
+        nbt <- nbt + min(Y_list[[x]]$start)
+        net <- nbt + durs[[x]]
+        
+        ndf <- data.frame(
+          indiv = x,
+          start = nbt,
+          end = net
+        )
+        
+        return(ndf)
+        })
+      
+      ndfs <- do.call(rbind, ndfs_list)
+      ndfs <- ndfs[order(ndfs$start), ]
 
-      nbt2 <- NULL
-      for (i in 1:(length(dur2) - 1))
-      {
-        nbt2[i] <- dur2[i] + gap2[i]
-        if (i != 1) nbt2[i] <- nbt2[i] + nbt2[i - 1]
-      }
-      nbt2 <- c(0, nbt2)
-      nbt2 <- nbt2 + min(Y2$start)
-      net2 <- nbt2 + dur2
+      rownames(ndfs) <- 1:nrow(ndfs)
 
-      ndf <- data.frame(
-        indiv = c(rep(1, length(nbt1)), rep(2, length(nbt2))),
-        start = c(nbt1, nbt2),
-        end = c(net1, net2)
-      )
-
-      ndf <- ndf[order(ndf$start), ]
-
-      rownames(ndf) <- 1:nrow(ndf)
-
-      return(ndf)
+      return(ndfs)
     })
 
 
@@ -307,54 +295,71 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
     return(sum(out))
   }
 
-  # duration ovlp.method
+  #time.overlap
   durFUN <- function(Z) {
     # order by time and add duration
     Z <- Z[order(Z$start), ]
     Z$duration <- Z$end - Z$start
-
+    
     Z1 <- Z[Z$indiv == unique(Z$indiv)[1], ]
-
+    
     Z2 <- Z[Z$indiv == unique(Z$indiv)[2], ]
-
+    
     out <- sapply(1:nrow(Z1), function(i) {
       # target start and end
       trg.strt <- Z1$start[i]
       trg.end <- Z1$end[i]
-
+      
       # get the ones that overlap
       Z2 <- Z2[Z2$end > trg.strt & Z2$start < trg.end, , drop = FALSE]
-
+      
       if (nrow(Z2) > 0) # set new start and end at edges of overlaping signals
-        {
-          if (any(Z2$start < trg.strt)) {
-            trg.strt <- max(Z2$end[Z2$start < trg.strt])
-          }
-
-          if (any(Z2$end > trg.end)) {
-            trg.end <- min(Z2$start[Z2$end > trg.end])
-          }
-
-          # new duration
-          no.ovlp.dur <- trg.end - trg.strt
-
-          ovlp <- if (no.ovlp.dur > 0) Z1$duration[i] - no.ovlp.dur else Z1$duration[i]
-
-          return(ovlp)
-        } else {
+      {
+        if (any(Z2$start < trg.strt)) {
+          trg.strt <- max(Z2$end[Z2$start < trg.strt])
+        }
+        
+        if (any(Z2$end > trg.end)) {
+          trg.end <- min(Z2$start[Z2$end > trg.end])
+        }
+        
+        # new duration
+        no.ovlp.dur <- trg.end - trg.strt
+        
+        ovlp <- if (no.ovlp.dur > 0) Z1$duration[i] - no.ovlp.dur else Z1$duration[i]
+        
+        return(ovlp)
+      } else {
         return(0)
       }
     })
-
+    
     return(sum(out))
+  }
+  
+  # time.distance ovlp.method
+  closestFUN <- function(Z) {
+    
+    timediffs <- vapply(seq_len(nrow(Z)), function(i) {
+      
+      Z_others <- Z[Z$indiv != Z$indiv[i], ]
+      
+      timediff <- if (any(Z_others$end > Z$start[i] & Z_others$start < Z$end[i])) 0 else 
+        min(abs(c(Z_others$start - Z$end[i], Z_others$end - Z$start[i]))) 
+      
+      return(timediff)
+        }, FUN.VALUE = numeric(1))
+
+    return(mean(timediffs))
   }
 
   # select function/ovlp.method
-  coortestFUN <- if (ovlp.method == "count") countFUN else durFUN
-
-
-
-
+  coortestFUN <- if (ovlp.method == "count") countFUN  else
+  # duration kept for compatibility with previous versions
+     if (ovlp.method %in% c("time.overlap", "duration")) durFUN else
+  # time to closest call from other individuals
+       if (ovlp.method == "time.closest") closestFUN
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

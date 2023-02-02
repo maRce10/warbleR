@@ -14,7 +14,7 @@ individual (indiv), and start and end time of signal (start and end).}
 
 \item{iterations}{number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.}
 
-\item{ovlp.method}{Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count' and 'duration'. As the name suggests, the 'count' method will count the number of overlapping signals while 'duration' will measure the total duration (in s) in which signals overlap. Default is 'count'.}
+\item{ovlp.method}{Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count', 'time.overlap' (previously call 'duration') and 'time.distance'. As the name suggests, the 'count' method will count the number of overlapping signals, 'time.overlap' will measure the total duration (in s) in which signals overlap, and 'time.closest' will quantify the time to the other individual's closest signal. Default is 'count'. 'time.closest' is the only method that can take more than 2 individuals.}
 
 \item{randomization}{Character string defining the procedure for signal randomization. Three methods are available:
 \itemize{
@@ -67,7 +67,7 @@ This function calculates the probability of finding an equal or more extreme amo
 The function shuffles the sequences of signals and silence-between-signals for both individuals to produce
 a null distribution of overlaps expected by chance. The observed overlaps is compared to this
 expected values. The p-values are calculated as the proportion of random expected values that were lower (or higher)
-than the observed value. All procedures described in Masco et al. (2015) are implemented. In addition, either the number (\code{ovlp.method = "count"}) or the total duration (\code{ovlp.method = "duration"}) in which signals overlap can be used for estimating the overall degree of overlap. The function runs one test for each singing event in the input data frame. This function assumes that there are no overlaps between signals belonging to the same individual. See Masco et al. (2015) for recommendations on randomization procedures for specific signal structures.
+than the observed value. All procedures described in Masco et al. (2015) are implemented. In addition, either the number (\code{ovlp.method = "count"}) or the total duration (\code{ovlp.method = "time.overlap"}) in which signals overlap can be used for estimating the overall degree of overlap. The function runs one test for each singing event in the input data frame. This function assumes that there are no overlaps between signals belonging to the same individual. See Masco et al. (2015) for recommendations on randomization procedures for specific signal structures.
 }
 \examples{
 {
@@ -84,7 +84,7 @@ test_coordination(sim_coor_sing)
 test_coordination(sim_coor_sing, less.than.chance = FALSE)
 
 # using "duration" method and "keep.song.order" as randomization procedure
-test_coordination(sim_coor_sing, ovlp.method =  "duration",
+test_coordination(sim_coor_sing, ovlp.method =  "time.overlap",
 randomization = "keep.song.order")
 }
 
@@ -95,8 +95,10 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
  Methods in Ecology and Evolution, 8(2), 184-191.
 
 Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
- (2017) To overlap or not to overlap: context-dependent coordinated singing in
- lekking long-billed hermits. Animal Behavior  124, 57-65.
+(2017) To overlap or not to overlap: context-dependent coordinated singing in
+lekking long-billed hermits. Animal Behavior  124, 57-65.
+ 
+Keenan EL, Odom KJ, M Araya-Salas, KG Horton, M Strimas-Mackey,MA Meatte, NI Mann,PJ Slater,JJ Price, and CN Templeton . 2020. Breeding season length predicts duet coordination and consistency in Neotropical wrens (Troglodytidae). Proceeding of the Royal Society B. 20202482.
 
 Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song
 Overlap Null model Generator (SONG): a new tool for distinguishing between random
