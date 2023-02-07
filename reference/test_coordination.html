@@ -78,7 +78,10 @@ individual (indiv), and start and end time of signal (start and end).</p></dd>
 
 
 <dt>ovlp.method</dt>
-<dd><p>Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count', 'time.overlap' (previously call 'duration') and 'time.distance'. As the name suggests, the 'count' method will count the number of overlapping signals, 'time.overlap' will measure the total duration (in s) in which signals overlap, and 'time.closest' will quantify the time to the other individual's closest signal. Default is 'count'. 'time.closest' is the only method that can take more than 2 individuals.</p></dd>
+<dd><p>Character string defining the method to measure the amount of overlap. Three methods are available:</p><ul><li><p><code>count</code>: count the number of overlapping signals (default)</p></li>
+<li><p><code>time.overlap</code>: measure the total duration (in s) in which signals overlap</p></li>
+<li><p><code>time.distance</code>: measure the time (in s) to the other individual's closest signal. This is the only method that can take more than 2 individuals.</p></li>
+</ul></dd>
 
 
 <dt>randomization</dt>
