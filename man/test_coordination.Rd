@@ -14,7 +14,12 @@ individual (indiv), and start and end time of signal (start and end).}
 
 \item{iterations}{number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.}
 
-\item{ovlp.method}{Character string defining the method to measure the amount of overlap. Two methods are accepted: 'count', 'time.overlap' (previously call 'duration') and 'time.distance'. As the name suggests, the 'count' method will count the number of overlapping signals, 'time.overlap' will measure the total duration (in s) in which signals overlap, and 'time.closest' will quantify the time to the other individual's closest signal. Default is 'count'. 'time.closest' is the only method that can take more than 2 individuals.}
+\item{ovlp.method}{Character string defining the method to measure the amount of overlap. Three methods are available:
+\itemize{
+   \item \code{count}: count the number of overlapping signals (default)
+   \item \code{time.overlap}: measure the total duration (in s) in which signals overlap
+   \item \code{time.distance}: measure the time (in s) to the other individual's closest signal. This is the only method that can take more than 2 individuals.
+   }}
 
 \item{randomization}{Character string defining the procedure for signal randomization. Three methods are available:
 \itemize{

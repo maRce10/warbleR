@@ -139,17 +139,14 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
       Y <- X[X$sing.event == x, ]
 
       Y <- Y[order(Y$start), ]
+      Y_list <- split(Y, Y$indiv)
+      
+      fst <- max(sapply(Y_list, function(x) which(Y$start == min(x$start))))  - 1
+      lst <- min(sapply(Y_list, function(x) which(Y$start == max(x$start))))  - 1
 
-      fst <- max(c(
-        which(Y$start == min(Y$start[Y$indiv == unique(Y$indiv)[1]])),
-        which(Y$start == min(Y$start[Y$indiv == unique(Y$indiv)[2]]))
-      )) - 1
-
-      lst <- min(c(
-        which(Y$start == max(Y$start[Y$indiv == unique(Y$indiv)[1]])),
-        which(Y$start == max(Y$start[Y$indiv == unique(Y$indiv)[2]]))
-      )) + 1
-
+      if(lst > nrow(Y))
+        lst <- nrow(Y)
+      
       Y <- Y[fst:lst, ]
     })
 
