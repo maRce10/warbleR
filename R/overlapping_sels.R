@@ -158,7 +158,7 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
       Y$indx.row <- NA
     }
 
-    return(Y)
+    return(as.data.frame(Y))
   }
 
   # set clusters for windows OS

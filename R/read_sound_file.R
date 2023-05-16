@@ -254,7 +254,7 @@ read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, ch
     
     warbleR_options(flac.path = if (missing("flac.path")) "" else flac.path)
   } else
-    run_flac <- if (getOption("warbleR")$flac.path == "") "flac" else
+    run_flac <- if (getOption("warbleR")$flac.path %in% c("", "flac")) "flac" else
 file.path(getOption("warbleR")$flac.path, "flac")
   
    # create temporary file for convertin to a wav to be read at the end
