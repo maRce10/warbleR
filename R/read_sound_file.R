@@ -220,13 +220,10 @@ read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, ch
     
     # on linox and macOS
     if (.Platform$OS.type == "unix") {
-      if (missing(flac.path)) {
-        run_flac <- "flac"
-      } else {
-        run_flac <- paste(flac.path, "flac", sep = "/")
-      }
-      if (system(paste(run_flac, "-v"), ignore.stderr = TRUE) !=
-          0) 
+      run_flac <- if (missing(flac.path)) 
+         "flac" else paste(flac.path, "flac", sep = "/")
+      
+      if (system(paste(run_flac, "-v --totally-silent"), ignore.stderr = TRUE) != 0) 
         stop2("FLAC program was not found")
     }
     
@@ -252,7 +249,7 @@ read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, ch
         stop2("FLAC program was not found")
     }
     
-    warbleR_options(flac.path = if (missing("flac.path")) "" else flac.path)
+    warbleR_options(flac.path = if (missing("flac.path")) NULL else flac.path)
   } else
     run_flac <- if (getOption("warbleR")$flac.path %in% c("", "flac")) "flac" else
 file.path(getOption("warbleR")$flac.path, "flac")
