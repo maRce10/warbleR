@@ -287,7 +287,7 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
   }
       
     #frequency spectrum analysis
-    songspec <- seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl.freq, wn = wn, flim = b)
+    songspec <- suppressWarnings(seewave::spec(r, f = r@samp.rate, plot = FALSE, wl = wl.freq, wn = wn, flim = b))
     analysis <- specprop_wrblr_int(spec = songspec, f = r@samp.rate, flim = b, plot = FALSE)
 
     #from seewave's acoustat

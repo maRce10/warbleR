@@ -6,17 +6,6 @@
 \usage{
 check_sels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE,
 wav.size = FALSE, verbose = TRUE, fix.selec = FALSE)
-
-check_sels(
-  X = NULL,
-  parallel = 1,
-  path = NULL,
-  check.header = FALSE,
-  pb = TRUE,
-  wav.size = FALSE,
-  verbose = TRUE,
-  fix.selec = FALSE
-)
 }
 \arguments{
 \item{X}{'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
@@ -84,8 +73,6 @@ The function returns a data frame that includes the information in 'X' plus addi
 files (see 'Value') as well as the result of the checks ('check.res' column, value is 'OK' if everything is fine).
 Sound files should be in the working directory (or the directory provided in 'path'). Corrupt files can be fixed using
 \code{\link{fix_wavs}}.
-
-see \code{\link{check_sels}} for documentation. \code{\link{check_sels}} will be deprecated in future versions.
 }
 \examples{
 {
@@ -107,4 +94,3 @@ check_sels(X = lbh_selec_table, path = tempdir())
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
-\keyword{internal}

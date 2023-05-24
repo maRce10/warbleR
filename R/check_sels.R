@@ -321,12 +321,3 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
 
 checksels <- check_sels
 
-
-##############################################################################################################
-#' alternative name for \code{\link{check_sels}}
-#'
-#' @keywords internal
-#' @details see \code{\link{check_sels}} for documentation. \code{\link{check_sels}} will be deprecated in future versions.
-#' @export
-
-check_sels <- check_sels
