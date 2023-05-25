@@ -16,7 +16,7 @@
 #' @param reverse Logical argument to control if .wav files are converted into .flac files (default, \code{reverse = FALSE}) or .flac files are converted into .wav files \code{reverse = TRUE}.
 #' @param compression Numeric string on length 1 indicating the level of compression for .flac files. Must a number between 0 (lowest) to 8 (highest compression). Default is 5.
 #' @param flac.path Path to the flac program, mostly needed for windows OS.
-#' @return .wav files saved in the working directory with same name as original mp3 files.
+#' @return .flac files saved in the working directory with same name as original wav files.
 #' @export
 #' @details The function will convert all .wav files in working directory or 'path' supplied to .flac format (or the opposite if \code{reverse = TRUE}). For reading 'flac' files on windows the path to the .exe is required. This can be set using the 'flac.path' argument (or globally using the same argument in \code{\link{warbleR_options}}). Note that reading 'flac' files requires creating a temporary copy in 'wav' format, which can be particularly slow for long files.
 #' @name wav_2_flac

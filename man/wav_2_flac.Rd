@@ -30,7 +30,7 @@ set globally using the 'parallel' option (see \code{\link{warbleR_options}}).}
 \item{flac.path}{Path to the flac program, mostly needed for windows OS.}
 }
 \value{
-.wav files saved in the working directory with same name as original mp3 files.
+.flac files saved in the working directory with same name as original wav files.
 }
 \description{
 \code{wav_2_flac} converts several .wav files to .flac compressed lossless format
