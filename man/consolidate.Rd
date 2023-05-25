@@ -8,8 +8,7 @@ consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = "
 parallel = 1, save.csv = TRUE, ...)
 }
 \arguments{
-\item{files}{character vector or factor indicating the subset of files that will be analyzed. The files names
-should include the full file path. Optional.}
+\item{files}{character vector indicating the subset of files that will be consolidated. Files names should include the full file path. Optional.}
 
 \item{path}{Character string containing the directory path where the sound files are located.
 'wav.path' set by \code{\link{warbleR_options}} is ignored.
