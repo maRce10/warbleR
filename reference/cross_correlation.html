@@ -83,8 +83,8 @@ is 512.</p></dd>
 
 <dt>bp</dt>
 <dd><p>A numeric vector of length 2 for the lower and upper limits of a
-frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicate that values in lowest bottom.freq
-and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.</p></dd>
+frequency bandpass filter (in kHz). If columns for bottom and top frequency ('bottom.freq' and 'top.freq') are supplied "pairwise.freq.range" ca be used (default). If so, the lowest values in 'bottom.freq'
+and the highest values in 'top.freq' for the selections involved in a pairwise comparison will be used as bandpass limits.</p></dd>
 
 
 <dt>ovlp</dt>
@@ -224,7 +224,7 @@ The correlation matrix could have NA's if some of the pairwise correlation did n
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">creating spectrogram matrices (step 1 of 2):</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">running cross-correlation (step 2 of 2):</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The use of this function for signal detection (with 'compare.matrix') will be deprecated in future warbleR versions, please look at the ohun package for automatic signal detection functions (https://marce10.github.io/ohun/index.html)</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">running cross-correlation (step 2 of 1):</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">running cross-correlation (step 1 of 1):</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
