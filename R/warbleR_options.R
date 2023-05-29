@@ -100,9 +100,33 @@ warbleR_options <- function(reset = FALSE, ...) {
 
     # check flac path
     if (!is.null(argms$flac.path)) {
-      if (system(paste(if (argms$flac.path != "flac") file.path(argms$flac.path, "flac") else argms$flac.path, " -v"), ignore.stderr = TRUE) !=
-          0) 
-        stop2("FLAC program was not found")
+    
+      # on linox and macOS
+      if (.Platform$OS.type == "unix") {
+    
+        run_flac <- if (argms$flac.path == "") "flac"  else
+          paste(argms$flac.path, "flac", sep = "/")
+    
+        if (system(paste(run_flac, "-v --totally-silent"), ignore.stderr = TRUE) != 0) 
+          stop2("FLAC program was not found")
+      }
+      
+      # on windows
+      if (.Platform$OS.type == "windows") {
+        
+        run_flac <- paste("C:/Program Files/FLAC/", "flac",
+                          sep = "")
+        
+        if (!file.exists(run_flac)) 
+          run_flac <- paste("C:/Program Files (x86)/FLAC/",
+                            "flac",
+                            sep = "")
+        
+        if (!file.exists(run_flac)) 
+          stop2("FLAC program was not found")
+      }
+      
+      
     }
 
     if (length(argms) > 0) {

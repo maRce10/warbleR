@@ -72,13 +72,14 @@ duration_sound_files <- function(files = NULL, path = NULL, skip.error = FALSE, 
   if (length(files) == 0) stop2("no sound files in working directory")
 
   durs <- sapply(files, function(x) {
+    # remove temporary file
     on.exit(rm(rec))
 
     if (!skip.error) {
-      rec <- warbleR::read_sound_file(X = x, path = path, header = TRUE)
+      rec <- read_sound_file(X = x, path = path, header = TRUE)
       dur <- rec$samples / rec$sample.rate
     } else {
-      suppressWarnings(rec <- try(warbleR::read_sound_file(X = x, path = path, header = TRUE), silent = TRUE))
+      suppressWarnings(rec <- try(read_sound_file(X = x, path = path, header = TRUE), silent = TRUE))
 
       if (is(rec, "try-error")) {
         dur <- NA

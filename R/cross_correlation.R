@@ -12,8 +12,8 @@
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default
 #' is 512.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a
-#'   frequency bandpass filter (in kHz) or "pairwise.freq.range" (default) to indicate that values in lowest bottom.freq
-#'   and highest top.freq columns for the signals involved in a pairwise comparison will be used as bandpass limits.
+#'   frequency bandpass filter (in kHz). If columns for bottom and top frequency ('bottom.freq' and 'top.freq') are supplied "pairwise.freq.range" ca be used (default). If so, the lowest values in 'bottom.freq'
+#'   and the highest values in 'top.freq' for the selections involved in a pairwise comparison will be used as bandpass limits.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two
 #' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of ovlp
 #' slow down the function but produce more accurate results.
@@ -421,7 +421,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
 
   # run cross-correlation
   if (pb) {
-    message2(x = paste0("running cross-correlation (step ", current.step + 1, " of ", total.steps, "):"))
+    message2(x = paste0("running cross-correlation (step ", if (current.step + 1 <= total.steps) current.step + 1 else total.steps, " of ", total.steps, "):"))
   }
 
   # set parallel cores

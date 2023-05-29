@@ -57,6 +57,7 @@
 # last modification on may-7-2018 (MAS)
 
 read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[index], channel = X$channel[index], header = FALSE, path = NULL) {
+  
   # if is extended then index must be provided
   if (is.data.frame(X) & is.null(index)) stop2('"index" needed when a  "data.frame", "selection_table", "extended_selection_table" is provided')
 
@@ -213,43 +214,34 @@ read_wac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, cha
   return(obj)
 }
 
-read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, channel = 1, flac.path) {
+read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, channel = 1) {
 
    # set path to flac 
   if (is.null(getOption("warbleR")$flac.path)) {
     
     # on linox and macOS
     if (.Platform$OS.type == "unix") {
-      run_flac <- if (missing(flac.path)) 
-         "flac" else paste(flac.path, "flac", sep = "/")
-      
-      if (system(paste(run_flac, "-v --totally-silent"), ignore.stderr = TRUE) != 0) 
+     
+      run_flac <- "flac"
+       if (system(paste0(run_flac, " -v --totally-silent"), ignore.stderr = TRUE) != 0) 
         stop2("FLAC program was not found")
     }
-    
     # on windows
     if (.Platform$OS.type == "windows") {
-      if (missing(flac.path)) {
-        "flac" <- "flac.exe"
-      }
-      if (missing(flac.path)) {
+
         run_flac <- paste("C:/Program Files/FLAC/", "flac",
-                          sep = ""
-        )
-        if (!file.exists(run_flac)) {
+                          sep = "")
+ 
+    if (!file.exists(run_flac)) 
           run_flac <- paste("C:/Program Files (x86)/FLAC/",
                             "flac",
-                            sep = ""
-          )
-        }
-      } else {
-        run_flac <- paste(flac.path, "flac", sep = "/")
-      }
-      if (!file.exists(run_flac)) 
+                            sep = "")
+   
+    if (!file.exists(run_flac)) 
         stop2("FLAC program was not found")
     }
     
-    warbleR_options(flac.path = if (missing("flac.path")) NULL else flac.path)
+    warbleR_options(flac.path = "")
   } else
     run_flac <- if (getOption("warbleR")$flac.path %in% c("", "flac")) "flac" else
 file.path(getOption("warbleR")$flac.path, "flac")
