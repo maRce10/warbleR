@@ -2,6 +2,7 @@
 
 ## Changes and additions:
 
+* `full_spectrograms()` new argument 'only.annotated' to only print pages that contain annotations.
 * New method ('time.closest') in `test_coordination()` which estimate coordination between more than 2 individuals 
 * Warning messages in `check_sels()` and `check_sound_files()` when having sound files/wave objects with different sampling rates
 * Fix bug in file size estimation when 'whole.recs = TRUE' in `selection_table()` 

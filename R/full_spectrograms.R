@@ -6,7 +6,8 @@
 #' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512, gr = FALSE,
 #' pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL,
 #' overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec",
-#'  horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL, ...)
+#'  horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL, 
+#'  only.annotated = FALSE, ...)
 #' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number
@@ -59,6 +60,7 @@
 #' @param suffix Character vector of length 1. Suffix for the output image file (to be added at the end of the default file name). Default is \code{NULL}.
 #' @param dest.path Character string containing the directory path where the image files will be saved.
 #' If \code{NULL} (default) then the folder containing the sound files will be used instead.
+#' @param only.annotated Logical argument to control if only the pages that contained annotated sounds (from 'X') are printed. Only used if 'X' is supplied.
 #' @param ... Additional arguments for image formatting. It accepts 'width', 'height' (which will overwrite 'horizontal') and 'res' as in \code{\link[grDevices]{png}}.
 #' @return image files with spectrograms of entire sound files in the working directory. Multiple pages
 #' can be returned, depending on the length of each sound file.
@@ -101,7 +103,7 @@
 # last modification on mar-13-2018 (MAS)
 
 full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1,
-                              wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL, ...) {
+                              wl = 512, gr = FALSE, pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL, overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec", horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL, only.annotated = FALSE, ...) {
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(full_spectrograms)
@@ -217,7 +219,6 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
       if (any(!grepl("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE, W$sound.files))) {
         W$sound.files <- substr(x = W$sound.files, start = 0, stop = sapply(gregexpr(pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE, W$sound.files), "[[", 1) + 3)
       }
-
 
       # get selection table and overwrite X
       X <- X$selection.table
@@ -341,6 +342,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
   # create function for making spectrograms
   lspecFUN <- function(z, fl, sl, li, X, W) {
+    
     rec <- warbleR::read_sound_file(X = z, path = path) # read wave file
 
     f <- rec@samp.rate # set sampling rate
@@ -367,11 +369,31 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
     dur <- seewave::duration(rec) # reset duration
 
-    if (!is.null(X)) Y <- X[X$sound.files == z, ] # subset X data
+    # get page id
+    pages <- 1:ceiling(dur / (li * sl))
+    
+    pages_df <- data.frame(page = pages, start = li * sl * (pages - 1), end = li * sl * (pages))
+    pages_df$annotated <- TRUE
+    
+    if (!is.null(X)) {
+      Y <- X[X$sound.files == z, ] # subset X data
+    # get id of pages to print if only.annotated = TRUE
+      if (only.annotated)
+    pages_df$annotated <- vapply(seq_len(nrow(pages_df)), function(x){
+      
+      any_annotation <- sum(Y$start > pages_df$start[x] & Y$start < pages_df$end[x] |Y$end > pages_df$start[x] & Y$end < pages_df$end[x])
+      
+      annotated <- if (any_annotation > 0)  TRUE else FALSE
+      return(annotated)
+    }, FUN.VALUE = logical(1))
+    }
+    
     if (!is.null(X) & !is.null(song)) Ysong <- Xsong[Xsong$sound.files == z, , drop = FALSE]
 
+
+    
     # loop over pages
-    no.out <- lapply(1:ceiling(dur / (li * sl)), function(j) {
+    no.out <- lapply(pages_df$page[pages_df$annotated], function(j) {
       img_wrlbr_int(filename = paste0(substring(z, first = 1, last = nchar(z) - 4), "-", suffix, "-p", j, ".", it), path = dest.path, units = "in", horizontal = horizontal, ...)
 
       # set number of rows

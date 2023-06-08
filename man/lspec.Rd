@@ -27,6 +27,7 @@ lspec(
   song = NULL,
   suffix = NULL,
   dest.path = NULL,
+  only.annotated = FALSE,
   ...
 )
 }
