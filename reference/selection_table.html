@@ -62,7 +62,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">selection_table</span><span class="op">(</span><span class="va">X</span>, max.dur <span class="op">=</span> <span class="fl">10</span>, path <span class="op">=</span> <span class="cn">NULL</span>, whole.recs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>extended <span class="op">=</span> <span class="cn">FALSE</span>, confirm.extended <span class="op">=</span> <span class="cn">TRUE</span>, mar <span class="op">=</span> <span class="fl">0.1</span>, by.song <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>extended <span class="op">=</span> <span class="cn">FALSE</span>, confirm.extended <span class="op">=</span> <span class="cn">FALSE</span>, mar <span class="op">=</span> <span class="fl">0.1</span>, by.song <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>pb <span class="op">=</span> <span class="cn">TRUE</span>, parallel <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, skip.error <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>file.format <span class="op">=</span> <span class="st">"\\.wav$|\\.wac$|\\.mp3$|\\.flac$"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -107,7 +107,7 @@ is if <code>FALSE</code>. An extended selection table won't be created if there 
 <dd><p>Logical. If <code>TRUE</code> then the size of the 'extended_selection_table'
 will be estimated and the user will be asked for confirmation (in the console)
 before proceeding. Ignored if 'extended' is <code>FALSE</code>. This is used to prevent
-generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size.</p></dd>
+generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT WILL BE DEPRECATED IN FUTURE VERSIONS.</p></dd>
 
 
 <dt>mar</dt>
@@ -216,7 +216,6 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
 <span class="r-in"><span>  <span class="co">#' # make extended selection table</span></span></span>
 <span class="r-in"><span>  <span class="va">st</span> <span class="op">&lt;-</span> <span class="fu">selection_table</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    X <span class="op">=</span> <span class="va">lbh_selec_table</span>, extended <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>    confirm.extended <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>    path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -228,10 +227,10 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">st</span> <span class="op">&lt;-</span> <span class="fu">selection_table</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    X <span class="op">=</span> <span class="va">lbh_selec_table</span>, extended <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>    confirm.extended <span class="op">=</span> <span class="cn">FALSE</span>, by.song <span class="op">=</span> <span class="st">"song"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    by.song <span class="op">=</span> <span class="st">"song"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">checking selections (step 1 of 2):</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">checking selections (step 1 of 1):</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">checking selections (step 1 of 2):</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">saving wave objects into extended selection table (step 2 of 2):</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #000000;">checking selections (step 1 of 2):</span></span>
