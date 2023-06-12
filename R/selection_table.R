@@ -2,7 +2,7 @@
 #'
 #' \code{selection_table} converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.
 #' @usage selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-#' extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL,
+#' extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL,
 #' pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
 #' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav
@@ -30,7 +30,7 @@
 #' @param confirm.extended Logical. If \code{TRUE} then the size of the 'extended_selection_table'
 #' will be estimated and the user will be asked for confirmation (in the console)
 #' before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
-#' generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size.
+#' generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT WILL BE DEPRECATED IN FUTURE VERSIONS.
 #' @param by.song Character string with the column name containing song labels. If provided a wave object containing for
 #' all selection belonging to a single song would be saved in the extended selection table (hence only applicable for
 #' extended selection tables). Note that the function assumes that song labels are not repeated within a sound file.
@@ -98,7 +98,6 @@
 #'   #' # make extended selection table
 #'   st <- selection_table(
 #'     X = lbh_selec_table, extended = TRUE,
-#'     confirm.extended = FALSE,
 #'     path = tempdir()
 #'   )
 #'
@@ -110,7 +109,7 @@
 #'
 #'   st <- selection_table(
 #'     X = lbh_selec_table, extended = TRUE,
-#'     confirm.extended = FALSE, by.song = "song", path = tempdir()
+#'     by.song = "song", path = tempdir()
 #'   )
 #' }
 #'
@@ -121,7 +120,7 @@
 # last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-                            extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ...) {
+                            extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ...) {
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(selection_table)
@@ -180,6 +179,9 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
 
   if (pb & verbose) {
+    if (!extended) 
+      message2(x = "checking selections (step 1 of 1):") else
+    
     message2(x = "checking selections (step 1 of 2):")
   }
 
@@ -425,7 +427,7 @@ is_selection_table <- function(x) inherits(x, "selection_table")
 #'   writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #'   writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
-#'   st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE, 
+#'   st <- selection_table(lbh_selec_table, extended = TRUE, 
 #'   path = tempdir())
 #'
 #'   is_extended_selection_table(st)
@@ -657,7 +659,7 @@ print.selection_table <- function(x, ...) {
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
 #' # create extended selection table
-#' ext_st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE,
+#' ext_st <- selection_table(lbh_selec_table, extended = TRUE,
 #' path = tempdir())
 #'
 #' # remove attributes

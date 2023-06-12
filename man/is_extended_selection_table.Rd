@@ -36,7 +36,7 @@ An object of class \code{extended_selection_table} created by \code{\link{select
   writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
   writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-  st <- selection_table(lbh_selec_table, extended = TRUE, confirm.extended = FALSE, 
+  st <- selection_table(lbh_selec_table, extended = TRUE, 
   path = tempdir())
 
   is_extended_selection_table(st)

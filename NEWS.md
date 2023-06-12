@@ -1,9 +1,15 @@
-# *warbleR 1.1.28*
+# *warbleR 1.1.29*
 
 ## Changes and additions:
 
 * `full_spectrograms()` new argument 'only.annotated' to only print pages that contain annotations.
 * New method ('time.closest') in `test_coordination()` which estimate coordination between more than 2 individuals 
+* Default value of 'confirm.extended' argument in `selection_table()` set to FALSE. Will be deprecated in future versions.
+
+# *warbleR 1.1.28*
+
+## Changes and additions:
+
 * Warning messages in `check_sels()` and `check_sound_files()` when having sound files/wave objects with different sampling rates
 * Fix bug in file size estimation when 'whole.recs = TRUE' in `selection_table()` 
 * Box and axis can be removed in `phylo_spectro()`

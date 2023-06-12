@@ -10,7 +10,7 @@ make.selection.table(
   path = NULL,
   whole.recs = FALSE,
   extended = FALSE,
-  confirm.extended = TRUE,
+  confirm.extended = FALSE,
   mar = 0.1,
   by.song = NULL,
   pb = TRUE,

@@ -5,7 +5,7 @@
 \title{Create 'selection_table' and 'extended_selection_table' objects}
 \usage{
 selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-extended = FALSE, confirm.extended = TRUE, mar = 0.1, by.song = NULL,
+extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL,
 pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
 file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", ...)
 }
@@ -37,7 +37,7 @@ is if \code{FALSE}. An extended selection table won't be created if there is any
 \item{confirm.extended}{Logical. If \code{TRUE} then the size of the 'extended_selection_table'
 will be estimated and the user will be asked for confirmation (in the console)
 before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
-generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size.}
+generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT WILL BE DEPRECATED IN FUTURE VERSIONS.}
 
 \item{mar}{Numeric vector of length 1 specifying the margins (in seconds)
 adjacent to the start and end points of the selections when creating extended
@@ -121,7 +121,6 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
   #' # make extended selection table
   st <- selection_table(
     X = lbh_selec_table, extended = TRUE,
-    confirm.extended = FALSE,
     path = tempdir()
   )
 
@@ -133,7 +132,7 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
 
   st <- selection_table(
     X = lbh_selec_table, extended = TRUE,
-    confirm.extended = FALSE, by.song = "song", path = tempdir()
+    by.song = "song", path = tempdir()
   )
 }
 
