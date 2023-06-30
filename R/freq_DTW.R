@@ -159,7 +159,7 @@ freq_DTW <- function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, lengt
     }
 
     # get contours
-    res <- freq_ts(X,
+    res <- freq_ts(X, type = type,
       wl = wl, length.out = length.out, wn = wn, ovlp = ovlp, wl.freq = wl.freq,
       bp = bp, threshold.time = threshold.time, threshold.freq = threshold.freq,
       img = img, parallel = parallel,

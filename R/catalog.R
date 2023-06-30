@@ -320,10 +320,10 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   if (anyNA(X[,tags]))
     stop2("NAs are not allowed in tag columns")
   
-  if (!is.null(group.tag))
-  {if (!group.tag %in% colnames(X))
+  if (!is.null(group.tag)){
+    if (!group.tag %in% colnames(X))
     stop2("group.tag column not found in data frame") else
-      X <- X[order(X[, group.tag]),]
+      X <- X[order(X[[group.tag]]),]
     
     if (is.numeric(X[, group.tag]))
       stop2("group tag cannot be numeric")

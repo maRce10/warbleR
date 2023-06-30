@@ -265,7 +265,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
       stop("'flim' must be a numeric vector of length 2") else 
       if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2") else
       if (is.character(flim) & is.null(X)) stop("'X' must be supplied when 'flim' is a character vector (dynamic frequency limits)") else
-        if (is.character(flim) & is.null(X$top.freq) | is.null(X$top.freq)) stop("'X' must contain 'top.freq' and 'bottom.freq' columns if 'flim' is a character vector (dynamic frequency limits)")
+        if (is.character(flim) & (is.null(X$top.freq) | is.null(X$top.freq))) stop("'X' must contain 'top.freq' and 'bottom.freq' columns if 'flim' is a character vector (dynamic frequency limits)")
     }
 
   # if wl is not vector or length!=1 stop
