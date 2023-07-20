@@ -56,8 +56,7 @@ wav_2_flac <-
     # get warbleR options
     opt.argms <-
       if (!is.null(getOption("warbleR")))
-        getOption("warbleR")
-    else
+        getOption("warbleR") else
       SILLYNAME <- 0
     
     # remove options not as default in call and not in function arguments
@@ -122,14 +121,11 @@ wav_2_flac <-
       }
       
       warbleR_options(flac.path = if (missing("flac.path"))
-        ""
-        else
-          flac.path)
+        "" else flac.path)
     } else
       run_flac <-
       if (getOption("warbleR")$flac.path == "")
-        "flac"
-    else
+        "flac" else
       file.path(getOption("warbleR")$flac.path, "flac")
     
     # get files in path supplied
@@ -137,8 +133,7 @@ wav_2_flac <-
       list.files(
         path = path,
         pattern = if (reverse)
-          ".flac$"
-        else
+          ".flac$" else
           ".wav$",
         ignore.case = TRUE
       )
@@ -204,8 +199,7 @@ flacwav <-
               wav_file,
               "--totally-silent",
               if (overwrite)
-                "--force"
-              else
+                "--force" else
                 ""
             ),
             ignore.stderr = TRUE
@@ -218,8 +212,7 @@ flacwav <-
               file,
               "--totally-silent",
               if (overwrite)
-                "--force"
-              else
+                "--force" else
                 "",
               compression
             ),
@@ -259,8 +252,7 @@ flacwav <-
                     type = "cmd"),
             "--totally-silent",
             if (overwrite)
-              "--force"
-            else
+              "--force" else
               "",
             sep = " "
           ),
@@ -274,8 +266,7 @@ flacwav <-
               shQuote(file, type = "cmd"),
               "--totally-silent",
               if (overwrite)
-                "--force"
-              else
+                "--force" else
                 "",
               compression,
               sep = " "

@@ -124,179 +124,179 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(selection_table)
-
+  
   # get warbleR options
   opt.argms <- if (!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
-
+  
   # remove options not as default in call and not in function arguments
   opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
-
+  
   # get arguments set in the call
   call.argms <- as.list(base::match.call())[-1]
-
+  
   # remove arguments in options that are in call
   opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
-
+  
   # set options left
   if (length(opt.argms) > 0) {
     for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
-
+  
   # check path if not provided set to working directory
   if (is.null(path)) path <- getwd() else if (!dir.exists(path)) stop2("'path' provided does not exist")
-
+  
   # if by song but column not found
   if (!is.null(by.song)) {
     if (!any(names(X) == by.song)) stop2("'by.song' column not found")
   }
-
+  
   # If parallel is not numeric
   if (!is.numeric(parallel)) stop2("'parallel' must be a numeric vector of length 1")
   if (any(!(parallel %% 1 == 0), parallel < 1)) stop2("'parallel' should be a positive integer")
-
+  
   # create a selection table for a row for each full length recording
   if (whole.recs) {
     sound.files <- list.files(path = path, pattern = file.format, ignore.case = TRUE)
-
+    
     if (length(sound.files) == 0) stop2("No sound files were found")
-
+    
     X <- data.frame(sound.files, selec = 1, channel = 1, start = 0, end = duration_sound_files(files = sound.files, path = path, skip.error = skip.error)$duration)
-
+    
     if (skip.error) {
       # get name of problematic files
       error_files <- X$sound.files[is.na(X$end)]
-
+      
       # remove them from output X
       X <- X[!is.na(X$end), ]
     }
   }
-
+  
   # create error_files if not created
   if (!exists("error_files")) {
     error_files <- vector()
   }
-
+  
   if (pb & verbose) {
     if (!extended) 
       message2(x = "checking selections (step 1 of 1):") else
-    
-    message2(x = "checking selections (step 1 of 2):")
+        
+        message2(x = "checking selections (step 1 of 2):")
   }
-
+  
   check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = FALSE, ...)
-
+  
   if (any(check.results$check.res != "OK")) stop2("Not all selections can be read (use check_sels() to locate problematic selections)")
-
+  
   X <- check.results[, names(check.results) %in% names(X)]
-
+  
   ## Set the name for the class
   class(X) <- unique(append("selection_table", class(X)))
-
+  
   check.results <- check.results[, names(check.results) %in% c("sound.files", "selec", by.song, "check.res", "duration", "min.n.sample", "sample.rate", "channels", "bits", "wav.size", "sound.file.samples")]
-
+  
   # add wave object to extended file
   if (extended) {
     if (confirm.extended) {
       exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024)
-
+      
       message2(x = paste0("Expected 'extended_selection_table' size is ~", ifelse(round(exp.size) == 0, round(exp.size, 2), round(exp.size)), "MB (~", round(exp.size / 1024, 5), " GB) \n Do you want to proceed? (y/n): "), color = "magenta")
       answer <- readline(prompt = "")
     } else {
       answer <- "yeah dude!"
     }
-
+    
     if (substr(answer, 1, 1) %in% c("y", "Y")) # if yes
+    {
+      check.results$orig.start <- X$start
+      check.results$orig.end <- X$end
+      
+      check.results$mar.after <- check.results$mar.before <- rep(mar, nrow(X))
+      
+      # get sound file duration
+      dur <- duration_wavs(files = as.character(X$sound.files), path = path)$duration
+      
+      # reset margin signals if lower than 0 or higher than duration
+      for (i in 1:nrow(X))
       {
-        check.results$orig.start <- X$start
-        check.results$orig.end <- X$end
-
-        check.results$mar.after <- check.results$mar.before <- rep(mar, nrow(X))
-
-        # get sound file duration
-        dur <- duration_wavs(files = as.character(X$sound.files), path = path)$duration
-
-        # reset margin signals if lower than 0 or higher than duration
-        for (i in 1:nrow(X))
+        if (X$start[i] < mar) check.results$mar.before[i] <- X$start[i]
+        if (X$end[i] + mar > dur[i]) check.results$mar.after[i] <- dur[i] - X$end[i]
+      }
+      
+      if (!is.null(by.song)) {
+        Y <- song_analysis(X = as.data.frame(X), song_colm = by.song, pb = FALSE)
+        Y <- Y[, names(Y) %in% c("sound.files", by.song, "start", "end")]
+        
+        check.results$song <- X[, by.song]
+        
+        # temporal column to match songs by sound file
+        check.results$song.TEMP <- paste(X$sound.files, X[, by.song, drop = TRUE], sep = "-")
+        Y$song.TEMP <- paste(Y$sound.files, Y[, by.song], sep = "-")
+        
+        Y$mar.before <- sapply(unique(Y$song.TEMP), function(x) check.results$mar.before[which.min(check.results$orig.start[check.results$song.TEMP == x])])
+        
+        Y$mar.after <- sapply(unique(Y$song.TEMP), function(x) check.results$mar.after[which.max(check.results$orig.end[check.results$song.TEMP == x])])
+        
+        # remove temporal column
+        check.results$song.TEMP <- NULL
+      } else {
+        Y <- X
+        Y$mar.before <- check.results$mar.before
+        Y$mar.after <- check.results$mar.after
+      }
+      
+      # save wave objects as a list attributes
+      # set clusters for windows OS
+      
+      if (Sys.info()[1] == "Windows" & parallel > 1) {
+        cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
+      } else {
+        cl <- parallel
+      }
+      
+      if (pb) {
+        message2(x = "saving wave objects into extended selection table (step 2 of 2):")
+      }
+      
+      attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))
+      
+      # reset for new dimensions
+      check.results$start <- X$start <- check.results$mar.before
+      check.results$end <- X$end <- check.results$mar.before + check.results$duration
+      
+      names(check.results)[names(check.results) == "sound.files"] <- "orig.sound.files"
+      names(check.results)[names(check.results) == "selec"] <- "orig.selec"
+      
+      if (!is.null(by.song)) {
+        names(attributes(X)$wave.objects) <- paste0(Y$sound.files, "-song_", Y[, by.song])
+        X$sound.files <- check.results$sound.files <- paste0(X$sound.files, "-song_", as.data.frame(X)[, names(X) == by.song, ])
+        
+        for (i in unique(X$sound.files)) {
+          check.results$selec[check.results$sound.files == i] <- X$selec[X$sound.files == i] <- 1:nrow(X[X$sound.files == i, drop = FALSE])
+        }
+        
+        check.results$n.samples <- NA
+        
+        durs <- X$end - X$start
+        
+        for (w in unique(X$sound.files))
         {
-          if (X$start[i] < mar) check.results$mar.before[i] <- X$start[i]
-          if (X$end[i] + mar > dur[i]) check.results$mar.after[i] <- dur[i] - X$end[i]
+          check.results$start[check.results$sound.files == w] <- X$start[X$sound.files == w] <- X$start[X$sound.files == w][which.min(check.results$orig.start[check.results$sound.files == w])] + (check.results$orig.start[check.results$sound.files == w] - min(check.results$orig.start[check.results$sound.files == w]))
+          
+          # add n.samples for header info
+          check.results$n.samples[check.results$sound.files == w] <- length(attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == w)]]@left)
         }
-
-        if (!is.null(by.song)) {
-          Y <- song_analysis(X = as.data.frame(X), song_colm = by.song, pb = FALSE)
-          Y <- Y[, names(Y) %in% c("sound.files", by.song, "start", "end")]
-          
-          check.results$song <- X[, by.song]
-          
-          # temporal column to match songs by sound file
-          check.results$song.TEMP <- paste(X$sound.files, X[, by.song, drop = TRUE], sep = "-")
-          Y$song.TEMP <- paste(Y$sound.files, Y[, by.song], sep = "-")
-          
-          Y$mar.before <- sapply(unique(Y$song.TEMP), function(x) check.results$mar.before[which.min(check.results$orig.start[check.results$song.TEMP == x])])
-          
-          Y$mar.after <- sapply(unique(Y$song.TEMP), function(x) check.results$mar.after[which.max(check.results$orig.end[check.results$song.TEMP == x])])
-          
-          # remove temporal column
-          check.results$song.TEMP <- NULL
-        } else {
-          Y <- X
-          Y$mar.before <- check.results$mar.before
-          Y$mar.after <- check.results$mar.after
-        }
+        check.results$end <- X$end <- X$start + durs
+      } else {
+        names(attributes(X)$wave.objects) <- check.results$sound.files <- X$sound.files <- paste(basename(as.character(X$sound.files)), X$selec, sep = "_")
+        check.results$selec <- X$selec <- 1
         
-        # save wave objects as a list attributes
-        # set clusters for windows OS
-        
-        if (Sys.info()[1] == "Windows" & parallel > 1) {
-          cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
-        } else {
-          cl <- parallel
-        }
-        
-        if (pb) {
-          message2(x = "saving wave objects into extended selection table (step 2 of 2):")
-        }
-        
-        attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))
-        
-        # reset for new dimensions
-        check.results$start <- X$start <- check.results$mar.before
-        check.results$end <- X$end <- check.results$mar.before + check.results$duration
-        
-        names(check.results)[names(check.results) == "sound.files"] <- "orig.sound.files"
-        names(check.results)[names(check.results) == "selec"] <- "orig.selec"
-        
-        if (!is.null(by.song)) {
-          names(attributes(X)$wave.objects) <- paste0(Y$sound.files, "-song_", Y[, by.song])
-          X$sound.files <- check.results$sound.files <- paste0(X$sound.files, "-song_", as.data.frame(X)[, names(X) == by.song, ])
-          
-          for (i in unique(X$sound.files)) {
-            check.results$selec[check.results$sound.files == i] <- X$selec[X$sound.files == i] <- 1:nrow(X[X$sound.files == i, drop = FALSE])
-          }
-          
-          check.results$n.samples <- NA
-          
-          durs <- X$end - X$start
-          
-          for (w in unique(X$sound.files))
-          {
-            check.results$start[check.results$sound.files == w] <- X$start[X$sound.files == w] <- X$start[X$sound.files == w][which.min(check.results$orig.start[check.results$sound.files == w])] + (check.results$orig.start[check.results$sound.files == w] - min(check.results$orig.start[check.results$sound.files == w]))
-            
-            # add n.samples for header info
-            check.results$n.samples[check.results$sound.files == w] <- length(attr(X, "wave.objects")[[which(names(attr(X, "wave.objects")) == w)]]@left)
-          }
-          check.results$end <- X$end <- X$start + durs
-        } else {
-          names(attributes(X)$wave.objects) <- check.results$sound.files <- X$sound.files <- paste(basename(as.character(X$sound.files)), X$selec, sep = "_")
-          check.results$selec <- X$selec <- 1
-          
-          check.results$n.samples <- as.vector(sapply(attr(X, "wave.objects"), function(x) length(x@left))) # add n.samples for header info
-        }
-        
-        ## Set the name for the class
-        class(X)[class(X) == "selection_table"] <- "extended_selection_table"
+        check.results$n.samples <- as.vector(sapply(attr(X, "wave.objects"), function(x) length(x@left))) # add n.samples for header info
+      }
+      
+      ## Set the name for the class
+      class(X)[class(X) == "selection_table"] <- "extended_selection_table"
     }
   } else {
     check.results$n.samples <- check.results$sound.file.samples

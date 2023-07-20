@@ -77,7 +77,7 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE) {
 
     # if more than 1 row calculate gaps
     if (nrow(Y) > 1) {
-      Y$gaps[-nrow(Y)] <- Y$end[-1] - Y$start[-nrow(Y)]
+      Y$gaps[-nrow(Y)] <- Y$start[-1] - Y$end[-nrow(Y)]
     }
 
     Y <- as.data.frame(Y)
@@ -101,7 +101,6 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE) {
   } else {
     cl <- parallel
   }
-
 
   # run loop apply function
   gaps_l <- pblapply_wrblr_int(pbar = pb, X = unique(X$..by), cl = cl, FUN = function(i) {
