@@ -64,7 +64,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">selection_table</span><span class="op">(</span><span class="va">X</span>, max.dur <span class="op">=</span> <span class="fl">10</span>, path <span class="op">=</span> <span class="cn">NULL</span>, whole.recs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>extended <span class="op">=</span> <span class="cn">FALSE</span>, confirm.extended <span class="op">=</span> <span class="cn">FALSE</span>, mar <span class="op">=</span> <span class="fl">0.1</span>, by.song <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>pb <span class="op">=</span> <span class="cn">TRUE</span>, parallel <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, skip.error <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>file.format <span class="op">=</span> <span class="st">"\\.wav$|\\.wac$|\\.mp3$|\\.flac$"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span>file.format <span class="op">=</span> <span class="st">"\\.wav$|\\.wac$|\\.mp3$|\\.flac$"</span>, files <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -143,6 +143,10 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 <dt>file.format</dt>
 <dd><p>Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\.wav$|\.wac$|\.mp3$|\.flac$"). Note that several formats can be included using regular expression syntax as in <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></code>. For instance <code>"\.wav$|\.mp3$"</code> will only include .wav and .mp3 files. Ignored if <code>whole.recs = FALSE</code>.</p></dd>
+
+
+<dt>files</dt>
+<dd><p>character vector indicating the set of files that will be consolidated. File names should not include the full file path. Optional.</p></dd>
 
 
 <dt>...</dt>
