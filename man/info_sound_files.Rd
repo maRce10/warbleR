@@ -4,12 +4,14 @@
 \alias{info_sound_files}
 \title{Get sound file parameter information}
 \usage{
-info_sound_files(path = NULL, parallel = 1, pb = TRUE, skip.error = FALSE,
+info_sound_files(path = NULL, files = NULL, parallel = 1, pb = TRUE, skip.error = FALSE,
 file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 }
 \arguments{
 \item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
+
+\item{files}{character vector indicating the set of files that will be consolidated. File names should not include the full file path. Optional.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}

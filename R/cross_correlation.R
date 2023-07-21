@@ -98,7 +98,8 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
                               path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
                               templates = NULL, surveys = NULL,
                               compare.matrix = NULL, type = "fourier", nbands = 40, method = 1) {
-  if (!is.null(compare.matrix) | !is.null(surveys)) {
+
+    if (!is.null(compare.matrix) | !is.null(surveys)) {
     warning2("The use of this function for signal detection (with 'compare.matrix') will be deprecated in future warbleR versions, please look at the ohun package for automatic signal detection functions (https://marce10.github.io/ohun/index.html)")
   }
 
@@ -277,9 +278,9 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
       entire.sf <- setdiff(unlist(c(compare.matrix)), X$selection.id)
 
       # get duration of files
-      wvdr <- warbleR::info_sound_files(path = path, pb = FALSE)
+      wvdr <- warbleR::info_sound_files(path = path, pb = FALSE, skip.error = TRUE, files = entire.sf)
 
-      wvdr <- wvdr[wvdr$sound.files %in% entire.sf, ]
+      # wvdr <- wvdr[wvdr$sound.files %in% entire.sf, ]
 
       # put it in a data frame
       names(wvdr)[2] <- "end"

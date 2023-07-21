@@ -7,7 +7,7 @@
 selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL,
 pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
-file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", ...)
+file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", files = NULL, ...)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav
@@ -59,6 +59,8 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \item{skip.error}{Logical to control if errors are omitted. If so, files that could not be read will be excluded and their name printed in the console. Default is \code{FALSE}, which will return an error if some files are problematic.}
 
 \item{file.format}{Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\\.wav$|\\.wac$|\\.mp3$|\\.flac$"). Note that several formats can be included using regular expression syntax as in \code{\link[base]{grep}}. For instance \code{"\\.wav$|\\.mp3$"} will only include .wav and .mp3 files. Ignored if \code{whole.recs = FALSE}.}
+
+\item{files}{character vector indicating the set of files that will be consolidated. File names should not include the full file path. Optional.}
 
 \item{...}{Additional arguments to be passed to \code{\link{check_sels}} for customizing
 checking routine.}

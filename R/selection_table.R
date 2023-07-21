@@ -4,7 +4,7 @@
 #' @usage selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 #' extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL,
 #' pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
-#' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", ...)
+#' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", files = NULL, ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav
 #' files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end":
 #' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
@@ -42,6 +42,7 @@
 #' @param verbose Logical argument to control if summary messages are printed to the console. Default is \code{TRUE}.
 #' @param skip.error Logical to control if errors are omitted. If so, files that could not be read will be excluded and their name printed in the console. Default is \code{FALSE}, which will return an error if some files are problematic.
 #' @param file.format Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\\.wav$|\\.wac$|\\.mp3$|\\.flac$"). Note that several formats can be included using regular expression syntax as in \code{\link[base]{grep}}. For instance \code{"\\.wav$|\\.mp3$"} will only include .wav and .mp3 files. Ignored if \code{whole.recs = FALSE}.
+#' @param files character vector indicating the set of files that will be consolidated. File names should not include the full file path. Optional.
 #' @param ... Additional arguments to be passed to \code{\link{check_sels}} for customizing
 #' checking routine.
 #' @return An object of class selection_table which includes the original data frame plus the following additional attributes:
@@ -120,7 +121,7 @@
 # last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-                            extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ...) {
+                            extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", files = NULL, ...) {
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(selection_table)
@@ -158,7 +159,9 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   
   # create a selection table for a row for each full length recording
   if (whole.recs) {
-    sound.files <- list.files(path = path, pattern = file.format, ignore.case = TRUE)
+    if (is.null(files))
+    sound.files <- list.files(path = path, pattern = file.format, ignore.case = TRUE) else
+      sound.files <- files
     
     if (length(sound.files) == 0) stop2("No sound files were found")
     

@@ -40,7 +40,7 @@
 
 rename_est_waves <- function(X, new.sound.files, new.selec = NULL) {
   # check length of new.sound.files
-  if (length(new.sound.files) != length(attr(X, "wave.objects"))) stop2("length of 'new.sound.files' must be equal to number of wave objects (length(attr(W, 'wave.objects')))")
+  if (length(new.sound.files) != length(attr(X, "wave.objects"))) stop2("length of 'new.sound.files' must be equal to number of wave objects (length(attr(X, 'wave.objects')))")
 
   if (attributes(X)$by.song$by.song & length(unique(new.sound.files)) != length((attributes(X)$wave.objects))) stop2("number of unique 'new.sound.files' must be equal to number of wave objects in 'X'")
 
