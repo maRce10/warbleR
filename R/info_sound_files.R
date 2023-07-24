@@ -1,10 +1,11 @@
 #' Get sound file parameter information
 #'
 #' \code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns sound file information
-#' @usage info_sound_files(path = NULL, parallel = 1, pb = TRUE, skip.error = FALSE,
+#' @usage info_sound_files(path = NULL, files = NULL, parallel = 1, pb = TRUE, skip.error = FALSE,
 #' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param files character vector indicating the set of files that will be consolidated. File names should not include the full file path. Optional.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
@@ -41,7 +42,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on aug-15-2018 (MAS)
 
-info_sound_files <- function(path = NULL, parallel = 1, pb = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$") {
+info_sound_files <- function(path = NULL, files = NULL, parallel = 1, pb = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$") {
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(info_sound_files)
@@ -75,7 +76,7 @@ info_sound_files <- function(path = NULL, parallel = 1, pb = TRUE, skip.error = 
   }
 
   # make a selection table from files
-  st <- selection_table(whole.recs = TRUE, path = path, parallel = parallel, pb = pb, verbose = FALSE, skip.error = skip.error, file.format = file.format)
+  st <- selection_table(whole.recs = TRUE, path = path, parallel = parallel, pb = pb, verbose = FALSE, skip.error = skip.error, file.format = file.format, files = files)
 
   # extract check sels
   cs <- attributes(st)$check.results

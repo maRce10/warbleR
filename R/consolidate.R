@@ -4,7 +4,7 @@
 #' @export consolidate
 #' @usage consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$",
 #' parallel = 1, save.csv = TRUE, ...)
-#' @param files character vector indicating the subset of files that will be consolidated. Files names should include the full file path. Optional.
+#' @param files character vector indicating the subset of files that will be consolidated. File names should include the full file path. Optional.
 #' @param path Character string containing the directory path where the sound files are located.
 #' 'wav.path' set by \code{\link{warbleR_options}} is ignored.
 #' If \code{NULL} (default) then the current working directory is used.

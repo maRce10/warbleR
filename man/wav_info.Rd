@@ -6,6 +6,7 @@
 \usage{
 wav_info(
   path = NULL,
+  files = NULL,
   parallel = 1,
   pb = TRUE,
   skip.error = FALSE,

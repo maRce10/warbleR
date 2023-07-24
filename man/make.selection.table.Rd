@@ -18,6 +18,7 @@ make.selection.table(
   verbose = TRUE,
   skip.error = FALSE,
   file.format = "\\\\.wav$|\\\\.wac$|\\\\.mp3$|\\\\.flac$",
+  files = NULL,
   ...
 )
 }
