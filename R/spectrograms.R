@@ -178,7 +178,7 @@ spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = rev
 
   # check song and element label
   if (!is.null(by.song)) if (!any(names(X) == by.song)) stop("'by.song' not found")
-  if (!is.null(sel.labels)) if (!any(names(X) == sel.labels)) stop("'sel.labels' not found")
+  if (!is.null(sel.labels)) if (!any(names(X) %in% sel.labels)) stop("'sel.labels' not found")
 
   # if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")

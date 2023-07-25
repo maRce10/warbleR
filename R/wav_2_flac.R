@@ -48,7 +48,8 @@ wav_2_flac <-
            parallel = 1,
            reverse = FALSE,
            compression = 5,
-           flac.path) {
+           flac.path = "") {
+    
     #### set arguments from options
     # get function arguments
     argms <- methods::formalArgs(wav_2_flac)
@@ -127,7 +128,7 @@ wav_2_flac <-
       if (getOption("warbleR")$flac.path == "")
         "flac" else
       file.path(getOption("warbleR")$flac.path, "flac")
-    
+
     # get files in path supplied
     files_in_path <-
       list.files(
@@ -149,11 +150,11 @@ wav_2_flac <-
     # check path to flac programs
     
     # set clusters for windows OS
-    if (Sys.info()[1] == "Windows" & parallel > 1) {
+    if (Sys.info()[1] == "Windows" & parallel > 1) 
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
-    } else {
-      cl <- parallel
-    }
+     else
+       cl <- parallel
+    
     
     # run loop apply function
     out_l <-
@@ -162,13 +163,14 @@ wav_2_flac <-
         X = files,
         cl = cl,
         FUN = function(i) {
-          warbleR::try_na(
+          # warbleR::try_na(
             flacwav(
               file = file.path(path, i),
               overwrite = overwrite,
               reverse = reverse,
-              compression = compression
-            )
+              compression = compression,
+              run_flac = run_flac
+            # )
           )
         }
       )
@@ -180,7 +182,8 @@ flacwav <-
            overwrite = FALSE,
            exename = NULL,
            path2exe = NULL,
-           compression = 5) {
+           compression = 5,
+           run_flac) {
     # set compression
     compression <- paste0("--compression-level-", compression)
     
