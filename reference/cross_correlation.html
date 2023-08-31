@@ -203,8 +203,10 @@ The correlation matrix could have NA's if some of the pairwise correlation did n
 <span class="r-in"><span>  <span class="va">xcor</span> <span class="op">&lt;-</span> <span class="fu">cross_correlation</span><span class="op">(</span>X <span class="op">=</span> <span class="va">lbh_selec_table</span>, wl <span class="op">=</span> <span class="fl">300</span>, ovlp <span class="op">=</span> <span class="fl">90</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># run cross correlation on Mel cepstral coefficients (mfccs)</span></span></span>
-<span class="r-in"><span>  <span class="va">xcor</span> <span class="op">&lt;-</span> <span class="fu">cross_correlation</span><span class="op">(</span>X <span class="op">=</span> <span class="va">lbh_selec_table</span>, wl <span class="op">=</span> <span class="fl">300</span>, ovlp <span class="op">=</span> <span class="fl">90</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>  type <span class="op">=</span> <span class="st">"mfcc"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">xcor</span> <span class="op">&lt;-</span> <span class="fu">cross_correlation</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    X <span class="op">=</span> <span class="va">lbh_selec_table</span>, wl <span class="op">=</span> <span class="fl">300</span>, ovlp <span class="op">=</span> <span class="fl">90</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    type <span class="op">=</span> <span class="st">"mfcc"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># using the 'compare.matrix' argument to specify pairwise comparisons</span></span></span>
 <span class="r-in"><span>  <span class="co"># create matrix with ID of signals to compare</span></span></span>
