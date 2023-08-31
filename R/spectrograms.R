@@ -117,266 +117,499 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace Smith Vidaurre
 # last modification on mar-13-2018 (MAS)
 
-spectrograms <- function(X, wl = 512, flim = "frange", wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70,
-                         inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100,
-                         cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,
-                         sc = FALSE, line = TRUE, col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3, mar = 0.05,
-                         it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE, by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL, box = TRUE, axis = TRUE, ...) {
-  #### set arguments from options
-  # get function arguments
-  argms <- methods::formalArgs(spectrograms)
+spectrograms <-
+  function(X,
+           wl = 512,
+           flim = "frange",
+           wn = "hanning",
+           pal = reverse.gray.colors.2,
+           ovlp = 70,
+           inner.mar = c(5, 4, 4, 2),
+           outer.mar = c(0, 0, 0, 0),
+           picsize = 1,
+           res = 100,
+           cexlab = 1,
+           propwidth = FALSE,
+           xl = 1,
+           osci = FALSE,
+           gr = FALSE,
+           sc = FALSE,
+           line = TRUE,
+           col = "#07889B",
+           fill = adjustcolor("#07889B", alpha.f = 0.15),
+           lty = 3,
+           mar = 0.05,
+           it = "jpeg",
+           parallel = 1,
+           path = NULL,
+           pb = TRUE,
+           fast.spec = FALSE,
+           by.song = NULL,
+           sel.labels = "selec",
+           title.labels = NULL,
+           dest.path = NULL,
+           box = TRUE,
+           axis = TRUE,
+           ...) {
+    #### set arguments from options
+    # get function arguments
+    argms <- methods::formalArgs(spectrograms)
 
-  # get warbleR options
-  opt.argms <- if (!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
+    # get warbleR options
+    opt.argms <-
+      if (!is.null(getOption("warbleR"))) {
+        getOption("warbleR")
+      } else {
+        SILLYNAME <- 0
+      }
 
-  # remove options not as default in call and not in function arguments
-  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+    # remove options not as default in call and not in function arguments
+    opt.argms <-
+      opt.argms[!sapply(opt.argms, is.null) &
+        names(opt.argms) %in% argms]
 
-  # get arguments set in the call
-  call.argms <- as.list(base::match.call())[-1]
+    # get arguments set in the call
+    call.argms <- as.list(base::match.call())[-1]
 
-  # remove arguments in options that are in call
-  opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
+    # remove arguments in options that are in call
+    opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
 
-  # set options left
-  if (length(opt.argms) > 0) {
-    for (q in seq_len(length(opt.argms))) {
-      assign(names(opt.argms)[q], opt.argms[[q]])
+    # set options left
+    if (length(opt.argms) > 0) {
+      for (q in seq_len(length(opt.argms))) {
+        assign(names(opt.argms)[q], opt.argms[[q]])
+      }
     }
-  }
 
-  # check path to working directory
-  if (is.null(path)) {
-    path <- getwd()
-  } else if (!dir.exists(path)) {
-    stop("'path' provided does not exist")
-  } else {
-    path <- normalizePath(path)
-  }
+    # check path to working directory
+    if (is.null(path)) {
+      path <- getwd()
+    } else if (!dir.exists(path)) {
+      stop("'path' provided does not exist")
+    } else {
+      path <- normalizePath(path)
+    }
 
-  # check dest.path to working directory
-  if (is.null(dest.path)) {
-    dest.path <- path
-  } else if (!dir.exists(dest.path)) {
-    stop("'dest.path' provided does not exist")
-  } else {
-    dest.path <- normalizePath(dest.path)
-  }
+    # check dest.path to working directory
+    if (is.null(dest.path)) {
+      dest.path <- path
+    } else if (!dir.exists(dest.path)) {
+      stop("'dest.path' provided does not exist")
+    } else {
+      dest.path <- normalizePath(dest.path)
+    }
 
-  # if X is not a data frame
-  if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+    # if X is not a data frame
+    if (!any(
+      is.data.frame(X),
+      is_selection_table(X),
+      is_extended_selection_table(X)
+    )) {
+      stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
+    }
 
-  if (!all(c(
-    "sound.files", "selec",
-    "start", "end"
-  ) %in% colnames(X))) {
-    stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c(
+    if (!all(c(
       "sound.files", "selec",
       "start", "end"
-    ) %in% colnames(X))], collapse = ", "), "column(s) not found in data frame"))
-  }
-
-  # check song and element label
-  if (!is.null(by.song)) if (!any(names(X) == by.song)) stop("'by.song' not found")
-  if (!is.null(sel.labels)) if (!any(names(X) %in% sel.labels)) stop("'sel.labels' not found")
-
-  # if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end")
-
-  # if end or start are not numeric stop
-  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
-
-  # if any start higher than end stop
-  if (any(X$end - X$start <= 0)) stop(paste("The start is higher than or equal to the end in", length(which(X$end - X$start <= 0)), "case(s)"))
-
-  if (flim[1] != "frange") {
-    if (!is.vector(flim)) stop("'flim' must be a numeric vector of length 2") else if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2")
-
-    # add bottom and top freq if not included
-    if (!is.null(flim[1])) {
-      # top minus 1 kHz
-      if (is.null(X$bottom.freq)) X$bottom.freq <- flim[1] - 1
-      # top plus 1 kHz
-      if (is.null(X$top.freq)) X$top.freq <- flim[2] + 1
-    } else {
-      # negative bottom so bottom line is not plotted
-      if (is.null(X$bottom.freq)) X$bottom.freq <- -1
-      # if no top freq then make it 501 kHz (which is half the highest sampling rate (1 million) + 1)
-      if (is.null(X$top.freq)) X$top.freq <- 501
+    ) %in% colnames(X))) {
+      stop(paste(paste(
+        c("sound.files", "selec", "start", "end")[!(c(
+          "sound.files", "selec",
+          "start", "end"
+        ) %in% colnames(X))],
+        collapse = ", "
+      ), "column(s) not found in data frame"))
     }
-  } else {
-    if (!any(names(X) == "bottom.freq") & !any(names(X) == "top.freq")) stop("'flim' = frange requires bottom.freq and top.freq columns in X")
-    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop("NAs found in bottom.freq and/or top.freq")
-    if (any(c(X$bottom.freq, X$top.freq) < 0)) stop("Negative values found in bottom.freq and/or top.freq")
-    if (any(X$top.freq - X$bottom.freq <= 0)) stop("top.freq should be higher than bottom.freq")
-  }
 
-  # if it argument is not "jpeg" or "tiff"
-  if (!any(it == "jpeg", it == "tiff")) stop(paste("Image type", it, "not allowed"))
+    # check song and element label
+    if (!is.null(by.song)) {
+      if (!any(names(X) == by.song)) {
+        stop("'by.song' not found")
+      }
+    }
+    if (!is.null(sel.labels)) {
+      if (!any(names(X) %in% sel.labels)) {
+        stop("'sel.labels' not found")
+      }
+    }
 
-  # error if not title.labels character
-  if (!is.character(title.labels) & !is.null(title.labels)) stop("'title.labels' must be a character string")
+    # if there are NAs in start or end stop
+    if (any(is.na(c(X$end, X$start)))) {
+      stop("NAs found in start and/or end")
+    }
 
-  # missing label columns
-  if (!all(title.labels %in% colnames(X))) {
-    stop(paste(paste(title.labels[!(title.labels %in% colnames(X))], collapse = ", "), "label column(s) not found in data frame"))
-  }
+    # if end or start are not numeric stop
+    if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) {
+      stop("'start' and 'end' must be numeric")
+    }
 
-  # return warning if not all sound files were found
-  if (!is_extended_selection_table(X)) {
-    recs.wd <- list.files(path = path, pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE)
-    if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) {
-      (paste(
-        length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
-        "sound file(s) not found"
+    # if any start higher than end stop
+    if (any(X$end - X$start <= 0)) {
+      stop(paste(
+        "The start is higher than or equal to the end in",
+        length(which(X$end - X$start <= 0)),
+        "case(s)"
       ))
     }
 
-    # count number of sound files in working directory and if 0 stop
-    d <- which(X$sound.files %in% recs.wd)
-    if (length(d) == 0) {
-      stop("The sound files are not in the working directory")
-    } else {
-      X <- X[d, , drop = FALSE]
-    }
-  }
+    if (flim[1] != "frange") {
+      if (!is.vector(flim)) {
+        stop("'flim' must be a numeric vector of length 2")
+      } else if (!length(flim) == 2) {
+        stop("'flim' must be a numeric vector of length 2")
+      }
 
-  if (propwidth) picsize <- 1
-
-  # If parallel is not numeric
-  if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1")
-  if (any(!(parallel %% 1 == 0), parallel < 1)) stop("'parallel' should be a positive integer")
-
-  # by song
-  if (!is.null(by.song)) {
-    Y <- X
-    X <- song_analysis(X = Y, song_colm = by.song, pb = FALSE)
-    X$selec <- 1
-
-    # fix extended selection table again
-    if (warbleR::is_extended_selection_table(Y)) X <- fix_extended_selection_table(X, Y, to.by.song = TRUE)
-  }
-
-  # create function to run within Xapply functions downstream
-  specreFUN <- function(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path, fill) {
-    # Read sound files, initialize frequency and time limits for spectrogram
-    r <- warbleR::read_sound_file(X = X, path = path, index = i, header = TRUE, from = 0, to = X$end[i] + mar)
-    f <- r$sample.rate
-    t <- c(X$start[i] - mar, X$end[i] + mar)
-
-    mar1 <- mar
-    mar2 <- mar1 + X$end[i] - X$start[i]
-
-    if (t[1] < 0) {
-      mar1 <- mar1 + t[1]
-      mar2 <- mar2 + t[1]
-      t[1] <- 0
-    }
-
-    if (t[2] > r$samples / f) t[2] <- r$samples / f
-
-    # add low high freq
-    if (flim[1] == "frange") flim <- range(c(X$bottom.freq[i], X$top.freq[i])) + c(-1, 1)
-
-    fl <- flim # in case flim its higher than can be due to sampling rate
-    if (fl[2] > f / 2000) fl[2] <- f / 2000
-    if (fl[1] < 0) fl[1] <- 0
-
-    # Spectrogram width can be proportional to signal duration
-    if (propwidth) pwc <- (10.16) * ((t[2] - t[1]) / 0.27) * xl * picsize else pwc <- (10.16) * xl * picsize
-
-    if (is.null(by.song)) {
-      fn <- paste(X$sound.files[i], "-", X$selec[i], ".", it, sep = "")
-    } else if (by.song == "sound.files") {
-      fn <- paste(X$sound.files[i], ".", it, sep = "")
-    } else {
-      fn <- paste(X$sound.files[i], "-", X[i, by.song], ".", it, sep = "")
-    }
-
-    img_wrlbr_int(
-      filename = fn, path = dest.path,
-      width = pwc, height = (10.16) * picsize, units = "cm", res = res
-    )
-
-    # Change relative heights of rows for spectrogram when osci = TRUE
-    if (osci) hts <- c(3, 2) else hts <- NULL
-
-    # Change relative widths of columns for spectrogram when sc = TRUE
-    if (sc) wts <- c(3, 1) else wts <- NULL
-
-    # Change inner and outer plot margins
-    par(mar = inner.mar)
-    par(oma = outer.mar)
-
-    # Generate spectrogram using spectro_wrblr_int (modified from seewave::spectro)
-    spectro_wrblr_int(
-      wave = warbleR::read_sound_file(X = X, path = path, index = i, from = t[1], to = t[2]), f = f, wl = wl, ovlp = ovlp, heights = hts, wn = "hanning",
-      widths = wts, palette = pal, osc = osci, grid = gr, scale = sc, collab = "black",
-      cexlab = cexlab, cex.axis = 1, flim = fl, tlab = "Time (s)",
-      flab = "Frequency (kHz)", alab = "", trel = FALSE, fast.spec = fast.spec, box = box, axisX = axis, axisY = axis, ...
-    )
-
-    # Add title to spectrogram
-    if (is.null(title.labels)) {
-      if (!is.null(by.song)) {
-        if (by.song == "sound.files") {
-          title(X$sound.files[i], cex.main = cexlab)
-        } else {
-          title(paste0(X$sound.files[i], "-", X[i, by.song]), cex.main = cexlab)
+      # add bottom and top freq if not included
+      if (!is.null(flim[1])) {
+        # top minus 1 kHz
+        if (is.null(X$bottom.freq)) {
+          X$bottom.freq <- flim[1] - 1
+        }
+        # top plus 1 kHz
+        if (is.null(X$top.freq)) {
+          X$top.freq <- flim[2] + 1
+        }
+      } else {
+        # negative bottom so bottom line is not plotted
+        if (is.null(X$bottom.freq)) {
+          X$bottom.freq <- -1
+        }
+        # if no top freq then make it 501 kHz (which is half the highest sampling rate (1 million) + 1)
+        if (is.null(X$top.freq)) {
+          X$top.freq <- 501
         }
       }
     } else {
-      title(paste0(X[i, title.labels], collapse = " "), cex.main = cexlab)
+      if (!any(names(X) == "bottom.freq") &
+        !any(names(X) == "top.freq")) {
+        stop("'flim' = frange requires bottom.freq and top.freq columns in X")
+      }
+      if (any(is.na(c(X$bottom.freq, X$top.freq)))) {
+        stop("NAs found in bottom.freq and/or top.freq")
+      }
+      if (any(c(X$bottom.freq, X$top.freq) < 0)) {
+        stop("Negative values found in bottom.freq and/or top.freq")
+      }
+      if (any(X$top.freq - X$bottom.freq <= 0)) {
+        stop("top.freq should be higher than bottom.freq")
+      }
     }
 
+    # if it argument is not "jpeg" or "tiff"
+    if (!any(it == "jpeg", it == "tiff")) {
+      stop(paste("Image type", it, "not allowed"))
+    }
 
-    # Plot lines to visualize selections (start and end of signal)
-    if (line) {
-      if (any(names(X) == "bottom.freq") & any(names(X) == "top.freq")) {
-        if (!is.null(by.song)) {
-          W <- Y[Y$sound.files == X$sound.files[i] & Y[, by.song, drop = TRUE] == X[i, by.song, drop = TRUE], , drop = FALSE]
-          W$start <- W$start - X$start[i] + mar1
-          W$end <- W$end - X$start[i] + mar1
-        } else {
-          W <- X[i, , drop = FALSE]
-          W$start <- mar1
-          W$end <- mar2
+    # error if not title.labels character
+    if (!is.character(title.labels) &
+      !is.null(title.labels)) {
+      stop("'title.labels' must be a character string")
+    }
+
+    # missing label columns
+    if (!all(title.labels %in% colnames(X))) {
+      stop(paste(
+        paste(title.labels[!(title.labels %in% colnames(X))], collapse = ", "),
+        "label column(s) not found in data frame"
+      ))
+    }
+
+    # return warning if not all sound files were found
+    if (!is_extended_selection_table(X)) {
+      recs.wd <-
+        list.files(
+          path = path,
+          pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$",
+          ignore.case = TRUE
+        )
+      if (length(unique(X$sound.files[(X$sound.files %in% recs.wd)])) != length(unique(X$sound.files))) {
+        (paste(
+          length(unique(X$sound.files)) - length(unique(X$sound.files[(X$sound.files %in% recs.wd)])),
+          "sound file(s) not found"
+        ))
+      }
+
+      # count number of sound files in working directory and if 0 stop
+      d <- which(X$sound.files %in% recs.wd)
+      if (length(d) == 0) {
+        stop("The sound files are not in the working directory")
+      } else {
+        X <- X[d, , drop = FALSE]
+      }
+    }
+
+    if (propwidth) {
+      picsize <- 1
+    }
+
+    # If parallel is not numeric
+    if (!is.numeric(parallel)) {
+      stop("'parallel' must be a numeric vector of length 1")
+    }
+    if (any(!(parallel %% 1 == 0), parallel < 1)) {
+      stop("'parallel' should be a positive integer")
+    }
+
+    # by song
+    if (!is.null(by.song)) {
+      Y <- X
+      X <- song_analysis(
+        X = Y,
+        song_colm = by.song,
+        pb = FALSE
+      )
+      X$selec <- 1
+
+      # fix extended selection table again
+      if (warbleR::is_extended_selection_table(Y)) {
+        X <- fix_extended_selection_table(X, Y, to.by.song = TRUE)
+      }
+    }
+
+    # create function to run within Xapply functions downstream
+    specreFUN <-
+      function(X,
+               Y,
+               i,
+               mar,
+               flim,
+               xl,
+               picsize,
+               res,
+               wl,
+               ovlp,
+               cexlab,
+               by.song,
+               sel.labels,
+               pal,
+               dest.path,
+               fill) {
+        # Read sound files, initialize frequency and time limits for spectrogram
+        r <-
+          warbleR::read_sound_file(
+            X = X,
+            path = path,
+            index = i,
+            header = TRUE,
+            from = 0,
+            to = X$end[i] + mar
+          )
+        f <- r$sample.rate
+        t <- c(X$start[i] - mar, X$end[i] + mar)
+
+        mar1 <- mar
+        mar2 <- mar1 + X$end[i] - X$start[i]
+
+        if (t[1] < 0) {
+          mar1 <- mar1 + t[1]
+          mar2 <- mar2 + t[1]
+          t[1] <- 0
         }
 
-        for (e in 1:nrow(W))
-        {
-          # if freq columns are not provided
-          ys <- if (is.null(W$top.freq)) {
-            fl[c(1, 2, 2, 1)]
-          } else {
-            c(W$bottom.freq[e], W$top.freq[e], W$top.freq[e], W$bottom.freq[e])
+        if (t[2] > r$samples / f) {
+          t[2] <- r$samples / f
+        }
+
+        # add low high freq
+        if (flim[1] == "frange") {
+          flim <- range(c(X$bottom.freq[i], X$top.freq[i])) + c(-1, 1)
+        }
+
+        fl <-
+          flim # in case flim its higher than can be due to sampling rate
+        if (fl[2] >= f / 2000) {
+          fl[2] <- ((f - 1) / 2000)
+        }
+        if (fl[1] < 0) {
+          fl[1] <- 0
+        }
+
+        # Spectrogram width can be proportional to signal duration
+        if (propwidth) {
+          pwc <-
+            (10.16) * ((t[2] - t[1]) / 0.27) * xl * picsize
+        } else {
+          pwc <- (10.16) * xl * picsize
+        }
+
+        if (is.null(by.song)) {
+          fn <- paste(X$sound.files[i], "-", X$selec[i], ".", it, sep = "")
+        } else if (by.song == "sound.files") {
+          fn <- paste(X$sound.files[i], ".", it, sep = "")
+        } else {
+          fn <- paste(X$sound.files[i], "-", X[i, by.song], ".", it, sep = "")
+        }
+
+        img_wrlbr_int(
+          filename = fn,
+          path = dest.path,
+          width = pwc,
+          height = (10.16) * picsize,
+          units = "cm",
+          res = res
+        )
+
+        # Change relative heights of rows for spectrogram when osci = TRUE
+        if (osci) {
+          hts <- c(3, 2)
+        } else {
+          hts <- NULL
+        }
+
+        # Change relative widths of columns for spectrogram when sc = TRUE
+        if (sc) {
+          wts <- c(3, 1)
+        } else {
+          wts <- NULL
+        }
+
+        # Change inner and outer plot margins
+        par(mar = inner.mar)
+        par(oma = outer.mar)
+
+        # Generate spectrogram using spectro_wrblr_int (modified from seewave::spectro)
+        spectro_wrblr_int(
+          wave = warbleR::read_sound_file(
+            X = X,
+            path = path,
+            index = i,
+            from = t[1],
+            to = t[2]
+          ),
+          f = f,
+          wl = wl,
+          ovlp = ovlp,
+          heights = hts,
+          wn = "hanning",
+          widths = wts,
+          palette = pal,
+          osc = osci,
+          grid = gr,
+          scale = sc,
+          collab = "black",
+          cexlab = cexlab,
+          cex.axis = 1,
+          flim = fl,
+          tlab = "Time (s)",
+          flab = "Frequency (kHz)",
+          alab = "",
+          trel = FALSE,
+          fast.spec = fast.spec,
+          box = box,
+          axisX = axis,
+          axisY = axis,
+          ...
+        )
+
+        # Add title to spectrogram
+        if (is.null(title.labels)) {
+          if (!is.null(by.song)) {
+            if (by.song == "sound.files") {
+              title(X$sound.files[i], cex.main = cexlab)
+            } else {
+              title(paste0(X$sound.files[i], "-", X[i, by.song]), cex.main = cexlab)
+            }
           }
-
-          # plot polygon
-          polygon(x = rep(c(W$start[e], W$end[e]), each = 2), y = ys, lty = lty, border = col, col = fill, lwd = 1.2)
-
-          if (!is.null(sel.labels)) text(labels = paste(W[e, sel.labels], collapse = "-"), x = (W$end[e] + W$start[e]) / 2, y = if (is.null(W$top.freq)) fl[2] - 2 * ((fl[2] - fl[1]) / 12) else W$top.freq[e], pos = 3)
+        } else {
+          title(paste0(X[i, title.labels], collapse = " "), cex.main = cexlab)
         }
+
+
+        # Plot lines to visualize selections (start and end of signal)
+        if (line) {
+          if (any(names(X) == "bottom.freq") & any(names(X) == "top.freq")) {
+            if (!is.null(by.song)) {
+              W <-
+                Y[Y$sound.files == X$sound.files[i] &
+                  Y[, by.song, drop = TRUE] == X[i, by.song, drop = TRUE], , drop = FALSE]
+              W$start <- W$start - X$start[i] + mar1
+              W$end <- W$end - X$start[i] + mar1
+            } else {
+              W <- X[i, , drop = FALSE]
+              W$start <- mar1
+              W$end <- mar2
+            }
+
+            for (e in 1:nrow(W))
+            {
+              # if freq columns are not provided
+              ys <- if (is.null(W$top.freq)) {
+                fl[c(1, 2, 2, 1)]
+              } else {
+                c(
+                  W$bottom.freq[e],
+                  W$top.freq[e],
+                  W$top.freq[e],
+                  W$bottom.freq[e]
+                )
+              }
+
+              # plot polygon
+              polygon(
+                x = rep(c(W$start[e], W$end[e]), each = 2),
+                y = ys,
+                lty = lty,
+                border = col,
+                col = fill,
+                lwd = 1.2
+              )
+
+              if (!is.null(sel.labels)) {
+                text(
+                  labels = paste(W[e, sel.labels], collapse = "-"),
+                  x = (W$end[e] + W$start[e]) / 2,
+                  y = if (is.null(W$top.freq)) {
+                    fl[2] - 2 * ((fl[2] - fl[1]) / 12)
+                  } else {
+                    W$top.freq[e]
+                  },
+                  pos = 3
+                )
+              }
+            }
+          }
+        }
+        dev.off()
       }
+
+
+
+
+    # set clusters for windows OS
+    if (Sys.info()[1] == "Windows" & parallel > 1) {
+      cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
+    } else {
+      cl <- parallel
     }
-    dev.off()
+
+    # run loop apply function
+    out <-
+      pblapply_wrblr_int(
+        pbar = pb,
+        X = 1:nrow(X),
+        cl = cl,
+        FUN = function(i) {
+          specreFUN(
+            X,
+            Y,
+            i,
+            mar,
+            flim,
+            xl,
+            picsize,
+            res,
+            wl,
+            ovlp,
+            cexlab,
+            by.song,
+            sel.labels,
+            pal,
+            dest.path,
+            fill
+          )
+        }
+      )
   }
-
-
-
-
-  # set clusters for windows OS
-  if (Sys.info()[1] == "Windows" & parallel > 1) {
-    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
-  } else {
-    cl <- parallel
-  }
-
-  # run loop apply function
-  out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
-    specreFUN(X, Y, i, mar, flim, xl, picsize, res, wl, ovlp, cexlab, by.song, sel.labels, pal, dest.path, fill)
-  })
-}
 
 
 ##############################################################################################################

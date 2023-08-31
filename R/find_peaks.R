@@ -198,10 +198,10 @@ find_peaks <- function(xc.output, parallel = 1, cutoff = 0.4, path = NULL, pb = 
 print.find_peaks.output <- function(x, ...) {
   message2(color = "cyan", x = paste("Object of class", cli::style_bold("'find_peaks.output'")))
 
- message2(color = "silver", x = paste(cli::style_bold("\nContains: \n"), "The output of a detection routine from the following", cli::style_italic("find_peaks()"), "call:"))
+  message2(color = "silver", x = paste(cli::style_bold("\nContains: \n"), "The output of a detection routine from the following", cli::style_italic("find_peaks()"), "call:"))
 
   cll <- paste0(deparse(x$call))
- message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll)))
+  message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll)))
 
   # print count of detections per sound file
   # define columns to show
@@ -210,20 +210,20 @@ print.find_peaks.output <- function(x, ...) {
   }
   names(tab)[2] <- "detections"
 
- message2(color = "silver", x = "\n The following peaks (i.e. detections, found in the 'selection.table' list element) per sound files were found:")
+  message2(color = "silver", x = "\n The following peaks (i.e. detections, found in the 'selection.table' list element) per sound files were found:")
 
   kntr_tab <- knitr::kable(head(tab), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in seq_len(length(kntr_tab)))message2(color = "silver", x = paste0(kntr_tab[i], "\n"))
+  for (i in seq_len(length(kntr_tab))) message2(color = "silver", x = paste0(kntr_tab[i], "\n"))
 
- message2(color = "silver", x = "\n The peaks are found in the 'selection.table' list element")
+  message2(color = "silver", x = "\n The peaks are found in the 'selection.table' list element")
 
- message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("full_spectrograms()")), "to plot detections along spectrograms"))
+  message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("full_spectrograms()")), "to plot detections along spectrograms"))
 
   # print warbleR version
   if (!is.null(x$warbleR.version)) {
-   message2(color = "silver", x = paste0("\n Created by warbleR ", x$warbleR.version))
+    message2(color = "silver", x = paste0("\n Created by warbleR ", x$warbleR.version))
   } else {
-   message2(color = "silver", x = "\n Created by warbleR < 1.1.27 \n")
+    message2(color = "silver", x = "\n Created by warbleR < 1.1.27 \n")
   }
 }

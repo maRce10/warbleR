@@ -177,14 +177,13 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
 
   ovlp_df$ovlp.sels <- NA
 
-  # give unique label to each group of overlapping selections  
+  # give unique label to each group of overlapping selections
   if (any(!is.na(ovlp_df$indx.row))) {
-
     overlap_row_id <- strsplit((ovlp_df$indx.row), split = "/")
-    
-       for(i in which(!is.na(ovlp_df$indx.row)))
-         ovlp_df$ovlp.sels[i] <- if (i == 1) 1 else
-           if (any(overlap_row_id[[i]] %in% overlap_row_id[[i- 1]]))  ovlp_df$ovlp.sels[i- 1] else if (any(!is.na(ovlp_df$ovlp.sels[1:(i -1)]))) max(ovlp_df$ovlp.sels[1:(i -1)], na.rm = TRUE) + 1 else 1
+
+    for (i in which(!is.na(ovlp_df$indx.row))) {
+      ovlp_df$ovlp.sels[i] <- if (i == 1) 1 else if (any(overlap_row_id[[i]] %in% overlap_row_id[[i - 1]])) ovlp_df$ovlp.sels[i - 1] else if (any(!is.na(ovlp_df$ovlp.sels[1:(i - 1)]))) max(ovlp_df$ovlp.sels[1:(i - 1)], na.rm = TRUE) + 1 else 1
+    }
   }
 
   if (index) {

@@ -139,26 +139,29 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
   if (is.null(X)) {
     # search recs in xeno-canto (results are returned in pages with 500 recordings each)
     if (pb & download) {
-     message2(x = "Obtaining recording list...")
+      message2(x = "Obtaining recording list...")
     }
 
     # format query qword
-    if (grepl("\\:", qword)){ # if using advanced search
-      
+    if (grepl("\\:", qword)) { # if using advanced search
+
       # replace first space with %20 when using full species name
       first_colon_pos <- gregexpr(":", qword)[[1]][1]
       spaces_pos <- gregexpr(" ", qword)[[1]]
-      
-      if (length(spaces_pos) > 1)
-        if (all(spaces_pos[1:2] < first_colon_pos))
-          qword <- paste0(substr(qword, start = 0, stop = spaces_pos - 1), "%20", substr(qword, start = spaces_pos + 1, stop = nchar(qword)))
-      
-      # replace remaining spaces with "&" 
-      qword <- gsub(" ", "&", qword)
-    } else
-      qword <- gsub(" ", "%20", qword)
 
-        # initialize search
+      if (length(spaces_pos) > 1) {
+        if (all(spaces_pos[1:2] < first_colon_pos)) {
+          qword <- paste0(substr(qword, start = 0, stop = spaces_pos - 1), "%20", substr(qword, start = spaces_pos + 1, stop = nchar(qword)))
+        }
+      }
+
+      # replace remaining spaces with "&"
+      qword <- gsub(" ", "&", qword)
+    } else {
+      qword <- gsub(" ", "%20", qword)
+    }
+
+    # initialize search
     q <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword))
 
     if (as.numeric(q$numRecordings) == 0) {
@@ -251,7 +254,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       results <- results[!duplicated(results$Recording_ID), ]
 
       if (pb) {
-       message2(x = paste0(nrow(results), " recording(s) found!"))
+        message2(x = paste0(nrow(results), " recording(s) found!"))
       }
     }
   } else {
@@ -300,7 +303,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
 
     # set clusters for windows OS
     if (pb) {
-     message2(x = "Downloading files...")
+      message2(x = "Downloading files...")
     }
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -312,7 +315,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       xcFUN(results, x)
     })
 
-    if (pb)message2(x = "double-checking downloaded files")
+    if (pb) message2(x = "double-checking downloaded files")
 
     # check if some files have no data
     fl <- list.files(path = path, pattern = ".mp3$")

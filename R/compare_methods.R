@@ -398,9 +398,10 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   }
 
   if ("dfDTW" %in% methods) {
-    if (pb) 
+    if (pb) {
       message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "):"), color = "black")
-    
+    }
+
 
     dtwmat <- warbleR::freq_ts(X,
       wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
@@ -426,7 +427,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
 
   if ("ffDTW" %in% methods) {
     if (pb) {
-     message2(x = paste0("measuring fundamental frequency contours (step ", current.step, " of ", total.steps, "):"), "black")
+      message2(x = paste0("measuring fundamental frequency contours (step ", current.step, " of ", total.steps, "):"), "black")
     }
 
     dtwmat <- warbleR::freq_ts(X,
@@ -453,7 +454,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
 
   if ("SP" %in% methods) {
     if (pb) {
-     message2(x = paste0("measuring spectral parameters (step ", current.step, " of ", total.steps, "):"), color = "black")
+      message2(x = paste0("measuring spectral parameters (step ", current.step, " of ", total.steps, "):"), color = "black")
     }
 
     spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = FALSE, path = path)
@@ -469,7 +470,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
 
   if ("SPharm" %in% methods) {
     if (pb) {
-     message2(x = paste0("measuring spectral parameters + harmonicity (step ", current.step, " of ", total.steps, "):"), "black")
+      message2(x = paste0("measuring spectral parameters + harmonicity (step ", current.step, " of ", total.steps, "):"), "black")
     }
 
     spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = TRUE, path = path)
@@ -490,7 +491,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
 
   if ("MFCC" %in% methods) {
     if (pb) {
-     message2(x = paste0("measuring mel frequency cepstral coefficients (step ", current.step, " of ", total.steps, "):"), "black")
+      message2(x = paste0("measuring mel frequency cepstral coefficients (step ", current.step, " of ", total.steps, "):"), "black")
     }
     mfcc <- warbleR::mfcc_stats(X, wl = wl, bp = bp, parallel = parallel, pb = pb, path = path)
 
@@ -709,7 +710,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
 
   # save image files
   if (pb) {
-   message2(x = paste0("creating image files (step ", current.step, " of ", total.steps, "):"), "black")
+    message2(x = paste0("creating image files (step ", current.step, " of ", total.steps, "):"), "black")
   }
 
   # set clusters for windows OS
@@ -722,6 +723,6 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   a1 <- pblapply_wrblr_int(pbar = pb, X = seq_len(ncol(combs)), cl = cl, FUN = function(u) {
     comp.methFUN(X, u, res, bidims, m, mar, flim)
   })
-  
-return(NULL)  
+
+  return(NULL)
 }

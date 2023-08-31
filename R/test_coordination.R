@@ -80,7 +80,7 @@
 #' Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
 #' (2017) To overlap or not to overlap: context-dependent coordinated singing in
 #' lekking long-billed hermits. Animal Behavior  124, 57-65.
-#'  
+#'
 #' Keenan EL, Odom KJ, M Araya-Salas, KG Horton, M Strimas-Mackey,MA Meatte, NI Mann,PJ Slater,JJ Price, and CN Templeton . 2020. Breeding season length predicts duet coordination and consistency in Neotropical wrens (Troglodytidae). Proceeding of the Royal Society B. 20202482.
 #'
 #' Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song
@@ -140,13 +140,14 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
 
       Y <- Y[order(Y$start), ]
       Y_list <- split(Y, Y$indiv)
-      
-      fst <- max(sapply(Y_list, function(x) which(Y$start == min(x$start))))  - 1
-      lst <- min(sapply(Y_list, function(x) which(Y$start == max(x$start))))  - 1
 
-      if(lst > nrow(Y))
+      fst <- max(sapply(Y_list, function(x) which(Y$start == min(x$start)))) - 1
+      lst <- min(sapply(Y_list, function(x) which(Y$start == max(x$start)))) - 1
+
+      if (lst > nrow(Y)) {
         lst <- nrow(Y)
-      
+      }
+
       Y <- Y[fst:lst, ]
     })
 
@@ -171,8 +172,9 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   }
 
   # if any more event has more than 2 individuals
-  if (any(indiv.cnt > 2) & ovlp.method != "time.closest")
+  if (any(indiv.cnt > 2) & ovlp.method != "time.closest") {
     stop2("Some events have more than 2 individuals, this is only possible with ovlp.method = 'time.closest'")
+  }
 
   # deal with cutoff value
   if (any(sng.cnt)) {
@@ -204,17 +206,18 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   rndmFUN <- function(Y) {
     Y <- Y[order(Y$start), ]
     Y_list <- split(Y, Y$indiv)
-    
+
     # null model
     # duration of signals
     durs <- lapply(Y_list, function(x) x$end - x$start)
-    
+
     # duration of gaps
-    gaps <- lapply(Y_list, function(y) sapply(1:(nrow(y) - 1), function(x) {
-      y$start[x + 1] - y$end[x]
+    gaps <- lapply(Y_list, function(y) {
+      sapply(1:(nrow(y) - 1), function(x) {
+        y$start[x + 1] - y$end[x]
+      })
     })
-    )
-    
+
     # randomize
     rnd.dfs <- lapply(1:iterations, function(x) {
       # randomize gaps
@@ -224,10 +227,10 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
 
       if (randomization == "sample.gaps") {
         # generate gaps from lognormal distribution
-        gaps <- lapply(gaps, function(x)
+        gaps <- lapply(gaps, function(x) {
           stats::rlnorm(n = length(x), meanlog = mean(log(unlist(gaps))), sdlog = stats::sd(log(unlist(gaps))))
-          )
-        }
+        })
+      }
 
       # randomize signals
       if (randomization %in% c("keep.gaps", "sample.gaps")) {
@@ -235,8 +238,7 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
       }
 
       # put all back together as a sequence of signals and gaps
-      ndfs_list <- lapply(names(Y_list), function(x){
-        
+      ndfs_list <- lapply(names(Y_list), function(x) {
         nbt <- NULL
         for (i in 1:(length(durs[[x]]) - 1))
         {
@@ -246,16 +248,16 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
         nbt <- c(0, nbt)
         nbt <- nbt + min(Y_list[[x]]$start)
         net <- nbt + durs[[x]]
-        
+
         ndf <- data.frame(
           indiv = x,
           start = nbt,
           end = net
         )
-        
+
         return(ndf)
-        })
-      
+      })
+
       ndfs <- do.call(rbind, ndfs_list)
       ndfs <- ndfs[order(ndfs$start), ]
 
@@ -292,71 +294,76 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
     return(sum(out))
   }
 
-  #time.overlap
+  # time.overlap
   durFUN <- function(Z) {
     # order by time and add duration
     Z <- Z[order(Z$start), ]
     Z$duration <- Z$end - Z$start
-    
+
     Z1 <- Z[Z$indiv == unique(Z$indiv)[1], ]
-    
+
     Z2 <- Z[Z$indiv == unique(Z$indiv)[2], ]
-    
+
     out <- sapply(1:nrow(Z1), function(i) {
       # target start and end
       trg.strt <- Z1$start[i]
       trg.end <- Z1$end[i]
-      
+
       # get the ones that overlap
       Z2 <- Z2[Z2$end > trg.strt & Z2$start < trg.end, , drop = FALSE]
-      
+
       if (nrow(Z2) > 0) # set new start and end at edges of overlaping signals
-      {
-        if (any(Z2$start < trg.strt)) {
-          trg.strt <- max(Z2$end[Z2$start < trg.strt])
-        }
-        
-        if (any(Z2$end > trg.end)) {
-          trg.end <- min(Z2$start[Z2$end > trg.end])
-        }
-        
-        # new duration
-        no.ovlp.dur <- trg.end - trg.strt
-        
-        ovlp <- if (no.ovlp.dur > 0) Z1$duration[i] - no.ovlp.dur else Z1$duration[i]
-        
-        return(ovlp)
-      } else {
+        {
+          if (any(Z2$start < trg.strt)) {
+            trg.strt <- max(Z2$end[Z2$start < trg.strt])
+          }
+
+          if (any(Z2$end > trg.end)) {
+            trg.end <- min(Z2$start[Z2$end > trg.end])
+          }
+
+          # new duration
+          no.ovlp.dur <- trg.end - trg.strt
+
+          ovlp <- if (no.ovlp.dur > 0) Z1$duration[i] - no.ovlp.dur else Z1$duration[i]
+
+          return(ovlp)
+        } else {
         return(0)
       }
     })
-    
+
     return(sum(out))
   }
-  
+
   # time.distance ovlp.method
   closestFUN <- function(Z) {
-    
     timediffs <- vapply(seq_len(nrow(Z)), function(i) {
-      
       Z_others <- Z[Z$indiv != Z$indiv[i], ]
-      
-      timediff <- if (any(Z_others$end > Z$start[i] & Z_others$start < Z$end[i])) 0 else 
-        min(abs(c(Z_others$start - Z$end[i], Z_others$end - Z$start[i]))) 
-      
+
+      timediff <- if (any(Z_others$end > Z$start[i] & Z_others$start < Z$end[i])) {
+        0
+      } else {
+        min(abs(c(Z_others$start - Z$end[i], Z_others$end - Z$start[i])))
+      }
+
       return(timediff)
-        }, FUN.VALUE = numeric(1))
+    }, FUN.VALUE = numeric(1))
 
     return(mean(timediffs))
   }
 
   # select function/ovlp.method
-  coortestFUN <- if (ovlp.method == "count") countFUN  else
+  coortestFUN <- if (ovlp.method == "count") {
+    countFUN
+  } else
   # duration kept for compatibility with previous versions
-     if (ovlp.method %in% c("time.overlap", "duration")) durFUN else
+  if (ovlp.method %in% c("time.overlap", "duration")) {
+    durFUN
+  } else
   # time to closest call from other individuals
-       if (ovlp.method == "time.closest") closestFUN
-  
+  if (ovlp.method == "time.closest") closestFUN
+
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

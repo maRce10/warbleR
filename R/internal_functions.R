@@ -17,31 +17,39 @@ boxw_wrblr_int <-
       xs <- xys[1:2]
       ys <- xys[3:4]
     }
-    
+
     xs <- grconvertX(xs, from = "nic", to = "user")
-    
+
     ys <- grconvertY(ys, from = "nic", to = "user")
-    
+
     cmb <-
-      rbind(combn(rep(xs, 2), 2), combn(rep(ys, 2), 2)[, c(2:6, 1)])[,-c(3, 6)]
-    
-    if (bty == "c")
-      cmb <- cmb[,-4]
-    if (bty == "l")
-      cmb <- cmb[,-(3:4)]
-    if (bty == "7")
+      rbind(combn(rep(xs, 2), 2), combn(rep(ys, 2), 2)[, c(2:6, 1)])[, -c(3, 6)]
+
+    if (bty == "c") {
+      cmb <- cmb[, -4]
+    }
+    if (bty == "l") {
+      cmb <- cmb[, -(3:4)]
+    }
+    if (bty == "7") {
       cmb <- cmb[, 3:4]
-    if (bty == "u")
-      cmb <- cmb[,-3]
-    if (bty == "^")
-      cmb <- cmb[,-1]
-    if (bty == "]")
-      cmb <- cmb[,-2]
-    if (bty == "_")
+    }
+    if (bty == "u") {
+      cmb <- cmb[, -3]
+    }
+    if (bty == "^") {
+      cmb <- cmb[, -1]
+    }
+    if (bty == "]") {
+      cmb <- cmb[, -2]
+    }
+    if (bty == "_") {
       cmb <- matrix(cmb[, 1], nrow = 4)
-    if (bty == "-")
+    }
+    if (bty == "-") {
       cmb <- matrix(cmb[, 3], nrow = 4)
-    
+    }
+
     for (i in seq_len(ncol(cmb))) {
       lines(
         x = cmb[1:2, i],
@@ -66,16 +74,18 @@ fade_env_wrblr_int <-
            fin = 0.1,
            fout = 0.2,
            shape = "linear") {
-    if (fin + fout > 1)
+    if (fin + fout > 1) {
       stop2("'fin' + 'fout' cannot be higher than 1")
+    }
     if (fin < 0 |
-        fout < 0)
+      fout < 0) {
       stop2("'fin' and 'fout' cannot be negative")
-    
+    }
+
     n <- length(nvlp)
     IN <- seq(0, 1, length.out = fin * n)
     OUT <- seq(0, 1, length.out = fout * n)
-    
+
     # applied exponential
     if (shape == "exp") {
       IN <- exp(IN)
@@ -85,7 +95,7 @@ fade_env_wrblr_int <-
       OUT <- OUT - 1
       OUT <- OUT / max(OUT)
     }
-    
+
     # applied cosine
     if (shape == "cos") {
       if (fin == 0) {
@@ -95,7 +105,7 @@ fade_env_wrblr_int <-
         IN <- IN - min(IN)
         IN <- IN / max(IN)
       }
-      
+
       if (fout == 0) {
         OUT <- integer(0)
       } else {
@@ -104,8 +114,8 @@ fade_env_wrblr_int <-
         OUT <- OUT / max(OUT)
       }
     }
-    
-    
+
+
     MID <- rep(1, n - (length(IN) + length(OUT)))
     MID <- nvlp[(length(IN) + 1):(n - length(OUT))]
     return(c(IN, MID, rev(OUT)))
@@ -128,7 +138,7 @@ filled_contour_color_wrblr_int <-
            nlevels = 20,
            color.palette = cm.colors,
            col = color.palette(length(levels) -
-                                 1),
+             1),
            plot.title,
            plot.axes,
            key.title,
@@ -170,8 +180,8 @@ filled_contour_color_wrblr_int <-
         asp = asp,
         bg = bg.col
       )
-      
-      
+
+
       usr <- par("usr")
       rect(
         xleft = usr[1],
@@ -181,8 +191,8 @@ filled_contour_color_wrblr_int <-
         col = bg.col,
         border = bg.col
       )
-      
-      
+
+
       if (!is.matrix(z) || nrow(z) <= 1 || ncol(z) <= 1) {
         stop2("no proper 'z' matrix specified")
       }
@@ -191,18 +201,23 @@ filled_contour_color_wrblr_int <-
       storage.mode(z) <- "double"
     }
     .filled.contour(as.double(x), as.double(y), z, as.double(levels),
-                    col = col)
+      col = col
+    )
     if (missing(plot.axes)) {
       if (axisX) {
-        title(main = "",
-              xlab = "",
-              ylab = "")
+        title(
+          main = "",
+          xlab = "",
+          ylab = ""
+        )
         axis(1)
       }
       if (axisY) {
-        title(main = "",
-              xlab = "",
-              ylab = "")
+        title(
+          main = "",
+          xlab = "",
+          ylab = ""
+        )
         axis(2)
       }
     } else {
@@ -234,7 +249,7 @@ filled_contour_wrblr_int <-
            nlevels = 20,
            color.palette = cm.colors,
            col = color.palette(length(levels) -
-                                 1),
+             1),
            plot.title,
            plot.axes,
            key.title,
@@ -267,14 +282,16 @@ filled_contour_wrblr_int <-
     if (any(diff(x) <= 0) || any(diff(y) <= 0)) {
       stop2("increasing 'x' and 'y' values expected")
     }
-    if (!add)
+    if (!add) {
       plot.new()
+    }
     plot.window(xlim,
-                ylim,
-                "",
-                xaxs = xaxs,
-                yaxs = yaxs,
-                asp = asp)
+      ylim,
+      "",
+      xaxs = xaxs,
+      yaxs = yaxs,
+      asp = asp
+    )
     usr <- par("usr")
     rect(
       xleft = usr[1],
@@ -284,8 +301,8 @@ filled_contour_wrblr_int <-
       col = bg.col,
       border = bg.col
     )
-    
-    
+
+
     if (!is.matrix(z) || nrow(z) <= 1 || ncol(z) <= 1) {
       stop2("no proper 'z' matrix specified")
     }
@@ -293,25 +310,31 @@ filled_contour_wrblr_int <-
       storage.mode(z) <- "double"
     }
     .filled.contour(as.double(x), as.double(y), z, as.double(levels),
-                    col = col)
+      col = col
+    )
     if (missing(plot.axes)) {
       if (axisX) {
-        title(main = "",
-              xlab = "",
-              ylab = "")
+        title(
+          main = "",
+          xlab = "",
+          ylab = ""
+        )
         axis(1)
       }
       if (axisY) {
-        title(main = "",
-              xlab = "",
-              ylab = "")
+        title(
+          main = "",
+          xlab = "",
+          ylab = ""
+        )
         axis(2)
       }
     } else {
       plot.axes
     }
-    if (bx)
+    if (bx) {
       box()
+    }
     if (missing(plot.title)) {
       title()
     } else {
@@ -339,11 +362,11 @@ frd_plot_wrblr_int <-
     # attach freq and amplitude values
     z <- detections$af.mat[, 1]
     zf <- detections$af.mat[, 2]
-    
+
     # sampling rate
     f <- wave@samp.rate
     dur <- seewave::duration(wave)
-    
+
     # detection limits
     if (!all.detec) {
       min.start <- detections$frange$bottom.freq
@@ -352,32 +375,36 @@ frd_plot_wrblr_int <-
       min.start <- detections$detections[, 1]
       max.end <- detections$detections[, 2]
     }
-    
+
     # fix flim
     if (!is.null(flim)) {
-      if (flim[2] > floor(f / 2000))
+      if (flim[2] > floor(f / 2000)) {
         flim[2] <- f / 2000
+      }
     } else {
       flim <- c(0, floor(f / 2000))
     }
-    
+
     # set limits for color rectangles down
-    if (is.null(bp))
+    if (is.null(bp)) {
       lims <- flim
-    else
+    } else {
       lims <- bp
-    
+    }
+
     # split screen
-    m <- rbind(c(0, widths[1] / sum(widths), 0, 0.93),
-               # 1
-               c(widths[1] / sum(widths), 1, 0, 0.93),
-               c(0, 1, 0.93, 1)) # 3
-    
+    m <- rbind(
+      c(0, widths[1] / sum(widths), 0, 0.93),
+      # 1
+      c(widths[1] / sum(widths), 1, 0, 0.93),
+      c(0, 1, 0.93, 1)
+    ) # 3
+
     try(invisible(close.screen(all.screens = TRUE)), silent = TRUE)
     split.screen(m)
     screen(1)
     par(mar = c(3.4, 3.4, 0.5, 0))
-    
+
     # create spectro
     spectro_wrblr_int2(
       wave = wave,
@@ -392,7 +419,7 @@ frd_plot_wrblr_int <-
       flab = "",
       wn = wn
     )
-    
+
     # add gray polygon on detected frequency bands
     out <- lapply(seq_len(length(min.start)), function(e) {
       rect(
@@ -404,7 +431,7 @@ frd_plot_wrblr_int <-
         border = adjustcolor("gray", 0.2)
       )
     })
-    
+
     # add line highlighting freq range
     abline(
       h = c(min.start, max.end),
@@ -412,19 +439,23 @@ frd_plot_wrblr_int <-
       lty = 3,
       lwd = 2
     )
-    
+
     # add axis labels
-    mtext(side = 1,
-          text = "Time (s)",
-          line = 2.3)
-    mtext(side = 2,
-          text = "Frequency (kHz)",
-          line = 2.3)
-    
+    mtext(
+      side = 1,
+      text = "Time (s)",
+      line = 2.3
+    )
+    mtext(
+      side = 2,
+      text = "Frequency (kHz)",
+      line = 2.3
+    )
+
     # second plot
     screen(2)
     par(mar = c(3.4, 0, 0.5, 0.8))
-    
+
     plot(
       z,
       zf,
@@ -437,35 +468,39 @@ frd_plot_wrblr_int <-
       col = "white",
       xaxt = "n"
     )
-    
+
     minz <- min(z)
     maxz <- max(z)
-    
+
     # add axis& labels
     if (detections$type == "percentage") {
       axis(1, at = seq(0.2, 1, by = 0.4))
-      mtext(side = 1,
-            text = "Amplitude (%)",
-            line = 2.3)
+      mtext(
+        side = 1,
+        text = "Amplitude (%)",
+        line = 2.3
+      )
     } else {
       axis(1, at = round(seq(0, maxz, by = 10), 0))
-      mtext(side = 1,
-            text = "Amplitude (dB)",
-            line = 2.3)
+      mtext(
+        side = 1,
+        text = "Amplitude (dB)",
+        line = 2.3
+      )
     }
-    
+
     # fix amplitude values to close polygon (just for ploting)
     z3 <- c(minz, z, minz)
-    
+
     # addd  extremes to make polygon close fine
     zf3 <- c(lims[1], zf, lims[2])
-    
+
     # plot amplitude values curve
     polygon(cbind(z3, zf3), col = adjustcolor("#E37222", 0.8))
-    
+
     # add border line
     points(z3, zf3, type = "l", col = adjustcolor("gray", 0.3))
-    
+
     # add background color
     rect(
       xleft = minz,
@@ -474,7 +509,7 @@ frd_plot_wrblr_int <-
       ytop = flim[2],
       col = adjustcolor("#4D69FF", 0.05)
     )
-    
+
     # add gray polygon on detected frequency bands
     lapply(seq_len(length(min.start)), function(e) {
       rect(
@@ -486,7 +521,7 @@ frd_plot_wrblr_int <-
         border = adjustcolor("gray", 0.2)
       )
     })
-    
+
     # add gray boxes in filtered out freq bands
     if (!is.null(bp)) {
       rect(
@@ -504,7 +539,7 @@ frd_plot_wrblr_int <-
         col = adjustcolor("gray", 0.5)
       )
     }
-    
+
     # add line to highligh freq range
     abline(
       v = ifelse(
@@ -522,8 +557,8 @@ frd_plot_wrblr_int <-
       lty = 3,
       lwd = 2
     )
-    
-    
+
+
     if (!is.null(main)) {
       screen(3)
       par(mar = rep(0, 4))
@@ -538,7 +573,7 @@ frd_plot_wrblr_int <-
         xaxt = "n",
         yaxt = "n"
       )
-      
+
       text(
         x = 0.5,
         y = 0.35,
@@ -546,9 +581,9 @@ frd_plot_wrblr_int <-
         font = 2
       )
     }
-    
-    
-    
+
+
+
     # close screens
     on.exit(invisible(close.screen(all.screens = TRUE)))
   }
@@ -571,7 +606,7 @@ fix_cntr_wrblr_int <-
            alpha,
            l) {
     prev.plot <- recordPlot()
-    
+
     if (!l) {
       ts.df.t <-
         seq(X$start[j], X$end[j], length.out = length(ncl)) - tlim[1]
@@ -584,15 +619,16 @@ fix_cntr_wrblr_int <-
       ts.df.f <- X[j, ncl2]
       ts.df <- X[, ncl]
     }
-    
+
     out <- TRUE
-    
+
     x <- 1
-    
+
     while (all(out)) {
-      if (x > 1)
+      if (x > 1) {
         replayPlot(prev.plot)
-      
+      }
+
       points(
         x = ts.df.t,
         y = ts.df[j, ncl2],
@@ -600,7 +636,7 @@ fix_cntr_wrblr_int <-
         cex = 1.2,
         col = adjustcolor(col, alpha.f = alpha)
       )
-      
+
       if (any(is.na(ts.df[j, seq_len(which.max(ts.df.t))]))) {
         points(
           x = ts.df.t[is.na(ts.df.f[seq_len(which.max(ts.df.t))])],
@@ -610,30 +646,31 @@ fix_cntr_wrblr_int <-
           col = adjustcolor("gray", alpha.f = alpha)
         )
       }
-      
+
       # select second point
       xy <- locator(n = 1, type = "n")
-      
+
       # if on buttoms
       out <-
-        sapply(ending.buttons, function(w)
+        sapply(ending.buttons, function(w) {
           out <-
             !all(xy$x > min(xs) &
-                   xy$x < max(xs) & xy$y > min(ys[[w]]) & xy$y < max(ys[[w]])))
-      
+              xy$x < max(xs) & xy$y > min(ys[[w]]) & xy$y < max(ys[[w]]))
+        })
+
       if (!all(out)) {
         break
       } else {
         ts.df[j, ncl2[which.min(abs(ts.df.t - xy$x))]] <- xy$y
-        
+
         # if selected is lower than 0 make it
         xy$x[xy$x < 0] <- 0
         xy$y[xy$y < 0] <- 0
       }
-      
+
       x <- x + 1
     }
-    
+
     return(list(ts.df = ts.df, xy = xy))
   }
 
@@ -650,12 +687,14 @@ frd_wrblr_int <-
            dB.threshold = NULL) {
     # get sampling rate
     f <- wave@samp.rate
-    
-    if (wl >= length(wave@left))
+
+    if (wl >= length(wave@left)) {
       wl <- length(wave@left) - 1
-    if (wl %% 2 != 0)
+    }
+    if (wl %% 2 != 0) {
       wl <- wl - 1
-    
+    }
+
     # mean spectrum
     if (is.null(dB.threshold)) {
       spc <-
@@ -667,30 +706,31 @@ frd_wrblr_int <-
           wn = wn,
           ovlp = ovlp
         )
-      
+
       # get frequency windows length for smoothing
       step <- wave@samp.rate / wl / 1000
-      
+
       # number of samples
       n <- nrow(spc)
-      
+
       # smoothing parameter
       if (!is.null(fsmooth)) {
         fsmooth <- fsmooth / step
-        
+
         FWL <- fsmooth - 1
-        
+
         # smooth
         z <-
-          apply(as.matrix(1:(n - FWL)), 1, function(y)
-            sum(spc[y:(y + FWL), 2]))
+          apply(as.matrix(1:(n - FWL)), 1, function(y) {
+            sum(spc[y:(y + FWL), 2])
+          })
         zf <-
           seq(min(spc[, 1]), max(spc[, 1]), length.out = length(z))
       } else {
         z <- spc[, 2]
         zf <- spc[, 1]
       }
-      
+
       # remove range outside bp
       if (!is.null(bp)) {
         # if there are complete freq bins within freq range
@@ -701,40 +741,41 @@ frd_wrblr_int <-
           fbins <-
             which.max(ifelse(zf - bp[1] > 0, NA, zf - bp[1])):which.max(ifelse(zf - bp[2] > 0, NA, zf - bp[1]))
         }
-        
+
         z <- z[fbins]
         zf <- zf[fbins]
       }
-      
+
       # make minimum amplitude 0
       z <- z - min(z)
       z[z < 0] <- 0
-      
+
       # normalize amplitude from 0 to 1
       if (length(z) > 1) {
         z <- z / max(z)
       }
-      
+
       # get freqs crossing threshold
       z1 <- rep(0, length(z))
       z1[z > threshold / 100] <- 1
       z2 <- z1[2:length(z1)] - z1[1:(length(z1) - 1)]
-      
+
       # add 0 to get same length than z
       z2 <- c(0, z2)
-      
+
       # determine start and end of amplitude hills
       strt <- zf[z2 == 1]
       nd <- zf[z2 == -1]
-      
+
       # add NAs when some ends or starts where not found
       if (length(strt) != length(nd)) {
-        if (z1[1] == 0)
+        if (z1[1] == 0) {
           nd <- c(nd, NA)
-        else
+        } else {
           strt <- c(NA, strt)
+        }
       }
-      
+
       if (length(strt) == 1) {
         if (z1[1] == 1 & z1[length(z1)] == 1 & strt > nd) {
           strt <- c(NA, strt)
@@ -744,7 +785,7 @@ frd_wrblr_int <-
       # substract half a step to calculate mid point between the 2 freq windows in which the theshold has passed
       nd <- nd - (step / 2)
       strt <- strt - (step / 2)
-      
+
       meanpeakf <- zf[which.max(z)] + (step / 2)
     } else {
       spc <-
@@ -758,99 +799,103 @@ frd_wrblr_int <-
           dB = "max0",
           dBref = 2 * 10e-5
         )
-      
+
       # get frequency windows length for smoothing
       step <- wave@samp.rate / wl / 1000
-      
+
       # number of samples
       n <- nrow(spc)
-      
+
       # smoothing parameter
       if (!is.null(fsmooth)) {
         fsmooth <- fsmooth / step
-        
+
         FWL <- fsmooth - 1
-        
+
         # smooth
         z <-
-          apply(as.matrix(1:(n - FWL)), 1, function(y)
-            sum(spc[y:(y + FWL), 2]))
+          apply(as.matrix(1:(n - FWL)), 1, function(y) {
+            sum(spc[y:(y + FWL), 2])
+          })
         zf <-
           seq(min(spc[, 1]), max(spc[, 1]), length.out = length(z))
-        
+
         z <-
           (max(spc[, 2]) - min(spc[, 2])) / (max(z) - min(z)) * (z - max(z)) + max(spc[, 2])
       } else {
         z <- spc[, 2]
         zf <- spc[, 1]
       }
-      
+
       if (!is.null(bp)) {
         # remove range outsde bp
         z <- z[zf > bp[1] & zf < bp[2]]
         zf <- zf[zf > bp[1] & zf < bp[2]]
       }
-      
+
       z1 <- rep(0, length(z))
       z1[z > max(z) - dB.threshold] <- 1
       z2 <- z1[2:length(z1)] - z1[1:(length(z1) - 1)]
-      
+
       # add 0 to get same length than z
       z2 <- c(0, z2)
-      
+
       # determine start and end of amplitude hills
       strt <- zf[z2 == 1]
       nd <- zf[z2 == -1]
-      
+
       # add NAs when some ends or starts where not found
       if (length(strt) != length(nd)) {
-        if (z1[1] == 0)
+        if (z1[1] == 0) {
           nd <- c(nd, NA)
-        else
+        } else {
           strt <- c(NA, strt)
+        }
       }
-      
+
       if (length(strt) == 1) {
         if (z1[1] == 1 & z1[length(z1)] == 1 & strt > nd) {
           strt <- c(NA, strt)
           nd <- c(nd, NA)
         }
       }
-      
+
       # step <- mean(zf[-1] - zf[1:(length(zf) - 1)])
-      
+
       # substract half a step to calculate mid point between the 2 freq windows in which the theshold has passed
       nd <- nd - (step / 2)
       strt <- strt - (step / 2)
       meanpeakf <- zf[which.max(z)] + (step / 2)
     }
-    
+
     # fix range
     # only start lower than peakf
     strt <- strt[strt <= meanpeakf]
-    
+
     # only ends higher than peakf
     nd <- nd[nd >= meanpeakf]
-    
+
     # get freq range
     min.strt <-
       ifelse(length(strt) == 1, strt, strt[which.min(meanpeakf - strt)])
     max.nd <-
       ifelse(length(nd) == 1, nd, nd[which.min(nd - meanpeakf)])
-    
+
     if (!any(is.na(c(min.strt, max.nd)))) {
       if (min.strt > max.nd) {
         min.strt <- NA
         max.nd <- NA
       }
     }
-    
+
     # force nd and strt the same length adding NAs
-    if (length(nd) > length(strt))
+    if (length(nd) > length(strt)) {
       strt <- c(strt, rep(NA, length(nd) - length(strt)))
-    if (length(strt) > length(nd))
+    }
+    if (length(strt) > length(nd)) {
       nd <- c(nd, rep(NA, length(strt) - length(nd)))
-    
+    }
+
     # save everything in a list
     rl <-
       list(
@@ -861,7 +906,7 @@ frd_wrblr_int <-
         threshold = ifelse(is.null(dB.threshold), threshold, max(z) - dB.threshold),
         type = ifelse(is.null(dB.threshold), "percentage", "dB")
       )
-    
+
     # return rl list
     return(rl)
   }
@@ -880,10 +925,10 @@ img_wrlbr_int <-
       width <- 11
       height <- 8.5
     }
-    
+
     # add path to filename
     flnm <- file.path(path, filename)
-    
+
     # jpeg
     if (grepl("jpeg$|jpg$", filename)) {
       jpeg(
@@ -919,10 +964,11 @@ pblapply_wrblr_int <- function(X,
                                ...) {
   # conver parallel 1 to null
   if (!inherits(cl, "cluster")) {
-    if (cl == 1)
+    if (cl == 1) {
       cl <- NULL
+    }
   }
-  
+
   FUN <- match.fun(FUN)
   if (!is.vector(X) || is.object(X)) {
     X <- as.list(X)
@@ -947,7 +993,7 @@ pblapply_wrblr_int <- function(X,
       }
     }
   }
-  
+
   if (is.null(cl)) {
     if (!pbar) {
       return(lapply(X, FUN, ...))
@@ -973,8 +1019,10 @@ pblapply_wrblr_int <- function(X,
       on.exit(pbapply::closepb(pb), add = TRUE)
       rval <- vector("list", B)
       for (i in seq_len(B)) {
-        rval[i] <- list(PAR_FUN(cl, X[Split[[i]]], FUN,
-                                ...))
+        rval[i] <- list(PAR_FUN(
+          cl, X[Split[[i]]], FUN,
+          ...
+        ))
         pbapply::setpb(pb, i)
       }
     } else {
@@ -989,8 +1037,9 @@ pblapply_wrblr_int <- function(X,
       rval <- vector("list", B)
       for (i in seq_len(B)) {
         rval[i] <- list(parallel::mclapply(X[Split[[i]]],
-                                           FUN, ...,
-                                           mc.cores = as.integer(cl)))
+          FUN, ...,
+          mc.cores = as.integer(cl)
+        ))
         pbapply::setpb(pb, i)
       }
     }
@@ -1040,7 +1089,7 @@ rectw_wrblr_int <-
         lwd = lw,
         lty = lt
       )
-      
+
       if (pattern == "diamond") {
         rect(
           xleft = xl,
@@ -1067,7 +1116,7 @@ rectw_wrblr_int <-
           lty = lt
         )
       }
-      
+
       if (pattern == "grid") {
         rect(
           xleft = xl,
@@ -1094,7 +1143,7 @@ rectw_wrblr_int <-
           lty = lt
         )
       }
-      
+
       if (pattern == "forward") {
         rect(
           xleft = xl,
@@ -1109,7 +1158,7 @@ rectw_wrblr_int <-
           lty = lt
         )
       }
-      
+
       if (pattern == "backward") {
         rect(
           xleft = xl,
@@ -1124,7 +1173,7 @@ rectw_wrblr_int <-
           lty = lt
         )
       }
-      
+
       if (pattern == "vertical") {
         rect(
           xleft = xl,
@@ -1139,7 +1188,7 @@ rectw_wrblr_int <-
           lty = lt
         )
       }
-      
+
       if (pattern == "horizontal") {
         rect(
           xleft = xl,
@@ -1162,7 +1211,7 @@ rectw_wrblr_int <-
 
 specprop_wrblr_int <- function(spec, f = NULL, flim = NULL, ...) {
   fhz <- f
-  
+
   if (is.null(f)) {
     if (is.vector(spec)) {
       stop2("'f' is missing")
@@ -1170,7 +1219,7 @@ specprop_wrblr_int <- function(spec, f = NULL, flim = NULL, ...) {
       f <- spec[nrow(spec), 1] * 2000 * nrow(spec) / (nrow(spec) - 1)
     }
   }
-  
+
   if (is.matrix(spec)) {
     freq <- spec[, 1]
     freq <- freq * 1000
@@ -1194,11 +1243,13 @@ specprop_wrblr_int <- function(spec, f = NULL, flim = NULL, ...) {
   L <- length(spec)
   amp <- spec / sum(spec)
   cumamp <- cumsum(amp)
-  freq <- seq(from = flim[1] * 1000,
-              to = flim[2] * 1000,
-              length.out = L)
+  freq <- seq(
+    from = flim[1] * 1000,
+    to = flim[2] * 1000,
+    length.out = L
+  )
   mean <- sum(amp * freq)
-  sd <- sqrt(sum(amp * ((freq - mean) ^ 2)))
+  sd <- sqrt(sum(amp * ((freq - mean)^2)))
   sem <- sd / sqrt(L)
   median <- freq[length(cumamp[cumamp <= 0.5]) + 1]
   mode <- freq[which.max(amp)]
@@ -1208,8 +1259,8 @@ specprop_wrblr_int <- function(spec, f = NULL, flim = NULL, ...) {
   cent <- sum(freq * amp)
   z <- amp - mean(amp)
   w <- sd(amp)
-  skew <- (sum(z ^ 3) / (L - 1)) / w ^ 3
-  kurt <- (sum(z ^ 4) / (L - 1)) / w ^ 4
+  skew <- (sum(z^3) / (L - 1)) / w^3
+  kurt <- (sum(z^4) / (L - 1)) / w^4
   sfm <- sfm(amp)
   sh <- sh(amp)
   prec <- f / wl
@@ -1229,7 +1280,7 @@ specprop_wrblr_int <- function(spec, f = NULL, flim = NULL, ...) {
     sh = sh,
     prec = prec
   )
-  
+
   return(results)
 }
 
@@ -1289,20 +1340,22 @@ spectro_wrblr_int <-
            colwave = adjustcolor("#07889B", alpha.f = 0.7),
            box = TRUE,
            ...) {
-    
-    if (wl >= length(wave@left))
+    if (wl >= length(wave@left)) {
       wl <- length(wave@left) - 1
-    if (wl %% 2 != 0)
+    }
+    if (wl %% 2 != 0) {
       wl <- wl - 1
-    
+    }
+
     # remove scale if fast.spec
-    if (fast.spec)
+    if (fast.spec) {
       scale <- FALSE
-    
+    }
+
     if (!is.null(dB) && all(dB != c("max0", "A", "B", "C", "D"))) {
       stop2("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
     }
-    
+
     if (complex) {
       if (plot) {
         plot <- FALSE
@@ -1317,25 +1370,26 @@ spectro_wrblr_int <-
         warning2("\n'dB' was turned to 'NULL'")
       }
     }
-    
+
     input <- inputw(wave = wave, f = wave@samp.rate)
-    
+
     if (!is.null(tlim) && trel && osc) {
       wave <- wave0 <- input$w
     } else {
       wave <- input$w
     }
-    
+
     f <- input$f
     rm(input)
-    
+
     if (!is.null(tlim)) {
       wave <- cutw(wave,
-                   f = f,
-                   from = tlim[1],
-                   to = tlim[2])
+        f = f,
+        from = tlim[1],
+        to = tlim[2]
+      )
     }
-    
+
     if (!is.null(flimd)) {
       mag <- round((f / 2000) / (flimd[2] - flimd[1]))
       wl <- wl * mag
@@ -1347,7 +1401,7 @@ spectro_wrblr_int <-
     }
     n <- nrow(wave)
     step <- seq(1, n - wl, wl - (ovlp * wl / 100))
-    
+
     # to fix function name change in version 2.0.5
     # if (exists("stdft")) stft <- stdft
     z <- stft_wrblr_int(
@@ -1362,21 +1416,23 @@ spectro_wrblr_int <-
       complex = complex,
       correction = correction
     )
-    
+
     if (!is.null(tlim) && trel) {
       X <- seq(tlim[1], tlim[2], length.out = length(step))
     } else {
       X <- seq(0, n / f, length.out = length(step))
     }
-    
+
     pl <- pretty(X)
-    if (any(pl < 0))
+    if (any(pl < 0)) {
       pl <- pl + abs(min(pl))
+    }
     xat <- xlabel <- pl
-    
-    if (!is.null(rnd))
+
+    if (!is.null(rnd)) {
       xlabel <- round(xlabel, rnd)
-    
+    }
+
     if (is.null(flim)) {
       Y <- seq(0, (f / 2) - (f / (wl + zp)), by = f / (wl + zp)) / 1000
     } else {
@@ -1385,10 +1441,11 @@ spectro_wrblr_int <-
       z <- z[(fl1:fl2) + 1, , drop = FALSE]
       Y <- seq(flim[1], flim[2], length.out = nrow(z))
     }
-    
+
     yat <- ylabel <- pretty(Y)
-    if (rm.lwst)
+    if (rm.lwst) {
       ylabel[1] <- ""
+    }
     if (flog) {
       Y <- log(Y + 1)
       yat <- log(yat + 1)
@@ -1416,15 +1473,16 @@ spectro_wrblr_int <-
     }
     Z <- t(z)
     # fix when no amplitude variation is found i wave
-    if (all(is.nan(Z)))
-      Z[ , ] <- - Inf
-    
+    if (all(is.nan(Z))) {
+      Z[, ] <- -Inf
+    }
+
     if (plot) {
       if (!isTRUE(norm) && isTRUE(scale)) {
         stop2("dB colour scale cannot be plot when 'norm' is FALSE")
       }
       suppressWarnings(maxz <- round(max(z, na.rm = TRUE)))
-      
+
       if (!is.null(dB)) {
         if (is.null(collevels)) {
           collevels <- seq(maxz - 30, maxz, by = 1)
@@ -1443,8 +1501,9 @@ spectro_wrblr_int <-
       suppressWarnings(Zlim <- range(Z, finite = TRUE, na.rm = TRUE))
       if (osc & scale) {
         layout(matrix(c(3, 1, 2, 0), ncol = 2, byrow = TRUE),
-               widths = widths,
-               heights = heights)
+          widths = widths,
+          heights = heights
+        )
         par(
           las = 0,
           oma = oma,
@@ -1483,8 +1542,10 @@ spectro_wrblr_int <-
           collab = collab,
           colaxis = colaxis,
           colline = colaxis,
-          ylim = c(-max(abs(wave)),
-                   max(abs(wave))),
+          ylim = c(
+            -max(abs(wave)),
+            max(abs(wave))
+          ),
           tickup = max(abs(wave), na.rm = TRUE),
           tlab = tlab,
           alab = alab,
@@ -1503,7 +1564,7 @@ spectro_wrblr_int <-
           cex.lab = cexlab +
             0.2
         )
-        
+
         if (!fast.spec) {
           seewave::filled.contour.modif2(
             x = X,
@@ -1536,11 +1597,13 @@ spectro_wrblr_int <-
           )
           title(main)
         }
-        
+
         if (grid) {
-          abline(h = yat,
-                 col = colgrid,
-                 lty = "dotted")
+          abline(
+            h = yat,
+            col = colgrid,
+            lty = "dotted"
+          )
         }
         if (cont) {
           contour(
@@ -1562,7 +1625,8 @@ spectro_wrblr_int <-
       }
       if (osc == FALSE & scale) {
         layout(matrix(c(2, 1), ncol = 2, byrow = TRUE),
-               widths = widths)
+          widths = widths
+        )
         par(
           mar = c(5, 1, 4.5, 3),
           oma = oma,
@@ -1623,9 +1687,11 @@ spectro_wrblr_int <-
           title(main)
         }
         if (grid) {
-          abline(h = yat,
-                 col = colgrid,
-                 lty = "dotted")
+          abline(
+            h = yat,
+            col = colgrid,
+            lty = "dotted"
+          )
         }
         if (colaxis != colgrid) {
           abline(h = 0, col = colaxis)
@@ -1647,7 +1713,8 @@ spectro_wrblr_int <-
       }
       if (osc & scale == FALSE) {
         layout(matrix(c(2, 1), nrow = 2, byrow = TRUE),
-               heights = heights)
+          heights = heights
+        )
         par(
           mar = c(5.1, 4.1, 0, 2.1),
           las = 0,
@@ -1725,17 +1792,22 @@ spectro_wrblr_int <-
             ylab = flab,
             axes = FALSE
           )
-          if (axisY)
+          if (axisY) {
             axis(2, at = yat, labels = ylabel)
-          if (box)
+          }
+          if (box) {
             box()
-          if (!is.null(main))
+          }
+          if (!is.null(main)) {
             title(main)
+          }
         }
         if (grid) {
-          abline(h = yat,
-                 col = colgrid,
-                 lty = "dotted")
+          abline(
+            h = yat,
+            col = colgrid,
+            lty = "dotted"
+          )
         }
         if (cont) {
           contour(
@@ -1765,8 +1837,8 @@ spectro_wrblr_int <-
           cex.axis = cexaxis,
           cex.lab = cexlab
         )
-        
-       if (!fast.spec) {
+
+        if (!fast.spec) {
           filled_contour_wrblr_int(
             x = X,
             y = Y,
@@ -1791,7 +1863,6 @@ spectro_wrblr_int <-
             colaxis = colaxis,
             bx = box
           )
-
         } else {
           image(
             x = X,
@@ -1804,9 +1875,11 @@ spectro_wrblr_int <-
           title(main)
         }
         if (grid) {
-          abline(h = yat,
-                 col = colgrid,
-                 lty = "dotted")
+          abline(
+            h = yat,
+            col = colgrid,
+            lty = "dotted"
+          )
         }
         if (cont) {
           contour(
@@ -1826,7 +1899,7 @@ spectro_wrblr_int <-
           abline(h = 0, col = colgrid)
         }
       }
-      
+
       invisible(list(
         time = X,
         freq = Y,
@@ -1866,7 +1939,7 @@ soscillo_wrblr_int <- function(wave,
   wave <- input$w
   f <- input$f
   rm(input)
-  
+
   if (from | to) {
     if (from == 0) {
       a <- 1
@@ -1885,14 +1958,14 @@ soscillo_wrblr_int <- function(wave,
       a <- round(from * f)
       b <- round(to * f)
     }
-    wave <- as.matrix(wave[a:b,])
+    wave <- as.matrix(wave[a:b, ])
     n <- nrow(wave)
   } else {
     n <- nrow(wave)
     from <- 0
     to <- n / f
   }
-  
+
   par(
     tcl = 0.5,
     col.axis = colaxis,
@@ -1901,12 +1974,13 @@ soscillo_wrblr_int <- function(wave,
     col.lab = collab,
     las = 0
   )
-  
-  wave <- ts(wave[0:n,],
-             start = from,
-             end = to,
-             frequency = f)
-  
+
+  wave <- ts(wave[0:n, ],
+    start = from,
+    end = to,
+    frequency = f
+  )
+
   plot(
     wave,
     col = colwave,
@@ -1920,16 +1994,18 @@ soscillo_wrblr_int <- function(wave,
     bty = "l",
     ...
   )
-  axis(side = 1,
-       col = colline,
-       labels = FALSE)
+  axis(
+    side = 1,
+    col = colline,
+    labels = FALSE
+  )
   axis(
     side = 2,
     at = tickup,
     col = colline,
     labels = FALSE
   )
-  
+
   mtext(
     tlab,
     col = collab,
@@ -1946,7 +2022,7 @@ soscillo_wrblr_int <- function(wave,
     side = 2,
     line = 3
   )
-  
+
   abline(h = 0, col = coly0, lty = 2)
 }
 
@@ -2010,21 +2086,25 @@ spectro_wrblr_int2 <-
       stop2("'dB' has to be one of the following character strings: 'max0', 'A', 'B', 'C' or 'D'")
     }
     sel.tab <- X
-    
-    if (is.list(palette))
+
+    if (is.list(palette)) {
       palette <- unlist(palette[[1]])
-    if (is.null(palette))
+    }
+    if (is.null(palette)) {
       palette <- spectro.colors
-    if (!is.function(palette))
+    }
+    if (!is.function(palette)) {
       palette <- get(palette)
-    
+    }
+
     if (is.null(collevels) & !is.null(collev.min)) {
       collevels <- seq(collev.min, 0, 1)
     }
-    
-    if (!is.null(sel.tab))
+
+    if (!is.null(sel.tab)) {
       fast.spec <- TRUE
-    
+    }
+
     if (complex & norm) {
       norm <- FALSE
       warning2("\n'norm' was turned to 'FALSE'")
@@ -2034,16 +2114,17 @@ spectro_wrblr_int2 <-
       warning2("\n'dB' was turned to 'NULL'")
     }
     input <- seewave::inputw(wave = wave, f = f)
-    
+
     wave <- input$w
-    
+
     f <- input$f
     rm(input)
     if (!is.null(tlim)) {
       wave <- cutw(wave,
-                   f = f,
-                   from = tlim[1],
-                   to = tlim[2])
+        f = f,
+        from = tlim[1],
+        to = tlim[2]
+      )
     }
     if (!is.null(flimd)) {
       mag <- round((floor(f / 2000)) / (flimd[2] - flimd[1]))
@@ -2056,7 +2137,7 @@ spectro_wrblr_int2 <-
     }
     n <- nrow(wave)
     step <- seq(1, n - wl, wl - (ovlp * wl / 100))
-    
+
     # to fix function name change in after version 2.0.5
     # if (exists("stdft")) stft <- stdft
     z <- stft_wrblr_int(
@@ -2080,7 +2161,7 @@ spectro_wrblr_int2 <-
     } else {
       fl1 <- flim[1] * nrow(z) * 2000 / f
       fl2 <- flim[2] * nrow(z) * 2000 / f
-      z <- z[(fl1:fl2) + 1,]
+      z <- z[(fl1:fl2) + 1, ]
       Y <- seq(flim[1], flim[2], length.out = nrow(z))
     }
     if (!is.null(dB)) {
@@ -2105,7 +2186,7 @@ spectro_wrblr_int2 <-
       }
     }
     Z <- t(z)
-    
+
     maxz <- round(max(z, na.rm = TRUE))
     if (!is.null(dB)) {
       if (is.null(collevels)) {
@@ -2123,10 +2204,11 @@ spectro_wrblr_int2 <-
       }
     }
     Zlim <- range(Z, finite = TRUE, na.rm = TRUE)
-    
-    if (!is.null(amp.cutoff))
+
+    if (!is.null(amp.cutoff)) {
       Z[Z >= (diff(range(Z)) * amp.cutoff) + min(Z)] <- 0
-    
+    }
+
     if (!fast.spec) {
       filled_contour_wrblr_int(
         x = X,
@@ -2161,12 +2243,12 @@ spectro_wrblr_int2 <-
         out <- lapply(1:nrow(sel.tab), function(i) {
           image(
             x = X[X > sel.tab$start[i] &
-                    X < sel.tab$end[i]],
+              X < sel.tab$end[i]],
             y = Y[Y > sel.tab$bottom.freq[i] &
-                    Y < sel.tab$top.freq[i]],
+              Y < sel.tab$top.freq[i]],
             z = Z[X > sel.tab$start[i] &
-                    X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] &
-                    Y < sel.tab$top.freq[i]],
+              X < sel.tab$end[i], Y > sel.tab$bottom.freq[i] &
+              Y < sel.tab$top.freq[i]],
             col = palette.2(30),
             xlab = tlab,
             ylab = flab,
@@ -2176,33 +2258,39 @@ spectro_wrblr_int2 <-
           )
         })
       }
-      
-      
-      if (axisY)
+
+
+      if (axisY) {
         axis(2,
-             at = pretty(Y),
-             labels = pretty(Y),
-             cex.axis = cexlab)
-      if (bx)
+          at = pretty(Y),
+          labels = pretty(Y),
+          cex.axis = cexlab
+        )
+      }
+      if (bx) {
         box()
-      if (!is.null(main))
+      }
+      if (!is.null(main)) {
         title(main)
+      }
     }
-    
+
     if (axisX) {
       if (rm.zero) {
         axis(1,
-             at = pretty(X)[-1],
-             labels = pretty(X)[-1],
-             cex.axis = cexaxis)
+          at = pretty(X)[-1],
+          labels = pretty(X)[-1],
+          cex.axis = cexaxis
+        )
       } else {
         axis(1,
-             at = pretty(X),
-             labels = pretty(X),
-             cex.axis = cexaxis)
+          at = pretty(X),
+          labels = pretty(X),
+          cex.axis = cexaxis
+        )
       }
     }
-    
+
     if (grid) {
       grid(nx = NA, ny = NULL, col = colgrid)
     }
@@ -2226,19 +2314,21 @@ stft_wrblr_int <-
     if (zp < 0) {
       stop2("zero-padding cannot be negative")
     }
-    W <- ftwindow(wl = wl,
-                  wn = wn,
-                  correction = correction)
+    W <- ftwindow(
+      wl = wl,
+      wn = wn,
+      correction = correction
+    )
     if (fftw) {
       p <- fftw::planFFT(wl + zp)
       z <- apply(as.matrix(step), 1, function(x) {
         fftw::FFT(c(wave[x:(wl +
-                              x - 1),] * W, rep(0, zp)), plan = p)
+          x - 1), ] * W, rep(0, zp)), plan = p)
       })
     } else {
       z <- apply(as.matrix(step), 1, function(x) {
         stats::fft(c(wave[x:(wl +
-                               x - 1),] * W, rep(0, zp)))
+          x - 1), ] * W, rep(0, zp)))
       })
     }
     z <- z[1:((wl + zp) %/% 2), , drop = FALSE]
@@ -2247,9 +2337,11 @@ stft_wrblr_int <-
       z <- 2 * Mod(z)
       if (scale) {
         if (norm) {
-          z <- z / apply(X = z,
-                         MARGIN = 2,
-                         FUN = max)
+          z <- z / apply(
+            X = z,
+            MARGIN = 2,
+            FUN = max
+          )
         } else {
           z <- z / max(z)
         }
@@ -2272,98 +2364,102 @@ wpd_feature_wrblr_int <-
     # force wave object to have a length exp2
     # get target duration
     exp2 <- `^`(2, 1:1000)
-    
+
     # target duration
     trg <- exp2[which.min(!exp2 > length(wave@left))]
-    
+
     # margin to add at both sides
     mar <- rep(0, (trg - length(wave@left)) / 2)
-    
+
     # amplitude vector
     amp.vctr <- c(mar, wave@left, mar)
-    
+
     # fix if still not exp2
     if (length(amp.vctr) < trg) {
       amp.vctr <- c(amp.vctr, trg - length(amp.vctr))
     }
-    
+
     # compute wavelet packet decomposition
     out <- wavethresh::wp(amp.vctr, filter.number = 4)
-    
+
     # coefficients
     mat <- out$wp
     bins <- dim(mat)[2]
     num_wpd_coefs <- dim(mat)[1]
-    
+
     # sum of mean of Eb for each bin
     arr_meanEb <- sapply(1:bins, function(e) {
-      sum(sapply(1:num_wpd_coefs, function(i)
-        mat[i, e] ^ 2)) / num_wpd_coefs
+      sum(sapply(1:num_wpd_coefs, function(i) {
+        mat[i, e]^2
+      })) / num_wpd_coefs
     })
-    
+
     # find max E and position of max E
     mx <- max(arr_meanEb) # max
     ps <- which.max(arr_meanEb) # position
-    
+
     # spread
     # s <- Spread(mat, bins, num_wpd_coefs)
     sprds <- sapply(1:bins, function(w) {
       # caculate threshold as in equation 6
       umbral <-
-        (sum(sapply(1:num_wpd_coefs, function(i)
-          mat[i, w] ^ 2)) / num_wpd_coefs) / thr1
-      
-      value <- mat[, w] ^ 2
+        (sum(sapply(1:num_wpd_coefs, function(i) {
+          mat[i, w]^2
+        })) / num_wpd_coefs) / thr1
+
+      value <- mat[, w]^2
       j <- rep(1, length(value))
-      
+
       # make lower values 0
       j[value <= umbral] <- 0
-      
+
       # convert to NA the one lower than value
       value[value <= umbral] <- NA
-      
+
       return(c(sum(value, na.rm = TRUE) / sum(j)))
     })
-    
+
     s <- colSums(t(sprds))
-    
+
     # measure spread
     sprd <- s[1] / s[2]
-    
+
     # add up square coefs by bin
     sum.coefs <- sapply(1:bins, function(e) {
-      sum(sapply(1:num_wpd_coefs, function(i)
-        mat[i, e] ^ 2))
+      sum(sapply(1:num_wpd_coefs, function(i) {
+        mat[i, e]^2
+      }))
     })
-    
+
     # force to a range 0-1 (proportional to maximum)
     sum.coefs <- sum.coefs / max(sum.coefs)
-    
+
     # get the ones above threshold
     w <- sum(sum.coefs > thr2)
-    
+
     # w <- sum(sapply(1:bins, function(e){
     #   if(sum(sapply(1:num_wpd_coefs, function(i) mat[i, e]^2)) > thr) return(1) else return(0)
     # }))
-    
+
     result <- c(mx, ps, sprd, w)
-    
+
     if (normalize) {
       count <-
         sum(mat[, result[2]] > (sum(
-          sapply(1:num_wpd_coefs, function(i)
-            mat[i, w] ^ 2)
+          sapply(1:num_wpd_coefs, function(i) {
+            mat[i, w]^2
+          })
         ) / num_wpd_coefs) / 6)
-      
+
       if (count > 0) {
         result[1] <- result[1] / count
       }
-      
+
       result <- result * c(1, 1 / 16, 1 / 100, 1 / 20)
     }
-    
+
     names(result) <- c("max.energy", "position", "spread", "width")
-    
+
     return(result)
   }
 
@@ -2378,8 +2474,9 @@ warning2 <- function(...) {
 }
 
 # message function that changes colors
-message2 <- function(x, color = "black") 
+message2 <- function(x, color = "black") {
   message(colortext(x, as = color))
+}
 
 
 colortext <- function(text, as = c("red", "blue", "green", "magenta", "cyan", "orange", "black", "silver")) {
@@ -2396,11 +2493,11 @@ has_color <- function() {
 
 warbleR_style <- function(color = c("red", "blue", "green", "magenta", "cyan", "orange", "black", "silver")) {
   type <- match.arg(color)
-  
+
   c(
     red = "red",
     blue = "blue",
-    green = "green", 
+    green = "green",
     magenta = "magenta",
     cyan = "cyan",
     orange = "orange",
@@ -2415,12 +2512,12 @@ warbleR_style <- function(color = c("red", "blue", "green", "magenta", "cyan", "
 # noise = noise SPL
 lessdB <- lessdB_wrblr_int <- function(signal.noise, noise) {
   puttative_SPLs <- seq(0.01, signal.noise, by = 0.01)
-  
+
   sum_SPLs <-
-    20 * log10((10 ^ (puttative_SPLs / 20)) + (10 ^ (noise / 20)))
-  
+    20 * log10((10^(puttative_SPLs / 20)) + (10^(noise / 20)))
+
   signal_SPL <-
     puttative_SPLs[which.min(abs(sum_SPLs - signal.noise))]
-  
+
   return(signal_SPL)
 }

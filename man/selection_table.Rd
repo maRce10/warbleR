@@ -92,7 +92,7 @@ fixed using \code{\link{fix_wavs}} ('sox' must be installed to be able to run th
 The 'selection_table' class can be input in subsequent functions.
 
 When \code{extended = TRUE} the function will generate an object of class 'extended_selection_table' which
-will also contains the wave objects for each of the selections in the data frame.
+will also contain the wave objects for each of the selections in the data frame.
 This transforms selection tables into self-contained objects as they no longer need the original
 sound files to run acoustic analysis. This can largely facilitate the storing and sharing of (bio)acoustic data.
 Extended selection table size will be a function of the number of selections \code{nrow(X)}, sampling rate, selection

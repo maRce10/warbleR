@@ -102,7 +102,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 Araya-Salas M., Wojczulanis-Jakubas K., Phillips E.M., Mennill D.J., Wright T.F.
 (2017) To overlap or not to overlap: context-dependent coordinated singing in
 lekking long-billed hermits. Animal Behavior  124, 57-65.
- 
+
 Keenan EL, Odom KJ, M Araya-Salas, KG Horton, M Strimas-Mackey,MA Meatte, NI Mann,PJ Slater,JJ Price, and CN Templeton . 2020. Breeding season length predicts duet coordination and consistency in Neotropical wrens (Troglodytidae). Proceeding of the Royal Society B. 20202482.
 
 Masco, C., Allesina, S., Mennill, D. J., and Pruett-Jones, S. (2015). The Song

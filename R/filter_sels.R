@@ -38,28 +38,33 @@
 #' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 #' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 #'
-#' spectrograms(lbh_selec_table, flim = c(0, 11), inner.mar = c(4,4.5,2,1), outer.mar = c(4,2,2,1),
-#' picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300, path = tempdir())
+#' spectrograms(lbh_selec_table,
+#'   flim = c(0, 11), inner.mar = c(4, 4.5, 2, 1), outer.mar = c(4, 2, 2, 1),
+#'   picsize = 2, res = 300, cexlab = 2, mar = 0.05, wl = 300, path = tempdir()
+#' )
 #'
-#' #go to the working directory (tempdir()) and delete some images
+#' # go to the working directory (tempdir()) and delete some images
 #'
-#' #filter selection data frame
+#' # filter selection data frame
 #' fmloc <- filter_sels(X = lbh_selec_table, path = tempdir())
 #'
-#' #this data frame does not have the selections corresponding to the images that were deleted
+#' # this data frame does not have the selections corresponding to the images that were deleted
 #' fmloc
 #'
-#' #now using lspec images
-#' full_spectrograms(sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, ovlp = 10,
-#' path = tempdir())
+#' # now using lspec images
+#' full_spectrograms(
+#'   sxrow = 2, rows = 8, pal = reverse.heat.colors, wl = 300, ovlp = 10,
+#'   path = tempdir()
+#' )
 #'
 #' # go to the working directory (tempdir()) and delete lspec
 #' # images (the ones with several rows of spectrograms)
 #'
-#' #filter selection data frame
-#' fmloc2 <- filter_sels(X = lbh_selec_table, lspec = TRUE,
-#' path = tempdir())
-#'
+#' # filter selection data frame
+#' fmloc2 <- filter_sels(
+#'   X = lbh_selec_table, lspec = TRUE,
+#'   path = tempdir()
+#' )
 #' }
 #'
 #' @references {

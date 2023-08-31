@@ -23,7 +23,7 @@ Default is \code{NULL} (remain unchanged).}
 \item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
 
-\item{mono}{Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{NULL} (remain unchanged).}
+\item{mono}{Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{FALSE} (remain unchanged).}
 }
 \value{
 A folder inside the working directory (or path provided) all 'converted_sound_files', containing

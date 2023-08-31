@@ -199,4 +199,3 @@ read_wave <- function(X, index, from = X$start[index], to = X$end[index], channe
 
   return(object)
 }
-

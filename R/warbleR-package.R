@@ -171,6 +171,8 @@
 #' @docType package
 #' @name warbleR
 #' @details License: GPL (>= 2)
+#' @keywords internal
+"_PACKAGE"
 NULL
 #> NULL
 #'

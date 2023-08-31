@@ -17,7 +17,7 @@
 #' @export
 #' @name read_sound_file
 #' @details The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files, including those referenced in selection tables. It
-#' is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details). For reading 'flac' files on windows the path to the .exe is required. This can be set globally using the 'flac.path' argument in \code{\link{warbleR_options}}. Note that reading 'flac' files requires creating a temporary copy in 'wav' format, which can be particularly slow for long files. 
+#' is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details). For reading 'flac' files on windows the path to the .exe is required. This can be set globally using the 'flac.path' argument in \code{\link{warbleR_options}}. Note that reading 'flac' files requires creating a temporary copy in 'wav' format, which can be particularly slow for long files.
 #' @examples
 #' \dontrun{
 #' # write wave files with lower case file extension
@@ -57,7 +57,6 @@
 # last modification on may-7-2018 (MAS)
 
 read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[index], channel = X$channel[index], header = FALSE, path = NULL) {
-  
   # if is extended then index must be provided
   if (is.data.frame(X) & is.null(index)) stop2('"index" needed when a  "data.frame", "selection_table", "extended_selection_table" is provided')
 
@@ -215,47 +214,54 @@ read_wac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, cha
 }
 
 read_flac_wrblr_int <- function(filename, header = FALSE, from = 0, to = Inf, channel = 1) {
-
-   # set path to flac 
+  # set path to flac
   if (is.null(getOption("warbleR")$flac.path)) {
-    
     # on linox and macOS
     if (.Platform$OS.type == "unix") {
-     
       run_flac <- "flac"
-       if (system(paste0(run_flac, " -v --totally-silent"), ignore.stderr = TRUE) != 0) 
+      if (system(paste0(run_flac, " -v --totally-silent"), ignore.stderr = TRUE) != 0) {
         stop2("FLAC program was not found")
+      }
     }
     # on windows
     if (.Platform$OS.type == "windows") {
+      run_flac <- paste("C:/Program Files/FLAC/", "flac",
+        sep = ""
+      )
 
-        run_flac <- paste("C:/Program Files/FLAC/", "flac",
-                          sep = "")
- 
-    if (!file.exists(run_flac)) 
-          run_flac <- paste("C:/Program Files (x86)/FLAC/",
-                            "flac",
-                            sep = "")
-   
-    if (!file.exists(run_flac)) 
+      if (!file.exists(run_flac)) {
+        run_flac <- paste("C:/Program Files (x86)/FLAC/",
+          "flac",
+          sep = ""
+        )
+      }
+
+      if (!file.exists(run_flac)) {
         stop2("FLAC program was not found")
+      }
     }
-    
+
     warbleR_options(flac.path = "")
-  } else
-    run_flac <- if (getOption("warbleR")$flac.path %in% c("", "flac")) "flac" else
-file.path(getOption("warbleR")$flac.path, "flac")
-  
-   # create temporary file for convertin to a wav to be read at the end
+  } else {
+    run_flac <- if (getOption("warbleR")$flac.path %in% c("", "flac")) {
+      "flac"
+    } else {
+      file.path(getOption("warbleR")$flac.path, "flac")
+    }
+  }
+
+  # create temporary file for convertin to a wav to be read at the end
   temp_wav <- tempfile()
 
-  if (.Platform$OS.type == "unix") 
+  if (.Platform$OS.type == "unix") {
     system_call <- paste0(run_flac, " -d ", filename, " --output-name=", temp_wav)
+  }
 
-  if (.Platform$OS.type == "windows")
+  if (.Platform$OS.type == "windows") {
     system_call <- paste(shQuote(run_flac), "-d", shQuote(filename,
       type = "cmd"
     ), sep = " ")
+  }
 
   # make call silent
   system_call <- paste(system_call, "--totally-silent")

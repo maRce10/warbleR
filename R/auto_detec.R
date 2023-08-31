@@ -316,19 +316,19 @@ auto_detec <-
         # warn if thinning is used twice
         if (!is.null(X$parameters$thinning) & pb) {
           if (X$parameters$thinning < 1 & thinning < 1) {
-            message2(color = "cyan", x ="'thinning' was already applied when creating 'X'. Keep in mind that when 'thinning' is too high it can affect detection precision")
+            message2(color = "cyan", x = "'thinning' was already applied when creating 'X'. Keep in mind that when 'thinning' is too high it can affect detection precision")
           }
         }
 
         # warn if thinning is used twice
         if (!is.null(X$parameters$ssmooth)) {
           if (X$parameters$ssmooth < 1 & !is.null(ssmooth) & pb) {
-            message2(color = "cyan", x ="'smooth' was already applied when creating 'X'. Keep in mind that it won't be a 1:1 relation to amplitude samples any longer")
+            message2(color = "cyan", x = "'smooth' was already applied when creating 'X'. Keep in mind that it won't be a 1:1 relation to amplitude samples any longer")
           }
 
           if (!is.null(X$parameters$thinning) & pb) {
             if (X$parameters$thinning < 1 & !is.null(ssmooth)) {
-              message2(color = "cyan", x ="'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer")
+              message2(color = "cyan", x = "'thinning' was applied when creating 'X' so 'ssmooth' doesn't represent amplitude samples any longer")
             }
           }
         }
@@ -870,9 +870,9 @@ print.autodetec.output <- function(x, ...) {
   if (ncol(x$selection.table) > 6) message2(paste0("... ", ncol(x$selection.table) - 6, " more column(s) (", paste(colnames(x$selection.table)[7:ncol(x$selection.table)], collapse = ", "), ")"), "silver")
   if (nrow(x$selection.table) > 6) message2(paste0(if (ncol(x$selection.table) <= 6) "..." else "", " and ", nrow(x$selection.table) - 6, " more row(s) \n"), "silver")
 
- message2(paste("\n* A data frame ('envelopes',", nrow(x$envelopes), "rows) with the wave envelopes from", length(unique(x$envelopes$sound.files)), "sound file(s) included in the", cli::style_italic("auto_detec()"), "call \n"), "silver")
+  message2(paste("\n* A data frame ('envelopes',", nrow(x$envelopes), "rows) with the wave envelopes from", length(unique(x$envelopes$sound.files)), "sound file(s) included in the", cli::style_italic("auto_detec()"), "call \n"), "silver")
 
- message2(paste("\n* A selection table data frame ('org.selection.table') in which detections were run, with", nrow(x$org.selection.table), "rows and", ncol(x$selection.table), "columns \n"), "silver")
+  message2(paste("\n* A selection table data frame ('org.selection.table') in which detections were run, with", nrow(x$org.selection.table), "rows and", ncol(x$selection.table), "columns \n"), "silver")
 
   if (any(names(x$parameters) == "thinning")) {
     message2(paste0("\n A thinning of ", x$parameters$thinning, " was applied to wave envelopes \n"), "silver")
@@ -880,8 +880,8 @@ print.autodetec.output <- function(x, ...) {
 
   # print warbleR version
   if (!is.null(x$warbleR.version)) {
-   message2(paste0("\n Created by warbleR ", x$warbleR.version), "silver")
+    message2(paste0("\n Created by warbleR ", x$warbleR.version), "silver")
   } else {
-  message2("\n Created by warbleR < 1.1.27", "silver")
+    message2("\n Created by warbleR < 1.1.27", "silver")
   }
 }

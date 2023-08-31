@@ -259,7 +259,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
     write.csv(X[X$tailored != "delete", ], file.path(csv.path, "seltailor_output.csv"), row.names = FALSE)
   } else {
     # tell user file already existed
-   message2(x = "'seltailor_output.csv' found in working directory, resuming tailoring ...")
+    message2(x = "'seltailor_output.csv' found in working directory, resuming tailoring ...")
 
     if (is_extended_selection_table(X)) {
       # read with different object name
@@ -273,7 +273,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
     # stop if all selections were analyzed
     if (any(is.na(X$tailored))) X$tailored[is.na(X$tailored)] <- ""
     if (all(any(!is.na(X$tailored)), sum(X$tailored %in% c("y", "delete")) == nrow(X))) {
-     message2(x = "all selections have been analyzed")
+      message2(x = "all selections have been analyzed")
       stop2()
     }
 
@@ -442,7 +442,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
         # return X
         return(X[X$tailored != "delete", ])
 
-       # message2(x = "all selections have been analyzed")
+        # message2(x = "all selections have been analyzed")
         stop2(x = "all selections have been analyzed")
       }
       h <- h + 1
@@ -453,7 +453,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
       h <- h - 1
       if (h == 0) {
         h <- 1
-       message2(x = "This selection was the first one during the selection procedure (can't go further back)")
+        message2(x = "This selection was the first one during the selection procedure (can't go further back)")
       }
     }
 
@@ -467,7 +467,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
         # return X
         return(X[X$tailored != "delete", ])
 
-       # message2(x = "all selections have been analyzed")
+        # message2(x = "all selections have been analyzed")
         stop2("all selections have been analyzed")
       }
       h <- h + 1
@@ -481,7 +481,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
       # return X
       return(X[X$tailored != "delete", ])
 
-     # message2(x = "Stopped by user")
+      # message2(x = "Stopped by user")
       stop2("Stopped by user")
     }
 
@@ -520,7 +520,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
           # return X
           return(X[X$tailored != "delete", ])
 
-         # message2(x = "all selections have been analyzed")
+          # message2(x = "all selections have been analyzed")
           stop2(x = "all selections have been analyzed")
         } else {
           h <- h + 1
@@ -533,7 +533,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
         h <- h - 1
         if (h == 0) {
           h <- 1
-         message2(x = "This selection was the first one during the selection procedure (can't go further back)")
+          message2(x = "This selection was the first one during the selection procedure (can't go further back)")
         }
         break
       }
@@ -550,7 +550,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
           return(X[X$tailored != "delete", ])
 
           options(show.error.messages = FALSE)
-         # message2(x = "all selections have been analyzed")
+          # message2(x = "all selections have been analyzed")
           stop2(x = "all selections have been analyzed")
         } else {
           h <- h + 1
@@ -568,7 +568,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
         # return X
         return(X[X$tailored != "delete", ])
 
-       # message2(x = "Stopped by user")
+        # message2(x = "Stopped by user")
         stop2(x = "Stopped by user")
       }
 
@@ -628,7 +628,7 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
           # return X
           return(X[X$tailored != "delete", ])
 
-         # message2(x = "all selections have been analyzed")
+          # message2(x = "all selections have been analyzed")
           stop2(x = "all selections have been analyzed")
         } else {
           Sys.sleep(pause)

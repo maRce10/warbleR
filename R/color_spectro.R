@@ -262,7 +262,7 @@ color_spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     }
 
     if (!is.null(interactive)) {
-     message2(x = "Select the signal(s) you want to highlight:")
+      message2(x = "Select the signal(s) you want to highlight:")
       xy <- locator(interactive * 2)
       xy <- as.data.frame(xy)
       xy$selec <- rep(1:interactive, each = 2)

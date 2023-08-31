@@ -3,6 +3,7 @@
 \docType{package}
 \name{warbleR}
 \alias{warbleR}
+\alias{warbleR-package}
 \title{warbleR: A package to streamline bioacoustic analysis}
 \description{
 warbleR is intended to facilitate the analysis of the structure of animal acoustic signals in R. Users can collect open-access avian recordings or enter their own data into a workflow that facilitates spectrographic visualization and measurement of acoustic parameters. warbleR makes use of the fundamental sound analysis tools of the seewave package, and offers new tools for acoustic structure analysis. These tools are available for batch analysis of acoustic signals.
@@ -159,8 +160,17 @@ License: GPL (>= 2)
   \code{\link{tweak_spectro}}: Visually inspect effect of different settings for creating (and improving) spectrograms
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://marce10.github.io/warbleR/}
+  \item Report bugs at \url{https://github.com/maRce10/warbleR/issues/}
+}
+
+}
 \author{
 Marcelo Araya-Salas & Grace Smith Vidaurre
 
   Maintainer: Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
+\keyword{internal}

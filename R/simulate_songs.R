@@ -38,7 +38,7 @@
 #' Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.
 #' @param shape Character string of length 1 controlling the shape of in and out amplitude fading of the song sub-units
 #' ('fin' and 'fout'). "linear" (default), "exp" (exponential), and "cos" (cosine) are currently allowed.
-#' @param selec.table Logical. If \code{TRUE} the function returns a list with two elements: 1) a data frame containing the start/end time, and bottom/top frequency of the sub-units and  2) the wave object containing the simulated songs. If \code{FALSE} (default) no objects are returned. Regardless of the value of this argument a .wav file is always saved in the working directory. 
+#' @param selec.table Logical. If \code{TRUE} the function returns a list with two elements: 1) a data frame containing the start/end time, and bottom/top frequency of the sub-units and  2) the wave object containing the simulated songs. If \code{FALSE} (default) no objects are returned. Regardless of the value of this argument a .wav file is always saved in the working directory.
 #' @param file.name Character string for naming the ".wav" file. Ignored if
 #' 'selec.table' is \code{FALSE}. If not provided the date-time stamp will be used.
 #' @param path Character string with the directory path where the sound file should be saved. Ignored if 'selec.table' is \code{FALSE}.

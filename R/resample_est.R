@@ -135,7 +135,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
   })
 
   # }
-  
+
   # replace with resampled waves
   attributes(X)$wave.objects <- out
 

@@ -65,8 +65,10 @@
 #'   xcor <- cross_correlation(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
 #'
 #'   # run cross correlation on Mel cepstral coefficients (mfccs)
-#'   xcor <- cross_correlation(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir(), 
-#'   type = "mfcc")
+#'   xcor <- cross_correlation(
+#'     X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir(),
+#'     type = "mfcc"
+#'   )
 #'
 #'   # using the 'compare.matrix' argument to specify pairwise comparisons
 #'   # create matrix with ID of signals to compare
@@ -98,8 +100,7 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
                               path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
                               templates = NULL, surveys = NULL,
                               compare.matrix = NULL, type = "fourier", nbands = 40, method = 1) {
-
-    if (!is.null(compare.matrix) | !is.null(surveys)) {
+  if (!is.null(compare.matrix) | !is.null(surveys)) {
     warning2("The use of this function for signal detection (with 'compare.matrix') will be deprecated in future warbleR versions, please look at the ohun package for automatic signal detection functions (https://marce10.github.io/ohun/index.html)")
   }
 
@@ -573,17 +574,17 @@ xcorr <- cross_correlation
 print.xcorr.output <- function(x, ...) {
   message2(color = "cyan", x = paste("Object of class", cli::style_bold("'xcorr.output'")))
 
- message2(color = "silver", x = paste(cli::style_bold("\nContains:"), "The output of a detection routine from the following", cli::style_italic("cross_correlation()"), "call:"))
+  message2(color = "silver", x = paste(cli::style_bold("\nContains:"), "The output of a detection routine from the following", cli::style_italic("cross_correlation()"), "call:"))
 
   cll <- paste0(deparse(x$call))
- message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll)))
+  message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll)))
 
   max.scores <- x$max.xcorr.matrix
   max.scores$X2 <- gsub("-entire.file", "", max.scores$X2)
   max.scores$score <- NULL
   names(max.scores) <- c("template", "survey")
 
- message2(color = "silver", x = paste("\n The routine was run on", x$spectrogram, "spectrograms using the following templates and surveys (selections or files in which templates were looked for):"))
+  message2(color = "silver", x = paste("\n The routine was run on", x$spectrogram, "spectrograms using the following templates and surveys (selections or files in which templates were looked for):"))
 
   # print data frame
   # define columns to show
@@ -591,27 +592,29 @@ print.xcorr.output <- function(x, ...) {
 
   kntr_tab <- knitr::kable(head(max.scores[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
 
-  for (i in seq_len(length(kntr_tab)))
+  for (i in seq_len(length(kntr_tab))) {
     message2(color = "silver", x = paste0(kntr_tab[i]))
+  }
 
-  if (nrow(max.scores) > 6)
+  if (nrow(max.scores) > 6) {
     message2(color = "silver", x = paste0(if (ncol(max.scores) <= 6) "..." else "", " and ", nrow(max.scores) - 6, " more row(s) (run ", cli::style_italic(paste0(gsub("[^[:alnum:]=\\.]", "", x$call[2]), "$max.xcorr.matrix[, 1:2]")), " to see it all)"))
+  }
 
 
- message2(color = "silver", x = paste(cli::style_bold("\nIncludes:"), "\n* A data frame ('max.xcorr.matrix') with the highest correlation value for each pair of templates and surveys"))
+  message2(color = "silver", x = paste(cli::style_bold("\nIncludes:"), "\n* A data frame ('max.xcorr.matrix') with the highest correlation value for each pair of templates and surveys"))
 
- message2(color = "silver", x = paste("\n* A data frame ('scores',", nrow(x$scores), "rows) with the cross correlation scores for each of the", nrow(max.scores), "template/survey combination(s)"))
- 
- message2(color = "silver", x = paste("\n* A selection table data frame ('org.selection.table') referencing the templates location in sound files"))
+  message2(color = "silver", x = paste("\n* A data frame ('scores',", nrow(x$scores), "rows) with the cross correlation scores for each of the", nrow(max.scores), "template/survey combination(s)"))
 
- message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("full_spectrograms()")), "to plot cross_correlation scores along spectrograms"))
+  message2(color = "silver", x = paste("\n* A selection table data frame ('org.selection.table') referencing the templates location in sound files"))
 
- message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("find_peaks()")), "to extract detections from this object"))
+  message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("full_spectrograms()")), "to plot cross_correlation scores along spectrograms"))
+
+  message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("find_peaks()")), "to extract detections from this object"))
 
   # print warbleR version
   if (!is.null(x$warbleR.version)) {
-   message2(color = "silver", x = paste0("\n Created by warbleR ", x$warbleR.version))
+    message2(color = "silver", x = paste0("\n Created by warbleR ", x$warbleR.version))
   } else {
-   message2(color = "silver", x = "\n Created by warbleR < 1.1.27")
+    message2(color = "silver", x = "\n Created by warbleR < 1.1.27")
   }
 }

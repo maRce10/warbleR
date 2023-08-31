@@ -20,7 +20,7 @@
 #' @details The function combines catalog images in .jpeg format from the \code{\link{catalog}} function into pdfs. Images must be saved in .jpeg format. Note that using lower resolution and smaller dimension (width and height) when creating catalogs will substantially decrease the size of pdf files (which could be pretty big).
 #' @seealso \code{\link{full_spectrogram2pdf}},
 #' \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs}
-#' @return Image files in pdf format with spectrogram catalogs in the working directory. 
+#' @return Image files in pdf format with spectrogram catalogs in the working directory.
 #' @examples
 #' \dontrun{
 #' # save sound file examples

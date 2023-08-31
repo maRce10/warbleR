@@ -121,10 +121,10 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
 
   # stop if files are not in working directory
   if (length(files) == 0) stop2("no files found in working directory and/or subdirectories") else message2(paste(length(files), "files were found\n"))
-  
+
   # collect file metadata
   message2("Collecting file metadata (can take some time)\n")
-  
+
   # create new names for duplicated songs
   old_name <- basename(files)
   files <- files[order(old_name)]
@@ -150,10 +150,12 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   X <- data.frame(original_dir = gsub("\\.", path, dirname(files), fixed = TRUE), old_name, new_name, file_size_bytes, stringsAsFactors = FALSE)
 
   # label possible duplicates
-  X$duplicate <- sapply(paste0(X$old_name, X$file_size_bytes), function(y) if (length(which(paste0(X$old_name, X$file_size_bytes) == y)) > 1) {
-    return("possible.dupl")
-  } else {
-    return(NA)
+  X$duplicate <- sapply(paste0(X$old_name, X$file_size_bytes), function(y) {
+    if (length(which(paste0(X$old_name, X$file_size_bytes) == y)) > 1) {
+      return("possible.dupl")
+    } else {
+      return(NA)
+    }
   })
 
   # If parallel is not numeric

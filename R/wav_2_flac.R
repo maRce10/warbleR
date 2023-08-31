@@ -49,35 +49,36 @@ wav_2_flac <-
            reverse = FALSE,
            compression = 5,
            flac.path = "") {
-    
     #### set arguments from options
     # get function arguments
     argms <- methods::formalArgs(wav_2_flac)
-    
+
     # get warbleR options
     opt.argms <-
-      if (!is.null(getOption("warbleR")))
-        getOption("warbleR") else
-      SILLYNAME <- 0
-    
+      if (!is.null(getOption("warbleR"))) {
+        getOption("warbleR")
+      } else {
+        SILLYNAME <- 0
+      }
+
     # remove options not as default in call and not in function arguments
     opt.argms <-
       opt.argms[!sapply(opt.argms, is.null) &
-                  names(opt.argms) %in% argms]
-    
+        names(opt.argms) %in% argms]
+
     # get arguments set in the call
     call.argms <- as.list(base::match.call())[-1]
-    
+
     # remove arguments in options that are in call
     opt.argms <- opt.argms[!names(opt.argms) %in% names(call.argms)]
-    
+
     # set options left
     if (length(opt.argms) > 0) {
       for (q in seq_len(length(opt.argms))) {
         assign(names(opt.argms)[q], opt.argms[[q]])
       }
     }
-    
+
     # check path to working directory
     if (is.null(path)) {
       path <- getwd()
@@ -86,7 +87,7 @@ wav_2_flac <-
     } else {
       path <- normalizePath(path)
     }
-    
+
     # set path to flac
     if (is.null(getOption("warbleR")$flac.path)) {
       # on linux
@@ -97,10 +98,11 @@ wav_2_flac <-
           run_flac <- paste(flac.path, "flac", sep = "/")
         }
         if (system(paste(run_flac, "-v"), ignore.stderr = TRUE) !=
-            0)
+          0) {
           stop2("FLAC program was not found")
+        }
       }
-      
+
       # on windows
       if (.Platform$OS.type == "windows") {
         if (missing(flac.path)) {
@@ -108,37 +110,48 @@ wav_2_flac <-
         }
         if (missing(flac.path)) {
           run_flac <- paste("C:/Program Files/FLAC/", "flac",
-                            sep = "")
+            sep = ""
+          )
           if (!file.exists(run_flac)) {
             run_flac <- paste("C:/Program Files (x86)/FLAC/",
-                              "flac",
-                              sep = "")
+              "flac",
+              sep = ""
+            )
           }
         } else {
           run_flac <- paste(flac.path, "flac", sep = "/")
         }
-        if (!file.exists(run_flac))
+        if (!file.exists(run_flac)) {
           stop2("FLAC program was not found")
+        }
       }
-      
-      warbleR_options(flac.path = if (missing("flac.path"))
-        "" else flac.path)
-    } else
+
+      warbleR_options(flac.path = if (missing("flac.path")) {
+        ""
+      } else {
+        flac.path
+      })
+    } else {
       run_flac <-
-      if (getOption("warbleR")$flac.path == "")
-        "flac" else
-      file.path(getOption("warbleR")$flac.path, "flac")
+        if (getOption("warbleR")$flac.path == "") {
+          "flac"
+        } else {
+          file.path(getOption("warbleR")$flac.path, "flac")
+        }
+    }
 
     # get files in path supplied
     files_in_path <-
       list.files(
         path = path,
-        pattern = if (reverse)
-          ".flac$" else
-          ".wav$",
+        pattern = if (reverse) {
+          ".flac$"
+        } else {
+          ".wav$"
+        },
         ignore.case = TRUE
       )
-    
+
     if (is.null(files)) {
       files <- files_in_path
     } else {
@@ -146,16 +159,17 @@ wav_2_flac <-
         stop2("some (or all) sound files were not found")
       }
     }
-    
+
     # check path to flac programs
-    
+
     # set clusters for windows OS
-    if (Sys.info()[1] == "Windows" & parallel > 1) 
+    if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
-     else
-       cl <- parallel
-    
-    
+    } else {
+      cl <- parallel
+    }
+
+
     # run loop apply function
     out_l <-
       pblapply_wrblr_int(
@@ -164,12 +178,12 @@ wav_2_flac <-
         cl = cl,
         FUN = function(i) {
           # warbleR::try_na(
-            flacwav(
-              file = file.path(path, i),
-              overwrite = overwrite,
-              reverse = reverse,
-              compression = compression,
-              run_flac = run_flac
+          flacwav(
+            file = file.path(path, i),
+            overwrite = overwrite,
+            reverse = reverse,
+            compression = compression,
+            run_flac = run_flac
             # )
           )
         }
@@ -186,12 +200,12 @@ flacwav <-
            run_flac) {
     # set compression
     compression <- paste0("--compression-level-", compression)
-    
+
     # on linox and macOS
     if (.Platform$OS.type == "unix") {
       if (reverse) {
         wav_file <- gsub("flac$", "wav", file, ignore.case = TRUE)
-        
+
         e <-
           system(
             paste(
@@ -201,9 +215,11 @@ flacwav <-
               "-o",
               wav_file,
               "--totally-silent",
-              if (overwrite)
-                "--force" else
+              if (overwrite) {
+                "--force"
+              } else {
                 ""
+              }
             ),
             ignore.stderr = TRUE
           )
@@ -214,9 +230,11 @@ flacwav <-
               run_flac,
               file,
               "--totally-silent",
-              if (overwrite)
-                "--force" else
-                "",
+              if (overwrite) {
+                "--force"
+              } else {
+                ""
+              },
               compression
             ),
             ignore.stderr = TRUE,
@@ -224,18 +242,20 @@ flacwav <-
           )
       }
     }
-    
+
     if (.Platform$OS.type == "windows") {
       if (missing(exename)) {
         exename <- "flac.exe"
       }
       if (missing(path2exe)) {
         run_flac <- paste("C:/Program Files/FLAC/", exename,
-                          sep = "")
+          sep = ""
+        )
         if (!file.exists(run_flac)) {
           run_flac <- paste("C:/Program Files (x86)/FLAC/",
-                            exename,
-                            sep = "")
+            exename,
+            sep = ""
+          )
         }
       } else {
         run_flac <- paste(path2exe, exename, sep = "/")
@@ -249,14 +269,18 @@ flacwav <-
             shQuote(run_flac),
             "-d",
             shQuote(file,
-                    type = "cmd"),
+              type = "cmd"
+            ),
             "-o",
             shQuote(wav_file,
-                    type = "cmd"),
+              type = "cmd"
+            ),
             "--totally-silent",
-            if (overwrite)
-              "--force" else
-              "",
+            if (overwrite) {
+              "--force"
+            } else {
+              ""
+            },
             sep = " "
           ),
           ignore.stderr = TRUE
@@ -268,9 +292,11 @@ flacwav <-
               shQuote(run_flac),
               shQuote(file, type = "cmd"),
               "--totally-silent",
-              if (overwrite)
-                "--force" else
-                "",
+              if (overwrite) {
+                "--force"
+              } else {
+                ""
+              },
               compression,
               sep = " "
             ),
@@ -278,5 +304,4 @@ flacwav <-
           )
       }
     }
-    
   }

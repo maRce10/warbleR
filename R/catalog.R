@@ -383,10 +383,10 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   {
     if (prop.mar < 0)
       stop2("prop.mar should be  > 0 and <= 1")
-    if (!same.time.scale){ 
-      prop.mar <- NULL
-    message2("'prop.mar' ignored as same.time.scale = FALSE")
-    }
+    # if (!same.time.scale){ 
+    #   prop.mar <- NULL
+    # message2("'prop.mar' ignored as same.time.scale = FALSE")
+    # }
   }
   
   #spec.mar
@@ -566,7 +566,6 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     if (fl[2] > ceiling(f / 2000) - 1) fl[2] <- ceiling(f / 2000) - 1
     return(data.frame(fl1 = fl[1], fl2 = fl[2], mardur = t[2] - t[1]))
     })
-  
   
   rangs <- do.call(rbind, rangs)
   

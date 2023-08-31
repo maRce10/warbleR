@@ -320,4 +320,3 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
 #' @export
 
 checksels <- check_sels
-

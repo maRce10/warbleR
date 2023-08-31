@@ -93,8 +93,10 @@ The correlation matrix could have NA's if some of the pairwise correlation did n
   xcor <- cross_correlation(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir())
 
   # run cross correlation on Mel cepstral coefficients (mfccs)
-  xcor <- cross_correlation(X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir(), 
-  type = "mfcc")
+  xcor <- cross_correlation(
+    X = lbh_selec_table, wl = 300, ovlp = 90, path = tempdir(),
+    type = "mfcc"
+  )
 
   # using the 'compare.matrix' argument to specify pairwise comparisons
   # create matrix with ID of signals to compare

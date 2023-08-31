@@ -6,7 +6,7 @@
 #' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512, gr = FALSE,
 #' pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL,
 #' overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec",
-#'  horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL, 
+#'  horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL,
 #'  only.annotated = FALSE, ...)
 #' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
@@ -14,7 +14,7 @@
 #' (and selection comment, if available). Default is \code{NULL}. Alternatively, it can also take the output of \code{\link{cross_correlation}} or \code{\link{auto_detec}} (when 'output' is a 'list', see \code{\link{cross_correlation}} or \code{\link{auto_detec}}). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest
 #'   frequency limits (kHz) of the spectrogram, as in
-#'   \code{\link[seewave]{spectro}}. Default is \code{NULL}. Alternatively, a character vector similar to \code{c("-1", "1")} in which the first number is the value to be added to the minimum bottom frequency in 'X' and the second the value to be added to the maximum top frequency in 'X'. This is computed independently for each sound file so the frequency limit better fits the frequency range of the annotated signals. This is useful when plotting annotated spectrograms with marked differences in the frequency range of annotations among sond files. Note that top frequency adjustment is ignored if 'song' labels are included (argument 'song').     
+#'   \code{\link[seewave]{spectro}}. Default is \code{NULL}. Alternatively, a character vector similar to \code{c("-1", "1")} in which the first number is the value to be added to the minimum bottom frequency in 'X' and the second the value to be added to the maximum top frequency in 'X'. This is computed independently for each sound file so the frequency limit better fits the frequency range of the annotated signals. This is useful when plotting annotated spectrograms with marked differences in the frequency range of annotations among sond files. Note that top frequency adjustment is ignored if 'song' labels are included (argument 'song').
 #' @param sxrow A numeric vector of length 1. Specifies seconds of spectrogram
 #'   per row. Default is 5.
 #' @param rows A numeric vector of length 1. Specifies number of rows per
@@ -261,12 +261,10 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
   # if flim is not vector or length!=2 stop
   if (!is.null(flim)) {
-    if (!is.vector(flim)) 
-      stop("'flim' must be a numeric vector of length 2") else 
-      if (!length(flim) == 2) stop("'flim' must be a numeric vector of length 2") else
-      if (is.character(flim) & is.null(X)) stop("'X' must be supplied when 'flim' is a character vector (dynamic frequency limits)") else
-        if (is.character(flim) & (is.null(X$top.freq) | is.null(X$top.freq))) stop("'X' must contain 'top.freq' and 'bottom.freq' columns if 'flim' is a character vector (dynamic frequency limits)")
-    }
+    if (!is.vector(flim)) {
+      stop("'flim' must be a vector of length 2")
+    } else if (!length(flim) == 2) stop("'flim' must be a vector of length 2") else if (is.character(flim) & is.null(X)) stop("'X' must be supplied when 'flim' is a character vector (dynamic frequency limits)") else if (is.character(flim) & (is.null(X$top.freq) | is.null(X$top.freq))) stop("'X' must contain 'top.freq' and 'bottom.freq' columns if 'flim' is a character vector (dynamic frequency limits)")
+  }
 
   # if wl is not vector or length!=1 stop
   if (is.null(wl)) {
@@ -342,19 +340,21 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
   # create function for making spectrograms
   lspecFUN <- function(z, fl, sl, li, X, W) {
-    
     rec <- warbleR::read_sound_file(X = z, path = path) # read wave file
 
     f <- rec@samp.rate # set sampling rate
 
-    if (is.null(fl)) 
-        fl <- c(0, floor(f / 2000)) else # if fl is dynamic
-          if (is.character(fl))
-            fl <- c(min(X$bottom.freq[X$sound.files == z]) + as.numeric(fl[1]), max(X$top.freq[X$sound.files == z]) + as.numeric(fl[2]))
-    
-    if (fl[1] < 0)
+    if (is.null(fl)) {
+      fl <- c(0, floor(f / 2000))
+    } else # if fl is dynamic
+    if (is.character(fl)) {
+      fl <- c(min(X$bottom.freq[X$sound.files == z]) + as.numeric(fl[1]), max(X$top.freq[X$sound.files == z]) + as.numeric(fl[2]))
+    }
+
+    if (fl[1] < 0) {
       fl[1] <- 0
-    
+    }
+
     # in case flim is higher than can be due to sampling rate
     frli <- fl
     if (frli[2] > ceiling(f / 2000) - 1) frli[2] <- ceiling(f / 2000) - 1
@@ -371,27 +371,27 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
     # get page id
     pages <- 1:ceiling(dur / (li * sl))
-    
+
     pages_df <- data.frame(page = pages, start = li * sl * (pages - 1), end = li * sl * (pages))
     pages_df$annotated <- TRUE
-    
+
     if (!is.null(X)) {
       Y <- X[X$sound.files == z, ] # subset X data
-    # get id of pages to print if only.annotated = TRUE
-      if (only.annotated)
-    pages_df$annotated <- vapply(seq_len(nrow(pages_df)), function(x){
-      
-      any_annotation <- sum(Y$start > pages_df$start[x] & Y$start < pages_df$end[x] |Y$end > pages_df$start[x] & Y$end < pages_df$end[x])
-      
-      annotated <- if (any_annotation > 0)  TRUE else FALSE
-      return(annotated)
-    }, FUN.VALUE = logical(1))
+      # get id of pages to print if only.annotated = TRUE
+      if (only.annotated) {
+        pages_df$annotated <- vapply(seq_len(nrow(pages_df)), function(x) {
+          any_annotation <- sum(Y$start > pages_df$start[x] & Y$start < pages_df$end[x] | Y$end > pages_df$start[x] & Y$end < pages_df$end[x])
+
+          annotated <- if (any_annotation > 0) TRUE else FALSE
+          return(annotated)
+        }, FUN.VALUE = logical(1))
+      }
     }
-    
+
     if (!is.null(X) & !is.null(song)) Ysong <- Xsong[Xsong$sound.files == z, , drop = FALSE]
 
 
-    
+
     # loop over pages
     no.out <- lapply(pages_df$page[pages_df$annotated], function(j) {
       img_wrlbr_int(filename = paste0(substring(z, first = 1, last = nchar(z) - 4), "-", suffix, "-p", j, ".", it), path = dest.path, units = "in", horizontal = horizontal, ...)
@@ -415,7 +415,6 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
 
         # for rows with complete spectro
         if (all(((x) * sl + li * (sl) * (j - 1)) - sl < dur & (x) * sl + li * (sl) * (j - 1) < dur)) {
-          
           suppressWarnings(spectro_wrblr_int(rec,
             f = f, wl = wl, flim = frli, tlim = c(((x) * sl + li * (sl) * (j - 1)) - sl, (x) * sl + li * (sl) * (j - 1)),
             ovlp = ovlp, collevels = collevels, grid = gr, scale = FALSE, palette = pal, axisX = TRUE, fast.spec = fast.spec
@@ -426,7 +425,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
               last = nchar(z) - 4
             ), "-p", j, sep = ""), pos = 2, font = 2, cex = cex)
           }
-          
+
           # add annotations
           if (!is.null(X)) {
             # loop for elements

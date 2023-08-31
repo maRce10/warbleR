@@ -18,7 +18,7 @@
 #' a single pdf (for each sound file).
 #' @seealso \code{\link{full_spectrograms}}, \code{\link{catalog2pdf}},
 #' \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
-#' @return Image files in pdf format with spectrograms of entire sound files in the working directory. 
+#' @return Image files in pdf format with spectrograms of entire sound files in the working directory.
 #' @examples
 #' \dontrun{
 #' # save sound file examples
@@ -45,8 +45,7 @@
 # last modification on mar-12-2018 (MAS)
 
 full_spectrogram2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL, pb = TRUE) {
-
-    # error message if jpeg package is not installed
+  # error message if jpeg package is not installed
   if (!requireNamespace("jpeg", quietly = TRUE)) {
     stop2("must install 'jpeg' to use this function")
   }
