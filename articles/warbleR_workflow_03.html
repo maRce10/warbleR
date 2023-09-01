@@ -427,9 +427,6 @@ value across the length of the signal.</p>
 <div class="section level3">
 <h3 id="compare-methods-for-quantitative-analysis-of-signal-structure">Compare methods for quantitative analysis of signal structure<a class="anchor" aria-label="anchor" href="#compare-methods-for-quantitative-analysis-of-signal-structure"></a>
 </h3>
-<p>This section on <code>compare_methods</code> is taken directly from
-<a href="https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html" class="external-link">Marcelo
-Araya-Salas’s bioacoustics blog</a> with slight modifications.</p>
 <p>Bioacoustic research relies on quantifying the structure of acoustic
 signals and comparing that structure across behavioral/ecological
 contexts, groups or species. However, measuring signal structure in a
@@ -549,9 +546,6 @@ per song type group).</p>
 <div class="section level3">
 <h3 id="dynamic-time-warping-of-frequency-contours">Dynamic time warping of frequency contours<a class="anchor" aria-label="anchor" href="#dynamic-time-warping-of-frequency-contours"></a>
 </h3>
-<p>This section on dynamic time warping methods is taken directly from
-<a href="https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html" class="external-link">Marcelo
-Araya-Salas’s bioacoustics blog</a> with slight modifications.</p>
 <p>The dynamic time warping methods in <code>warbleR</code> all rely on
 functions from the <code>dtw</code> package, and are available for both
 dominant and fundamental frequencies. <code>df_DTW</code> and
@@ -581,10 +575,6 @@ resulting image files in your working directory.</p>
 <span></span>
 <span><span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/freq_DTW.html">freq_DTW</a></span><span class="op">(</span><span class="va">Tin.sels</span>, length.out <span class="op">=</span> <span class="fl">30</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span><span class="op">)</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">2.5</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">512</span>, img <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></span></code></pre></div>
-<p>Check out <a href="https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html" class="external-link">Marcelo’s
-blog</a> for a great example of how to evaluate whether or not the
-dynamic time warping (dis)similarity measurements accurately represents
-acoustic differences.</p>
 </div>
 <div class="section level3">
 <h3 id="spectrographic-cross-correlation">Spectrographic cross-correlation<a class="anchor" aria-label="anchor" href="#spectrographic-cross-correlation"></a>
