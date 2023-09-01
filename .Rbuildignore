@@ -2,7 +2,6 @@
 ^\.Rproj\.user$
 ^docs$
 ^pkgdown$
-^doc$
 ^Meta$
 ^testing$
 ^README\.Rmd$
@@ -13,3 +12,6 @@ LICENSE.md
 ^\.github$
 ^CONTRIBUTING\.md$
 ^tic\.R$
+^.*\.R$
+^.*\.pdf$
+^.*\.html$
