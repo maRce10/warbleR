@@ -10,7 +10,6 @@ remove_silence,x,,,,,,,,remove silences in multiple wave files,multiple wave fil
 duration_wavs,x,,,,,,,,measures duration in multiple wave files,multiple wave files,data frame
 info_wavs,x,,,,,,,,extract recording parameters from multiple wave files,multiple wave files,data frame
 auto_detec,,x,,,,,,,automatic annotation of wave files,multiple wave files,"data frame, images"
-optimize_auto_detec,,x,,,,,,,Try different detection settings to optimize auto_detec detections,auto_detec output,data frame
 freq_range,,x,,x,,,,,detect frequency range in selection tables,multiple wave files,data frame
 tailor_sels,,x,x,,,,,,interactive tailoring of selections,selection tables,selection tables
 sort_colms,,,x,,,,,,order columns in an intuitive way,selection tables,selection tables
@@ -37,8 +36,7 @@ catalog2pdf,,,,,x,,,x,convert catalogs to .pdf,images,images
 move_imgs,,,,,,,,x,moves images among folders,images,images
 snr_spectrograms,,,,,,x,,,plots spectrograms highlighting areas where signal-to-noise ratio is measured,"selection tables, ext. selection tables",images
 spectrograms,,,,,x,x,,,create spectrogram images,"selection tables, ext. selection tables",images
-track_freqs,,,,,,x,,,create spectrogram images including frequency contours,"selection tables, ext. selection tables",images
-harmonic_track,,,,,,,,x,measures harmonics with highest energy,wave object,data frame with frequency contours
+track_freq_contour,,,,,,x,,,create spectrogram images including frequency contours,"selection tables, ext. selection tables",images
 map_xc,,,,,,,,x,created maps from Xeno-Canto recordings,data frame,images
 plot_coordination,,,,,,x,,,create schematic plots of coordinated signals,data frame,images
 test_coordination,,,,,,,x,,test statistical significance of vocal coordination,data frame,data frame

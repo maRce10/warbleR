@@ -359,8 +359,6 @@ str(df_inf)
 
 ### Compare methods for quantitative analysis of signal structure
 
-This section on `compare_methods` is taken directly from [Marcelo Araya-Salas's bioacoustics blog](https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html) with slight modifications. 
-
 Bioacoustic research relies on quantifying the structure of acoustic signals and comparing that structure across behavioral/ecological contexts, groups or species. However, measuring signal structure in a way that fully accounts for the variation in the signals could be a tricky task. Some of the differences that are apparent by visual inspection of spectrograms might not be picked up by some analyses. Hence, choosing the most appropriate analytical approach is a critical step.
 
 The `warbleR` function `compare_methods` attempts to facilitate method selection. This function produces graphs (as image files in the working directory) with spectrograms from 4 signals that allow visual inspection of the performance of acoustic analysis methods at comparing those signals. The signals are randomly picked up from the provided data frame (`X` argument), and the function compares 2 `warbleR`methods at a time. The methods available are: 
@@ -442,8 +440,6 @@ str(sng)
 
 ### Dynamic time warping of frequency contours
 
-This section on dynamic time warping methods is taken directly from [Marcelo Araya-Salas's bioacoustics blog](https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html) with slight modifications. 
-
 The dynamic time warping methods in `warbleR` all rely on functions from the `dtw` package, and are available for both dominant and fundamental frequencies. `df_DTW` and `ff_DTW` calculate the dominant and fundamental frequency contours, respectively, of each signal and compares using dynamic time warping. You can interpolate measurements across the frequency time series using the `length.out` argument. 
 
 These functions return a matrix of pairwise acoustic dissimilarity (e.g. acoustic "distance") measurements that can be used in analyses of acoustic similarity, as well as image files with the frequency contours plotted over the spectrograms. If you require only the time series without the dynamic time warping analysis for either the dominant or fundamental frequency, check out the functions `freq_ts`and `freq_ts`.
@@ -466,7 +462,6 @@ dm <- freq_DTW(Tin.sels, length.out = 30, flim = c(0, 2.5), bp = c(0.5, 2.5), wl
 str(dm)
 ```
 
-Check out [Marcelo's blog](https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html) for a great example of how to evaluate whether or not the dynamic time warping (dis)similarity measurements accurately represents acoustic differences. 
 
 ### Spectrographic cross-correlation
 

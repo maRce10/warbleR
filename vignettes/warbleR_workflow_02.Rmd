@@ -304,8 +304,6 @@ spec_param(Phae.hisnrt[1, ], length.out = 5, ovlp = 90, wl = c(150, 900), wn = c
 
 ### Make lexicons of signals
 
-This section on `catalog` is taken from [Marcelo Araya-Salas's bioacoustics GitHub blog](https://marce10.github.io/2017/03/17/Creating_song_catalogs.html) with slight modifications. 
-
 When we are interested in geographic variation of acoustic signals, we usually want to compare spectrograms from different individuals and sites. This can be challenging when working with large numbers of signals, individuals and/or sites. `catalog` aims to simplify this task.
 
 This is how it works:
@@ -320,7 +318,7 @@ This is how it works:
     * facilitates comparisons 
   * You can control the number of rows and columns as well as the width and height of the output image
 
-`catalog` allows you to group signals into biologically relevant groups by coloring the background of selected spectrograms accordingly. There is also an option to add hatching to tag labels, as well as filling the catalog with spectrograms by rows or columns of the selection table data frame, among other additional arguments. Check out [Marcelo's post](https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html) on some recent updates to the `catalog` function. 
+`catalog` allows you to group signals into biologically relevant groups by coloring the background of selected spectrograms accordingly. There is also an option to add hatching to tag labels, as well as filling the catalog with spectrograms by rows or columns of the selection table data frame, among other additional arguments.  
 
 The `move_imgs` function can come in handy when creating multiple catalogs to avoid overwriting previous image files, or when working through rounds of other image files. In this case, the first catalog we create has signals labeled, tagged and grouped with respective color and hatching levels. The second catalog we create will not have any grouping of signals whatsoever, and could be used for a test of inter-observer reliability. `move_imgs` helps us move the first catalog into another directory to save it from being overwritten when creating the second catalog.
 

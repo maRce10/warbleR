@@ -10,6 +10,7 @@ warbleR: Streamline Bioacoustic Analysis
 and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/licence-GPL--2-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2023--09--01-yellowgreen.svg)](/commits/master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
@@ -118,7 +119,6 @@ follows:
 Araya-Salas, M. and Smith-Vidaurre, G. (2017), *warbleR: an r package to
 streamline analysis of animal acoustic signals*. Methods Ecol Evol. 8,
 184-191.
-[link](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12624)
 
 NOTE: please also cite the
 [tuneR](https://cran.r-project.org/package=tuneR) and
