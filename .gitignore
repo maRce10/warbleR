@@ -5,3 +5,8 @@
 doc
 Meta
 testing
+*.gz
+*.pdf
+..pdf
+/doc/
+/Meta/
