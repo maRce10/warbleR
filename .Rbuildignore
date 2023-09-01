@@ -12,6 +12,6 @@ LICENSE.md
 ^\.github$
 ^CONTRIBUTING\.md$
 ^tic\.R$
-^.*\.R$
 ^.*\.pdf$
-^.*\.html$
+^\.\.pdf$
+^doc$

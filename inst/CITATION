@@ -3,7 +3,7 @@ citHeader("Please cite 'warbleR' as follows:")
 bibentry(entry = "MISC",
         bibtype = "Article",
         title = "warbleR: an r package to streamline analysis of animal acoustic signals",
-        author = personList(as.person("M. Araya-Salas"),as.person("G. Smith-Vidaurre")),
+        author = c(as.person("M. Araya-Salas"),as.person("G. Smith-Vidaurre")),
         year = "2017",
         journal = "Methods in Ecology and Evolution",
         url = "https://dx.doi.org/10.1111/2041-210X.12624", 
