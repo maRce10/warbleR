@@ -96,7 +96,7 @@
 #' working directory. The file name contains the methods being compared and the
 #' row number of the selections. This function uses internally a modified version
 #' of the \code{\link[seewave]{spectro}} function from seewave package to create spectrograms. Custom data can also be compared against the available methods (or against each other) using the arguments 'custom1' and 'custom2'.
-#' @seealso \href{https://marce10.github.io/2017/02/17/Choosing_the_right_method_for_measuring_acoustic_signal_structure.html}{blog post on comparing methods}
+#' @seealso \code{\link{catalog}}
 #' @examples
 #' \dontrun{
 #' # Save to temporary working directory

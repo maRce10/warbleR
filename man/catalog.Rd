@@ -256,8 +256,6 @@ tempdir()
 {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 }
 \seealso{
-\href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on catalogs},
-\href{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}{blog post on customizing catalogs}, 
 \code{\link{catalog2pdf}}
 }
 \author{

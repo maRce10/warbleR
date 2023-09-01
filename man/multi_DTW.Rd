@@ -73,7 +73,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{freq_ts}}, \href{https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html}{blog post on DTW similarity}
+\code{\link{freq_ts}}
 
 Other spectrogram creators: 
 \code{\link{color_spectro}()},

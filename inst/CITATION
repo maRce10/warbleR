@@ -1,6 +1,7 @@
 citHeader("Please cite 'warbleR' as follows:")
 
-citEntry(entry = "MISC",
+bibentry(entry = "MISC",
+        bibtype = "Article",
         title = "warbleR: an r package to streamline analysis of animal acoustic signals",
         author = personList(as.person("M. Araya-Salas"),as.person("G. Smith-Vidaurre")),
         year = "2017",

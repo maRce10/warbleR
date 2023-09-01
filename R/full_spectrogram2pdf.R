@@ -16,8 +16,7 @@
 #' @name full_spectrogram2pdf
 #' @details The function combines  spectrograms for complete sound files from the \code{\link{full_spectrograms}} function into
 #' a single pdf (for each sound file).
-#' @seealso \code{\link{full_spectrograms}}, \code{\link{catalog2pdf}},
-#' \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
+#' @seealso \code{\link{full_spectrograms}}, \code{\link{catalog2pdf}}
 #' @return Image files in pdf format with spectrograms of entire sound files in the working directory.
 #' @examples
 #' \dontrun{

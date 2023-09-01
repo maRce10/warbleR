@@ -121,9 +121,7 @@ tempdir()
 }
 }
 \seealso{
-\href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on creating catalogs},
-\href{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}{blog post on customizing catalogs}
-, \code{\link{catalog2pdf}}
+\code{\link{catalog2pdf}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

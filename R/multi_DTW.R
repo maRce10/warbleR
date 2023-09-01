@@ -22,7 +22,7 @@
 #' \code{FALSE} it also produces image files with the spectrograms of the signals listed in the
 #' input data frame showing the location of the dominant frequencies.
 #' @family spectrogram creators
-#' @seealso \code{\link{freq_ts}}, \href{https://marce10.github.io/2016/09/12/Similarity_of_acoustic_signals_with_dynamic_time_warping_(DTW).html}{blog post on DTW similarity}
+#' @seealso \code{\link{freq_ts}}
 #' @export
 #' @name multi_DTW
 #' @details This function extracts the dominant frequency values as a time series and

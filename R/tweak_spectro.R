@@ -49,9 +49,7 @@
 #'  Outputs are similar to those of \code{\link{catalog}}. The output image files can be put together in a single pdf file with \code{\link{catalog2pdf}}.
 #'   We recommend using low resolution (~60-100) and smaller dimensions (width & height < 10) if
 #'   aiming to generate pdfs (otherwise pdfs could be pretty big).
-#' @seealso \href{https://marce10.github.io/2017/03/17/Creating_song_catalogs.html}{blog post on creating catalogs},
-#' \href{https://marce10.github.io/2017/07/31/Updates_on_catalog_function.html}{blog post on customizing catalogs}
-#' , \code{\link{catalog2pdf}}
+#' @seealso \code{\link{catalog2pdf}}
 #' @examples
 #' \dontrun{
 #' # Save to temporary working directory

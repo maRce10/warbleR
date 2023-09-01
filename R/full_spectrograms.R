@@ -73,7 +73,6 @@
 #'   This function aims to facilitate visual inspection of multiple files as well as visual classification
 #'   of vocalization units and the analysis of animal vocal sequences.
 #' @seealso \code{\link{full_spectrogram2pdf}}, \code{\link{catalog2pdf}}, \code{\link{cross_correlation}}, \code{\link{auto_detec}}
-#' \href{https://marce10.github.io/2017/01/07/Create_pdf_files_with_spectrograms_of_full_recordings.html}{blog post on spectrogram pdfs}
 #' @examples
 #' \dontrun{
 #' # save sound file examples to temporary working directory

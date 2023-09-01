@@ -38,8 +38,7 @@
 #'  File downloading process can be interrupted and resume later as long as the working directory is the same.
 #'  Maps of recording coordinates can be produced using
 #' \code{\link{map_xc}}.
-#' @seealso \code{\link{map_xc}},
-#' \href{https://marce10.github.io/2016/12/22/Download_a_single_recording_for_each_species_in_a_site_from_Xeno-Canto.html}{blog post on accessing Xeno-Canto recordings}
+#' @seealso \code{\link{map_xc}}
 #' @examples
 #' \dontrun{
 #' # search without downloading
