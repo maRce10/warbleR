@@ -66,6 +66,10 @@ jobs:
           sudo apt-get install -y make libssl-dev libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev cmake libfftw3-3 libfftw3-dev libsndfile1 libsndfile1-dev flac sox
           sudo apt-add-repository -r ppa:armagetronad-dev/ppa
           sudo apt update -q
+          
+      - name: Install macOS system dependencies
+        if: runner.os == 'macOS'
+        run: brew install gdal proj
 
       # set date/week for use in cache creation
       # https://github.community/t5/GitHub-Actions/How-to-set-and-access-a-Workflow-variable/m-p/42970
