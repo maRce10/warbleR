@@ -1,0 +1,21 @@
+* installing *source* package ‘warbleR’ ...
+** using staged installation
+** libs
+g++ -std=gnu++14 -I"/usr/share/R/include" -DNDEBUG  -I'/home/m/R/x86_64-pc-linux-gnu-library/4.1/Rcpp/include'    -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-tbZjLv/r-base-4.1.0=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c RcppExports.cpp -o RcppExports.o
+g++ -std=gnu++14 -I"/usr/share/R/include" -DNDEBUG  -I'/home/m/R/x86_64-pc-linux-gnu-library/4.1/Rcpp/include'    -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-tbZjLv/r-base-4.1.0=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c envelope.cpp -o envelope.o
+g++ -std=gnu++14 -shared -L/usr/lib/R/lib -Wl,-Bsymbolic-functions -Wl,-z,relro -o warbleR.so RcppExports.o envelope.o -L/usr/lib/R/lib -lR
+installing to /home/m/Dropbox/R_package_testing/warbleR/warbleR.Rcheck/00LOCK-warbleR/00new/warbleR/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (warbleR)

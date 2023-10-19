@@ -76,27 +76,63 @@ by_element_est <- function(X, mar = 0.1, pb = FALSE, parallel = 1) {
   }
 
   # extract single wave object per row
-  wavs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), FUN = function(x) {
-    wav <- warbleR::read_sound_file(X = X, index = x, from = X$start[x] - mar, to = X$end[x] + mar)
+  attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = seq_len(nrow(X)), FUN = function(x) {
+    
+    # reset time coordinates of sounds if lower than 0 o higher than duration
+    stn <- X$start[x] - mar
+    enn <- X$end[x] + mar
+    mar1 <- mar
+    
+    if (stn < 0) {
+      mar1 <- mar1 + stn
+      stn <- 0
+    }
+    
+    # get sampling rate
+    r <-
+      warbleR::read_sound_file(
+        X = X,
+        index = x,
+        path = NULL,
+        header = TRUE
+      )
+    
+    mar2 <- mar1 + X$end[x] - X$start[x]
+    
+    if (enn > r$samples / r$sample.rate) {
+      enn <- r$samples / r$sample.rate
+    }
 
+    # read sound and margin
+    wav <-
+      warbleR::read_sound_file(
+        X = X,
+        index = x,
+        from = stn,
+        to = enn,
+        path = NULL
+      )
+    
     return(wav)
   })
 
   # fix check results
-  check_res_list <- lapply(1:nrow(X), function(x) {
+  check_res_list <- lapply(seq_len(nrow(X)), function(x) {
     check_res <- attributes(X)$check.res[attributes(X)$check.res$sound.files == X$sound.files[x] & attributes(X)$check.res$selec == X$selec[x], ]
 
     check_res$start <- if (check_res$mar.before < mar) check_res$mar.before else mar
     check_res$end <- check_res$start + check_res$duration
     check_res$mar.before <- check_res$start
-    check_res$mar.after <- duration(wavs[[x]]) - check_res$end
+    check_res$mar.after <- duration(attributes(X)$wave.objects[[x]]) - check_res$end
     check_res$sound.files <- paste(X$sound.files[x], X$selec[x], sep = "-")
+    check_res$n.samples <- length(attributes(X)$wave.objects[[x]]@left)
+    check_res$bits <- length(attributes(X)$wave.objects[[x]]@bit)
+    check_res$wave.size <- object.size(attributes(X)$wave.objects[[x]])
     check_res$selec <- 1
     return(check_res)
   })
 
   # fix attributes
-  attributes(X)$wave.objects <- wavs
   names(attributes(X)$wave.objects) <- X$sound.files <- paste(X$sound.files, X$selec, sep = "-")
   attributes(X)$check.results <- do.call(rbind, check_res_list)
   attributes(X)$by.song <- c(by.song = FALSE, song.column = NULL)

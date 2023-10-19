@@ -21,16 +21,16 @@
 #' @param samp.rate Numeric vector of length 1. Sets the sampling frequency of the wave object (in kHz). Default is 44.1.
 #' @param sig2 Numeric vector defining the sigma value of the brownian motion model. It should either be a single value
 #'  (which would be used for all subunits) or a vector of length \code{n + 1}.  Higher values will produce faster
-#' frequency modulations. Ignored if \code{diff.fun == "BB"}. Default is 0.1. Check the 'BB' function in the Sim.DiffProc package
+#' frequency modulations. Only applied if \code{diff.fun == "GBM"}. Default is 0.1. Check the \code{\link[Sim.DiffProc]{GBM}} function from the Sim.DiffProc package
 #' for more details.
 #' @param steps Numeric vector of length 1. Controls the mean number of segments in which each song subunit is split during
 #' the brownian motion process. If not all subunits have the same duration, longer units will be split in more steps (although
 #' the average duration subunit will have the predefined number of steps). Default is 10.
 #' @param bgn Numeric vector of length 1 indicating the background noise level. 0 means no additional noise will 1 means
 #' noise at the same amplitude than the song subunits. Default is 0.5.
-#' @param seed Numeric vector of length 1. This allows users to get the same results in different runs (using  \code{\link[base:Random]{set.seed}} internally). Default is \code{NULL}.
+#' @param seed Numeric vector of length 1. This allows users to get the same results in different runs (using \code{\link[base:Random]{set.seed}} internally). Default is \code{NULL}.
 #' @param diff.fun Character vector of length 1 controlling the function used to simulate the brownian motion process of
-#' frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time. Check the 'BB' function in the Sim.DiffProc package
+#' frequency drift across time. Only "BB", "GBM" and "pure.tone" are accepted at this time. Check the \code{\link[Sim.DiffProc]{GBM}} function from the Sim.DiffProc package
 #' for more details.
 #' @param fin Numeric vector of length 1 setting the proportion of the sub-unit to fade-in amplitude (value between 0 and 1).
 #' Default is 0.1. Note that 'fin' + 'fout' cannot be higher than 1.
@@ -50,7 +50,7 @@
 #' @name simulate_songs
 #' @details This functions uses a geometric (\code{diff.fun == "GBM"}) or Brownian bridge (\code{diff.fun == "BB"}) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time).
 #' The function can also simulate pure tones (\code{diff.fun == "pure.tone"}, 'sig2' is ignored).
-#' Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics.
+#' Several song subunits (e.g. elements) can be simulated as well as the corresponding harmonics. Modulated sounds are adjusted so the mean frequency of the frequency contour is equal to the target frequency supplied by the user.
 #' @examples
 #' \dontrun{
 #' # simulate a song with 3 elements and no harmonics
@@ -111,7 +111,6 @@ simulate_songs <-
     if (!requireNamespace("Sim.DiffProc", quietly = TRUE)) {
       stop2("must install 'Sim.DiffProc' to use this function")
     }
-
 
     # reset working directory
     if (selec.table) {
@@ -202,6 +201,9 @@ simulate_songs <-
       harm.amps <- harm.amps / max(harm.amps)
     }
 
+    if (!diff.fun %in% c("BB", "GBM", "pure.tone"))
+      stop2("'diff.fun' must be 'BB', 'GBM' or 'pure.tone'")
+    
     # set diffusion function
     if (diff.fun == "GBM") {
       df_fn <- Sim.DiffProc::GBM
@@ -228,7 +230,10 @@ simulate_songs <-
           as.vector((df_fn(
             N = ifelse(N < 2, 2, N), sigma = sig2[x]
           ) * sample(c(-1, 1), 1)) + freqs[x])
-      } else {
+      
+        # fix frequency contour so mean is equal to target frequency
+        sng_frq <- sng_frq + freqs[x] - mean(sng_frq)
+        } else {
         sng_frq <- rep(freqs[x], ifelse(N < 2, 2, N))
       }
 

@@ -11,7 +11,7 @@ test_that("basic est convertion", {
     extended = TRUE, by.song = "sound.files", confirm.extended = FALSE, pb = FALSE
   )
 
-  bs_est <- by_element_est(by_song_est, mar = 0.05, pb = FALSE)
+  bs_est <- by_element_est(X = by_song_est, mar = 0.05, pb = FALSE)
 
   fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
   

@@ -24,7 +24,7 @@ Imports:
     testthat (>= 3.0.0)
 LinkingTo: Rcpp
 Depends: R (>= 3.2.1), tuneR, seewave (>= 2.0.1), NatureSounds
-SystemRequirements: C++11, fftw3, GNU make, sox, Ghostscript, libsndfile, GDAL
+SystemRequirements: fftw3, GNU make, sox, Ghostscript, libsndfile, GDAL
 LazyData: TRUE
 URL: https://marce10.github.io/warbleR/
 BugReports: https://github.com/maRce10/warbleR/issues/
