@@ -6,7 +6,8 @@
 #' steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM",
 #' fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE,
 #' file.name = NULL, path = NULL,
-#' hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10))
+#' hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10),
+#' freq.range = 4)
 #' @param n Number of song subunits (e.g. elements). Default is 1.
 #' @param durs Numeric vector with the duration of subunits in seconds. It should either be a single value (which would
 #' be used for all subunits) or a vector of length \code{n}.
@@ -44,6 +45,7 @@
 #' @param path Character string with the directory path where the sound file should be saved. Ignored if 'selec.table' is \code{FALSE}.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param hrm.freqs Numeric vector with the frequencies of the harmonics relative to the fundamental frequency. The default values are c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10).
+#' @param freq.range Numeric vector of length 1 with the frequency range around the simulated frequency in which signals will modulate. Default is 4 which means that sounds will range +/- 2 kHz around the target frequency. If \code{NULL} the frequency range is not constrained.
 #' @return A wave object containing the simulated songs. If 'selec.table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.
 #' @seealso \code{\link{query_xc}} for for downloading bird vocalizations from an online repository.
 #' @export
@@ -106,7 +108,8 @@ simulate_songs <-
            file.name = NULL,
            path = NULL,
            hrm.freqs = c(1 / 2, 1 / 3, 2 / 3, 1 / 4, 3 / 4, 1 /
-             5, 1 / 6, 1 / 7, 1 / 8, 1 / 9, 1 / 10)) {
+             5, 1 / 6, 1 / 7, 1 / 8, 1 / 9, 1 / 10),
+           freq.range = 4) {
     # error message if wavethresh is not installed
     if (!requireNamespace("Sim.DiffProc", quietly = TRUE)) {
       stop2("must install 'Sim.DiffProc' to use this function")
@@ -231,8 +234,12 @@ simulate_songs <-
             N = ifelse(N < 2, 2, N), sigma = sig2[x]
           ) * sample(c(-1, 1), 1)) + freqs[x])
       
-        # fix frequency contour so mean is equal to target frequency
-        sng_frq <- sng_frq + freqs[x] - mean(sng_frq)
+        # force to be within freq.range
+        if (!is.null(freq.range))
+        sng_frq <- (sng_frq - min(sng_frq)) / max(sng_frq - min(sng_frq)) * freq.range
+        
+        # fix frequency contour so it is centered in the is equal to target frequency
+        sng_frq <- sng_frq + freqs[x] - (max(sng_frq) - min(sng_frq)) / 2
         } else {
         sng_frq <- rep(freqs[x], ifelse(N < 2, 2, N))
       }

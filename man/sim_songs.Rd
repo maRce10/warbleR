@@ -24,7 +24,8 @@ sim_songs(
   selec.table = FALSE,
   file.name = NULL,
   path = NULL,
-  hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10)
+  hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10),
+  freq.range = 4
 )
 }
 \description{

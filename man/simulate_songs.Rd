@@ -9,7 +9,8 @@ gaps = 0.1, freqs = 5, samp.rate = 44.1, sig2 = 0.5,
 steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM",
 fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE,
 file.name = NULL, path = NULL,
-hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10))
+hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10),
+freq.range = 4)
 }
 \arguments{
 \item{n}{Number of song subunits (e.g. elements). Default is 1.}
@@ -68,6 +69,8 @@ Default is 0.2. Note that 'fin' + 'fout' cannot be higher than 1.}
 If \code{NULL} (default) then the current working directory is used.}
 
 \item{hrm.freqs}{Numeric vector with the frequencies of the harmonics relative to the fundamental frequency. The default values are c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10).}
+
+\item{freq.range}{Numeric vector of length 1 with the frequency range around the simulated frequency in which signals will modulate. Default is 4 which means that sounds will range +/- 2 kHz around the target frequency. If \code{NULL} the frequency range is not constrained.}
 }
 \value{
 A wave object containing the simulated songs. If 'selec.table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.
