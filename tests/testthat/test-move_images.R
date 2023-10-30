@@ -12,7 +12,7 @@ test_that("basic", {
    spectrograms(lbh_selec_table[1:5, ], path = tempdir(), pb = FALSE)
 
     # create folder to move image files
-    dir.create(file.path(tempdir(), "imgs"))
+    suppressWarnings(dir.create(file.path(tempdir(), "imgs")))
 
     # copy files
     move_images(cut = FALSE, from = tempdir(), to = file.path(tempdir(), "imgs"), pb = FALSE, overwrite = TRUE)

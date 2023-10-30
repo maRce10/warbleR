@@ -9,7 +9,7 @@ test_that("basic", {
     writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
     # not normalize
-    wpdf <- wpd_features(lbh_selec_table[1:5, ], threshold2 = 0.3, nor = FALSE, path = tempdir())
+    wpdf <- wpd_features(lbh_selec_table[1:5, ], threshold2 = 0.3, nor = FALSE, path = tempdir(), pb = FALSE)
   
   fls <- list.files(path = tempdir(), pattern = "wav$|wac$|mp3$|flac$|jpeg$|tiff$", full.names = TRUE)
   

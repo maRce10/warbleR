@@ -10,7 +10,7 @@ test_that("basic catalog", {
     tfc <- track_freq_contour(
       X = lbh_selec_table[1:3,], flim = c(0, 5), ovlp = 90,
       it = "tiff", bp = c(1, 3), contour = "df", wl = 300, frange = TRUE,
-      path = tempdir()
+      path = tempdir(), pb = FALSE
     )
 
   

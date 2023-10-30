@@ -11,5 +11,6 @@ test_that("basic", {
     
     unlink(fls)
     
-  expect_true(is.matrix(xcor) & nrow(xcor) == 4)
+  expect_true(is.matrix(xcor))
+  expect_true(nrow(xcor) == 4)
 })
