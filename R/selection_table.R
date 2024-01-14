@@ -329,7 +329,9 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
 
   if (skip.error & length(error_files) > 0) {
-    message2(color = "silver", x = paste("\nthe following file(s) couldn't be read and were not included:", cli::style_bold(paste(error_files, collapse = ","))))
+    message2(color = "silver", x = "One or more file(s) couldn't be read and were not included (run .Options$unread_files to see which files)")
+    
+    on.exit(options(unread_files = error_files))
   }
 
   return(X)

@@ -26,7 +26,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 A data frame with descriptive information about the sound files in the working directory (or 'path'). See "details".
 }
 \description{
-\code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns sound file information
+\code{info_sound_files} summariz sound file information
 }
 \details{
 This function is a wrapper for \code{\link{selection_table}} that returns a data frame with the following descriptive parameters for each sound file in the working directory (or 'path'):

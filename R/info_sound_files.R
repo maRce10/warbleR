@@ -1,6 +1,6 @@
 #' Get sound file parameter information
 #'
-#' \code{info_sound_files} is a wrapper for \code{\link{selection_table}} that returns sound file information
+#' \code{info_sound_files} summariz sound file information
 #' @usage info_sound_files(path = NULL, files = NULL, parallel = 1, pb = TRUE, skip.error = FALSE,
 #' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 #' @param path Character string containing the directory path where the sound files are located.
