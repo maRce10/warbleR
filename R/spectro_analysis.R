@@ -131,10 +131,23 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace Smith Vidaurre
 #last modification on mar-13-2018 (MAS)
 
-spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
-                   parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50, 
-                   wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...){
-  
+spectro_analysis <-
+  function(X,
+           bp = "frange",
+           wl = 512,
+           wl.freq = NULL,
+           threshold = 15,
+           parallel = 1,
+           fast = TRUE,
+           path = NULL,
+           pb = TRUE,
+           ovlp = 50,
+           wn = "hanning",
+           fsmooth = 0.1,
+           harmonicity = FALSE,
+           nharmonics = 3,
+           ...) {
+    
   # error message if ape is not installed
   if (!requireNamespace("soundgen",quietly = TRUE) & harmonicity)
     stop("must install 'soundgen' when  harmonicity = TRUE")
@@ -255,8 +268,12 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
       if (!is(sg.param, "try-error")){
       
         # fix for soundgen 2.0
-        if (!is.null(sg.param$detailed)) 
+        if (!is.null(sg.param$detailed)){ 
           sg.param <- sg.param$detailed
+        } 
+        
+        # fix harmonics energy column
+        names(sg.param)[names(sg.param) == "harmEnergy"] <- "harmonics"
         
   names(sg.param) <- gsub("^f", "h", names(sg.param))
     
@@ -359,8 +376,37 @@ spectro_analysis <- function(X, bp = "frange", wl = 512, wl.freq = NULL, thresho
     if (length(meanpeakf) == 0) meanpeakf <- NA
     
     #save results
-    dfres <- data.frame(sound.files = X$sound.files[i], selec = X$selec[i], duration, meanfreq, sd, freq.median, freq.Q25, freq.Q75, freq.IQR, time.median, time.Q25, time.Q75, time.IQR, skew, kurt, sp.ent, time.ent, entropy, sfm, 
-                        meandom, mindom, maxdom, dfrange, modindx, startdom, enddom, dfslope, meanpeakf)
+    dfres <-
+      data.frame(
+        sound.files = X$sound.files[i],
+        selec = X$selec[i],
+        duration,
+        meanfreq,
+        sd,
+        freq.median,
+        freq.Q25,
+        freq.Q75,
+        freq.IQR,
+        time.median,
+        time.Q25,
+        time.Q75,
+        time.IQR,
+        skew,
+        kurt,
+        sp.ent,
+        time.ent,
+        entropy,
+        sfm,
+        meandom,
+        mindom,
+        maxdom,
+        dfrange,
+        modindx,
+        startdom,
+        enddom,
+        dfslope,
+        meanpeakf
+      )
     
     # add peak freq
     if (!fast) dfres$peakf <- peakf

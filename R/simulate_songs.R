@@ -175,6 +175,11 @@ simulate_songs <-
       length(gaps) != 1) {
       stop("length of 'gaps' should be 1 or equal to 'n' + 1")
     }
+    
+    if (any(gaps <= 0)) {
+      stop("'gaps' must be higher than 0")
+    }
+    
     if (length(durs) == 1 & n != 1) {
       durs <- rep(durs, n)
     }

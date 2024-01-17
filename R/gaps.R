@@ -12,7 +12,7 @@
 #' @return A data frame identical to that supplied in 'X', with and additional column ('gaps') with the duration of the time interval between selections.
 #' @export
 #' @name gaps
-#' @details The function measures the time intervals (i.e. gaps) between selections.  The gap for a given selection is calculated as the time interval to the selection immediately after. Hence, there is no gap for the last selection in a sound file (or level determined by the 'by' argument). Note that sound files are not required.
+#' @details The function measures the time intervals (i.e. gaps) between selections.  The gap for a given selection is calculated as the time interval to the selection immediately after. Hence, there is no gap for the last selection in a sound file (or level determined by the 'by' argument). Gap is set to 0  when selections overlap in time. Note that the sound files are not required.
 #' @seealso \code{\link{inflections}}, \code{\link{song_analysis}},
 #' @examples{
 #' # get warbleR sound file examples
@@ -78,8 +78,10 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE) {
     # if more than 1 row calculate gaps
     if (nrow(Y) > 1) {
       Y$gaps[-nrow(Y)] <- Y$start[-1] - Y$end[-nrow(Y)]
-    }
-
+    
+    # make 0 those negatives as those come from overlapping selections  
+    Y$gaps[Y$gaps < 0 & !is.na(Y$gaps)] <- 0
+      }
     Y <- as.data.frame(Y)
     return(Y)
   }
