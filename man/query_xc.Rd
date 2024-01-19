@@ -46,7 +46,7 @@ If X is not provided the function returns a data frame with the following record
 \code{query_xc} downloads recordings and metadata from \href{https://www.xeno-canto.org/}{Xeno-Canto}.
 }
 \details{
-This function queries for avian vocalization recordings in the open-access
+This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities offered by the \href{https://github.com/maRce10/suwo}{suwo package} as an alternative solution. This function queries for avian vocalization recordings in the open-access
 online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. It can return recordings metadata
 or download the associated sound files. Complex queries can be done by using search terms that follow the
  xeno-canto advance query syntax (check "qword" argument description).

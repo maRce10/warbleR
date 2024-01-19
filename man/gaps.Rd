@@ -25,7 +25,7 @@ A data frame identical to that supplied in 'X', with and additional column ('gap
 \code{gaps} measures gap duration
 }
 \details{
-The function measures the time intervals (i.e. gaps) between selections.  The gap for a given selection is calculated as the time interval to the selection immediately after. Hence, there is no gap for the last selection in a sound file (or level determined by the 'by' argument). Note that sound files are not required.
+The function measures the time intervals (i.e. gaps) between selections.  The gap for a given selection is calculated as the time interval to the selection immediately after. Hence, there is no gap for the last selection in a sound file (or level determined by the 'by' argument). Gap is set to 0  when selections overlap in time. Note that the sound files are not required.
 }
 \examples{
 {

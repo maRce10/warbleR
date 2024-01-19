@@ -2,8 +2,8 @@
 % Please edit documentation in R/warbleR-package.R
 \docType{package}
 \name{warbleR}
-\alias{warbleR}
 \alias{warbleR-package}
+\alias{warbleR}
 \title{warbleR: A package to streamline bioacoustic analysis}
 \description{
 warbleR is intended to facilitate the analysis of the structure of animal acoustic signals in R. Users can collect open-access avian recordings or enter their own data into a workflow that facilitates spectrographic visualization and measurement of acoustic parameters. warbleR makes use of the fundamental sound analysis tools of the seewave package, and offers new tools for acoustic structure analysis. These tools are available for batch analysis of acoustic signals.

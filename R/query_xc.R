@@ -30,7 +30,7 @@
 #' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.
 #' @export
 #' @name query_xc
-#' @details This function queries for avian vocalization recordings in the open-access
+#' @details This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities offered by the \href{https://github.com/maRce10/suwo}{suwo package} as an alternative solution. This function queries for avian vocalization recordings in the open-access
 #' online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. It can return recordings metadata
 #' or download the associated sound files. Complex queries can be done by using search terms that follow the
 #'  xeno-canto advance query syntax (check "qword" argument description).
@@ -75,6 +75,9 @@
 
 query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"),
                      parallel = 1, path = NULL, pb = TRUE) {
+  
+  message2("This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities offered by the suwo package (https://github.com/maRce10/suwo) as an alternative option.")
+  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(query_xc)
@@ -155,9 +158,9 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       }
 
       # replace remaining spaces with "&"
-      qword <- gsub(" ", "&", qword)
+      qword <- gsub(" ", "+", qword)
     } else {
-      qword <- gsub(" ", "%20", qword)
+      qword <- gsub(" ", "+", qword)
     }
 
     # initialize search
