@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.29</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.30</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,25 @@
       <small>Source: <a href="https://github.com/maRce10/warbleR/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.30" id="warbler-1130"><em>warbleR 1.1.30</em><a class="anchor" aria-label="anchor" href="#warbler-1130"></a></h2>
+<div class="section level3">
+<h3 id="changes-and-additions-1-1-30">Changes and additions:<a class="anchor" aria-label="anchor" href="#changes-and-additions-1-1-30"></a></h3>
+<ul><li>
+<code><a href="../reference/gaps.html">gaps()</a></code> now turns negative numbers (from overlapping annotations) into 0’s</li>
+<li>error message added to <code><a href="../reference/simulate_songs.html">simulate_songs()</a></code> if negative numbers in ‘gaps’ are found</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-30">Bug fixes:<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-30"></a></h3>
+<ul><li>
+<code>quer_xc()</code> bug for searching on windows and macOS</li>
+<li>
+<code><a href="../reference/spectro_analysis.html">spectro_analysis()</a></code> bug when ‘harmonicity = TRUE’ due to changes in <code><a href="https://rdrr.io/pkg/soundgen/man/analyze.html" class="external-link">soundgen::analyze()</a></code> output names</li>
+<li>
+<code><a href="../reference/print.selection_table.html">print.selection_table()</a></code> now checks for possible errors in <code>check_res()</code> metadata</li>
+<li>bug fixed in <code><a href="../reference/multi_DTW.html">multi_DTW()</a></code> when measuring contours other than dominant frequency</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.29" id="warbler-1129"><em>warbleR 1.1.29</em><a class="anchor" aria-label="anchor" href="#warbler-1129"></a></h2><p class="text-muted">CRAN release: 2023-09-05</p>
 <div class="section level3">
