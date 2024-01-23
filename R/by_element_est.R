@@ -123,7 +123,7 @@ by_element_est <- function(X, mar = 0.1, pb = FALSE, parallel = 1) {
     check_res$start <- if (check_res$mar.before < mar) check_res$mar.before else mar
     check_res$end <- check_res$start + check_res$duration
     check_res$mar.before <- check_res$start
-    check_res$mar.after <- duration(attributes(X)$wave.objects[[x]]) - check_res$end
+    check_res$mar.after <- seewave::duration(attributes(X)$wave.objects[[x]]) - check_res$end
     check_res$sound.files <- paste(X$sound.files[x], X$selec[x], sep = "-")
     check_res$n.samples <- length(attributes(X)$wave.objects[[x]]@left)
     check_res$bits <- length(attributes(X)$wave.objects[[x]]@bit)

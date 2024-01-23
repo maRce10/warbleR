@@ -1,14 +1,16 @@
-# *warbleR 1.1.30* (developmental)
+# *warbleR 1.1.30* 
 
+## Changes and additions:
+
+* `gaps()` now turns negative numbers (from overlapping annotations) into 0's
+* error message added to `simulate_songs()` if negative numbers in 'gaps' are found
 
 ## Bug fixes:
 
 * `quer_xc()` bug for searching on windows and macOS
-* `gaps()` now turns negative numbers (from overlapping annotations) into 0's
-* `spectro_analysis()` bug when 'harmonicity = TRUE' due to changes in `soundgen::analyze()` otuput names
-* error message added to `simulate_songs()` if negative numbers in 'gaps' are found
+* `spectro_analysis()` bug when 'harmonicity = TRUE' due to changes in `soundgen::analyze()` output names
 * `print.selection_table()` now checks for possible errors in `check_res()` metadata
-* bug fixed in `multi_DTW` when measuring contours other than dominant frequency
+* bug fixed in `multi_DTW()` when measuring contours other than dominant frequency
 
 # *warbleR 1.1.29*
 

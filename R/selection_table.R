@@ -567,7 +567,9 @@ print.extended_selection_table <- function(x, ...) {
 
   message2(color = "silver", x = paste0("\n* ", length(attr(x, "wave.objects")), " wave object(s) (as attributes): "))
 
-  message2(color = "silver", x = paste(names(attr(x, "wave.objects")), collapse = ", "))
+  if (length(attr(x, "wave.objects")) <= 6)
+  message2(color = "silver", x = paste(names(attr(x, "wave.objects")), collapse = ", ")) else
+    message2(color = "silver", x = paste(names(attr(x, "wave.objects"))[1:6], collapse = ", "))
 
   if (length(attr(x, "wave.objects")) > 6) message2(color = "silver", x = paste0("... and ", length(attr(x, "wave.objects")) - 6, " more"))
   

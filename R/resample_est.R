@@ -6,7 +6,7 @@
 #' @param X object of class 'extended_selection_table' (see \code{\link{selection_table}}).
 #' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
 #' @param bit.depth Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
-# #' @param sox Logical to control whether \href{https://sox.sourceforge.net/sox.html}{SOX} is used internally for resampling. Sox must be installed. Default is \code{FALSE}. \href{https://sox.sourceforge.net/sox.html}{SOX} is a better option if having aliasing issues after resampling.
+# #' @param sox Logical to control whether \href{https://sourceforge.net/projects/sox/}{SOX} is used internally for resampling. Sox must be installed. Default is \code{FALSE}. \href{https://sourceforge.net/projects/sox/}{SOX} is a better option if having aliasing issues after resampling.
 #' @param avoid.clip Logical to control whether the volume is automatically
 #' adjusted to avoid clipping high amplitude samples when resampling. Ignored if
 #'  '\code{sox = FALSE}. Default is \code{TRUE}.
@@ -18,7 +18,7 @@
 #' @name resample_est
 #' @details This function aims to simplify the process of homogenizing sound
 #' files (sampling rate and bit depth). This is a necessary step before running
-#' any further (bio)acoustic analysis. \href{https://sox.sourceforge.net/sox.html}{SOX} must be installed.
+#' any further (bio)acoustic analysis. \href{https://sourceforge.net/projects/sox/}{SOX} must be installed.
 #' @examples
 #' \dontrun{
 #' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec_table"))

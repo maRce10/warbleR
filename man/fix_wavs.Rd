@@ -37,7 +37,7 @@ This function aims to simplify the process of converting sound files that cannot
 \code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file
 names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 all .wav sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory
-('converted_sound_files'). Internally the function calls \href{https://sox.sourceforge.net/sox.html}{SOX} (\href{https://sox.sourceforge.net/sox.html}{SOX} must be installed). If  both 'checksels' and 'files' are \code{NULL}
+('converted_sound_files'). Internally the function calls \href{https://sourceforge.net/projects/sox/}{SOX} (\href{https://sourceforge.net/projects/sox/}{SOX} must be installed). If  both 'checksels' and 'files' are \code{NULL}
 then all files in 'path' are converted. Note that it only fixes/convert sound files in .wav format.
 }
 \examples{

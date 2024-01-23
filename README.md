@@ -15,7 +15,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
 [![Codecov test
 coverage](https://codecov.io/gh/maRce10/warbleR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/maRce10/warbleR?branch=master)
-[![R-CMD-check](https://github.com/maRce10/ohun/workflows/R-CMD-check/badge.svg)](https://github.com/maRce10/ohun/actions)
+[![R-CMD-check](https://github.com/maRce10/warbleR/workflows/R-CMD-check/badge.svg)](https://github.com/maRce10/baRulho/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 <img src="vignettes/warbleR_sticker.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
@@ -43,8 +43,8 @@ The package offers functions to:
 - Explore and download [Xeno‐Canto](https://xeno-canto.org/) recordings
 - Explore, organize and manipulate multiple sound files
 - Detect signals automatically (in frequency and time) (but check the R
-  package [ohun](https://marce10.github.io/ohun/index.html) for a more
-  thorough and friendly implementation)
+  package [ohun](https://docs.ropensci.org/ohun/) for a more thorough
+  and friendly implementation)
 - Create spectrograms of complete recordings or individual signals
 - Run different measures of acoustic signal structure
 - Evaluate the performance of measurement methods
@@ -101,11 +101,11 @@ inputs and ouputs similar to those of
 [warbleR](https://cran.r-project.org/package=warbleR). The package
 [Rraven](https://cran.r-project.org/package=Rraven) facilitates the
 exchange of data between R and [Raven sound analysis
-software](https://ravensoundsoftware.com) ([Cornell Lab of
+software](https://www.ravensoundsoftware.com/) ([Cornell Lab of
 Ornithology](https://www.birds.cornell.edu/home)) and can be very
 helpful for incorporating Raven as the annotating tool into acoustic
 analysis workflow in R. The package
-[ohun](https://github.com/maRce10/ohun) works on automated detection of
+[ohun](https://docs.ropensci.org/ohun/) works on automated detection of
 sound events, providing functions to diagnose and optimize detection
 routines. [dynaSpec](https://cran.r-project.org/package=seewave) is
 allows to create dynamic spectrograms (i.e. spectrogram videos).
