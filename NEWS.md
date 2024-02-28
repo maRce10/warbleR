@@ -1,3 +1,10 @@
+# *warbleR 1.1.31* 
+
+## Changes and additions:
+
+* new vignette 'Annotation data format'
+* `confirm.extended` argument in `selection_table()` deprecated.
+
 # *warbleR 1.1.30* 
 
 ## Changes and additions:

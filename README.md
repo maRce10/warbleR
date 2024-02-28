@@ -18,7 +18,7 @@ coverage](https://codecov.io/gh/maRce10/warbleR/branch/master/graph/badge.svg)](
 [![R-CMD-check](https://github.com/maRce10/warbleR/workflows/R-CMD-check/badge.svg)](https://github.com/maRce10/baRulho/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-<img src="vignettes/warbleR_sticker.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
+<img src="man/figures/warbleR_sticker.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
 
 [warbleR](https://cran.r-project.org/package=warbleR) is intended to
 facilitate the analysis of the structure of animal acoustic signals in
