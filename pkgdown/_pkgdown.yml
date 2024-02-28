@@ -6,7 +6,7 @@ articles:
   navbar: vignettes
   contents:
   - starts_with("Intro")
-  - starts_with("Annotation")  
+  - starts_with("annotation")  
   - starts_with("warbleR_workflow_01")
   - starts_with("warbleR_workflow_02")
   - starts_with("warbleR_workflow_03")

@@ -1,5 +1,5 @@
 ---
-title: <font size="7"><b>Annotation data format</b></font>
+title: <font size="7"><b>warbleR&#58; Annotation data format</b></font>
 pagetitle: Annotation data format
 author: 
 - <a href="https://marce10.github.io">Marcelo Araya-Salas, PhD</a> 
