@@ -29,7 +29,7 @@
 #'
 #' # create extended selection table
 #' X <- selection_table(
-#'   X = lbh_selec_table, extended = TRUE, confirm.extended = FALSE, pb = FALSE,
+#'   X = lbh_selec_table, extended = TRUE, pb = FALSE,
 #'   path = tempdir()
 #' )
 #'

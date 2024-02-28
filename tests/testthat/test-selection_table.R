@@ -31,7 +31,6 @@ test_that("basic", {
   #' # make extended selection table
   est <- selection_table(
     X = lbh_selec_table[1:3, ], extended = TRUE,
-    confirm.extended = FALSE,
     path = tempdir(), pb = FALSE
   )
   

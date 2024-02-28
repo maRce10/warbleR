@@ -5,7 +5,7 @@
 \title{Create 'selection_table' and 'extended_selection_table' objects}
 \usage{
 selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL,
+extended = FALSE, confirm.extended = NULL, mar = 0.1, by.song = NULL,
 pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
 file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", files = NULL, ...)
 }
@@ -37,7 +37,7 @@ is if \code{FALSE}. An extended selection table won't be created if there is any
 \item{confirm.extended}{Logical. If \code{TRUE} then the size of the 'extended_selection_table'
 will be estimated and the user will be asked for confirmation (in the console)
 before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
-generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT WILL BE DEPRECATED IN FUTURE VERSIONS.}
+generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT HAS BEEN DEPRECATED.}
 
 \item{mar}{Numeric vector of length 1 specifying the margins (in seconds)
 adjacent to the start and end points of the selections when creating extended

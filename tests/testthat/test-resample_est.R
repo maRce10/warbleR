@@ -10,7 +10,7 @@ test_that("basic", {
 
   # create extended selection table
   X <- selection_table(
-    X = lbh_selec_table[1:3, ], extended = TRUE, confirm.extended = FALSE, pb = FALSE,
+    X = lbh_selec_table[1:3, ], extended = TRUE, pb = FALSE,
     path = tempdir()
   )
   

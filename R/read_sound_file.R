@@ -181,7 +181,7 @@ read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[i
 
 ### internals for reading sound files
 read_wave_wrblr_int <- function(filename, header = header, from = 0, to = Inf, channel = 1) {
-  obj <- tuneR::readWave(filename = filename, header = header, from = from, to = to, units = "seconds", toWaveMC = TRUE)
+  suppressWarnings(obj <- tuneR::readWave(filename = filename, header = header, from = from, to = to, units = "seconds", toWaveMC = TRUE))
 
   # Extract one channel
   if (!header) {

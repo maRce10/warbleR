@@ -95,11 +95,27 @@
 #' }
 # last modification on jan-03-2020 (MAS)
 
-cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ovlp = 70, dens = NULL,
-                              wn = "hanning", cor.method = "pearson", parallel = 1,
-                              path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
-                              templates = NULL, surveys = NULL,
-                              compare.matrix = NULL, type = "fourier", nbands = 40, method = 1) {
+cross_correlation <-
+  function(X = NULL,
+           wl = 512,
+           bp = "pairwise.freq.range",
+           ovlp = 70,
+           dens = NULL,
+           wn = "hanning",
+           cor.method = "pearson",
+           parallel = 1,
+           path = NULL,
+           pb = TRUE,
+           na.rm = FALSE,
+           cor.mat = NULL,
+           output = "cor.mat",
+           templates = NULL,
+           surveys = NULL,
+           compare.matrix = NULL,
+           type = "fourier",
+           nbands = 40,
+           method = 1)
+  {
   if (!is.null(compare.matrix) | !is.null(surveys)) {
     warning2("The use of this function for signal detection (with 'compare.matrix') will be deprecated in future warbleR versions, please look at the ohun package for automatic signal detection functions (https://marce10.github.io/ohun/index.html)")
   }
@@ -409,7 +425,8 @@ cross_correlation <- function(X = NULL, wl = 512, bp = "pairwise.freq.range", ov
     if (stps <= 1) stps <- 1 else stps <- 1:stps
 
     # calculate correlations at each step
-    cors <- sapply(stps, function(x, cor.method = cm) {
+    cors <-  if (all(is.na(spc1$amp)) | all(is.na(spc2$amp))) NA else
+sapply(stps, function(x, cor.method = cm) {
       warbleR::try_na(cor(c(lg.spc[, x:(x + shrt.lgth)]), c(shrt.spc), method = cm, use = "pairwise.complete.obs"))
     })
 

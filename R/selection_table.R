@@ -2,7 +2,7 @@
 #'
 #' \code{selection_table} converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.
 #' @usage selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-#' extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL,
+#' extended = FALSE, confirm.extended = NULL, mar = 0.1, by.song = NULL,
 #' pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
 #' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", files = NULL, ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav
@@ -30,7 +30,7 @@
 #' @param confirm.extended Logical. If \code{TRUE} then the size of the 'extended_selection_table'
 #' will be estimated and the user will be asked for confirmation (in the console)
 #' before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
-#' generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT WILL BE DEPRECATED IN FUTURE VERSIONS.
+#' generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT HAS BEEN DEPRECATED.
 #' @param by.song Character string with the column name containing song labels. If provided a wave object containing for
 #' all selection belonging to a single song would be saved in the extended selection table (hence only applicable for
 #' extended selection tables). Note that the function assumes that song labels are not repeated within a sound file.
@@ -121,7 +121,12 @@
 # last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-                            extended = FALSE, confirm.extended = FALSE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", files = NULL, ...) {
+                            extended = FALSE, confirm.extended = NULL, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", files = NULL, ...) {
+  
+  # confirm.extended is deprecated
+  if (!is.null(confirm.extended))
+  warning2("'confirm.extended' has been deprecated and will be ignored")
+  
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(selection_table)
@@ -204,17 +209,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 
   # add wave object to extended file
   if (extended) {
-    if (confirm.extended) {
-      exp.size <- sum(round(check.results$bits * check.results$sample.rate * (check.results$duration + (mar * 2)) / 4) / 1024)
-
-      message2(x = paste0("Expected 'extended_selection_table' size is ~", ifelse(round(exp.size) == 0, round(exp.size, 2), round(exp.size)), "MB (~", round(exp.size / 1024, 5), " GB) \n Do you want to proceed? (y/n): "), color = "magenta")
-      answer <- readline(prompt = "")
-    } else {
-      answer <- "yeah dude!"
-    }
-
-    if (substr(answer, 1, 1) %in% c("y", "Y")) # if yes
-      {
+    
         check.results$orig.start <- X$start
         check.results$orig.end <- X$end
 
@@ -303,7 +298,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 
         ## Set the name for the class
         class(X)[class(X) == "selection_table"] <- "extended_selection_table"
-      }
+      
   } else {
     check.results$n.samples <- check.results$sound.file.samples
   }
@@ -323,10 +318,6 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   attributes(X)$call <- base::match.call()
 
   attributes(X)$warbleR.version <- packageVersion("warbleR")
-
-  if (extended & confirm.extended & !is_extended_selection_table(X)) {
-    message2(color = "silver", x = cli::style_bold("'extended_selection_table' was not created"))
-  }
 
   if (skip.error & length(error_files) > 0) {
     message2(color = "silver", x = "One or more file(s) couldn't be read and were not included (run .Options$unread_files to see which files)")

@@ -38,7 +38,7 @@ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 # create extended selection table
 by_song_est <- selection_table(lbh_selec_table,
   path = tempdir(),
-  extended = TRUE, by.song = "song", confirm.extended = FALSE
+  extended = TRUE, by.song = "song"
 )
 
 # conver o by element

@@ -1,0 +1,300 @@
+---
+title: <font size="7"><b>Annotation data format</b></font>
+pagetitle: Annotation data format
+author: 
+- <a href="https://marce10.github.io">Marcelo Araya-Salas, PhD</a> 
+date:  "`r Sys.Date()`"
+output:
+  rmarkdown::html_document:
+    self_contained: yes
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+vignette: >
+   %\VignetteIndexEntry{2. Annotation data format}
+   %\usepackage[utf8]{inputenc}
+   %\VignetteEncoding{UTF-8}
+   %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+&nbsp; 
+
+<!-- skyblue box -->
+<div class="alert alert-info">
+
+This vignette explains in detail the structure of the **R** data objects contain sound file annotation data that are required by the package **warbleR**.
+
+</div>
+
+&nbsp; 
+
+```{r extn_sel_2, echo = FALSE, message = FALSE}
+
+rm(list = ls())
+
+# unload all non-based packages
+out <- sapply(paste('package:', names(sessionInfo()$otherPkgs), sep = ""), function(x) try(detach(x, unload = FALSE, character.only = TRUE), silent = T))
+
+#load packages
+library(warbleR)
+library(knitr)
+library(kableExtra)
+
+
+# cf <- read.csv("./data/cuadro de funciones warbleR.csv", stringsAsFactors = FALSE)
+
+# warbleR_options(wav.path = "./examples") 
+
+options(knitr.table.format = "html") 
+opts_chunk$set(comment = "")
+opts_knit$set(root.dir = tempdir())
+options(width = 100, max.print = 100)
+
+```
+
+<img src="warbleR_sticker.png" alt="warbleR logo" align="right" width="25%" height="25%">
+
+
+An annotation table (or selection table in Raven's and warbleR's terminology) is a data set that contains information about the location in time (and sometimes in frequency) of the sounds of interest in one or more sound files. **warbleR** can take sound file annotations represented in the following **R** objects: 
+
+ - Data frames
+ - Selection tables
+ - Extended selection tables
+ 
+The last 2 are annotation specific R classes included in **warbleR**. Here we described the basic structure of these objects and how they can be created.
+
+
+# Data frames
+
+Data frames with sound file annotations must contain the following columns: 
+
+ 1) 'sound.files': character or factor column name of the sound files including the file extension (e.g. "rec_1.wav")
+ 1) 'selec': numeric, character or factor column with a unique identifier (at least within each sound file) for each annotation (e.g. 1, 2, 3 or "a", "b", "c")
+ 1) 'start': the start position in time of an annotated sound (in seconds)
+ 1) 'end': the end position in time of an annotated sound (in seconds)
+
+```{r, echo = FALSE}
+
+options(digits=3)
+
+set.seed(123)
+
+start <- runif(n = 4, min = 0.2, max = 10)
+
+cd.anot <-
+  data.frame(sound.files = rep(c("sound_file_1.wav", "sound_file_2.wav"), each = 2),
+             selec = rep(1:2, 2), 
+             start, 
+             end =  start + abs(rnorm(n = 4, mean = 1)))
+
+
+kbl <- knitr::kable(cd.anot, align = "c", row.names = F,  format = "html")
+
+kbl <-  kableExtra::kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+
+kbl
+
+```
+
+Data frames containing annotations can also include the following optional columns: 
+
+ - 1) 'bottom.freq': numeric column with the bottom frequency of the frequency range of the annotation (in kHz)
+ - 1) 'top.freq': numeric column with the top frequency of the frequency range of the annotation (in kHz)
+ - 1) 'channel': numeric column with the number of the channel in which the annotation is found in a multi-channel sound file (by default is 1)
+
+```{r, echo = FALSE}
+
+cd.anot$bottom.freq <- rnorm(n = 4, mean = 5)
+cd.anot$top.freq <- rnorm(n = 4, mean = 9)
+
+cd.anot$channel <- rep(1, 4)
+
+# cd.anot <- cd.anot[, c(1, 7, 2:6)]
+
+kbl <- knitr::kable(cd.anot, align = "c", row.names = F,  format = "html")
+
+
+kbl <-  kableExtra::kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+
+kbl
+
+```
+
+
+The sample data "lbh_selec_table" contains a data frame with annotations with the format expected by **warbleR**:
+
+
+```{r extn_sel_4.1, eval=FALSE}
+
+library(warbleR)
+
+data("lbh_selec_table")
+
+
+knitr::kable(lbh_selec_table)
+```
+
+```{r extn_sel_4.2, echo=FALSE}
+
+kbl <- knitr::kable(lbh_selec_table, align = "c", row.names = F,  format = "html")
+
+kbl <-  kableExtra::kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+
+kbl
+```
+
+&nbsp; 
+
+Typically, annotations are created in other sound analysis programs (mainly, Raven, Avisoft, Syrinx and Audacity) and then imported into *R*. We recommend annotating sound files in [Raven sound analysis software](http://www.birds.cornell.edu/brp/raven/RavenOverview.html) ([Cornell Lab of Ornithology](http://www.birds.cornell.edu)) and then importing them into **R** with the package [**Rraven**](https://marce10.github.io/Rraven/). This package facilitates data exchange between R and [Raven sound analysis software](http://www.birds.cornell.edu/brp/raven/RavenOverview.html) and allow users to import annotation data into R using the **warbleR** annotation format (see argument 'warbler.format' in the function `imp_raven()`).
+
+&nbsp; 
+
+<!-- light brown box -->
+<div class="alert alert-warning">
+
+Data frames containing annotations always refer to sound files. Therefore, when using data frames users *must always indicate the location of the sound files* to every **warbleR** function when providing annotations in this format.
+
+</div>
+
+
+# warbleR annotation formats
+
+### Selection tables
+
+These objects are created with the `selection_table()` function. The function takes data frames containing annotation data as in the format described above. Therefore the same mandatory and optional columns are used by selection tables. The function verifies if the information is consistent (see the function `check_sels()` for details) and saves the 'diagnostic' metadata as an attribute in the output object. Selection tables are basically data frames in which the information contained has been double checked to ensure it can be read by other **warbleR** functions.
+
+Selection tables are created by the function `selection_table()`:
+
+```{r extn_sel_4.32, eval = FALSE}
+
+# write example sound files in temporary directory
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+  
+st <-
+  selection_table(X = lbh_selec_table, path = tempdir())
+
+knitr::kable(st)
+```
+
+```{r, eval = TRUE, echo = FALSE}
+
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+
+# global parameters
+st <- selection_table(X = lbh_selec_table, pb = FALSE, path = tempdir())
+
+kbl <- knitr::kable(st)
+
+kbl <-  kableExtra::kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+
+kbl
+
+```
+
+Selection table is an especific object class that have their own printing method: 
+```{r}
+
+class(st)
+
+st
+```
+
+&nbsp; 
+
+Note that the path to the sound files must be provided. This is necessary in order to verify that the data provided conforms to the characteristics of the audio files.
+
+&nbsp; 
+
+<!-- light brown box -->
+<div class="alert alert-warning">
+
+Selection table also refer to sound files. Therefore, users **must always indicate the location of the sound files to every *warbleR* function** when providing annotations in this format
+
+</div>
+
+
+### Extended selection tables
+
+Extended selection tables are annotations that include both the acoustic and annotation data. This an specific object class, *extended_selection_table*, that include a list of 'wave' objects corresponding to each of the selections in the data. Therefore, the function **transforms the selection table into self-contained objects** since the original sound files are no longer needed to perform most of the acoustic analysis in **warbleR**. This can facilitate the storage and exchange of (bio)acoustic data. This format can also speed up analyses, since it is not necessary to read the sound files every time the data is analyzed.
+
+The `selection_table()` function also creates extended selection tables. To do this, users must set the argument `extended = TRUE` (otherwise, the class would be a selection table). The following code converts the exaample 'lbh_selec_table' data into an extended selection table:
+
+```{r extn_sel_4.3, eval = FALSE}
+
+ext_st <- selection_table(X = lbh_selec_table, pb = FALSE, 
+          extended = TRUE, path = tempdir())
+
+```
+
+```{r extn_sel_4.33, eval = TRUE, echo = FALSE}
+
+ext_st <- selection_table(X = lbh_selec_table, pb = FALSE, 
+          extended = TRUE, path = tempdir())
+
+
+```
+
+
+Extended selection table is an especific object class that have their own printing method: 
+```{r}
+
+class(ext_st)
+
+ext_st
+
+```
+
+The wave objects contained in the *extended_selection_table* can be easily extracted using the **warbleR** function [read_sound_file](https://marce10.github.io/warbleR/reference/read_sound_file.html):
+
+```{r}
+
+w1 <- read_sound_file(ext_st, index = 1)
+
+w1
+```
+
+The index argument indicates the row of the selection that will be read.
+
+This data is ready to be used. For instance, here I create a multipanel graph with the spectrograms of the first 6 selections:
+
+```{r extn.sel_21, out.width= 750}
+
+par(mfrow = c(3, 2), mar = rep(0, 4))
+
+for(i in 1:6){
+  wv <- read_sound_file(X = ext_st, index = i)
+
+  seewave::spectro(wv, wl = 250, grid = FALSE, scale = FALSE, axisX = FALSE,
+          axisY = FALSE, ovlp = 90, flim = c(0, 11), 
+          palette = viridis::viridis,
+          collevels = seq(-110, 0, 5))
+}
+
+```
+
+------------------------------------------------------------------------
+
+## References
+
+-   Araya-Salas (2017), *Rraven: connecting R and Raven bioacoustic software*. R package version 1.0.2.
+
+------------------------------------------------------------------------
+
+
+<font size="4">Session information</font>
+
+```{r session info, echo=F}
+
+sessionInfo()
+
+```

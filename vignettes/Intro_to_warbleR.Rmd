@@ -153,7 +153,7 @@ st
 
 ```{r, eval = TRUE, echo = FALSE}
 
-st <- selection_table(X = lbh_selec_table, pb = FALSE)
+st <- selection_table(X = lbh_selec_table, path = tempdir())
 ```
 
 ```{r, eval = TRUE, echo = FALSE}
@@ -186,16 +186,18 @@ warbleR_options(wav.path = tempdir())
 
 
 ext_st <- selection_table(
-  X = lbh_selec_table, pb = FALSE,
-  extended = TRUE, confirm.extended = FALSE
+  X = lbh_selec_table, 
+  pb = FALSE,
+  extended = TRUE
 )
 ```
 
 ```{r extn_sel_4.33, eval = TRUE, echo = FALSE}
 
 ext_st <- selection_table(
-  X = lbh_selec_table, pb = FALSE,
-  extended = TRUE, confirm.extended = FALSE
+  X = lbh_selec_table, 
+  pb = FALSE,
+  extended = TRUE
 )
 ```
 &nbsp;
@@ -451,9 +453,10 @@ lng.selec.table$selec <- 1:nrow(lng.selec.table)
 
 # create extended selection table
 lng_ext_st <- selection_table(
-  X = lng.selec.table, pb = FALSE,
-  extended = TRUE, confirm.extended = FALSE
-)
+  X = lng.selec.table, 
+  pb = FALSE,
+  extended = TRUE
+  )
 
 
 # load packages

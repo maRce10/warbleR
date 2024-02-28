@@ -19,8 +19,6 @@ xcorr.graph <- function(...) warning2(x = "This function has been deprecated as 
 
 manualoc <- manual_loc <- function(...) warning2(x = "This function has been deprecated. Try Raven Software (Cornell Lab of Ornithology) or Audacity to manually annotate. The Rraven package (imp_raven) can be used for importing Raven annotations: try `install.packages('Rraven')`")
 
-compare.methods <- function(...) warning2(x = "This name has been deprecated. Please use `compare_methods` instead")
-
 find_annotations <- function(...) warning2(x = "This function has been removed due to API changes at audioblast.org")
 
 optimize_auto_detec <- function(...) warning2(x = "This function has been deprecated. Look at the package ohun for signal detection tools")

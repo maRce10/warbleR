@@ -12,13 +12,13 @@ test_that("basic", {
     writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
 
     # run cross-correlation
-    suppressWarnings(xc.output <- cross_correlation(
+    xc.output <- suppressWarnings(cross_correlation(
       X = lbh_selec_table2, output = "list",
       compare.matrix = comp_matrix, path = tempdir(), pb = FALSE
     ))
 
     # find peaks
-    suppressWarnings(pks <- find_peaks(xc.output = xc.output, path = tempdir(), pb = FALSE))
+    pks <- suppressWarnings(find_peaks(xc.output = xc.output, path = tempdir(), pb = FALSE))
   
     fls <- list.files(path = tempdir(), pattern = "wav$|wac$|mp3$|flac$", full.names = TRUE)
     

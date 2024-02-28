@@ -14,7 +14,7 @@ output:
       smooth_scroll: true
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{2. Import sound files and select signals}
+  %\VignetteIndexEntry{3. Import sound files and select signals}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
