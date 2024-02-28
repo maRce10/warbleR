@@ -26,7 +26,7 @@ editor_options:
 <!-- skyblue box -->
 <div class="alert alert-info">
 
-This vignette explains in detail the structure of the **R** data objects contain sound file annotation data that are required by the package **warbleR**.
+This vignette explains in detail the structure of the **R** data objects containing sound file annotations that are required by the package **warbleR**.
 
 </div>
 
@@ -163,7 +163,7 @@ Data frames containing annotations always refer to sound files. Therefore, when 
 
 # warbleR annotation formats
 
-### Selection tables
+## Selection tables
 
 These objects are created with the `selection_table()` function. The function takes data frames containing annotation data as in the format described above. Therefore the same mandatory and optional columns are used by selection tables. The function verifies if the information is consistent (see the function `check_sels()` for details) and saves the 'diagnostic' metadata as an attribute in the output object. Selection tables are basically data frames in which the information contained has been double checked to ensure it can be read by other **warbleR** functions.
 
@@ -223,7 +223,7 @@ Selection table also refer to sound files. Therefore, users **must always indica
 </div>
 
 
-### Extended selection tables
+## Extended selection tables
 
 Extended selection tables are annotations that include both the acoustic and annotation data. This an specific object class, *extended_selection_table*, that include a list of 'wave' objects corresponding to each of the selections in the data. Therefore, the function **transforms the selection table into self-contained objects** since the original sound files are no longer needed to perform most of the acoustic analysis in **warbleR**. This can facilitate the storage and exchange of (bio)acoustic data. This format can also speed up analyses, since it is not necessary to read the sound files every time the data is analyzed.
 
@@ -254,33 +254,239 @@ ext_st
 
 ```
 
-The wave objects contained in the *extended_selection_table* can be easily extracted using the **warbleR** function [read_sound_file](https://marce10.github.io/warbleR/reference/read_sound_file.html):
 
-```{r}
+### Handling extended selection tables
 
-w1 <- read_sound_file(ext_st, index = 1)
+Several functions can be used to deal with objects of this class. First can test if the object belongs to the *extended_selection_table*:
 
-w1
+```{r extn_sel_5}
+
+is_extended_selection_table(ext_st)
+```
+&nbsp;
+
+You can subset the selection in the same way that any other data frame and it will still keep its attributes:
+
+```{r extn_sel_6}
+
+ext_st2 <- ext_st[1:2, ]
+
+is_extended_selection_table(ext_st2)
 ```
 
-The index argument indicates the row of the selection that will be read.
+There is also a generic version of `print()` for this class of objects:
 
-This data is ready to be used. For instance, here I create a multipanel graph with the spectrograms of the first 6 selections:
+```{r extn_sel_7}
 
-```{r extn.sel_21, out.width= 750}
+## print
+print(ext_st)
+```
 
+... which is equivalent to:
+
+```{r extn_sel_7.1, eval=FALSE}
+
+ext_st
+```
+
+```{r extn_sel_7/2, echo=FALSE}
+
+print(ext_st)
+```
+&nbsp;
+
+You can also join them in rows. Here the original *extended_selection_table* is divided into 2 and bound again using `rbind()`:
+
+```{r extn_sel_8, eval = FALSE}
+
+ext_st3 <- ext_st[1:5, ]
+
+ext_st4 <- ext_st[6:11, ]
+
+ext_st5 <- rbind(ext_st3, ext_st4)
+
+# print
+ext_st5
+```
+
+```{r extn_sel_8.1, echo=FALSE}
+
+ext_st3 <- ext_st[1:5, ]
+
+ext_st4 <- ext_st[6:11, ]
+
+ext_st5 <- rbind(ext_st3, ext_st4)
+
+# print
+print(ext_st5)
+```
+
+```{r extn_sel_8.2}
+
+# same annotations
+all.equal(ext_st, ext_st5, check.attributes = FALSE)
+
+# same acoustic data
+all.equal(attr(ext_st, "wave.objects"), attr(ext_st5, "wave.objects"))
+
+```
+&nbsp;
+
+The 'wave' objects can be read individually using `read_sound_file()`, a wrapper for the `readWave()` function from **tuneR**, which can handle extended selection tables:
+
+```{r extn_sel_8.21}
+
+wv1 <- read_sound_file(X = ext_st, index = 3, from = 0, to = 0.37)
+```
+&nbsp;
+
+These are regular 'wave' objects:
+
+```{r extn_sel_8.22, out.width= 750}
+
+class(wv1)
+
+wv1
+
+spectro(wv1, wl = 150, grid = FALSE, scale = FALSE, ovlp = 90)
+```
+
+&nbsp; 
+
+```{r extn_sel_8.23, out.width= 750}
 par(mfrow = c(3, 2), mar = rep(0, 4))
 
-for(i in 1:6){
-  wv <- read_sound_file(X = ext_st, index = i)
+for (i in 1:6) {
+  wv <- read_sound_file(X = ext_st, index = i, from = 0.05, to = 0.32)
 
-  seewave::spectro(wv, wl = 250, grid = FALSE, scale = FALSE, axisX = FALSE,
-          axisY = FALSE, ovlp = 90, flim = c(0, 11), 
-          palette = viridis::viridis,
-          collevels = seq(-110, 0, 5))
+  spectro(wv,
+    wl = 150, grid = FALSE, scale = FALSE, axisX = FALSE,
+    axisY = FALSE, ovlp = 90
+  )
 }
-
 ```
+&nbsp;
+
+The `read_sound_file()` function requires a selection table, as well as the row index (i.e. the row number) to be able to read the 'wave' objects. It can also read a regular 'wave' file if the path is provided.
+
+Note that other functions that modify data frames are likely to delete the attributes in which the 'wave' objects and metadata are stored. For example, the merge and the extended selection box will remove its attributes:
+
+```{r extn_sel_8.24}
+
+# create new data frame
+Y <- data.frame(sound.files = ext_st$sound.files, site = "La Selva", lek = c(rep("SUR", 5), rep("CCL", 6)))
+
+# combine
+mrg_ext_st <- merge(ext_st, Y, by = "sound.files")
+
+# check class
+is_extended_selection_table(mrg_ext_st)
+```
+&nbsp;
+
+In this case, we can use the `fix_extended_selection_table()` function to transfer the attributes of the original extended selection table:
+
+```{r extn_sel_8.25}
+
+# fix est
+mrg_ext_st <- fix_extended_selection_table(X = mrg_ext_st, Y = ext_st)
+
+# check class
+is_extended_selection_table(mrg_ext_st)
+```
+&nbsp;
+
+This works as long as some of the original sound files are retained and no other selections are added.
+
+&nbsp;
+ 
+Finally, these objects can be used as input for most **warbleR** functions, without the need of refering to any sound file. For instance we can easily measure acoustic parameters on data in *extended_selection_table* format using the function `spectro_analysis()`:
+
+```{r extn_sel_12.1, eval=FALSE}
+
+#  parametros espectrales
+sp <- spectro_analysis(ext_st)
+
+# check first 10 columns
+sp[, 1:10]
+```
+
+
+```{r, eval = TRUE, echo = FALSE}
+
+sp <- spectro_analysis(ext_st)
+
+kbl <- knitr::kable(sp[, 1:10])
+
+kbl <-  kableExtra::kable_styling(kbl, bootstrap_options = "striped", font_size = 14)
+
+kbl
+```
+
+ 
+
+### Performance
+
+The use of *extended_selection_table* objects can improve performance (in our case, measured as time). Here we use **microbenchmark** to compare the performance of `sig2noise()` and **ggplot2** to plot the results. First, a selection table with 1000 selections is created simply by repeating the sample data frame several times and then is converted to an extended selection table:
+
+```{r extn_sel_13, eval = FALSE}
+
+# create long selection table
+lng.selec.table <- do.call(rbind, replicate(10, lbh_selec_table,
+  simplify = FALSE
+))
+
+# relabels selec
+lng.selec.table$selec <- 1:nrow(lng.selec.table)
+
+# create extended selection table
+lng_ext_st <- selection_table(
+  X = lng.selec.table, 
+  pb = FALSE,
+  extended = TRUE
+  )
+
+
+# load packages
+library(microbenchmark)
+library(ggplot2)
+
+# check performance
+mbmrk.snr <- microbenchmark(extended = sig2noise(lng_ext_st,
+  mar = 0.05
+), regular = sig2noise(lng.selec.table,
+  mar = 0.05
+), times = 50)
+
+autoplot(mbmrk.snr) + ggtitle("sig2noise")
+```
+&nbsp;
+
+<center> ![autodetec image example](microbenchmark.png)</center>
+
+&nbsp;
+
+
+The function runs much faster in the extended selection tables. Performance gain is likely to improve when longer recordings and data sets are used (that is, to compensate for computing overhead).
+
+&nbsp;
+
+### Sharing acoustic data
+
+This new object class allows to share complete data sets, including acoustic data. For example, the **NatureSounds** package contains an extended selection table with long-billed hermit hummingbirds vocalizations from 10 different song types:
+  
+```{r}
+
+data("Phae.long.est")
+
+Phae.long.est
+
+table(Phae.long.est$lek.song.type)
+```
+
+The ability to compress large data sets and the ease of performing analyzes that require a single R object can simplify the exchange of data and the reproducibility of bioacoustic analyzes.
+
+&nbsp;
 
 ------------------------------------------------------------------------
 

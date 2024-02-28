@@ -5,10 +5,23 @@ articles:
 - title: vignettes
   navbar: vignettes
   contents:
-  - starts_with("Intro")
   - starts_with("annotation")  
   - starts_with("warbleR_workflow_01")
   - starts_with("warbleR_workflow_02")
   - starts_with("warbleR_workflow_03")
-    
-    
+navbar:
+  structure:
+    left:  [intro, reference, articles, tutorials, news]
+    right: [search, github]    
+# components:
+#    articles:
+#     text: Vignettes
+#     menu:
+#     - text: "Annotation data format"
+#       href: articles/annotation_data_format.html
+#     - text: "Import sound files and select signals"
+#       href: articles/warbleR_workflow_01.html
+#     - text: "Visual inspection and signal classification"
+#       href: articles/warbleR_workflow_02.html
+#     - text: "Acoustic (dis)similarity, coordinated singing and simulating songs"
+#       href: articles/warbleR_workflow_03.html
