@@ -8,7 +8,7 @@ test_that("basic est convertion", {
   # create extended selection table
   by_song_est <- selection_table(lbh_selec_table,
     path = tempdir(),
-    extended = TRUE, by.song = "sound.files", confirm.extended = FALSE, pb = FALSE
+    extended = TRUE, by.song = "sound.files", pb = FALSE
   )
 
   bs_est <- by_element_est(X = by_song_est, mar = 0.05, pb = FALSE)
