@@ -117,15 +117,20 @@ objects and how they can be created.</p>
 <p>Data frames with sound file annotations must contain the following
 columns:</p>
 <ol style="list-style-type: decimal">
-<li>‘sound.files’: character or factor column name of the sound files
-including the file extension (e.g. “rec_1.wav”)</li>
-<li>‘selec’: numeric, character or factor column with a unique
-identifier (at least within each sound file) for each annotation
+<li>
+<strong>sound.files</strong>: character or factor column with the
+name of the sound files including the file extension
+(e.g. “rec_1.wav”)</li>
+<li>
+<strong>selec</strong>: numeric, character or factor column with a
+unique identifier (at least within each sound file) for each annotation
 (e.g. 1, 2, 3 or “a”, “b”, “c”)</li>
-<li>‘start’: the start position in time of an annotated sound (in
-seconds)</li>
-<li>‘end’: the end position in time of an annotated sound (in
-seconds)</li>
+<li>
+<strong>start</strong>: numeric column with the start position in
+time of an annotated sound (in seconds)</li>
+<li>
+<strong>end</strong>: numeric column with the end position in time
+of an annotated sound (in seconds)</li>
 </ol>
 <table class="table table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
 <thead><tr>
@@ -205,17 +210,20 @@ sound_file_2.wav
 optional columns:</p>
 <ul>
 <li><ol style="list-style-type: decimal">
-<li>‘bottom.freq’: numeric column with the bottom frequency of the
-frequency range of the annotation (in kHz)</li>
+<li>
+<strong>bottom.freq</strong>: numeric column with the bottom
+frequency of the frequency range of the annotation (in kHz)</li>
 </ol></li>
 <li><ol style="list-style-type: decimal">
-<li>‘top.freq’: numeric column with the top frequency of the frequency
-range of the annotation (in kHz)</li>
+<li>
+<strong>top.freq</strong>: numeric column with the top frequency of
+the frequency range of the annotation (in kHz)</li>
 </ol></li>
 <li><ol style="list-style-type: decimal">
-<li>‘channel’: numeric column with the number of the channel in which
-the annotation is found in a multi-channel sound file (by default is
-1)</li>
+<li>
+<strong>channel</strong>: numeric column with the number of the
+channel in which the annotation is found in a multi-channel sound file
+(optional, by default is 1 if not supplied)</li>
 </ol></li>
 </ul>
 <table class="table table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
