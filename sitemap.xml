@@ -217,9 +217,6 @@
     <loc>https://marce10.github.io/warbleR/reference/multi_DTW.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/new_function_names.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/open_wd.html</loc>
   </url>
   <url>
@@ -328,9 +325,6 @@
     <loc>https://marce10.github.io/warbleR/reference/song_analysis.html</loc>
   </url>
   <url>
-    <loc>https://marce10.github.io/warbleR/reference/song_param.html</loc>
-  </url>
-  <url>
     <loc>https://marce10.github.io/warbleR/reference/sort_colms.html</loc>
   </url>
   <url>
@@ -356,6 +350,9 @@
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/split_wavs.html</loc>
+  </url>
+  <url>
+    <loc>https://marce10.github.io/warbleR/reference/sth_annotations.html</loc>
   </url>
   <url>
     <loc>https://marce10.github.io/warbleR/reference/sub-.extended_selection_table.html</loc>
