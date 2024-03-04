@@ -73,10 +73,10 @@ The last 2 are annotation specific R classes included in **warbleR**. Here we de
 
 Data frames with sound file annotations must contain the following columns: 
 
- 1) 'sound.files': character or factor column name of the sound files including the file extension (e.g. "rec_1.wav")
- 1) 'selec': numeric, character or factor column with a unique identifier (at least within each sound file) for each annotation (e.g. 1, 2, 3 or "a", "b", "c")
- 1) 'start': the start position in time of an annotated sound (in seconds)
- 1) 'end': the end position in time of an annotated sound (in seconds)
+ 1) **sound.files**: character or factor column with the name of the sound files including the file extension (e.g. "rec_1.wav")
+ 1) **selec**: numeric, character or factor column with a unique identifier (at least within each sound file) for each annotation (e.g. 1, 2, 3 or "a", "b", "c")
+ 1) **start**: numeric column with the start position in time of an annotated sound (in seconds)
+ 1) **end**: numeric column with the end position in time of an annotated sound (in seconds)
 
 ```{r, echo = FALSE}
 
@@ -110,9 +110,9 @@ kbl
 
 Data frames containing annotations can also include the following optional columns: 
 
- - 1) 'bottom.freq': numeric column with the bottom frequency of the frequency range of the annotation (in kHz)
- - 1) 'top.freq': numeric column with the top frequency of the frequency range of the annotation (in kHz)
- - 1) 'channel': numeric column with the number of the channel in which the annotation is found in a multi-channel sound file (by default is 1)
+ - 1) **bottom.freq**: numeric column with the bottom frequency of the frequency range of the annotation (in kHz)
+ - 1) **top.freq**: numeric column with the top frequency of the frequency range of the annotation (in kHz)
+ - 1) **channel**: numeric column with the number of the channel in which the annotation is found in a multi-channel sound file (optional, by default is 1 if not supplied)
 
 ```{r, echo = FALSE}
 
