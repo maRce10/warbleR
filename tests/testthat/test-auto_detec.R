@@ -1,4 +1,9 @@
 test_that("basic detection", {
+  
+  fls <- list.files(path = tempdir(), pattern = "wav$", full.names = TRUE)
+  
+  unlink(fls)
+  
   tuneR::writeWave(NatureSounds::Phae.long1, file.path(tempdir(), "Phae.long1.wav"), extensible = FALSE)
 
   # perfect detection
@@ -15,6 +20,11 @@ test_that("basic detection", {
 })
 
 test_that("supplying X, printing output, no detection", {
+  
+  fls <- list.files(path = tempdir(), pattern = "wav$|mp3$", full.names = TRUE)
+  
+  unlink(fls)
+  
   tuneR::writeWave(NatureSounds::Phae.long1, file.path(tempdir(), "Phae.long1.wav"), extensible = FALSE)
   tuneR::writeWave(NatureSounds::Phae.long2, file.path(tempdir(), "Phae.long2.wav"), extensible = FALSE)
   splX <- split_sound_files(sgmts = 2, only.sels = TRUE, path = tempdir())

@@ -5,8 +5,8 @@
 #' example sound files included in this package. Same data than 'selec_table'.
 #' 'selec_table' will be removed in future package version.
 #'
-#' @format A data frame with 11 rows and 7 variables: \describe{
-#'  \item{sound.files}{recording names}
+#' @format A data frame with 11 rows and 7 columns: \describe{
+#'  \item{sound.files}{sound file names}
 #'  \item{channel}{channel in which signal is found}
 #'  \item{selec}{selection numbers within recording}
 #'  \item{start}{start times of selected signal}

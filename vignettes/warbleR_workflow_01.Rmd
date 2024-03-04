@@ -1,5 +1,5 @@
 ---
-title: <font size="7"><b>warbleR&#58; Import sound files and select signals</b></font>
+title: Import sound files and select signals
 pagetitle: Import sound files and select signals
 author: 
 - <a href="https://marce10.github.io">Marcelo Araya-Salas, PhD</a> & <a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> 

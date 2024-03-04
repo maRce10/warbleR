@@ -5,8 +5,8 @@
 #' example sound files included in this package. Similar than 'lbh_selec_table'.
 #' but it contains only 2 selections.
 #'
-#' @format A data frame with 2 rows and 7 variables: \describe{
-#'  \item{sound.files}{recording names}
+#' @format A data frame with 2 rows and 7 columns: \describe{
+#'  \item{sound.files}{sound file names}
 #'  \item{channel}{channel in which signal is found}
 #'  \item{selec}{selection numbers within recording}
 #'  \item{start}{start times of selected signal}

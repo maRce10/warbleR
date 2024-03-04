@@ -22,3 +22,6 @@ manualoc <- manual_loc <- function(...) warning2(x = "This function has been dep
 find_annotations <- function(...) warning2(x = "This function has been removed due to API changes at audioblast.org")
 
 optimize_auto_detec <- function(...) warning2(x = "This function has been deprecated. Look at the package ohun for signal detection tools")
+
+song_param <- function(...) warning2(x = "This function name has been deprecated. Please use `song_analysis` instead")
+

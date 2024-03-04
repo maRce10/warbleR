@@ -311,13 +311,3 @@ song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_co
 
   return(df)
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{song_analysis}}
-#'
-#' @keywords internal
-#' @details see \code{\link{song_analysis}} for documentation. \code{\link{song_param}} will be deprecated in future versions.
-#' @export
-
-song_param <- song_analysis

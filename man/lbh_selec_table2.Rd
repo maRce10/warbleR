@@ -5,8 +5,8 @@
 \alias{lbh_selec_table2}
 \title{Example data frame of selections (i.e. selection table).}
 \format{
-A data frame with 2 rows and 7 variables: \describe{
- \item{sound.files}{recording names}
+A data frame with 2 rows and 7 columns: \describe{
+ \item{sound.files}{sound file names}
  \item{channel}{channel in which signal is found}
  \item{selec}{selection numbers within recording}
  \item{start}{start times of selected signal}

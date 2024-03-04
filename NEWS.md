@@ -3,7 +3,8 @@
 ## Changes and additions:
 
 * new vignette 'Annotation data format'
-* `confirm.extended` argument in `selection_table()` deprecated.
+* `confirm.extended` argument in `selection_table()` has been deprecated.
+* `song_param()` alternative name for `song_analysis()` has been deprecated.
 
 # *warbleR 1.1.30* 
 

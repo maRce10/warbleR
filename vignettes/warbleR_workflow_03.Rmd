@@ -1,5 +1,5 @@
 ---
-title: <font size="7"><b>warbleR&#58; Acoustic (dis)similarity, coordinated singing and simulating songs</b></font>
+title: Acoustic (dis)similarity, coordinated singing and simulating songs
 pagetitle: Acoustic (dis)similarity, coordinated singing and simulating songs
 author: 
 - <a href="https://marce10.github.io">Marcelo Araya-Salas, PhD</a> 
