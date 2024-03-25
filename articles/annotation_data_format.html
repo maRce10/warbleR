@@ -83,7 +83,7 @@
                         <h4 data-toc-skip class="author"><a href="https://marce10.github.io" class="external-link">Marcelo
 Araya-Salas, PhD</a></h4>
             
-            <h4 data-toc-skip class="date">2024-03-04</h4>
+            <h4 data-toc-skip class="date">2024-03-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/HEAD/vignettes/annotation_data_format.Rmd" class="external-link"><code>vignettes/annotation_data_format.Rmd</code></a></small>
       <div class="d-none name"><code>annotation_data_format.Rmd</code></div>
@@ -1011,7 +1011,7 @@ sound files every time the data is analyzed.</p>
 <p>The <code><a href="../reference/selection_table.html">selection_table()</a></code> function also creates extended
 selection tables. To do this, users must set the argument
 <code>extended = TRUE</code> (otherwise, the class would be a selection
-table). The following code converts the exaample ‘lbh_selec_table’ data
+table). The following code converts the example ‘lbh_selec_table’ data
 into an extended selection table:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selection_table.html">selection_table</a></span><span class="op">(</span></span>
@@ -1020,11 +1020,11 @@ into an extended selection table:</p>
 <span>  extended <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Extended selection table is an especific object class that have their
-own printing method:</p>
+<p>Extended selection table is an specific object class:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">est</span><span class="op">)</span></span></code></pre></div>
 <pre><code>[1] "extended_selection_table" "data.frame"              </code></pre>
+<p>The class has its own printing method:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est</span></span></code></pre></div>
 <pre><code> [30mObject of class  [1m'extended_selection_table' [22m [39m</code></pre>
@@ -1212,7 +1212,7 @@ Wave Object
 <span>  palette <span class="op">=</span> <span class="fu">viridis</span><span class="fu">::</span><span class="va"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">viridis</a></span>,</span>
 <span>  collevels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>, <span class="fl">0</span> , <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="annotation_data_format_files/figure-html/extn_sel_8.22-1.png" width="750"></p>
+<p><img src="annotation_data_format_files/figure-html/annotations_8.22-1.png" width="750"></p>
 <div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1236,7 +1236,7 @@ Wave Object
 <span>    collevels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>, <span class="fl">0</span> , <span class="fl">5</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="annotation_data_format_files/figure-html/extn_sel_8.23-1.png" width="750"></p>
+<p><img src="annotation_data_format_files/figure-html/annotations_8.23-1.png" width="750"></p>
 <p>The <code><a href="../reference/read_sound_file.html">read_sound_file()</a></code> function requires a selection
 table, as well as the row index (i.e. the row number) to be able to read
 the ‘wave’ objects. It can also read a regular ‘wave’ file if the path
@@ -1977,7 +1977,10 @@ actually included:</p>
 <span>  collevels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>, <span class="fl">0</span> , <span class="fl">5</span><span class="op">)</span>,</span>
 <span>  flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="annotation_data_format_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="annotation_data_format_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p>Note that ‘by song’ extended selection tables can be converted into
+‘by element’ tables using the function
+<code><a href="../reference/by_element_est.html">by_element_est()</a></code>.</p>
 </div>
 <div class="section level4">
 <h4 id="performance">Performance<a class="anchor" aria-label="anchor" href="#performance"></a>
@@ -2030,46 +2033,149 @@ sets are used (that is, to compensate for computing overhead).</p>
 <h4 id="sharing-acoustic-data">Sharing acoustic data<a class="anchor" aria-label="anchor" href="#sharing-acoustic-data"></a>
 </h4>
 <p>This new object class allows to share complete data sets, including
-acoustic data. For example, the <strong>NatureSounds</strong> package
-contains an extended selection table with long-billed hermit
-hummingbirds vocalizations from 10 different song types:</p>
+acoustic data. To do this we can make use of the RDS file format to save
+extended selection tables. These files can be easily shared with others,
+allowing to share a entire acoustic data set in a single file, something
+that can be tricky when dealing with acoustic data. For example, the
+following code downloads an extended selection table of inquiry calls
+from Spix’s disc-winged bats used in <a href="https://marce10.github.io/publication/araya-salas-2020/" class="external-link">Araya-Salas
+<em>et al</em> (2020)</a> (it can take a few minutes! Can also be
+manually downloaded from <a href="https://figshare.com/ndownloader/files/21167052" class="external-link">here</a>):</p>
 <div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"Phae.long.est"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">URL</span> <span class="op">&lt;-</span> <span class="st">"https://figshare.com/ndownloader/files/21167052"</span></span>
 <span></span>
-<span><span class="va">Phae.long.est</span></span></code></pre></div>
-<pre><code> [30mObject of class  [1m'extended_selection_table' [22m [39m</code></pre>
-<pre><code> [90m [1m
-Contains: [22m 
-*  A selection table data frame with 50 row(s) and 8 columns: [39m</code></pre>
-<pre><code> [90m|sound.files | selec| start|   end| bottom.freq| top.freq| [39m</code></pre>
-<pre><code> [90m|:-----------|-----:|-----:|-----:|-----------:|--------:| [39m</code></pre>
-<pre><code> [90m|BR2-A1-1    |     1|   0.1| 0.268|        1.60|       11| [39m</code></pre>
-<pre><code> [90m|BR2-A1-2    |     1|   0.1| 0.265|        1.89|       11| [39m</code></pre>
-<pre><code> [90m|BR2-A1-3    |     1|   0.1| 0.272|        1.72|       11| [39m</code></pre>
-<pre><code> [90m|BR2-A1-4    |     1|   0.1| 0.270|        1.83|       11| [39m</code></pre>
-<pre><code> [90m|BR2-A1-5    |     1|   0.1| 0.277|        2.12|       11| [39m</code></pre>
-<pre><code> [90m|CCE-I3-1    |     1|   0.1| 0.249|        1.76|       11| [39m</code></pre>
-<pre><code> [90m... 2 more column(s) (lek, lek.song.type) [39m</code></pre>
-<pre><code> [90m and 44 more row(s) [39m</code></pre>
-<pre><code> [90m
-* 50 wave object(s) (as attributes):  [39m</code></pre>
-<pre><code> [90mBR2-A1-1, BR2-A1-2, BR2-A1-3, BR2-A1-4, BR2-A1-5, CCE-I3-1 [39m</code></pre>
-<pre><code> [90m... and 44 more [39m</code></pre>
-<pre><code> [90m
-* A data frame (check.results) with 50 rows generated by check_sels() (as attribute) [39m</code></pre>
-<pre><code> [90m
-The selection table was created [3m [1m by element  [22m [23m(see 'class_extended_selection_table') [39m</code></pre>
-<pre><code> [90m* 1 sampling rate(s) (in kHz):  [1m22.05 [22m [39m</code></pre>
-<pre><code> [90m* 1 bit depth(s):  [1m8 [22m [39m</code></pre>
-<pre><code> [90m* Created by warbleR &lt; 1.1.21 [39m</code></pre>
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">Phae.long.est</span><span class="op">$</span><span class="va">lek.song.type</span><span class="op">)</span></span></code></pre></div>
-<pre><code>
-BR2-A1 CCE-I3 LOC-D1 SAT-F1 STR-A2 SUR-E1 SUR-K4 TR1-C2 TR1-C5 TR1-D4 
-     5      5      5      5      5      5      5      5      5      5 </code></pre>
-<p>The ability to compress large data sets and the ease of performing
-analyzes that require a single R object can simplify the exchange of
-data and the reproducibility of bioacoustic analyzes.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span></span>
+<span>  url <span class="op">=</span> <span class="va">URL</span>,</span>
+<span>  destfile <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"est_inquiry.RDS"</span><span class="op">)</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"wget"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">est</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"est_inquiry.RDS"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">est</span><span class="op">)</span></span></code></pre></div>
+<pre><code>[1] 336</code></pre>
+<p>This data is ready to be used. For instance, here I create a
+multipanel graph with the spectrograms of the first 6 selections:</p>
+<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">wv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_wave.html">read_wave</a></span><span class="op">(</span></span>
+<span>    X <span class="op">=</span> <span class="va">est</span>,</span>
+<span>    index <span class="op">=</span> <span class="va">i</span>,</span>
+<span>    from <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>    to <span class="op">=</span> <span class="fl">0.17</span></span>
+<span>  <span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></span><span class="op">(</span></span>
+<span>    <span class="va">wv</span>,</span>
+<span>    grid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    scale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    axisX <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    axisY <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    ovlp <span class="op">=</span> <span class="fl">90</span>,</span>
+<span>    flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span><span class="op">)</span>,</span>
+<span>    palette <span class="op">=</span> <span class="fu">viridis</span><span class="fu">::</span><span class="va"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">viridis</a></span>,</span>
+<span>    collevels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>, <span class="fl">0</span> , <span class="fl">5</span><span class="op">)</span>  </span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p><img src="annotation_data_format_files/figure-html/unnamed-chunk-16-1.png" width="750"></p>
+<p>We can also measured pairwise cross correlation (for simplicity only
+on the first 4 rows):</p>
+<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">xcorr_inquiry</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_correlation.html">cross_correlation</a></span><span class="op">(</span><span class="va">est</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">xcorr_inquiry</span></span></code></pre></div>
+<pre><code> [30mcreating spectrogram matrices (step 1 of 2): [39m</code></pre>
+<pre><code> [30mrunning cross-correlation (step 2 of 2): [39m</code></pre>
+<table class="table table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+T2018-01-04_11-37-50_0000010.wav_1-1
+</th>
+<th style="text-align:right;">
+T2018-01-04_11-37-50_0000010.wav_10-1
+</th>
+<th style="text-align:right;">
+T2018-01-04_11-37-50_0000010.wav_11-1
+</th>
+<th style="text-align:right;">
+T2018-01-04_11-37-50_0000010.wav_12-1
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+T2018-01-04_11-37-50_0000010.wav_1-1
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.522
+</td>
+<td style="text-align:right;">
+0.535
+</td>
+<td style="text-align:right;">
+0.594
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+T2018-01-04_11-37-50_0000010.wav_10-1
+</td>
+<td style="text-align:right;">
+0.522
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.869
+</td>
+<td style="text-align:right;">
+0.660
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+T2018-01-04_11-37-50_0000010.wav_11-1
+</td>
+<td style="text-align:right;">
+0.535
+</td>
+<td style="text-align:right;">
+0.869
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+0.833
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+T2018-01-04_11-37-50_0000010.wav_12-1
+</td>
+<td style="text-align:right;">
+0.594
+</td>
+<td style="text-align:right;">
+0.660
+</td>
+<td style="text-align:right;">
+0.833
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 </div>
@@ -2079,6 +2185,9 @@ data and the reproducibility of bioacoustic analyzes.</p>
 <ul>
 <li>Araya-Salas (2017), <em>Rraven: connecting R and Raven bioacoustic
 software</em>. R package version 1.0.2.</li>
+<li>Araya-Salas, M., Hernández-Pinsón, H. A., Rojas, N., &amp; Chaverri,
+G. (2020). <em>Ontogeny of an interactive call-and-response system in
+Spix’s disc-winged bats</em>. Animal Behaviour, 166, 233-245.</li>
 </ul>
 <hr>
 <p><font size="4">Session information</font></p>
@@ -2106,20 +2215,20 @@ other attached packages:
 [6] tuneR_1.4.6       
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.4      rjson_0.2.21      xfun_0.42         bslib_0.6.1       ggplot2_3.5.0    
+ [1] gtable_0.3.4      rjson_0.2.21      xfun_0.42         bslib_0.6.2       ggplot2_3.5.0    
  [6] vctrs_0.6.5       tools_4.3.3       bitops_1.0-7      parallel_4.3.3    tibble_3.2.1     
 [11] proxy_0.4-27      fansi_1.0.6       highr_0.10        pkgconfig_2.0.3   desc_1.4.3       
 [16] lifecycle_1.0.4   compiler_4.3.3    stringr_1.5.1     textshaping_0.3.7 brio_1.1.4       
-[21] munsell_0.5.0     codetools_0.2-19  htmltools_0.5.7   sass_0.4.8        RCurl_1.98-1.14  
+[21] munsell_0.5.0     codetools_0.2-19  htmltools_0.5.7   sass_0.4.9        RCurl_1.98-1.14  
 [26] yaml_2.3.8        pkgdown_2.0.7     pillar_1.9.0      jquerylib_0.1.4   MASS_7.3-60.0.1  
-[31] cachem_1.0.8      iterators_1.0.14  viridis_0.6.5     foreach_1.5.2     digest_0.6.34    
+[31] cachem_1.0.8      iterators_1.0.14  viridis_0.6.5     foreach_1.5.2     digest_0.6.35    
 [36] stringi_1.8.3     purrr_1.0.2       fastmap_1.1.1     grid_4.3.3        colorspace_2.1-0 
 [41] cli_3.6.2         magrittr_2.0.3    utf8_1.2.4        shinyBS_0.61.1    scales_1.3.0     
-[46] rmarkdown_2.25    signal_1.8-0      gridExtra_2.3     ragg_1.2.7        memoise_2.0.1    
+[46] rmarkdown_2.26    signal_1.8-0      gridExtra_2.3     ragg_1.3.0        memoise_2.0.1    
 [51] pbapply_1.7-2     evaluate_0.23     dtw_1.23-1        fftw_1.0-8        testthat_3.2.1   
 [56] viridisLite_0.4.2 rlang_1.1.3       Rcpp_1.0.12       glue_1.7.0        xml2_1.3.6       
-[61] svglite_2.1.3     rstudioapi_0.15.0 jsonlite_1.8.8    soundgen_2.6.2    R6_2.5.1         
-[66] systemfonts_1.0.5 fs_1.6.3         </code></pre>
+[61] svglite_2.1.3     rstudioapi_0.16.0 jsonlite_1.8.8    soundgen_2.6.2    R6_2.5.1         
+[66] systemfonts_1.0.6 fs_1.6.3         </code></pre>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
