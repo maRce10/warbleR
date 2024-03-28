@@ -57,7 +57,7 @@ options(width = 100, max.print = 100)
 # avoid weird printing of selection tables
 Sys.setenv(NO_COLOR = 1)
 
-print_st_no_color <- function(x, ...) if (is(x, "selection.table")) warbleR:::print.selection_table(x, no.color = TRUE, ...) else
+print_st_no_color <- function(x, ...) if (is(x, "selection_table")) warbleR:::print.selection_table(x, no.color = TRUE, ...) else
   warbleR:::print.extended_selection_table(x, no.color = TRUE, ...)
 
 
