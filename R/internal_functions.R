@@ -2477,9 +2477,20 @@ warning2 <- function(...) {
 message2 <- function(x, color = "black", no.color = FALSE) {
   if (!no.color)
   message(colortext(x, as = color)) else
-    message(x)
+    message(cli::ansi_strip(x))
 }
 
+# .style_italic <- function(x, no.color = FALSE) {
+#   if (!no.color)
+#     cli::style_italic(x) else
+#       x
+# }
+# 
+# .style_bold <- function(x, no.color = FALSE) {
+#   if (!no.color)
+#     cli::style_bold(x) else
+#       x
+# }
 
 colortext <- function(text, as = c("red", "blue", "green", "magenta", "cyan", "orange", "black", "silver")) {
   if (has_color()) {
