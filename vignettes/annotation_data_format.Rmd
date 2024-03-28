@@ -382,6 +382,8 @@ est5 <- rbind(est3, est4)
 print_st_no_color(est5)
 ```
 
+The resulting extended selection table contains the same data as the original extended selection table:
+
 ```{r annotations_8.2}
 
 # same annotations
