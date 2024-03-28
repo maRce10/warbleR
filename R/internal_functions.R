@@ -2474,8 +2474,10 @@ warning2 <- function(...) {
 }
 
 # message function that changes colors
-message2 <- function(x, color = "black") {
-  message(colortext(x, as = color))
+message2 <- function(x, color = "black", no.color = FALSE) {
+  if (!no.color)
+  message(colortext(x, as = color)) else
+    message(x)
 }
 
 

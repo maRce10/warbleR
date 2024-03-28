@@ -592,7 +592,7 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
     
     if (exists("X.orig")) X <- fix_extended_selection_table(X = as.data.frame(X), Y = X.orig)
     
-    on.exit(message2(paste0("Time range: ", round(max(X$end - X$start) + (2 * mar), 3), "s;", " frequency range: ", min(rangs$fl1), "-", flim[2], " kHz")))
+    on.exit(message2(paste0("Time range: ", round(max(X$end - X$start) + (2 * mar), 3), " s;", " frequency range: ", min(rangs$fl1), "-", flim[2], " kHz")))
     }
   
   

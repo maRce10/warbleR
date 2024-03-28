@@ -54,7 +54,13 @@ options(knitr.table.format = "html")
 opts_chunk$set(comment = "")
 options(width = 100, max.print = 100)
 
+# avoid weird printing of selection tables
 Sys.setenv(NO_COLOR = 1)
+
+print_st_no_color <- function(x, ...) if (is(x, "selection.table")) warbleR:::print.selection_table(x, no.color = TRUE, ...) else
+  warbleR:::print.extended_selection_table(x, no.color = TRUE, ...)
+
+
 ```
 
 <img src="warbleR_sticker.png" alt="warbleR logo" align="right" width="25%" height="25%">
@@ -218,13 +224,27 @@ kbl
 
 ```
 
-Selection table is an especific object class that have their own printing method: 
+Selection table is an especific object class: 
 ```{r}
 
 class(st)
 
-st
 ```
+
+They have their own printing method:
+```{r, eval = FALSE}
+
+st
+
+```
+
+```{r, eval = TRUE, echo = FALSE, collapse = TRUE}
+
+print_st_no_color(st)
+
+```
+
+
 
 Note that the path to the sound files must be provided. This is necessary in order to verify that the data provided conforms to the characteristics of the audio files.
 
@@ -255,7 +275,6 @@ est <- selection_table(
 
 ```{r annotations_4.33, eval = TRUE, echo = FALSE}
 
-
 est <- selection_table(
   X = lbh_selec_table,
   pb = FALSE,
@@ -263,20 +282,30 @@ est <- selection_table(
   path = tempdir()
 )
 
-
 ```
 
 
 Extended selection table is an specific object class: 
 ```{r}
+
 class(est)
+
 ```
 
 The class has its own printing method:
-```{r}
+```{r, eval = FALSE}
+
 est
 
 ```
+
+
+```{r, eval = TRUE, echo = FALSE, collapse = TRUE}
+
+print_st_no_color(est)
+
+```
+
 
 ### Handling extended selection tables
 
@@ -297,12 +326,20 @@ est2 <- est[1:2, ]
 is_extended_selection_table(est2)
 ```
 
-There is also a generic version of `print()` for this class of objects:
+As shown above, there is also a generic version of `print()` for this class of objects:
 
-```{r annotations_7}
+```{r annotations_7, eval = FALSE}
 
 ## print
 print(est)
+
+```
+
+
+```{r annotations_7.05, eval = TRUE, echo = FALSE, collapse = TRUE}
+
+print_st_no_color(est)
+
 ```
 
 ... which is equivalent to:
@@ -312,12 +349,13 @@ print(est)
 est
 ```
 
-```{r annotations_7/2, echo=FALSE}
+```{r, eval = TRUE, echo = FALSE, collapse = TRUE}
 
-print(est)
+print_st_no_color(est)
+
 ```
 
-You can also join them in rows. Here the original *extended_selection_table* is divided into 2 and bound again using `rbind()`:
+You can also split them and/or combine them by rows. Here the original *extended_selection_table* is divided into 2 and bound again using `rbind()`:
 
 ```{r annotations_8, eval = FALSE}
 
@@ -331,7 +369,8 @@ est5 <- rbind(est3, est4)
 est5
 ```
 
-```{r annotations_8.1, echo=FALSE}
+
+```{r annotations_8.1, echo=FALSE, collapse = TRUE}
 
 est3 <- est[1:5, ]
 
@@ -340,7 +379,7 @@ est4 <- est[6:11, ]
 est5 <- rbind(est3, est4)
 
 # print
-print(est5)
+print_st_no_color(est5)
 ```
 
 ```{r annotations_8.2}
