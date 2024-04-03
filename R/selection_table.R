@@ -623,7 +623,7 @@ print.selection_table <- function(x, no.color = FALSE, ...) {
     message2(color = "silver", x = cli::style_italic(gsub("    ", "", cll)), no.color = no.color)
   }
 
-  message2(color = "silver", x = paste(cli::style_bold("\nContains:"), "*  A selection table data frame with", nrow(x), "rows and", ncol(x), "columns:"), no.color = no.color)
+  message2(color = "silver", x = paste(cli::style_bold("\nContains:"), "\n*  A selection table data frame with", nrow(x), "rows and", ncol(x), "columns:"), no.color = no.color)
 
   # print data frame
   # define columns to show
