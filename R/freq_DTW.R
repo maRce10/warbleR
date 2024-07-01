@@ -95,12 +95,33 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on nov-31-2016 (MAS)
 
-freq_DTW <- function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, length.out = 20, wn = "hanning", ovlp = 70,
-                     bp = NULL, threshold = 15, threshold.time = NULL, threshold.freq = NULL,
-                     img = TRUE, parallel = 1, path = NULL, ts.df = NULL,
-                     img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE,
-                     window.type = "none", open.end = FALSE, scale = FALSE, frange.detec = FALSE,
-                     fsmooth = 0.1, adjust.wl = TRUE, ...) {
+freq_DTW <-
+  function(X = NULL,
+           type = "dominant",
+           wl = 512,
+           wl.freq = 512,
+           length.out = 20,
+           wn = "hanning",
+           ovlp = 70,
+           bp = NULL,
+           threshold = 15,
+           threshold.time = NULL,
+           threshold.freq = NULL,
+           img = TRUE,
+           parallel = 1,
+           path = NULL,
+           ts.df = NULL,
+           img.suffix = "dfDTW",
+           pb = TRUE,
+           clip.edges = TRUE,
+           window.type = "none",
+           open.end = FALSE,
+           scale = FALSE,
+           frange.detec = FALSE,
+           fsmooth = 0.1,
+           adjust.wl = TRUE,
+           ...) {
+    
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(freq_DTW)
@@ -126,19 +147,24 @@ freq_DTW <- function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, lengt
 
   if (is.null(X) & is.null(ts.df)) stop("either 'X' or 'ts.df' should be provided")
 
-  # define number of steps in analysis to print message
+
+  # set number of steps for progress bar messages
   if (pb) {
-    steps <- getOption("int_warbleR_steps")
-    if (steps[2] > 0) {
-      current.step <- steps[1]
-      total.steps <- steps[2]
-    } else {
-      total.steps <- 2
-      current.step <- 1
-    }
+    
+      steps <- getOption("int_warbleR_steps")
+      if (!is.null(steps$top.function)) {
+        current.step <- steps$current
+        total.steps <- steps$total
+      } else {
+        current.step <- 1
+        total.steps <- 2
+      }
+    # set internally
+    options("int_warbleR_steps" =  list(current = current.step, total = total.steps))
+    on.exit(options("int_warbleR_steps" = list(current = 0, total = 0)), add = TRUE)
   }
-
-
+  
+  
   if (!is.null(X)) {
     # if X is not a data frame
     if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X))) stop("X is not of a class 'data.frame', 'selection_table' or 'extended_selection_table'")
@@ -153,9 +179,9 @@ freq_DTW <- function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, lengt
     if (is.null(threshold.freq)) threshold.freq <- threshold
 
     # run freq_ts function
-    if (pb) {
-      message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "): \n"))
-    }
+    # if (pb & type == "dominant") {
+    #   message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "): \n"))
+    # }
 
     # get contours
     res <- freq_ts(X,
@@ -185,11 +211,12 @@ freq_DTW <- function(X = NULL, type = "dominant", wl = 512, wl.freq = 512, lengt
                            the start and/or end of the signal)")
 
   if (pb & is.null(ts.df)) {
-    message2(x = paste0("calculating DTW distances (step ", current.step + 1, " of ", total.steps, ", no progress bar):"))
+    if (parallel > 1)
+      message2(x = paste0("calculating DTW distances (step ", current.step + 1, " of ", total.steps, "):")) else
+        message2(x = paste0("calculating DTW distances (step ", current.step + 1, " of ", total.steps, ", no progress bar):"))
   }
 
-
-  dm <- dtw::dtwDist(mat, mat, window.type = window.type, open.end = open.end)
+  dm <- .dtwDist(mat, mat, parallel = parallel, pb = pb, window.type = window.type, open.end = open.end)
 
   rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
   return(dm)

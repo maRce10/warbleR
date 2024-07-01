@@ -2534,3 +2534,33 @@ lessdB <- lessdB_wrblr_int <- function(signal.noise, noise) {
 
   return(signal_SPL)
 }
+
+
+
+# parallelize DTW 
+
+.dtwDist <- function(mx, my = mx, parallel = 1, pb = TRUE, ...) {
+  
+  if (parallel == 1){
+    dtw_dists <- dtw::dtwDist(mx, my, ...)
+  } else {
+      
+    # Create intervals using cut
+    row_intervals <- cut(1:nrow(mx), breaks = 3, labels = FALSE)
+    
+    dtw_dist_list <- pblapply_wrblr_int(pbar = pb, X = unique(row_intervals), cl = parallel, FUN = function(j, ...) {
+      
+      sub_dtw_dist <- dtw::dtwDist(mx = mx, my = my[row_intervals == j, ], ...)
+      
+      return(sub_dtw_dist)
+    })
+    
+    
+    dtw_dists <- do.call(cbind, dtw_dist_list)
+  
+    rownames(dtw_dists) <- colnames(dtw_dists) <- 1:nrow(dtw_dists)
+   
+    return(dtw_dists)   
+  }
+}  
+  

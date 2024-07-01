@@ -203,11 +203,25 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1")
   if (any(!(parallel %% 1 == 0), parallel < 1)) stop("'parallel' should be a positive integer")
 
+  
+  # define number of steps in analysis to print message
+  if (pb) {
+    steps <- getOption("int_warbleR_steps")
+    if (steps$total > 0) {
+      current.step <- steps$current
+      total.steps <- steps$total
+    } else {
+      total.steps <- 1
+      current.step <- 1
+    }
+  }
+  
+  
   if (pb) {
     if (img) {
-      message2("Creating spectrograms overlaid with fundamental frequency measurements:")
+      message2(x = paste0("creating spectrograms overlaid with frequency contours (step ", current.step, " of ", total.steps, "):"))
     } else {
-      message2("Measuring fundamental frequency:")
+      message2(x = paste0("measuring frequency contours (step ", current.step, " of ", total.steps, "):"))
     }
   }
 

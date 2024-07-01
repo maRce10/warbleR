@@ -34,7 +34,7 @@
     }
   }
   options("warbleR" = opts)
-  options("int_warbleR_steps" = c(current = 0, total = 0))
+  options("int_warbleR_steps" = list(current = 0, total = 0, top.function = NULL))
   invisible(NULL)
 }
 

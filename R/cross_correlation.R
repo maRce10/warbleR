@@ -273,9 +273,9 @@ cross_correlation <-
   if (pb) {
     steps <- getOption("int_warbleR_steps")
 
-    if (steps[2] > 0) {
-      current.step <- steps[1]
-      total.steps <- steps[2]
+    if (steps$total > 0) {
+      current.step <- steps$current
+      total.steps <- steps$total
     } else {
       if (method == 1) total.steps <- 2 else total.steps <- 1
 
@@ -425,7 +425,7 @@ cross_correlation <-
     if (stps <= 1) stps <- 1 else stps <- 1:stps
 
     # calculate correlations at each step
-    cors <-  if (all(is.na(spc1$amp)) | all(is.na(spc2$amp))) NA else
+    cors <- if (all(is.na(spc1$amp)) | all(is.na(spc2$amp))) NA else
 sapply(stps, function(x, cor.method = cm) {
       warbleR::try_na(cor(c(lg.spc[, x:(x + shrt.lgth)]), c(shrt.spc), method = cm, use = "pairwise.complete.obs"))
     })
