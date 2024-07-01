@@ -31,7 +31,7 @@
 #'  'threshold' value is used.
 #' @param img Logical argument. If \code{FALSE}, image files are not produced. Default is \code{TRUE}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
-#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing). In this function parallelization improves performance only if the number of rows in 'X' is at least twice the number of cores to be used.
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param ts.df Optional. Data frame with frequency contour time series of signals to be compared. If provided "X" is ignored.

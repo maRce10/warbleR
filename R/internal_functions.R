@@ -2541,12 +2541,12 @@ lessdB <- lessdB_wrblr_int <- function(signal.noise, noise) {
 
 .dtwDist <- function(mx, my = mx, parallel = 1, pb = TRUE, ...) {
   
-  if (parallel == 1){
+  if (parallel == 1 | parallel >= nrow(mx)){
     dtw_dists <- dtw::dtwDist(mx, my, ...)
   } else {
       
     # Create intervals using cut
-    row_intervals <- cut(1:nrow(mx), breaks = 3, labels = FALSE)
+    row_intervals <- cut(1:nrow(mx), breaks = parallel, labels = FALSE)
     
     dtw_dist_list <- pblapply_wrblr_int(pbar = pb, X = unique(row_intervals), cl = parallel, FUN = function(j, ...) {
       
