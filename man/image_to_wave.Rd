@@ -4,8 +4,14 @@
 \alias{image_to_wave}
 \title{Convert images into wave objects}
 \usage{
-image_to_wave(file, duration = 1, samp.rate = 44.1,
-bit.depth = 16, flim = c(0, samp.rate / 2), plot = TRUE)
+image_to_wave(
+  file,
+  duration = 1,
+  samp.rate = 44.1,
+  bit.depth = 16,
+  flim = c(0, samp.rate/2),
+  plot = TRUE
+)
 }
 \arguments{
 \item{file}{Character with the name of image file to be converted. File must be in 'png' format.}

@@ -1,7 +1,6 @@
 #' Sort columns in a more intuitive order
 #'
 #' \code{sort_colms} sorts selection table columns in a more intuitive order.
-#' @usage sort_colms(X)
 #' @param X Data frame containing columns for sound file (sound.files), selection
 #' (selec), start and end time of signals ('start' and 'end') and low and high
 #' frequency ('bottom.freq' and 'top.freq', optional). See the example data 'lbh_selec_table'.
@@ -13,18 +12,18 @@
 #' @name sort_colms
 #' @examples
 #' library(warbleR)
-#' data("selec.table")
+#' data("lbh_selec_table")
 #'
 #' # mess column order
-#' selec.table <- selec.table[, sample(seq_len(ncol(selec.table)))]
+#' lbh_selec_table <- lbh_selec_table[, sample(seq_len(ncol(lbh_selec_table)))]
 #'
 #' # check names
-#' names(selec.table)
+#' names(lbh_selec_table)
 #'
-#' selec.table <- sort_colms(X = selec.table)
+#' lbh_selec_table <- sort_colms(X = lbh_selec_table)
 #'
 #' # check names again
-#' names(selec.table)
+#' names(lbh_selec_table)
 #'
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on mar-10-2018

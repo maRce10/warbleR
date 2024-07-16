@@ -1,6 +1,6 @@
 test_that("basic", {
 
-  if (Sys.info()[1] != "Windows"){
+  if (Sys.info()[1] != "Windows"){   # to avoid weird unit testing error on windows 
 
   # create folder to move image files
   dir.create(file.path(tempdir(), "mp3"))
@@ -15,5 +15,5 @@ test_that("basic", {
 
   } else fls <- 1
 
-  expect_true(TRUE)  # to avoid weird unit testing error on windows 
+  expect_length(fls, 1)
 })

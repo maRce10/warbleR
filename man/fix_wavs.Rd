@@ -4,8 +4,14 @@
 \alias{fix_wavs}
 \title{Fix .wav files to allow importing them into R}
 \usage{
-fix_wavs(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL,
- path = NULL, mono = FALSE)
+fix_wavs(
+  checksels = NULL,
+  files = NULL,
+  samp.rate = NULL,
+  bit.depth = NULL,
+  path = NULL,
+  mono = FALSE
+)
 }
 \arguments{
 \item{checksels}{Data frame with results from \code{\link{check_sels}}. Default is \code{NULL}. If  both 'checksels' and 'files' are \code{NULL}
@@ -33,7 +39,7 @@ sound files in a format that can be imported in R.
 \code{fix_wavs} fixes sound files in .wav format so they can be imported into R.
 }
 \details{
-This function aims to simplify the process of converting sound files that cannot be imported into R and/or homogenizing sound files. Problematic files can be determined using \code{\link{check_wavs}} or \code{\link{check_sels}}. The
+This function aims to simplify the process of converting sound files that cannot be imported into R and/or homogenizing sound files. Problematic files can be determined using \code{\link{check_sound_files}} or \code{\link{check_sels}}. The
 \code{\link{check_sels}} output can be directly input using the argument 'checksels'. Alternatively a vector of file
 names to be "fixed" can be provided (argument 'files'). If neither of those 2 are provided the function will convert
 all .wav sound files in the working directory to the specified sample rate/bit depth. Files are saved in a new directory

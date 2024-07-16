@@ -1,13 +1,6 @@
 #' Highlight spectrogram regions
 #'
 #' \code{color_spectro} highlights spectrogram regions specified by users
-#' @usage color_spectro(wave, wl = 512, wn = "hanning", ovlp = 70,
-#' dB = "max0", collevels = NULL, selec.col = "red2", col.clm = NULL,
-#' base.col = "black", bg.col = "white", strength = 1,
-#' cexlab = 1, cexaxis = 1, tlab = "Time (s)", flab = "Frequency (kHz)",
-#' title = NULL, axisX = TRUE, axisY = TRUE, flim = NULL,
-#' rm.zero = FALSE, X = NULL, fast.spec = FALSE, t.mar = NULL,
-#' f.mar = NULL, interactive = NULL, add = FALSE)
 #' @param wave A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram. Default
 #'   is 512.
@@ -327,12 +320,3 @@ color_spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
     }
   }
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{color_spectro}}
-#'
-#' @keywords internal
-#' @details see \code{\link{color_spectro}} for documentation. \code{\link{color.spectro}} will be deprecated in future versions.
-#' @export
-
-color.spectro <- color_spectro

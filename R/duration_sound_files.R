@@ -1,8 +1,6 @@
 #' Measure the duration of sound files
 #'
 #' \code{duration_sound_files} measures the duration of sound files
-#' @usage duration_sound_files(files = NULL, path = NULL, skip.error = FALSE,
-#' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 #' @param files Character vector with the names of the sound files to be measured. The sound files should be in the working directory or in the directory provided in 'path'.
 #' @param path Character string containing the directory path where the sound files are located.
 #' @param file.format Character string with the format of sound files. By default all sound file formats supported by warbleR are included ("\\.wav$|\\.wac$|\\.mp3$|\\.flac$"). Note that several formats can be included using regular expression syntax as in \code{\link[base]{grep}}. For instance \code{"\\.wav$|\\.mp3$"} will only include .wav and .mp3 files.
@@ -93,33 +91,3 @@ duration_sound_files <- function(files = NULL, path = NULL, skip.error = FALSE, 
 
   return(data.frame(sound.files = files, duration = durs, row.names = NULL))
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{duration_sound_files}}
-#'
-#' @keywords internal
-#' @details see \code{\link{duration_sound_files}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
-#' @export
-
-wavdur <- duration_sound_files
-
-
-##############################################################################################################
-#' alternative name for \code{\link{duration_sound_files}}
-#'
-#' @keywords internal
-#' @details see \code{\link{duration_sound_files}} for documentation. \code{\link{wavdur}} will be deprecated in future versions.
-#' @export
-
-wav_dur <- duration_sound_files
-
-
-##############################################################################################################
-#' alternative name for \code{\link{duration_sound_files}}
-#'
-#' @keywords internal
-#' @details see \code{\link{duration_sound_files}} for documentation. \code{\link{duration_wavs}} will be deprecated in future versions.
-#' @export
-
-duration_wavs <- duration_sound_files

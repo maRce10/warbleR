@@ -4,21 +4,58 @@
 \alias{track_freq_contour}
 \title{Spectrograms with frequency measurements}
 \usage{
-track_freq_contour(X, wl = 512, wl.freq = 512, flim = NULL, wn = "hanning", pal =
-  reverse.gray.colors.2, ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar =
-  c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1, title = TRUE, propwidth = FALSE,
-  xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, bp = NULL, cex = c(0.6, 1),
-  threshold = 15, threshold.time = NULL, threshold.freq = NULL, contour = "both",
-  col = c("#E37222B3", "#07889BB3"), pch = c(21, 24),  mar = 0.05, lpos = "topright",
-  it = "jpeg", parallel = 1, path = NULL, img.suffix = NULL, custom.contour = NULL,
-  pb = TRUE, type = "p", leglab = c("Ffreq", "Dfreq"), col.alpha = 0.6, line = TRUE,
-   fast.spec = FALSE, ff.method = "seewave", frange.detec = FALSE, fsmooth = 0.1,
-   widths = c(2, 1), freq.continuity = NULL, clip.edges = 2, track.harm = FALSE, ...)
+track_freq_contour(
+  X,
+  wl = 512,
+  wl.freq = 512,
+  flim = NULL,
+  wn = "hanning",
+  pal = reverse.gray.colors.2,
+  ovlp = 70,
+  inner.mar = c(5, 4, 4, 2),
+  outer.mar = c(0, 0, 0, 0),
+  picsize = 1,
+  res = 100,
+  cexlab = 1,
+  title = TRUE,
+  propwidth = FALSE,
+  xl = 1,
+  osci = FALSE,
+  gr = FALSE,
+  sc = FALSE,
+  bp = NULL,
+  cex = c(0.6, 1),
+  threshold.time = NULL,
+  threshold.freq = NULL,
+  contour = "both",
+  col = c("#E37222B3", "#07889BB3"),
+  pch = c(21, 24),
+  mar = 0.05,
+  lpos = "topright",
+  it = "jpeg",
+  parallel = 1,
+  path = NULL,
+  img.suffix = NULL,
+  custom.contour = NULL,
+  pb = TRUE,
+  type = "p",
+  leglab = c("Ffreq", "Dfreq"),
+  col.alpha = 0.6,
+  line = TRUE,
+  fast.spec = FALSE,
+  ff.method = "seewave",
+  frange.detec = FALSE,
+  fsmooth = 0.1,
+  widths = c(2, 1),
+  freq.continuity = NULL,
+  clip.edges = 2,
+  track.harm = FALSE,
+  ...
+)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files),
-selection number (selec), and start and end time of signal (start and end).
-The output \code{\link{auto_detec}} can also be used as the input data frame.}
+selection number (selec), and start and end time of signal (start and end).}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512.}
@@ -81,8 +118,6 @@ and top.freq columns will be used as bandpass limits. Default is \code{NULL}.}
 \item{cex}{Numeric vector of length 2, specifies relative size of points
 plotted for frequency measurements and legend font/points, respectively.
 See \code{\link[seewave]{spectro}}.}
-
-\item{threshold}{amplitude threshold (\%) for fundamental and dominant frequency detection as well as frequency range from the spectrum (see 'frange.detec'). Default is 15. WILL BE DEPRECATED. Use 'threshold.time' and 'threshold.time' instead.}
 
 \item{threshold.time}{amplitude threshold (\%) for the time domain. Use for fundamental and dominant frequency detection. If \code{NULL} (default) then the 'threshold' value is used.}
 
@@ -185,45 +220,23 @@ This function provides visualization of frequency measurements as the ones
 }
 \examples{
 {
-  # load data
-  data("Cryp.soui")
-  writeWave(Cryp.soui, file.path(tempdir(), "Cryp.soui.wav")) # save sound files
-
-  # autodetec location of signals
-  ad <- auto_detec(
-    threshold = 6, bp = c(1, 3), mindur = 1.2, flim = c(0, 5),
-    maxdur = 3, img = FALSE, ssmooth = 600, wl = 300, flist = "Cryp.soui.wav",
-    path = tempdir()
-  )
-
-  # track dominant frequency graphs with freq range detection
-  track_freq_contour(
-    X = ad[!is.na(ad$start), ], flim = c(0, 5), ovlp = 90,
-    it = "tiff", bp = c(1, 3), contour = "df", wl = 300, frange = TRUE,
-    path = tempdir()
-  )
-
-  # using users frequency data (custom.contour argument)
-  # first get contours using freq_ts
-  df <- freq_ts(
-    X = ad[!is.na(ad$start), ], flim = c(0, 5), ovlp = 90, img = FALSE,
-    bp = c(1, 3), wl = 300, path = tempdir()
-  )
-
-  # now input the freq_ts output into track_freq_contour
-  track_freq_contour(
-    X = ad[!is.na(ad$start), ], custom.contour = df, flim = c(0, 5), ovlp = 90,
-    it = "tiff", path = tempdir()
-  )
-
-  # Check this folder
-  tempdir()
-
-  # track both frequencies
-  track_freq_contour(
-    X = ad[!is.na(ad$start), ], flim = c(0, 5), ovlp = 90,
-    it = "tiff", bp = c(1, 3), contour = "both", wl = 300, path = tempdir()
-  )
+ # load data
+ data(list = c("lbh_selec_table","Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4"))
+ writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+ writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+ writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+ # track dominant frequency graphs with freq range detection
+ track_freq_contour(
+   X = lbh_selec_table,
+   flim = c(1, 12),
+   ovlp = 90,
+   it = "jpeg",
+   contour = "df",
+   type = "l",
+   frange.detec = FALSE,
+   path = tempdir()
+   )
 }
 
 }

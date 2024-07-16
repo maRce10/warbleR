@@ -1,8 +1,6 @@
 #' Resample wave objects in a extended selection table
 #'
 #' \code{resample_est} changes sampling rate and bit depth of wave objects in a extended selection table.
-#' @usage resample_est(X, samp.rate = 44.1, bit.depth = 16,
-#'  avoid.clip = TRUE, pb = FALSE, parallel = 1)
 #' @param X object of class 'extended_selection_table' (see \code{\link{selection_table}}).
 #' @param samp.rate Numeric vector of length 1 with the sampling rate (in kHz) for output files. Default is \code{NULL}.
 #' @param bit.depth Numeric vector of length 1 with the dynamic interval (i.e. bit depth) for output files.
@@ -76,7 +74,13 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
   }
-
+  
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("resampling wave objects", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
 
   # set clusters for windows OS and no soz
   if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -152,12 +156,3 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
 
   return(X)
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{resample_est}}
-#'
-#' @keywords internal
-#' @details see \code{\link{resample_est}} for documentation. \code{\link{resample_est_waves}} will be deprecated in future versions.
-#' @export
-
-resample_est_waves <- resample_est

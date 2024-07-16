@@ -6,7 +6,7 @@ test_that("basic", {
   unlink(fls)
   
     # load data
-    data(list = c("Phae.long4", "Phae.long2", "lbh_selec_table2", "comp_matrix"))
+    data(list = c("Phae.long4", "Phae.long2", "lbh_selec_table", "comp_matrix"))
 
     # save sound files
     writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))

@@ -4,8 +4,15 @@
 \alias{read_sound_file}
 \title{An extended version of read_wave that reads several sound file formats and files from selection tables}
 \usage{
-read_sound_file(X, index, from = X$start[index], to = X$end[index],
-channel = X$channel[index], header = FALSE, path = NULL)
+read_sound_file(
+  X,
+  index = NULL,
+  from = X$start[index],
+  to = X$end[index],
+  channel = X$channel[index],
+  header = FALSE,
+  path = NULL
+)
 }
 \arguments{
 \item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files),

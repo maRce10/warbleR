@@ -4,8 +4,14 @@
 \alias{resample_est}
 \title{Resample wave objects in a extended selection table}
 \usage{
-resample_est(X, samp.rate = 44.1, bit.depth = 16,
- avoid.clip = TRUE, pb = FALSE, parallel = 1)
+resample_est(
+  X,
+  samp.rate = 44.1,
+  bit.depth = 16,
+  avoid.clip = TRUE,
+  pb = FALSE,
+  parallel = 1
+)
 }
 \arguments{
 \item{X}{object of class 'extended_selection_table' (see \code{\link{selection_table}}).}

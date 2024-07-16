@@ -1,8 +1,6 @@
 #' A wrapper on \code{\link[dtw]{dtwDist}} for comparing multivariate contours
 #'
 #' \code{multi_DTW} is a wrapper on \code{\link[dtw]{dtwDist}} that simplify applying dynamic time warping on multivariate contours.
-#' @usage multi_DTW(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1,
-#' window.type = "none", open.end = FALSE, scale = FALSE, dist.mat = TRUE, ...)
 #' @param ts.df1 Optional. Data frame with frequency contour time series of signals to be compared.
 #' @param ts.df2 Optional. Data frame with frequency contour time series of signals to be compared.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -129,8 +127,12 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE, parallel = 1, win
   ts.df1$sf.sels <- paste(ts.df1$sound.files, ts.df1$selec, sep = "-")
   combs <- t(utils::combn(ts.df1$sf.sels, 2))
 
-
-
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("computing multidimensional DTW", total = 1)
+    
+    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -143,56 +145,6 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE, parallel = 1, win
   out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(combs), cl = cl, FUN = function(i) {
     multi.dtw.FUN(ts.df1, ts.df2, combs, i, ...)
   })
-
-  # Run parallel in windows
-  # if(parallel > 1) {
-  #   if(Sys.info()[1] == "Windows") {
-  #
-  #     i <- NULL #only to avoid non-declared objects
-  #
-  #     cl <- parallel::makeCluster(parallel)
-  #
-  #     doParallel::registerDoParallel(cl)
-  #
-  #     out <- foreach::foreach(i = 1:nrow(combs)) %dopar% {
-  #       multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...)
-  #
-  #     }
-  #
-  #     parallel::stopCluster(cl)
-  #
-  #   }
-  #   if(Sys.info()[1] == "Linux") {    # Run parallel in Linux
-  #     if(pb)
-  #       out <- pbmcapply::pbmclapply(1:nrow(combs), mc.cores = parallel, function (i) {
-  #         multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...)
-  #       }) else
-  #         out <- parallel::mclapply(1:nrow(combs), mc.cores = parallel, function (i) {
-  #           multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...)
-  #         })
-  #   }
-  #   if(!any(Sys.info()[1] == c("Linux", "Windows"))) # parallel in OSts.df1
-  #   {
-  #     cl <- parallel::makeForkCluster(getOption("cl.cores", parallel))
-  #
-  #     doParallel::registerDoParallel(cl)
-  #
-  #     out <- foreach::foreach(i = 1:nrow(combs)) %dopar% {
-  #       multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...)
-  #       }
-  #
-  #     parallel::stopCluster(cl)
-  #
-  #   }
-  # }
-  # else {
-  #   if(pb)
-  #     out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(combs), FUN = function(i)
-  #       multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...)
-  #     ) else
-  #       out <- lapply(1:nrow(combs), function(i) multi.dtw.FUN(ts.df1, ts.df2, combs, i,  ...))
-  #
-  # }
 
 
   dist.df <- data.frame(sound.file.selec.1 = combs[, 1], sound.file.selec.2 = combs[, 2], dtw.dist = unlist(out))

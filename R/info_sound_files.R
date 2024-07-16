@@ -1,8 +1,6 @@
 #' Get sound file parameter information
 #'
 #' \code{info_sound_files} summariz sound file information
-#' @usage info_sound_files(path = NULL, files = NULL, parallel = 1, pb = TRUE, skip.error = FALSE,
-#' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param files character vector indicating the set of files that will be consolidated. File names should not include the full file path. Optional.
@@ -88,22 +86,3 @@ info_sound_files <- function(path = NULL, files = NULL, parallel = 1, pb = TRUE,
   # return cs data frame
   return(cs)
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{info_sound_files}}
-#'
-#' @keywords internal
-#' @details see \code{\link{info_sound_files}} for documentation. \code{\link{wav_info}} will be deprecated in future versions.
-#' @export
-
-wav_info <- info_sound_files
-
-
-##############################################################################################################
-#' alternative name for \code{\link{info_sound_files}}
-#'
-#' @keywords internal
-#' @details see \code{\link{info_sound_files}} for documentation. \code{\link{info_wavs}} will be deprecated in future versions.
-#' @export
-
-info_wavs <- info_sound_files

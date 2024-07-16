@@ -1,8 +1,6 @@
 #' Remove silence in wave files
 #'
 #' \code{remove_silence} Removes silences in wave files
-#' @usage remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL,
-#' files = NULL, flist = NULL, parallel = 1, pb = TRUE, downsample = TRUE)
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param min.sil.dur Numeric. Controls the minimum duration of silence segments that would be removed.
@@ -14,7 +12,6 @@
 #'   \code{\link[seewave]{spectro}}. Default is \code{NULL}. Ignored if `img = FALSE`.
 #' @param files character vector or factor indicating the subset of files that will be analyzed. If not provided
 #' then all wave files in the working directory (or path) will be processed.
-#' @param flist DEPRECATED. Please use 'files' instead.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar and messages. Default is \code{TRUE}.
@@ -25,7 +22,7 @@
 #' @export
 #' @name remove_silence
 #' @details The function removes silence segments (i.e. segments with very low amplitude values) from wave files.
-#' @seealso \code{\link{fix_wavs}}, \code{\link{auto_detec}}
+#' @seealso \code{\link{fix_wavs}}, \code{\link{info_sound_files}}
 #' @examples{
 #' # save sound file examples
 #' data(list = c("Phae.long1", "Phae.long2","lbh_selec_table"))
@@ -62,14 +59,9 @@ remove_silence <-
            it = "jpeg",
            flim = NULL,
            files = NULL,
-           flist = NULL,
            parallel = 1,
            pb = TRUE,
            downsample = TRUE) {
-    # flist deprecated
-    if (!is.null(flist)) {
-      warning2(x = "'flist' has been deprecated and will be ignored. Please use 'files' instead.")
-    }
 
     #### set arguments from options
     # get function arguments
@@ -184,7 +176,7 @@ remove_silence <-
         writeWave(wv1, temp_file_name)
 
         ad <-
-          auto_detec(
+          .auto_detec(
             threshold = 0.06,
             mindur = 0.0001,
             ssmooth = if (length(wv1) < 1500) {
@@ -308,9 +300,14 @@ remove_silence <-
     if (pb) {
       message2("searching for silence segments in wave files:")
     }
-
-
-
+    
+    ## update progress message
+    if (pb) {
+      reset_onexit <- .update_progress("removing silence", total = 1)
+      
+        on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+    }
+    
 
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -337,12 +334,3 @@ remove_silence <-
         }
       )
   }
-
-##############################################################################################################
-#' alternative name for \code{\link{remove_silence}}
-#'
-#' @keywords internal
-#' @details see \code{\link{remove_silence}} for documentation. \code{\link{rm_sil}} will be deprecated in future versions.
-#' @export
-
-rm_sil <- remove_silence

@@ -2,12 +2,12 @@
 % Please edit documentation in R/deprec_funs.R
 \name{ffDTW}
 \alias{ffDTW}
-\title{deprecated functions and function names}
+\title{Deprecated functions and function names}
 \usage{
 ffDTW(...)
 }
 \description{
-deprecated functions and function names
+Deprecated functions and function names
 }
 \details{
 functions that have been deprecated or moved to other packages.

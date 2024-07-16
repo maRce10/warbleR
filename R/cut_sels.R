@@ -2,9 +2,6 @@
 #'
 #' \code{cut_sels} cuts selections from a selection table into individual sound files.
 #' @export cut_sels
-#' @usage cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
-#' labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE,
-#' keep.stereo = FALSE, ...)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files),
 #' selection number (selec), and start and end time of signals (start and end).
 #' @param mar Numeric vector of length 1. Specifies the margins adjacent to the start and end points of selections,
@@ -26,7 +23,7 @@
 #' @param ... Additional arguments to be passed to the internal \code{\link[tuneR]{normalize}} function for customizing sound file output. Ignored if  \code{norm = FALSE}.
 #' @return Sound files of the signals listed in the input data frame.
 #' @family selection manipulation
-#' @seealso \code{\link{seltailor}} for tailoring selections
+#' @seealso \code{\link{tailor_sels}} for tailoring selections
 #' @name cut_sels
 #' @details This function allow users to produce individual sound files from the selections
 #' listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth. The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
@@ -196,6 +193,13 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     suppressWarnings(tuneR::writeWave(extensible = FALSE, object = wvcut, filename = file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav"))))
   }
 
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("cutting selections", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -211,13 +215,3 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
 
   return(NULL)
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{cut_sels}}
-#'
-#' @keywords internal
-#' @details see \code{\link{cut_sels}} for documentation. \code{\link{cut_sels}} will be deprecated in future versions.
-#' @export
-
-cut_sels <- cut_sels

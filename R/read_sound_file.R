@@ -1,8 +1,6 @@
 #' An extended version of read_wave that reads several sound file formats and files from selection tables
 #'
 #' \code{read_sound_file} reads several sound file formats as well as files referenced in selection tables
-#' @usage read_sound_file(X, index, from = X$start[index], to = X$end[index],
-#' channel = X$channel[index], header = FALSE, path = NULL)
 #' @param X 'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files),
 #' selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a sound file or URL address to sound file can be provided. The function can read sound files in 'wav', 'mp3', 'flac' and 'wac' format. The file name can contain the directory path.
 #' 'top.freq' and 'bottom.freq' columns are optional. Default is \code{NULL}.
@@ -99,9 +97,9 @@ read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[i
       filename <- file.path(path, X)
     }
 
-    if (is.na(warbleR::try_na(from))) from <- 0
-    if (is.na(warbleR::try_na(to))) to <- Inf
-    if (is.na(warbleR::try_na(channel))) channel <- 1
+    if (is.na(.try_na(from))) from <- 0
+    if (is.na(.try_na(to))) to <- Inf
+    if (is.na(.try_na(channel))) channel <- 1
 
     object <- read_soundfile_wrblr_int(filename, header, from, to, extension = extsn, channel = channel)
 

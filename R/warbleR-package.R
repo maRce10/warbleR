@@ -31,7 +31,7 @@
 #'
 #'   \code{\link{query_xc}}: Download recordings and/or metadata from 'Xeno-Canto'
 #'
-#'   \code{\link{sim_songs}}: Simulate animal vocalizations
+#'   \code{\link{simulate_songs}}: Simulate animal vocalizations
 #'
 #'
 #' @section Managing sound files:
@@ -47,16 +47,16 @@
 #'
 #'   \code{\link{check_sels}}: Check whether selections can be read by subsequent functions
 #'
-#'   \code{\link{check_wavs}}: Check whether .wav files can be read by subsequent
+#'   \code{\link{check_sound_files}}: Check whether .wav files can be read by subsequent
 #'   functions and the minimum windows length ("wl" argument) that can be used
 #'
 #'   \code{\link{fix_wavs}}: Fix .wav files so they can be read by other functions
 #'
-#'   \code{\link{split_wavs}}: Split .wav fies in several sound files
+#'   \code{\link{split_sound_files}}: Split sound fies in several sound files
 #'
-#'   \code{\link{resample_est_waves}}: Resample wave objects in extended selection tables
+#'   \code{\link{resample_est}}: Resample wave objects in extended selection tables
 #'
-#'   \code{\link{duration_wavs}}: Determine the duration of sound files
+#'   \code{\link{duration_sound_files}}: Determine the duration of sound files
 #'
 #'   \code{\link{cut_sels}}: Cut selections from a selection table into individual sound files
 #'
@@ -71,9 +71,6 @@
 #'   \code{\link{fix_extended_selection_table}}: Fix attributes of extended selection tables
 #'
 #' @section Exploring/analyzing signal structure:
-#'
-#'   \code{\link{auto_detec}}: Automatically detect start and
-#'   end of acoustic signals
 #'
 #'   \code{\link{tailor_sels}}: Interactive view of spectrograms to tailor start and end of selections
 #'
@@ -100,8 +97,6 @@
 #'   \code{\link{gaps}}: Measures gap duration
 #'
 #'   \code{\link{freq_ts}}: Extract frequency contours the signal as a time series
-#'
-#'   \code{\link{find_peaks}}: Find peaks in cross-correlation scores from \code{\link{cross_correlation}}
 #'
 #'   \code{\link{freq_DTW}}: Calculate acoustic dissimilarity using dynamic time warping
 #'    on frequency contours
@@ -133,7 +128,7 @@
 #'   \code{\link{full_spectrograms}}: Produce spectrograms of whole recordings split into
 #'   multiple rows
 #'
-#'   \code{\link{full_spectrogram2pdf}}: Combine lspec images to single pdf files
+#'   \code{\link{full_spectrogram2pdf}}: Combine \code{\link{full_spectrograms}} images to single pdf files
 #'
 #'   \code{\link{spectrograms}}: Create spectrograms of selections
 #'

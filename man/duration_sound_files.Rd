@@ -4,8 +4,12 @@
 \alias{duration_sound_files}
 \title{Measure the duration of sound files}
 \usage{
-duration_sound_files(files = NULL, path = NULL, skip.error = FALSE,
-file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
+duration_sound_files(
+  files = NULL,
+  path = NULL,
+  skip.error = FALSE,
+  file.format = "\\\\.wav$|\\\\.wac$|\\\\.mp3$|\\\\.flac$"
+)
 }
 \arguments{
 \item{files}{Character vector with the names of the sound files to be measured. The sound files should be in the working directory or in the directory provided in 'path'.}

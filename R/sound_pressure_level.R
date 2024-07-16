@@ -1,8 +1,6 @@
 #' Measure relative sound pressure level
 #'
 #' \code{sound_pressure_level} measures relative (uncalibrated) sound pressure level in signals referenced in a selection table.
-#' @usage sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE,
-#' type = "single", wl = 100, bp = NULL, remove.bgn = FALSE, mar = NULL, envelope = "abs")
 #' @param X object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end).
@@ -194,6 +192,12 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
     return(signaldb)
   }
 
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("computing sound pressure level")
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

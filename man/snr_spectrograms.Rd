@@ -4,11 +4,32 @@
 \alias{snr_spectrograms}
 \title{Spectrograms with background noise margins}
 \usage{
-snr_spectrograms(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70,
-inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1,
-res = 100, cexlab = 1, title = TRUE, before = FALSE, eq.dur = FALSE,
-  propwidth= FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
-   snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
+snr_spectrograms(
+  X,
+  wl = 512,
+  flim = NULL,
+  wn = "hanning",
+  ovlp = 70,
+  inner.mar = c(5, 4, 4, 2),
+  outer.mar = c(0, 0, 0, 0),
+  picsize = 1,
+  res = 100,
+  cexlab = 1,
+  title = TRUE,
+  before = FALSE,
+  eq.dur = FALSE,
+  propwidth = FALSE,
+  xl = 1,
+  osci = FALSE,
+  gr = FALSE,
+  sc = FALSE,
+  mar = 0.2,
+  snrmar = 0.1,
+  it = "jpeg",
+  parallel = 1,
+  path = NULL,
+  pb = TRUE
+)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or any data frame with columns

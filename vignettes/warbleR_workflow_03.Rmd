@@ -418,20 +418,20 @@ In addition to calculating acoustic parameters per individual signals using `spe
 
 ```{r, eval=FALSE, echo=TRUE}
 
-data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "selec.table"))
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 writeWave(Phae.long1, "Phae.long1.wav")
 writeWave(Phae.long2, "Phae.long2.wav")
 writeWave(Phae.long3, "Phae.long3.wav")
 writeWave(Phae.long4, "Phae.long4.wav")
 
 # Add a 'song' column
-selec.table$song <- rep(1:4, each = 3)[1:11]
+lbh_selec_table$song <- rep(1:4, each = 3)[1:11]
 
 # Measure acoustic parameters
-sp <- spectro_analysis(selec.table, bp = c(1, 11), 300, fast = TRUE)
+sp <- spectro_analysis(lbh_selec_table, bp = c(1, 11), 300, fast = TRUE)
 
 # Add song data
-sp <- merge(sp, selec.table, by = c("sound.files", "selec"))
+sp <- merge(sp, lbh_selec_table, by = c("sound.files", "selec"))
 
 # Caculate song-level parameters for all numeric parameters
 sng <- song_analysis(X = sp, song_colm = "song", parallel = 1, pb = TRUE)

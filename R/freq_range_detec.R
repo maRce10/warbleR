@@ -1,10 +1,6 @@
 #' Detect frequency range on wave objects
 #'
 #' \code{freq_range_detec} detects the frequency range of acoustic signals on wave objects.
-#' @usage freq_range_detec(wave, wl = 512, fsmooth = 0.1, threshold = 10,
-#' dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL,
-#' fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2,
-#'  widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
 #' @param wave A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default
 #'   is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}})
@@ -53,7 +49,7 @@
 #'   }
 #'   If \code{plot = TRUE} a graph including a spectrogram and a frequency spectrum is
 #'   produced in the graphic device. The graph would include gray areas in the frequency ranges excluded by the bandpass ('bp' argument), dotted lines highlighting the detected range.
-#' @seealso \code{\link{frange}}, \code{\link{autodetec}}
+#' @seealso \code{\link{freq_range}}, \code{\link{freq_ts}}
 #' @examples
 #' {
 #'   data(tico)
@@ -115,13 +111,3 @@ freq_range_detec <- function(wave, wl = 512, fsmooth = 0.1, threshold = 10, dB.t
     return(frng$frange)
   }
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{freq_range_detec}}
-#'
-#' @keywords internal
-#' @details see \code{\link{freq_range_detec}} for documentation. \code{\link{frange.detec}} will be deprecated in future versions.
-#' @export
-
-frange.detec <- freq_range_detec

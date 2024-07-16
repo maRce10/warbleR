@@ -4,17 +4,35 @@
 \alias{compare_methods}
 \title{Assessing the performance of acoustic distance measurements}
 \usage{
-compare_methods(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 512, ovlp = 90,
-res = 150, n = 10, length.out = 30,
-methods = NULL,
-it = "jpeg", parallel = 1, path = NULL, sp = NULL, custom1 = NULL,
-custom2 = NULL, pb = TRUE, grid = TRUE,  clip.edges = TRUE,
-threshold = 15, na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2,
-img = TRUE, ...)
+compare_methods(
+  X = NULL,
+  flim = NULL,
+  bp = NULL,
+  mar = 0.1,
+  wl = 512,
+  ovlp = 90,
+  res = 150,
+  n = 10,
+  length.out = 30,
+  methods = NULL,
+  it = "jpeg",
+  parallel = 1,
+  path = NULL,
+  custom1 = NULL,
+  custom2 = NULL,
+  pb = TRUE,
+  grid = TRUE,
+  clip.edges = TRUE,
+  threshold = 15,
+  na.rm = FALSE,
+  scale = FALSE,
+  pal = reverse.gray.colors.2,
+  img = TRUE,
+  ...
+)
 }
 \arguments{
-\item{X}{'selection_table' object or data frame with results from \code{\link{auto_detec}}
-function, or any data frame with columns for sound file name (sound.files),
+\item{X}{'selection_table' object or data frame with columns for sound file name (sound.files),
 selection number (selec), and start and end time of signal (start and end).
 Default \code{NULL}.}
 
@@ -61,8 +79,6 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 
 \item{path}{Character string containing the directory path where the sound files are located.
 If \code{NULL} (default) then the current working directory is used.}
-
-\item{sp}{DEPRECATED.}
 
 \item{custom1}{Data frame containing user parameters. The data frame must have 4 columns: the first 2 columns are 'sound.files'
 and "selec' columns as in 'X', the other 2 (columns 3 and 4) are

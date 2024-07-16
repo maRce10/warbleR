@@ -1,16 +1,6 @@
 #' Create catalogs of vocal signals
 #' 
 #' \code{catalog} produces spectrograms of selections (signals) split into multiple rows and columns.
-#' @usage catalog(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
-#' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, mar = 0.05, prop.mar = NULL, 
-#' lab.mar = 1, wl = 512, wn = "hanning", gr = FALSE, pal = reverse.gray.colors.2, 
-#' it = "jpeg", path = NULL, pb = TRUE, fast.spec = FALSE, res = 100, 
-#' orientation = "v", labels = c("sound.files", "selec"), height = NULL, 
-#' width = NULL, tags = NULL, tag.pal = list(temp.colors, heat.colors, topo.colors),
-#' legend = 3, cex = 1, leg.wd = 1, img.suffix = NULL, img.prefix = NULL, 
-#' tag.widths = c(1, 1), hatching = 0, breaks = c(5, 5), group.tag = NULL, 
-#' spec.mar = 0, spec.bg = "white", max.group.cols = NULL, sub.legend = FALSE, 
-#' rm.axes = FALSE, title = NULL, by.row = TRUE, box = TRUE, highlight = FALSE, alpha = 0.5)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest 
@@ -1018,7 +1008,16 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
             X[((((ncol * nrow) * (x - 1)) + 1):nrow(X)), ]
       })
   
-  #Apply over each sound file
+  
+  
+  # Apply over each sound file
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("creating catalog images", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel

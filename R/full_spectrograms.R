@@ -2,16 +2,10 @@
 #'
 #' \code{full_spectrograms} produces image files with spectrograms of entire sound files split into multiple
 #'   rows.
-#' @usage full_spectrograms(X = NULL, flim = NULL, sxrow = 5, rows = 10,
-#' collevels = seq(-40, 0, 1), ovlp = 50, parallel = 1, wl = 512, gr = FALSE,
-#' pal = reverse.gray.colors.2, cex = 1, it = "jpeg", flist = NULL,
-#' overwrite = TRUE, path = NULL, pb = TRUE, fast.spec = FALSE, labels = "selec",
-#'  horizontal = FALSE, song = NULL, suffix = NULL, dest.path = NULL,
-#'  only.annotated = FALSE, ...)
 #' @param X 'selection_table' object or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end). If given, a transparent box is  plotted around each selection and the selections are labeled with the selection number
-#' (and selection comment, if available). Default is \code{NULL}. Alternatively, it can also take the output of \code{\link{cross_correlation}} or \code{\link{auto_detec}} (when 'output' is a 'list', see \code{\link{cross_correlation}} or \code{\link{auto_detec}}). If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.
+#' (and selection comment, if available). Default is \code{NULL}. If supplied a secondary row is displayed under each spectrogram showing the detection (either cross-correlation scores or wave envelopes) values across time.
 #' @param flim A numeric vector of length 2 indicating the highest and lowest
 #'   frequency limits (kHz) of the spectrogram, as in
 #'   \code{\link[seewave]{spectro}}. Default is \code{NULL}. Alternatively, a character vector similar to \code{c("-1", "1")} in which the first number is the value to be added to the minimum bottom frequency in 'X' and the second the value to be added to the maximum top frequency in 'X'. This is computed independently for each sound file so the frequency limit better fits the frequency range of the annotated signals. This is useful when plotting annotated spectrograms with marked differences in the frequency range of annotations among sond files. Note that top frequency adjustment is ignored if 'song' labels are included (argument 'song').
@@ -72,7 +66,7 @@
 #'   supplied, the function delimits and labels the selections.
 #'   This function aims to facilitate visual inspection of multiple files as well as visual classification
 #'   of vocalization units and the analysis of animal vocal sequences.
-#' @seealso \code{\link{full_spectrogram2pdf}}, \code{\link{catalog2pdf}}, \code{\link{cross_correlation}}, \code{\link{auto_detec}}
+#' @seealso \code{\link{full_spectrogram2pdf}}, \code{\link{catalog2pdf}}, \code{\link{cross_correlation}}
 #' @examples
 #' \dontrun{
 #' # save sound file examples to temporary working directory
@@ -176,87 +170,87 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
   }
 
   # if X is not from xcorr.output
-  if (!is.null(X)) {
-    # if is a data frame or st/est
-    if (!is(X, "find_peaks.output") & !is(X, "autodetec.output")) {
-      # list only files in X
-      files <- files[files %in% X$sound.files]
-
-      # if X is not a data frame
-      if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
-
-      # if there are NAs in start or end stop
-      if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")
-
-      # check if all columns are found
-      if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) {
-        stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c(
-          "sound.files", "selec",
-          "start", "end"
-        ) %in% colnames(X))], collapse = ", "), "column(s) not found in data frame"))
-      }
-
-      # if end or start are not numeric stop
-      if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
-
-      # if any start higher than end stop
-      if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))
-    }
-
-    # if coming from find_peaks
-    if (is(X, "find_peaks.output")) {
-      # cut off for detection lines
-      cutoff <- X$cutoff
-
-      # get time contours
-      W <- X$scores
-
-      # remove whole.file from sound file name
-      W$sound.files <- gsub("-whole.file", "", W$sound.files)
-
-      # leave only sound file names
-      if (any(!grepl("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE, W$sound.files))) {
-        W$sound.files <- substr(x = W$sound.files, start = 0, stop = sapply(gregexpr(pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE, W$sound.files), "[[", 1) + 3)
-      }
-
-      # get selection table and overwrite X
-      X <- X$selection.table
-
-      # add label of type of detection
-      X$type <- "find_peaks"
-
-      # list only files in W
-      files <- files[files %in% W$sound.files]
-    }
-
-    # if coming from autodetec
-    if (is(X, "autodetec.output")) {
-      # cut off for detection lines
-      if (is.null(X$bottom.line.thresholds)) {
-        cutoff <- X$parameters$threshold
-      } else {
-        cutoff <- X$bottom.line.thresholds
-      }
-
-      # get time contours
-      W <- X$envelopes
-
-      # rename column with contours
-      names(W)[names(W) == "amplitude"] <- "scores"
-
-      # get selection table and overwrite X
-      X <- X$selection.table
-
-      # add label of type of detection
-      X$type <- "autodetec"
-
-      # list only files in W
-      files <- files[files %in% W$sound.files]
-    }
-
-    # stop if files are not in working directory
-    if (length(files) == 0) stop("sound files in X are not in working directory")
-  }
+  # if (!is.null(X)) {
+  #   # if is a data frame or st/est
+  #   # if (!is(X, "find_peaks.output") & !is(X, "autodetec.output")) {
+  #   #   # list only files in X
+  #   #   files <- files[files %in% X$sound.files]
+  #   # 
+  #   #   # if X is not a data frame
+  #   #   if (!any(is.data.frame(X), is_selection_table(X))) stop("X is not of a class 'data.frame' or 'selection_table'")
+  #   # 
+  #   #   # if there are NAs in start or end stop
+  #   #   if (any(is.na(c(X$end, X$start)))) stop("NAs found in start and/or end columns")
+  #   # 
+  #   #   # check if all columns are found
+  #   #   if (any(!(c("sound.files", "selec", "start", "end") %in% colnames(X)))) {
+  #   #     stop(paste(paste(c("sound.files", "selec", "start", "end")[!(c(
+  #   #       "sound.files", "selec",
+  #   #       "start", "end"
+  #   #     ) %in% colnames(X))], collapse = ", "), "column(s) not found in data frame"))
+  #   #   }
+  #   # 
+  #   #   # if end or start are not numeric stop
+  #   #   if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop("'start' and 'end' must be numeric")
+  #   # 
+  #   #   # if any start higher than end stop
+  #   #   if (any(X$end - X$start <= 0)) stop(paste("Start is higher than or equal to end in", length(which(X$end - X$start <= 0)), "case(s)"))
+  #   # }
+  # 
+  #   # if coming from find_peaks
+  #   # if (is(X, "find_peaks.output")) {
+  #   #   # cut off for detection lines
+  #   #   cutoff <- X$cutoff
+  #   # 
+  #   #   # get time contours
+  #   #   W <- X$scores
+  #   # 
+  #   #   # remove whole.file from sound file name
+  #   #   W$sound.files <- gsub("-whole.file", "", W$sound.files)
+  #   # 
+  #   #   # leave only sound file names
+  #   #   if (any(!grepl("\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE, W$sound.files))) {
+  #   #     W$sound.files <- substr(x = W$sound.files, start = 0, stop = sapply(gregexpr(pattern = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", ignore.case = TRUE, W$sound.files), "[[", 1) + 3)
+  #   #   }
+  #   # 
+  #   #   # get selection table and overwrite X
+  #   #   X <- X$selection.table
+  #   # 
+  #   #   # add label of type of detection
+  #   #   X$type <- "find_peaks"
+  #   # 
+  #   #   # list only files in W
+  #   #   files <- files[files %in% W$sound.files]
+  #   # }
+  # 
+  #   # if coming from autodetec
+  #   if (is(X, "autodetec.output")) {
+  #     # cut off for detection lines
+  #     if (is.null(X$bottom.line.thresholds)) {
+  #       cutoff <- X$parameters$threshold
+  #     } else {
+  #       cutoff <- X$bottom.line.thresholds
+  #     }
+  # 
+  #     # get time contours
+  #     W <- X$envelopes
+  # 
+  #     # rename column with contours
+  #     names(W)[names(W) == "amplitude"] <- "scores"
+  # 
+  #     # get selection table and overwrite X
+  #     X <- X$selection.table
+  # 
+  #     # add label of type of detection
+  #     X$type <- "autodetec"
+  # 
+  #     # list only files in W
+  #     files <- files[files %in% W$sound.files]
+  #   }
+  # 
+  #   # stop if files are not in working directory
+  #   if (length(files) == 0) stop("sound files in X are not in working directory")
+  # }
 
   # if flim is not vector or length!=2 stop
   if (!is.null(flim)) {
@@ -594,6 +588,13 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     })
   }
 
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("creating full spectrogram image files", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -606,14 +607,3 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     lspecFUN(z = i, fl = flim, sl = sxrow, li = rows, X = X, W = W)
   })
 }
-
-
-
-##############################################################################################################
-#' alternative name for \code{\link{full_spectrograms}}
-#'
-#' @keywords internal
-#' @details see \code{\link{full_spectrograms}} for documentation. \code{\link{lspec}} will be deprecated in future versions.
-#' @export
-
-lspec <- full_spectrograms

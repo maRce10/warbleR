@@ -1,12 +1,9 @@
 #' Measure wavelet packet decomposition features (EXPERIMENTAL)
 #'
 #' \code{wpd_features} Measure wavelet packet decomposition features.
-#' @usage wpd_features(X, normalize = TRUE, threshold1 = 6,
-#' threshold2 = 0.5, path = NULL, pb = TRUE, parallel = 1)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
-#' end time of selections. The output of \code{\link{auto_detec}} can
-#' also be used as the input data frame.
+#' end time of selections.
 #' @param normalize Logical to determine if features are normalized by signal duration.
 #' @param threshold1 Threshold (\%) for wavelet coefficient detection. Equivalent to denominator of equation 6 in Selin et al (2007). Must be a value between 0 and 1.
 #' @param threshold2 Threshold for width detection. Equivalent to threshold 2 (th2) in equation 7 in Selin et al (2007).
@@ -120,8 +117,12 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
     }
   }
 
-
-
+  # update progress info
+  if (pb) {
+    reset_onexit <- .update_progress("computing WPD features")
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {

@@ -1,9 +1,6 @@
 #' Find overlapping selections
 #'
 #' \code{overlapping_sels} finds which selections overlap in time within a given sound file.
-#' @usage overlapping_sels(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE,
-#' drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = NULL,
-#' indx.row = FALSE, parallel = 1, verbose = TRUE)
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections.
@@ -21,7 +18,6 @@
 #' priority order. Default is \code{NULL}.
 #' @param priority.col Character vector of length 1 with the name of the column use to determine the priority of
 #' overlapped selections. Default is \code{NULL}.
-#' @param unique.labs DEPRECATED.
 #' @param indx.row Logical. If \code{TRUE} then a character column with the indices of all selections that overlapped with
 #' each selection is added to the ouput data frame (if \code{index = TRUE}). For instance, if the selections in rows 1,2
 #' and 3 all overlapped with each other, the 'indx.row' value would be "1/2/3" for all. However, if selection 3 only overlaps
@@ -55,7 +51,7 @@
 #' }
 #' @details This function detects selections within a selection table that overlap in time. Selections must be
 #' listed in a data frame similar to \code{\link{lbh_selec_table}}. Note that row names are set to \code{1:nrow(X)}.
-#' @seealso  \code{\link{filtersels}}, \code{\link{lbh_selec_table}}
+#' @seealso  \code{\link{filter_sels}}, \code{\link{lbh_selec_table}}
 #'
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
@@ -63,8 +59,18 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on mar-13-2018 (MAS)
 
-overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE, drop = FALSE,
-                             priority = NULL, priority.col = NULL, unique.labs = NULL, indx.row = FALSE, parallel = 1, verbose = TRUE) {
+overlapping_sels <- function(X,
+                             index = FALSE,
+                             pb = TRUE,
+                             max.ovlp = 0,
+                             relabel = FALSE,
+                             drop = FALSE,
+                             priority = NULL,
+                             priority.col = NULL,
+                             indx.row = FALSE,
+                             parallel = 1,
+                             verbose = TRUE
+) {
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(overlapping_sels)
@@ -86,10 +92,6 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
     for (q in seq_len(length(opt.argms))) {
       assign(names(opt.argms)[q], opt.argms[[q]])
     }
-  }
-
-  if (!is.null(unique.labs)) {
-    warning2("'unique.labs' has been deprecated")
   }
 
   # if X is not a data frame
@@ -161,6 +163,13 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
     return(as.data.frame(Y))
   }
 
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("computing overlapping selections", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -236,12 +245,3 @@ overlapping_sels <- function(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel 
     return(ovlp_df)
   }
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{overlapping_sels}}
-#'
-#' @keywords internal
-#' @details see \code{\link{overlapping_sels}} for documentation. \code{\link{ovlp_sels}} will be deprecated in future versions.
-#' @export
-
-ovlp_sels <- overlapping_sels

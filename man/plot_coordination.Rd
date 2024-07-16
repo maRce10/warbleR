@@ -4,8 +4,17 @@
 \alias{plot_coordination}
 \title{Coordinated singing graphs}
 \usage{
-plot_coordination(X, only.coor = FALSE, ovlp = TRUE, xl = 1, res= 80, it = "jpeg",
-img = TRUE, tlim = NULL, pb = TRUE)
+plot_coordination(
+  X = NULL,
+  only.coor = FALSE,
+  ovlp = TRUE,
+  xl = 1,
+  res = 80,
+  it = "jpeg",
+  img = TRUE,
+  tlim = NULL,
+  pb = TRUE
+)
 }
 \arguments{
 \item{X}{Data frame containing columns for singing event (sing.event),

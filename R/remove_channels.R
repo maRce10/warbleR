@@ -1,7 +1,6 @@
 #' Remove channels in wave files
 #'
 #' \code{remove_channels} remove channels in wave files
-#' @usage remove_channels(files = NULL, channels, path = NULL, parallel = 1, pb = TRUE)
 #' @param files Character vector indicating the files that will be analyzed. If not provided. Optional.
 #' then all wave files in the working directory (or path) will be processed.
 #' @param channels Numeric vector indicating the index (or channel number) for the channels that will be kept (left = 1, right = 2; 3 to inf for multichannel sound files).
@@ -18,7 +17,7 @@
 #' @details The function removes channels from wave files. It works on regular and
 #' multichannel wave files. Converted files are saved in a new directory ("converted_sound_files")
 #' and original files are not modified.
-#' @seealso \code{\link{fix_wavs}}, \code{\link{info_wavs}},
+#' @seealso \code{\link{fix_wavs}}, \code{\link{info_sound_files}},
 #' @examples{
 #' # save sound file examples
 #' data("Phae.long1")
@@ -100,7 +99,14 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
 
     return(a)
   }
-
+  
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("removing channels", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -120,12 +126,3 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
     warning2(x = paste(sum(out), "file(s) not processed (# channels < max(channels)"))
   }
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{remove_channels}}
-#'
-#' @keywords internal
-#' @details see \code{\link{remove_channels}} for documentation. \code{\link{rm_channels}} will be deprecated in future versions.
-#' @export
-
-rm_channels <- remove_channels

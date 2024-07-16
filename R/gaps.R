@@ -1,7 +1,6 @@
 #' Gap duration
 #'
 #' \code{gaps} measures gap duration
-#' @usage gaps(X = NULL, by = "sound.files", parallel = 1, pb = TRUE)
 #' @param X 'selection_table', 'extended_selection_table' (created 'by.song') or data frame with the following columns: 1) "sound.files": name of the sound
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections.
@@ -97,6 +96,14 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE) {
   # add order column to sort data after calculations
   X$..order <- 1:nrow(X)
 
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("computing gaps", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

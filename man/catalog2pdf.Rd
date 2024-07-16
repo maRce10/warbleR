@@ -4,8 +4,15 @@
 \alias{catalog2pdf}
 \title{Combine \code{\link{catalog}} images into pdfs}
 \usage{
-catalog2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL,
-pb = TRUE, by.img.suffix = FALSE, ...)
+catalog2pdf(
+  keep.img = TRUE,
+  overwrite = FALSE,
+  parallel = 1,
+  path = NULL,
+  pb = TRUE,
+  by.img.suffix = FALSE,
+  ...
+)
 }
 \arguments{
 \item{keep.img}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.}

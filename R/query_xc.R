@@ -1,8 +1,6 @@
 #' Access 'Xeno-Canto' recordings and metadata
 #'
 #' \code{query_xc} downloads recordings and metadata from \href{https://www.xeno-canto.org/}{Xeno-Canto}.
-#' @usage query_xc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"),
-#' parallel = 1, path = NULL, pb = TRUE)
 #' @param qword Character vector of length one indicating the genus, or genus and
 #'  species, to query 'Xeno-Canto' database. For example, \emph{Phaethornis} or \emph{Phaethornis longirostris}.
 #'  More complex queries can be done by using search terms that follow the

@@ -1,8 +1,6 @@
 # Combine full_spectrograms images to single pdf files
 #'
 #' \code{full_spectrogram2pdf} combines \code{\link{full_spectrograms}} images in .jpeg format to a single pdf file.
-#' @usage full_spectrogram2pdf(keep.img = TRUE, overwrite = FALSE,
-#' parallel = 1, path = NULL, pb = TRUE)
 #' @param keep.img Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 #'   (including sound file and page number) should be magnified. Default is 1.
 #' @param overwrite Logical argument. If \code{TRUE} all jpeg pdf will be produced again
@@ -129,7 +127,12 @@ full_spectrogram2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 
   }
   # )
 
-
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("combining images into a pdf", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
 
 
   # set clusters for windows OS
@@ -144,14 +147,3 @@ full_spectrogram2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 
     l2pdfFUN(i, overwrite, keep.img)
   })
 }
-
-
-
-##############################################################################################################
-#' alternative name for \code{\link{full_spectrogram2pdf}}
-#'
-#' @keywords internal
-#' @details see \code{\link{full_spectrogram2pdf}} for documentation
-#' @export
-
-lspec2pdf <- full_spectrogram2pdf

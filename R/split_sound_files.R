@@ -1,8 +1,6 @@
 #' Splits sound files
 #'
 #' \code{split_sound_files} splits sound files in shorter segments
-#' @usage split_sound_files(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
-#'  parallel = 1, pb = TRUE, only.sels = FALSE, X = NULL)
 #' @param path Directory path where sound files are found.
 #'  If \code{NULL} (default) then the current working directory is used.
 #' @param sgmt.dur Numeric. Duration (in s) of segments in which sound files would be split. Sound files shorter than 'sgmt.dur' won't be split. Ignored if 'sgmts' is supplied.
@@ -20,7 +18,7 @@
 #' @export
 #' @name split_sound_files
 #' @return Wave files for each segment in the working directory (if \code{only.sels = FALSE}, named as 'sound.file.name-#.wav') and a data frame in the R environment containing the name of the original sound files (org.sound.files), the name of the clips (sound.files) and the start and end of clips in the original files. Clips are saved in .wav format. If 'X' is supplied then a data frame with the position of the selections in the newly created clips is returned instead.
-#' @details This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}}). The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
+#' @details This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size. The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
 #' @examples
 #' {
 #'   # load data and save to temporary working directory
@@ -118,7 +116,7 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
   if (any(!(parallel %% 1 == 0), parallel < 1)) stop2("'parallel' should be a positive integer")
 
   # measure wav duration
-  wvdr <- duration_wavs(path = path, files = files)
+  wvdr <- duration_sound_files(path = path, files = files)
 
   # calculate start and end of segments and output data frame
   split.df_l <- lapply(files, function(x) {
@@ -154,6 +152,14 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
 
   # if no sound files are produced
   if (!only.sels) {
+    
+    ## update progress message
+    if (pb) {
+      reset_onexit <- .update_progress("splitting sound files")
+      
+        on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+    }
+    
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -260,13 +266,3 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
     return(split.df)
   }
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{split_sound_files}}
-#'
-#' @keywords internal
-#' @details see \code{\link{split_sound_files}} for documentation. \code{\link{split_wavs}} will be deprecated in future versions.
-#' @export
-
-split_wavs <- split_sound_files

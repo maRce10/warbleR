@@ -24,18 +24,18 @@ for acoustic analysis located in the first columns. The priority order for colum
 }
 \examples{
 library(warbleR)
-data("selec.table")
+data("lbh_selec_table")
 
 # mess column order
-selec.table <- selec.table[, sample(seq_len(ncol(selec.table)))]
+lbh_selec_table <- lbh_selec_table[, sample(seq_len(ncol(lbh_selec_table)))]
 
 # check names
-names(selec.table)
+names(lbh_selec_table)
 
-selec.table <- sort_colms(X = selec.table)
+lbh_selec_table <- sort_colms(X = lbh_selec_table)
 
 # check names again
-names(selec.table)
+names(lbh_selec_table)
 
 }
 \author{

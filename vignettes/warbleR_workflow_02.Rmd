@@ -253,12 +253,12 @@ Check out the image file in your working directory. These will look very similar
 ```{r, eval=FALSE}
 
 # we will use Phaethornis songs and selections from the warbleR package
-data(list = c("Phae.long1", "selec.table"))
+data(list = c("Phae.long1", "lbh_selec_table"))
 writeWave(Phae.long1, "Phae.long1.wav") # save sound files
 
 # subset selection table
 # already contains the frequency range for these signals
-st <- selec.table[selec.table$sound.files == "Phae.long1.wav", ]
+st <- lbh_selec_table[lbh_selec_table$sound.files == "Phae.long1.wav", ]
 
 # read wave file as an R object
 sgnl <- tuneR::readWave(as.character(st$sound.files[1]))

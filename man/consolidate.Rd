@@ -4,8 +4,16 @@
 \alias{consolidate}
 \title{Consolidate (sound) files into a single directory}
 \usage{
-consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$",
-parallel = 1, save.csv = TRUE, ...)
+consolidate(
+  files = NULL,
+  path = NULL,
+  dest.path = NULL,
+  pb = TRUE,
+  file.ext = ".wav$",
+  parallel = 1,
+  save.csv = TRUE,
+  ...
+)
 }
 \arguments{
 \item{files}{character vector indicating the subset of files that will be consolidated. File names should include the full file path. Optional.}

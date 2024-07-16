@@ -1,10 +1,6 @@
 #' Track harmonic frequency contour
 #'
 #' \code{track_harmonic} tracks the frequency contour of the dominant harmonic.
-#' @usage track_harmonic(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, at = NULL,
-#' tlim = NULL, threshold = 10, bandpass = NULL, clip = NULL, plot = TRUE,
-#' xlab = "Times (s)", ylab = "Frequency (kHz)",  ylim = c(0, f/2000),
-#' adjust.wl = FALSE, dfrq = FALSE, ...)
 #' @param wave A 'wave' object produced by \code{\link[tuneR]{readWave}} or similar functions.
 #' @param f Sampling frequency of the wave object (in Hz). Does not need to be specified if embedded in wave.
 #' @param wl A numeric vector of length 1 specifying the window length for the FFT, default
@@ -198,13 +194,3 @@ track_harmonic <- function(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = F
     return(cbind(x, y))
   }
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{track_harmonic}}
-#'
-#' @keywords internal
-#' @details see \code{\link{track_harmonic}} for documentation. \code{\link{track_harmonic}} will be deprecated in future versions.
-#' @export
-
-track_harmonic <- track_harmonic

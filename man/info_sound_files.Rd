@@ -4,8 +4,14 @@
 \alias{info_sound_files}
 \title{Get sound file parameter information}
 \usage{
-info_sound_files(path = NULL, files = NULL, parallel = 1, pb = TRUE, skip.error = FALSE,
-file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$")
+info_sound_files(
+  path = NULL,
+  files = NULL,
+  parallel = 1,
+  pb = TRUE,
+  skip.error = FALSE,
+  file.format = "\\\\.wav$|\\\\.wac$|\\\\.mp3$|\\\\.flac$"
+)
 }
 \arguments{
 \item{path}{Character string containing the directory path where the sound files are located.

@@ -1,10 +1,6 @@
 #' Create 'selection_table' and 'extended_selection_table' objects
 #'
 #' \code{selection_table} converts data frames into an object of classes 'selection_table' or 'extended_selection_table'.
-#' @usage selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-#' extended = FALSE, confirm.extended = NULL, mar = 0.1, by.song = NULL,
-#' pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
-#' file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", files = NULL, ...)
 #' @param X data frame with the following columns: 1) "sound.files": name of the .wav
 #' files, 2) "selec": unique selection identifier (within a sound file), 3) "start": start time and 4) "end":
 #' end time of selections. Columns for 'top.freq', 'bottom.freq' and 'channel' are optional. Note that, when 'channel' is
@@ -16,7 +12,7 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param whole.recs Logical. If \code{TRUE} the function will create a selection
 #' table for all sound files in the working directory (or "path") with `start = 0`
-#' and `end = duration_wavs()`. Default is if \code{FALSE}. Note that this will not create
+#' and `end = duration_sound_files()`. Default is if \code{FALSE}. Note that this will not create
 #' a extended selection table. If provided 'X' is ignored.
 #' @param extended Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table'
 #' which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is
@@ -27,10 +23,6 @@
 #' @param mar Numeric vector of length 1 specifying the margins (in seconds)
 #' adjacent to the start and end points of the selections when creating extended
 #' selection tables. Default is 0.1. Ignored if 'extended' is \code{FALSE}.
-#' @param confirm.extended Logical. If \code{TRUE} then the size of the 'extended_selection_table'
-#' will be estimated and the user will be asked for confirmation (in the console)
-#' before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
-#' generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT HAS BEEN DEPRECATED.
 #' @param by.song Character string with the column name containing song labels. If provided a wave object containing for
 #' all selection belonging to a single song would be saved in the extended selection table (hence only applicable for
 #' extended selection tables). Note that the function assumes that song labels are not repeated within a sound file.
@@ -77,7 +69,7 @@
 #'  selection table). You can check the size of the output extended selection table
 #'  with the \code{\link[utils]{object.size}} function. Note that extended selection table created 'by.song' could be
 #'  considerable larger.
-#' @seealso \code{\link{check_wavs}}
+#' @seealso \code{\link{check_sound_files}}
 #' @export
 #' @name selection_table
 #' @examples
@@ -121,11 +113,7 @@
 # last modification on may-9-2018 (MAS)
 
 selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-                            extended = FALSE, confirm.extended = NULL, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", files = NULL, ...) {
-  
-  # confirm.extended is deprecated
-  if (!is.null(confirm.extended))
-  warning2("'confirm.extended' has been deprecated and will be ignored")
+                            extended = FALSE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", files = NULL, ...) {
   
   #### set arguments from options
   # get function arguments
@@ -189,14 +177,11 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
 
   if (pb & verbose) {
-    if (!extended) {
-      message2(x = "checking selections (step 1 of 1):")
-    } else {
-      message2(x = "checking selections (step 1 of 2):")
+    reset_onexit <- .update_progress(total = if(extended) 2 else 1)
+    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)  
     }
-  }
 
-  check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = FALSE, ...)
+  check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, ...)
 
   if (any(check.results$check.res != "OK")) stop2("Not all selections can be read (use check_sels() to locate problematic selections)")
 
@@ -216,7 +201,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         check.results$mar.after <- check.results$mar.before <- rep(mar, nrow(X))
 
         # get sound file duration
-        dur <- duration_wavs(files = as.character(X$sound.files), path = path)$duration
+        dur <- duration_sound_files(files = as.character(X$sound.files), path = path)$duration
 
         # reset margin signals if lower than 0 or higher than duration
         for (i in 1:nrow(X))
@@ -248,16 +233,18 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
         }
 
         # save wave objects as a list attributes
-        # set clusters for windows OS
-
+        ## update progress message
+        if (pb * verbose) {
+          reset_onexit <- .update_progress("saving wave objects into extended selection table", current = 2, total = 2)
+          
+            on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+        }
+ 
+        ## set clusters for windows OS
         if (Sys.info()[1] == "Windows" & parallel > 1) {
           cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
         } else {
           cl <- parallel
-        }
-
-        if (pb) {
-          message2(x = "saving wave objects into extended selection table (step 2 of 2):")
         }
 
         attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))

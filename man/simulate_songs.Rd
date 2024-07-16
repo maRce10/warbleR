@@ -4,13 +4,29 @@
 \alias{simulate_songs}
 \title{Simulate animal vocalizations}
 \usage{
-simulate_songs(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1,
-gaps = 0.1, freqs = 5, samp.rate = 44.1, sig2 = 0.5,
-steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM",
-fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE,
-file.name = NULL, path = NULL,
-hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10),
-freq.range = 4)
+simulate_songs(
+  n = 1,
+  durs = 0.2,
+  harms = 3,
+  harm.amps = c(1, 0.5, 0.2),
+  am.amps = 1,
+  gaps = 0.1,
+  freqs = 5,
+  samp.rate = 44.1,
+  sig2 = 0.5,
+  steps = 10,
+  bgn = 0.5,
+  seed = NULL,
+  diff.fun = "GBM",
+  fin = 0.1,
+  fout = 0.2,
+  shape = "linear",
+  selec.table = FALSE,
+  file.name = NULL,
+  path = NULL,
+  hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10),
+  freq.range = 4
+)
 }
 \arguments{
 \item{n}{Number of song subunits (e.g. elements). Default is 1.}

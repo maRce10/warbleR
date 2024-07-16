@@ -4,8 +4,15 @@
 \alias{read_wave}
 \title{A wrapper for tuneR's readWave that read sound files listed within selection tables}
 \usage{
-read_wave(X, index, from = X$start[index], to = X$end[index], channel = NULL,
-header = FALSE, path = NULL)
+read_wave(
+  X,
+  index,
+  from = X$start[index],
+  to = X$end[index],
+  channel = NULL,
+  header = FALSE,
+  path = NULL
+)
 }
 \arguments{
 \item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files),

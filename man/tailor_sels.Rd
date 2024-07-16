@@ -4,12 +4,33 @@
 \alias{tailor_sels}
 \title{Interactive view of spectrograms to tailor selections}
 \usage{
-tailor_sels(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
- osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
-  comments = TRUE, path = NULL, frange = TRUE, fast.spec = FALSE, ext.window = TRUE,
-  width = 15, height = 5, index = NULL, collevels = NULL,
-  title = c("sound.files", "selec"), ts.df = NULL, col = "#E37222",
-  alpha = 0.7, auto.contour = FALSE, ...)
+tailor_sels(
+  X = NULL,
+  wl = 512,
+  flim = c(0, 22),
+  wn = "hanning",
+  mar = 0.5,
+  osci = TRUE,
+  pal = reverse.gray.colors.2,
+  ovlp = 70,
+  auto.next = FALSE,
+  pause = 1,
+  comments = TRUE,
+  path = NULL,
+  frange = TRUE,
+  fast.spec = FALSE,
+  ext.window = TRUE,
+  width = 15,
+  height = 5,
+  index = NULL,
+  collevels = NULL,
+  title = c("sound.files", "selec"),
+  ts.df = NULL,
+  col = "#E37222",
+  alpha = 0.7,
+  auto.contour = FALSE,
+  ...
+)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
@@ -72,7 +93,7 @@ Ignored if \code{ext.window = FALSE}. Default is 5.}
 
 \item{index}{Numeric vector indicating which selections (rows) of 'X' should be tailored.
 Default is \code{NULL}. Ignored when the process is resumed. This can be useful when combined
-with \code{\link{filtersels}}) output (see 'index' argument in \code{\link{filtersels}}).}
+with \code{\link{filter_sels}}) output (see 'index' argument in \code{\link{filter_sels}}).}
 
 \item{collevels}{Numeric. Set of levels used to partition the amplitude range (see
 \code{\link[seewave]{spectro}}).}

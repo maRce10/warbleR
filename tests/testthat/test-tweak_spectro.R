@@ -8,7 +8,7 @@ test_that("basic", {
   writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 
   # variable collevels
-  ps <- tweak_spectro(X = lbh_selec_table, wl = 164, ovlp = c(90), wn = c("flattop"), flim = c(0, 10),
+  ps <- tweak_spectro(X = lbh_selec_table[1, ], wl = 164, ovlp = c(90), wn = c("flattop"), flim = c(0, 10),
   length.out = 4, nrow = 2, ncol = 2, width = 20, height = 11.3, rm.axes = TRUE,
   cex = 1, box = F, collev.min = c(-20, -150), path = tempdir())
   

@@ -1,11 +1,6 @@
 #' Time-frequency cross-correlation
 #'
 #' \code{cross_correlation} estimates the similarity of two sound waves by means of time-frequency cross-correlation
-#' @usage cross_correlation(X, wl = 512, bp = "pairwise.freq.range", ovlp = 70,
-#' dens = NULL, wn = 'hanning', cor.method = "pearson", parallel = 1,
-#' path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
-#' templates = NULL, surveys = NULL, compare.matrix = NULL, type = "fourier",
-#'  nbands = 40, method = 1)
 #' @param  X 'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files),
 #' selection number (selec), and start and end time of signal (start and end).
 #' All selections must have the same sampling rate.
@@ -17,7 +12,6 @@
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two
 #' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of ovlp
 #' slow down the function but produce more accurate results.
-#' @param dens DEPRECATED.
 #' @param wn A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}.
 #' @param cor.method A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
@@ -27,8 +21,7 @@
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @param na.rm Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the
 #' results. This means that all selections with at least 1 cross-correlation that failed are excluded.
-#' @param cor.mat DEPRECATED. Use 'compare.matrix' instead.
-#' @param output Character vector of length 1 to determine if only the correlation matrix is returned ('cor.mat', default) or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'xcorr.output', can be used to find detection peaks with \code{\link{find_peaks}} or to graphically explore detections using \code{\link{lspec}}.
+#' @param output Character vector of length 1 to determine if only the correlation matrix is returned ('cor.mat', default) or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'xcorr.output', can be used to graphically explore detections using \code{\link{full_spectrograms}}.
 #' @param templates Character vector with the selections in 'X' to be used as templates for cross-correlation detection. To refer to specific selections in 'X' the user must use the format "sound.file-selec" (e.g. "file1.wav-1"). If only the sound file name is included then the entire sound file is used as template.
 #' @param surveys Character vector with the selections in 'X' to be used as surveys for cross-correlation detection. To refer to specific selections in 'X' the user must use the format "sound.file-selec" (e.g. "file1.wav-1"). If only the sound file name is included then the entire sound file is used as survey.
 #' @param compare.matrix A character matrix with 2 columns indicating the selections to be compared (column 1 vs column 2). The columns must contained the ID of the selection, which is given by combining the 'sound.files' and 'selec' columns of 'X',  separated by '-' (i.e. \code{paste(X$sound.files, X$selec, sep = "-")}). Default is \code{NULL}. If the 'selec' ID is not supplied then the entire sound file is used instead. If 'compare.matrix' is supplied only those comparisons will be calculated (as opposed to all pairwise comparisons as the default behavior) and the output will be a data frame composed of the supplied matrix and the correspondent cross-correlation values. Note that 'method' is automatically set to 2 (create spectrograms on the fly) when 'compare.matrix' is supplied but can be set back to 1. When supplied 'output' is forced to be 'list'. Note that the use of this function for signal detection (with 'compare.matrix') will be deprecated in future warbleR versions. Look at the ohun package for automatic signal detection functions.
@@ -100,14 +93,12 @@ cross_correlation <-
            wl = 512,
            bp = "pairwise.freq.range",
            ovlp = 70,
-           dens = NULL,
            wn = "hanning",
            cor.method = "pearson",
            parallel = 1,
            path = NULL,
            pb = TRUE,
            na.rm = FALSE,
-           cor.mat = NULL,
            output = "cor.mat",
            templates = NULL,
            surveys = NULL,
@@ -169,12 +160,6 @@ cross_correlation <-
 
   # stop if no bp
   if (is.null(bp[1])) stop2("'bp' must be supplied")
-
-  # dens deprecated
-  if (!is.null(dens)) warning2(x = "'dens' has been deprecated and will be ignored")
-
-  # dens deprecated
-  if (!is.null(cor.mat)) warning2(x = "'cor.mat' has been deprecated and will be ignored")
 
   # check output
   if (!any(output %in% c("cor.mat", "list"))) stop2("'output' must be either 'cor.mat' or 'list'")
@@ -254,7 +239,6 @@ cross_correlation <-
     }
   }
 
-
   if (!is.null(compare.matrix)) {
     output <- "list"
   }
@@ -266,20 +250,6 @@ cross_correlation <-
     # set method to 2 if not provided in call
     if (!any(names(call.argms) == "method")) {
       method <- 2
-    }
-  }
-
-  # define number of steps in analysis to print message
-  if (pb) {
-    steps <- getOption("int_warbleR_steps")
-
-    if (steps$total > 0) {
-      current.step <- steps$current
-      total.steps <- steps$total
-    } else {
-      if (method == 1) total.steps <- 2 else total.steps <- 1
-
-      current.step <- 1
     }
   }
 
@@ -379,9 +349,8 @@ cross_correlation <-
   if (method == 1) {
     # create spectrograms
     if (pb) {
-      message2(x = paste0("creating spectrogram matrices (step ", current.step, " of ", total.steps, "):"))
+      .update_progress("creating spectrogram matrices", total = 2)
     }
-
 
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -427,7 +396,7 @@ cross_correlation <-
     # calculate correlations at each step
     cors <- if (all(is.na(spc1$amp)) | all(is.na(spc2$amp))) NA else
 sapply(stps, function(x, cor.method = cm) {
-      warbleR::try_na(cor(c(lg.spc[, x:(x + shrt.lgth)]), c(shrt.spc), method = cm, use = "pairwise.complete.obs"))
+      .try_na(cor(c(lg.spc[, x:(x + shrt.lgth)]), c(shrt.spc), method = cm, use = "pairwise.complete.obs"))
     })
 
     return(cors)
@@ -440,7 +409,9 @@ sapply(stps, function(x, cor.method = cm) {
 
   # run cross-correlation
   if (pb) {
-    message2(x = paste0("running cross-correlation (step ", if (current.step + 1 <= total.steps) current.step + 1 else total.steps, " of ", total.steps, "):"))
+    reset_onexit <- .update_progress("running cross-correlation", current = if(method == 1) 2 else 1, total = if(method == 1) 2 else 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
   }
 
   # set parallel cores
@@ -567,16 +538,7 @@ sapply(stps, function(x, cor.method = cm) {
 }
 
 
-##############################################################################################################
-#' alternative name for \code{\link{cross_correlation}}
-#'
-#' @keywords internal
-#' @details see \code{\link{cross_correlation}} for documentation. \code{\link{xcorr}} will be deprecated in future versions.
-#' @export
-
-xcorr <- cross_correlation
-
-
+##############################################
 ##############################################################################################################
 
 #' print method for class \code{xcorr.output}
@@ -625,8 +587,6 @@ print.xcorr.output <- function(x, ...) {
   message2(color = "silver", x = paste("\n* A selection table data frame ('org.selection.table') referencing the templates location in sound files"))
 
   message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("full_spectrograms()")), "to plot cross_correlation scores along spectrograms"))
-
-  message2(color = "silver", x = paste("\n Use", cli::style_bold(cli::style_italic("find_peaks()")), "to extract detections from this object"))
 
   # print warbleR version
   if (!is.null(x$warbleR.version)) {

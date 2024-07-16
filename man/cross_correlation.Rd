@@ -4,11 +4,25 @@
 \alias{cross_correlation}
 \title{Time-frequency cross-correlation}
 \usage{
-cross_correlation(X, wl = 512, bp = "pairwise.freq.range", ovlp = 70,
-dens = NULL, wn = 'hanning', cor.method = "pearson", parallel = 1,
-path = NULL, pb = TRUE, na.rm = FALSE, cor.mat = NULL, output = "cor.mat",
-templates = NULL, surveys = NULL, compare.matrix = NULL, type = "fourier",
- nbands = 40, method = 1)
+cross_correlation(
+  X = NULL,
+  wl = 512,
+  bp = "pairwise.freq.range",
+  ovlp = 70,
+  wn = "hanning",
+  cor.method = "pearson",
+  parallel = 1,
+  path = NULL,
+  pb = TRUE,
+  na.rm = FALSE,
+  output = "cor.mat",
+  templates = NULL,
+  surveys = NULL,
+  compare.matrix = NULL,
+  type = "fourier",
+  nbands = 40,
+  method = 1
+)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound files (sound.files),
@@ -26,8 +40,6 @@ and the highest values in 'top.freq' for the selections involved in a pairwise c
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of ovlp
 slow down the function but produce more accurate results.}
 
-\item{dens}{DEPRECATED.}
-
 \item{wn}{A character vector of length 1 specifying the window name as in \code{\link[seewave]{ftwindow}}.}
 
 \item{cor.method}{A character vector of length 1 specifying the correlation method as in \code{\link[stats]{cor}}.}
@@ -43,9 +55,7 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{na.rm}{Logical. If \code{TRUE} all NAs produced when pairwise cross-correlations failed are removed from the
 results. This means that all selections with at least 1 cross-correlation that failed are excluded.}
 
-\item{cor.mat}{DEPRECATED. Use 'compare.matrix' instead.}
-
-\item{output}{Character vector of length 1 to determine if only the correlation matrix is returned ('cor.mat', default) or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'xcorr.output', can be used to find detection peaks with \code{\link{find_peaks}} or to graphically explore detections using \code{\link{lspec}}.}
+\item{output}{Character vector of length 1 to determine if only the correlation matrix is returned ('cor.mat', default) or a list ('list') containing 1) the correlation matrix and 2) a data frame with correlation values at each sliding step for each comparison. The list, which is also of class 'xcorr.output', can be used to graphically explore detections using \code{\link{full_spectrograms}}.}
 
 \item{templates}{Character vector with the selections in 'X' to be used as templates for cross-correlation detection. To refer to specific selections in 'X' the user must use the format "sound.file-selec" (e.g. "file1.wav-1"). If only the sound file name is included then the entire sound file is used as template.}
 

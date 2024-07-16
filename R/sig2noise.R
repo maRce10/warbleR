@@ -1,8 +1,6 @@
 #' Measure signal-to-noise ratio
 #'
 #' \code{sig2noise} measures signal-to-noise ratio across multiple files.
-#' @usage sig2noise(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq.dur = FALSE,
-#' in.dB = TRUE, before = FALSE, lim.dB = TRUE, bp = NULL, wl = 10)
 #' @param X object of class 'selection_table', 'extended_selection_table' or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end).
@@ -37,8 +35,7 @@
 #'   is 10. Ignored if \code{bp = NULL}. It can also be
 #' set globally using the 'wl' option (see \code{\link{warbleR_options}}).
 #'  Note that lower values will increase time resolution, which is more important for signal-to-noise ratio calculations.
-#' @return Data frame similar to \code{\link{auto_detec}} output, but also includes a new variable
-#' with the signal-to-noise values.
+#' @return The input 'X' object with a new column including the signal-to-noise values.
 #' @export
 #' @name sig2noise
 #' @details  Signal-to-noise ratio (SNR) is a measure of the level of a desired signal compared to
@@ -252,6 +249,13 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     }
   }
 
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("computing signal-to-noise ratio")
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -272,13 +276,3 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
 
   return(z)
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{sig2noise}}
-#'
-#' @keywords internal
-#' @details see \code{\link{sig2noise}} for documentation. \code{\link{sig2noise}} will be deprecated in future versions.
-#' @export
-
-signal_2_noise <- sig2noise

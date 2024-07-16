@@ -2,11 +2,6 @@
 #'
 #' \code{snr_spectrograms} creates spectrograms to visualize margins over which background noise
 #' will be measured by \code{\link{sig2noise}}.
-#' @usage snr_spectrograms(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70,
-#' inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1,
-#' res = 100, cexlab = 1, title = TRUE, before = FALSE, eq.dur = FALSE,
-#'   propwidth= FALSE, xl = 1, osci = FALSE, gr = FALSE, sc = FALSE, mar = 0.2,
-#'    snrmar = 0.1, it = "jpeg", parallel = 1, path = NULL, pb = TRUE)
 #' @param  X 'selection_table', 'extended_selection_table' or any data frame with columns
 #' for sound file name (sound.files), selection number (selec), and start and end time of signal
 #' (start and end).
@@ -276,8 +271,12 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
     return(NULL)
   }
 
-
-
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("creating SNR spectrograms")
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -291,24 +290,3 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
     snrspeFUN(X = X, i = i, wl = wl, flim = flim, ovlp = ovlp, inner.mar = inner.mar, outer.mar = outer.mar, picsize = picsize, res = res, cexlab = cexlab, xl = xl, mar = mar, snrmar = snrmar, before, eq.dur)
   })
 }
-
-
-
-##############################################################################################################
-#' alternative name for \code{\link{snr_spectrograms}}
-#'
-#' @keywords internal
-#' @details see \code{\link{snr_spectrograms}} for documentation. \code{\link{snr_spectrograms}} will be deprecated in future versions.
-#' @export
-
-snrspecs <- snr_spectrograms
-
-
-##############################################################################################################
-#' alternative name for \code{\link{snr_spectrograms}}
-#'
-#' @keywords internal
-#' @details see \code{\link{snr_spectrograms}} for documentation. \code{\link{snr_specs}} will be deprecated in future versions.
-#' @export
-
-snr_specs <- snr_spectrograms

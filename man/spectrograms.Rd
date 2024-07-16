@@ -4,13 +4,41 @@
 \alias{spectrograms}
 \title{Spectrograms of selected signals}
 \usage{
-spectrograms(X, wl = 512, flim = "frange", wn = "hanning", pal  = reverse.gray.colors.2,
-ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100,
-cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3,
-mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE,
-by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL,
-box = TRUE, axis = TRUE, ...)
+spectrograms(
+  X,
+  wl = 512,
+  flim = "frange",
+  wn = "hanning",
+  pal = reverse.gray.colors.2,
+  ovlp = 70,
+  inner.mar = c(5, 4, 4, 2),
+  outer.mar = c(0, 0, 0, 0),
+  picsize = 1,
+  res = 100,
+  cexlab = 1,
+  propwidth = FALSE,
+  xl = 1,
+  osci = FALSE,
+  gr = FALSE,
+  sc = FALSE,
+  line = TRUE,
+  col = "#07889B",
+  fill = adjustcolor("#07889B", alpha.f = 0.15),
+  lty = 3,
+  mar = 0.05,
+  it = "jpeg",
+  parallel = 1,
+  path = NULL,
+  pb = TRUE,
+  fast.spec = FALSE,
+  by.song = NULL,
+  sel.labels = "selec",
+  title.labels = NULL,
+  dest.path = NULL,
+  box = TRUE,
+  axis = TRUE,
+  ...
+)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files),

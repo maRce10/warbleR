@@ -4,10 +4,6 @@
 \alias{cut_sels}
 \title{Cut selections into individual sound files}
 \usage{
-cut_sels(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL, pb = TRUE,
-labels = c("sound.files", "selec"), overwrite = FALSE, norm = FALSE,
-keep.stereo = FALSE, ...)
-
 cut_sels(
   X,
   mar = 0.05,
@@ -62,8 +58,6 @@ Sound files of the signals listed in the input data frame.
 \details{
 This function allow users to produce individual sound files from the selections
 listed in a selection table as in \code{\link{lbh_selec_table}}. Note that wave objects with a bit depth of 32 might not be readable by some programs after exporting. In this case they should be "normalized" (argument 'norm") with a lower bit depth. The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
-
-see \code{\link{cut_sels}} for documentation. \code{\link{cut_sels}} will be deprecated in future versions.
 }
 \examples{
 {
@@ -88,10 +82,9 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{seltailor}} for tailoring selections
+\code{\link{tailor_sels}} for tailoring selections
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}) and Grace Smith Vidaurre
 }
 \concept{selection manipulation}
-\keyword{internal}

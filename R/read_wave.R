@@ -1,8 +1,6 @@
 #' A wrapper for tuneR's readWave that read sound files listed within selection tables
 #'
 #' \code{read_wave} is a wrapper for tuneR's \code{\link[tuneR]{readWave}} function that read sound files listed in data frames and selection tables
-#' @usage read_wave(X, index, from = X$start[index], to = X$end[index], channel = NULL,
-#' header = FALSE, path = NULL)
 #' @param X 'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files),
 #' selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a '.wav' file or URL address to a '.wav' or '.mp3' file can be provided. The file name can contain the directory path.
 #' 'top.freq' and 'bottom.freq' columns are optional. Default is \code{NULL}.
@@ -51,6 +49,9 @@
 # last modification on may-7-2018 (MAS)
 
 read_wave <- function(X, index, from = X$start[index], to = X$end[index], channel = NULL, header = FALSE, path = NULL) {
+  
+  message2("This function is slated for deprecation in future versions. Please use the function read_sound_files() instead.")
+  
   # if is extended then index must be provided
   if (is_extended_selection_table(X) & missing(index)) stop('"index" needed when an extended selection table is provided')
 
@@ -92,8 +93,8 @@ read_wave <- function(X, index, from = X$start[index], to = X$end[index], channe
       path <- getwd()
     }
 
-    if (is.na(try_na(from))) from <- 0
-    if (is.na(try_na(to))) to <- Inf
+    if (is.na(.try_na(from))) from <- 0
+    if (is.na(.try_na(to))) to <- Inf
 
     if (extsn == "wav") {
       read_fun <- function(X, path, header, from, to) {

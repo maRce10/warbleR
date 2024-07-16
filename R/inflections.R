@@ -1,7 +1,6 @@
 #' Count number of inflections in a frequency contour
 #'
 #' \code{inflections} counts the number of inflections in a frequency contour (or any time series)
-#' @usage inflections(X = NULL, parallel = 1, pb = TRUE)
 #' @param X data frame with the columns for "sound.files" (sound file name), "selec" (unique identifier for each selection) and columns for each of the frequency values of the contours. No other columns should be included.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #' It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -73,9 +72,13 @@ inflections <- function(X = NULL, parallel = 1, pb = TRUE) {
     return(Y)
   }
 
-
-
-
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("computing inflections", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

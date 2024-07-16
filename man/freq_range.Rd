@@ -4,17 +4,38 @@
 \alias{freq_range}
 \title{Detect frequency range iteratively}
 \usage{
-freq_range(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10,
-dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL,
-propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50,
-pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL,
-img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
+freq_range(
+  X,
+  wl = 512,
+  it = "jpeg",
+  line = TRUE,
+  fsmooth = 0.1,
+  threshold = 10,
+  dB.threshold = NULL,
+  wn = "hanning",
+  flim = NULL,
+  bp = NULL,
+  propwidth = FALSE,
+  xl = 1,
+  picsize = 1,
+  res = 100,
+  fast.spec = FALSE,
+  ovlp = 50,
+  pal = reverse.gray.colors.2,
+  parallel = 1,
+  widths = c(2, 1),
+  main = NULL,
+  img = TRUE,
+  mar = 0.05,
+  path = NULL,
+  pb = TRUE,
+  impute = FALSE
+)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
 files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
-end time of selections. The output of \code{\link{auto_detec}} can
-also be used as the input data frame.}
+end time of selections.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
 is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}})
@@ -128,7 +149,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{freq_range_detec}}, \code{\link{auto_detec}}
+\code{\link{freq_range_detec}}, \code{\link{freq_ts}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

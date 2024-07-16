@@ -1,7 +1,6 @@
 #' Setting warbleR options
 #'
 #' \code{warbleR_options} sets global parameters for warbleR functions
-#' @usage warbleR_options(reset = FALSE, ...)
 #' @param reset Logical. If \code{TRUE} then all global parameters are removed. Default is \code{FALSE}.
 #' @param ... Arguments in `parameter = value` form, or a list of tagged values. The tags (i.e. parameters)
 #'  must come from the list of parameters described below.

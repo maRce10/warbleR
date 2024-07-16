@@ -2,16 +2,9 @@
 #'
 #' \code{freq_DTW} calculates acoustic dissimilarity of frequency contours using dynamic
 #' time warping. Internally it applies the \code{\link[dtw]{dtwDist}} function from the \code{dtw} package.
-#' @usage freq_DTW(X = NULL, type = "dominant", wl = 512, wl.freq = 512, length.out = 20,
-#' wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, threshold.time = NULL,
-#' threshold.freq = NULL, img = TRUE, parallel = 1, path = NULL, ts.df = NULL,
-#' img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, window.type = "none",
-#' open.end = FALSE, scale = FALSE, frange.detec = FALSE,  fsmooth = 0.1,
-#' adjust.wl = TRUE, ...)
 #' @param  X object of class 'selection_table', 'extended_selection_table' or data
 #' frame containing columns for sound file name (sound.files),
 #' selection number (selec), and start and end time of signal (start and end).
-#' The output of \code{\link{auto_detec}} can be used as the input data frame.
 #' @param type Character string to determine the type of contour to be detected. Three options are available, "dominant" (default), "fundamental" and "entropy".
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default
 #'   is 512.
@@ -47,7 +40,6 @@
 #' open-ended alignments (see \code{\link[dtw]{dtw}}).
 #' @param scale Logical. If \code{TRUE} frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the
 #' comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.
-#' @param frange.detec DEPRECATED.
 #' @param fsmooth A numeric vector of length 1 to smooth the frequency spectrum with a mean
 #'  sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of
 #'  amplitude modulation. Default is 0.1.
@@ -117,7 +109,6 @@ freq_DTW <-
            window.type = "none",
            open.end = FALSE,
            scale = FALSE,
-           frange.detec = FALSE,
            fsmooth = 0.1,
            adjust.wl = TRUE,
            ...) {
@@ -150,19 +141,11 @@ freq_DTW <-
 
   # set number of steps for progress bar messages
   if (pb) {
+    reset_onexit <- .update_progress(total = 2)
     
-      steps <- getOption("int_warbleR_steps")
-      if (!is.null(steps$top.function)) {
-        current.step <- steps$current
-        total.steps <- steps$total
-      } else {
-        current.step <- 1
-        total.steps <- 2
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
       }
-    # set internally
-    options("int_warbleR_steps" =  list(current = current.step, total = total.steps))
-    on.exit(options("int_warbleR_steps" = list(current = 0, total = 0)), add = TRUE)
-  }
+  
   
   
   if (!is.null(X)) {
@@ -177,12 +160,7 @@ freq_DTW <-
     # threshold adjustment
     if (is.null(threshold.time)) threshold.time <- threshold
     if (is.null(threshold.freq)) threshold.freq <- threshold
-
-    # run freq_ts function
-    # if (pb & type == "dominant") {
-    #   message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "): \n"))
-    # }
-
+    
     # get contours
     res <- freq_ts(X,
       type = type,
@@ -210,33 +188,9 @@ freq_DTW <-
   if (any(is.na(mat))) stop("missing values in time series (frequency was not detected at
                            the start and/or end of the signal)")
 
-  if (pb & is.null(ts.df)) {
-    if (parallel > 1)
-      message2(x = paste0("calculating DTW distances (step ", current.step + 1, " of ", total.steps, "):")) else
-        message2(x = paste0("calculating DTW distances (step ", current.step + 1, " of ", total.steps, ", no progress bar):"))
-  }
-
-  dm <- .dtwDist(mat, mat, parallel = parallel, pb = pb, window.type = window.type, open.end = open.end)
+ 
+  dm <- .dtwDist(mat, mat, parallel = parallel, pb = TRUE, window.type = window.type, open.end = open.end)
 
   rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
   return(dm)
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{freq_DTW}}
-#'
-#' @keywords internal
-#' @details see \code{\link{freq_DTW}} for documentation. \code{\link{dfDTW}} will be deprecated in future versions.
-#' @export
-
-dfDTW <- freq_DTW
-
-##############################################################################################################
-#' alternative name for \code{\link{freq_DTW}}
-#'
-#' @keywords internal
-#' @details see \code{\link{freq_DTW}} for documentation. \code{\link{freq_DTW}} will be deprecated in future versions.
-#' @export
-
-df_DTW <- freq_DTW

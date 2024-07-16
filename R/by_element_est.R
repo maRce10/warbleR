@@ -1,7 +1,6 @@
 #' Convert a by-song extended selection table to by-element
 #'
 #' \code{by_element_est} converts a by-song extended selection table to by-element.
-#' @usage by_element_est(X, mar = 0.1, pb = FALSE, parallel = 1)
 #' @param X object of class 'extended_selection_table' (see \code{\link{selection_table}}).
 #' @param mar Numeric vector of length 1 specifying the margins (in seconds)
 #' adjacent to the start and end points of the selections when creating the ''by element' extended
@@ -68,6 +67,12 @@ by_element_est <- function(X, mar = 0.1, pb = FALSE, parallel = 1) {
     }
   }
 
+  if (pb) {
+    reset_onexit <- .update_progress("converting to 'by-element'", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS and no soz
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

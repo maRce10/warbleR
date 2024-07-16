@@ -4,8 +4,17 @@
 \alias{remove_silence}
 \title{Remove silence in wave files}
 \usage{
-remove_silence(path = NULL, min.sil.dur = 2, img = TRUE, it = "jpeg", flim = NULL,
-files = NULL, flist = NULL, parallel = 1, pb = TRUE, downsample = TRUE)
+remove_silence(
+  path = NULL,
+  min.sil.dur = 2,
+  img = TRUE,
+  it = "jpeg",
+  flim = NULL,
+  files = NULL,
+  parallel = 1,
+  pb = TRUE,
+  downsample = TRUE
+)
 }
 \arguments{
 \item{path}{Character string containing the directory path where the sound files are located.
@@ -24,8 +33,6 @@ frequency limits (kHz) of the spectrogram as in
 
 \item{files}{character vector or factor indicating the subset of files that will be analyzed. If not provided
 then all wave files in the working directory (or path) will be processed.}
-
-\item{flist}{DEPRECATED. Please use 'files' instead.}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
 It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).}
@@ -76,7 +83,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{fix_wavs}}, \code{\link{auto_detec}}
+\code{\link{fix_wavs}}, \code{\link{info_sound_files}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

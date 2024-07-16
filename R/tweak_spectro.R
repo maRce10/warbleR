@@ -2,8 +2,6 @@
 #' 
 #' \code{tweak_spectro} plots a mosaic of spectrograms with varying display parameters to
 #' facilitate selection of display parameters
-#' @usage tweak_spectro(X, length.out = 5, ovlp = 90, wl = c(100, 1000), wn = "hanning",
-#'  collev.min = -40, pal = "reverse.gray.colors.2", path = NULL, rm.axes = TRUE, ...)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with a single row and columns for sound file name (sound.files), selection number (selec), 
 #' and start and end time of signal (start and end). Default is \code{NULL}.
 #' @param length.out Numeric vector of length 1 controlling the number of sublevels of
@@ -208,12 +206,3 @@ tweak_spectro <- function(X, length.out = 5, ovlp = 90, wl = c(100, 1000),
     
   return(NULL)  
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{tweak_spectro}}
-#'
-#' @keywords internal
-#' @details see \code{\link{tweak_spectro}} for documentation. \code{\link{spec_param}} will be deprecated in future versions.
-#' @export
-
-spec_param <- tweak_spectro

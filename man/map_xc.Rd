@@ -4,9 +4,16 @@
 \alias{map_xc}
 \title{Maps of 'Xeno-Canto' recordings by species}
 \usage{
-map_xc(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
- path = NULL, leaflet.map = FALSE,
- leaflet.cluster = FALSE)
+map_xc(
+  X,
+  img = TRUE,
+  it = "jpeg",
+  res = 100,
+  labels = FALSE,
+  path = NULL,
+  leaflet.map = FALSE,
+  leaflet.cluster = FALSE
+)
 }
 \arguments{
 \item{X}{Data frame output from \code{\link{query_xc}}.}

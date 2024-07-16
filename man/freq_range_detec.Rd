@@ -4,10 +4,23 @@
 \alias{freq_range_detec}
 \title{Detect frequency range on wave objects}
 \usage{
-freq_range_detec(wave, wl = 512, fsmooth = 0.1, threshold = 10,
-dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL,
-fast.spec = FALSE, ovlp = 50, pal = reverse.gray.colors.2,
- widths = c(2, 1), main = NULL, plot = TRUE, all.detec = FALSE)
+freq_range_detec(
+  wave,
+  wl = 512,
+  fsmooth = 0.1,
+  threshold = 10,
+  dB.threshold = NULL,
+  wn = "hanning",
+  flim = NULL,
+  bp = NULL,
+  fast.spec = FALSE,
+  ovlp = 50,
+  pal = reverse.gray.colors.2,
+  widths = c(2, 1),
+  main = NULL,
+  plot = TRUE,
+  all.detec = FALSE
+)
 }
 \arguments{
 \item{wave}{A 'wave' object produced by  \code{\link[tuneR]{readWave}} or similar functions.}
@@ -100,7 +113,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{frange}}, \code{\link{autodetec}}
+\code{\link{freq_range}}, \code{\link{freq_ts}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

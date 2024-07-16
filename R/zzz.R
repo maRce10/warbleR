@@ -34,7 +34,7 @@
     }
   }
   options("warbleR" = opts)
-  options("int_warbleR_steps" = list(current = 0, total = 0, top.function = NULL))
+  options("int_warbleR_steps" = list(current = 0, total = 0))
   invisible(NULL)
 }
 
@@ -43,7 +43,5 @@
 .onUnload <- function(libpath) {
   options("int_warbleR_steps" = NULL)
   options("warbleR" = NULL)
-  # rm_new_names()
-
   invisible(NULL)
 }

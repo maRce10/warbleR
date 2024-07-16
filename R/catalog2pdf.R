@@ -1,8 +1,6 @@
 #' Combine \code{\link{catalog}} images into pdfs
 #'
 #' \code{catalog2pdf} combines \code{\link{catalog}} jpeg images into pdfs
-#' @usage catalog2pdf(keep.img = TRUE, overwrite = FALSE, parallel = 1, path = NULL,
-#' pb = TRUE, by.img.suffix = FALSE, ...)
 #' @param keep.img Logical argument. Indicates whether jpeg files should be kept (default) or remove.
 #' @param overwrite Logical argument. If \code{TRUE} all jpeg pdf will be produced again
 #'   when code is rerun. If \code{FALSE} only the ones missing will be produced. Default is \code{FALSE}.
@@ -146,8 +144,12 @@ catalog2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 1, path =
     }
   }
 
-
-
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("combining images into a pdf", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {

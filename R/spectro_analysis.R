@@ -2,13 +2,9 @@
 #'
 #' \code{spectro_analysis} measures acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
-#' @usage spectro_analysis(X, bp = "frange", wl = 512, wl.freq = NULL, threshold = 15,
-#'  parallel = 1, fast = TRUE, path = NULL, pb = TRUE, ovlp = 50,
-#' wn = "hanning", fsmooth = 0.1, harmonicity = FALSE, nharmonics = 3, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
-#' end time of selections. The output \code{\link{auto_detec}} can
-#' be used as the input data frame.
+#' end time of selections.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in bottom.freq
 #'   and top.freq columns will be used as bandpass limits.  Lower limit of
@@ -426,6 +422,13 @@ spectro_analysis <-
     
   }
   
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("computing spectral features")
+    
+    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
@@ -445,13 +448,3 @@ spectro_analysis <-
   
   return(sp)
   }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{spectro_analysis}}
-#'
-#' @keywords internal
-#' @details see \code{\link{spectro_analysis}} for documentation. \code{\link{specan}} will be deprecated in future versions.
-#' @export
-
-specan <- spectro_analysis

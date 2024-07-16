@@ -4,8 +4,17 @@
 \alias{multi_DTW}
 \title{A wrapper on \code{\link[dtw]{dtwDist}} for comparing multivariate contours}
 \usage{
-multi_DTW(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE,  parallel = 1,
-window.type = "none", open.end = FALSE, scale = FALSE, dist.mat = TRUE, ...)
+multi_DTW(
+  ts.df1 = NULL,
+  ts.df2 = NULL,
+  pb = TRUE,
+  parallel = 1,
+  window.type = "none",
+  open.end = FALSE,
+  scale = FALSE,
+  dist.mat = TRUE,
+  ...
+)
 }
 \arguments{
 \item{ts.df1}{Optional. Data frame with frequency contour time series of signals to be compared.}

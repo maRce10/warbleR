@@ -1,5 +1,4 @@
-##############################################################################################################
-#' deprecated functions and function names
+#' Deprecated functions and function names
 #'
 #' @keywords internal
 #' @details functions that have been deprecated or moved to other packages.
@@ -21,7 +20,23 @@ manualoc <- manual_loc <- function(...) warning2(x = "This function has been dep
 
 find_annotations <- function(...) warning2(x = "This function has been removed due to API changes at audioblast.org")
 
-optimize_auto_detec <- function(...) warning2(x = "This function has been deprecated. Look at the package ohun for signal detection tools")
+optimize_auto_detec <- function(...) {
+  
+  warning2(x = "optimize_auto_detec() function name has been deprecated. Please use `optimize_energy_detector()` from the 'ohun' package instead. Look at the package ohun for signal detection tools") 
+}
 
 song_param <- function(...) warning2(x = "This function name has been deprecated. Please use `song_analysis` instead")
 
+auto_detec <-
+  function(...) {
+    
+    warning2(x = "auto_detec() function name has been deprecated. Please use `energy_detector()` from the 'ohun' package instead. Look at the package ohun for signal detection tools") 
+
+  }
+
+find_peaks <-
+  function(...) {
+    
+    warning2(x = "find_peaks() function name has been deprecated. Please use `template_detector()` from the 'ohun' package instead. Look at the package ohun for signal detection tools") 
+    
+  }

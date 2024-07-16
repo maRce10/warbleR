@@ -4,9 +4,18 @@
 \alias{test_coordination}
 \title{Randomization test for singing coordination}
 \usage{
-test_coordination(X, iterations = 1000, ovlp.method = "count",
-randomization = "keep.gaps", less.than.chance = TRUE, parallel = 1, pb = TRUE,
-rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE)
+test_coordination(
+  X = NULL,
+  iterations = 1000,
+  ovlp.method = "count",
+  randomization = "keep.gaps",
+  less.than.chance = TRUE,
+  parallel = 1,
+  pb = TRUE,
+  rm.incomp = FALSE,
+  cutoff = 2,
+  rm.solo = FALSE
+)
 }
 \arguments{
 \item{X}{Data frame containing columns for singing event (sing.event),

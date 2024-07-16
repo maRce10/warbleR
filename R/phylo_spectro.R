@@ -1,9 +1,6 @@
 #' Add spectrograms onto phylogenetic trees
 #' 
 #' \code{phylo_spectro} Add spectrograms to the tips of an objects of class phylo.
-#' @usage phylo_spectro(X, tree, type = "phylogram", par.mar = rep(1, 4), 
-#' size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, axis = TRUE, 
-#' box = TRUE, ...) 
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 
 #' (sound.files), selection number (selec), and start and end time of signals (start and end). 
 #' 'top.freq' and 'bottom.freq' columns are optional. In addition, the data frame must include the column 'tip.label' that contains the names of the tip labels found in the tree (e.g. '\code{tree$tip.label}). This column is used to match rows and tip labels. If using an 

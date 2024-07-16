@@ -4,8 +4,16 @@
 \alias{check_sels}
 \title{Check selection data frames}
 \usage{
-check_sels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE,
-wav.size = FALSE, verbose = TRUE, fix.selec = FALSE)
+check_sels(
+  X = NULL,
+  parallel = 1,
+  path = NULL,
+  check.header = FALSE,
+  pb = TRUE,
+  wav.size = FALSE,
+  verbose = TRUE,
+  fix.selec = FALSE
+)
 }
 \arguments{
 \item{X}{'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
@@ -89,7 +97,7 @@ check_sels(X = lbh_selec_table, path = tempdir())
 {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 }
 \seealso{
-\code{\link{check_wavs}}
+\code{\link{check_sound_files}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

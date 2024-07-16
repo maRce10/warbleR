@@ -5,8 +5,19 @@
 \alias{sound_pressure_level}
 \title{Measure relative sound pressure level}
 \usage{
-sound_pressure_level(X, reference = 20, parallel = 1, path = NULL, pb = TRUE,
-type = "single", wl = 100, bp = NULL, remove.bgn = FALSE, mar = NULL, envelope = "abs")
+sound_pressure_level(
+  X,
+  reference = 20,
+  parallel = 1,
+  path = NULL,
+  pb = TRUE,
+  type = "single",
+  wl = 100,
+  bp = NULL,
+  remove.bgn = FALSE,
+  mar = NULL,
+  envelope = "abs"
+)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or any data frame with columns

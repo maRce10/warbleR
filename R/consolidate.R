@@ -2,8 +2,6 @@
 #'
 #' \code{consolidate} copies (sound) files scattered in several directories into a single one.
 #' @export consolidate
-#' @usage consolidate(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$",
-#' parallel = 1, save.csv = TRUE, ...)
 #' @param files character vector indicating the subset of files that will be consolidated. File names should include the full file path. Optional.
 #' @param path Character string containing the directory path where the sound files are located.
 #' 'wav.path' set by \code{\link{warbleR_options}} is ignored.
@@ -166,6 +164,15 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   # create function to run within Xapply functions downstream
   copyFUN <- function(i, dp, df) file.copy(from = file.path(df$original_dir[i], df$old_name[i]), to = file.path(dp, df$new_name[i]), ...)
 
+  
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("consolidating files", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

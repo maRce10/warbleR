@@ -1,8 +1,6 @@
 #' Convert .wav files to .flac
 #'
 #' \code{wav_2_flac} converts several .wav files to .flac compressed lossless format
-#' @usage wav_2_flac(files = NULL, path = NULL, overwrite = FALSE,
-#' pb = TRUE, parallel = 1, reverse = FALSE, compression = 5, flac.path)
 #' @param files character vector with the names of files to be converted. If \code{NULL} all files in the working directory (or 'path' if supplied) are converted.
 #' @param path Character string containing the directory path where the .wav files are located.
 #' If \code{NULL} (default) then the current working directory is used.
@@ -159,9 +157,14 @@ wav_2_flac <-
         stop2("some (or all) sound files were not found")
       }
     }
-
-    # check path to flac programs
-
+    
+    # update progress info
+    if (pb) {
+      reset_onexit <- .update_progress("converting sound files")
+      
+        on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+    }
+    
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -177,7 +180,7 @@ wav_2_flac <-
         X = files,
         cl = cl,
         FUN = function(i) {
-          # warbleR::try_na(
+          # .try_na(
           flacwav(
             file = file.path(path, i),
             overwrite = overwrite,

@@ -1,12 +1,11 @@
 #' Open working directory
 #' 
 #' \code{open_wd} opens the working directory in the default file browser.
-#' @usage open_wd(path = getwd(), verbose = TRUE)
 #' @param path Directory path to be opened. By default it's the working directory. 
 #' 'wav.path' set by \code{\link{warbleR_options}} is ignored in this case.
 #' @param verbose Logical to control whether the 'path' is printed in the console. Defaut is \code{TRUE}.
 #' @family data manipulation
-#' @seealso \code{\link{move_imgs}} 
+#' @seealso \code{\link{move_images}} 
 #' @export
 #' @name open_wd
 #' @details The function opens the working directory using the default file browser 

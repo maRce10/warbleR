@@ -1,12 +1,9 @@
 #' Calculate descriptive statistics on Mel-frequency cepstral coefficients
 #'
 #' \code{mfcc_stats} calculates descriptive statistics on Mel-frequency cepstral coefficients and its derivatives.
-#' @usage mfcc_stats(X, ovlp = 50, wl = 512, bp = 'frange', path = NULL, numcep = 25,
-#' nbands = 40, parallel = 1, pb = TRUE, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
-#' end time of selections. The output of \code{\link{auto_detec}} can
-#' be used as the input data frame.
+#' end time of selections.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two
 #' consecutive windows. Internally this is used to set the 'hoptime' argument in \code{\link[tuneR]{melfcc}}. Default is 50.
 #' @param wl A numeric vector of length 1 specifying the spectrogram window length. Default is 512. See 'wl.freq' for setting windows length independently in the frequency domain.
@@ -214,9 +211,13 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = "frange", path = NULL,
     return(out.df)
   }
 
-
-
-
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("computing MFCC stats", total = 1)
+    
+    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

@@ -1,13 +1,6 @@
 #' Simulate animal vocalizations
 #'
 #' \code{simulate_songs} simulate animal vocalizations in a wave object under brownian motion frequency drift.
-#' @usage simulate_songs(n = 1, durs = 0.2, harms = 3, harm.amps = c(1, 0.5, 0.2), am.amps = 1,
-#' gaps = 0.1, freqs = 5, samp.rate = 44.1, sig2 = 0.5,
-#' steps = 10, bgn = 0.5, seed = NULL, diff.fun = "GBM",
-#' fin = 0.1, fout = 0.2, shape = "linear", selec.table = FALSE,
-#' file.name = NULL, path = NULL,
-#' hrm.freqs = c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10),
-#' freq.range = 4)
 #' @param n Number of song subunits (e.g. elements). Default is 1.
 #' @param durs Numeric vector with the duration of subunits in seconds. It should either be a single value (which would
 #' be used for all subunits) or a vector of length \code{n}.
@@ -416,12 +409,3 @@ simulate_songs <-
       return(wv)
     }
   }
-
-##############################################################################################################
-#' alternative name for \code{\link{simulate_songs}}
-#'
-#' @keywords internal
-#' @details see \code{\link{simulate_songs}} for documentation. \code{\link{sim_songs}} will be deprecated in future versions.
-#' @export
-
-sim_songs <- simulate_songs

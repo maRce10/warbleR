@@ -4,11 +4,29 @@
 \alias{freq_ts}
 \title{Extract frequency contours as time series}
 \usage{
-freq_ts(X, type = "dominant", wl = 512, length.out = 20, wn = "hanning",
-ovlp = 70, bp = NULL, threshold = 15, img = TRUE, parallel = 1, path = NULL,
-img.suffix = "frequency.ts", pb = TRUE, clip.edges = FALSE, leglab = "frequency.ts",
-track.harm = FALSE, raw.contour = FALSE, adjust.wl = TRUE,
-ff.method = "seewave", entropy.range = c(2, 10), ...)
+freq_ts(
+  X,
+  type = "dominant",
+  wl = 512,
+  length.out = 20,
+  wn = "hanning",
+  ovlp = 70,
+  bp = NULL,
+  threshold = 15,
+  img = TRUE,
+  parallel = 1,
+  path = NULL,
+  img.suffix = "frequency.ts",
+  pb = TRUE,
+  clip.edges = FALSE,
+  leglab = "frequency.ts",
+  track.harm = FALSE,
+  raw.contour = FALSE,
+  adjust.wl = TRUE,
+  ff.method = "seewave",
+  entropy.range = c(2, 10),
+  ...
+)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data

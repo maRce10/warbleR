@@ -4,9 +4,17 @@
 \alias{move_images}
 \title{Move/copy image files between directories}
 \usage{
-move_images(from = NULL, to = NULL, it = "all", cut = TRUE,
-overwrite = FALSE, create.folder = TRUE, folder.name = "image_files",
-parallel = 1, pb = TRUE)
+move_images(
+  from = NULL,
+  to = NULL,
+  it = "all",
+  cut = TRUE,
+  overwrite = FALSE,
+  create.folder = TRUE,
+  folder.name = "image_files",
+  parallel = 1,
+  pb = TRUE
+)
 }
 \arguments{
 \item{from}{Directory path where image files to be copied are found.
@@ -78,7 +86,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{filtersels}}
+\code{\link{filter_sels}}
 
 Other data manipulation: 
 \code{\link{open_wd}()},

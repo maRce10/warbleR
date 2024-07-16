@@ -1,15 +1,7 @@
 #' @title Assessing the performance of acoustic distance measurements
 #'
 #' @description \code{compare_methods} creates graphs to visually assess performance of acoustic distance measurements
-#' @usage compare_methods(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 512, ovlp = 90,
-#' res = 150, n = 10, length.out = 30,
-#' methods = NULL,
-#' it = "jpeg", parallel = 1, path = NULL, sp = NULL, custom1 = NULL,
-#' custom2 = NULL, pb = TRUE, grid = TRUE,  clip.edges = TRUE,
-#' threshold = 15, na.rm = FALSE, scale = FALSE, pal = reverse.gray.colors.2,
-#' img = TRUE, ...)
-#' @param X 'selection_table' object or data frame with results from \code{\link{auto_detec}}
-#' function, or any data frame with columns for sound file name (sound.files),
+#' @param X 'selection_table' object or data frame with columns for sound file name (sound.files),
 #' selection number (selec), and start and end time of signal (start and end).
 #' Default \code{NULL}.
 #' @param flim A numeric vector of length 2 for the frequency limit in kHz of
@@ -44,7 +36,6 @@
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
-#' @param sp DEPRECATED.
 #' @param custom1 Data frame containing user parameters. The data frame must have 4 columns: the first 2 columns are 'sound.files'
 #' and "selec' columns as in 'X', the other 2 (columns 3 and 4) are
 #' 2 numeric columns to be used as the 2 parameters representing custom measurements. If the data has more than 2 parameters try using PCA (i.e. \code{\link[stats]{prcomp}} function)to summarize it in 2 dimensions before using it as an input. Default is \code{NULL}.
@@ -162,28 +153,40 @@
 #' seewave package to create spectrograms.
 # last modification on mar-13-2018 (MAS)
 
-compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 512, ovlp = 90,
-                            res = 150, n = 10, length.out = 30, methods = NULL,
-                            it = "jpeg", parallel = 1, path = NULL, sp = NULL, custom1 = NULL, custom2 = NULL, pb = TRUE, grid = TRUE,
-                            clip.edges = TRUE, threshold = 15, na.rm = FALSE, scale = FALSE,
-                            pal = reverse.gray.colors.2, img = TRUE, ...) {
-  # define number of steps in analysis to print message
-  steps <- list(current = 0, total = 0, top.function = "compare_methods")
+
+compare_methods <- function(X = NULL,
+                            flim = NULL,
+                            bp = NULL,
+                            mar = 0.1,
+                            wl = 512,
+                            ovlp = 90,
+                            res = 150,
+                            n = 10,
+                            length.out = 30,
+                            methods = NULL,
+                            it = "jpeg",
+                            parallel = 1,
+                            path = NULL,
+                            custom1 = NULL,
+                            custom2 = NULL,
+                            pb = TRUE,
+                            grid = TRUE,
+                            clip.edges = TRUE,
+                            threshold = 15,
+                            na.rm = FALSE,
+                            scale = FALSE,
+                            pal = reverse.gray.colors.2,
+                            img = TRUE,
+                            ...
+) {
 
   if (pb) {
-    steps$total <- 3
-    if (any(methods == "XCORR")) steps$total <- steps$total + 1
-    if (!is.null(custom1)) steps$total <- steps$total - 1
-    if (!is.null(custom2)) steps$total <- steps$total - 1
+    total <- 3
+    if (any(methods == "XCORR")) total <- total + 1
+    if (!is.null(custom1)) total <- total - 1
+    if (!is.null(custom2)) total <- total - 1
     
-    # for functions with no internal step count
-    total.steps <- steps$total
-    current.step <- 1
-    
-    # set internally
-    options("int_warbleR_steps" = steps)
-    
-    on.exit(options("int_warbleR_steps" = list(current = 0, total = 0, top.function = NULL)), add = TRUE)
+    .update_progress(total = total)
   }
   
   #### set arguments from options
@@ -327,9 +330,6 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     }
   }
   
-  # check sp data frame
-  if (!is.null(sp)) warning2(x = "'sp' has been deprecated and will be ignored. Use 'custom1' instead")
-  
   # check custom1 data frame
   if (!is.null(custom1)) {
     if (!is.data.frame(custom1)) stop("'custom1' must be a data frame")
@@ -384,7 +384,7 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   }
   
   if ("XCORR" %in% methods) {
-    xcmat <- warbleR::cross_correlation(X, wl = wl, bp = bp, ovlp = ovlp, parallel = parallel, pb = pb, na.rm = na.rm, path = path, dens = NULL)
+    xcmat <- warbleR::cross_correlation(X, wl = wl, bp = bp, ovlp = ovlp, parallel = parallel, pb = pb, na.rm = na.rm, path = path)
     
     MDSxcorr <- stats::cmdscale(1 - xcmat)
     MDSxcorr <- scale(MDSxcorr)
@@ -392,16 +392,9 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     
     # remove the ones that failed cross-corr
     if (na.rm) X <- X[paste(X$sound.files, X$selec, sep = "-") %in% rownames(MDSxcorr), ]
-    # update number of steps
-    current.step <- steps$current <- steps$current + 2
-    options("int_warbleR_steps" = steps)
-  }
+   }
   
   if ("dfDTW" %in% methods) {
-    if (pb) {
-      message2(x = paste0("measuring dominant frequency contours (step ", current.step, " of ", total.steps, "):"), color = "black")
-    }
-    
     
     dtwmat <- warbleR::freq_ts(X,
                                wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out,
@@ -419,17 +412,10 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     MDSdtw <- stats::cmdscale(dm)
     MDSdtw <- scale(MDSdtw)
     bidims[[length(bidims) + 1]] <- MDSdtw
-    
-    # update number of steps
-    current.step <- steps$current <- steps$current + 1
-    options("int_warbleR_steps" = steps)
   }
   
   if ("ffDTW" %in% methods) {
-    if (pb) {
-      message2(x = paste0("measuring fundamental frequency contours (step ", current.step, " of ", total.steps, "):"), "black")
-    }
-    
+ 
     dtwmat <- warbleR::freq_ts(X,
                                type = "fundamental", bp = bp, wl = wl, flim = flim, ovlp = ovlp, img = FALSE, parallel = parallel, length.out = length.out, ff.method = "seewave",
                                pb = pb, clip.edges = clip.edges, threshold = threshold, path = path
@@ -446,16 +432,9 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     MDSdtw <- stats::cmdscale(dm)
     MDSdtw <- scale(MDSdtw)
     bidims[[length(bidims) + 1]] <- MDSdtw
-    
-    # update number of steps
-    current.step <- steps$current <- steps$current + 1
-    options("int_warbleR_steps" = steps)
-  }
+    }
   
   if ("SP" %in% methods) {
-    if (pb) {
-      message2(x = paste0("measuring spectral parameters (step ", current.step, " of ", total.steps, "):"), color = "black")
-    }
     
     spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = FALSE, path = path)
     
@@ -463,15 +442,9 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     
     bidims[[length(bidims) + 1]] <- PCsp
     
-    # update number of steps
-    current.step <- steps$current <- steps$current + 1
-    options("int_warbleR_steps" = steps)
   }
   
   if ("SPharm" %in% methods) {
-    if (pb) {
-      message2(x = paste0("measuring spectral parameters + harmonicity (step ", current.step, " of ", total.steps, "):"), "black")
-    }
     
     spmat <- warbleR::spectro_analysis(X, wl = wl, bp = bp, parallel = parallel, pb = pb, threshold = threshold, harmonicity = TRUE, path = path)
     
@@ -483,16 +456,9 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     PCsp <- prcomp(scale(spmat[, 3:ncol(spmat)]), center = TRUE, scale. = TRUE, rank. = 2)$x
     
     bidims[[length(bidims) + 1]] <- PCsp
-    
-    # update number of steps
-    current.step <- steps$current <- steps$current + 1
-    options("int_warbleR_steps" = steps)
   }
   
   if ("MFCC" %in% methods) {
-    if (pb) {
-      message2(x = paste0("measuring mel frequency cepstral coefficients (step ", current.step, " of ", total.steps, "):"), "black")
-    }
     mfcc <- warbleR::mfcc_stats(X, wl = wl, bp = bp, parallel = parallel, pb = pb, path = path)
     
     if (any(sapply(mfcc, anyNA))) stop("NAs generated when calculated MFCC's, try a higher 'wl'")
@@ -501,9 +467,6 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
     
     bidims[[length(bidims) + 1]] <- PCmfcc
     
-    # update number of steps
-    current.step <- steps$current <- steps$current + 1
-    options("int_warbleR_steps" = steps)
   }
   
   # name matchs changing order to match order in whic methods are ran
@@ -710,7 +673,9 @@ compare_methods <- function(X = NULL, flim = NULL, bp = NULL, mar = 0.1, wl = 51
   
   # save image files
   if (pb) {
-    message2(x = paste0("creating image files (step ", current.step, " of ", total.steps, "):"), "black")
+    reset_onexit <- .update_progress("creating image files", current = total, total = total)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
   }
   
   # set clusters for windows OS

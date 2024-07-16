@@ -3,9 +3,6 @@
 \name{envelope}
 \alias{envelope}
 \title{Calculates the absolute amplitude envelope}
-\usage{
-envelope(x, ssmooth = 0)
-}
 \arguments{
 \item{x}{Numeric vector with amplitude values. Required.}
 

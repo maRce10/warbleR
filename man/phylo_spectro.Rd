@@ -4,9 +4,20 @@
 \alias{phylo_spectro}
 \title{Add spectrograms onto phylogenetic trees}
 \usage{
-phylo_spectro(X, tree, type = "phylogram", par.mar = rep(1, 4), 
-size = 1, offset = 0, path = NULL, ladder = NULL, horizontal = TRUE, axis = TRUE, 
-box = TRUE, ...)
+phylo_spectro(
+  X,
+  tree,
+  type = "phylogram",
+  par.mar = rep(1, 4),
+  size = 1,
+  offset = 0,
+  path = NULL,
+  ladder = NULL,
+  horizontal = TRUE,
+  axis = TRUE,
+  box = TRUE,
+  ...
+)
 }
 \arguments{
 \item{X}{'selection_table', 'extended_selection_table' or data frame containing columns for sound file name 

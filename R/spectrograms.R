@@ -1,13 +1,6 @@
 #' Spectrograms of selected signals
 #'
 #' \code{spectrograms} creates spectrograms of signals from selection tables.
-#' @usage spectrograms(X, wl = 512, flim = "frange", wn = "hanning", pal  = reverse.gray.colors.2,
-#' ovlp = 70, inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100,
-#' cexlab = 1, propwidth = FALSE, xl = 1, osci = FALSE, gr = FALSE,  sc = FALSE, line = TRUE,
-#' col = "#07889B", fill = adjustcolor("#07889B", alpha.f = 0.15), lty = 3,
-#' mar = 0.05, it = "jpeg", parallel = 1, path = NULL, pb = TRUE, fast.spec = FALSE,
-#' by.song = NULL, sel.labels = "selec", title.labels = NULL, dest.path = NULL,
-#' box = TRUE, axis = TRUE, ...)
 #' @param X 'selection_table', 'extended_selection_table' or data frame containing columns for sound file name (sound.files),
 #' selection number (selec), and start and end time of signals (start and end).
 #' 'top.freq' and 'bottom.freq' columns are optional. If using an
@@ -572,7 +565,13 @@ spectrograms <-
         dev.off()
       }
 
-
+    ## update progress message
+    if (pb) {
+      reset_onexit <- .update_progress("creating spectrogram image files")
+      
+        on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+    }
+    
 
 
     # set clusters for windows OS
@@ -610,13 +609,3 @@ spectrograms <-
         }
       )
   }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{spectrograms}}
-#'
-#' @keywords internal
-#' @details see \code{\link{spectrograms}} for documentation. \code{\link{specreator}} will be deprecated in future versions.
-#' @export
-
-specreator <- spectrograms

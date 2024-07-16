@@ -1,8 +1,6 @@
 #' Convert .mp3 files to .wav
 #'
 #' \code{mp32wav} converts several .mp3 files in working directory to .wav format
-#' @usage mp32wav(samp.rate = NULL, parallel = 1, path = NULL,
-#'  dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)
 #' @param samp.rate Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. THIS FEATURE IS CURRENTLY NOT AVAILABLE. However, downsampling can be done after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{https://sourceforge.net/projects/sox/}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
@@ -181,7 +179,14 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
 
 
   ######
-
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("converting mp3 files into '.wav' format", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -204,13 +209,3 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
     message2(paste("\nErrors found: \n", paste(unique(out[sapply(out, function(x) is(x, "try-error"))]), collapse = ", ")))
   }
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{mp32wav}}
-#'
-#' @keywords internal
-#' @details see \code{\link{mp32wav}} for documentation. \code{\link{mp32wav}} will be deprecated in future versions.
-#' @export
-
-mp3_2_wav <- mp32wav

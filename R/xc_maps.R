@@ -2,9 +2,6 @@
 #'
 #' \code{map_xc} creates maps to visualize the geographic spread of 'Xeno-Canto'
 #'   recordings.
-#' @usage map_xc(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
-#'  path = NULL, leaflet.map = FALSE,
-#'  leaflet.cluster = FALSE)
 #' @param X Data frame output from \code{\link{query_xc}}.
 #' @param img A logical argument specifying whether an image file of each species
 #'   map should be returned, default is \code{TRUE}.
@@ -340,12 +337,3 @@ map_xc <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
     leaf.map
   }
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{map_xc}}
-#'
-#' @keywords internal
-#' @details see \code{\link{map_xc}} for documentation. \code{\link{xcmaps}} will be deprecated in future versions.
-#' @export
-
-xcmaps <- map_xc

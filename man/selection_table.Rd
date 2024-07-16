@@ -4,10 +4,22 @@
 \alias{selection_table}
 \title{Create 'selection_table' and 'extended_selection_table' objects}
 \usage{
-selection_table(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-extended = FALSE, confirm.extended = NULL, mar = 0.1, by.song = NULL,
-pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE,
-file.format = "\\\.wav$|\\\.wac$|\\\.mp3$|\\\.flac$", files = NULL, ...)
+selection_table(
+  X,
+  max.dur = 10,
+  path = NULL,
+  whole.recs = FALSE,
+  extended = FALSE,
+  mar = 0.1,
+  by.song = NULL,
+  pb = TRUE,
+  parallel = 1,
+  verbose = TRUE,
+  skip.error = FALSE,
+  file.format = "\\\\.wav$|\\\\.wac$|\\\\.mp3$|\\\\.flac$",
+  files = NULL,
+  ...
+)
 }
 \arguments{
 \item{X}{data frame with the following columns: 1) "sound.files": name of the .wav
@@ -24,7 +36,7 @@ If \code{NULL} (default) then the current working directory is used.}
 
 \item{whole.recs}{Logical. If \code{TRUE} the function will create a selection
 table for all sound files in the working directory (or "path") with `start = 0`
-and `end = duration_wavs()`. Default is if \code{FALSE}. Note that this will not create
+and `end = duration_sound_files()`. Default is if \code{FALSE}. Note that this will not create
 a extended selection table. If provided 'X' is ignored.}
 
 \item{extended}{Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table'
@@ -33,11 +45,6 @@ and self-contained format that does not require the original sound files for run
 \code{\link{warbleR}}. This can largely facilitate the storing and sharing of (bio)acoustic data. Default
 is if \code{FALSE}. An extended selection table won't be created if there is any issue with the selection. See
 'details'.}
-
-\item{confirm.extended}{Logical. If \code{TRUE} then the size of the 'extended_selection_table'
-will be estimated and the user will be asked for confirmation (in the console)
-before proceeding. Ignored if 'extended' is \code{FALSE}. This is used to prevent
-generating objects too big to be dealt with by R. See 'details' for more information about extended selection table size. THIS ARGUMENT HAS BEEN DEPRECATED.}
 
 \item{mar}{Numeric vector of length 1 specifying the margins (in seconds)
 adjacent to the start and end points of the selections when creating extended
@@ -145,7 +152,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{check_wavs}}
+\code{\link{check_sound_files}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

@@ -4,8 +4,16 @@
 \alias{split_sound_files}
 \title{Splits sound files}
 \usage{
-split_sound_files(path = NULL, sgmt.dur = 10, sgmts = NULL, files = NULL,
- parallel = 1, pb = TRUE, only.sels = FALSE, X = NULL)
+split_sound_files(
+  path = NULL,
+  sgmt.dur = 10,
+  sgmts = NULL,
+  files = NULL,
+  parallel = 1,
+  pb = TRUE,
+  only.sels = FALSE,
+  X = NULL
+)
 }
 \arguments{
 \item{path}{Directory path where sound files are found.
@@ -35,7 +43,7 @@ Wave files for each segment in the working directory (if \code{only.sels = FALSE
 \code{split_sound_files} splits sound files in shorter segments
 }
 \details{
-This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size (big files can be manipulated, e.g. \code{\link{auto_detec}}). The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
+This function aims to reduce the size of sound files in order to simplify some processes that are limited by sound file size. The function keeps the original number of channels in the output clips only for 1- and 2-channel files.
 }
 \examples{
 {

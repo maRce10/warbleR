@@ -1,9 +1,6 @@
 #' Randomization test for singing coordination
 #'
 #' Monte Carlo randomization test to assess the statistical significance of overlapping or alternating singing (or any other simultaneously occurring behavior).
-#' @usage test_coordination(X, iterations = 1000, ovlp.method = "count",
-#' randomization = "keep.gaps", less.than.chance = TRUE, parallel = 1, pb = TRUE,
-#' rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE)
 #' @param  X Data frame containing columns for singing event (sing.event),
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param iterations number of iterations for shuffling and calculation of the expected number of overlaps. Default is 1000.
@@ -364,6 +361,12 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   # time to closest call from other individuals
   if (ovlp.method == "time.closest") closestFUN
 
+  if (pb) {
+    reset_onexit <- .update_progress("computing coordination statistics")
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -405,13 +408,3 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
 
   return(df)
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{test_coordination}}
-#'
-#' @keywords internal
-#' @details see \code{\link{test_coordination}} for documentation. \code{\link{coor.test}} will be deprecated in future versions.
-#' @export
-
-coor.test <- test_coordination

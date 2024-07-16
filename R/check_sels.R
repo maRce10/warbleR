@@ -1,8 +1,6 @@
 #' Check selection data frames
 #'
 #' \code{check_sels} checks whether selections can be read by subsequent functions.
-#' @usage check_sels(X, parallel = 1, path = NULL, check.header = FALSE, pb = TRUE,
-#' wav.size = FALSE, verbose = TRUE, fix.selec = FALSE)
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections.
@@ -54,7 +52,7 @@
 #' files (see 'Value') as well as the result of the checks ('check.res' column, value is 'OK' if everything is fine).
 #' Sound files should be in the working directory (or the directory provided in 'path'). Corrupt files can be fixed using
 #' \code{\link{fix_wavs}}.
-#' @seealso \code{\link{check_wavs}}
+#' @seealso \code{\link{check_sound_files}}
 #' @export
 #' @name check_sels
 #' @export
@@ -251,8 +249,12 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
     return(Y)
   }
 
-
-
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress("checking annotations", total = 1)
+    
+    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -311,12 +313,3 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
   # return data frame
   res <- res
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{check_sels}}
-#'
-#' @keywords internal
-#' @details see \code{\link{check_sels}} for documentation. \code{\link{checksels}} will be deprecated in future versions.
-#' @export
-
-checksels <- check_sels

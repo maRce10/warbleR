@@ -2,7 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @title Calculates the absolute amplitude envelope
-#' @usage envelope(x, ssmooth = 0)
 #' @param x Numeric vector with amplitude values. Required.
 #' @param ssmooth Numeric vector of length 1 indicating the size of the sliding window use to smooth envelopes. Default is 0 (no smoothing).
 #' @return An amplitude envelope.

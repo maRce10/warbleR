@@ -4,8 +4,15 @@
 \alias{mp32wav}
 \title{Convert .mp3 files to .wav}
 \usage{
-mp32wav(samp.rate = NULL, parallel = 1, path = NULL,
- dest.path = NULL, bit.depth = 16, pb = TRUE, overwrite = FALSE)
+mp32wav(
+  samp.rate = NULL,
+  parallel = 1,
+  path = NULL,
+  dest.path = NULL,
+  bit.depth = 16,
+  pb = TRUE,
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{samp.rate}{Sampling rate in kHz at which the .wav files should be written. If not provided the sample rate of the original .mp3 file is used. THIS FEATURE IS CURRENTLY NOT AVAILABLE. However, downsampling can be done after .mp3's have been converted using the \code{\link{fix_wavs}} function (which uses \href{https://sourceforge.net/projects/sox/}{SOX} instead). Default is \code{NULL} (e.g. keep original sampling rate).}

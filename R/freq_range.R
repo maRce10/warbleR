@@ -1,15 +1,9 @@
 #' Detect frequency range iteratively
 #'
 #' \code{freq_range} detect frequency range iteratively from signals in a selection table.
-#' @usage freq_range(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, threshold = 10,
-#' dB.threshold = NULL, wn = "hanning", flim = NULL, bp = NULL,
-#' propwidth = FALSE, xl = 1, picsize = 1, res = 100, fast.spec = FALSE, ovlp = 50,
-#' pal = reverse.gray.colors.2, parallel = 1, widths = c(2, 1), main = NULL,
-#' img = TRUE, mar = 0.05, path = NULL, pb = TRUE, impute = FALSE)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
-#' end time of selections. The output of \code{\link{auto_detec}} can
-#' also be used as the input data frame.
+#' end time of selections.
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default
 #'   is 512. This is used for calculating the frequency spectrum (using \code{\link[seewave]{meanspec}})
 #'   and producing the spectrogram (using \code{\link[seewave]{spectro}}, if \code{img = TRUE}).
@@ -71,7 +65,7 @@
 #'   }
 #'   If \code{img = TRUE} a graph including a spectrogram and a frequency spectrum is
 #'   generated for each selection (saved as an image file in the working directory). The graph would include gray areas in the frequency ranges excluded by the bandpass ('bp' argument), dotted lines highlighting the detected range. The function \code{\link{freq_range_detec}} is used internally.
-#' @seealso \code{\link{freq_range_detec}}, \code{\link{auto_detec}}
+#' @seealso \code{\link{freq_range_detec}}, \code{\link{freq_ts}}
 #' @examples
 #' {
 #'   data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
@@ -215,9 +209,14 @@ freq_range <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thr
     # return low and high freq
     return(data.frame(X[i, grep("bottom.freq|top.freq", names(X), invert = TRUE)], bottom.freq = frng$frange$bottom.freq, top.freq = frng$frange$top.freq))
   }
-
-
-
+  
+  ## update progress message
+  if (pb) {
+    reset_onexit <- .update_progress(if (img) "computing frequency ranges and saving image files" else "computing frequency ranges", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
+  
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -251,12 +250,3 @@ freq_range <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thr
 
   return(fr)
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{freq_range}}
-#'
-#' @keywords internal
-#' @details see \code{\link{freq_range}} for documentation. \code{\link{frange}} will be deprecated in future versions.
-#' @export
-
-frange <- freq_range

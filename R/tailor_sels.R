@@ -2,12 +2,6 @@
 #'
 #' \code{tailor_sels} produces an interactive spectrographic view in
 #' which the start/end times and frequency range of acoustic signals listed in a data frame can be adjusted.
-#' @usage tailor_sels(X = NULL, wl = 512, flim = c(0,22), wn = "hanning", mar = 0.5,
-#'  osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE, pause = 1,
-#'   comments = TRUE, path = NULL, frange = TRUE, fast.spec = FALSE, ext.window = TRUE,
-#'   width = 15, height = 5, index = NULL, collevels = NULL,
-#'   title = c("sound.files", "selec"), ts.df = NULL, col = "#E37222",
-#'   alpha = 0.7, auto.contour = FALSE, ...)
 #' @param X 'selection_table', 'extended_selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections. Notice that, if an output file ("seltailor_output.csv") is found in the working directory it will be given priority over an input data frame.
@@ -51,7 +45,7 @@
 #' Ignored if \code{ext.window = FALSE}. Default is 5.
 #' @param index Numeric vector indicating which selections (rows) of 'X' should be tailored.
 #'  Default is \code{NULL}. Ignored when the process is resumed. This can be useful when combined
-#'  with \code{\link{filtersels}}) output (see 'index' argument in \code{\link{filtersels}}).
+#'  with \code{\link{filter_sels}}) output (see 'index' argument in \code{\link{filter_sels}}).
 #' @param collevels Numeric. Set of levels used to partition the amplitude range (see
 #'  \code{\link[seewave]{spectro}}).
 #' @param title Character vector with the names of the columns to be included in the title for each
@@ -639,13 +633,3 @@ tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar
     }
   }
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{tailor_sels}}
-#'
-#' @keywords internal
-#' @details see \code{\link{tailor_sels}} for documentation. \code{\link{seltailor}} will be deprecated in future versions.
-#' @export
-
-seltailor <- tailor_sels

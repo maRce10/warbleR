@@ -1,7 +1,6 @@
 #' Check sound files
 #'
 #' \code{check_sound_files} checks whether sound files can be read by subsequent functions.
-#' @usage check_sound_files(X = NULL, path = NULL)
 #' @param X Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections. If provided the function also returns the
@@ -144,12 +143,3 @@ check_sound_files <- function(X = NULL, path = NULL) {
     message2("Not all sound files have the same sampling rate (potentially problematic, particularly for cross_correlation())")
   }
 }
-
-##############################################################################################################
-#' alternative name for \code{\link{check_sound_files}}
-#'
-#' @keywords internal
-#' @details see \code{\link{check_sound_files}} for documentation. \code{\link{check_wavs}} will be deprecated in future versions.
-#' @export
-
-check_wavs <- check_sound_files

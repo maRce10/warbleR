@@ -1,9 +1,8 @@
 #' Example data frame of selections (i.e. selection table).
 #'
-#' A data frame containing the start, end, low and high frequency of
+#' @description A data frame containing the start, end, low and high frequency of
 #' \emph{Phaethornis longirostris} (Long-billed Hermit) songs from the
-#' example sound files included in this package. Same data than 'selec_table'.
-#' 'selec_table' will be removed in future package version.
+#' example sound files included in this package.
 #'
 #' @format A data frame with 11 rows and 7 columns: \describe{
 #'  \item{sound.files}{sound file names}
@@ -18,8 +17,5 @@
 #' @usage data(lbh_selec_table)
 #'
 #' @source Marcelo Araya-Salas, warbleR
-#'
-#' @description \code{lbh_selec_table} alternative name for \code{selec.table}. \code{selec.table} will be deprecated in
-#' future versions.
 #'
 "lbh_selec_table"

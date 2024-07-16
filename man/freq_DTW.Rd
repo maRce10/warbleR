@@ -4,18 +4,37 @@
 \alias{freq_DTW}
 \title{Acoustic dissimilarity using dynamic time warping on dominant frequency contours}
 \usage{
-freq_DTW(X = NULL, type = "dominant", wl = 512, wl.freq = 512, length.out = 20,
-wn = "hanning", ovlp = 70, bp = NULL, threshold = 15, threshold.time = NULL,
-threshold.freq = NULL, img = TRUE, parallel = 1, path = NULL, ts.df = NULL,
-img.suffix = "dfDTW", pb = TRUE, clip.edges = TRUE, window.type = "none",
-open.end = FALSE, scale = FALSE, frange.detec = FALSE,  fsmooth = 0.1,
-adjust.wl = TRUE, ...)
+freq_DTW(
+  X = NULL,
+  type = "dominant",
+  wl = 512,
+  wl.freq = 512,
+  length.out = 20,
+  wn = "hanning",
+  ovlp = 70,
+  bp = NULL,
+  threshold = 15,
+  threshold.time = NULL,
+  threshold.freq = NULL,
+  img = TRUE,
+  parallel = 1,
+  path = NULL,
+  ts.df = NULL,
+  img.suffix = "dfDTW",
+  pb = TRUE,
+  clip.edges = TRUE,
+  window.type = "none",
+  open.end = FALSE,
+  scale = FALSE,
+  fsmooth = 0.1,
+  adjust.wl = TRUE,
+  ...
+)
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data
 frame containing columns for sound file name (sound.files),
-selection number (selec), and start and end time of signal (start and end).
-The output of \code{\link{auto_detec}} can be used as the input data frame.}
+selection number (selec), and start and end time of signal (start and end).}
 
 \item{type}{Character string to determine the type of contour to be detected. Three options are available, "dominant" (default), "fundamental" and "entropy".}
 
@@ -71,8 +90,6 @@ open-ended alignments (see \code{\link[dtw]{dtw}}).}
 
 \item{scale}{Logical. If \code{TRUE} frequency values are z-transformed using the \code{\link[base]{scale}} function, which "ignores" differences in absolute frequencies between the signals in order to focus the
 comparison in the frequency contour, regardless of the pitch of signals. Default is \code{TRUE}.}
-
-\item{frange.detec}{DEPRECATED.}
 
 \item{fsmooth}{A numeric vector of length 1 to smooth the frequency spectrum with a mean
 sliding window (in kHz) used for frequency range detection (when \code{frange.detec = TRUE}). This help to average amplitude "hills" to minimize the effect of

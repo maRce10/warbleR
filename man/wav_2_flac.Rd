@@ -4,8 +4,16 @@
 \alias{wav_2_flac}
 \title{Convert .wav files to .flac}
 \usage{
-wav_2_flac(files = NULL, path = NULL, overwrite = FALSE,
-pb = TRUE, parallel = 1, reverse = FALSE, compression = 5, flac.path)
+wav_2_flac(
+  files = NULL,
+  path = NULL,
+  overwrite = FALSE,
+  pb = TRUE,
+  parallel = 1,
+  reverse = FALSE,
+  compression = 5,
+  flac.path = ""
+)
 }
 \arguments{
 \item{files}{character vector with the names of files to be converted. If \code{NULL} all files in the working directory (or 'path' if supplied) are converted.}

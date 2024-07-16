@@ -4,11 +4,6 @@
 \alias{track_harmonic}
 \title{Track harmonic frequency contour}
 \usage{
-track_harmonic(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE, at = NULL,
-tlim = NULL, threshold = 10, bandpass = NULL, clip = NULL, plot = TRUE,
-xlab = "Times (s)", ylab = "Frequency (kHz)",  ylim = c(0, f/2000),
-adjust.wl = FALSE, dfrq = FALSE, ...)
-
 track_harmonic(
   wave,
   f,
@@ -81,8 +76,6 @@ number of samples in a selection if the number of samples is less than 'wl'. Def
 This is a modified version of seewave's \code{\link[seewave]{dfreq}} function that allows to track the frequency
 contour of a dominant harmonic even when the highest amplitude jumps between harmonics. The arguments and default values of the
 original \code{\link[seewave]{dfreq}} function have been kept unchanged to facilitate switching between the 2 functions.
-
-see \code{\link{track_harmonic}} for documentation. \code{\link{track_harmonic}} will be deprecated in future versions.
 }
 \references{
 {
@@ -95,4 +88,3 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 \author{
 Jerome Sueur, modified by Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }
-\keyword{internal}

@@ -4,8 +4,15 @@
 \alias{query_xc}
 \title{Access 'Xeno-Canto' recordings and metadata}
 \usage{
-query_xc(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"),
-parallel = 1, path = NULL, pb = TRUE)
+query_xc(
+  qword,
+  download = FALSE,
+  X = NULL,
+  file.name = c("Genus", "Specific_epithet"),
+  parallel = 1,
+  path = NULL,
+  pb = TRUE
+)
 }
 \arguments{
 \item{qword}{Character vector of length one indicating the genus, or genus and

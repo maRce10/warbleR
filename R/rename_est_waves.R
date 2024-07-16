@@ -2,7 +2,6 @@
 #'
 #' \code{rename_est_waves} rename wave objects and associated metadata in extended selection tables
 #' @export rename_est_waves
-#' @usage rename_est_waves(X, new.sound.files, new.selec = NULL)
 #' @param X object of class 'extended_selection_table'.
 #' @param new.sound.files Character vector of length equals to the number of wave objects in the extended selection table (\code{length(attr(X, "wave.objects"))}).Specifies the new names to be used for wave objects and sound file column. Note that this will rename wave objects and associated attributes and data in 'X'.
 #' @param new.selec Numeric or character vector of length equals to the number of rows in 'X' to specify the 'selec' column labels. Default is \code{NULL}. If not provided the 'selec' column is kept unchanged. Note that the combination of 'sound.files' and 'selec' columns must produce unique IDs for each selection (row).
@@ -73,13 +72,3 @@ rename_est_waves <- function(X, new.sound.files, new.selec = NULL) {
 
   return(X)
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{rename_est_waves}}
-#'
-#' @keywords internal
-#' @details see \code{\link{rename_est_waves}} for documentation. \code{\link{rename_waves_est}} will be deprecated in future versions.
-#' @export
-
-rename_waves_est <- rename_est_waves

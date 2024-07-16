@@ -2,8 +2,6 @@
 #'
 #' \code{plot_coordination} creates graphs of coordinated singing and highlights the signals that overlap
 #' in time. The signals are represented by polygons of different colors.
-#' @usage plot_coordination(X, only.coor = FALSE, ovlp = TRUE, xl = 1, res= 80, it = "jpeg",
-#' img = TRUE, tlim = NULL, pb = TRUE)
 #' @param  X Data frame containing columns for singing event (sing.event),
 #' individual (indiv), and start and end time of signal (start and end).
 #' @param only.coor Logical. If \code{TRUE} only the segment in which both individuals are singing is
@@ -257,13 +255,3 @@ plot_coordination <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1, 
     }
   }))
 }
-
-
-##############################################################################################################
-#' alternative name for \code{\link{plot_coordination}}
-#'
-#' @keywords internal
-#' @details see \code{\link{plot_coordination}} for documentation. \code{\link{coor.graph}} will be deprecated in future versions.
-#' @export
-
-coor.graph <- plot_coordination

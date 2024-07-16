@@ -4,8 +4,13 @@
 \alias{full_spectrogram2pdf}
 \title{\code{full_spectrogram2pdf} combines \code{\link{full_spectrograms}} images in .jpeg format to a single pdf file.}
 \usage{
-full_spectrogram2pdf(keep.img = TRUE, overwrite = FALSE,
-parallel = 1, path = NULL, pb = TRUE)
+full_spectrogram2pdf(
+  keep.img = TRUE,
+  overwrite = FALSE,
+  parallel = 1,
+  path = NULL,
+  pb = TRUE
+)
 }
 \arguments{
 \item{keep.img}{Logical argument. Indicates whether jpeg files should be kept (default) or remove.

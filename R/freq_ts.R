@@ -1,11 +1,6 @@
 #' Extract frequency contours as time series
 #'
 #' \code{freq_ts} extracts the fundamental frequency values as a time series.
-#' @usage freq_ts(X, type = "dominant", wl = 512, length.out = 20, wn = "hanning",
-#' ovlp = 70, bp = NULL, threshold = 15, img = TRUE, parallel = 1, path = NULL,
-#' img.suffix = "frequency.ts", pb = TRUE, clip.edges = FALSE, leglab = "frequency.ts",
-#' track.harm = FALSE, raw.contour = FALSE, adjust.wl = TRUE,
-#' ff.method = "seewave", entropy.range = c(2, 10), ...)
 #' @param X object of class 'selection_table', 'extended_selection_table' or data
 #' frame containing columns for sound file name (sound.files),
 #' selection number (selec), and start and end time of signal (start and end).
@@ -203,27 +198,6 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1")
   if (any(!(parallel %% 1 == 0), parallel < 1)) stop("'parallel' should be a positive integer")
 
-  
-  # define number of steps in analysis to print message
-  if (pb) {
-    steps <- getOption("int_warbleR_steps")
-    if (steps$total > 0) {
-      current.step <- steps$current
-      total.steps <- steps$total
-    } else {
-      total.steps <- 1
-      current.step <- 1
-    }
-  }
-  
-  
-  if (pb) {
-    if (img) {
-      message2(x = paste0("creating spectrograms overlaid with frequency contours (step ", current.step, " of ", total.steps, "):"))
-    } else {
-      message2(x = paste0("measuring frequency contours (step ", current.step, " of ", total.steps, "):"))
-    }
-  }
 
   if (type == "dominant") {
     contour_FUN <- function(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl) {
@@ -532,6 +506,12 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
       return(apen$y)
     }
   }
+  
+  if (pb) {
+    reset_onexit <- .update_progress(if (img) "creating spectrograms overlaid with frequency contour" else "measuring frequency contours", total = 1)
+    
+      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  }
 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -539,7 +519,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   } else {
     cl <- parallel
   }
-
+  
   # run loop apply function
   lst <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
     round(contour_FUN(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl), 4)

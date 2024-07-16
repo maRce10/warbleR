@@ -4,9 +4,19 @@
 \alias{overlapping_sels}
 \title{Find overlapping selections}
 \usage{
-overlapping_sels(X, index = FALSE, pb = TRUE, max.ovlp = 0, relabel = FALSE,
-drop = FALSE, priority = NULL, priority.col = NULL, unique.labs = NULL,
-indx.row = FALSE, parallel = 1, verbose = TRUE)
+overlapping_sels(
+  X,
+  index = FALSE,
+  pb = TRUE,
+  max.ovlp = 0,
+  relabel = FALSE,
+  drop = FALSE,
+  priority = NULL,
+  priority.col = NULL,
+  indx.row = FALSE,
+  parallel = 1,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{X}{'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound
@@ -33,8 +43,6 @@ priority order. Default is \code{NULL}.}
 
 \item{priority.col}{Character vector of length 1 with the name of the column use to determine the priority of
 overlapped selections. Default is \code{NULL}.}
-
-\item{unique.labs}{DEPRECATED.}
 
 \item{indx.row}{Logical. If \code{TRUE} then a character column with the indices of all selections that overlapped with
 each selection is added to the ouput data frame (if \code{index = TRUE}). For instance, if the selections in rows 1,2
@@ -84,7 +92,7 @@ Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamlin
 }
 }
 \seealso{
-\code{\link{filtersels}}, \code{\link{lbh_selec_table}}
+\code{\link{filter_sels}}, \code{\link{lbh_selec_table}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

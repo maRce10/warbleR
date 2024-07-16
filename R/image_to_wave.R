@@ -2,8 +2,6 @@
 #'
 #' \code{image_to_wave} converts images in 'png' format into wave objects using the inverse Fourier transformation
 #' @export image_to_wave
-#' @usage image_to_wave(file, duration = 1, samp.rate = 44.1,
-#' bit.depth = 16, flim = c(0, samp.rate / 2), plot = TRUE)
 #' @param file Character with the name of image file to be converted. File must be in 'png' format.
 #' @param duration duration of the output wave object (in s).
 #' @param samp.rate Numeric vector of length 1 indicating the sampling rate of the output wave object (in kHz). Default is 44.1.
