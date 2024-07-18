@@ -70,7 +70,7 @@ Araya-Salas, PhD</a> &amp; <a href="https://smith-vidaurre.com/" class="external
 Smith-Vidaurre</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2024-07-16</h4>
+            <h4 data-toc-skip class="date">2024-07-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/warbleR_workflow_02.Rmd" class="external-link"><code>vignettes/warbleR_workflow_02.Rmd</code></a></small>
       <div class="d-none name"><code>warbleR_workflow_02.Rmd</code></div>
@@ -80,7 +80,7 @@ Smith-Vidaurre</a>
     
 <!-- <center> <h1><b>Visual inspection and classification of signals</h1></b> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2024-07-16 </center> -->
+<!-- <center> 2024-07-18 </center> -->
 <style type="text/css">
 div#header h1.title, div#header h3.subtitle, div#header h4.author, div#header h4.date {
   text-align: center
@@ -239,7 +239,7 @@ coordinates for these selections are not accurate.</p>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># remove selections after deleting corresponding image files</span></span>
-<span><span class="va">Phae.hisnr2</span> <span class="op">&lt;-</span> <span class="fu">filtersels</span><span class="op">(</span><span class="va">Phae.hisnr</span>, it <span class="op">=</span> <span class="st">"jpeg"</span>, incl.wav <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">Phae.hisnr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_sels.html">filter_sels</a></span><span class="op">(</span><span class="va">Phae.hisnr</span>, it <span class="op">=</span> <span class="st">"jpeg"</span>, incl.wav <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">Phae.hisnr2</span><span class="op">)</span></span></code></pre></div>
 <p>After removing the poorest quality selections or signals, there are
 some other quality control steps that may be helpful.</p>
@@ -350,7 +350,7 @@ frequency range for your selections beforehand using the function
 <span><span class="va">st</span> <span class="op">&lt;-</span> <span class="va">lbh_selec_table</span><span class="op">[</span><span class="va">lbh_selec_table</span><span class="op">$</span><span class="va">sound.files</span> <span class="op">==</span> <span class="st">"Phae.long1.wav"</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="co"># read wave file as an R object</span></span>
-<span><span class="va">sgnl</span> <span class="op">&lt;-</span> <span class="fu">tuneR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html" class="external-link">readWave</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">st</span><span class="op">$</span><span class="va">sound.files</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sgnl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_sound_file.html">read_sound_file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">st</span><span class="op">$</span><span class="va">sound.files</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># create color column</span></span>
 <span><span class="va">st</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red2"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span></span>
@@ -438,7 +438,7 @@ overwritten when creating the second catalog.</p>
 <span><span class="co"># assuming we are working from the warbleR_example directory</span></span>
 <span><span class="co"># the ~/ format does not apply to Windows</span></span>
 <span><span class="co"># make sure you have already moved or deleted all other pdf files</span></span>
-<span><span class="fu">move_imgs</span><span class="op">(</span>from <span class="op">=</span> <span class="st">"."</span>, it <span class="op">=</span> <span class="st">"pdf"</span>, create.folder <span class="op">=</span> <span class="cn">TRUE</span>, folder.name <span class="op">=</span> <span class="st">"Catalog_image_files"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/move_images.html">move_images</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"."</span>, it <span class="op">=</span> <span class="st">"pdf"</span>, create.folder <span class="op">=</span> <span class="cn">TRUE</span>, folder.name <span class="op">=</span> <span class="st">"Catalog_image_files"</span><span class="op">)</span></span></code></pre></div>
 <center>
 <div class="float">
 <img src="Catalog_p1.jpeg" alt="Catalog with labels, tags and groups"><div class="figcaption">Catalog with labels, tags and groups</div>

@@ -70,7 +70,7 @@ Araya-Salas, PhD</a> &amp; <a href="https://smith-vidaurre.com/" class="external
 Smith-Vidaurre</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2024-07-16</h4>
+            <h4 data-toc-skip class="date">2024-07-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/warbleR_workflow_01.Rmd" class="external-link"><code>vignettes/warbleR_workflow_01.Rmd</code></a></small>
       <div class="d-none name"><code>warbleR_workflow_01.Rmd</code></div>
@@ -536,7 +536,7 @@ issues).</p>
 <span><span class="fu"><a href="../reference/mp32wav.html">mp32wav</a></span><span class="op">(</span>samp.rate <span class="op">=</span> <span class="fl">22.05</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Use checkwavs to see if wav files can be read</span></span>
-<span><span class="fu">check_wavs</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/check_sound_files.html">check_sound_files</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p> </p>
 </div>
 </div>
@@ -686,78 +686,6 @@ ways to deal with larger recordings (an hour long or more). In this
 section we have expanded on some important function arguments, but check
 out the function documentation for more information.</p>
 <div class="section level3">
-<h3 id="automatically-detect-signals-with-auto_detec">Automatically detect signals with <code>auto_detec</code><a class="anchor" aria-label="anchor" href="#automatically-detect-signals-with-auto_detec"></a>
-</h3>
-<p><code>auto_detec</code> has 2 types of output:** + data frame with
-recording name, selection, start and end times. The last two are
-temporal coordinates that will be passed on to downstream functions to
-measure acoustic parameters + a spectrogram per recording, with red
-dotted lines marking the start and end of each detected signal, saved in
-your working directory</p>
-<p>Check out the <code>auto_detec</code> documentation for more
-information. The argument <code>threshold</code> is one of the most
-important detection parameters, as well as information about signal
-frequency range and duration. <em>Phaethornis longirostris</em> songs
-have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5
-s.</p>
-<p>If you need to detect all or most of the signals within the
-recording, play around with different arguments to increase detection
-accuracy. Since you may need to do several rounds of optimization, we
-recommend using subsets of your recordings to speed up the process. If
-the species you study produces stereotyped signals, like <em>Phaethornis
-longirostris</em>, just a few signals are needed per recording, and a
-low-accuracy detection could yield enough selections.</p>
-<p><code>auto_detec</code> does not replace visual inspection of
-selected signals. Ensure that you set aside the time to inspect all
-selected signals for accuracy. You will often need to run detection
-functions several times, and in the process you will get to know your
-signals better (if you don’t already).</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Select a subset of sound files</span></span>
-<span><span class="co"># Reinitialize the wav object</span></span>
-<span><span class="va">wavs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">".wav$"</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Set a seed so we all have the same results</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">sub</span> <span class="op">&lt;-</span> <span class="va">wavs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">wavs</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span><span class="co"># Run auto_detec() on subset of recordings</span></span>
-<span><span class="co"># The data frame object output is printed to the console, we are not saving this in an object yet, since we are just playing around with argument settings</span></span>
-<span><span class="co"># you can run this in parallel to speed up computation time</span></span>
-<span><span class="fu">auto_detec</span><span class="op">(</span>flist <span class="op">=</span> <span class="va">sub</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">10</span>, mindur <span class="op">=</span> <span class="fl">0.05</span>, maxdur <span class="op">=</span> <span class="fl">0.5</span>, envt <span class="op">=</span> <span class="st">"abs"</span>, ssmooth <span class="op">=</span> <span class="fl">300</span>, ls <span class="op">=</span> <span class="cn">TRUE</span>, res <span class="op">=</span> <span class="fl">100</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">300</span>, set <span class="op">=</span> <span class="cn">TRUE</span>, sxrow <span class="op">=</span> <span class="fl">6</span>, rows <span class="op">=</span> <span class="fl">15</span>, redo <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>Check out the image files in your working directory. Note that some
-songs were correctly detected but other undesired sounds were also
-detected. In most cases, the undesired selections have a shorter
-duration than our target signals.</p>
-<p>We won’t save the <code>auto_detec</code> ouput in an object until
-we’re satisfied with the detection. To improve our detection we should
-play around with argument values. Also note that the image files
-produced by <code>auto_detec</code> contain the values used for the
-different arguments, which can help you better compare between runs.
-Below are some detection parameters that work well for these
-<em>Phaethornis longirostris </em> recordings:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">auto_detec</span><span class="op">(</span>flist <span class="op">=</span> <span class="va">sub</span>, bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">20</span>, mindur <span class="op">=</span> <span class="fl">0.09</span>, maxdur <span class="op">=</span> <span class="fl">0.22</span>, envt <span class="op">=</span> <span class="st">"abs"</span>, ssmooth <span class="op">=</span> <span class="fl">900</span>, ls <span class="op">=</span> <span class="cn">TRUE</span>, res <span class="op">=</span> <span class="fl">100</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">300</span>, set <span class="op">=</span> <span class="cn">TRUE</span>, sxrow <span class="op">=</span> <span class="fl">6</span>, rows <span class="op">=</span> <span class="fl">15</span>, redo <span class="op">=</span> <span class="cn">TRUE</span>, it <span class="op">=</span> <span class="st">"tiff"</span>, img <span class="op">=</span> <span class="cn">TRUE</span>, smadj <span class="op">=</span> <span class="st">"end"</span><span class="op">)</span></span></code></pre></div>
-<p>This seems to provide a good detection for most recordings (recording
-ID 154161):</p>
-<center>
-<div class="float">
-<img src="154161-autodetec.th15.jpg" alt="auto_detec image example"><div class="figcaption">auto_detec image example</div>
-</div>
-</center>
-<p> </p>
-<p>Once we’re satisfied with the detection, we can run the
-<code>auto_detec</code> on all the recordings, removing the argument
-<code>flist</code> (so <code>auto_detec</code> runs over all
-<em>wav</em> files in the working directory). We will also save the
-temporal output in an object.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Phae.ad</span> <span class="op">&lt;-</span> <span class="fu">auto_detec</span><span class="op">(</span>bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, threshold <span class="op">=</span> <span class="fl">20</span>, mindur <span class="op">=</span> <span class="fl">0.09</span>, maxdur <span class="op">=</span> <span class="fl">0.22</span>, envt <span class="op">=</span> <span class="st">"abs"</span>, ssmooth <span class="op">=</span> <span class="fl">900</span>, ls <span class="op">=</span> <span class="cn">TRUE</span>, res <span class="op">=</span> <span class="fl">100</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">300</span>, set <span class="op">=</span> <span class="cn">TRUE</span>, sxrow <span class="op">=</span> <span class="fl">6</span>, rows <span class="op">=</span> <span class="fl">15</span>, redo <span class="op">=</span> <span class="cn">TRUE</span>, it <span class="op">=</span> <span class="st">"tiff"</span>, img <span class="op">=</span> <span class="cn">TRUE</span>, smadj <span class="op">=</span> <span class="st">"end"</span><span class="op">)</span></span></code></pre></div>
-<p>Let’s look at the number of selections per sound file:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">Phae.ad</span><span class="op">$</span><span class="va">sound.files</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
 <h3 id="use-snr-to-filter-automatically-selected-signals">Use SNR to filter automatically selected signals<a class="anchor" aria-label="anchor" href="#use-snr-to-filter-automatically-selected-signals"></a>
 </h3>
 <p>Signal-to-noise ratio (SNR) can be a useful filter for automated
@@ -774,7 +702,7 @@ different purposes throughout your analysis workflow.</p>
 spectrogram creators that allows you to pick a margin for measuring
 noise. These margins are very important for calculating SNR, especially
 when working with signals separated by short gaps (e.g. duets).</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># A margin that's too large causes other signals to be included in the noise measurement</span></span>
 <span><span class="co"># Re-initialize X as needed, for either auto_detec output</span></span>
 <span></span>
@@ -782,15 +710,21 @@ when working with signals separated by short gaps (e.g. duets).</p>
 <span><span class="co"># Set a seed first, so we all have the same results</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">Phae.ad</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">Phae.ad</span><span class="op">)</span>, <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">Phae.ad</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="co"># save wav file examples</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Phae.long1"</span>, <span class="st">"Phae.long2"</span>, <span class="st">"Phae.long3"</span>, <span class="st">"Phae.long4"</span>, <span class="st">"lbh_selec_table"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="va">Phae.long1</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"Phae.long1.wav"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="va">Phae.long2</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"Phae.long2.wav"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/writeWave.html" class="external-link">writeWave</a></span><span class="op">(</span><span class="va">Phae.long4</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"Phae.long4.wav"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">lbh_selec_table</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="op">]</span> <span class="co"># suhbset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/snr_spectrograms.html">snr_spectrograms</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, snrmar <span class="op">=</span> <span class="fl">0.5</span>, mar <span class="op">=</span> <span class="fl">0.7</span>, it <span class="op">=</span> <span class="st">"jpeg"</span><span class="op">)</span></span></code></pre></div>
 <p>Check out the image files in your working directory. This margin
 overlaps neighboring signals, so a smaller margin would be better.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># This smaller margin is better</span></span>
-<span><span class="fu"><a href="../reference/snr_spectrograms.html">snr_spectrograms</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, snrmar <span class="op">=</span> <span class="fl">0.04</span>, mar <span class="op">=</span> <span class="fl">0.7</span>, it <span class="op">=</span> <span class="st">"jpeg"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/snr_spectrograms.html">snr_spectrograms</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">lbh_selec_table</span>, flim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, snrmar <span class="op">=</span> <span class="fl">0.04</span>, mar <span class="op">=</span> <span class="fl">0.7</span>, it <span class="op">=</span> <span class="st">"jpeg"</span><span class="op">)</span></span></code></pre></div>
 <!-- <center> ![snrpecs image example](Phaethornis-longirostris-154161.wav-113-snr2.jpeg) </center> -->
 <p> </p>
 </div>
@@ -800,13 +734,13 @@ overlaps neighboring signals, so a smaller margin would be better.</p>
 <p>Once we’ve picked an SNR margin we can move forward with the SNR
 calculation. We will measure SNR on every other selection to speed up
 the process.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Phae.snr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sig2noise.html">sig2noise</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">Phae.ad</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">Phae.ad</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, <span class="op">]</span>, mar <span class="op">=</span> <span class="fl">0.04</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Phae.snr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sig2noise.html">sig2noise</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">lbh_selec_table</span>, mar <span class="op">=</span> <span class="fl">0.04</span><span class="op">)</span></span></code></pre></div>
 <p>As we just need a few songs to characterize individuals (here sound
 files are equivalent to different individuals), we can choose selections
 with the highest SNR per sound file. In this example, we will choose 5
 selections per recording with the highest SNRs.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Phae.hisnr</span> <span class="op">&lt;-</span> <span class="va">Phae.snr</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/stats/ave.html" class="external-link">ave</a></span><span class="op">(</span><span class="op">-</span><span class="va">Phae.snr</span><span class="op">$</span><span class="va">SNR</span>, <span class="va">Phae.snr</span><span class="op">$</span><span class="va">sound.files</span>, FUN <span class="op">=</span> <span class="va">rank</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">5</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="co"># save the selections as a physical file</span></span>
