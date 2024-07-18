@@ -47,8 +47,6 @@ License: GPL (>= 2)
 \section{Managing sound files}{
 
 
-  \code{\link{read_wave}}: Read wave files into 'wave' objects
-
   \code{\link{read_sound_file}}: Read sound files into 'wave' objects
 
   \code{\link{selection_table}}: Create 'selection_table' class objects

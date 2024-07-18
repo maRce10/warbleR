@@ -19,6 +19,8 @@ vignette: >
    %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
+params:
+  EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
 <!-- <script> -->
@@ -60,7 +62,6 @@ The package offers functions for:
 
 - Browse and download recordings of [Xeno-Canto](https://www.xeno-canto.org/)
 - Explore, organize and manipulate multiple sound files
-- Detect signals automatically (in frequency and time)
 - Create spectrograms of complete recordings or individual signals
 - Run different measures of acoustic signal structure
 - Evaluate the performance of measurement methods
@@ -103,7 +104,13 @@ writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 warbleR_options(wav.path = tempdir())
 
 options(knitr.table.format = "html")
-opts_chunk$set(comment = "")
+knitr::opts_chunk$set(
+  comment = "",
+  fig.width = 5, 
+  fig.height = 3.5,
+  dpi = 40,
+  out.width = "80%"
+)
 opts_knit$set(root.dir = tempdir())
 options(width = 100, max.print = 100)
 ```
@@ -134,7 +141,7 @@ kbl
 <!-- light brown box -->
 <div class="alert alert-warning">
 
-Take a look at the vignette ['Annotation data format'](file:///home/m/Dropbox/R_package_testing/warbleR/docs/articles/annotation_data_format.html) for more details on annotation data formats.
+Take a look at the vignette ['Annotation data format'](https://marce10.github.io/warbleR/articles/annotation_data_format.html) for more details on annotation data formats.
 
 </div>
 

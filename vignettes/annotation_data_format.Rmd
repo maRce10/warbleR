@@ -19,6 +19,8 @@ vignette: >
    %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
+params:
+  EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
 <!-- skyblue box -->
@@ -51,7 +53,15 @@ library(kableExtra)
 # warbleR_options(wav.path = "./examples")
 
 options(knitr.table.format = "html")
-opts_chunk$set(comment = "")
+
+knitr::opts_chunk$set(
+  comment = "",
+  fig.width = 5, 
+  fig.height = 3.5,
+  dpi = 40,
+  out.width = "80%"
+)
+
 options(width = 100, max.print = 100)
 
 # avoid weird printing of selection tables
@@ -171,7 +181,7 @@ kbl <-
 kbl
 ```
 
-Typically, annotations are created in other sound analysis programs (mainly, Raven, Avisoft, Syrinx and Audacity) and then imported into *R*. We recommend annotating sound files in [Raven sound analysis software](http://www.birds.cornell.edu/brp/raven/RavenOverview.html) ([Cornell Lab of Ornithology](http://www.birds.cornell.edu)) and then importing them into **R** with the package [**Rraven**](https://marce10.github.io/Rraven/). This package facilitates data exchange between R and [Raven sound analysis software](http://www.birds.cornell.edu/brp/raven/RavenOverview.html) and allow users to import annotation data into R using the **warbleR** annotation format (see argument 'warbler.format' in the function `imp_raven()`).
+Typically, annotations are created in other sound analysis programs (mainly, Raven, Avisoft, Syrinx and Audacity) and then imported into *R*. We recommend annotating sound files in [Raven sound analysis software](https://www.ravensoundsoftware.com/) ([Cornell Lab of Ornithology](https://www.birds.cornell.edu/home)) and then importing them into **R** with the package [**Rraven**](https://marce10.github.io/Rraven/). This package facilitates data exchange between R and [Raven sound analysis software](https://www.ravensoundsoftware.com/) and allow users to import annotation data into R using the **warbleR** annotation format (see argument 'warbler.format' in the function `imp_raven()`).
 
 <!-- light brown box -->
 <div class="alert alert-warning">
@@ -690,7 +700,7 @@ This data is ready to be used. For instance, here I create a multipanel graph wi
 par(mfrow = c(3, 2), mar = rep(0, 4))
 
 for (i in 1:6) {
-  wv <- read_wave(
+  wv <- read_sound_file(
     X = est,
     index = i,
     from = 0.05,
@@ -734,20 +744,10 @@ kbl
 
 ```
 
-------------------------------------------------------------------------
+---
 
 ## References
 
  - Araya-Salas (2017), *Rraven: connecting R and Raven bioacoustic software*. R package version 1.0.2.
  - Araya-Salas, M., Hernández-Pinsón, H. A., Rojas, N., & Chaverri, G. (2020). *Ontogeny of an interactive call-and-response system in Spix's disc-winged bats*. Animal Behaviour, 166, 233-245.
 
-------------------------------------------------------------------------
-
-
-<font size="4">Session information</font>
-
-```{r session info, echo=F}
-
-sessionInfo()
-
-```

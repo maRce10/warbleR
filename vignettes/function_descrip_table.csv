@@ -1,5 +1,5 @@
 Function,Obtener-preparar grabaciones,Anotar,Organizar anotaciones,Medir estructura,Verificar,Inspeccion visual,Analisis estadistico,Otros,Description,Works on,Output
-check_wavs,x,,,,,,,,verify if sound files can be read,multiple wave files,data frame
+check_sound_files,x,,,,,,,,verify if sound files can be read,multiple wave files,data frame
 consolidate,x,,,,,,,,consolidate sound files in a single folder,multiple wave files,data frame and wave files
 fix_wavs,x,,,,,,,,fix waves that cannot be read in R,multiple wave files,wave files
 mp32wav,x,,,,,,,,convert multiple mp3 files to wav format,multiple mp3 files,wave files
@@ -7,9 +7,8 @@ query_xc,x,,,,,,,,Search and download mp3 files from Xeno-Canto,Scientific names
 resample_est,x,,,,,,,,resample wave objects in ext. selection tables,extended selection tables,extended selection tables
 remove_channels,x,,,,,,,,remove channels in multiple wave files,multiple wave files,wave files
 remove_silence,x,,,,,,,,remove silences in multiple wave files,multiple wave files,wave files
-duration_wavs,x,,,,,,,,measures duration in multiple wave files,multiple wave files,data frame
-info_wavs,x,,,,,,,,extract recording parameters from multiple wave files,multiple wave files,data frame
-auto_detec,,x,,,,,,,automatic annotation of wave files,multiple wave files,"data frame, images"
+duration_sound_files,x,,,,,,,,measures duration in multiple wave files,multiple wave files,data frame
+info_sound_files,x,,,,,,,,extract recording parameters from multiple wave files,multiple wave files,data frame
 freq_range,,x,,x,,,,,detect frequency range in selection tables,multiple wave files,data frame
 tailor_sels,,x,x,,,,,,interactive tailoring of selections,selection tables,selection tables
 sort_colms,,,x,,,,,,order columns in an intuitive way,selection tables,selection tables
@@ -46,7 +45,7 @@ color_spectro,,,,,,,,x,highlight signals with colors in a spectrogram,wave objec
 freq_range_detec,,,,,,,,x,detect frequency range in wave objetcs,wave object,"data frame, plot in R"
 open_wd,,,,,,,,x,open working directory,,
 phylo_spectro,,,,,,,,x,plots phylogenetic trees with spectrograms,selection tables,plot in R
-read_wave,,,,,,,,x,read wave files and wave objects,"selection tables, ext. selection tables",wave object
-sim_songs,,,,,,,,x,simulate songs,,"wave object, wave file and selection table"
+read_sound_file,,,,,,,,x,read sound files and wave objects,"selection tables, ext. selection tables",wave object
+simulate_songs,,,,,,,,x,simulate songs,,"wave object, wave file and selection table"
 tweak_spectro,,,,,,,,x,creates mosaic plots with spectrograms with different display parameters,"selection tables, ext. selection tables",images
 warbleR_options,,,,,,,,x,define global parameters for warbleR functions,,

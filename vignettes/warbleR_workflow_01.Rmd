@@ -18,6 +18,8 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
+params:
+  EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
 ---
 
 <!-- <script> -->
@@ -93,7 +95,13 @@ invisible(lapply(X, library, character.only = TRUE))
 # library(kableExtra)
 
 options(knitr.table.format = "html")
-# opts_chunk$set(comment = "")
+knitr::opts_chunk$set(
+  comment = "",
+  fig.width = 5, 
+  fig.height = 3.5,
+  dpi = 40,
+  out.width = "80%"
+)
 opts_knit$set(root.dir = tempdir())
 options(width = 150, max.print = 100)
 
@@ -383,7 +391,7 @@ After _mp3_ files have been converted, we need to check that the _wav_ files are
 mp32wav(samp.rate = 22.05)
 
 # Use checkwavs to see if wav files can be read
-check_wavs()
+check_sound_files()
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -541,62 +549,6 @@ _warbleR_ provides a function for selecting acoustic signals within recordings. 
   
 Both functions are fastest with shorter recordings, but there are ways to deal with larger recordings (an hour long or more). In this section we have expanded on some important function arguments, but check out the function documentation for more information.
 
-### Automatically detect signals with `auto_detec`
-
-`auto_detec` has 2 types of output:** 
-    + data frame with recording name, selection, start and end times. The last two are temporal coordinates that will be passed on to downstream functions to measure acoustic parameters
-    + a spectrogram per recording, with red dotted lines marking the start and end of each detected signal, saved in your working directory
-    
-Check out the `auto_detec` documentation for more information. The argument `threshold` is one of the most important detection parameters, as well as information about signal frequency range and duration. _Phaethornis longirostris_ songs have frequencies between 2 and 10 kHz and durations between 0.05 and 0.5 s. 
-
-If you need to detect all or most of the signals within the recording, play around with different arguments to increase detection accuracy. Since you may need to do several rounds of optimization, we recommend using subsets of your recordings to speed up the process. If the species you study produces stereotyped signals, like _Phaethornis longirostris_, just a few signals are needed per recording, and a low-accuracy detection could yield enough selections.
-
-`auto_detec` does not replace visual inspection of selected signals. Ensure that you set aside the time to inspect all selected signals for accuracy. You will often need to run detection functions several times, and in the process you will get to know your signals better (if you don't already). 
-
-
-```{r, eval=FALSE, echo=TRUE}
-
-# Select a subset of sound files
-# Reinitialize the wav object
-wavs <- list.files(pattern = ".wav$", ignore.case = TRUE)
-
-# Set a seed so we all have the same results
-set.seed(1)
-sub <- wavs[sample(1:length(wavs), 3)]
-
-# Run auto_detec() on subset of recordings
-# The data frame object output is printed to the console, we are not saving this in an object yet, since we are just playing around with argument settings
-# you can run this in parallel to speed up computation time
-auto_detec(flist = sub, bp = c(1, 10), threshold = 10, mindur = 0.05, maxdur = 0.5, envt = "abs", ssmooth = 300, ls = TRUE, res = 100, flim = c(1, 12), wl = 300, set = TRUE, sxrow = 6, rows = 15, redo = FALSE)
-```
-
-Check out the image files in your working directory. Note that some songs were correctly detected but other undesired sounds were also detected. In most cases, the undesired selections have a shorter duration than our target signals.
-
-We won't save the `auto_detec` ouput in an object until we're satisfied with the detection. To improve our detection we should play around with argument values. Also note that the image files produced by `auto_detec` contain the values used for the different arguments, which can help you better compare between runs. Below are some detection parameters that work well for these _Phaethornis longirostris _ recordings:
-
-```{r, eval=FALSE, echo = TRUE}
-
-auto_detec(flist = sub, bp = c(2, 10), threshold = 20, mindur = 0.09, maxdur = 0.22, envt = "abs", ssmooth = 900, ls = TRUE, res = 100, flim = c(1, 12), wl = 300, set = TRUE, sxrow = 6, rows = 15, redo = TRUE, it = "tiff", img = TRUE, smadj = "end")
-```
-
-This seems to provide a good detection for most recordings (recording ID 154161):
-
-<center> ![auto_detec image example](154161-autodetec.th15.jpg)</center>
-&nbsp; 
-
-Once we're satisfied with the detection, we can run the `auto_detec` on all the recordings, removing the argument `flist` (so `auto_detec` runs over all _wav_ files in the working directory). We will also save the temporal output in an object.
-
-```{r, eval=FALSE, echo=TRUE}
-
-Phae.ad <- auto_detec(bp = c(2, 10), threshold = 20, mindur = 0.09, maxdur = 0.22, envt = "abs", ssmooth = 900, ls = TRUE, res = 100, flim = c(2, 10), wl = 300, set = TRUE, sxrow = 6, rows = 15, redo = TRUE, it = "tiff", img = TRUE, smadj = "end")
-```
-
-Let's look at the number of selections per sound file:
-
-```{r, eval=FALSE, echo=TRUE}
-
-table(Phae.ad$sound.files)
-```
 
 ### Use SNR to filter automatically selected signals
 
@@ -616,7 +568,13 @@ Signal-to-noise ratio (SNR) can be a useful filter for automated signal detectio
 # Set a seed first, so we all have the same results
 set.seed(5)
 
-X <- Phae.ad[sample(1:nrow(Phae.ad), (nrow(Phae.ad) * 0.05)), ]
+# save wav file examples
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+#'
+X <- lbh_selec_table[1:2, ] # suhbset
 nrow(X)
 
 snr_spectrograms(X = X, flim = c(2, 10), snrmar = 0.5, mar = 0.7, it = "jpeg")
@@ -627,7 +585,7 @@ Check out the image files in your working directory. This margin overlaps neighb
 ```{r, eval=FALSE}
 
 # This smaller margin is better
-snr_spectrograms(X = X, flim = c(2, 10), snrmar = 0.04, mar = 0.7, it = "jpeg")
+snr_spectrograms(X = lbh_selec_table, flim = c(2, 10), snrmar = 0.04, mar = 0.7, it = "jpeg")
 ```
 
 <!-- <center> ![snrpecs image example](Phaethornis-longirostris-154161.wav-113-snr2.jpeg) </center> -->
@@ -638,7 +596,7 @@ snr_spectrograms(X = X, flim = c(2, 10), snrmar = 0.04, mar = 0.7, it = "jpeg")
 Once we've picked an SNR margin we can move forward with the SNR calculation. We will measure SNR on every other selection to speed up the process.
 ```{r, eval=FALSE}
 
-Phae.snr <- sig2noise(X = Phae.ad[seq(1, nrow(Phae.ad), 2), ], mar = 0.04)
+Phae.snr <- sig2noise(X = lbh_selec_table, mar = 0.04)
 ```
 
 As we just need a few songs to characterize individuals (here sound files are equivalent to different individuals), we can choose selections with the highest SNR per sound file. In this example, we will choose 5 selections per recording with the highest SNRs.  

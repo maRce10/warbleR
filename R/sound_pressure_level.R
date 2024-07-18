@@ -136,10 +136,10 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
 
   # function to get SPL
   spl_FUN <- function(X, i, path, reference) {
-    signal <- read_wave(X, index = i, path = path)
+    signal <- warbleR::read_sound_file(X, index = i, path = path)
 
     if (remove.bgn) {
-      bg.noise <- read_wave(X, index = i, path = path, from = X$start[i] - mar, to = X$start[i])
+      bg.noise <- warbleR::read_sound_file(X, index = i, path = path, from = X$start[i] - mar, to = X$start[i])
     }
 
     # add band-pass frequency filter

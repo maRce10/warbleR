@@ -119,7 +119,7 @@ fix_wavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth
   # fix_bio_FUN <- function(x) {
   #
   #     # read waves
-  #     wv <- try(warbleR::read_wave(X = x, path = path), silent = TRUE)
+  #     wv <- try(warbleR::read_sound_file(X = x, path = path), silent = TRUE)
   #
   #     # downsample and filter if samp.rate different than mp3
   #     if(is(wv, "Wave") & !is.null(samp.rate))
