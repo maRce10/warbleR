@@ -175,7 +175,7 @@ wav2flac <-
 
     # run loop apply function
     out_l <-
-      pblapply_wrblr_int(
+      .pblapply(
         pbar = pb,
         X = files,
         cl = cl,

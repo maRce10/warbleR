@@ -583,7 +583,7 @@ spectrograms <-
 
     # run loop apply function
     out <-
-      pblapply_wrblr_int(
+      .pblapply(
         pbar = pb,
         X = 1:nrow(X),
         cl = cl,

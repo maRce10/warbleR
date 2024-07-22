@@ -90,7 +90,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
   }
 
   # if (!sox)
-  #   out <- pblapply_wrblr_int(pbar = pb, X = attributes(X)$wave.objects, cl = cl, function(x)
+  #   out <- .pblapply(pbar = pb, X = attributes(X)$wave.objects, cl = cl, function(x)
   # {
   #
   #   if (x@samp.rate != samp.rate * 1000) {
@@ -111,7 +111,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
   #   }) else {
   #
 
-  out <- pblapply_wrblr_int(pbar = pb, X = attributes(X)$wave.objects, FUN = function(x) {
+  out <- .pblapply(pbar = pb, X = attributes(X)$wave.objects, FUN = function(x) {
     # fo saving current wave
     tempfile <- paste0(tempfile(), ".wav")
 

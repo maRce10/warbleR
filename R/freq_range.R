@@ -226,7 +226,7 @@ freq_range <- function(X, wl = 512, it = "jpeg", line = TRUE, fsmooth = 0.1, thr
   }
 
   # run loop apply function
-  fr <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  fr <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
     # if bp is frange
     if (!is.null(bp)) {
       if (bp[1] == "frange") b <- c(X$bottom.freq[i], X$top.freq[i]) else b <- bp

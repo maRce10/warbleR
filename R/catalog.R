@@ -1011,18 +1011,11 @@ catalog <- function(X, flim = NULL, nrow = 4, ncol = 3, same.time.scale = TRUE, 
   
   
   # Apply over each sound file
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("creating catalog images", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1)
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
-  out <- pblapply_wrblr_int(pbar = pb, X = seq_len(length(Xlist)), cl = cl, FUN = function(z) 
+  out <- .pblapply(pbar = pb, X = seq_len(length(Xlist)), cl = cl, message = "creating catalog images", current = 0, total = 1, FUN = function(z) 
     { 
     catalFUN(X = Xlist[[z]], nrow, ncol, page = z, labels, grid, fast.spec, flim,pal, 
              width, height, tag.col.df, legend, cex, img.suffix, img.prefix, title)}

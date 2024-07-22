@@ -319,7 +319,7 @@ remove_silence <-
 
     # run loop apply function
     out <-
-      pblapply_wrblr_int(
+      .pblapply(
         pbar = pb,
         X = wavs,
         cl = cl,

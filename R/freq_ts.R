@@ -322,7 +322,9 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
         warbleR::track_freq_contour(
           X = X[i, , drop = FALSE], wl = wl, osci = FALSE, leglab = leglab, pb = FALSE, wn = wn, bp = bp,
           parallel = 1, path = path, img.suffix = img.suffix, ovlp = ovlp,
-          custom.contour = cstm.cntr, frange.detec = FALSE, ...
+          custom.contour = cstm.cntr, 
+          # frange.detec = FALSE, 
+          ...
         )
       }
       if (!raw.contour) {
@@ -507,12 +509,6 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
     }
   }
   
-  if (pb) {
-    reset_onexit <- .update_progress(if (img) "creating spectrograms overlaid with frequency contour" else "measuring frequency contours", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -521,7 +517,7 @@ freq_ts <- function(X, type = "dominant", wl = 512, length.out = 20, wn = "hanni
   }
   
   # run loop apply function
-  lst <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  lst <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, message = if (img) "creating spectrograms overlaid with frequency contour" else "measuring frequency contours", current = 1, total = 1, FUN = function(i) {
     round(contour_FUN(X, i, bp, wl, threshold, entropy.range, raw.contour, track.harm, adjust.wl), 4)
   })
 

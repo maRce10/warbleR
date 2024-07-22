@@ -143,7 +143,7 @@ full_spectrogram2pdf <- function(keep.img = TRUE, overwrite = FALSE, parallel = 
   }
 
   # run loop apply function
-  lst <- pblapply_wrblr_int(pbar = pb, X = unique(or.sf), cl = cl, FUN = function(i) {
+  lst <- .pblapply(pbar = pb, X = unique(or.sf), cl = cl, FUN = function(i) {
     l2pdfFUN(i, overwrite, keep.img)
   })
 }

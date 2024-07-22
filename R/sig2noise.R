@@ -264,7 +264,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   }
 
   # run loop apply function
-  SNR_l <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(y) {
+  SNR_l <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(y) {
     snr_FUN(y, mar, bp, wl, type, before, in.dB, lim.dB)
   })
 

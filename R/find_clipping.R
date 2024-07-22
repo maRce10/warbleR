@@ -34,7 +34,7 @@
 find_clipping <- function(X, path = NULL, parallel = 1, pb = TRUE) {
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(compare_methods)
+  argms <- methods::formalArgs(find_clipping)
 
   # get warbleR options
   opt.argms <- if (!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
@@ -86,7 +86,7 @@ find_clipping <- function(X, path = NULL, parallel = 1, pb = TRUE) {
   if (any(!(parallel %% 1 == 0), parallel < 1)) stop2("'parallel' should be a positive integer")
 
 
-  out <- pblapply_wrblr_int(1:nrow(X), pbar = pb, cl = parallel, function(x) {
+  out <- .pblapply(1:nrow(X), pbar = pb, cl = parallel, message = "finding clipping", function(x) {
     # read wave
     wv <- read_sound_file(X, index = x, path = path)
 

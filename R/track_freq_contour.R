@@ -685,12 +685,6 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
     return(NULL)
   }
   
-  if (pb) {
-    reset_onexit <- .update_progress("computing frequency contours")
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -699,12 +693,10 @@ track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "ha
   }
 
   # run loop apply function
-  out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  out <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, message = "computing frequency contours", current = 1, total = 1, FUN = function(i) {
     trackfreFUN(
       X = X, i = i, mar = mar, flim = flim, xl = xl, picsize = picsize, res = res, wl = wl, wl.freq = wl.freq, cexlab = cexlab, inner.mar = inner.mar, outer.mar = outer.mar, bp = bp, cex = cex, threshold.time = threshold.time, threshold.freq = threshold.freq, pch = pch,
       custom.contour
     )
   })
-
-  return(NULL)
 }

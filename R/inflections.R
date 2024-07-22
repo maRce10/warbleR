@@ -89,7 +89,7 @@ inflections <- function(X = NULL, parallel = 1, pb = TRUE) {
   if (is.data.frame(X)) lvs <- 1:nrow(X) else lvs <- seq_len(length(X))
 
   # run loop apply function
-  out <- pblapply_wrblr_int(pbar = pb, X = lvs, cl = cl, FUN = function(i) {
+  out <- .pblapply(pbar = pb, X = lvs, cl = cl, FUN = function(i) {
     is.df <- is.data.frame(X)
 
     if (is.df) Y <- X[i, , drop = FALSE] else Y <- X[[i]]

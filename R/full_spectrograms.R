@@ -603,7 +603,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
   }
 
   # run loop apply function
-  sp <- pblapply_wrblr_int(pbar = pb, X = files, cl = cl, FUN = function(i) {
+  sp <- .pblapply(pbar = pb, X = files, cl = cl, FUN = function(i) {
     lspecFUN(z = i, fl = flim, sl = sxrow, li = rows, X = X, W = W)
   })
 }

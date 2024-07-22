@@ -67,7 +67,6 @@
 #' }
 #' @references {Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.}
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on jul-5-2016 (MAS)
 
 check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE,
                        pb = TRUE, wav.size = FALSE, verbose = TRUE, fix.selec = FALSE) {
@@ -249,13 +248,6 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
     return(Y)
   }
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("checking annotations", total = 1)
-    
-    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -264,7 +256,7 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
   }
 
   # run loop apply function
-  out <- pblapply_wrblr_int(pbar = pb, X = unique(X$sound.files), cl = cl, FUN = function(x) {
+  out <- .pblapply(pbar = pb, X = unique(X$sound.files), cl = cl, message = "checking annotations", current = 0, total = 1, verbose = verbose, FUN = function(x) {
     csFUN(x, X, pth = path)
   })
 

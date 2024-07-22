@@ -375,7 +375,7 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   }
 
   # run loop apply function
-  cote <- pblapply_wrblr_int(pbar = pb, X = unique(X$sing.event), cl = cl, FUN = function(h) {
+  cote <- .pblapply(pbar = pb, X = unique(X$sing.event), cl = cl, FUN = function(h) {
     ovlp <- try(sapply(rndmFUN(X[X$sing.event == h, ]), coortestFUN))
 
     if (!is(ovlp, "try-error")) {

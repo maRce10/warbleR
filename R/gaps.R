@@ -112,7 +112,7 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE) {
   }
 
   # run loop apply function
-  gaps_l <- pblapply_wrblr_int(pbar = pb, X = unique(X$..by), cl = cl, FUN = function(i) {
+  gaps_l <- .pblapply(pbar = pb, X = unique(X$..by), cl = cl, FUN = function(i) {
     Y <- X[X$..by == i, ]
 
     return(gaps_FUN(Y))

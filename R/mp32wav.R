@@ -195,7 +195,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   }
 
   # run loop apply function
-  out_l <- pblapply_wrblr_int(pbar = pb, X = files, cl = cl, FUN = function(i) {
+  out_l <- .pblapply(pbar = pb, X = files, cl = cl, FUN = function(i) {
     # suppressWarnings(mp3_conv_FUN(x = i, bit.depth))
     fix_sox_FUN(i)
   })

@@ -115,7 +115,7 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
   }
 
   # run loop apply function
-  out_l <- pblapply_wrblr_int(pbar = pb, X = fls, cl = cl, FUN = function(x) {
+  out_l <- .pblapply(pbar = pb, X = fls, cl = cl, FUN = function(x) {
     mcwv_FUN(x, channels)
   })
 

@@ -206,7 +206,7 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
   }
 
   # run loop apply function
-  SPL_l <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  SPL_l <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
     spl_FUN(X, i, path, reference)
   })
 

@@ -178,10 +178,10 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 
   if (pb & verbose) {
     reset_onexit <- .update_progress(total = if(extended) 2 else 1)
-    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)  
+    # on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)  
     }
 
-  check.results <- warbleR::check_sels(X, path = path, wav.size = TRUE, pb = pb, ...)
+  check.results <- check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = verbose, ...)
 
   if (any(check.results$check.res != "OK")) stop2("Not all selections can be read (use check_sels() to locate problematic selections)")
 
@@ -234,11 +234,11 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
 
         # save wave objects as a list attributes
         ## update progress message
-        if (pb * verbose) {
-          reset_onexit <- .update_progress("saving wave objects into extended selection table", current = 2, total = 2)
+        # if (pb * verbose) {
+          # reset_onexit <- .update_progress()
           
-            on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-        }
+            # on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+        # }
  
         ## set clusters for windows OS
         if (Sys.info()[1] == "Windows" & parallel > 1) {
@@ -247,7 +247,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
           cl <- parallel
         }
 
-        attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1))
+        attributes(X)$wave.objects <- .pblapply(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) warbleR::read_sound_file(X = Y, index = x, from = Y$start[x] - Y$mar.before[x], to = Y$end[x] + Y$mar.after[x], path = path, channel = if (!is.null(X$channel)) X$channel[x] else 1), message = if (verbose)  "saving wave objects into extended selection table" else NULL, current = 2, total = 2)
 
         # reset for new dimensions
         check.results$start <- X$start <- check.results$mar.before

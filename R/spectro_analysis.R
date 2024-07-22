@@ -434,7 +434,7 @@ spectro_analysis <-
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  sp <- pblapply_wrblr_int(X = 1:nrow(X), cl = cl, pbar = pb, FUN = function(i) 
+  sp <- .pblapply(X = 1:nrow(X), cl = cl, pbar = pb, FUN = function(i) 
   { 
     spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
   }) 

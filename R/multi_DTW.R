@@ -142,7 +142,7 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE, parallel = 1, win
   }
 
   # run loop apply function
-  out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(combs), cl = cl, FUN = function(i) {
+  out <- .pblapply(pbar = pb, X = 1:nrow(combs), cl = cl, FUN = function(i) {
     multi.dtw.FUN(ts.df1, ts.df2, combs, i, ...)
   })
 

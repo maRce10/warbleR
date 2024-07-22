@@ -685,7 +685,7 @@ compare_methods <- function(X = NULL,
     cl <- parallel
   }
   
-  a1 <- pblapply_wrblr_int(pbar = pb, X = seq_len(ncol(combs)), cl = cl, FUN = function(u) {
+  a1 <- .pblapply(pbar = pb, X = seq_len(ncol(combs)), cl = cl, FUN = function(u) {
     comp.methFUN(X, u, res, bidims, m, mar, flim)
   })
   

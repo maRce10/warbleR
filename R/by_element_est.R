@@ -26,7 +26,7 @@
 #'   extended = TRUE, by.song = "song"
 #' )
 #'
-#' # conver o by element
+#' # convert into by element
 #' by_element_est <- by_element_est(by_song_est, mar = 0.05)
 #' }
 #' @family extended selection table manipulation
@@ -67,12 +67,6 @@ by_element_est <- function(X, mar = 0.1, pb = FALSE, parallel = 1) {
     }
   }
 
-  if (pb) {
-    reset_onexit <- .update_progress("converting to 'by-element'", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS and no soz
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -81,7 +75,7 @@ by_element_est <- function(X, mar = 0.1, pb = FALSE, parallel = 1) {
   }
 
   # extract single wave object per row
-  attributes(X)$wave.objects <- pblapply_wrblr_int(pbar = pb, X = seq_len(nrow(X)), FUN = function(x) {
+  attributes(X)$wave.objects <- .pblapply(pbar = pb, X = seq_len(nrow(X)), message = "converting to 'by-element'", current = 0, total = 1, FUN = function(x) {
     
     # reset time coordinates of sounds if lower than 0 o higher than duration
     stn <- X$start[x] - mar

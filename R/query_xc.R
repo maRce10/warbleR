@@ -177,7 +177,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
         cl <- parallel
       }
 
-      f <- pblapply_wrblr_int(pbar = pb, X = 1:q$numPages, cl = cl, FUN = function(y) {
+      f <- .pblapply(pbar = pb, X = 1:q$numPages, cl = cl, FUN = function(y) {
         # search for each page
         a <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))
 
@@ -311,7 +311,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       cl <- parallel
     }
 
-    a1 <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(results), cl = cl, FUN = function(x) {
+    a1 <- .pblapply(pbar = pb, X = 1:nrow(results), cl = cl, FUN = function(x) {
       xcFUN(results, x)
     })
 
@@ -334,7 +334,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       }
 
 
-      a1 <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) {
+      a1 <- .pblapply(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) {
         try(xcFUN(Y, x), silent = TRUE)
       })
     }

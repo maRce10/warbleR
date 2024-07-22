@@ -226,7 +226,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = "frange", path = NULL,
   }
 
   # run loop apply function
-  ccs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  ccs <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
     mfcc_FUN(i = i, X = X, bp, wl = wl, numcep = numcep, nbands = nbands)
   })
 

@@ -178,7 +178,7 @@ overlapping_sels <- function(X,
   }
 
   # run loop apply function
-  ovlp_df_l <- pblapply_wrblr_int(pbar = pb, X = unique(X$sound.files), cl = cl, FUN = ovlpFUN)
+  ovlp_df_l <- .pblapply(pbar = pb, X = unique(X$sound.files), cl = cl, FUN = ovlpFUN)
 
   ovlp_df <- do.call(rbind, ovlp_df_l)
 

@@ -193,14 +193,6 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
     suppressWarnings(tuneR::writeWave(extensible = FALSE, object = wvcut, filename = file.path(dest.path, paste0(paste(X2[i, labels], collapse = "-"), ".wav"))))
   }
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("cutting selections", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
-
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -209,7 +201,7 @@ cut_sels <- function(X, mar = 0.05, parallel = 1, path = NULL, dest.path = NULL,
   }
 
   # run loop apply function
-  out <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  out <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, message = "cutting selections", current = 1, total = 1, FUN = function(i) {
     cutFUN(X = X, i = i, mar = mar, labels = labels, dest.path = dest.path, keep.stereo)
   })
 

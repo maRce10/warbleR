@@ -347,11 +347,6 @@ cross_correlation <-
   }
 
   if (method == 1) {
-    # create spectrograms
-    if (pb) {
-      .update_progress("creating spectrogram matrices", total = 2)
-    }
-
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -360,7 +355,7 @@ cross_correlation <-
     }
 
     # get spectrogram for each selection
-    spcs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(e) spc_FUN(j = e, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands))
+    spcs <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(e) spc_FUN(j = e, pth = path, W = X, wlg = wl, ovl = ovlp, w = wn, nbnds = nbands), message = "creating spectrogram matrices", current = 1, total = 2)
 
     # check sampling rate is the same for all selections if not a selection table
     if (!warbleR::is_extended_selection_table(X) & length(unique(sapply(spcs, function(x) length(x$freq)))) > 1) stop2("sampling rate must be the same for all selections")
@@ -408,21 +403,15 @@ sapply(stps, function(x, cor.method = cm) {
   spc.cmbs <- spc.cmbs[ord.shuf, , drop = FALSE]
 
   # run cross-correlation
-  if (pb) {
-    reset_onexit <- .update_progress("running cross-correlation", current = if(method == 1) 2 else 1, total = if(method == 1) 2 else 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-
   # set parallel cores
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
   } else {
     cl <- parallel
   }
-
+  
   # get correlation
-  xcrrs <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(spc.cmbs), cl = cl, FUN = function(j, BP = bp, cor.meth = cor.method) {
+  xcrrs <- .pblapply(pbar = pb, X = 1:nrow(spc.cmbs), cl = cl, message = "running cross-correlation", current = if (method == 1) 2 else 1, total = if(method == 1) 2 else 1, FUN = function(j, BP = bp, cor.meth = cor.method) {
     if (BP[1] %in% c("pairwise.freq.range", "frange")) {
       BP <- c(min(X$bottom.freq[X$selection.id %in% spc.cmbs[j, ]]), max(X$top.freq[X$selection.id %in% spc.cmbs[j, ]]))
     }

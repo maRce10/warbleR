@@ -286,7 +286,7 @@ song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_co
   }
 
   # run loop apply function
-  out <- pblapply_wrblr_int(pbar = pb, X = unique(X$.....SONGX...), cl = cl, FUN = function(i) {
+  out <- .pblapply(pbar = pb, X = unique(X$.....SONGX...), cl = cl, FUN = function(i) {
     # subset by song label
     Y <- X[X$.....SONGX... == i, , drop = FALSE]
 

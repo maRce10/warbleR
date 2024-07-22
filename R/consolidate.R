@@ -164,15 +164,6 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   # create function to run within Xapply functions downstream
   copyFUN <- function(i, dp, df) file.copy(from = file.path(df$original_dir[i], df$old_name[i]), to = file.path(dp, df$new_name[i]), ...)
 
-  
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("consolidating files", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -181,7 +172,7 @@ consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, 
   }
 
   # run loop apply function
-  a1 <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  a1 <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, message = "consolidating files", current = 1, total = 1, FUN = function(i) {
     copyFUN(i, dp = dest.path, df = X)
   })
 

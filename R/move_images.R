@@ -120,7 +120,7 @@ move_images <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrit
       cl <- parallel
     }
 
-    a <- pblapply_wrblr_int(pbar = pb, X = seq(1, length(imgs), by = 10), cl = cl, FUN = function(x) {
+    a <- .pblapply(pbar = pb, X = seq(1, length(imgs), by = 10), cl = cl, FUN = function(x) {
       if (length(imgs) <= x + 9) y <- length(imgs) else y <- x + 9
 
       file.copy(from = file.path(from, imgs[x:y]), to = file.path(to, imgs[x:y]), overwrite = overwrite)

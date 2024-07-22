@@ -168,7 +168,7 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
     }
 
     # split using a loop only those shorter than segments
-    a_l <- pblapply_wrblr_int(pbar = pb, X = which(split.df$org.sound.files != split.df$sound.files), cl = cl, FUN = function(x) {
+    a_l <- .pblapply(pbar = pb, X = which(split.df$org.sound.files != split.df$sound.files), cl = cl, FUN = function(x) {
       # read clip
       clip <- warbleR::read_sound_file(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path, channel = 1)
 

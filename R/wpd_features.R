@@ -132,7 +132,7 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
   }
 
   # run loop apply function
-  wdps <- pblapply_wrblr_int(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  wdps <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
     # read rec segment
     r <- warbleR::read_sound_file(X = X, path = path, index = i)
 

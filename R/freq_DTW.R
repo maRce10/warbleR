@@ -143,10 +143,8 @@ freq_DTW <-
   if (pb) {
     reset_onexit <- .update_progress(total = 2)
     
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+      # on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
       }
-  
-  
   
   if (!is.null(X)) {
     # if X is not a data frame
@@ -189,7 +187,7 @@ freq_DTW <-
                            the start and/or end of the signal)")
 
  
-  dm <- .dtwDist(mat, mat, parallel = parallel, pb = TRUE, window.type = window.type, open.end = open.end)
+  dm <- .dtwDist(mat, mat, parallel = parallel, pb = pb, window.type = window.type, open.end = open.end)
 
   rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
   return(dm)
