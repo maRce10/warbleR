@@ -672,12 +672,12 @@ compare_methods <- function(X = NULL,
   }
   
   # save image files
-  if (pb) {
-    reset_onexit <- .update_progress("creating image files", current = total, total = total)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
+  # if (pb) {
+  #   reset_onexit <- .update_progress()
+  #   
+  #     on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+  # }
+  # 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -685,9 +685,7 @@ compare_methods <- function(X = NULL,
     cl <- parallel
   }
   
-  a1 <- .pblapply(pbar = pb, X = seq_len(ncol(combs)), cl = cl, FUN = function(u) {
+  a1 <- .pblapply(pbar = pb, X = seq_len(ncol(combs)), cl = cl, message = "creating image files", current = total, total = total, FUN = function(u) {
     comp.methFUN(X, u, res, bidims, m, mar, flim)
   })
-  
-  return(NULL)
 }

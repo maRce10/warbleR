@@ -249,13 +249,6 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
     }
   }
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing signal-to-noise ratio")
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -264,7 +257,7 @@ sig2noise <- function(X, mar, parallel = 1, path = NULL, pb = TRUE, type = 1, eq
   }
 
   # run loop apply function
-  SNR_l <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(y) {
+  SNR_l <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, message = "computing signal-to-noise ratio", total = 1, FUN = function(y) {
     snr_FUN(y, mar, bp, wl, type, before, in.dB, lim.dB)
   })
 

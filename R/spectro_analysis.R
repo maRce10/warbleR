@@ -419,14 +419,6 @@ spectro_analysis <-
      }
     
     return(dfres)
-    
-  }
-  
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing spectral features")
-    
-    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
   }
   
   # set clusters for windows OS
@@ -434,7 +426,7 @@ spectro_analysis <-
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel)) else cl <- parallel
   
   # run loop apply function
-  sp <- .pblapply(X = 1:nrow(X), cl = cl, pbar = pb, FUN = function(i) 
+  sp <- .pblapply(X = 1:nrow(X), cl = cl, pbar = pb, message = "computing spectral features", total = 1, FUN = function(i) 
   { 
     spFUN(X = X, i = i, bp = bp, wl = wl, threshold = threshold)
   }) 

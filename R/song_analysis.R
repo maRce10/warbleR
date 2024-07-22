@@ -270,14 +270,6 @@ song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_co
 
   X$.....SONGX... <- paste(X$sound.files, X[, song_colm])
 
-
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing song features")
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -286,7 +278,7 @@ song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_co
   }
 
   # run loop apply function
-  out <- .pblapply(pbar = pb, X = unique(X$.....SONGX...), cl = cl, FUN = function(i) {
+  out <- .pblapply(pbar = pb, X = unique(X$.....SONGX...), cl = cl, message = "computing song features", total = 1, FUN = function(i) {
     # subset by song label
     Y <- X[X$.....SONGX... == i, , drop = FALSE]
 

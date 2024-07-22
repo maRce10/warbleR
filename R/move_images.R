@@ -106,13 +106,6 @@ move_images <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrit
     message2(paste("No image files were found in", from))
   } else {
     
-    ## update progress message
-    if (pb) {
-      reset_onexit <- .update_progress("moving image files", total = 1)
-      
-        on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-    }
-    
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -120,7 +113,7 @@ move_images <- function(from = NULL, to = NULL, it = "all", cut = TRUE, overwrit
       cl <- parallel
     }
 
-    a <- .pblapply(pbar = pb, X = seq(1, length(imgs), by = 10), cl = cl, FUN = function(x) {
+    a <- .pblapply(pbar = pb, X = seq(1, length(imgs), by = 10), cl = cl, message = "moving image files", total = 1, FUN = function(x) {
       if (length(imgs) <= x + 9) y <- length(imgs) else y <- x + 9
 
       file.copy(from = file.path(from, imgs[x:y]), to = file.path(to, imgs[x:y]), overwrite = overwrite)

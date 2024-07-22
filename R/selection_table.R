@@ -231,14 +231,6 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
           Y$mar.before <- check.results$mar.before
           Y$mar.after <- check.results$mar.after
         }
-
-        # save wave objects as a list attributes
-        ## update progress message
-        # if (pb * verbose) {
-          # reset_onexit <- .update_progress()
-          
-            # on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-        # }
  
         ## set clusters for windows OS
         if (Sys.info()[1] == "Windows" & parallel > 1) {

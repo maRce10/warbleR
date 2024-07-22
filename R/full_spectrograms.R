@@ -588,13 +588,6 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
     })
   }
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("creating full spectrogram image files", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -603,7 +596,7 @@ full_spectrograms <- function(X = NULL, flim = NULL, sxrow = 5, rows = 10, colle
   }
 
   # run loop apply function
-  sp <- .pblapply(pbar = pb, X = files, cl = cl, FUN = function(i) {
+  sp <- .pblapply(pbar = pb, X = files, cl = cl, message = "creating full spectrogram image files", total = 1, FUN = function(i) {
     lspecFUN(z = i, fl = flim, sl = sxrow, li = rows, X = X, W = W)
   })
 }

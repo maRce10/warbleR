@@ -96,14 +96,6 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE) {
   # add order column to sort data after calculations
   X$..order <- 1:nrow(X)
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing gaps", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -112,7 +104,7 @@ gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE) {
   }
 
   # run loop apply function
-  gaps_l <- .pblapply(pbar = pb, X = unique(X$..by), cl = cl, FUN = function(i) {
+  gaps_l <- .pblapply(pbar = pb, X = unique(X$..by), cl = cl, message = "computing gaps", total = 1, FUN = function(i) {
     Y <- X[X$..by == i, ]
 
     return(gaps_FUN(Y))

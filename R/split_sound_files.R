@@ -153,13 +153,6 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
   # if no sound files are produced
   if (!only.sels) {
     
-    ## update progress message
-    if (pb) {
-      reset_onexit <- .update_progress("splitting sound files")
-      
-        on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-    }
-    
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -168,17 +161,15 @@ split_sound_files <- function(path = NULL, sgmt.dur = 10, sgmts = NULL, files = 
     }
 
     # split using a loop only those shorter than segments
-    a_l <- .pblapply(pbar = pb, X = which(split.df$org.sound.files != split.df$sound.files), cl = cl, FUN = function(x) {
+    a_l <- .pblapply(pbar = pb, X = which(split.df$org.sound.files != split.df$sound.files), cl = cl, message = "splitting sound files", total = 1, FUN = function(x) {
       # read clip
       clip <- warbleR::read_sound_file(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path, channel = 1)
-
 
       # add second channel if stereo
       if (warbleR::read_sound_file(X = split.df$org.sound.files[x], path = path, header = TRUE)$channels > 1) {
         clip_ch2 <- warbleR::read_sound_file(X = split.df$org.sound.files[x], from = split.df$start[x], to = split.df$end[x], path = path, channel = 2)
         clip <- Wave(left = clip@left, right = clip_ch2@left, samp.rate = clip@samp.rate, bit = clip@bit)
       }
-
 
       # save
       tuneR::writeWave(extensible = FALSE, object = clip, filename = file.path(path, split.df$sound.files[x]))

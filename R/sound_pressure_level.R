@@ -188,16 +188,9 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
       signaldb <- lessdB_wrblr_int(signal.noise = signaldb, noise = noisedb)
     }
 
-
     return(signaldb)
   }
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing sound pressure level")
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -206,7 +199,7 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
   }
 
   # run loop apply function
-  SPL_l <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  SPL_l <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, message = "computing sound pressure level", total = 1, FUN = function(i) {
     spl_FUN(X, i, path, reference)
   })
 

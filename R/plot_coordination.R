@@ -122,7 +122,7 @@ plot_coordination <- function(X = NULL, only.coor = FALSE, ovlp = TRUE, xl = 1, 
   xmin <- xmax <- ymin <- ymax <- NULL
 
   # run loop
-  invisible(ggs <- .pblapply(pbar = pb, X = unique(X$sing.event), FUN = function(x) {
+  invisible(ggs <- .pblapply(pbar = pb, X = unique(X$sing.event), message = "plotting coordination", total = 1, FUN = function(x) {
     y <- X[X$sing.event == x, ]
     y <- y[!is.na(y$start), ]
     y <- y[!is.na(y$end), ]

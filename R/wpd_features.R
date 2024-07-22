@@ -117,13 +117,6 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
     }
   }
 
-  # update progress info
-  if (pb) {
-    reset_onexit <- .update_progress("computing WPD features")
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -132,7 +125,7 @@ wpd_features <- function(X, normalize = TRUE, threshold1 = 6, threshold2 = 0.5, 
   }
 
   # run loop apply function
-  wdps <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  wdps <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, message = "computing WPD features", total = 1, FUN = function(i) {
     # read rec segment
     r <- warbleR::read_sound_file(X = X, path = path, index = i)
 

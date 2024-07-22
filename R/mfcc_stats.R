@@ -211,13 +211,6 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = "frange", path = NULL,
     return(out.df)
   }
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing MFCC stats", total = 1)
-    
-    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -226,7 +219,7 @@ mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = "frange", path = NULL,
   }
 
   # run loop apply function
-  ccs <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, FUN = function(i) {
+  ccs <- .pblapply(pbar = pb, X = 1:nrow(X), cl = cl, message = "computing MFCC stats", total = 1, FUN = function(i) {
     mfcc_FUN(i = i, X = X, bp, wl = wl, numcep = numcep, nbands = nbands)
   })
 

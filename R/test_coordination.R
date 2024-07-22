@@ -361,12 +361,6 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   # time to closest call from other individuals
   if (ovlp.method == "time.closest") closestFUN
 
-  if (pb) {
-    reset_onexit <- .update_progress("computing coordination statistics")
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -375,7 +369,7 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
   }
 
   # run loop apply function
-  cote <- .pblapply(pbar = pb, X = unique(X$sing.event), cl = cl, FUN = function(h) {
+  cote <- .pblapply(pbar = pb, X = unique(X$sing.event), cl = cl, message = "computing coordination statistics", total = 1, FUN = function(h) {
     ovlp <- try(sapply(rndmFUN(X[X$sing.event == h, ]), coortestFUN))
 
     if (!is(ovlp, "try-error")) {

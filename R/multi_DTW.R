@@ -127,13 +127,6 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE, parallel = 1, win
   ts.df1$sf.sels <- paste(ts.df1$sound.files, ts.df1$selec, sep = "-")
   combs <- t(utils::combn(ts.df1$sf.sels, 2))
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing multidimensional DTW", total = 1)
-    
-    on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -142,7 +135,7 @@ multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE, parallel = 1, win
   }
 
   # run loop apply function
-  out <- .pblapply(pbar = pb, X = 1:nrow(combs), cl = cl, FUN = function(i) {
+  out <- .pblapply(pbar = pb, X = 1:nrow(combs), cl = cl, message = "computing multidimensional DTW", total = 1, FUN = function(i) {
     multi.dtw.FUN(ts.df1, ts.df2, combs, i, ...)
   })
 

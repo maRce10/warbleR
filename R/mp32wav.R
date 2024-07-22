@@ -177,16 +177,6 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
     out <- system(cll, ignore.stdout = FALSE, intern = TRUE)
   }
 
-
-  ######
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("converting mp3 files into '.wav' format", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -195,7 +185,7 @@ mp32wav <- function(samp.rate = NULL, parallel = 1, path = NULL,
   }
 
   # run loop apply function
-  out_l <- .pblapply(pbar = pb, X = files, cl = cl, FUN = function(i) {
+  out_l <- .pblapply(pbar = pb, X = files, cl = cl, message = "converting mp3 files into '.wav' format", total = 1, FUN = function(i) {
     # suppressWarnings(mp3_conv_FUN(x = i, bit.depth))
     fix_sox_FUN(i)
   })

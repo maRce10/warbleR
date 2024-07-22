@@ -163,13 +163,6 @@ overlapping_sels <- function(X,
     return(as.data.frame(Y))
   }
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing overlapping selections", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -178,7 +171,7 @@ overlapping_sels <- function(X,
   }
 
   # run loop apply function
-  ovlp_df_l <- .pblapply(pbar = pb, X = unique(X$sound.files), cl = cl, FUN = ovlpFUN)
+  ovlp_df_l <- .pblapply(pbar = pb, X = unique(X$sound.files), cl = cl, FUN = ovlpFUN, message = "computing overlapping selections", total = 1)
 
   ovlp_df <- do.call(rbind, ovlp_df_l)
 

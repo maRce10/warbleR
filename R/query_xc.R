@@ -28,7 +28,7 @@
 #' @return If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.
 #' @export
 #' @name query_xc
-#' @details This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities offered by the \href{https://github.com/maRce10/suwo}{suwo package} as an alternative solution. This function queries for avian vocalization recordings in the open-access
+#' @details This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities in the \href{https://github.com/maRce10/suwo}{suwo package} as an alternative solution for obtaining nature media from online repositories. This function queries for avian vocalization recordings in the open-access
 #' online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. It can return recordings metadata
 #' or download the associated sound files. Complex queries can be done by using search terms that follow the
 #'  xeno-canto advance query syntax (check "qword" argument description).
@@ -74,7 +74,7 @@
 query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"),
                      parallel = 1, path = NULL, pb = TRUE) {
   
-  message2("This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities offered by the suwo package (https://github.com/maRce10/suwo) as an alternative option.")
+  message2("This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities offered by the suwo package (https://github.com/maRce10/suwo) as an alternative solution for obtaining nature media from online repositories.")
   
   #### set arguments from options
   # get function arguments
@@ -138,9 +138,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
 
   if (is.null(X)) {
     # search recs in xeno-canto (results are returned in pages with 500 recordings each)
-    if (pb & download) {
-      message2(x = "Obtaining recording list...")
-    }
+
 
     # format query qword
     if (grepl("\\:", qword)) { # if using advanced search
@@ -177,7 +175,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
         cl <- parallel
       }
 
-      f <- .pblapply(pbar = pb, X = 1:q$numPages, cl = cl, FUN = function(y) {
+      f <- .pblapply(pbar = pb, X = 1:q$numPages, cl = cl, message = if (pb & download) "obtaining recording list" else NULL, current = 1, total = if (pb & download) 2 else 1, FUN = function(y) {
         # search for each page
         a <- rjson::fromJSON(file = paste0("https://www.xeno-canto.org/api/2/recordings?query=", qword, "&page=", y))
 
@@ -302,20 +300,15 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
     }
 
     # set clusters for windows OS
-    if (pb) {
-      message2(x = "Downloading files...")
-    }
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
     } else {
       cl <- parallel
     }
 
-    a1 <- .pblapply(pbar = pb, X = 1:nrow(results), cl = cl, FUN = function(x) {
+    a1 <- .pblapply(pbar = pb, X = 1:nrow(results), cl = cl, message = "downloading files", current = 2, total = 2, FUN = function(x) {
       xcFUN(results, x)
     })
-
-    if (pb) message2(x = "double-checking downloaded files")
 
     # check if some files have no data
     fl <- list.files(path = path, pattern = ".mp3$")
@@ -334,7 +327,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       }
 
 
-      a1 <- .pblapply(pbar = pb, X = 1:nrow(Y), cl = cl, FUN = function(x) {
+      a1 <- .pblapply(pbar = FALSE, X = 1:nrow(Y), cl = cl, FUN = function(x) {
         try(xcFUN(Y, x), silent = TRUE)
       })
     }

@@ -72,13 +72,6 @@ inflections <- function(X = NULL, parallel = 1, pb = TRUE) {
     return(Y)
   }
 
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("computing inflections", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -89,7 +82,7 @@ inflections <- function(X = NULL, parallel = 1, pb = TRUE) {
   if (is.data.frame(X)) lvs <- 1:nrow(X) else lvs <- seq_len(length(X))
 
   # run loop apply function
-  out <- .pblapply(pbar = pb, X = lvs, cl = cl, FUN = function(i) {
+  out <- .pblapply(pbar = pb, X = lvs, cl = cl, message = "computing inflections", total = 1, FUN = function(i) {
     is.df <- is.data.frame(X)
 
     if (is.df) Y <- X[i, , drop = FALSE] else Y <- X[[i]]

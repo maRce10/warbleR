@@ -75,13 +75,6 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
     }
   }
   
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("resampling wave objects", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-
   # set clusters for windows OS and no soz
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -111,7 +104,7 @@ resample_est <- function(X, samp.rate = 44.1, bit.depth = 16, avoid.clip = TRUE,
   #   }) else {
   #
 
-  out <- .pblapply(pbar = pb, X = attributes(X)$wave.objects, FUN = function(x) {
+  out <- .pblapply(pbar = pb, X = attributes(X)$wave.objects, cl = cl, message = "resampling wave objects", total = 1, FUN = function(x) {
     # fo saving current wave
     tempfile <- paste0(tempfile(), ".wav")
 

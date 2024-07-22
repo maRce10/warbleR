@@ -27,13 +27,13 @@
 #' @examples
 #' \dontrun{
 #' # Load example files and save to temporary working directory
-# data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
-# writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
-# writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
-# writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
-# writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
-#' #
-# fix_wavs(files = lbh_selec_table$sound.files, path = tempdir())
+#' data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
+#' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+#' writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+#' writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+#' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+#' 
+#' fix_wavs(files = lbh_selec_table$sound.files, path = tempdir())
 #'
 #' # check this folder
 #' tempdir()
@@ -175,9 +175,6 @@ fix_wavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth
     out <- system(cll, ignore.stdout = FALSE, intern = TRUE)
   }
 
-  # fix_FUN <- if (sox)  fix_sox_FUN else fix_bio_FUN
+  out <- .pblapply(pbar = TRUE, X = fls, FUN = fix_sox_FUN, message = "Fixing sound files")
 
-  out <- .pblapply(pbar = TRUE, X = fls, FUN = fix_sox_FUN)
-
-  return(NULL)
 }

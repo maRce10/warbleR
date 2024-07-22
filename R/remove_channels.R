@@ -100,13 +100,6 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
     return(a)
   }
   
-  ## update progress message
-  if (pb) {
-    reset_onexit <- .update_progress("removing channels", total = 1)
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  }
-  
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -115,7 +108,7 @@ remove_channels <- function(files = NULL, channels, path = NULL, parallel = 1, p
   }
 
   # run loop apply function
-  out_l <- .pblapply(pbar = pb, X = fls, cl = cl, FUN = function(x) {
+  out_l <- .pblapply(pbar = pb, X = fls, cl = cl, message = "removing channels", total = 1, FUN = function(x) {
     mcwv_FUN(x, channels)
   })
 

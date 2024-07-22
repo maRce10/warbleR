@@ -303,7 +303,7 @@ remove_silence <-
     
     ## update progress message
     if (pb) {
-      reset_onexit <- .update_progress("removing silence", total = 1)
+      reset_onexit <- .update_progress()
       
         on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
     }
@@ -323,6 +323,8 @@ remove_silence <-
         pbar = pb,
         X = wavs,
         cl = cl,
+        message = "removing silence", 
+        total = 1,
         FUN = function(i) {
           rm.sil.FUN(
             fl = i,

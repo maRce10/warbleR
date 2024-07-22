@@ -41,7 +41,7 @@ by_song_est <- selection_table(lbh_selec_table,
   extended = TRUE, by.song = "song"
 )
 
-# conver o by element
+# convert into by element
 by_element_est <- by_element_est(by_song_est, mar = 0.05)
 }
 }

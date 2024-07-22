@@ -157,14 +157,7 @@ wav2flac <-
         stop2("some (or all) sound files were not found")
       }
     }
-    
-    # update progress info
-    if (pb) {
-      reset_onexit <- .update_progress("converting sound files")
-      
-        on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-    }
-    
+
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
@@ -179,6 +172,8 @@ wav2flac <-
         pbar = pb,
         X = files,
         cl = cl,
+        message = "converting sound files",
+        total = 1,
         FUN = function(i) {
           # .try_na(
           flacwav(
