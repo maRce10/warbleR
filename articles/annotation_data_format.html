@@ -67,7 +67,7 @@
                         <h4 data-toc-skip class="author"><a href="https://marce10.github.io" class="external-link">Marcelo
 Araya-Salas, PhD</a></h4>
             
-            <h4 data-toc-skip class="date">2024-07-18</h4>
+            <h4 data-toc-skip class="date">2024-07-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/annotation_data_format.Rmd" class="external-link"><code>vignettes/annotation_data_format.Rmd</code></a></small>
       <div class="d-none name"><code>annotation_data_format.Rmd</code></div>
@@ -1940,18 +1940,16 @@ containing the ‘song’ level labels must be supplied to the argument
 <span>                  extended <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                  by.song <span class="op">=</span> <span class="st">"song"</span>, </span>
 <span>                  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code> [30mchecking annotations (step 2 of 0): [39m</code></pre>
 <pre><code> [30mall selections are OK 
  [39m</code></pre>
-<pre><code> [30msaving wave objects into extended selection table (step 3 of 0): [39m</code></pre>
 <p>In a ‘by song’ extended selection table there are as many wave
 objects as songs in our annotation data:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">bs_est</span>, <span class="st">"wave.objects"</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">bs_est</span><span class="op">$</span><span class="va">sound.files</span>, <span class="va">bs_est</span><span class="op">$</span><span class="va">song</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>[1] TRUE</code></pre>
 <p>We can extract an entire wave object to check that two elements are
 actually included:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extract wave object</span></span>
 <span><span class="va">wave_song1</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/read_sound_file.html">read_sound_file</a></span><span class="op">(</span></span>
@@ -1987,7 +1985,7 @@ performance (in our case, measured as time). Here we use
 results. First, a selection table with 1000 selections is created simply
 by repeating the sample data frame several times and then is converted
 to an extended selection table:</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create long selection table</span></span>
 <span><span class="va">lng.selec.table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">10</span>, <span class="va">lbh_selec_table</span>,</span>
 <span>                                            simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
@@ -2036,7 +2034,7 @@ following code downloads an extended selection table of inquiry calls
 from Spix’s disc-winged bats used in <a href="https://marce10.github.io/publication/araya-salas-2020/" class="external-link">Araya-Salas
 <em>et al</em> (2020)</a> (it can take a few minutes! Can also be
 manually downloaded from <a href="https://figshare.com/ndownloader/files/21167052" class="external-link">here</a>):</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">URL</span> <span class="op">&lt;-</span> <span class="st">"https://figshare.com/ndownloader/files/21167052"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span></span>
@@ -2051,7 +2049,7 @@ manually downloaded from <a href="https://figshare.com/ndownloader/files/2116705
 <pre><code>[1] 336</code></pre>
 <p>This data is ready to be used. For instance, here I create a
 multipanel graph with the spectrograms of the first 6 selections:</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span>, mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span> <span class="op">{</span></span>
@@ -2077,12 +2075,10 @@ multipanel graph with the spectrograms of the first 6 selections:</p>
 <p><img src="annotation_data_format_files/figure-html/unnamed-chunk-20-1.png" width="750"></p>
 <p>We can also measured pairwise cross correlation (for simplicity only
 on the first 4 rows):</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">xcorr_inquiry</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cross_correlation.html">cross_correlation</a></span><span class="op">(</span><span class="va">est</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">xcorr_inquiry</span></span></code></pre></div>
-<pre><code> [30mcreating spectrogram matrices (step 4 of 0): [39m</code></pre>
-<pre><code> [30mrunning cross-correlation (step 5 of 0): [39m</code></pre>
 <table class="table table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:left;">
