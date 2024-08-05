@@ -237,7 +237,7 @@ try_na <- function(...) {
   
 }
 
-wav_dur <- function(...) {
+wavdur <- wav_dur <- function(...) {
   
   warning2(x = "wav_dur() function name has been deprecated. Use `duration_sound_files()` instead.") 
   

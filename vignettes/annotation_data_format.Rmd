@@ -681,10 +681,12 @@ This new object class allows to share complete data sets, including acoustic dat
 
 URL <- "https://figshare.com/ndownloader/files/21167052"
 
+options(timeout = max(300, getOption("timeout")))
+
 download.file(
   url = URL,
   destfile = file.path(tempdir(), "est_inquiry.RDS"),
-  method = "wget"
+  method = "auto"
 )
 
 est <- readRDS(file.path(tempdir(), "est_inquiry.RDS"))

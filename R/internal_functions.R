@@ -2596,6 +2596,8 @@ lessdB <- lessdB_wrblr_int <- function(signal.noise, noise) {
       total <- steps$total
       options("int_warbleR_steps" = list(current = current + 1, total = total))
     } else {
+      # only use if the function is called by the top function
+      if (length(sys.calls()) == 2)
       options("int_warbleR_steps" = list(current = current + 1, total = total))
     }
     

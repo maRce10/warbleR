@@ -672,12 +672,6 @@ compare_methods <- function(X = NULL,
   }
   
   # save image files
-  # if (pb) {
-  #   reset_onexit <- .update_progress()
-  #   
-  #     on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-  # }
-  # 
   # set clusters for windows OS
   if (Sys.info()[1] == "Windows" & parallel > 1) {
     cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))

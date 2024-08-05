@@ -112,8 +112,7 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on may-9-2018 (MAS)
 
-selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
-                            extended = FALSE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", files = NULL, ...) {
+selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE, extended = FALSE, mar = 0.1, by.song = NULL, pb = TRUE, parallel = 1, verbose = TRUE, skip.error = FALSE, file.format = "\\.wav$|\\.wac$|\\.mp3$|\\.flac$", files = NULL, ...) {
   
   #### set arguments from options
   # get function arguments
@@ -177,8 +176,7 @@ selection_table <- function(X, max.dur = 10, path = NULL, whole.recs = FALSE,
   }
 
   if (pb & verbose) {
-    reset_onexit <- .update_progress(total = if(extended) 2 else 1)
-    # on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)  
+  .update_progress(total = if(extended) 2 else 1)
     }
 
   check.results <- check_sels(X, path = path, wav.size = TRUE, pb = pb, verbose = verbose, ...)

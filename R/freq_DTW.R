@@ -141,7 +141,7 @@ freq_DTW <-
 
   # set number of steps for progress bar messages
   if (pb) {
-    reset_onexit <- .update_progress(total = 2)
+    .update_progress(total = 2)
     
       # on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
       }

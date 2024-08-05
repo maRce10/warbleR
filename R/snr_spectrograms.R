@@ -273,9 +273,7 @@ snr_spectrograms <- function(X, wl = 512, flim = NULL, wn = "hanning", ovlp = 70
 
   ## update progress message
   if (pb) {
-    reset_onexit <- .update_progress("creating SNR spectrograms")
-    
-      on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
+    .update_progress("creating SNR spectrograms")
   }
 
   # set clusters for windows OS

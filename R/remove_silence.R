@@ -297,18 +297,6 @@ remove_silence <-
         }
       }
 
-    if (pb) {
-      message2("searching for silence segments in wave files:")
-    }
-    
-    ## update progress message
-    if (pb) {
-      reset_onexit <- .update_progress()
-      
-        on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-    }
-    
-
     # set clusters for windows OS
     if (Sys.info()[1] == "Windows" & parallel > 1) {
       cl <-
