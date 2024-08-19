@@ -76,6 +76,7 @@ time warping. Internally it applies the <code><a href="https://rdrr.io/pkg/dtw/m
 <span>  scale <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  fsmooth <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  adjust.wl <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  max.obs.per.core <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -196,6 +197,10 @@ amplitude modulation. Default is 0.1.</p></dd>
 number of samples in a selection if the number of samples is less than 'wl'. Default is <code>TRUE</code>.</p></dd>
 
 
+<dt id="arg-max-obs-per-core">max.obs.per.core<a class="anchor" aria-label="anchor" href="#arg-max-obs-per-core"></a></dt>
+<dd><p>Numeric. Maximum number of observations per core to be used in parallel computing. Default is 100. Reduce this value if you have memory issues.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional arguments to be passed to <code><a href="track_freq_contour.html">track_freq_contour</a></code> for customizing
 graphical output.</p></dd>
@@ -258,6 +263,8 @@ The function uses the <code><a href="https://rdrr.io/r/stats/approxfun.html" cla
 <span class="r-in"><span>    bp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">9</span><span class="op">)</span>, wl <span class="op">=</span> <span class="fl">300</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> calculating DTW distances, no progress bar ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> calculating DTW distances, no progress bar ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  Phae.long1.wav-1 Phae.long1.wav-2 Phae.long1.wav-3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Phae.long1.wav-1           0.0000          20.2601          20.2518</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Phae.long1.wav-2          20.2601           0.0000          13.2831</span>
