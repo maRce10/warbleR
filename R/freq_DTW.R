@@ -45,6 +45,7 @@
 #'  amplitude modulation. Default is 0.1.
 #' @param adjust.wl Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the
 #' number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.
+#' @param max.obs.per.core Numeric. Maximum number of observations per core to be used in parallel computing. Default is 100. Reduce this value if you have memory issues.
 #' @param ... Additional arguments to be passed to \code{\link{track_freq_contour}} for customizing
 #' graphical output.
 #' @return A matrix with the pairwise dissimilarity values. If img is
@@ -111,6 +112,7 @@ freq_DTW <-
            scale = FALSE,
            fsmooth = 0.1,
            adjust.wl = TRUE,
+           max.obs.per.core = 20,
            ...) {
     
   #### set arguments from options
@@ -141,10 +143,8 @@ freq_DTW <-
 
   # set number of steps for progress bar messages
   if (pb) {
-    .update_progress(total = 2)
-    
-      # on.exit(expr = eval(parse(text = reset_onexit)), add = TRUE)
-      }
+    .update_progress(current = 0, total = if(is.null(ts.df)) 2 else 1)
+    }
   
   if (!is.null(X)) {
     # if X is not a data frame
@@ -187,7 +187,7 @@ freq_DTW <-
                            the start and/or end of the signal)")
 
  
-  dm <- .dtwDist(mat, mat, parallel = parallel, pb = pb, window.type = window.type, open.end = open.end)
+  dm <- .dtwDist(mat, mat, parallel = parallel, pb = pb, window.type = window.type, open.end = open.end, max.obs.per.core = max.obs.per.core)
 
   rownames(dm) <- colnames(dm) <- paste(res$sound.files, res$selec, sep = "-")
   return(dm)

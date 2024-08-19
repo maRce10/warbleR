@@ -28,6 +28,7 @@ freq_DTW(
   scale = FALSE,
   fsmooth = 0.1,
   adjust.wl = TRUE,
+  max.obs.per.core = 20,
   ...
 )
 }
@@ -97,6 +98,8 @@ amplitude modulation. Default is 0.1.}
 
 \item{adjust.wl}{Logical. If \code{TRUE} 'wl' (window length) is reset to be lower than the
 number of samples in a selection if the number of samples is less than 'wl'. Default is \code{TRUE}.}
+
+\item{max.obs.per.core}{Numeric. Maximum number of observations per core to be used in parallel computing. Default is 100. Reduce this value if you have memory issues.}
 
 \item{...}{Additional arguments to be passed to \code{\link{track_freq_contour}} for customizing
 graphical output.}

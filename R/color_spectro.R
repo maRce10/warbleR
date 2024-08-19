@@ -236,10 +236,7 @@ color_spectro <- function(wave, wl = 512, wn = "hanning", ovlp = 70,
       collevels <- seq(0, maxz, length = 30)
     }
   }
-  # opar <- par
-  # par(bg = bg.col)
-  # on.exit(par(opar), add = TRUE)
-  #
+  
   if (!fast.spec) { # seewave spectro
     # plot background spectro
     if (!add) {

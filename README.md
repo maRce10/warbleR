@@ -82,9 +82,16 @@ library(warbleR)
 
 ## Usage
 
-Take a look at the [package
-vignettes](https://marce10.github.io/warbleR/articles/) with detailed
-examples on how to organize functions in an acoustic analysis workflow.
+The package includes several vignettes explaining its main features. The
+[Intro to
+warbleR](https://marce10.github.io/warbleR/articles/warbleR.html)
+provides an overview of the package functionalities. The vignette
+[Annotation data
+format](https://marce10.github.io/warbleR/articles/annotation_data_format.html)
+gives a detailed description of the required format for input
+annotations. There are also three additional [package
+vignettes](https://marce10.github.io/warbleR/articles/) with examples on
+how to organize functions in an acoustic analysis workflow.
 
 A full description of the package (although a bit outdated) can be found
 in this [journal article](https://doi.org/10.1111/2041-210X.12624).

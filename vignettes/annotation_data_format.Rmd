@@ -71,6 +71,7 @@ print_st_no_color <- function(x, ...) if (is(x, "selection_table")) warbleR:::pr
   warbleR:::print.extended_selection_table(x, no.color = TRUE, ...)
 
 
+warbleR_options(pb = FALSE)
 ```
 
 <img src="warbleR_sticker.png" alt="warbleR logo" align="right" width="25%" height="25%">
@@ -256,7 +257,7 @@ print_st_no_color(st)
 
 
 
-Note that the path to the sound files must be provided. This is necessary in order to verify that the data provided conforms to the characteristics of the audio files.
+Note that the path to the sound files must be provided. This is necessary in order to verify that the data supplied conforms to the characteristics of the audio files.
 
 <!-- light brown box -->
 <div class="alert alert-warning">
@@ -268,7 +269,7 @@ Selection table also refer to sound files. Therefore, users **must always indica
 
 ## Extended selection tables
 
-Extended selection tables are annotations that include both the acoustic and annotation data. This an specific object class, *extended_selection_table*, that include a list of 'wave' objects corresponding to each of the selections in the data. Therefore, the function **transforms the selection table into self-contained objects** since the original sound files are no longer needed to perform most of the acoustic analysis in **warbleR**. This can facilitate the storage and exchange of (bio)acoustic data. This format can also speed up analyses, since it is not necessary to read the sound files every time the data is analyzed.
+Extended selection tables are annotations that include both the acoustic and annotation data. This is an specific object class, *extended_selection_table*, that includes a list of 'wave' objects corresponding to each of the selections in the data. Therefore, the function **transforms the selection table into self-contained objects** since the original sound files are no longer needed to perform most of the acoustic analysis in **warbleR**. This can facilitate the storage and exchange of (bio)acoustic data. This format can also speed up analyses, since it is not necessary to read the sound files every time the data is analyzed.
 
 The `selection_table()` function also creates extended selection tables. To do this, users must set the argument `extended = TRUE` (otherwise, the class would be a selection table). The following code converts the example 'lbh_selec_table' data into an extended selection table:
 
@@ -340,8 +341,8 @@ As shown above, there is also a generic version of `print()` for this class of o
 
 ```{r annotations_7, eval = FALSE}
 
-## print
-print(est)
+## print (equivalent to `print(est)`)
+est
 
 ```
 
@@ -352,20 +353,8 @@ print_st_no_color(est)
 
 ```
 
-... which is equivalent to:
 
-```{r annotations_7.1, eval=FALSE}
-
-est
-```
-
-```{r, eval = TRUE, echo = FALSE, collapse = TRUE}
-
-print_st_no_color(est)
-
-```
-
-You can also split them and/or combine them by rows. Here the original *extended_selection_table* is divided into 2 and bound again using `rbind()`:
+You can also split them and/or combine them by rows. Here the original *extended_selection_table* is divided using indexing into two objects and combine the two back into a single object using `rbind()`:
 
 ```{r annotations_8, eval = FALSE}
 
@@ -508,9 +497,9 @@ sp[, 1:10]
 ```
 
 
-```{r, eval = TRUE, echo = FALSE}
+```{r, eval = TRUE, echo = FALSE, message=FALSE}
 
-sp <- spectro_analysis(est)
+sp <- spectro_analysis(est, pb = FALSE)
 
 kbl <- knitr::kable(sp[, 1:10])
 
@@ -531,15 +520,17 @@ length(attr(est, "wave.objects")) == length(unique(paste(est$sound.files)))
 
 ```
 
-This default behavior generates a 'by element' extended selection table, as each resulting wave object contains a single element (usually defined as continuous traces of power spectral entropy in the spectrograms). Acoustic signals can have structure above this basic signal units (elements), like in long repertoire songs or multi-syllable calls, in which elements are always broadcast as a sequences, often with consistent order and timing. It is then desirable to keep information about the relative position of elements in these sequences. However,'by element' extended selection tables discards some element sequence information. This can be overwritten using the argument `by.song`, which allows to keep in a single wave object all the elements belonging to the same 'song'. In this case song refers to any grouping of sounds above the 'element' level.   
+This default behavior generates a 'by element' extended selection table, as each resulting wave object contains a single element (usually defined as continuous traces of power spectral entropy in the spectrograms). Acoustic signals can have structure above the basic signal units (elements), like in long repertoire songs or multi-syllable calls, in which elements are always broadcast as a sequences, often with consistent order and timing. It is then desirable to keep information about the relative position of elements in these sequences. However,'by element' extended selection tables discards some element sequence information. This can be overwritten using the argument `by.song`, which allows to keep in a single wave object all the elements belonging to the same 'song'. In this case song refers to any grouping of sounds above the 'element' level.   
 
 The song of the Scale-throated Hermit (*Phaethornis eurynome*) will be used to show how this can be done. This song consists of a sequence of two elements, which are separated by short gaps:
 
-```{r songs 3, echo = FALSE, fig.align= "right", out.width="100%", fig.cap="Annotated spectrogram of Scale-throated Hermit songs. Vertical orange lines highlight songs while skyblue boxes show the frequency-time position of individual elements. The sound file can be found at https://xeno-canto.org/15607."}
+```{r songs 3, echo = FALSE, fig.align= "left", out.width="100%"}
 
 knitr::include_graphics("Phaethornis-eurynome-15607-labeled.jpeg")
 
 ```
+
+*Annotated spectrogram of Scale-throated Hermit songs. Vertical orange lines highlight songs while skyblue boxes show the frequency-time position of individual elements. The sound file can be found at https://xeno-canto.org/15607.*
 
 An example sound file with this species' song can be downloaded as follows (the sound file can also be downloaded manually from [this link](https://xeno-canto.org/15607/download)):
 ```{r, warning=FALSE, message=FALSE}
@@ -560,6 +551,7 @@ list.files(path = tempdir(), "mp3")
 **warbleR** comes with an example data set containing annotations on this sound file, which can be loaded like this:
 
 ```{r}
+
 # load  Scale-throated Hermit example annotations
 data("sth_annotations")
 
@@ -568,8 +560,9 @@ data("sth_annotations")
 Note that these annotations contain an additional column called 'song', with the song ID labels for elements (rows) belonging to the same song:
 
 ```{r, eval = FALSE}
+
 # print into the console
-knitr::kable(head(sth_annotations))
+head(sth_annotations)
 
 ```
 
@@ -677,7 +670,7 @@ The function runs much faster in the extended selection tables. Performance gain
 
 This new object class allows to share complete data sets, including acoustic data. To do this we can make use of the RDS file format to save extended selection tables. These files can be easily shared with others, allowing to share a entire acoustic data set in a single file, something that can be tricky when dealing with acoustic data. For example, the following code downloads an extended selection table of inquiry calls from Spix's disc-winged bats used in [Araya-Salas *et al* (2020)](https://marce10.github.io/publication/araya-salas-2020/) (it can take a few minutes! Can also be manually downloaded from [here](https://figshare.com/ndownloader/files/21167052)):
 
-```{r downloading rds, eval = TRUE}
+```{r downloading rds, eval = FALSE}
 
 URL <- "https://figshare.com/ndownloader/files/21167052"
 
@@ -695,9 +688,16 @@ nrow(est)
 
 ```
 
+```{r, eval = TRUE, echo = FALSE}
+
+print(336)
+
+```
+
+
 This data is ready to be used. For instance, here I create a multipanel graph with the spectrograms of the first 6 selections:
 
-```{r, eval = TRUE, out.width= 750}
+```{r, eval = FALSE, out.width = 750}
 
 par(mfrow = c(3, 2), mar = rep(0, 4))
 
@@ -724,6 +724,9 @@ for (i in 1:6) {
 
 ```
 
+
+<img src="est1to6spectro.jpeg" alt="warbleR logo" align="right" width="100%">
+
 We can also measured pairwise cross correlation (for simplicity only on the first 4 rows):
 
 ```{r, eval = FALSE}
@@ -736,7 +739,10 @@ xcorr_inquiry
 
 ```{r, echo=FALSE}
 
-xcorr_inquiry <- cross_correlation(est[1:4, ])
+xcorr_inquiry <- matrix(c(1.0000000, 0.5222115, 0.5350263, 0.5939756,
+  0.5222115, 1.0000000, 0.8692543, 0.6599669,
+  0.5350263, 0.8692543, 1.0000000, 0.8334820,
+  0.5939756, 0.6599669, 0.8334820, 1.0000000), nrow = 4, dimnames = list(c("T2018-01-04_11-37-50_0000010.wav_1-1",  "T2018-01-04_11-37-50_0000010.wav_10-1",  "T2018-01-04_11-37-50_0000010.wav_11-1", "T2018-01-04_11-37-50_0000010.wav_12-1"), c("T2018-01-04_11-37-50_0000010.wav_1-1",  "T2018-01-04_11-37-50_0000010.wav_10-1",  "T2018-01-04_11-37-50_0000010.wav_11-1", "T2018-01-04_11-37-50_0000010.wav_12-1")))
 
 kbl <- knitr::kable(xcorr_inquiry, row.names = TRUE)
 

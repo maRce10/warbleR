@@ -2552,18 +2552,31 @@ lessdB <- lessdB_wrblr_int <- function(signal.noise, noise) {
 
 
 # parallelize DTW 
-.dtwDist <- function(mx, my = mx, parallel = 1, pb = TRUE, ...) {
+.dtwDist <- function(mx, my = mx, parallel = 1, pb = TRUE, max.obs.per.core = 20, ...) {
   
   if (parallel == 1 | parallel >= nrow(mx)){
     if (pb)
-    .update_progress(message = "calculating DTW distances with, no progress bar", current = 2, total = 2)
+    cat("calculating DTW distances, no progress bar ...")
     
     dtw_dists <- dtw::dtwDist(mx, my, ...)
   } else {
-      
-    # Create intervals using cut
-    row_intervals <- cut(1:nrow(mx), breaks = parallel, labels = FALSE)
    
+    # get number of breaks for splitting data base on max.obs.per.core
+    breaks <- floor(nrow(mx) / max.obs.per.core)
+    
+    # if less than 10 breaks make them 10
+    if (breaks > 10) breaks <- 10
+
+    # if breaks is less than 1, make it 1
+    if (breaks < 1) breaks <- floor(1 / breaks)
+    if (breaks == 1) breaks <- 2
+    
+    # Create intervals using cut
+    row_intervals <- cut(seq_len(nrow(mx)), breaks = breaks, labels = FALSE)
+    
+    # fix if surpasses number of rows in data
+    row_intervals <- row_intervals[row_intervals <= nrow(mx)]
+    
     dtw_dist_list <- .pblapply(pbar = pb, X = unique(row_intervals), cl = parallel, message = "calculating DTW distances", FUN = function(j, ...) {
       
       sub_dtw_dist <- dtw::dtwDist(mx = mx, my = my[row_intervals == j, ], ...)
