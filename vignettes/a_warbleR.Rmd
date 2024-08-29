@@ -13,8 +13,8 @@ output:
       collapsed: false
       smooth_scroll: true
 vignette: >
-   %\VignetteIndexEntry{1. Introduction to warbleR}
    %\usepackage[utf8]{inputenc}
+   %\VignetteIndexEntry{1. Introduction to warbleR}
    %\VignetteEncoding{UTF-8}
    %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

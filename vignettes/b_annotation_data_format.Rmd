@@ -13,8 +13,8 @@ output:
       collapsed: false
       smooth_scroll: true
 vignette: >
-   %\VignetteIndexEntry{2. Annotation data format}
    %\usepackage[utf8]{inputenc}
+   %\VignetteIndexEntry{2. Annotation data format}
    %\VignetteEncoding{UTF-8}
    %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

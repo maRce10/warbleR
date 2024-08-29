@@ -10,7 +10,7 @@
 #' @name open_wd
 #' @details The function opens the working directory using the default file browser 
 #' and prints the working directory in the R console. This function aims to simplify
-#' the manipulation of sound files and other files produced by many of the \code{\link{warbleR}} function.
+#' the manipulation of sound files and other files produced by many of the \href{https://cran.r-project.org/package=warbleR}{warbleR} function.
 #' @return Opens the working directory using the default file browser. 
 #' @examples
 #' {

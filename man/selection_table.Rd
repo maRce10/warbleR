@@ -42,7 +42,7 @@ a extended selection table. If provided 'X' is ignored.}
 \item{extended}{Logical. If \code{TRUE}, the function will create an object of class 'extended_selection_table'
 which included the wave objects of the selections as an additional attribute ('wave.objects') to the data set. This is
 and self-contained format that does not require the original sound files for running most acoustic analysis in
-\code{\link{warbleR}}. This can largely facilitate the storing and sharing of (bio)acoustic data. Default
+\href{https://cran.r-project.org/package=warbleR}{warbleR}. This can largely facilitate the storing and sharing of (bio)acoustic data. Default
 is if \code{FALSE}. An extended selection table won't be created if there is any issue with the selection. See
 'details'.}
 
