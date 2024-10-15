@@ -9,7 +9,7 @@
 #' @param ovlp Logical. If \code{TRUE} the vocalizations that overlap in time are highlighted.
 #' Default is \code{TRUE}.
 #' @param xl Numeric vector of length 1, a constant by which to scale
-#'   spectrogram width. Default is 1.
+#'   image width. Default is 1.
 #' @param res Numeric argument of length 1. Controls image resolution. Default is 80.
 #' @param it A character vector of length 1 giving the image type to be used. Currently only
 #' "tiff" and "jpeg" are admitted. Default is "jpeg".

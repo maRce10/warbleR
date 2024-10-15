@@ -50,7 +50,7 @@
 
 read_wave <- function(X, index, from = X$start[index], to = X$end[index], channel = NULL, header = FALSE, path = NULL) {
   
-  message2("This function is slated for deprecation in future versions. Please use the function read_sound_files() instead.")
+  message2("This function is slated for deprecation in future versions. Please use the function read_sound_file() instead.")
   
   # if is extended then index must be provided
   if (is_extended_selection_table(X) & missing(index)) stop('"index" needed when an extended selection table is provided')

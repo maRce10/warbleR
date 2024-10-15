@@ -27,7 +27,7 @@ individual (indiv), and start and end time of signal (start and end).}
 \itemize{
    \item \code{count}: count the number of overlapping signals (default)
    \item \code{time.overlap}: measure the total duration (in s) in which signals overlap
-   \item \code{time.distance}: measure the time (in s) to the other individual's closest signal. This is the only method that can take more than 2 individuals.
+   \item \code{time.closest}: measure the time (in s) to the other individual's closest signal. This is the only method that can take more than 2 individuals.
    }}
 
 \item{randomization}{Character string defining the procedure for signal randomization. Three methods are available:

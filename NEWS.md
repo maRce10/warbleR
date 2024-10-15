@@ -57,12 +57,12 @@
 * `find_clipping()` to detect clipped selections
 * `wav_2_flac()` to convert '.wav' files into flac compresed lossless format
 * `gaps()` for calculating time intervals (i.e. gaps) between selections
-* `read_sound_files()` is now use to read sound files
+* `read_sound_file()` is now use to read sound files
 * `split_sound_files()` now can also split associated selection tables
 
 ## Changes and additions:
 
-* `read_sound_files()` and consequently most other functions in warbleR will look at the 'channel' column for deciding which channel to read
+* `read_sound_file()` and consequently most other functions in warbleR will look at the 'channel' column for deciding which channel to read
 * updated download URL in `quer_xc()`
 * `selection_table` and `extended_selection_table` subsetting (`[`) drop behavior switched to `FALSE`
 * `overlapping_sels()` has been updated to improve performance

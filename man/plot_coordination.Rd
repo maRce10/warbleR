@@ -27,7 +27,7 @@ included (solo singing is removed). Default is \code{FALSE}.}
 Default is \code{TRUE}.}
 
 \item{xl}{Numeric vector of length 1, a constant by which to scale
-spectrogram width. Default is 1.}
+image width. Default is 1.}
 
 \item{res}{Numeric argument of length 1. Controls image resolution. Default is 80.}
 

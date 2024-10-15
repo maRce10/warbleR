@@ -8,7 +8,7 @@
 #' \itemize{
 #'    \item \code{count}: count the number of overlapping signals (default)
 #'    \item \code{time.overlap}: measure the total duration (in s) in which signals overlap
-#'    \item \code{time.distance}: measure the time (in s) to the other individual's closest signal. This is the only method that can take more than 2 individuals.
+#'    \item \code{time.closest}: measure the time (in s) to the other individual's closest signal. This is the only method that can take more than 2 individuals.
 #'    }
 #' @param randomization Character string defining the procedure for signal randomization. Three methods are available:
 #' \itemize{
@@ -91,9 +91,18 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on apr-11-2018 (MAS)
 
-test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count",
-                              randomization = "keep.gaps", less.than.chance = TRUE, parallel = 1, pb = TRUE,
-                              rm.incomp = FALSE, cutoff = 2, rm.solo = FALSE) {
+test_coordination <-
+  function(X = NULL,
+           iterations = 1000,
+           ovlp.method = "count",
+           randomization = "keep.gaps",
+           less.than.chance = TRUE,
+           parallel = 1,
+           pb = TRUE,
+           rm.incomp = FALSE,
+           cutoff = 2,
+           rm.solo = FALSE
+  ) {
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(test_coordination)
@@ -333,7 +342,7 @@ test_coordination <- function(X = NULL, iterations = 1000, ovlp.method = "count"
     return(sum(out))
   }
 
-  # time.distance ovlp.method
+  # time.closest ovlp.method
   closestFUN <- function(Z) {
     timediffs <- vapply(seq_len(nrow(Z)), function(i) {
       Z_others <- Z[Z$indiv != Z$indiv[i], ]
