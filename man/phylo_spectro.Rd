@@ -16,6 +16,7 @@ phylo_spectro(
   horizontal = TRUE,
   axis = TRUE,
   box = TRUE,
+  collevels = seq(-40, 0, 5),
   ...
 )
 }
@@ -53,6 +54,11 @@ tree is reorganized to get the ladderized effect when plotted). Only 'left' of '
 \item{axis}{Logical to control if the Y and X axis of spectrograms are plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.}
 
 \item{box}{Logical to control if the box around spectrograms is plotted (see \code{\link[graphics]{box}}). Default is \code{TRUE}.}
+
+\item{collevels}{A numeric vector of length 3. Specifies levels to partition the 
+amplitude range of the spectrogram (in dB). The more levels the higher the
+resolution of the spectrogram. Default is seq(-40, 0, 1). seq(-115, 0, 1) will produces spectrograms
+similar to other acoustic analysis software packages.}
 
 \item{...}{Additional arguments to be passed to the internal spectrogram 
 creating function (\code{\link{spectrograms}}) or phylogeny plotting function (\code{\link[ape]{plot.phylo}}) for 

@@ -4,34 +4,10 @@
 \alias{read_wave}
 \title{A wrapper for tuneR's readWave that read sound files listed within selection tables}
 \usage{
-read_wave(
-  X,
-  index,
-  from = X$start[index],
-  to = X$end[index],
-  channel = NULL,
-  header = FALSE,
-  path = NULL
-)
+read_wave(...)
 }
 \arguments{
-\item{X}{'data.frame', 'selection_table' or 'extended_selection_table' containing columns for sound file name (sound.files),
-selection number (selec), and start and end time of signals (start and end). Alternatively, the name of a '.wav' file or URL address to a '.wav' or '.mp3' file can be provided. The file name can contain the directory path.
-'top.freq' and 'bottom.freq' columns are optional. Default is \code{NULL}.}
-
-\item{index}{Index of the selection in 'X' that will be read. Ignored if 'X' is \code{NULL}.}
-
-\item{from}{Where to start reading, in seconds. Default is \code{X$start[index]}.}
-
-\item{to}{Where to stop reading, in seconds. Default is \code{X$end[index]}.  \code{Inf} can be used for reading the entire sound file (when 'X' is a sound file name),}
-
-\item{channel}{Channel to be read from sound file (1 = left, 2 = right, or higher number for multichannel waves). If
-\code{NULL} (default) or higher than the number of channels in a wave then the first channel is used. Only applies to '.wav' files in local directories.}
-
-\item{header}{If \code{TRUE}, only the header information of the Wave object is returned, otherwise (the default) the whole Wave object.}
-
-\item{path}{Character string containing the directory path where the sound files are located.
-If \code{NULL} (default) then the current working directory is used. If 'X' refers to a sound file including its directory 'path' is ignored.}
+\item{...}{arguments to be passed internally to \code{\link{read_sound_file}}.}
 }
 \value{
 An object of class "Wave".
@@ -40,8 +16,7 @@ An object of class "Wave".
 \code{read_wave} is a wrapper for tuneR's \code{\link[tuneR]{readWave}} function that read sound files listed in data frames and selection tables
 }
 \details{
-The function is a wrapper for \code{\link[tuneR]{readWave}} that read sound files listed within selection tables. It
-is also used internally by warbleR functions to read wave objects from extended selection tables (see \code{\link{selection_table}} for details).
+The function is a wrapper for \code{\link{read_sound_file}}. The function is slated for deprecation and will be removed in future versions of the package. Please use \code{\link{read_sound_file}} instead.
 }
 \examples{
 {

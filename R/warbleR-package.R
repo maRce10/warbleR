@@ -148,6 +148,8 @@
 #' @import grDevices
 #' @import utils
 #' @import parallel
+#' @importFrom curl has_internet
+#' @importFrom httr http_error
 #' @importFrom cli style_bold style_italic make_ansi_style num_ansi_colors
 #' @importFrom testthat capture_output_lines
 #' @importFrom knitr kable

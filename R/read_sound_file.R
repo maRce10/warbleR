@@ -56,7 +56,7 @@
 
 read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[index], channel = X$channel[index], header = FALSE, path = NULL) {
   # if is extended then index must be provided
-  if (is.data.frame(X) & is.null(index)) stop2('"index" needed when a  "data.frame", "selection_table", "extended_selection_table" is provided')
+  if (is.data.frame(X) & is.null(index)) stop2('"index" needed when a "data.frame", "selection_table", "extended_selection_table" is provided')
 
   # if X is not a data frame
   if (!any(is.data.frame(X), is_selection_table(X), is_extended_selection_table(X), is.character(X), is.factor(X))) stop2("X is not of a class 'data.frame', 'selection_table', 'extended_selection_table' or a sound file name")
@@ -68,6 +68,16 @@ read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[i
       # get  temporary file name
       temp.file <- tempfile()
 
+        if (!curl::has_internet()) {
+          X <- "No internet connection"
+        } else {
+
+          if (httr::http_error(X)) {
+          X <- "URL link is broken"
+        }
+      }
+      
+      if (!X %in% c("No internet connection",  "URL link is broken")){
       # download it
       download.file(url = X, destfile = temp.file, quiet = TRUE, mode = "wb", cacheOK = TRUE, extra = getOption("download.file.extra"))
 
@@ -75,7 +85,7 @@ read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[i
 
       # overwrite X
       X <- temp.file
-
+      }
       # extension is unknown
       extsn <- "unk"
     } else {
@@ -103,7 +113,10 @@ read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[i
 
     object <- read_soundfile_wrblr_int(filename, header, from, to, extension = extsn, channel = channel)
 
-    if (is(object, "try-error")) {
+    if (X %in% c("No internet connection",  "URL link is broken")) {
+      message2(X)
+      object <- NULL
+    } else if (is(object, "try-error")) {
       stop2("file cannot be read")
     }
   } else {

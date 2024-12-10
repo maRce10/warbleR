@@ -782,7 +782,7 @@ frd_wrblr_int <-
           nd <- c(nd, NA)
         }
       }
-      # substract half a step to calculate mid point between the 2 freq windows in which the theshold has passed
+      # substract half a step to calculate mid point between the 2 freq windows in which the threshold has passed
       nd <- nd - (step / 2)
       strt <- strt - (step / 2)
 
@@ -862,7 +862,7 @@ frd_wrblr_int <-
 
       # step <- mean(zf[-1] - zf[1:(length(zf) - 1)])
 
-      # substract half a step to calculate mid point between the 2 freq windows in which the theshold has passed
+      # substract half a step to calculate mid point between the 2 freq windows in which the threshold has passed
       nd <- nd - (step / 2)
       strt <- strt - (step / 2)
       meanpeakf <- zf[which.max(z)] + (step / 2)
@@ -2241,8 +2241,9 @@ spectro_wrblr_int2 <-
         axisY = axisY,
         col.lab = collab,
         colaxis = colaxis,
-        add = add
-      )
+        add = add,
+        bx = bx
+        )
     } else {
       image(
         x = X,

@@ -14,7 +14,7 @@ output:
       smooth_scroll: true
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{4. Visual inspection and signal classification}
+  %\VignetteIndexEntry{3. Visual inspection and signal classification}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console

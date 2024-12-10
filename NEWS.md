@@ -1,3 +1,11 @@
+# *warbleR 1.1.33*
+
+## Changes and additions:
+
+* Added 'peakt' feature to `spectro_analysis()` to measure the time at which peak amplitude occurs
+* Add message when URL resource not available in `read_sound_files()`
+
+
 # *warbleR 1.1.32*
 
 ## Changes and additions:
@@ -55,7 +63,7 @@
 
 * `sound_pressure_level()` to measure, well, sound pressure level
 * `find_clipping()` to detect clipped selections
-* `wav_2_flac()` to convert '.wav' files into flac compresed lossless format
+* `wav_2_flac()` to convert '.wav' files into flac compressed lossless format
 * `gaps()` for calculating time intervals (i.e. gaps) between selections
 * `read_sound_file()` is now use to read sound files
 * `split_sound_files()` now can also split associated selection tables
@@ -97,7 +105,7 @@
 
 ## New functions:
 
-* `optimize_autodetec()` for tunning detection parameters in `autodetec()`
+* `optimize_autodetec()` for tuning detection parameters in `autodetec()`
 * `envelope()` a C-compiled version of `seewave::env()`
 * new function `find_peaks()` to detect signals on sound files using `xcorr()` output
 * `read_sound_file()` to read wav, wav and mp3 files as well as wave objects in extended selection tables

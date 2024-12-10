@@ -27,6 +27,6 @@ test_that("basic", {
   
   unlink(fls)
   
-  expect_true(nrow(sa) == 2 & ncol(sa) == 39)
+  expect_true(nrow(sa) == 2 & ncol(sa) == 40)
   
 })

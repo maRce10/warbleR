@@ -93,6 +93,7 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
    time intervals of 75\% and 25\% energy respectively (in s). See \code{\link[seewave]{acoustat}}
    \item \code{time.IQR}: interquartile time range. Time range between 'time.Q25' and 'time.Q75' 
    (in s). See \code{\link[seewave]{acoustat}}
+   \item \code{peakt}: peak time. Time (in s) at which the maximum amplitude is found in the amplitude vector. 
    \item \code{skew}: skewness. Asymmetry of the frequency spectrum (see note in \code{\link[seewave]{specprop}} description) 
    \item \code{kurt}: kurtosis. Peakedness of the frequency spectrum (see note in \code{\link[seewave]{specprop}} description)
    \item \code{sp.ent}: spectral entropy. Energy distribution of the frequency spectrum. Pure tone ~ 0; 
@@ -136,7 +137,7 @@ time intervals of 25\% and 75\% energy respectively (in s). See \code{\link[seew
 are provided.
 }
 \details{
-The function measures 29 acoustic parameters (if \code{fast = TRUE}) on 
+The function measures 30 acoustic parameters (if \code{fast = TRUE}) on 
  each selection in the data frame. Most parameters are produced internally by 
  \code{\link[seewave]{specprop}}, \code{\link[seewave]{fpeaks}}, \code{\link[seewave]{fund}},
  and \code{\link[seewave]{dfreq}} from the package seewave and \code{\link[soundgen]{analyze}} 

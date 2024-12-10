@@ -82,7 +82,7 @@
 #' standardized, being 0 the distance of a signal to itself and 1 the farthest pairwise
 #' distance in the pool of signals. Principal Component Analysis (\code{\link[stats]{prcomp}})
 #' is applied to calculate distances when using spectral parameters (SP) and descriptors of cepstral coefficients (MFCC). In those cases the first 2 PC's are used. Classical
-#' Multidimensional Scalling (also known as Principal Coordinates Analysis,
+#' Multidimensional Scaling (also known as Principal Coordinates Analysis,
 #' (\code{\link[stats]{cmdscale}})) is used for cross-correlation (XCORR) and any dynamic time warping method. The graphs are return as image files in the
 #' working directory. The file name contains the methods being compared and the
 #' row number of the selections. This function uses internally a modified version
