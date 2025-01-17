@@ -109,7 +109,7 @@ input data frame showing the location of the fundamental frequencies
 This function extracts the dominant frequency, fundamental frequency or spectral entropy contours as time series.
 The function uses the \code{\link[stats:approxfun]{approx}} function to interpolate values between frequency measures. If there are no frequencies above the amplitude threshold (for dominant and fundamental) at the beginning or end
  of the signals then NAs will be generated. On the other hand, if there are no frequencies
- above the amplitude theshold in between signal segments in which amplitude was
+ above the amplitude threshold in between signal segments in which amplitude was
  detected then the values of this adjacent segments will be interpolated
  to fill out the missing values (e.g. no NAs in between detected amplitude segments).
 }

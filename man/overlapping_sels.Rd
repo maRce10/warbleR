@@ -59,7 +59,7 @@ A data frame with the columns in X plus an additional column ('ovlp.sels') indic
 which selections overlap. For instance, if the selections in rows 1,2
  overlap and 2 and 3 also overlap, the 'ovlp.sels' label would be the same for all 3 selections. If
 \code{drop = TRUE} only the non-overlapping selections are returned.and if 2 or more selections
-overlap only the first one is kept. The arguments 'priority' and 'priority.col' can be used to modified the criterium for droping overlapping selections.
+overlap only the first one is kept. The arguments 'priority' and 'priority.col' can be used to modified the criterium for dropping overlapping selections.
 }
 \description{
 \code{overlapping_sels} finds which selections overlap in time within a given sound file.

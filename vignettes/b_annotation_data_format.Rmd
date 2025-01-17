@@ -546,6 +546,7 @@ out <-
 
 # check file is found in temporary directory
 list.files(path = tempdir(), "mp3")
+
 ```
 
 **warbleR** comes with an example data set containing annotations on this sound file, which can be loaded like this:
@@ -577,7 +578,7 @@ kbl
 ```
 
 These data (annotations + sound file) can be used to create a 'by song' extended selection table. To do this the name of the column containing the 'song' level labels must be supplied to the argument 'by.song':
-```{r}
+```{r, eval = FALSE}
 
 # create by song extended selection table
 bs_est <-
@@ -589,15 +590,21 @@ bs_est <-
 ```
 
 In a 'by song' extended selection table there are as many wave objects as songs in our annotation data: 
-```{r}
+```{r, eval = FALSE}
 
 length(attr(bs_est, "wave.objects")) == length(unique(paste(bs_est$sound.files, bs_est$song)))
 
 ```
  
+```{r, echo = FALSE}
+
+print(TRUE)
+
+```
+
 We can extract an entire wave object to check that two elements are actually included:
 
-```{r}
+```{r, eval = FALSE}
 # extract wave object
 wave_song1 <-
   read_sound_file(
@@ -620,6 +627,13 @@ seewave::spectro(
 )
 
 ```
+
+```{r by song est spectro, echo = FALSE, fig.align= "left", out.width="100%"}
+
+knitr::include_graphics("by_song.png")
+
+```
+
 
 Note that 'by song' extended selection tables can be converted into 'by element' tables using the function `by_element_est()`. 
 

@@ -28,6 +28,6 @@ data(sth_annotations)
 }
 \details{
 A data frame containing the start, end, low and high frequency of
-\emph{Phaethornis eurynome} (Scale-throated Hermit). The correspondent sound file can be found at \url{https://xeno-canto.org/15607}. The song of this species consists of two frequency modulated elements separated by a short gap. This annotation data set includes labels for 'song' and 'element' and aims to provide example data for functions working at higher herarchical levels of organization in the acoustic signals.
+\emph{Phaethornis eurynome} (Scale-throated Hermit). The correspondent sound file can be found at \url{https://xeno-canto.org/15607}. The song of this species consists of two frequency modulated elements separated by a short gap. This annotation data set includes labels for 'song' and 'element' and aims to provide example data for functions working at higher hierarchical levels of organization in the acoustic signals.
 }
 \keyword{datasets}
