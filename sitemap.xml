@@ -2,12 +2,11 @@
 <url><loc>https://marce10.github.io/warbleR/404.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/CONTRIBUTING.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/LICENSE.html</loc></url>
-<url><loc>https://marce10.github.io/warbleR/articles/annotation_data_format.html</loc></url>
+<url><loc>https://marce10.github.io/warbleR/articles/a_warbleR.html</loc></url>
+<url><loc>https://marce10.github.io/warbleR/articles/b_annotation_data_format.html</loc></url>
+<url><loc>https://marce10.github.io/warbleR/articles/c_warbleR_workflow_02.html</loc></url>
+<url><loc>https://marce10.github.io/warbleR/articles/d_warbleR_workflow_03.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/articles/index.html</loc></url>
-<url><loc>https://marce10.github.io/warbleR/articles/warbleR.html</loc></url>
-<url><loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_01.html</loc></url>
-<url><loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_02.html</loc></url>
-<url><loc>https://marce10.github.io/warbleR/articles/warbleR_workflow_03.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/authors.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/index.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/news/index.html</loc></url>
@@ -89,6 +88,7 @@
 <url><loc>https://marce10.github.io/warbleR/reference/warbleR.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/reference/warbleR_options.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/reference/wav_2_flac.html</loc></url>
+<url><loc>https://marce10.github.io/warbleR/reference/waveform_similarity.html</loc></url>
 <url><loc>https://marce10.github.io/warbleR/reference/wpd_features.html</loc></url>
 </urlset>
 
