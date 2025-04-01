@@ -5,9 +5,10 @@ articles:
 - title: vignettes
   navbar: vignettes
   contents:
-  - starts_with("annotation")  
-  - starts_with("warbleR_workflow_02")
-  - starts_with("warbleR_workflow_03")
+  - a_warbleR
+  - b_annotation_data_format
+  - c_warbleR_workflow_02
+  - d_warbleR_workflow_03
 navbar:
   structure:
     left:  [intro, reference, articles, tutorials, news]
