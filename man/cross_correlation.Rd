@@ -33,7 +33,7 @@ All selections must have the same sampling rate.}
 is 512.}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a
-frequency bandpass filter (in kHz). If columns for bottom and top frequency ('bottom.freq' and 'top.freq') are supplied "pairwise.freq.range" ca be used (default). If so, the lowest values in 'bottom.freq'
+frequency bandpass filter (in kHz). If columns for bottom and top frequency ('bottom.freq' and 'top.freq') are supplied "pairwise.freq.range" can be used (default). If so, the lowest values in 'bottom.freq'
 and the highest values in 'top.freq' for the selections involved in a pairwise comparison will be used as bandpass limits.}
 
 \item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two

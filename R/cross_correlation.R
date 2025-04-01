@@ -7,7 +7,7 @@
 #' @param wl A numeric vector of length 1 specifying the window length of the spectrogram, default
 #' is 512.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a
-#'   frequency bandpass filter (in kHz). If columns for bottom and top frequency ('bottom.freq' and 'top.freq') are supplied "pairwise.freq.range" ca be used (default). If so, the lowest values in 'bottom.freq'
+#'   frequency bandpass filter (in kHz). If columns for bottom and top frequency ('bottom.freq' and 'top.freq') are supplied "pairwise.freq.range" can be used (default). If so, the lowest values in 'bottom.freq'
 #'   and the highest values in 'top.freq' for the selections involved in a pairwise comparison will be used as bandpass limits.
 #' @param ovlp Numeric vector of length 1 specifying \% of overlap between two
 #' consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of ovlp

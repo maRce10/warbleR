@@ -145,7 +145,7 @@ sound_pressure_level <- function(X, reference = 20, parallel = 1, path = NULL, p
     # add band-pass frequency filter
     if (!is.null(bp)) {
       # filter to bottom and top freq range
-      if (bp == "freq.range") {
+      if (bp[1] == "freq.range") {
         bp <- c(X$bottom.freq[i], X$top.freq[i])
       }
 
