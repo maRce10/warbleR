@@ -56,7 +56,6 @@ Parallel processing, or using multiple cores on your machine, can greatly speed 
 
 ## **Vignette introduction**
 
-In the previous vignette, we used the `Rraven` package to import _Raven_ selection tables for recordings in our working directory, added more recordings to the data set by downloading new sound files from the open-access `xeno-canto` database and reviewed methods of automated and manual signal selection in `warbleR`. Here we continue with the case study of microgeographic vocal variation in long-billed hermit hummingbirds, _Phaethornis longirostris_ <a href='#References'><sup>[2]</sup></a> by:
  Here we work on a case study of microgeographic vocal variation in long-billed hermit hummingbirds, _Phaethornis longirostris_ <a href='#References'><sup>[2]</sup></a> by:
 
   1. Performing quality control processing on selected signals, including visual inspection and tailoring temporal coordinates
