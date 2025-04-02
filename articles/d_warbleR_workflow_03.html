@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.34</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.35</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>vignettes</h6></li>
-    <li><a class="dropdown-item" href="../articles/a_warbleR.html">&lt;font size="7"&gt;&lt;b&gt;Introduction to warbleR&lt;/b&gt;&lt;/font&gt;</a></li>
+    <li><a class="dropdown-item" href="../articles/a_warbleR.html">Package overview</a></li>
     <li><a class="dropdown-item" href="../articles/b_annotation_data_format.html">Annotation data format</a></li>
     <li><a class="dropdown-item" href="../articles/c_warbleR_workflow_02.html">Visual inspection and signal classification</a></li>
     <li><a class="dropdown-item" href="../articles/d_warbleR_workflow_03.html">Acoustic (dis)similarity, coordinated singing and simulating songs</a></li>
@@ -68,7 +68,7 @@ Araya-Salas, PhD</a></h4>
                         <h4 data-toc-skip class="author"><a href="https://smith-vidaurre.com/" class="external-link">Grace
 Smith-Vidaurre</a></h4>
             
-            <h4 data-toc-skip class="date">2025-04-01</h4>
+            <h4 data-toc-skip class="date">2025-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/d_warbleR_workflow_03.Rmd" class="external-link"><code>vignettes/d_warbleR_workflow_03.Rmd</code></a></small>
       <div class="d-none name"><code>d_warbleR_workflow_03.Rmd</code></div>
@@ -78,7 +78,7 @@ Smith-Vidaurre</a></h4>
     
 <!-- <center> <h1><b>Acoustic (dis)similarity and coordinated singing</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2025-04-01 </center> -->
+<!-- <center> 2025-04-02 </center> -->
 <style type="text/css">
 div#header h1.title, div#header h3.subtitle, div#header h4.author, div#header h4.date {
   text-align: center
@@ -430,12 +430,12 @@ methods available are: * cross-correlation by warbleR function
 <code>cross_correlation</code> * dynamic time warping on dominant or
 fundamental frequency contours with <code>freq_DTW</code> * spectral
 parameters with <code>spectro_analysis</code></p>
-<p>In the last vignette, we tailored selections of <em>Phaethornis
-longirostris</em> songs that were originally downloaded from
-<em>xeno-canto</em>, detected by <code>auto_detec</code>and filtered by
-signal-to-noise ratio (SNR). Here we will pick up the workflow with
-these filtered and tailored selections, using the data frame
-<code>Phae.hisnrt</code>.</p>
+<p>In the vignette “Visual inspection and signal classification”, we
+tailored selections of <em>Phaethornis longirostris</em> songs that were
+originally downloaded from <em>xeno-canto</em>, detected by
+<code>auto_detec</code>and filtered by signal-to-noise ratio (SNR). Here
+we will pick up the workflow with these filtered and tailored
+selections, using the data frame <code>Phae.hisnrt</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Phae.hisnrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"Phae_hisnrt.csv"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -645,10 +645,9 @@ this.</p>
 <p>Songs from sound files 154070 and 154072 seem to belong to the same
 song type. Sound files 154129 and 154161 represent a different song
 type. Finally, the songs from each of the other 2 sound files have a
-unique structure, so each one represents a different song type. Sound
-file 154123 is represented here too, but in vignette 1 we decided
-against using signals from this recording. We can add this information
-to the plot by using symbols to represent song types.</p>
+unique structure, so each one represents a different song type. We can
+add this information to the plot by using symbols to represent song
+types.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a song type variable</span></span>
 <span></span>
@@ -741,38 +740,6 @@ simulated under Brownian motion frequency drift.</p>
 <span><span class="co"># plot the simulated song</span></span>
 <span><span class="fu">seewave</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></span><span class="op">(</span><span class="va">ss</span><span class="op">)</span></span></code></pre></div>
 <p> </p>
-<p>This vignette concludes the <code>warbleR</code> vignette series.
-After running the code in this third vignette, you should now have an
-idea of how to:</p>
-<ul>
-<li>measure frequency range of signals</li>
-<li>extract spectral entropy and frequency contours as time series</li>
-<li>manually fix frequency contours (as appropriate)</li>
-<li>compare and choose methods for acoustic (dis)similarity
-analysis</li>
-<li>use different methods for acoustic (dis)similarity analysis
-<ul>
-<li>
-<code>spectro_analysis</code>- 29 parameters (across signals or song
-types)</li>
-<li>
-<code>freq_DTW</code> - dynamic time warping on frequency
-contours</li>
-<li>
-<code>cross_correlation</code>- spectrographic
-cross-correlation</li>
-</ul>
-</li>
-<li>carry out steps for an analysis of geographic variation in
-vocalizations</li>
-<li>perform coordinated singing analysis</li>
-<li>simulate songs for other research questions</li>
-</ul>
-<p>In these vignettes we presented examples of how the
-<code>warbleR</code> functions can be used in a streamlined workflow for
-flexible and rigorous bioacoustics analyses. The output of
-<code>warbleR</code> functions can be used in other packages for
-statistical analyses, such as machine learning.</p>
 </div>
 <div class="section level2">
 <h2 id="citation">
