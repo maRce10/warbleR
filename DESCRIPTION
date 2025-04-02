@@ -1,8 +1,8 @@
 Package: warbleR
 Type: Package
 Title: Streamline Bioacoustic Analysis
-Version: 1.1.34
-Description: Functions aiming to facilitate the analysis of the structure of animal acoustic signals in 'R'. 'warbleR' makes use of the basic sound analysis tools from the packages 'tuneR' and 'seewave', and offers new tools for explore and quantify acoustic signal structure. The package allows to organize and manipulate multiple sound files, create spectrograms of complete recordings or individual signals in different formats, run several measures of acoustic structure, and characterize different structural levels in acoustic signals.
+Version: 1.1.35
+Description: Functions aiming to facilitate the analysis of the structure of animal acoustic signals in 'R'. 'warbleR' makes use of the basic sound analysis tools from the packages 'tuneR' and 'seewave', and offers new tools for exploring and quantifying acoustic signal structure. The package allows to organize and manipulate multiple sound files, create spectrograms of complete recordings or individual signals in different formats, run several measures of acoustic structure, and characterize different structural levels in acoustic signals.
 License: GPL (>= 2)
 Imports: 
     dtw,

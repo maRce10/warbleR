@@ -76,7 +76,7 @@ Make sure all sound files have the same sampling rate (can be checked with \code
   writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
   writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
-  # run cross correlation on spectrograms (SPCC)
+  # run waveform correlation
   wcor <- waveform_similarity(X = lbh_selec_table, path = tempdir())
 }
 }
@@ -90,7 +90,7 @@ Lyon, R. H., & Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis
 }
 }
 \seealso{
-\code{\link{mfcc_stats}}, \code{\link{spectro_analysis}}, \code{\link{freq_DTW}}
+\code{\link{cross_correlation}}, \code{\link{spectro_analysis}}, \code{\link{freq_DTW}}
 }
 \author{
 Marcelo Araya-Salas \email{marcelo.araya@ucr.ac.cr})

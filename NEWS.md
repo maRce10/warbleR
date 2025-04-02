@@ -1,3 +1,17 @@
+# *warbleR 1.1.35*
+
+## Changes and additions:
+
+* New function `waveform_similarity()` to calculate the similarity between waveforms
+* Fix typos in vignette 
+
+# *warbleR 1.1.34*
+
+## Changes and additions:
+
+* Update requested by CRAN
+* Remove `querxc()` examples from vignette 
+
 # *warbleR 1.1.33*
 
 ## Changes and additions:

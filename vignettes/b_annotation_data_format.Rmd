@@ -767,22 +767,6 @@ kbl
 ```
 
 
-## **Next vignette: Visual inspection and signal classification**
-
-Here we have given examples of how to begin the `warbleR` workflow. Note that there are many different ways to begin the workflow, depending on your question and source of data. After running the code in this first vignette, you should now have an idea of:
-
-  * the type of data used in _warbleR_ (sound files and selections)
-  * how to import _Raven_ selection tables for your own sound files
-  * how to obtain open-access _xeno-canto_ sound files
-  * how to create long spectrograms of recordings for visual inspection
-  * how to select signals within sound files in `warbleR`
-      - automatic selection
-      - filtering automatically selected signals using SNR
-      - manual selection
-
-The next vignette will cover the second phase of the _warbleR_ workflow, which includes methods to visualize signals for quality control and classification. 
-
-
 ## **Citation**
 
 Please cite `warbleR` when you use the package: 

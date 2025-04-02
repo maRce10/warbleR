@@ -375,7 +375,7 @@ The `warbleR` function `compare_methods` attempts to facilitate method selection
   * dynamic time warping on dominant or fundamental frequency contours with `freq_DTW`
   * spectral parameters with `spectro_analysis`
   
-In the last vignette, we tailored selections of _Phaethornis longirostris_ songs that were originally downloaded from _xeno-canto_, detected by `auto_detec`and filtered by signal-to-noise ratio (SNR). Here we will pick up the workflow with these filtered and tailored selections, using the data frame `Phae.hisnrt`.
+In the vignette "Visual inspection and signal classification", we tailored selections of _Phaethornis longirostris_ songs that were originally downloaded from _xeno-canto_, detected by `auto_detec`and filtered by signal-to-noise ratio (SNR). Here we will pick up the workflow with these filtered and tailored selections, using the data frame `Phae.hisnrt`.
 ```{r, eval=FALSE, echo=TRUE}
 
 Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
@@ -527,7 +527,7 @@ Songs are grouped by sound file. As each sound file represents a single individu
 <!-- <center> ![song types](song_types_spectros.jpg)</center> -->
 &nbsp; 
 
-Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 represent a different song type. Finally, the songs from each of the other 2 sound files have a unique structure, so each one represents a different song type. Sound file 154123 is represented here too, but in vignette 1 we decided against using signals from this recording. We can add this information to the plot by using symbols to represent song types.
+Songs from sound files 154070 and 154072 seem to belong to the same song type. Sound files 154129 and 154161 represent a different song type. Finally, the songs from each of the other 2 sound files have a unique structure, so each one represents a different song type. We can add this information to the plot by using symbols to represent song types.
 
 ```{r, eval=TRUE, dpi=220}
 
@@ -608,22 +608,6 @@ seewave::spectro(ss)
 ```
 
 &nbsp; 
-
-This vignette concludes the `warbleR` vignette series. After running the code in this third vignette, you should now have an idea of how to:
-
-  * measure frequency range of signals
-  * extract spectral entropy and frequency contours as time series
-  * manually fix frequency contours (as appropriate)
-  * compare and choose methods for acoustic (dis)similarity analysis
-  * use different methods for acoustic (dis)similarity analysis
-    * `spectro_analysis`- 29 parameters (across signals or song types)
-    * `freq_DTW` - dynamic time warping on frequency contours
-    * `cross_correlation`- spectrographic cross-correlation
-  * carry out steps for an analysis of geographic variation in vocalizations
-  * perform coordinated singing analysis
-  * simulate songs for other research questions
-
-In these vignettes we presented examples of how the `warbleR` functions can be used in a streamlined workflow for flexible and rigorous bioacoustics analyses. The output of `warbleR` functions can be used in other packages for statistical analyses, such as machine learning. 
 
 ## **Citation**
 

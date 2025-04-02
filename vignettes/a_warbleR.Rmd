@@ -1,6 +1,6 @@
 ---
-title: <font size="7"><b>Introduction to warbleR</b></font>
-pagetitle: Introduction to warbleR
+title: Package overview
+pagetitle: Package overview
 author: 
 - <a href="https://marce10.github.io">Marcelo Araya-Salas, PhD</a> & <a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> 
 date:  "`r Sys.Date()`"
@@ -319,7 +319,7 @@ kbl
 
 &nbsp; 
 
-### Visually inspection of annotations and measurements
+### Visual inspection of annotations and measurements
 
 ```{r, echo = FALSE, eval = TRUE}
 

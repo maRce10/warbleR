@@ -57,6 +57,7 @@ Parallel processing, or using multiple cores on your machine, can greatly speed 
 ## **Vignette introduction**
 
 In the previous vignette, we used the `Rraven` package to import _Raven_ selection tables for recordings in our working directory, added more recordings to the data set by downloading new sound files from the open-access `xeno-canto` database and reviewed methods of automated and manual signal selection in `warbleR`. Here we continue with the case study of microgeographic vocal variation in long-billed hermit hummingbirds, _Phaethornis longirostris_ <a href='#References'><sup>[2]</sup></a> by:
+ Here we work on a case study of microgeographic vocal variation in long-billed hermit hummingbirds, _Phaethornis longirostris_ <a href='#References'><sup>[2]</sup></a> by:
 
   1. Performing quality control processing on selected signals, including visual inspection and tailoring temporal coordinates
   
@@ -106,6 +107,7 @@ knitr::opts_chunk$set(eval = !is_check, comment = "")
 # https://ezgif.com/optimize
 ```
 
+
 ## **Prepare for analyses**
 
 ```{r, eval=FALSE}
@@ -122,13 +124,296 @@ setwd(file.path(getwd(), "warbleR_example"))
 getwd()
 ```
 
-This vignette series will not always include all available `warbleR` functions, as existing functions are updated and new functions are added. To see all functions available in this package:
+## **Obtain example acoustic data from xeno-canto**
 
-```{r, echo = TRUE, eval=FALSE}
+The open-access [xeno-canto](https://www.xeno-canto.org/) database is an excellent source of sound files across avian species. You can query this database by a species or genus of interest. The function `query_xc` has two types of output:
 
-# The package must be loaded in your working environment
-ls("package:warbleR")
+  1. **Metadata of recordings:** geographic coordinates, recording quality, recordist, type of signal, etc.
+  
+  2. **Sound files:** Sound files in _mp3_ format are returned if the argument `download` is set to `TRUE`.  
+  
+We recommend downloading metadata first from _xeno-canto_, as this data can be filtered in R to more efficiently download recordings (e.g. only those relevant to your question).
+
+Here, we will query the _xeno-canto_ database to download more _Phaethornis longirostris_ sound files for our question of how male songs vary at a microgeographic scale.
+
+&nbsp; 
+
+```{r, eval=FALSE}
+
+# Query xeno-canto for all Phaethornis recordings (e.g., by genus)
+Phae <- query_xc(qword = "Phaethornis", download = FALSE)
+
+# Check out the structure of resulting the data frame
+str(Phae)
 ```
+
+```{r, eval = TRUE, echo = FALSE, message = FALSE}
+vgn.path <- getwd()
+# Phae <- query_xc(qword = "Phaethornis", download = FALSE)
+
+# write.csv(Phae, file = "~/Dropbox/warbleR/vignettes/Phae.XC.csv", row.names = FALSE)
+
+Phae <- read.csv(file.path(vgn.path, "Phae.XC.csv"), stringsAsFactors = FALSE)
+
+# Check out the structure of resulting the data frame
+str(Phae)
+```
+
+```{r, eval=FALSE}
+
+# Query xeno-canto for all Phaethornis longirostris recordings
+Phae.lon <- query_xc(qword = "Phaethornis longirostris", download = FALSE)
+
+# Check out the structure of resulting the data frame
+str(Phae.lon)
+```
+
+```{r, eval = TRUE, echo = FALSE, message = FALSE}
+
+# Phae.lon <- query_xc(qword = "Phaethornis longirostris", download = FALSE)
+
+# write.csv(Phae.lon, file = "~/Dropbox/warbleR/vignettes/Phae.lon.XC.csv", row.names = FALSE)
+
+Phae.lon <- read.csv(file.path(vgn.path, "Phae.lon.XC.csv"), stringsAsFactors = FALSE)
+
+# Check out the structure of resulting the data frame
+str(Phae.lon)
+```
+&nbsp; 
+
+You can then use the function `map_xc` to visualize the geographic spread of the queried recordings. `map_xc` will create an image file of a map per species in your current directory if `img = TRUE`. If `img = FALSE`, maps will be displayed in the graphics device. 
+
+```{r, eval=FALSE}
+
+# Image type default is jpeg, but tiff files have better resolution
+
+# When the data frame contains multiple species, this will yield one map per species
+map_xc(X = Phae, img = TRUE, it = "tiff") # all species in the genus
+map_xc(X = Phae.lon, img = FALSE) # a single species
+```
+
+```{r, eval=TRUE, echo=FALSE, message=FALSE}
+
+map_xc(X = Phae.lon, img = FALSE)
+```
+
+
+### Filter [xeno-canto](https://www.xeno-canto.org/) recordings by quality, signal type and locality
+
+In most cases, you will need to filter the _xeno-canto_ metadata by type of signal you want to analyze. When you subset the metadata, you can input the filtered metadata back into `query_xc` to download only the selected recordings. There are many ways to filter data in R, and the example below can be modified to fit your own data. 
+
+Here, before downloading the sound files themselves from _xeno-canto_, we want to ensure that we select high quality sound files that contain songs (rather than other acoustic signal types) and were also recorded at La Selva Biological Station in Costa Rica. 
+
+&nbsp; 
+```{r, eval=TRUE, echo=TRUE}
+
+# How many recordings are available for Phaethornis longirostris?
+nrow(Phae.lon)
+
+# How many signal types exist in the xeno-canto metadata?
+unique(Phae.lon$Vocalization_type)
+
+# How many recordings per signal type?
+table(Phae.lon$Vocalization_type)
+```
+
+&nbsp; 
+```{r, eval=TRUE, echo=TRUE}
+
+# Filter the metadata to select the signals we want to retain
+
+# First by quality
+Phae.lon <- Phae.lon[Phae.lon$Quality == "A", ]
+nrow(Phae.lon)
+
+# Then by signal type
+Phae.lon.song <- Phae.lon[grep("song", Phae.lon$Vocalization_type, ignore.case = TRUE), ]
+nrow(Phae.lon.song)
+
+# Finally by locality
+Phae.lon.LS <- Phae.lon.song[grep("La Selva Biological Station, Sarapiqui, Heredia", Phae.lon.song$Locality, ignore.case = FALSE), ]
+
+# Check resulting data frame, 6 recordings remain
+str(Phae.lon.LS)
+```
+
+&nbsp; 
+
+We can check if the location coordinates make sense (all recordings should be from a single place in Costa Rica) by making a map of these recordings using `map_xc`.
+
+```{r, eval=TRUE, echo=TRUE}
+
+# map in the RStudio graphics device (img = FALSE)
+map_xc(Phae.lon.LS, img = FALSE)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+
+# Not working as of 01 Aug 2017
+# This copies the selected sound files to a dropbox folder so they can be shared
+# do not show this code
+fn <- with(Phae.lon.LS, paste(paste(Genus, Specific_epithet, Recording_ID, sep = "-"), ".wav", sep = " "))
+file.copy(from = file.path("/home/m/Documents/Biblioteca de cantos/Trochilidae/XC/wavs", fn), to = file.path("/home/m/Dropbox/Projects/warbleR package/vignette files", fn), overwrite = TRUE)
+
+wlist <- lapply(fn, function(x) downsample(readWave(file.path("/home/m/Dropbox/Projects/warbleR package/vignette files", x)), samp.rate = 22500))
+
+names(wlist) <- fn
+
+saveRDS(wlist, file = "/home/m/Dropbox/Sharing/warbleR/recs.RDS")
+```
+
+&nbsp; 
+
+Once you're sure you want the recordings, use `query_xc` to download the files. Also, save the metadata as a _.csv_ file.
+
+```{r, eval=FALSE}
+
+# Download sound files
+query_xc(X = Phae.lon.LS)
+
+# Save the metadata object as a .csv file
+write.csv(Phae.lon.LS, "Phae_lon.LS.csv", row.names = FALSE)
+```
+
+&nbsp; 
+
+### Convert [xeno-canto](https://www.xeno-canto.org/) _mp3_ recordings to _wav_ format
+
+[xeno-canto](https://www.xeno-canto.org/) maintains recordings in _mp3_ format due to file size restrictions. However, we require _wav_ format for all downstream analyses. Compression from _wav_ to _mp3_ and back involves information losses, but recordings that have undergone this transformation have been successfully used in research <a href='#References'> <sup>[3]</sup></a>.
+
+To convert _mp3_ to _wav_, we can use the warbleR function `mp32wav`, which relies on a underlying function from the [`tuneR`](https://cran.r-project.org/package=tuneR) package. This function does not always work (and it remains unclear as to why!). This bug should be fixed in future versions of `tuneR`. If RStudio aborts when running `mp32wav`, use an _mp3_ to _wav_ converter online, or download the open source software `Audacity` (available for Mac, Linux and Windows users). 
+
+After _mp3_ files have been converted, we need to check that the _wav_ files are not corrupted and can be read into RStudio (some _wav_ files can't be read due to format or permission issues).
+
+```{r, eval=FALSE}
+
+# Always check you're in the right directory beforehand
+# getwd()
+
+# here we are downsampling the original sampling rate of 44.1 kHz to speed up downstream analyses in the vignette series
+mp32wav(samp.rate = 22.05)
+
+# Use checkwavs to see if wav files can be read
+check_sound_files()
+```
+
+```{r, eval=FALSE, echo=FALSE}
+
+# Not working 01 Aug 2017
+
+### If you were unable to convert _mp3_ to _wav_ format:
+# + download the file in [this link](https://www.dropbox.com/s/htpbxbdw8s4i23k/recs.RDS?dl=0) and put it in your working directory
+# + then run the following code:
+
+
+# recs <- readRDS(file = "recs.RDS")
+#
+# for(i in 1:length(recs))
+#   writeWave(recs[[i]], filename = names(recs)[i])
+```
+
+&nbsp; 
+
+
+### Find overlapping selections
+
+Overlapping selections can sometimes arise after selecting signals using other functions or software. The function below helps you detect overlapping signals in your selection table, and has arguments that you can play around with for overlap detection, renaming or deleting overlapping selections.
+```{r, echo=TRUE, eval=FALSE}
+
+# To run this example:
+# Open Phae_hisnr.csv and modify the start coordinate of the first selection and the end coordinate of the second selection so that the signals overlap
+
+Phae.hisnr <- read.csv("Phae_hisnr.csv", header = TRUE)
+str(Phae.hisnr)
+head(Phae.hisnr, n = 15)
+
+# yields a data frame with an additional column (ovlp.sels) that indicates which selections overlap
+Phae.hisnr <- overlapping_sels(X = Phae.hisnr, max.ovlp = 0)
+
+# run the function again but this time retain only the signals that don't overlap
+Phae.hisnr <- overlapping_sels(X = Phae.hisnr, max.ovlp = 0, drop = TRUE)
+```
+
+### Make spectrograms of selections
+
+`spectrograms` generates spectrograms of individual selected signals. These image files can be used to filter out selections that were poorly made or represent signals that are not relevant to your analysis. This quality control step is important for visualizing your selected signals after any selection method, even if you imported your selections from _Raven_ or _Syrinx_.
+
+```{r, eval=FALSE}
+
+spectrograms(Phae.hisnr, wl = 300, flim = c(2, 10), it = "jpeg", res = 150, osci = TRUE, ovlp = 90)
+```
+
+Inspect spectrograms and throw away image files that are poor quality to prepare for later steps. Make sure you are working in a directory that only has image files associated with this vignette. Delete the image files corresponding to recording _154070_ selection _8_ and _154070_ selection _12_, as the start coordinates for these selections are not accurate.
+
+### Remove selections with missing image files
+
+```{r, eval=FALSE}
+
+# remove selections after deleting corresponding image files
+Phae.hisnr2 <- filter_sels(Phae.hisnr, it = "jpeg", incl.wav = TRUE)
+nrow(Phae.hisnr2)
+```
+
+After removing the poorest quality selections or signals, there are some other quality control steps that may be helpful.
+
+### Check selections
+
+Can selections be read by downstream functions? The function `checksels` also yields a data frame with columns for duration, minimum samples, sampling rate, channels and bits. 
+```{r, echo=TRUE, eval=FALSE}
+
+# if selections can be read, "OK" will be printed to check.res column
+checksels(Phae.hisnr2, check.header = FALSE)
+```
+
+If selections cannot be read, it is possible the sound files are corrupt. If so, use the `fixwavs` function to repair _wav_ files. 
+
+```{r, eval=FALSE, echo=FALSE}
+
+# ### Cut selections into individual sound files
+#
+# Listening to signals complements visual inspection and classification. The function `cut_sels` can be very useful for aural comparison of selected signals. Selected signals can be played as individual sounds rather than having to open up entire sound files. As a word of caution, generating cuts of sound files will also propagate any naming errors present in your original files.
+#
+# `cut_sels` can also be used to your advantage if your original recordings are long (over 10-15 minutes). Some _warbleR_ functions, so it's helpful to use shorter duration sound files. You can make selections of shorter pieces of long original recordings, either in _Raven_ or _Syrinx_, and use `cut_sels` to generate shorter segments for smoother signal detection in `warbleR`.
+
+cut_sels(X = Phae.hisnr2, mar = 0.01, labels = c("sound.files", "selec"))
+
+# bug in the above cut_sels code
+
+# Error in apply(X[, sapply(X, is.factor)], 2, as.character) :
+#   dim(X) must have a positive length
+
+# cut_sels(selec.table) # this works!
+```
+
+### Tailor temporal coordinates of selections
+
+Sometimes the start and end times of selected signals need fine-tuned adjustments. This is particularly true when signals are found within bouts of closely delivered sounds that may be hard to pull apart, such as duets, or if multiple researchers use different rules-of-thumb to select signals. `tailor_sels` provides an interactive interface for tailoring the temporal coordinates of selections.
+
+If you check out the image files generated by running `spectrograms` above, you'll see that some of the selections made during the automatic detection process with `auto_detec` do not have accurate start and/or end coordinates. 
+
+For instance:
+
+The end of this signal is not well selected.
+<!-- <center> ![End coordinate not well-selected](Phaethornis-longirostris-154070.wav-8_badend.jpeg)</center> -->
+&nbsp; 
+
+The temporal coordinates for the tailored signals will be saved in a _ .csv_ file called `seltailor_output.csv`. You can rename this file and read it back into `R` to continue downstream analyses. 
+
+```{r, eval=FALSE}
+
+tailor_sels(Phae.hisnr2, wl = 300, flim = c(2, 10), wn = "hanning", mar = 0.1, osci = TRUE, title = c("sound.files", "selec"), auto.next = TRUE)
+
+# Read in tailor_sels output after renaming the csv file
+Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
+str(Phae.hisnrt)
+```
+
+```{r, eval=TRUE, echo=FALSE}
+
+Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
+str(Phae.hisnrt)
+```
+
 
 ## **Quality control filtering of selections**
 
@@ -237,7 +522,7 @@ Visual classification of signals is fundamental to vocal repertoire analysis, an
 
 ### Print long spectrograms with `full_spectrograms`
 
-The function `full_spectrograms`that we used in the last vignette can also be a tool for visually classifying signals. Long spectrograms can be printed to classify signals by hand, or comments accompanying the selections can be printed over selected signals. 
+The function `full_spectrograms` can be used as a tool for visually classifying signals. Long spectrograms can be printed to classify signals by hand, or comments accompanying the selections can be printed over selected signals. 
 
 Here, we print the start and end of selections with a red dotted line, and the selection number printed over the signal. If a selection data frame contains a comments column, these will be printed with the selection number.
 ```{r, eval=FALSE, echo=TRUE}
@@ -383,18 +668,6 @@ catalog2pdf(keep.img = FALSE, overwrite = TRUE)
 
 <!-- <center> ![Catalog without labels, tags and groups](Catalog_p2-nolabels.jpeg)</center> -->
 <!-- &nbsp;  -->
-
-### **Next vignette: Acoustic (dis)similarity, coordinated singing and simulating songs**
-
-Here we finished the second phase of the `warbleR` workflow, which includes various options for quality control filtering or visual classification of signals that you can leverage during acoustic analysis. After running the code in this vignette, you should now have an idea of how to:
-
-  * how to perform quality control filtering of your selected signals, including visual inspection and tailoring temporal coordinates of spectrograms
-  * use different methods for visual classification of signals, including:
-    * long spectrograms
-    * highlighted regions within spectrograms
-    * catalogs or lexicons of individual signals
-
-The next vignette will cover the third phase of the _warbleR_ workflow, which includes methods to perform acoustic measurements as a batch process, an example of how to use these measurements for an analysis of geographic variation, coordinated singing analysis and a new function to simulate songs.
 
 ## **Citation**
 
