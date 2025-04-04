@@ -320,6 +320,7 @@ cross_correlation <-
 
   # function to get spectrogram matrices
   spc_FUN <- function(j, pth, W, wlg, ovl, w, nbnds) {
+    
     clp <- warbleR::read_sound_file(X = W, index = j, path = pth)
 
     if (type == "fourier" | type == "spectrogram") {
@@ -398,6 +399,7 @@ sapply(stps, function(x, cor.method = cm) {
   }
 
   # shuffle spectrograms index so are not compared in sequence, which makes progress bar more precise when some selections are much longer than others
+  set.seed(123)
   ord.shuf <- sample(1:nrow(spc.cmbs))
 
   spc.cmbs <- spc.cmbs[ord.shuf, , drop = FALSE]
