@@ -619,9 +619,3 @@ Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an R package to streamli
 Please report any bugs [here](https://github.com/maRce10/warbleR/issues). 
 &nbsp; 
 
-<font size="5"><a name="References">References</a></font> 
-
-1. Araya-Salas, M. and G. Smith-Vidaurre. 2016. warbleR: an R package to streamline analysis of animal
-acoustic signals. _Methods in Ecology and Evolution_. doi: 10.1111/2041-210X.12624
-
-&nbsp; 
