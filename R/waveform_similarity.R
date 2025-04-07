@@ -53,12 +53,7 @@
 #'
 #' @references {
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#'
-#' H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
-#'
-#' Lyon, R. H., & Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis. Journal of Mechanical Design, 104(2), 303-306.
 #' }
-# last modification on jan-03-2020 (MAS)
 
 waveform_similarity <-
   function(X = NULL,
@@ -117,10 +112,8 @@ waveform_similarity <-
   if (nrow(X) == 1) stop2("you need more than one selection to do waveform-correlation")
 
   # bp needed when no bottom and top freq
+  if (!is.null(bp))
   if (bp[1] == "pairwise.freq.range" & is.null(X$bottom.freq)) stop2("'bp' must be supplied when no frequency range columns are found in 'X' (bottom.freq & top.freq)")
-
-  # stop if no bp
-  if (is.null(bp[1])) stop2("'bp' must be supplied")
 
   # if wl is not vector or length!=1 stop
   if (!is.numeric(wl)) {
@@ -251,6 +244,8 @@ waveform_similarity <-
   
   # get correlation
   wv_sims <- .pblapply(pbar = pb, X = 1:nrow(wv.cmbs), cl = cl, message = "running cross-correlation", current = 1, FUN = function(j, BP = bp) {
+    
+    if (!is.null(bp))
     if (BP[1] == "pairwise.freq.range") {
       BP <- c(min(X$bottom.freq[X$selection.id %in% wv.cmbs[j, ]]), max(X$top.freq[X$selection.id %in% wv.cmbs[j, ]]))
     }
