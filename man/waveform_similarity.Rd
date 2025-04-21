@@ -23,23 +23,23 @@ selection number (selec), and start and end time of signal (start and end).
 All selections must have the same sampling rate.}
 
 \item{wl}{A numeric vector of length 1 specifying the window length of the spectrogram, default
-is 512. Only used when applying a bandpass filter \code{bp != NULL}.}
+is 512. Only used when applying a bandpass filter (\code{bp != NULL}).}
 
 \item{bp}{A numeric vector of length 2 for the lower and upper limits of a
 frequency bandpass filter (in kHz). If columns for bottom and top frequency ('bottom.freq' and 'top.freq') are supplied "pairwise.freq.range" can be used (default). If so, the lowest values in 'bottom.freq'
 and the highest values in 'top.freq' for the selections involved in a pairwise comparison will be used as bandpass limits.}
 
-\item{ovlp}{Numeric vector of length 1 specifying \% of overlap between two
+\item{ovlp}{Numeric vector of length 1 specifying the percentage of overlap between two
 consecutive windows, as in \code{\link[seewave]{spectro}}. Default is 70. High values of overlap
-slow down the function. Only used when applying a bandpass filter \code{bp != NULL}.}
+slow down the function. Only used when applying a bandpass filter (\code{bp != NULL}).}
 
-\item{sim.method}{A character vector of length 1 specifying the similarity method. Two option are available:
+\item{sim.method}{A character string specifying the similarity method. Two option are available:
 \itemize{
    \item \code{"correlation"}: calculates the Pearson correlation between the waveforms of the two signals. Higher values indicate higher similarity.
    \item \code{"DTW"}: calculates the Dynamic Time Warping distance between the waveforms of the two signals. Lower values indicate higher similarity.
    }}
 
-\item{type}{A character vector of length 1 specifying the approach for estimating similarity. Two option are available:
+\item{type}{A character string specifying the approach for estimating similarity. Two option are available:
 \itemize{
    \item \code{"standard"}: estimates the similarity between the two waveforms with a single point estimate (e.g. the correlation or DTW distance between them).
    \item \code{"sliding"}: estimates the similarity between the two waveforms by calculating the correlation or DTW distance at each "sliding" step of the spectrogram of the shortest selection over the longest one. This approach is more computationally intensive but might be more appropriate when comparing sounds with large differences in duration or when the appropriate alignment of the waveforms is hard to determine.
@@ -62,8 +62,8 @@ The function returns a matrix with the similarity for each pairwise comparison.
 \code{waveform_similarity} estimates the similarity of two sound waveforms
 }
 \details{
-This function calculates the pairwise similarity of multiple waveforms referenced in a selection table. Both waveforms are forced to have the same length (see argument 'n'). This is done by interpolating amplitude values using the function \code{\link[stats:approxfun]{approx}}. The function can be used to compare waveforms using either the correlation coefficient or the Dynamic Time Warping distance. The latter is a measure of similarity between two sequences that may vary in the timing of occurrence of the changes in amplitude. 
-Make sure all sound files have the same sampling rate (can be checked with \code{\link{check_sels}} or \code{\link{check_sound_files}}).
+This function calculates the pairwise similarity of multiple waveforms from annotations referenced in a selection table. Useful for the analysis of acoustic fine structure (e.g. Prior et al. 2018). Waveforms are forced to have the same length (see argument 'n'). This is done by interpolating amplitude values using the function \code{\link[stats:approxfun]{approx}}. The function can be used to compare waveforms using either the Pearson correlation coefficient or the Dynamic Time Warping distance. The latter is a measure of similarity between two sequences that may vary in the timing of occurrence of the changes in amplitude. 
+Make sure all sound files have the same sampling rate (can be checked with \code{\link{check_sels}} or \code{\link{check_sound_files}}). Comparison can be done with a single point estimate (e.g. the correlation or DTW distance between them) or by calculating the correlation or DTW distance with a sliding window approach. This approach is more computationally intensive but might be more appropriate when comparing sounds with large differences in duration or when the appropriate alignment of the waveforms is hard to determine.
 }
 \examples{
 {
@@ -84,9 +84,9 @@ Make sure all sound files have the same sampling rate (can be checked with \code
 {
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 
-H. Khanna, S.L.L. Gaunt & D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234
+Müller, M. (2007). Dynamic time warping. Information retrieval for music and motion, 69-84.
 
-Lyon, R. H., & Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis. Journal of Mechanical Design, 104(2), 303-306.
+Prior, N. H., Smith, E., Lawson, S., Ball, G. F., & Dooling, R. J. (2018). Acoustic fine structure may encode biologically relevant information for zebra finches. Scientific reports, 8(1), 6212.
 }
 }
 \seealso{

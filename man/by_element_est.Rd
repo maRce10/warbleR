@@ -10,7 +10,7 @@ by_element_est(X, mar = 0.1, pb = FALSE, parallel = 1)
 \item{X}{object of class 'extended_selection_table' (see \code{\link{selection_table}}).}
 
 \item{mar}{Numeric vector of length 1 specifying the margins (in seconds)
-adjacent to the start and end points of the selections when creating the ''by element' extended
+adjacent to the start and end points of the annotations when creating the ''by element' extended
 selection table. Default is 0.1.}
 
 \item{pb}{Logical argument to control progress bar. Default is \code{FALSE}.}
