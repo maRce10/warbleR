@@ -74,7 +74,7 @@ All selections must have the same sampling rate.</p></dd>
 
 <dt id="arg-wl">wl<a class="anchor" aria-label="anchor" href="#arg-wl"></a></dt>
 <dd><p>A numeric vector of length 1 specifying the window length of the spectrogram, default
-is 512. Only used when applying a bandpass filter <code>bp != NULL</code>.</p></dd>
+is 512. Only used when applying a bandpass filter (<code>bp != NULL</code>).</p></dd>
 
 
 <dt id="arg-bp">bp<a class="anchor" aria-label="anchor" href="#arg-bp"></a></dt>
@@ -84,19 +84,19 @@ and the highest values in 'top.freq' for the selections involved in a pairwise c
 
 
 <dt id="arg-ovlp">ovlp<a class="anchor" aria-label="anchor" href="#arg-ovlp"></a></dt>
-<dd><p>Numeric vector of length 1 specifying % of overlap between two
+<dd><p>Numeric vector of length 1 specifying the percentage of overlap between two
 consecutive windows, as in <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html" class="external-link">spectro</a></code>. Default is 70. High values of overlap
-slow down the function. Only used when applying a bandpass filter <code>bp != NULL</code>.</p></dd>
+slow down the function. Only used when applying a bandpass filter (<code>bp != NULL</code>).</p></dd>
 
 
 <dt id="arg-sim-method">sim.method<a class="anchor" aria-label="anchor" href="#arg-sim-method"></a></dt>
-<dd><p>A character vector of length 1 specifying the similarity method. Two option are available:</p><ul><li><p><code>"correlation"</code>: calculates the Pearson correlation between the waveforms of the two signals. Higher values indicate higher similarity.</p></li>
+<dd><p>A character string specifying the similarity method. Two option are available:</p><ul><li><p><code>"correlation"</code>: calculates the Pearson correlation between the waveforms of the two signals. Higher values indicate higher similarity.</p></li>
 <li><p><code>"DTW"</code>: calculates the Dynamic Time Warping distance between the waveforms of the two signals. Lower values indicate higher similarity.</p></li>
 </ul></dd>
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p>A character vector of length 1 specifying the approach for estimating similarity. Two option are available:</p><ul><li><p><code>"standard"</code>: estimates the similarity between the two waveforms with a single point estimate (e.g. the correlation or DTW distance between them).</p></li>
+<dd><p>A character string specifying the approach for estimating similarity. Two option are available:</p><ul><li><p><code>"standard"</code>: estimates the similarity between the two waveforms with a single point estimate (e.g. the correlation or DTW distance between them).</p></li>
 <li><p><code>"sliding"</code>: estimates the similarity between the two waveforms by calculating the correlation or DTW distance at each "sliding" step of the spectrogram of the shortest selection over the longest one. This approach is more computationally intensive but might be more appropriate when comparing sounds with large differences in duration or when the appropriate alignment of the waveforms is hard to determine.</p></li>
 </ul></dd>
 
@@ -125,12 +125,12 @@ If <code>NULL</code> (default) then the current working directory is used.</p></
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function calculates the pairwise similarity of multiple waveforms referenced in a selection table. Both waveforms are forced to have the same length (see argument 'n'). This is done by interpolating amplitude values using the function <code><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approx</a></code>. The function can be used to compare waveforms using either the correlation coefficient or the Dynamic Time Warping distance. The latter is a measure of similarity between two sequences that may vary in the timing of occurrence of the changes in amplitude.
-Make sure all sound files have the same sampling rate (can be checked with <code><a href="check_sels.html">check_sels</a></code> or <code><a href="check_sound_files.html">check_sound_files</a></code>).</p>
+    <p>This function calculates the pairwise similarity of multiple waveforms from annotations referenced in a selection table. Useful for the analysis of acoustic fine structure (e.g. Prior et al. 2018). Waveforms are forced to have the same length (see argument 'n'). This is done by interpolating amplitude values using the function <code><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approx</a></code>. The function can be used to compare waveforms using either the Pearson correlation coefficient or the Dynamic Time Warping distance. The latter is a measure of similarity between two sequences that may vary in the timing of occurrence of the changes in amplitude.
+Make sure all sound files have the same sampling rate (can be checked with <code><a href="check_sels.html">check_sels</a></code> or <code><a href="check_sound_files.html">check_sound_files</a></code>). Comparison can be done with a single point estimate (e.g. the correlation or DTW distance between them) or by calculating the correlation or DTW distance with a sliding window approach. This approach is more computationally intensive but might be more appropriate when comparing sounds with large differences in duration or when the appropriate alignment of the waveforms is hard to determine.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.H. Khanna, S.L.L. Gaunt &amp; D.A. McCallum (1997). Digital spectrographic cross-correlation: tests of sensitivity. Bioacoustics 7(3): 209-234Lyon, R. H., &amp; Ordubadi, A. (1982). Use of cepstra in acoustical signal analysis. Journal of Mechanical Design, 104(2), 303-306.</p>
+    <p>Araya-Salas, M., &amp; Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.Müller, M. (2007). Dynamic time warping. Information retrieval for music and motion, 69-84.Prior, N. H., Smith, E., Lawson, S., Ball, G. F., &amp; Dooling, R. J. (2018). Acoustic fine structure may encode biologically relevant information for zebra finches. Scientific reports, 8(1), 6212.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
