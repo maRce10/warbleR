@@ -144,9 +144,7 @@ This functions aims to automatize the detection of frequency ranges. The frequen
 
 }
 \references{
-{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-}
 }
 \seealso{
 \code{\link{freq_range_detec}}, \code{\link{freq_ts}}

@@ -59,9 +59,7 @@ Y <- resample_est(X)
 }
 }
 \references{
-{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-}
 }
 \seealso{
 \code{\link{mp32wav}}, \code{\link{fix_wavs}}
@@ -72,6 +70,5 @@ Other extended selection table manipulation:
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
-#last modification on oct-15-2018 (MAS)
 }
 \concept{extended selection table manipulation}

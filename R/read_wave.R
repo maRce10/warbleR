@@ -31,11 +31,10 @@
 #'   read_wave(X = "https://www.xeno-canto.org/513948/download")
 #' }
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on may-7-2018 (MAS)
 
 read_wave <-  read_wave <- function(...) {
   

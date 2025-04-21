@@ -44,11 +44,10 @@
 #' # palette = reverse.terrain.colors, ovlp = 90, grid = FALSE, flim = c(2, 11))
 #' }
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on dec-27-2019 (MAS)
 
 image_to_wave <- function(file, duration = 1, samp.rate = 44.1,
                           bit.depth = 16, flim = c(0, samp.rate / 2), plot = TRUE) {

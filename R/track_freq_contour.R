@@ -140,11 +140,10 @@
 #'    )
 #' }
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Grace Smith Vidaurre and Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on mar-13-2018 (MAS)
 
 track_freq_contour <- function(X, wl = 512, wl.freq = 512, flim = NULL, wn = "hanning", pal = reverse.gray.colors.2, ovlp = 70,
                                inner.mar = c(5, 4, 4, 2), outer.mar = c(0, 0, 0, 0), picsize = 1, res = 100, cexlab = 1,

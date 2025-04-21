@@ -48,11 +48,10 @@
 #' read_sound_file(X = "https://www.xeno-canto.org/513948/download")
 #' }
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on may-7-2018 (MAS)
 
 read_sound_file <- function(X, index = NULL, from = X$start[index], to = X$end[index], channel = X$channel[index], header = FALSE, path = NULL) {
   # if is extended then index must be provided

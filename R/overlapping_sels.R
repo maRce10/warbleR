@@ -53,11 +53,10 @@
 #' listed in a data frame similar to \code{\link{lbh_selec_table}}. Note that row names are set to \code{1:nrow(X)}.
 #' @seealso  \code{\link{filter_sels}}, \code{\link{lbh_selec_table}}
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#'
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on mar-13-2018 (MAS)
 
 overlapping_sels <- function(X,
                              index = FALSE,

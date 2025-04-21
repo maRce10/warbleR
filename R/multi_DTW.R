@@ -47,11 +47,10 @@
 #' multi_DTW(df, se)
 #' }
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on nov-31-2016 (MAS)
 
 multi_DTW <- function(ts.df1 = NULL, ts.df2 = NULL, pb = TRUE, parallel = 1, window.type = "none", open.end = FALSE, scale = FALSE, dist.mat = TRUE, ...) {
   options(digits = 5)

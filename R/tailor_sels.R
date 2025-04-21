@@ -109,11 +109,10 @@
 #'  frequency value of the points. The contour point closest in time to the "click" will be replaced by the
 #'  frequency value of the "click".
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on jul-5-2016 (MAS)
 
 tailor_sels <- function(X = NULL, wl = 512, flim = c(0, 22), wn = "hanning", mar = 0.5,
                         osci = TRUE, pal = reverse.gray.colors.2, ovlp = 70, auto.next = FALSE,

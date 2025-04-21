@@ -81,13 +81,11 @@ Make sure all sound files have the same sampling rate (can be checked with \code
 }
 }
 \references{
-{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 
 Müller, M. (2007). Dynamic time warping. Information retrieval for music and motion, 69-84.
 
 Prior, N. H., Smith, E., Lawson, S., Ball, G. F., & Dooling, R. J. (2018). Acoustic fine structure may encode biologically relevant information for zebra finches. Scientific reports, 8(1), 6212.
-}
 }
 \seealso{
 \code{\link{cross_correlation}}, \code{\link{spectro_analysis}}, \code{\link{freq_DTW}}

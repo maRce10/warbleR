@@ -129,9 +129,7 @@ sm_sng$selec.table
 
 }
 \references{
-{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-}
 }
 \seealso{
 \code{\link{query_xc}} for for downloading bird vocalizations from an online repository.

@@ -46,9 +46,7 @@ by_element_est <- by_element_est(by_song_est, mar = 0.05)
 }
 }
 \references{
-{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-}
 }
 \seealso{
 \code{\link{mp32wav}}, \code{\link{fix_wavs}}

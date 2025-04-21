@@ -87,9 +87,7 @@ listed in a data frame similar to \code{\link{lbh_selec_table}}. Note that row n
 }
 }
 \references{
-{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-}
 }
 \seealso{
 \code{\link{filter_sels}}, \code{\link{lbh_selec_table}}

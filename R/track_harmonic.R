@@ -33,11 +33,10 @@
 #' contour of a dominant harmonic even when the highest amplitude jumps between harmonics. The arguments and default values of the
 #' original \code{\link[seewave]{dfreq}} function have been kept unchanged to facilitate switching between the 2 functions.
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Jerome Sueur, modified by Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on feb-22-2018 (MAS)
 
 track_harmonic <- function(wave, f, wl = 512, wn = "hanning", ovlp = 0, fftw = FALSE,
                            at = NULL, tlim = NULL, threshold = 10, bandpass = NULL,

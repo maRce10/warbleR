@@ -143,10 +143,8 @@ The function uses the \code{\link[stats:approxfun]{approx}} function to interpol
 
 }
 \references{
-{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 Müller, M. (2007). Dynamic time warping. Information retrieval for music and motion, 69-84.
-}
 }
 \seealso{
 \code{\link{spectrograms}} for creating spectrograms from selections,

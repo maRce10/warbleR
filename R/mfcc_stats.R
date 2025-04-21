@@ -52,7 +52,6 @@
 #' Salamon, J., Jacoby, C., & Bello, J. P. (2014). A dataset and taxonomy for urban sound research. In Proceedings of the 22nd ACM international conference on Multimedia. 1041-1044.
 #' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on Jul-30-2018 (MAS)
 
 mfcc_stats <- function(X, ovlp = 50, wl = 512, bp = "frange", path = NULL,
                        numcep = 25, nbands = 40, parallel = 1, pb = TRUE, ...) {

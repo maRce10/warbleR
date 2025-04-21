@@ -147,9 +147,7 @@ with 1000 selections similar to the ones in 'lbh_selec_table' (mean duration ~0.
 
 }
 \references{
-{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-}
 }
 \seealso{
 \code{\link{check_sound_files}}

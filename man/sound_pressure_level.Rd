@@ -77,9 +77,8 @@ Sound pressure level (SPL) is a logarithmic measure of the effective pressure of
 
 }
 \references{
-{Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 \href{https://en.wikipedia.org/wiki/Sound_pressure}{Wikipedia: Sound pressure level}
-}
 }
 \seealso{
 \code{\link{sig2noise}}.

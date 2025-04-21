@@ -31,11 +31,10 @@
 #' Y <- rename_est_waves(X = lbh.est, new.sound.files = nsf)
 #' }
 #'
-#' @references {
+#' @references
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on nov-12-2019 (MAS)}
 
 rename_est_waves <- function(X, new.sound.files, new.selec = NULL) {
   # check length of new.sound.files

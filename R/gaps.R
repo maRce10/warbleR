@@ -21,11 +21,10 @@
 #' gaps(X = lbh_selec_table)
 #' }
 #'
-#' @references {
+#' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' }
+#' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-# last modification on mar-27-2018 (MAS)
 
 gaps <- function(X = NULL, by = "sound.files", parallel = 1, pb = TRUE) {
   #### set arguments from options
