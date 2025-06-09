@@ -94,8 +94,19 @@
 #' 
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 
-song_analysis <- function(X = NULL, song_colm = "song", mean_colm = NULL, min_colm = NULL, max_colm = NULL, elm_colm = NULL, elm_fun = NULL,
-                          sd = FALSE, parallel = 1, pb = TRUE, na.rm = FALSE, weight = NULL) {
+song_analysis <- function(X = NULL,
+                          song_colm = "song",
+                          mean_colm = NULL,
+                          min_colm = NULL,
+                          max_colm = NULL,
+                          elm_colm = NULL,
+                          elm_fun = NULL,
+                          sd = FALSE,
+                          parallel = 1,
+                          pb = TRUE,
+                          na.rm = FALSE,
+                          weight = NULL
+) {
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(song_analysis)

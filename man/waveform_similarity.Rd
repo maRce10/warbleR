@@ -14,7 +14,8 @@ waveform_similarity(
   parallel = 1,
   path = NULL,
   pb = TRUE,
-  n = 100
+  n = 100,
+  output = "square"
 )
 }
 \arguments{
@@ -41,7 +42,7 @@ slow down the function. Only used when applying a bandpass filter (\code{bp != N
 
 \item{type}{A character string specifying the approach for estimating similarity. Two option are available:
 \itemize{
-   \item \code{"standard"}: estimates the similarity between the two waveforms with a single point estimate (e.g. the correlation or DTW distance between them).
+   \item \code{"standard"}: estimates the similarity between the two waveforms with a single point estimate (e.g. the correlation or DTW distance between them). Default.
    \item \code{"sliding"}: estimates the similarity between the two waveforms by calculating the correlation or DTW distance at each "sliding" step of the spectrogram of the shortest selection over the longest one. This approach is more computationally intensive but might be more appropriate when comparing sounds with large differences in duration or when the appropriate alignment of the waveforms is hard to determine.
    }}
 
@@ -54,9 +55,15 @@ If \code{NULL} (default) then the current working directory is used.}
 \item{pb}{Logical argument to control progress bar. Default is \code{TRUE}.}
 
 \item{n}{Numeric. Number of values used to represent each waveform. Default is 100. Note that both waveforms are forced to have the same length which is done by interpolating amplitude values using the function \code{\link[stats:approxfun]{approx}}.}
+
+\item{output}{A character string specifying the format of the output object with the estimated similarities. Two option are available:
+\itemize{
+   \item \code{"square"}: a matrix in which each cell contains the pairwise similarity for the items in the row and columns. This is a symmetric matrix as both triangles above and below the diagonal are identical. Default.
+   \item \code{"rectangular"}: a data frame in which rows contain with the names of the two items being compared (1st and 2nd column) and the similarity value (3rd column). This is useful for plotting or subsetting the results.
+   }}
 }
 \value{
-The function returns a matrix with the similarity for each pairwise comparison.
+The function returns a matrix (if \code{output = "square"}, default) or data frame (if \code{output = "rectangular"}) with the similarity for each pairwise comparison. The names of the items refer to the combination of the 'sound.files' and 'selec' columns in 'X'. The values in the matrix or in the third column of the data frame are the similarity values.
 }
 \description{
 \code{waveform_similarity} estimates the similarity of two sound waveforms

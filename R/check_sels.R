@@ -126,8 +126,17 @@ check_sels <- function(X = NULL, parallel = 1, path = NULL, check.header = FALSE
   # check for duplicates and if fix.selec = TRUE
   if (any(duplicated(paste(X$sound.files, X$selec)))) {
     if (fix.selec) {
-      X$selec <- do.call(c, lapply(unique(X$sound.files), function(x) seq_len(sum(X$sound.files == x))))
-    } else {
+      # create empty variable
+      new_selec <- rep(1, nrow(X))
+     for(i in 2:nrow(X)) {
+       if (X$sound.files[i] == X$sound.files[i - 1]) {
+         new_selec[i] <- new_selec[i - 1] + 1
+       } 
+     }
+      
+      # replace selec column with new IDs
+      X$selec <- new_selec
+      } else {
       stop2("Duplicated selection labels ('selec' column) for one or more sound files (can be fixed by setting fix.selec = TRUE)")
     }
   }
