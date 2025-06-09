@@ -1,12 +1,12 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   a_warbleR: a_warbleR.html
   b_annotation_data_format: b_annotation_data_format.html
   c_warbleR_workflow_02: c_warbleR_workflow_02.html
   d_warbleR_workflow_03: d_warbleR_workflow_03.html
-last_built: 2025-04-21T19:53Z
+last_built: 2025-06-09T21:28Z
 urls:
   reference: https://marce10.github.io/warbleR/reference
   article: https://marce10.github.io/warbleR/articles
