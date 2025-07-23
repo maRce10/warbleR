@@ -7,8 +7,13 @@
 #' smallest number of samples from the listed selections, which limits the minimum window
 #' length (wl argument in other functions) that can be used in batch analyses.
 #' This could be useful for avoiding errors in downstream functions (e.g. \code{\link{spectro_analysis}}).
+#' @param parallel Numeric. Controls whether parallel computing is applied.
+#'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located.
 #' If \code{NULL} (default) then the current working directory is used.
+#' @param check.header Logical. Checks whether number of samples in the file header matches that in the actual file (i.e. if the header is corrupted). This could significantly affect the performance of the function (much slower) particularly
+#' with long sound files.
+#' @param verbose Logical to control whether the summary messages are printed to the console. Defaut is \code{TRUE}.
 #' @return If all sound files are ok, returns message "All files can be read".
 #'   Otherwise returns the names of the corrupted sound files.
 #' @details This function checks if sound files in the working directory can be read.
@@ -39,7 +44,12 @@
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 # last modification on jul-5-2016 (MAS)
 
-check_sound_files <- function(X = NULL, path = NULL) {
+check_sound_files <- function(X = NULL,
+                              parallel = 1,
+                              path = NULL,
+                              check.header = FALSE,
+                              verbose = TRUE)
+{
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(check_sound_files)
@@ -118,7 +128,9 @@ check_sound_files <- function(X = NULL, path = NULL) {
     files <- files[files %in% X$sound.files]
   }
 
-  samp.rate <- sapply(files, function(x) {
+  out_df <- data.frame(sound.files = files, row.names = NULL)
+  
+  out_df$samp.rate <- sapply(out_df$sound.files, function(x) {
     # print(x)
     r <- try(suppressWarnings(warbleR::read_sound_file(X = x, path = path, header = TRUE)), silent = TRUE)
     if (is(r, "try-error")) {
@@ -128,18 +140,57 @@ check_sound_files <- function(X = NULL, path = NULL) {
     }
   })
 
-  if (length(files[is.na(samp.rate)]) > 0) {
-    message2("Some file(s) cannot be read")
-    return(files[is.na(samp.rate)])
-  } else {
-    message2("All files can be read\n")
-    if (!is.null(X)) {
-      df <- merge(X, data.frame(f = samp.rate, sound.files = names(samp.rate)), by = "sound.files")
+  out_df$result <- ifelse(is.na(out_df$samp.rate), "cannot be read", "can be read")
 
-      message2(paste("smallest number of samples: ", floor(min((df$end - df$start) * df$f)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start) * df$f)]), "; selection label: ", df$selec[which.min((df$end - df$start) * df$f)], ")\n", sep = ""))
+  # set clusters for windows OS
+  if (Sys.info()[1] == "Windows" & parallel > 1) {
+    cl <- parallel::makePSOCKcluster(getOption("cl.cores", parallel))
+  } else {
+    cl <- parallel
+  }
+  
+  if (check.header){
+  out_df$samples.in.file <- unlist(.pblapply(seq_len(nrow(out_df)), cl = cl, message = "checking samples in files", current = 0, total = 2, verbose = verbose, function(x) {
+    # print(x)
+    if (out_df$result[x] == "can be read") {
+    r <- suppressWarnings(warbleR::read_sound_file(X = out_df$sound.files[x], path = path, header = FALSE))
+    out <- length(r@left)
+    } else {
+      out <- NA
+    }
+    return(out)
+  }))
+  
+  out_df$samples.in.header <- unlist(.pblapply(seq_len(nrow(out_df)), cl = cl, message = "checking samples in headers", current = 2, total = 2, verbose = verbose, function(x) {
+    # print(x)
+    if (out_df$result[x] == "can be read") {
+      r <- suppressWarnings(warbleR::read_sound_file(X = out_df$sound.files[x], path = path, header = TRUE))
+      out <- r$samples
+    } else {
+      out <- NA
+    }
+    return(out)
+  }))
+  out_df$result <- ifelse(out_df$samples.in.file != out_df$samples.in.header, "can be read/header corrupted", out_df$result)
+    }
+  
+  
+
+  if (any(out_df$result == "cannot be read")) {
+    message2("Some file(s) cannot be read")
+    # return(files[is.na(samp.rate)])
+  } else {
+    if (verbose) 
+      message2("All files can be read\n")
+    if (!is.null(X) & verbose) {
+      df <- merge(X, out_df, by = "sound.files")
+
+      message2(paste("smallest number of samples: ", floor(min((df$end - df$start) * df$samp.rate)), " (sound file:", as.character(df$sound.files[which.min((df$end - df$start) * df$samp.rate)]), "; selection label: ", df$selec[which.min((df$end - df$start) * df$samp.rate)], ")\n", sep = ""))
     }
   }
-  if (length(unique(samp.rate)) > 1) {
+  if (length(unique(out_df$samp.rate)) > 1 & verbose) {
     message2("Not all sound files have the same sampling rate (potentially problematic, particularly for cross_correlation())")
   }
+  
+  invisible(out_df)
 }

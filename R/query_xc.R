@@ -73,7 +73,7 @@
 query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "Specific_epithet"),
                      parallel = 1, path = NULL, pb = TRUE) {
   
-  message2("This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities offered by the suwo package (https://github.com/maRce10/suwo) as an alternative solution for obtaining nature media from online repositories.")
+  message2("This function is slated for deprecation in future versions. We recommend the suwo package (https://github.com/maRce10/suwo) as an alternative solution for obtaining nature media from online repositories.")
   
   #### set arguments from options
   # get function arguments
@@ -108,11 +108,10 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
   }
 
   # check internet connection
-  a <- try(RCurl::getURL("www.xeno-canto.org"), silent = TRUE)
-  if (is(a, "try-error")) stop("No connection to xeno-canto.org (check your internet connection!)")
-
-  if (a == "Could not connect to the database") stop("xeno-canto.org website is apparently down")
-
+  url_check <- .check_internet_resource(url = "www.xeno-canto.org")
+  
+  if (url_check == "OK"){  
+  
   # If parallel is not numeric
   if (!is.numeric(parallel)) stop("'parallel' must be a numeric vector of length 1")
   if (any(!(parallel %% 1 == 0), parallel < 1)) stop("'parallel' should be a positive integer")
@@ -340,6 +339,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       return(droplevels(results))
     }
   }
+ }
 }
 
 

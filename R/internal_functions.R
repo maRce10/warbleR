@@ -3389,3 +3389,46 @@ lessdB <- lessdB_wrblr_int <- function(signal.noise, noise) {
       return(output_list)
     }
   }
+
+
+# gracefully fail if internet resource is not available
+.try_GET <- function(x, ...) {
+  tryCatch(
+    httr::GET(url = x, httr::timeout(10), ...),
+    error = function(e) conditionMessage(e),
+    warning = function(w) conditionMessage(w)
+  )
+}
+
+.is_response <- function(x) {
+  class(x) == "response"
+}
+
+
+.check_internet_resource <- function(url) {
+
+  output <- "OK"
+  # First check internet connection
+  if (!curl::has_internet()) {
+    message2(x = "No internet connection.", color = "cyan")
+    output <- "not_OK"
+  } else {
+  # Then try for timeout problems
+  resp <- .try_GET(url)
+  if (!.is_response(resp)) {
+    message2(x = resp, color = "cyan")
+    output <- "not_OK"
+  } else {   
+    if (httr::http_error(resp)) { 
+    httr::message_for_status(resp)
+    output <- "not_OK"
+      } 
+    }
+  }
+  
+  # Then stop if status > 400
+
+  
+  return(output)
+  
+}
