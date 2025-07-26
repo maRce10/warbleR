@@ -2,7 +2,7 @@
 #'
 #' \code{filter_sels} subsets selection data frames based on image files that have been manually filtered.
 #' @param X object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the .wav
-#' files, 2) "sel": number of the selections.
+#' files, 2) "selec": number of the selections.
 #' @param path Character string containing the directory path where the image files are located.
 #' If \code{NULL} (default) then the current working directory is used.
 #' \code{\link{warbleR_options}} 'wav.path' argument does not apply.

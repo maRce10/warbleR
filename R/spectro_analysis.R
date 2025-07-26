@@ -3,7 +3,7 @@
 #' \code{spectro_analysis} measures acoustic parameters on acoustic signals for which the start and end times 
 #' are provided. 
 #' @param X 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound 
-#' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end": 
+#' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end": 
 #' end time of selections.
 #' @param bp A numeric vector of length 2 for the lower and upper limits of a 
 #'   frequency bandpass filter (in kHz) or "frange" (default) to indicate that values in bottom.freq

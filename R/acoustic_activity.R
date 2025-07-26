@@ -1,11 +1,11 @@
-#' Estimate vocal activity across sound files based on selections
+#' Estimate acoustic activity across sound files based on selections
 #'
-#' \code{vocal_activity} estimates vocal activity across sound files based on selections.
+#' \code{acoustic_activity} estimates acoustic activity across sound files based on selections.
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
-#' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
+#' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections.
-#' @param time.window Numeric. The time window in seconds to calculate the vocal activity rate. Default is 60 seconds.
-#' @param hop.size Numeric. The hop size in seconds to calculate the vocal activity rate. It refers to the spacing between consecutive time windows. If \code{hop.size == time.window} then there is no overlap between time windows. Default is 1 second.
+#' @param time.window Numeric. The time window in seconds to calculate the acoustic activity rate. Default is 60 seconds.
+#' @param hop.size Numeric. The hop size in seconds to calculate the acoustic activity rate. It refers to the spacing between consecutive time windows. If \code{hop.size == time.window} then there is no overlap between time windows. Default is 1 second.
 #' @param path Character string containing the directory path where the sound files are located.
 #' By default the current working directory is used.
 #' @param files Character vector with the names of the sound files to be used in the analysis. Default is \code{unique(X$sound.files)}. Use \code{list.files(tempdir(), pattern = ".wav$")} (or modify according to file extension) for using all sound files in the 'path' supplied (even those with no selections in 'X').
@@ -15,18 +15,18 @@
 #' @param 
 #' @return A data frame including the columns in the following columns:
 #' \itemize{
-#'    \item \code{sound.files}: files for which vocal activity was measured   
+#'    \item \code{sound.files}: files for which acoustic activity was measured   
 #'    \item \code{start}: start of the time window where selections were counted (in seconds)
 #'    \item \code{end}: end of the time window where selections were counted (in seconds)
 #'    \item \code{counts}: number of selections in the time window (counted if the middle point of the selection is within the time window)
 #'    \item \code{rate}: number of selections per second.
 #'    }
-#' @details This function estimates the vocal activity (a.k.a. vocal rate) across sound files based on selections. It counts the number of selections in a given time window (default is 60 seconds) and calculates the rate of vocal activity per second. A vocalization is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Vocal activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 
+#' @details This function estimates the acoustic activity (a.k.a. vocal rate) across sound files based on selections. It counts the number of selections in a given time window (default is 60 seconds) and calculates the rate of acoustic activity per second. A sound is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Acoustic activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 
 #' 
 #' \code{\link{song_analysis}}.
 #' @seealso \code{\link{inflections}}
 #' @export
-#' @name vocal_activity
+#' @name acoustic_activity
 #' @export
 #' @examples{
 #' # save wav file examples
@@ -37,7 +37,7 @@
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
 #' # get vocal activity by second
-#' (va <- vocal_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+#' (va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
 #'                    hop.size = 1))
 #'                    
 #' # get the row with the highest rate per sound file
@@ -47,9 +47,10 @@
 #' #including a file with no annotations
 #' writeWave(Phae.long1, file.path(tempdir(), "no_anns.wav"))
 #' 
-#' vocal_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+#' acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
 #' hop.size = 1, files = list.files(tempdir(), pattern = ".wav$"))
 #' }
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
 #' 
@@ -58,8 +59,8 @@
 #' Rojas-Carvajal, M., Sequeira-Cordero, A., & Brenes, J. C. (2020). Neurobehavioral effects of restricted and unpredictable environmental enrichment in rats. Frontiers in pharmacology, 11, 674.
 #' 
 #' Wardak, A. D., Olszyński, K. H., Polowy, R., Matysiak, J., & Filipkowski, R. K. (2024). Rats that learn to vocalize for food reward emit longer and louder appetitive calls and fewer short aversive calls. Plos one, 19(2), e0297174.
-#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-vocal_activity <- function(X,
+
+acoustic_activity <- function(X,
                            time.window = 60,
                            hop.size = 1,
                            path = ".",
@@ -68,7 +69,7 @@ vocal_activity <- function(X,
                            pb = TRUE) {
   #### set arguments from options
   # get function arguments
-  argms <- methods::formalArgs(vocal_activity)
+  argms <- methods::formalArgs(acoustic_activity)
 
   # get warbleR options
   opt.argms <- if (!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
@@ -101,7 +102,7 @@ vocal_activity <- function(X,
   # if X is not a data frame
   if (all(!any(is.data.frame(X), is_selection_table(X)))) stop2("X is not of a class 'data.frame' or 'selection_table'")
 
-  if (is_extended_selection_table(X)) stop2("vocal_activity does not work on objects of class 'extended_selection_table'")
+  if (is_extended_selection_table(X)) stop2("This function does not work on objects of class 'extended_selection_table'")
 
   if (!all(c(
     "sound.files", "selec",

@@ -2,7 +2,7 @@
 #'
 #' \code{check_sound_files} checks whether sound files can be read by subsequent functions.
 #' @param X Optional. 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the sound
-#' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
+#' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections. If provided the function also returns the
 #' smallest number of samples from the listed selections, which limits the minimum window
 #' length (wl argument in other functions) that can be used in batch analyses.
