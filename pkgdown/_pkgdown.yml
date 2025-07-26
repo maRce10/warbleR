@@ -8,7 +8,6 @@ articles:
   - a_warbleR
   - b_annotation_data_format
   - c_warbleR_workflow_02
-  - d_warbleR_workflow_03
 navbar:
   structure:
     left:  [intro, reference, articles, tutorials, news]
