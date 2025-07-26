@@ -4,7 +4,7 @@
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections.
-#' @param time.window Numeric. The time window in seconds to calculate the vocal activity rate. Default is 60 seconds (i.e. 1 minute).
+#' @param time.window Numeric. The time window in seconds to calculate the vocal activity rate. Default is 60 seconds.
 #' @param hop.size Numeric. The hop size in seconds to calculate the vocal activity rate. It refers to the spacing between consecutive time windows. If \code{hop.size == time.window} then there is no overlap between time windows. Default is 1 second.
 #' @param path Character string containing the directory path where the sound files are located.
 #' By default the current working directory is used.
@@ -21,7 +21,8 @@
 #'    \item \code{counts}: number of selections in the time window (counted if the middle point of the selection is within the time window)
 #'    \item \code{rate}: number of selections per second.
 #'    }
-#' @details This function estimates the vocal activity (a.k.a. vocal rate) across sound files based on selections. It counts the number of selections in a given time window (default is 60 seconds) and calculates the rate of vocal activity per second. A vocalization is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Vocal activity (for instance calls per minute) are commonly used in neuroscience research in which ultrasonic vocalizations of rodents are used as a readout of affective, social, or motivational states (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 
+#' @details This function estimates the vocal activity (a.k.a. vocal rate) across sound files based on selections. It counts the number of selections in a given time window (default is 60 seconds) and calculates the rate of vocal activity per second. A vocalization is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Vocal activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 
+#' 
 #' \code{\link{song_analysis}}.
 #' @seealso \code{\link{inflections}}
 #' @export
