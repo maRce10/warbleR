@@ -304,8 +304,10 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       cl <- parallel
     }
 
-    a1 <- .pblapply(pbar = pb, X = 1:nrow(results), cl = cl, message = "downloading files", current = 2, total = 2, FUN = function(x) {
-      xcFUN(results, x)
+    is.null.x <- is.null(X) 
+    
+    a1 <- .pblapply(pbar = pb, X = 1:nrow(results), cl = cl, message = "downloading files", current = if (is.null(X)) 2 else 1, total = if (is.null(X)) 2 else 1, FUN = function(x) {
+      try(xcFUN(results, x), silent = TRUE)
     })
 
     # check if some files have no data

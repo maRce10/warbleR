@@ -3,7 +3,7 @@
 #' \code{check_sels} checks whether selections can be read by subsequent functions.
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
 #' files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
-#' end time of selections. Alternatively, a 'selection_table' class object can be input to double check selections.
+#' end time of selections.
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param path Character string containing the directory path where the sound files are located.

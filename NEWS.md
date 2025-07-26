@@ -1,3 +1,11 @@
+# *warbleR 1.1.36*
+
+## Changes and additions:
+
+* New function `vocal_activity()` estimates vocal activity across sound files based on selections.
+
+* Function `query_xc()` now fails gracefully when the Xeno-Canto API is not available.
+
 # *warbleR 1.1.35*
 
 ## Changes and additions:
