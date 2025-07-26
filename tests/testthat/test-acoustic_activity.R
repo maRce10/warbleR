@@ -12,7 +12,7 @@ test_that("basic", {
   writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
   #'
   # get vocal activity by second
-  va <- vocal_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+  va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
                      hop.size = 1)
                      
   # get the row with the highest rate per sound file
@@ -43,7 +43,7 @@ test_that("including a file with no annotations", {
   writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
   writeWave(Phae.long1, file.path(tempdir(), "no_anns.wav"))
   
-  va2 <- vocal_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+  va2 <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
                  hop.size = 1, files = list.files(tempdir(), pattern = ".wav$"))
   
   fls <- list.files(path = tempdir(), pattern = "wav$|wac$|mp3$|flac$|jpeg$|tiff$", full.names = TRUE)
