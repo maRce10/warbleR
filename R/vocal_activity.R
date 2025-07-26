@@ -52,8 +52,11 @@
 #' }
 #' @references 
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
+#' 
 #' Rojas-Carvajal, M., Leandro, R., & Brenes, J. C. (2023). Distinct acute stressors exert an antagonistic effect on complex grooming during novelty habituation in rats. Behavioural Processes, 212, 104931.
+#' 
 #' Rojas-Carvajal, M., Sequeira-Cordero, A., & Brenes, J. C. (2020). Neurobehavioral effects of restricted and unpredictable environmental enrichment in rats. Frontiers in pharmacology, 11, 674.
+#' 
 #' Wardak, A. D., Olszyński, K. H., Polowy, R., Matysiak, J., & Filipkowski, R. K. (2024). Rats that learn to vocalize for food reward emit longer and louder appetitive calls and fewer short aversive calls. Plos one, 19(2), e0297174.
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 vocal_activity <- function(X,
