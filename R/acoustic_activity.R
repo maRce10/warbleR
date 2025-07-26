@@ -37,8 +37,8 @@
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
 #' # get vocal activity by second
-#' (va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
-#'                    hop.size = 1))
+#' va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+#'                    hop.size = 1)
 #'                    
 #' # get the row with the highest rate per sound file
 #' do.call(rbind, lapply(split(va, va$sound.files), function(x) 
@@ -47,7 +47,7 @@
 #' #including a file with no annotations
 #' writeWave(Phae.long1, file.path(tempdir(), "no_anns.wav"))
 #' 
-#' acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+#' va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
 #' hop.size = 1, files = list.files(tempdir(), pattern = ".wav$"))
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
