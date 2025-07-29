@@ -12,13 +12,12 @@
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
-#' @param 
 #' @return A data frame including the columns in the following columns:
 #' \itemize{
 #'    \item \code{sound.files}: files for which acoustic activity was measured   
 #'    \item \code{start}: start of the time window where selections were counted (in seconds)
 #'    \item \code{end}: end of the time window where selections were counted (in seconds)
-#'    \item \code{counts}: number of selections in the time window (counted if the middle point of the selection is within the time window)
+#'    \item \code{counts}: number of selections in the time window (counted if the middle point of the selection is within the time window). Note that the last time window may not have the same length as the others if the sound file duration is not multiple of the time window.
 #'    \item \code{rate}: number of selections per second.
 #'    }
 #' @details This function estimates the acoustic activity (a.k.a. vocal rate) across sound files based on selections. It counts the number of selections in a given time window (default is 60 seconds) and calculates the rate of acoustic activity per second. A sound is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Acoustic activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 

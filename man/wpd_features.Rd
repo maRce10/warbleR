@@ -16,7 +16,7 @@ wpd_features(
 }
 \arguments{
 \item{X}{object of class 'selection_table', 'extended_selection_table' or data frame with the following columns: 1) "sound.files": name of the sound
-files, 2) "sel": number of the selections, 3) "start": start time of selections, 4) "end":
+files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end":
 end time of selections.}
 
 \item{normalize}{Logical to determine if features are normalized by signal duration.}

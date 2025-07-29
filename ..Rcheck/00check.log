@@ -1,6 +1,10 @@
 * using log directory ‘/home/m/Dropbox/R_package_testing/warbleR/..Rcheck’
-* using R version 4.2.2 Patched (2022-11-10 r83330)
-* using platform: x86_64-pc-linux-gnu (64-bit)
+* using R version 4.5.0 (2025-04-11)
+* using platform: x86_64-pc-linux-gnu
+* R was compiled by
+    gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
+    GNU Fortran (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
+* running under: Ubuntu 22.04.5 LTS
 * using session charset: UTF-8
 * using option ‘--as-cran’
 * checking for file ‘./DESCRIPTION’ ... ERROR
