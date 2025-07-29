@@ -4,23 +4,23 @@
 #' @param X 'selection_table' object or data frame with the following columns: 1) "sound.files": name of the .wav
 #' files, 2) "selec": number of the selections, 3) "start": start time of selections, 4) "end":
 #' end time of selections.
-#' @param time.window Numeric. The time window in seconds to calculate the acoustic activity rate. Default is 60 seconds.
-#' @param hop.size Numeric. The hop size in seconds to calculate the acoustic activity rate. It refers to the spacing between consecutive time windows. If \code{hop.size == time.window} then there is no overlap between time windows. Default is 1 second.
+#' @param time.window Numeric. The time window (in s) in which to calculate acoustic activity. Default is 60 seconds.
+#' @param hop.size Numeric. The hop size in seconds to calculate acoustic activity. It refers to the spacing between consecutive time windows. If \code{hop.size == time.window} then there is no overlap between time windows. Default is 1 second.
 #' @param path Character string containing the directory path where the sound files are located.
 #' By default the current working directory is used.
-#' @param files Character vector with the names of the sound files to be used in the analysis. Default is \code{unique(X$sound.files)}. Use \code{list.files(tempdir(), pattern = ".wav$")} (or modify according to file extension) for using all sound files in the 'path' supplied (even those with no selections in 'X').
+#' @param files Character vector with the names of the sound files to be used in the analysis. Default is \code{unique(X$sound.files)}. Use \code{list.files(tempdir(), pattern = ".wav$")} (or modify according to file extension) for including all sound files in the 'path' supplied (even those with no selections in 'X').
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
-#' @return A data frame including the columns in the following columns:
+#' @return A data frame including the following columns:
 #' \itemize{
-#'    \item \code{sound.files}: files for which acoustic activity was measured   
+#'    \item \code{sound.files}: files in which acoustic activity was measured   
 #'    \item \code{start}: start of the time window where selections were counted (in seconds)
 #'    \item \code{end}: end of the time window where selections were counted (in seconds)
-#'    \item \code{counts}: number of selections in the time window (counted if the middle point of the selection is within the time window). Note that the last time window may not have the same length as the others if the sound file duration is not multiple of the time window.
+#'    \item \code{counts}: number of selections in the time window (counted if the middle point of the selection is within the time window). Note that the last time window may not have the same length as the others if the sound file duration is not a multiple of the time window.
 #'    \item \code{rate}: number of selections per second.
 #'    }
-#' @details This function estimates the acoustic activity (a.k.a. vocal rate) across sound files based on selections. It counts the number of selections in a given time window (default is 60 seconds) and calculates the rate of acoustic activity per second. A sound is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Acoustic activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 
+#' @details This function computes two features related to acoustic activity: number of sound events per time window and its rate (sound events per second). Features are estimates across sound files based on selections. A sound event is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Acoustic activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 
 #' 
 #' \code{\link{song_analysis}}.
 #' @seealso \code{\link{inflections}}
