@@ -69,11 +69,11 @@ end time of selections.</p></dd>
 
 
 <dt id="arg-time-window">time.window<a class="anchor" aria-label="anchor" href="#arg-time-window"></a></dt>
-<dd><p>Numeric. The time window in seconds to calculate the acoustic activity rate. Default is 60 seconds.</p></dd>
+<dd><p>Numeric. The time window (in s) in which to calculate acoustic activity. Default is 60 seconds.</p></dd>
 
 
 <dt id="arg-hop-size">hop.size<a class="anchor" aria-label="anchor" href="#arg-hop-size"></a></dt>
-<dd><p>Numeric. The hop size in seconds to calculate the acoustic activity rate. It refers to the spacing between consecutive time windows. If <code>hop.size == time.window</code> then there is no overlap between time windows. Default is 1 second.</p></dd>
+<dd><p>Numeric. The hop size in seconds to calculate acoustic activity. It refers to the spacing between consecutive time windows. If <code>hop.size == time.window</code> then there is no overlap between time windows. Default is 1 second.</p></dd>
 
 
 <dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
@@ -82,7 +82,7 @@ By default the current working directory is used.</p></dd>
 
 
 <dt id="arg-files">files<a class="anchor" aria-label="anchor" href="#arg-files"></a></dt>
-<dd><p>Character vector with the names of the sound files to be used in the analysis. Default is <code>unique(X$sound.files)</code>. Use <code>list.files(tempdir(), pattern = ".wav$")</code> (or modify according to file extension) for using all sound files in the 'path' supplied (even those with no selections in 'X').</p></dd>
+<dd><p>Character vector with the names of the sound files to be used in the analysis. Default is <code>unique(X$sound.files)</code>. Use <code>list.files(tempdir(), pattern = ".wav$")</code> (or modify according to file extension) for including all sound files in the 'path' supplied (even those with no selections in 'X').</p></dd>
 
 
 <dt id="arg-parallel">parallel<a class="anchor" aria-label="anchor" href="#arg-parallel"></a></dt>
@@ -96,15 +96,15 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame including the columns in the following columns:</p><ul><li><p><code>sound.files</code>: files for which acoustic activity was measured</p></li>
+    <p>A data frame including the following columns:</p><ul><li><p><code>sound.files</code>: files in which acoustic activity was measured</p></li>
 <li><p><code>start</code>: start of the time window where selections were counted (in seconds)</p></li>
 <li><p><code>end</code>: end of the time window where selections were counted (in seconds)</p></li>
-<li><p><code>counts</code>: number of selections in the time window (counted if the middle point of the selection is within the time window). Note that the last time window may not have the same length as the others if the sound file duration is not multiple of the time window.</p></li>
+<li><p><code>counts</code>: number of selections in the time window (counted if the middle point of the selection is within the time window). Note that the last time window may not have the same length as the others if the sound file duration is not a multiple of the time window.</p></li>
 <li><p><code>rate</code>: number of selections per second.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function estimates the acoustic activity (a.k.a. vocal rate) across sound files based on selections. It counts the number of selections in a given time window (default is 60 seconds) and calculates the rate of acoustic activity per second. A sound is counted as present in a time window if its middle point (<code>(X$end + X$start) / 2</code>) is within that window. Acoustic activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024).</p>
+    <p>This function computes two features related to acoustic activity: number of sound events per time window and its rate (sound events per second). Features are estimates across sound files based on selections. A sound event is counted as present in a time window if its middle point (<code>(X$end + X$start) / 2</code>) is within that window. Acoustic activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024).</p>
 <p><code><a href="song_analysis.html">song_analysis</a></code>.</p>
     </div>
     <div class="section level2">
