@@ -163,7 +163,7 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
     if (as.numeric(q$numRecordings) == 0) {
       message2("No recordings were found")
     } else {
-      nms <- c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "type", "file", "lic", "url", "q", "time", "date")
+      nms <- c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lon", "type", "file", "lic", "url", "q", "time", "date")
 
       ### loop over pages
       # set clusters for windows OS
@@ -235,11 +235,11 @@ query_xc <- function(qword, download = FALSE, X = NULL, file.name = c("Genus", "
       # order columns
       results <- results[, order(match(names(results), nms))]
 
-      names(results)[match(c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "alt", "type", "file", "lic", "url", "q", "length", "time", "date", "uploaded", "rmk", "bird.seen", "playback.used"), names(results))] <- c(
+      names(results)[match(c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lon", "alt", "type", "file", "lic", "url", "q", "length", "time", "date", "uploaded", "rmk", "animal.seen", "playback.used"), names(results))] <- c(
         "Recording_ID", "Genus", "Specific_epithet", "Subspecies", "English_name", "Recordist",
         "Country", "Locality", "Latitude", "Longitude", "Altitude", "Vocalization_type", "Audio_file", "License",
         "Url", "Quality", "Length", "Time", "Date", "Uploaded", "Remarks", "Bird_seen", "Playback_used"
-      )[which(c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lng", "alt", "type", "file", "lic", "url", "q", "length", "time", "date", "uploaded", "rmk", "bird.seen", "playback.used") %in% names(results))]
+      )[which(c("id", "gen", "sp", "ssp", "en", "rec", "cnt", "loc", "lat", "lon", "alt", "type", "file", "lic", "url", "q", "length", "time", "date", "uploaded", "rmk", "animal.seen", "playback.used") %in% names(results))]
 
       # rename also columns
       names(results) <- gsub("also", "Other_species", names(results))

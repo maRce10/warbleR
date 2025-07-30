@@ -47,9 +47,12 @@ A data frame including the following columns:
 \code{acoustic_activity} estimates acoustic activity across sound files based on selections.
 }
 \details{
-This function computes two features related to acoustic activity: number of sound events per time window and its rate (sound events per second). Features are estimates across sound files based on selections. A sound event is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Acoustic activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 
-
-\code{\link{song_analysis}}.
+This function computes two features related to acoustic activity:
+#' \itemize{
+   \item \code{counts}: number of sound events in the time window.
+   \item \code{rate}: number of sound events per second in the time window.
+   }
+   Features are estimates across sound files based on selections. A sound event is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Acoustic activity rates (e.g. calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024).
 }
 \examples{
 {
@@ -85,7 +88,7 @@ Rojas-Carvajal, M., Sequeira-Cordero, A., & Brenes, J. C. (2020). Neurobehaviora
 Wardak, A. D., Olszyński, K. H., Polowy, R., Matysiak, J., & Filipkowski, R. K. (2024). Rats that learn to vocalize for food reward emit longer and louder appetitive calls and fewer short aversive calls. Plos one, 19(2), e0297174.
 }
 \seealso{
-\code{\link{inflections}}
+\code{\link{inflections}},  \code{\link{song_analysis}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
