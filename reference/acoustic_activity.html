@@ -104,8 +104,10 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function computes two features related to acoustic activity: number of sound events per time window and its rate (sound events per second). Features are estimates across sound files based on selections. A sound event is counted as present in a time window if its middle point (<code>(X$end + X$start) / 2</code>) is within that window. Acoustic activity rates (e.g., calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024).</p>
-<p><code><a href="song_analysis.html">song_analysis</a></code>.</p>
+    <p>This function computes two features related to acoustic activity:
+#'</p><ul><li><p><code>counts</code>: number of sound events in the time window.</p></li>
+<li><p><code>rate</code>: number of sound events per second in the time window.</p></li>
+</ul><p>Features are estimates across sound files based on selections. A sound event is counted as present in a time window if its middle point (<code>(X$end + X$start) / 2</code>) is within that window. Acoustic activity rates (e.g. calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -116,7 +118,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="inflections.html">inflections</a></code></p></div>
+    <div class="dont-index"><p><code><a href="inflections.html">inflections</a></code>,  <code><a href="song_analysis.html">song_analysis</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
