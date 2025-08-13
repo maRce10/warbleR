@@ -337,7 +337,7 @@ spectro_analysis <-
     
     #Frequency with amplitude peaks 
     if (!fast) #only if fast is TRUE
-      peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 3, plot = FALSE)[1, 1] else peakf <- NA
+      peakf <- seewave::fpeaks(songspec, f = r@samp.rate, wl = wl.freq, nmax = 1, plot = FALSE)[1, 1] else peakf <- NA
     
     #Dominant frequency parameters
     y <- track_harmonic(wave = r, f = r@samp.rate, wl = if (wl >= length(r@left)) length(r@left) - 2 else wl, ovlp = ovlp, plot = FALSE, threshold = threshold, bandpass = b * 1000, fftw = TRUE,  dfrq = TRUE, adjust.wl = TRUE)[, 2]
