@@ -123,11 +123,6 @@ acoustic_activity <- function(X,
   # if there are NAs in start or end stop
   if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")
 
-  # check for duplicates and if fix.selec = TRUE
-  if (any(duplicated(paste(X$sound.files, X$selec)))) {
-      stop2("Duplicated selection labels ('selec' column) for one or more sound files (can be fixed by setting fix.selec = TRUE)")
-  }
-
   # check additional columns
   if (!"channel" %in% colnames(X)) {
     X$channel <- 1

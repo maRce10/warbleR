@@ -13,7 +13,7 @@
 #' If \code{NULL} (default) then the current working directory is used.
 #' @param mono Logical indicating if stereo (2 channel) files should be converted to mono (1 channel). Default is \code{FALSE} (remain unchanged).
 # #' @param sox Logical indicating if \href{https://sourceforge.net/projects/sox/}{SOX} should be used for resampling. If \code{TRUE} SOX must be installed. Default is \code{FALSE}.
-#' @return  A folder inside the working directory (or path provided) all 'converted_sound_files', containing
+#' @return  A folder inside the working directory (or path provided) called 'converted_sound_files', containing
 #' sound files in a format that can be imported in R.
 #' @export
 #' @name fix_wavs

@@ -519,7 +519,7 @@ print.extended_selection_table <- function(x, no.color = FALSE, ...) {
   # define columns to show
   cols <- if (ncol(x) > 6) 1:6 else seq_len(ncol(x))
 
-  kntr_tab <- knitr::kable(head(x[, cols, drop = FALSE]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
+  kntr_tab <- knitr::kable(head(x[, cols, drop = FALSE]), escape = TRUE, digits = 4, justify = "centre", format = "simple")
 
   for (i in seq_len(length(kntr_tab))) {
     message2(color = "silver", x = paste0(kntr_tab[i]), no.color = no.color)
@@ -605,7 +605,7 @@ print.selection_table <- function(x, no.color = FALSE, ...) {
   # define columns to show
   cols <- if (ncol(x) > 6) 1:6 else seq_len(ncol(x))
 
-  kntr_tab <- knitr::kable(head(x[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
+  kntr_tab <- knitr::kable(head(x[, cols]), escape = TRUE, digits = 4, justify = "centre", format = "simple")
 
   for (i in seq_len(length(kntr_tab))) {
     message2(color = "silver", x = paste0(kntr_tab[i], ""), no.color = no.color)

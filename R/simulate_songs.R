@@ -40,7 +40,7 @@
 #' @param hrm.freqs Numeric vector with the frequencies of the harmonics relative to the fundamental frequency. The default values are c(1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 1/6, 1/7, 1/8, 1/9, 1/10).
 #' @param freq.range Numeric vector of length 1 with the frequency range around the simulated frequency in which signals will modulate. Default is 4 which means that sounds will range +/- 2 kHz around the target frequency. If \code{NULL} the frequency range is not constrained.
 #' @return A wave object containing the simulated songs. If 'selec.table' is \code{TRUE} the function saves the wave object as a '.wav' sound file in the working directory (or 'path') and returns a list including 1) a selection table with the start/end time, and bottom/top frequency of the sub-units and 2) the wave object.
-#' @seealso \code{\link{query_xc}} for for downloading bird vocalizations from an online repository.
+#' @seealso \code{\link{tweak_spectro}}
 #' @export
 #' @name simulate_songs
 #' @details This functions uses a geometric (\code{diff.fun == "GBM"}) or Brownian bridge (\code{diff.fun == "BB"}) motion stochastic process to simulate modulation in animal vocalizations (i.e. frequency traces across time).

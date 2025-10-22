@@ -1,3 +1,9 @@
+# *warbleR 1.1.37*
+
+## Changes and additions:
+
+- `query_xc()` and `xc_maps()` have been deprecated
+
 # *warbleR 1.1.36*
 
 ## Changes and additions:

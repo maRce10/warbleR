@@ -45,26 +45,13 @@ A map of 'Xeno-Canto' recordings per species (image file), or a faceted
 }
 \description{
 \code{map_xc} creates maps to visualize the geographic spread of 'Xeno-Canto'
-  recordings.
+  recordings. DEPRECATED.
 }
 \details{
-This function creates maps for visualizing the geographic spread of recordings from the open-access
+DEPRECATED. This function creates maps for visualizing the geographic spread of recordings from the open-access
 online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of
 \code{\link{query_xc}} as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
 working directory. Note that only recordings with geographic coordinates are displayed.
-}
-\examples{
-\dontrun{
-# search in xeno-canto
-X <- query_xc("Phaethornis anthophilus", download = FALSE)
-
-# create image in R graphic device
-map_xc(X, img = FALSE)
-
-# create leaflet map
-map_xc(X, leaflet.map = TRUE)
-}
-
 }
 \references{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.

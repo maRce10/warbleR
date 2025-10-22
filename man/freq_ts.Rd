@@ -131,10 +131,11 @@ wl = 300, pb = FALSE, path = tempdir())
 freq_ts(X = lbh_selec_table, length.out = 30, flim = c(1, 12), bp = c(2, 9),
 wl = 300, pb = FALSE, clip.edges = TRUE, path = tempdir())
 
+\donttest{
 # run function with fundamental frequency
 freq_ts(lbh_selec_table, type = "fundamental", length.out = 50,
 flim = c(1, 12),  bp = c(2, 9), wl = 300, path = tempdir())
-
+ 
 # run function with spectral entropy
 # without clip edges
 freq_ts(X = lbh_selec_table, type = "entropy", threshold = 10,
@@ -144,6 +145,7 @@ clip.edges = FALSE, length.out = 10, sp.en.range = c(-25, 10), path = tempdir(),
 # with clip edges and length.out 10
 freq_ts(X = lbh_selec_table, type = "entropy", threshold = 10, bp = c(2, 12),
 clip.edges = TRUE, length.out = 10, path = tempdir(), img = FALSE)
+ }
 }
 }
 \seealso{

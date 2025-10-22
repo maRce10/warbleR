@@ -29,8 +29,6 @@
 #'
 #' @section Obtaining animal vocalization data:
 #'
-#'   \code{\link{query_xc}}: Download recordings and/or metadata from 'Xeno-Canto'
-#'
 #'   \code{\link{simulate_songs}}: Simulate animal vocalizations
 #'
 #'

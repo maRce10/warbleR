@@ -558,7 +558,7 @@ print.xcorr.output <- function(x, ...) {
   # define columns to show
   cols <- if (ncol(max.scores) > 6) 1:6 else seq_len(ncol(max.scores))
 
-  kntr_tab <- knitr::kable(head(max.scores[, cols]), escape = FALSE, digits = 4, justify = "centre", format = "pipe")
+  kntr_tab <- knitr::kable(head(max.scores[, cols]), escape = TRUE, digits = 4, justify = "centre", format = "simple")
 
   for (i in seq_len(length(kntr_tab))) {
     message2(color = "silver", x = paste0(kntr_tab[i]))

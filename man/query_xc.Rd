@@ -50,52 +50,10 @@ If \code{NULL} (default) then the current working directory is used.}
 If X is not provided the function returns a data frame with the following recording information: recording ID, Genus, Specific epithet, Subspecies, English name, Recordist, Country, Locality, Latitude, Longitude, Vocalization type, Audio file, License, URL, Quality, Time, Date. Sound files in .mp3 format are downloaded into the working directory if download = \code{TRUE} or if X is provided; a column indicating the  names of the downloaded files is included in the output data frame.
 }
 \description{
-\code{query_xc} downloads recordings and metadata from \href{https://www.xeno-canto.org/}{Xeno-Canto}.
+\code{query_xc} It downloads recordings and metadata from \href{https://www.xeno-canto.org/}{Xeno-Canto}. DEPRECATED.
 }
 \details{
-This function is slated for deprecation in future versions. We recommend exploring the advanced functionalities in the \href{https://github.com/maRce10/suwo}{suwo package} as an alternative solution for obtaining nature media from online repositories. This function queries for avian vocalization recordings in the open-access
-online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. It can return recordings metadata
-or download the associated sound files. Complex queries can be done by using search terms that follow the
- xeno-canto advance query syntax (check "qword" argument description).
- Files are double-checked after downloading and "empty" files are re-downloaded.
- File downloading process can be interrupted and resume later as long as the working directory is the same.
- Maps of recording coordinates can be produced using
-\code{\link{map_xc}}.
-}
-\examples{
-\dontrun{
-# search without downloading
-df1 <- query_xc(qword = "Phaethornis anthophilus", download = FALSE)
-View(df1)
-
-# downloading files
-query_xc(qword = "Phaethornis anthophilus", download = TRUE, path = tempdir())
-
-# check this folder
-tempdir()
-
-## search using xeno-canto advance query ###
-orth.pap <- query_xc(qword = "gen:orthonyx cnt:papua loc:tari", download = FALSE)
-
-# download file using the output data frame as input
-query_xc(X = orth.pap, path = tempdir())
-
-# use quotes for queries with more than 1 word (e.g. Costa Rica),note that the
-# single quotes are used for the whole 'qword' and double quotes for the 2-word term inside
-# Phaeochroa genus in Costa Rica
-phae.cr <- query_xc(qword = 'gen:phaeochroa cnt:"costa rica"', download = FALSE)
-
-# several terms can be searched for in the same field
-# search for all female songs in sound type
-femsong <- query_xc(qword = "type:song type:female", download = FALSE)
-}
-
-}
-\references{
-Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-}
-\seealso{
-\code{\link{map_xc}}
+This function is has been deprecated. To obtaining nature media from online repositories use the package suwo (https://github.com/maRce10/suwo).
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
