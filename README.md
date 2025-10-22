@@ -1,14 +1,7 @@
-warbleR: Streamline Bioacoustic Analysis
-================
-
 <div align="right">
-<details>
-<summary>
-🌐 Language
-</summary>
-
-<div>
-
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
       <div align="center">
         <a href="https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=en">English</a>
         | <a href="https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=zh-CN">简体中文</a>
@@ -33,10 +26,12 @@ warbleR: Streamline Bioacoustic Analysis
         | <a href="https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=as">অসমীয়া</
       </div>
     </div>
-
-</details>
-
+  </details>
 </div>
+
+
+warbleR: Streamline Bioacoustic Analysis
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
