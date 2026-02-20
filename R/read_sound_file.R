@@ -22,6 +22,9 @@
 #' data(list = c("Phae.long1"))
 #' writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
 #'
+#' # read wave file
+#' read_sound_file(X = "Phae.long1.wav", index = 1, path = tempdir())
+#' 
 #' # read from selection table
 #' read_sound_file(X = lbh_selec_table, index = 1, path = tempdir())
 #'
@@ -31,18 +34,6 @@
 #'
 #' # read from selection table
 #' read_sound_file(X = lbh_selec_table, index = 1, path = tempdir())
-#'
-#' # read WAV
-#' filepath <- system.file("extdata", "recording.wav", package = "bioacoustics")
-#' read_sound_file(filepath)
-#'
-#' # read MP3
-#' filepath <- system.file("extdata", "recording.mp3", package = "bioacoustics")
-#' read_sound_file(filepath)
-#'
-#' # read WAC
-#' filepath <- system.file("extdata", "recording_20170716_230503.wac", package = "bioacoustics")
-#' read_sound_file(filepath, from = 0, to = 0.2)
 #'
 #' # URL file
 #' read_sound_file(X = "https://www.xeno-canto.org/513948/download")

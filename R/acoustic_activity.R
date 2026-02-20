@@ -8,13 +8,14 @@
 #' @param hop.size Numeric. The hop size in seconds to calculate acoustic activity. It refers to the spacing between consecutive time windows. If \code{hop.size == time.window} then there is no overlap between time windows. Default is 1 second.
 #' @param path Character string containing the directory path where the sound files are located.
 #' By default the current working directory is used.
+#' @param Y Optional. A data frame with the duration of the sound files in 'X'. It must have the columns 'sound.files' and 'duration'. If not provided, durations will be estimated from the sound files in 'path' using \code{\link{duration_sound_files}}.
 #' @param files Character vector with the names of the sound files to be used in the analysis. Default is \code{unique(X$sound.files)}. Use \code{list.files(tempdir(), pattern = ".wav$")} (or modify according to file extension) for including all sound files in the 'path' supplied (even those with no selections in 'X').
 #' @param parallel Numeric. Controls whether parallel computing is applied.
 #'  It specifies the number of cores to be used. Default is 1 (i.e. no parallel computing).
 #' @param pb Logical argument to control progress bar. Default is \code{TRUE}.
 #' @return A data frame including the following columns:
 #' \itemize{
-#'    \item \code{sound.files}: files in which acoustic activity was measured   
+#'    \item \code{sound.files}: files in which acoustic activity was measured
 #'    \item \code{start}: start of the time window where selections were counted (in seconds)
 #'    \item \code{end}: end of the time window where selections were counted (in seconds)
 #'    \item \code{counts}: number of selections in the time window (counted if the middle point of the selection is within the time window). Note that the last time window may not have the same length as the others if the sound file duration is not a multiple of the time window.
@@ -25,8 +26,8 @@
 #'    \item \code{counts}: number of sound events in the time window.
 #'    \item \code{rate}: number of sound events per second in the time window.
 #'    }
-#'    Features are estimates across sound files based on selections. A sound event is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Acoustic activity rates (e.g. calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024). 
-#' 
+#'    Features are estimates across sound files based on selections. A sound event is counted as present in a time window if its middle point (\code{(X$end + X$start) / 2}) is within that window. Acoustic activity rates (e.g. calls per minute) are a widely used metric in neuroscience research, providing quantitative insight into rodent ultrasonic vocalizations as indicators of affective states, social interactions, and motivational processes (e.g. Rojas-Carvajal et al. 2023, Wardak et al. 2024).
+#'
 #' @seealso \code{\link{inflections}},  \code{\link{song_analysis}}
 #' @export
 #' @name acoustic_activity
@@ -40,45 +41,54 @@
 #' writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 #'
 #' # get vocal activity by second
-#' va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+#' va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1,
 #'                    hop.size = 1)
-#'                    
+#'
 #' # get the row with the highest rate per sound file
-#' do.call(rbind, lapply(split(va, va$sound.files), function(x) 
+#' do.call(rbind, lapply(split(va, va$sound.files), function(x)
 #' x[which.max(x$rate), ]))
-#' 
+#'
 #' #including a file with no annotations
 #' writeWave(Phae.long1, file.path(tempdir(), "no_anns.wav"))
-#' 
-#' va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+#'
+#' va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1,
 #' hop.size = 1, files = list.files(tempdir(), pattern = ".wav$"))
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-#' @references 
+#' @references
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' 
+#'
 #' Rojas-Carvajal, M., Leandro, R., & Brenes, J. C. (2023). Distinct acute stressors exert an antagonistic effect on complex grooming during novelty habituation in rats. Behavioural Processes, 212, 104931.
-#' 
+#'
 #' Rojas-Carvajal, M., Sequeira-Cordero, A., & Brenes, J. C. (2020). Neurobehavioral effects of restricted and unpredictable environmental enrichment in rats. Frontiers in pharmacology, 11, 674.
-#' 
+#'
 #' Wardak, A. D., Olszyński, K. H., Polowy, R., Matysiak, J., & Filipkowski, R. K. (2024). Rats that learn to vocalize for food reward emit longer and louder appetitive calls and fewer short aversive calls. Plos one, 19(2), e0297174.
 
-acoustic_activity <- function(X,
-                           time.window = 60,
-                           hop.size = 1,
-                           path = ".",
-                           files = unique(X$sound.files),
-                           parallel = 1,
-                           pb = TRUE) {
+acoustic_activity <- function(
+  X,
+  time.window = 60,
+  hop.size = 1,
+  path = ".",
+  Y = NULL,
+  files = unique(X$sound.files),
+  parallel = 1,
+  pb = TRUE
+) {
   #### set arguments from options
   # get function arguments
   argms <- methods::formalArgs(acoustic_activity)
 
   # get warbleR options
-  opt.argms <- if (!is.null(getOption("warbleR"))) getOption("warbleR") else SILLYNAME <- 0
+  opt.argms <- if (!is.null(getOption("warbleR"))) {
+    getOption("warbleR")
+  } else {
+    SILLYNAME <- 0
+  }
 
   # remove options not as default in call and not in function arguments
-  opt.argms <- opt.argms[!sapply(opt.argms, is.null) & names(opt.argms) %in% argms]
+  opt.argms <- opt.argms[
+    !sapply(opt.argms, is.null) & names(opt.argms) %in% argms
+  ]
 
   # get arguments set in the call
   call.argms <- as.list(base::match.call())[-1]
@@ -103,31 +113,61 @@ acoustic_activity <- function(X,
   }
 
   # if X is not a data frame
-  if (all(!any(is.data.frame(X), is_selection_table(X)))) stop2("X is not of a class 'data.frame' or 'selection_table'")
+  if (all(!any(is.data.frame(X), is_selection_table(X)))) {
+    stop2("X is not of a class 'data.frame' or 'selection_table'")
+  }
 
-  if (is_extended_selection_table(X)) stop2("This function does not work on objects of class 'extended_selection_table'")
+  if (is_extended_selection_table(X)) {
+    stop2(
+      "This function does not work on objects of class 'extended_selection_table'"
+    )
+  }
 
-  if (!all(c(
-    "sound.files", "selec",
-    "start", "end"
-  ) %in% colnames(X))) {
-    stop2(paste(paste(c("sound.files", "selec", "start", "end")[!(c(
-      "sound.files", "selec",
-      "start", "end"
-    ) %in% colnames(X))], collapse = ", "), "column(s) not found in data frame"))
+  if (
+    !all(
+      c(
+        "sound.files",
+        "selec",
+        "start",
+        "end"
+      ) %in%
+        colnames(X)
+    )
+  ) {
+    stop2(paste(
+      paste(
+        c("sound.files", "selec", "start", "end")[
+          !(c(
+            "sound.files",
+            "selec",
+            "start",
+            "end"
+          ) %in%
+            colnames(X))
+        ],
+        collapse = ", "
+      ),
+      "column(s) not found in data frame"
+    ))
   }
 
   # if end or start are not numeric stop
-  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) stop2("'start' and 'end' must be numeric")
+  if (any(!is(X$end, "numeric"), !is(X$start, "numeric"))) {
+    stop2("'start' and 'end' must be numeric")
+  }
 
   # if there are NAs in start or end stop
-  if (any(is.na(c(X$end, X$start)))) stop2("NAs found in start and/or end")
+  if (any(is.na(c(X$end, X$start)))) {
+    stop2("NAs found in start and/or end")
+  }
 
   # check additional columns
   if (!"channel" %in% colnames(X)) {
     X$channel <- 1
   } else {
-    if (!is.numeric(X$channel)) stop2("'channel' must be numeric")
+    if (!is.numeric(X$channel)) {
+      stop2("'channel' must be numeric")
+    }
     if (any(is.na(X$channel))) {
       message2("NAs in 'channel', assumed to be channel 1 \n")
       X$channel[is.na(X$channel)] <- 1
@@ -135,15 +175,23 @@ acoustic_activity <- function(X,
   }
 
   # check if files are in working directory
-  if (all(!file.exists(file.path(path, unique(X$sound.files))))) {
-    stop2("no sound files found")
+  if (is.null(Y)) {
+    if (all(!file.exists(file.path(path, unique(X$sound.files))))) {
+      stop2("no sound files found")
+    }
+  } else {
+    if (!all(X$sound.files %in% Y$sound.files)) {
+      stop2("not all sound files in 'X' are found in 'Y'")
+    }
   }
 
   # update to new frequency range column names
   if (any(grepl("low.freq|high.freq", names(X)))) {
     names(X)[names(X) == "low.freq"] <- "bottom.freq"
     names(X)[names(X) == "high.freq"] <- "top.freq"
-    message2("'low.freq' and 'high.freq' renamed as 'bottom.freq' and 'top.freq' \n")
+    message2(
+      "'low.freq' and 'high.freq' renamed as 'bottom.freq' and 'top.freq' \n"
+    )
   }
 
   # check if freq lim are numeric
@@ -157,53 +205,58 @@ acoustic_activity <- function(X,
 
   # check if NAs in freq limits
   if (any(names(X) %in% c("bottom.freq", "top.freq"))) {
-    if (any(is.na(c(X$bottom.freq, X$top.freq)))) stop2("NAs found in 'top.freq' and/or 'bottom.freq' \n")
+    if (any(is.na(c(X$bottom.freq, X$top.freq)))) {
+      stop2("NAs found in 'top.freq' and/or 'bottom.freq' \n")
+    }
   }
-  
-  # get file durations  
-  file_durations <- warbleR::duration_sound_files(files = files, path = path) 
-    
-    # counted if midpoint is within the segment
-    rate_df_list <- lapply(files, function(x){
-      
-      X <- X[X$sound.files == x, ]
-      X$mid.point <- (X$end + X$start) / 2
-      
-      # get duration for each sound file
-      duration <- file_durations$duration[file_durations$sound.files == x]
-      
-      # get position in time where to sample
-      sampling_times <- seq(0, duration, by = hop.size)
-      
-      # get the number of calls in a minute with a sliding window of 1 second across each sound file
-      counts <- sapply(sampling_times, function(t) {
-        # get the calls in the time window
-        sum(X$mid.point >= t & X$mid.point < (t + time.window))
-      })
-      
-      # add duration as last value if not the same
-      if (sampling_times[length(sampling_times)] != duration) {
-        sampling_times <- c(sampling_times, duration)
-      } else {
-        # remove last one if last value is the same as duration
-        counts <- counts[-length(counts)]
-      }
-      
-      # create a data frame with the time and the number of calls
-      rate_df <- data.frame(
-        sound.files = x,
-        start = sampling_times[-length(sampling_times)],
-        end =  ifelse(sampling_times[-length(sampling_times)] + time.window > duration, duration
-                      , sampling_times[-length(sampling_times)] + time.window),
-        counts = counts
-      )
-      
-      return(rate_df)    
+
+  # get file durations
+  if (is.null(Y)) {
+    Y <- warbleR::duration_sound_files(files = files, path = path)
+  }
+  # counted if midpoint is within the segment
+  rate_df_list <- lapply(files, function(x) {
+    X <- X[X$sound.files == x, ]
+    X$mid.point <- (X$end + X$start) / 2
+
+    # get duration for each sound file
+    duration <- Y$duration[Y$sound.files == x]
+
+    # get position in time where to sample
+    sampling_times <- seq(0, duration, by = hop.size)
+
+    # get the number of calls in a minute with a sliding window of 1 second across each sound file
+    counts <- sapply(sampling_times, function(t) {
+      # get the calls in the time window
+      sum(X$mid.point >= t & X$mid.point < (t + time.window))
     })
-    results_df <- do.call(rbind, rate_df_list)
-    
-    results_df$duration <- results_df$end - results_df$start
-    results_df$rate <- results_df$counts / results_df$duration
-    
-    return(results_df)
+
+    # add duration as last value if not the same
+    if (sampling_times[length(sampling_times)] != duration) {
+      sampling_times <- c(sampling_times, duration)
+    } else {
+      # remove last one if last value is the same as duration
+      counts <- counts[-length(counts)]
+    }
+
+    # create a data frame with the time and the number of calls
+    rate_df <- data.frame(
+      sound.files = x,
+      start = sampling_times[-length(sampling_times)],
+      end = ifelse(
+        sampling_times[-length(sampling_times)] + time.window > duration,
+        duration,
+        sampling_times[-length(sampling_times)] + time.window
+      ),
+      counts = counts
+    )
+
+    return(rate_df)
+  })
+  results_df <- do.call(rbind, rate_df_list)
+
+  results_df$duration <- results_df$end - results_df$start
+  results_df$rate <- results_df$counts / results_df$duration
+
+  return(results_df)
 }

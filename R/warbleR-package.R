@@ -136,8 +136,6 @@
 #'   \code{\link{tweak_spectro}}: Visually inspect effect of different settings for creating (and improving) spectrograms
 #'
 #' @import NatureSounds
-#' @import rjson
-#' @import RCurl
 #' @import pbapply
 #' @import tuneR
 #' @import seewave

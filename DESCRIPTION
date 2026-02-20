@@ -12,8 +12,6 @@ Imports:
     monitoR,
     parallel,
     pbapply,
-    RCurl,
-    rjson,
     stats,
     utils,
     methods,

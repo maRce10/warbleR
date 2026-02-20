@@ -57,8 +57,6 @@
 
 consolidate <- function(files = NULL, path = NULL, dest.path = NULL, pb = TRUE, file.ext = ".wav$",
                         parallel = 1, save.csv = TRUE, ...) {
-  # reset pb
-
 
   #### set arguments from options
   # get function arguments

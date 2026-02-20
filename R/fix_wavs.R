@@ -47,9 +47,9 @@
 
 fix_wavs <- function(checksels = NULL, files = NULL, samp.rate = NULL, bit.depth = NULL, path = NULL, mono = FALSE) {
   # error message if bioacoustics is not installed
-  if (!requireNamespace("bioacoustics", quietly = TRUE) & !is.null(samp.rate)) {
-    stop2("must install 'bioacoustics' to use for changing sampling rate")
-  }
+  # if (!requireNamespace("bioacoustics", quietly = TRUE) & !is.null(samp.rate)) {
+  #   stop2("must install 'bioacoustics' for changing sampling rate")
+  # }
 
   #### set arguments from options
   # get function arguments

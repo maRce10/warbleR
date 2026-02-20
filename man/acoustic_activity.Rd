@@ -9,6 +9,7 @@ acoustic_activity(
   time.window = 60,
   hop.size = 1,
   path = ".",
+  Y = NULL,
   files = unique(X$sound.files),
   parallel = 1,
   pb = TRUE
@@ -26,6 +27,8 @@ end time of selections.}
 \item{path}{Character string containing the directory path where the sound files are located.
 By default the current working directory is used.}
 
+\item{Y}{Optional. A data frame with the duration of the sound files in 'X'. It must have the columns 'sound.files' and 'duration'. If not provided, durations will be estimated from the sound files in 'path' using \code{\link{duration_sound_files}}.}
+
 \item{files}{Character vector with the names of the sound files to be used in the analysis. Default is \code{unique(X$sound.files)}. Use \code{list.files(tempdir(), pattern = ".wav$")} (or modify according to file extension) for including all sound files in the 'path' supplied (even those with no selections in 'X').}
 
 \item{parallel}{Numeric. Controls whether parallel computing is applied.
@@ -36,7 +39,7 @@ It specifies the number of cores to be used. Default is 1 (i.e. no parallel comp
 \value{
 A data frame including the following columns:
 \itemize{
-   \item \code{sound.files}: files in which acoustic activity was measured   
+   \item \code{sound.files}: files in which acoustic activity was measured
    \item \code{start}: start of the time window where selections were counted (in seconds)
    \item \code{end}: end of the time window where selections were counted (in seconds)
    \item \code{counts}: number of selections in the time window (counted if the middle point of the selection is within the time window). Note that the last time window may not have the same length as the others if the sound file duration is not a multiple of the time window.
@@ -64,17 +67,17 @@ writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
 writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
 
 # get vocal activity by second
-va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1,
                    hop.size = 1)
-                   
+
 # get the row with the highest rate per sound file
-do.call(rbind, lapply(split(va, va$sound.files), function(x) 
+do.call(rbind, lapply(split(va, va$sound.files), function(x)
 x[which.max(x$rate), ]))
 
 #including a file with no annotations
 writeWave(Phae.long1, file.path(tempdir(), "no_anns.wav"))
 
-va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1, 
+va <- acoustic_activity(X = lbh_selec_table, path = tempdir(), time.window = 1,
 hop.size = 1, files = list.files(tempdir(), pattern = ".wav$"))
 }
 }
