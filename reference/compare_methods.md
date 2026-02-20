@@ -1,0 +1,339 @@
+# Assessing the performance of acoustic distance measurements
+
+`compare_methods` creates graphs to visually assess performance of
+acoustic distance measurements
+
+## Usage
+
+``` r
+compare_methods(
+  X = NULL,
+  flim = NULL,
+  bp = NULL,
+  mar = 0.1,
+  wl = 512,
+  ovlp = 90,
+  res = 150,
+  n = 10,
+  length.out = 30,
+  methods = NULL,
+  it = "jpeg",
+  parallel = 1,
+  path = NULL,
+  custom1 = NULL,
+  custom2 = NULL,
+  pb = TRUE,
+  grid = TRUE,
+  clip.edges = TRUE,
+  threshold = 15,
+  na.rm = FALSE,
+  scale = FALSE,
+  pal = reverse.gray.colors.2,
+  img = TRUE,
+  ...
+)
+```
+
+## Arguments
+
+- X:
+
+  'selection_table' object or data frame with columns for sound file
+  name (sound.files), selection number (selec), and start and end time
+  of signal (start and end). Default `NULL`.
+
+- flim:
+
+  A numeric vector of length 2 for the frequency limit in kHz of the
+  spectrogram, as in
+  [`spectro`](https://rdrr.io/pkg/seewave/man/spectro.html). Default is
+  `NULL`.
+
+- bp:
+
+  numeric vector of length 2 giving the lower and upper limits of the
+  frequency bandpass filter (in kHz) used in the acoustic distance
+  methods. Default is `NULL`.
+
+- mar:
+
+  Numeric vector of length 1. Specifies plot margins around selection in
+  seconds. Default is 0.1.
+
+- wl:
+
+  A numeric vector of length 1 specifying the window length of the
+  spectrogram and cross-correlation, default is 512.
+
+- ovlp:
+
+  Numeric vector of length 1 specifying the percent overlap between two
+  consecutive windows, as in
+  [`spectro`](https://rdrr.io/pkg/seewave/man/spectro.html). Default is
+  90.
+
+- res:
+
+  Numeric argument of length 1. Controls image resolution. Default is
+  150.
+
+- n:
+
+  Numeric argument of length 1. Defines the number of plots to be
+  produce. Default is 10.
+
+- length.out:
+
+  A character vector of length 1 giving the number of measurements of
+  fundamental or dominant frequency desired (the length of the time
+  series). Default is 30.
+
+- methods:
+
+  A character vector of length 2 giving the names of the acoustic
+  distance methods that would be compared. The methods available are:
+
+  - `XCORR`: cross-correlation
+    ([`cross_correlation`](https://marce10.github.io/warbleR/reference/cross_correlation.md)
+    function)
+
+  - `dfDTW`: dynamic time warping on dominant frequency contours
+    ([`freq_DTW`](https://marce10.github.io/warbleR/reference/freq_DTW.md)
+    function)
+
+  - `ffDTW`: dynamic time warping on fundamental frequency contours
+    ([`freq_DTW`](https://marce10.github.io/warbleR/reference/freq_DTW.md)
+    function)
+
+  - `SP`: spectral parameters
+    ([`spectro_analysis`](https://marce10.github.io/warbleR/reference/spectro_analysis.md)
+    function)
+
+  - `SPharm`: spectral parameters
+    ([`spectro_analysis`](https://marce10.github.io/warbleR/reference/spectro_analysis.md)
+    function with argument `harmonicity = TRUE`)
+
+  - `MFCC`: statistical descriptors of Mel frequency cepstral
+    coefficients
+    ([`mfcc_stats`](https://marce10.github.io/warbleR/reference/mfcc_stats.md)
+    function)
+
+  Default `NULL`.
+
+- it:
+
+  A character vector of length 1 giving the image type to be used.
+  Currently only "tiff" and "jpeg" are admitted. Default is "jpeg".
+
+- parallel:
+
+  Numeric. Controls whether parallel computing is applied. It specifies
+  the number of cores to be used. Default is 1 (i.e. no parallel
+  computing).
+
+- path:
+
+  Character string containing the directory path where the sound files
+  are located. If `NULL` (default) then the current working directory is
+  used.
+
+- custom1:
+
+  Data frame containing user parameters. The data frame must have 4
+  columns: the first 2 columns are 'sound.files' and "selec' columns as
+  in 'X', the other 2 (columns 3 and 4) are 2 numeric columns to be used
+  as the 2 parameters representing custom measurements. If the data has
+  more than 2 parameters try using PCA (i.e.
+  [`prcomp`](https://rdrr.io/r/stats/prcomp.html) function)to summarize
+  it in 2 dimensions before using it as an input. Default is `NULL`.
+
+- custom2:
+
+  Data frame containing user parameters with the same format as
+  'custom1'. 'custom1' must be provided first. Default is `NULL`.
+
+- pb:
+
+  Logical argument to control progress bar. Default is `TRUE`.
+
+- grid:
+
+  Logical argument to control the presence of a grid on the spectrograms
+  (default is `TRUE`).
+
+- clip.edges:
+
+  Logical argument to control whether edges (start or end of signal) in
+  which amplitude values above the threshold were not detected will be
+  removed when using dfDTW and ffDTW methods. If `TRUE` this edges will
+  be excluded and signal contour will be calculated on the remaining
+  values. Default is `TRUE`.
+
+- threshold:
+
+  amplitude threshold (%) for dominant and/or fundamental frequency
+  detection when using dfDTW, ffDTW and SP methods. Default is 15.
+
+- na.rm:
+
+  Logical. If `TRUE` all NAs produced when pairwise cross-correlations
+  failed are removed from the results. This means that all selections
+  with at least 1 cross-correlation that failed are excluded in both
+  methods under comparison. Only apply if XCORR is one of the methods
+  being compared.
+
+- scale:
+
+  Logical. If `TRUE` dominant and/or fundamental frequency values are
+  z-transformed using the [`scale`](https://rdrr.io/r/base/scale.html)
+  function, which "ignores" differences in absolute frequencies between
+  the signals in order to focus the comparison in the frequency contour,
+  regardless of the pitch of signals. Default is `TRUE`.
+
+- pal:
+
+  A color palette function to be used to assign colors in the
+  spectrograms, as in
+  [`spectro`](https://rdrr.io/pkg/seewave/man/spectro.html). Default is
+  reverse.gray.colors.2.
+
+- img:
+
+  A logical argument specifying whether an image files would be
+  produced. Default is `TRUE`.
+
+- ...:
+
+  Additional arguments to be passed to a modified version of
+  [`spectro`](https://rdrr.io/pkg/seewave/man/spectro.html) for
+  customizing graphical output. This includes fast.spec, an argument
+  that speeds up the plotting of spectrograms (see description in
+  [`spectrograms`](https://marce10.github.io/warbleR/reference/spectrograms.md)).
+
+## Value
+
+Image files with 4 spectrograms of the selection being compared and
+scatterplots of the acoustic space of all signals in the input data
+frame 'X'.
+
+## Details
+
+This function produces graphs with spectrograms from 4 signals in the
+provided data frame that allow visual inspection of the performance of
+acoustic distance methods at comparing those signals. The signals are
+randomly picked up from the provided data frame (X argument).The
+spectrograms are all plotted with the same frequency and time scales.
+The function compares 2 methods at a time. The methods available are:
+cross-correlation (XCORR, from
+[`cross_correlation`](https://marce10.github.io/warbleR/reference/cross_correlation.md)),
+dynamic time warping on dominant frequency time series (dfDTW, from
+[`dtw`](https://rdrr.io/pkg/dtw/man/dtw.html) applied on
+[`freq_ts`](https://marce10.github.io/warbleR/reference/freq_ts.md)
+output), dynamic time warping on dominant frequency time series (ffDTW,
+from [`dtw`](https://rdrr.io/pkg/dtw/man/dtw.html) applied on
+[`freq_ts`](https://marce10.github.io/warbleR/reference/freq_ts.md)
+output), spectral parameters (SP, from
+[`spectro_analysis`](https://marce10.github.io/warbleR/reference/spectro_analysis.md)).
+The graph also contains 2 scatterplots (1 for each method) of the
+acoustic space of all signals in the input data frame 'X', including the
+centroid as black dot. The compared selections are randomly picked up
+from the pool of selections in the input data frame. The argument 'n'
+defines the number of comparisons (i.e. graphs) to be produced. The
+acoustic pairwise distance between signals is shown next to the arrows
+linking them. The font color of a distance value correspond to the font
+color of the method that generated it, as shown in the scatterplots.
+Distances are standardized, being 0 the distance of a signal to itself
+and 1 the farthest pairwise distance in the pool of signals. Principal
+Component Analysis ([`prcomp`](https://rdrr.io/r/stats/prcomp.html)) is
+applied to calculate distances when using spectral parameters (SP) and
+descriptors of cepstral coefficients (MFCC). In those cases the first 2
+PC's are used. Classical Multidimensional Scaling (also known as
+Principal Coordinates Analysis,
+([`cmdscale`](https://rdrr.io/r/stats/cmdscale.html))) is used for
+cross-correlation (XCORR) and any dynamic time warping method. The
+graphs are return as image files in the working directory. The file name
+contains the methods being compared and the row number of the
+selections. This function uses internally a modified version of the
+[`spectro`](https://rdrr.io/pkg/seewave/man/spectro.html) function from
+seewave package to create spectrograms. Custom data can also be compared
+against the available methods (or against each other) using the
+arguments 'custom1' and 'custom2'.
+
+## References
+
+Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to
+streamline analysis of animal acoustic signals. Methods in Ecology and
+Evolution, 8(2), 184-191.
+
+## See also
+
+[`catalog`](https://marce10.github.io/warbleR/reference/catalog.md)
+
+## Author
+
+Marcelo Araya-Salas (<marcelo.araya@ucr.ac.cr>). It uses internally a
+modified version of the
+[`spectro`](https://rdrr.io/pkg/seewave/man/spectro.html) function from
+seewave package to create spectrograms.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Save to temporary working directory
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
+writeWave(Phae.long1, file.path(tempdir(), "Phae.long1.wav"))
+writeWave(Phae.long2, file.path(tempdir(), "Phae.long2.wav"))
+writeWave(Phae.long3, file.path(tempdir(), "Phae.long3.wav"))
+writeWave(Phae.long4, file.path(tempdir(), "Phae.long4.wav"))
+
+compare_methods(
+  X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+  ovlp = 90, res = 200, n = 10, length.out = 30,
+  methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", path = tempdir()
+)
+
+# remove progress bar
+compare_methods(
+  X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+  ovlp = 90, res = 200, n = 10, length.out = 30,
+  methods = c("XCORR", "dfDTW"), parallel = 1, it = "jpeg", pb = FALSE, path = tempdir()
+)
+
+# check this folder!
+getwd()
+
+
+# compare SP and XCORR
+compare_methods(
+  X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+  ovlp = 90, res = 200, n = 10, length.out = 30,
+  methods = c("XCORR", "SP"), parallel = 1, it = "jpeg", path = tempdir()
+)
+
+# compare SP method against dfDTW
+compare_methods(
+  X = lbh_selec_table, flim = c(0, 10), bp = c(0, 10), mar = 0.1, wl = 300,
+  ovlp = 90, res = 200, n = 10, length.out = 30,
+  methods = c("dfDTW", "SP"), parallel = 1, it = "jpeg",
+  path = tempdir()
+)
+
+# alternatively we can provide our own SP matrix
+Y <- spectro_analysis(lbh_selec_table, path = tempdir())
+
+# selec a subset of variables
+Y <- Y[, 1:7]
+
+# PCA
+Y <- prcomp(Y[, 3:ncol(Y)])$x
+
+# add sound files and selec columns
+Y <- data.frame(lbh_selec_table[, c(1, 3)], Y[, 1:2])
+
+compare_methods(
+  X = lbh_selec_table, methods = c("dfDTW"), custom1 = Y,
+  path = tempdir()
+)
+} # }
+```
