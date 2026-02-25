@@ -81,5 +81,5 @@ remove_channels(channels = 1, path = tempdir())
 #check this floder
 tempdir()
 }
-#> [1] "/tmp/RtmphhikVM"
+#> [1] "/tmp/Rtmpmzm004"
 ```

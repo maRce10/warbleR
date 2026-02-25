@@ -116,5 +116,5 @@ Marcelo Araya-Salas (<marcelo.araya@ucr.ac.cr>)
   # Check this folder
   tempdir()
 }
-#> [1] "/tmp/RtmphhikVM"
+#> [1] "/tmp/Rtmpmzm004"
 ```

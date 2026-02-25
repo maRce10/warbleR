@@ -124,5 +124,5 @@ Marcelo Araya-Salas (<marcelo.araya@ucr.ac.cr>)
   # Check this folder
   file.path(tempdir(), "imgs")
 }
-#> [1] "/tmp/RtmphhikVM/imgs"
+#> [1] "/tmp/Rtmpmzm004/imgs"
 ```

@@ -140,5 +140,5 @@ cut_sels(lbh_selec_table, path = tempdir())
 #check this folder!!
 tempdir()
 }
-#> [1] "/tmp/RtmphhikVM"
+#> [1] "/tmp/Rtmpmzm004"
 ```
