@@ -269,9 +269,9 @@ generate elaborated signal visualizations:
 
 Session information
 
-    R version 4.5.2 (2025-10-31)
+    R version 4.5.3 (2026-03-11)
     Platform: x86_64-pc-linux-gnu
-    Running under: Ubuntu 24.04.3 LTS
+    Running under: Ubuntu 24.04.4 LTS
 
     Matrix products: default
     BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -293,13 +293,13 @@ Session information
     [6] tuneR_1.4.7       
 
     loaded via a namespace (and not attached):
-     [1] jsonlite_2.0.0     compiler_4.5.2     brio_1.1.5         Rcpp_1.1.1         xml2_1.5.2        
-     [6] stringr_1.6.0      parallel_4.5.2     signal_1.8-1       jquerylib_0.1.4    systemfonts_1.3.1 
-    [11] scales_1.4.0       textshaping_1.0.4  yaml_2.3.12        fastmap_1.2.0      R6_2.6.1          
-    [16] dtw_1.23-1         curl_7.0.0         htmlwidgets_1.6.4  MASS_7.3-65        desc_1.4.3        
-    [21] svglite_2.2.2      RColorBrewer_1.1-3 bslib_0.10.0       rlang_1.1.7        testthat_3.3.2    
-    [26] stringi_1.8.7      cachem_1.1.0       xfun_0.56          fs_1.6.6           sass_0.4.10       
-    [31] fftw_1.0-9         otel_0.2.0         viridisLite_0.4.3  cli_3.6.5          pkgdown_2.2.0     
-    [36] magrittr_2.0.4     digest_0.6.39      pbapply_1.7-4      rstudioapi_0.18.0  lifecycle_1.0.5   
-    [41] vctrs_0.7.1        glue_1.8.0         proxy_0.4-29       evaluate_1.0.5     farver_2.1.2      
-    [46] ragg_1.5.0         rmarkdown_2.30     httr_1.4.8         tools_4.5.2        htmltools_0.5.9   
+     [1] jsonlite_2.0.0     compiler_4.5.3     brio_1.1.5         Rcpp_1.1.1-1       xml2_1.5.2        
+     [6] stringr_1.6.0      parallel_4.5.3     signal_1.8-1       jquerylib_0.1.4    systemfonts_1.3.2 
+    [11] scales_1.4.0       textshaping_1.0.5  yaml_2.3.12        fastmap_1.2.0      R6_2.6.1          
+    [16] dtw_1.23-2         curl_7.1.0         htmlwidgets_1.6.4  MASS_7.3-65        desc_1.4.3        
+    [21] svglite_2.2.2      RColorBrewer_1.1-3 bslib_0.10.0       rlang_1.2.0        testthat_3.3.2    
+    [26] stringi_1.8.7      cachem_1.1.0       xfun_0.57          fs_2.1.0           sass_0.4.10       
+    [31] fftw_1.0-9         otel_0.2.0         viridisLite_0.4.3  cli_3.6.6          pkgdown_2.2.0     
+    [36] magrittr_2.0.5     digest_0.6.39      pbapply_1.7-4      rstudioapi_0.18.0  lifecycle_1.0.5   
+    [41] vctrs_0.7.3        glue_1.8.1         proxy_0.4-29       evaluate_1.0.5     farver_2.1.2      
+    [46] ragg_1.5.2         rmarkdown_2.31     httr_1.4.8         tools_4.5.3        htmltools_0.5.9   

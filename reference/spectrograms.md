@@ -314,5 +314,5 @@ Marcelo Araya-Salas (<marcelo.araya@ucr.ac.cr>) and Grace Smith Vidaurre
   # check this folder
   tempdir()
 }
-#> [1] "/tmp/Rtmpmzm004"
+#> [1] "/tmp/Rtmp7ftaky"
 ```

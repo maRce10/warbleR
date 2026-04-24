@@ -44,8 +44,8 @@ lbh_selec_table <- lbh_selec_table[, sample(seq_len(ncol(lbh_selec_table)))]
 
 # check names
 names(lbh_selec_table)
-#> [1] "sound.files" "selec"       "top.freq"    "channel"     "end"        
-#> [6] "bottom.freq" "start"      
+#> [1] "channel"     "end"         "sound.files" "bottom.freq" "top.freq"   
+#> [6] "start"       "selec"      
 
 lbh_selec_table <- sort_colms(X = lbh_selec_table)
 
