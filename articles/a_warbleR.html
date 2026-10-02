@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Package overview • warbleR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Package overview">
@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.37</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.38</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,11 +64,12 @@
       <h1>Package overview</h1>
                         <h4 data-toc-skip class="author">
 <a href="https://marce10.github.io" class="external-link">Marcelo
-Araya-Salas, PhD</a> &amp; <a href="https://smith-vidaurre.com/" class="external-link">Grace
+Araya-Salas, PhD</a> &amp;
+<a href="https://smith-vidaurrelab.github.io/" class="external-link">Grace
 Smith-Vidaurre</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2026-04-24</h4>
+            <h4 data-toc-skip class="date">2026-10-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/a_warbleR.Rmd" class="external-link"><code>vignettes/a_warbleR.Rmd</code></a></small>
       <div class="d-none name"><code>a_warbleR.Rmd</code></div>
@@ -114,8 +115,6 @@ organize data and verify acoustic analyzes </li>
 <p> </p>
 <p>The package offers functions for:</p>
 <ul>
-<li>Browse and download recordings of <a href="https://www.xeno-canto.org/" class="external-link">Xeno-Canto</a>
-</li>
 <li>Explore, organize and manipulate multiple sound files</li>
 <li>Create spectrograms of complete recordings or individual
 signals</li>
@@ -461,10 +460,10 @@ bioacoustic analysis stages.</p>
 <div class="section level3">
 <h3 id="get-and-prepare-recordings">Get and prepare recordings<a class="anchor" aria-label="anchor" href="#get-and-prepare-recordings"></a>
 </h3>
-<p>The <code><a href="../reference/query_xc.html">query_xc()</a></code> function allows you to search and
-download sounds from the free access database <a href="https://www.xeno-canto.org/" class="external-link">Xeno-Canto</a>. You can also convert
-.mp3 files to .wav, change the sampling rate of the files and correct
-corrupt files, among other functions.</p>
+<p>To search and download recordings from online repositories such as <a href="https://xeno-canto.org/" class="external-link">Xeno-Canto</a> use the package <a href="https://docs.ropensci.org/suwo/" class="external-link">suwo</a>.
+<strong>warbleR</strong> can convert .mp3 files to .wav, change the
+sampling rate of the files and correct corrupt files, among other
+functions.</p>
 <table class="table table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -483,7 +482,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/check_sound_files.html" style="     ">check_sound_files</a>
+<a href="https://marce10.github.io/warbleR/reference/check_sound_files.html">check_sound_files</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 verify if sound files can be read
@@ -497,7 +496,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/consolidate.html" style="     ">consolidate</a>
+<a href="https://marce10.github.io/warbleR/reference/consolidate.html">consolidate</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 consolidate sound files in a single folder
@@ -511,7 +510,7 @@ data frame and wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/fix_wavs.html" style="     ">fix_wavs</a>
+<a href="https://marce10.github.io/warbleR/reference/fix_wavs.html">fix_wavs</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 fix waves that cannot be read in R
@@ -525,7 +524,7 @@ wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/mp32wav.html" style="     ">mp32wav</a>
+<a href="https://marce10.github.io/warbleR/reference/mp32wav.html">mp32wav</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 convert multiple mp3 files to wav format
@@ -539,21 +538,7 @@ wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/query_xc.html" style="     ">query_xc</a>
-</td>
-<td style="text-align:center;font-style: italic;">
-Search and download mp3 files from Xeno-Canto
-</td>
-<td style="text-align:center;font-style: italic;">
-Scientific names/data frame
-</td>
-<td style="text-align:center;font-style: italic;">
-mp3 files
-</td>
-</tr>
-<tr>
-<td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/resample_est.html" style="     ">resample_est</a>
+<a href="https://marce10.github.io/warbleR/reference/resample_est.html">resample_est</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 resample wave objects in ext. selection tables
@@ -567,7 +552,7 @@ extended selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/remove_channels.html" style="     ">remove_channels</a>
+<a href="https://marce10.github.io/warbleR/reference/remove_channels.html">remove_channels</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 remove channels in multiple wave files
@@ -581,7 +566,7 @@ wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/remove_silence.html" style="     ">remove_silence</a>
+<a href="https://marce10.github.io/warbleR/reference/remove_silence.html">remove_silence</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 remove silences in multiple wave files
@@ -595,7 +580,7 @@ wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/duration_sound_files.html" style="     ">duration_sound_files</a>
+<a href="https://marce10.github.io/warbleR/reference/duration_sound_files.html">duration_sound_files</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures duration in multiple wave files
@@ -609,7 +594,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/info_sound_files.html" style="     ">info_sound_files</a>
+<a href="https://marce10.github.io/warbleR/reference/info_sound_files.html">info_sound_files</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 extract recording parameters from multiple wave files
@@ -651,7 +636,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/freq_range.html" style="     ">freq_range</a>
+<a href="https://marce10.github.io/warbleR/reference/freq_range.html">freq_range</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 detect frequency range in selection tables
@@ -665,7 +650,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/tailor_sels.html" style="     ">tailor_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/tailor_sels.html">tailor_sels</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 interactive tailoring of selections
@@ -705,7 +690,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/tailor_sels.html" style="     ">tailor_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/tailor_sels.html">tailor_sels</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 interactive tailoring of selections
@@ -719,7 +704,7 @@ selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/sort_colms.html" style="     ">sort_colms</a>
+<a href="https://marce10.github.io/warbleR/reference/sort_colms.html">sort_colms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 order columns in an intuitive way
@@ -733,7 +718,7 @@ selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/cut_sels.html" style="     ">cut_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/cut_sels.html">cut_sels</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 save selections as individual wave files
@@ -747,7 +732,7 @@ wave files
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/filter_sels.html" style="     ">filter_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/filter_sels.html">filter_sels</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 subset selection tables based on filtered image files
@@ -761,7 +746,7 @@ selection tables, ext. selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/fix_extended_selection_table.html" style="     ">fix_extended_selection_table</a>
+<a href="https://marce10.github.io/warbleR/reference/fix_extended_selection_table.html">fix_extended_selection_table</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 add wave objects to extended selection tables
@@ -775,7 +760,7 @@ extended selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/selection_table.html" style="     ">selection_table</a>
+<a href="https://marce10.github.io/warbleR/reference/selection_table.html">selection_table</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create selection tables and extended selection tables
@@ -789,7 +774,7 @@ selection tables, ext. selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/song_analysis.html" style="     ">song_analysis</a>
+<a href="https://marce10.github.io/warbleR/reference/song_analysis.html">song_analysis</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures acoustic parameters at higher structural levels of organization
@@ -837,7 +822,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/freq_range.html" style="     ">freq_range</a>
+<a href="https://marce10.github.io/warbleR/reference/freq_range.html">freq_range</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 detect frequency range in selection tables
@@ -851,7 +836,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/song_analysis.html" style="     ">song_analysis</a>
+<a href="https://marce10.github.io/warbleR/reference/song_analysis.html">song_analysis</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures acoustic parameters at higher structural levels of organization
@@ -865,7 +850,7 @@ data frame, selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/compare_methods.html" style="     ">compare_methods</a>
+<a href="https://marce10.github.io/warbleR/reference/compare_methods.html">compare_methods</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 compare the performance of methods to measure acoustic structure
@@ -879,7 +864,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/freq_DTW.html" style="     ">freq_DTW</a>
+<a href="https://marce10.github.io/warbleR/reference/freq_DTW.html">freq_DTW</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures dynamic time warping (DTW) on dominant/fundamental frequency
@@ -894,7 +879,7 @@ selection tables, ext. selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/freq_ts.html" style="     ">freq_ts</a>
+<a href="https://marce10.github.io/warbleR/reference/freq_ts.html">freq_ts</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 mesaures dominant/fundamental frequency contours
@@ -908,7 +893,7 @@ data frame with frequency contours
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/inflections.html" style="     ">inflections</a>
+<a href="https://marce10.github.io/warbleR/reference/inflections.html">inflections</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures number of inflections in frequency contours
@@ -922,7 +907,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/mfcc_stats.html" style="     ">mfcc_stats</a>
+<a href="https://marce10.github.io/warbleR/reference/mfcc_stats.html">mfcc_stats</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures statistical descriptors of Mel cepstral coefficients
@@ -936,7 +921,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/multi_DTW.html" style="     ">multi_DTW</a>
+<a href="https://marce10.github.io/warbleR/reference/multi_DTW.html">multi_DTW</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures dynamic time warping (DTW) on multiple contours
@@ -950,7 +935,7 @@ selection tables, ext. selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/sig2noise.html" style="     ">sig2noise</a>
+<a href="https://marce10.github.io/warbleR/reference/sig2noise.html">sig2noise</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures signal-to-noise ratio
@@ -964,7 +949,7 @@ selection tables, ext. selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/spectro_analysis.html" style="     ">spectro_analysis</a>
+<a href="https://marce10.github.io/warbleR/reference/spectro_analysis.html">spectro_analysis</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measures spectrographic parameters
@@ -978,7 +963,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/cross_correlation.html" style="     ">cross_correlation</a>
+<a href="https://marce10.github.io/warbleR/reference/cross_correlation.html">cross_correlation</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 measurec spectrographic cross-correlation
@@ -1021,7 +1006,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/check_sels.html" style="     ">check_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/check_sels.html">check_sels</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 double-check selection tables
@@ -1035,7 +1020,7 @@ selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/overlapping_sels.html" style="     ">overlapping_sels</a>
+<a href="https://marce10.github.io/warbleR/reference/overlapping_sels.html">overlapping_sels</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 finds (time) overlapping selections
@@ -1049,7 +1034,7 @@ selection tables, ext. selection tables
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/catalog.html" style="     ">catalog</a>
+<a href="https://marce10.github.io/warbleR/reference/catalog.html">catalog</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 creates spectrogram catalog
@@ -1063,7 +1048,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/catalog2pdf.html" style="     ">catalog2pdf</a>
+<a href="https://marce10.github.io/warbleR/reference/catalog2pdf.html">catalog2pdf</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 convert catalogs to .pdf
@@ -1077,7 +1062,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/spectrograms.html" style="     ">spectrograms</a>
+<a href="https://marce10.github.io/warbleR/reference/spectrograms.html">spectrograms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create spectrogram images
@@ -1091,7 +1076,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/full_spectrograms.html" style="     ">full_spectrograms</a>
+<a href="https://marce10.github.io/warbleR/reference/full_spectrograms.html">full_spectrograms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create spectrograms of whole sound files
@@ -1105,7 +1090,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/full_spectrogram2pdf.html" style="     ">full_spectrogram2pdf</a>
+<a href="https://marce10.github.io/warbleR/reference/full_spectrogram2pdf.html">full_spectrogram2pdf</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 convert full spectrograms to .pfg
@@ -1142,7 +1127,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/snr_spectrograms.html" style="     ">snr_spectrograms</a>
+<a href="https://marce10.github.io/warbleR/reference/snr_spectrograms.html">snr_spectrograms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 plots spectrograms highlighting areas where signal-to-noise ratio is
@@ -1157,7 +1142,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/spectrograms.html" style="     ">spectrograms</a>
+<a href="https://marce10.github.io/warbleR/reference/spectrograms.html">spectrograms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create spectrogram images
@@ -1171,7 +1156,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/track_freq_contour.html" style="     ">track_freq_contour</a>
+<a href="https://marce10.github.io/warbleR/reference/track_freq_contour.html">track_freq_contour</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create spectrogram images including frequency contours
@@ -1185,7 +1170,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/plot_coordination.html" style="     ">plot_coordination</a>
+<a href="https://marce10.github.io/warbleR/reference/plot_coordination.html">plot_coordination</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create schematic plots of coordinated signals
@@ -1199,7 +1184,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/full_spectrograms.html" style="     ">full_spectrograms</a>
+<a href="https://marce10.github.io/warbleR/reference/full_spectrograms.html">full_spectrograms</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 create spectrograms of whole sound files
@@ -1239,7 +1224,7 @@ Output
 <tbody>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/is_extended_selection_table.html" style="     ">is_extended_selection_table</a>
+<a href="https://marce10.github.io/warbleR/reference/is_extended_selection_table.html">is_extended_selection_table</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 check if object is extended selection tables
@@ -1253,7 +1238,7 @@ TRUE/FALSE
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/is_selection_table.html" style="     ">is_selection_table</a>
+<a href="https://marce10.github.io/warbleR/reference/is_selection_table.html">is_selection_table</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 check if object is selection tables
@@ -1267,7 +1252,7 @@ TRUE/FALSE
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/catalog2pdf.html" style="     ">catalog2pdf</a>
+<a href="https://marce10.github.io/warbleR/reference/catalog2pdf.html">catalog2pdf</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 convert catalogs to .pdf
@@ -1281,7 +1266,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/move_imgs.html" style="     ">move_imgs</a>
+<a href="https://marce10.github.io/warbleR/reference/move_imgs.html">move_imgs</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 moves images among folders
@@ -1295,21 +1280,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/map_xc.html" style="     ">map_xc</a>
-</td>
-<td style="text-align:center;font-style: italic;">
-created maps from Xeno-Canto recordings
-</td>
-<td style="text-align:center;font-style: italic;">
-data frame
-</td>
-<td style="text-align:center;font-style: italic;">
-images
-</td>
-</tr>
-<tr>
-<td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/test_coordination.html" style="     ">test_coordination</a>
+<a href="https://marce10.github.io/warbleR/reference/test_coordination.html">test_coordination</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 test statistical significance of vocal coordination
@@ -1323,7 +1294,7 @@ data frame
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/full_spectrogram2pdf.html" style="     ">full_spectrogram2pdf</a>
+<a href="https://marce10.github.io/warbleR/reference/full_spectrogram2pdf.html">full_spectrogram2pdf</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 convert full spectrograms to .pfg
@@ -1337,7 +1308,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/color_spectro.html" style="     ">color_spectro</a>
+<a href="https://marce10.github.io/warbleR/reference/color_spectro.html">color_spectro</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 highlight signals with colors in a spectrogram
@@ -1351,7 +1322,7 @@ plot in R
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/freq_range_detec.html" style="     ">freq_range_detec</a>
+<a href="https://marce10.github.io/warbleR/reference/freq_range_detec.html">freq_range_detec</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 detect frequency range in wave objetcs
@@ -1365,7 +1336,7 @@ data frame, plot in R
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/open_wd.html" style="     ">open_wd</a>
+<a href="https://marce10.github.io/warbleR/reference/open_wd.html">open_wd</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 open working directory
@@ -1377,7 +1348,7 @@ open working directory
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/phylo_spectro.html" style="     ">phylo_spectro</a>
+<a href="https://marce10.github.io/warbleR/reference/phylo_spectro.html">phylo_spectro</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 plots phylogenetic trees with spectrograms
@@ -1391,7 +1362,7 @@ plot in R
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/read_sound_file.html" style="     ">read_sound_file</a>
+<a href="https://marce10.github.io/warbleR/reference/read_sound_file.html">read_sound_file</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 read sound files and wave objects
@@ -1405,7 +1376,7 @@ wave object
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/simulate_songs.html" style="     ">simulate_songs</a>
+<a href="https://marce10.github.io/warbleR/reference/simulate_songs.html">simulate_songs</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 simulate songs
@@ -1418,7 +1389,7 @@ wave object, wave file and selection table
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/tweak_spectro.html" style="     ">tweak_spectro</a>
+<a href="https://marce10.github.io/warbleR/reference/tweak_spectro.html">tweak_spectro</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 creates mosaic plots with spectrograms with different display parameters
@@ -1432,7 +1403,7 @@ images
 </tr>
 <tr>
 <td style="text-align:center;font-weight: bold;">
-<a href="https://marce10.github.io/warbleR/reference/warbleR_options.html" style="     ">warbleR_options</a>
+<a href="https://marce10.github.io/warbleR/reference/warbleR_options.html">warbleR_options</a>
 </td>
 <td style="text-align:center;font-style: italic;">
 define global parameters for warbleR functions
@@ -1462,9 +1433,9 @@ streamline analysis of animal acoustic signals. Methods Ecol Evol
 <p> </p>
 <hr>
 <p><font size="4">Session information</font></p>
-<pre><code>R version 4.5.3 (2026-03-11)
+<pre><code>R version 4.6.1 (2026-06-24)
 Platform: x86_64-pc-linux-gnu
-Running under: Ubuntu 24.04.4 LTS
+Running under: Ubuntu 24.04.5 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -1482,20 +1453,20 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] kableExtra_1.4.0   warbleR_1.1.37     NatureSounds_1.0.5 knitr_1.51         seewave_2.2.4     
+[1] kableExtra_1.4.1   warbleR_1.1.38     NatureSounds_1.0.5 knitr_1.52         seewave_2.2.4     
 [6] tuneR_1.4.7       
 
 loaded via a namespace (and not attached):
- [1] jsonlite_2.0.0     compiler_4.5.3     brio_1.1.5         Rcpp_1.1.1-1       xml2_1.5.2        
- [6] stringr_1.6.0      parallel_4.5.3     signal_1.8-1       jquerylib_0.1.4    systemfonts_1.3.2 
-[11] scales_1.4.0       textshaping_1.0.5  yaml_2.3.12        fastmap_1.2.0      R6_2.6.1          
-[16] dtw_1.23-2         curl_7.1.0         htmlwidgets_1.6.4  MASS_7.3-65        desc_1.4.3        
-[21] svglite_2.2.2      RColorBrewer_1.1-3 bslib_0.10.0       rlang_1.2.0        testthat_3.3.2    
-[26] stringi_1.8.7      cachem_1.1.0       xfun_0.57          fs_2.1.0           sass_0.4.10       
-[31] fftw_1.0-9         otel_0.2.0         viridisLite_0.4.3  cli_3.6.6          pkgdown_2.2.0     
-[36] magrittr_2.0.5     digest_0.6.39      pbapply_1.7-4      rstudioapi_0.18.0  lifecycle_1.0.5   
-[41] vctrs_0.7.3        glue_1.8.1         proxy_0.4-29       evaluate_1.0.5     farver_2.1.2      
-[46] ragg_1.5.2         rmarkdown_2.31     httr_1.4.8         tools_4.5.3        htmltools_0.5.9   </code></pre>
+ [1] jsonlite_2.0.0     compiler_4.6.1     Rcpp_1.1.2         xml2_1.6.0         stringr_1.6.0     
+ [6] parallel_4.6.1     signal_1.8-1       jquerylib_0.1.4    systemfonts_1.3.2  scales_1.4.0      
+[11] textshaping_1.0.5  yaml_2.3.12        fastmap_1.2.0      R6_2.6.1           dtw_1.23-3        
+[16] curl_8.0.0         MASS_7.3-65        desc_1.4.3         svglite_2.2.2      bslib_0.12.0      
+[21] RColorBrewer_1.1-3 rlang_1.3.0        stringi_1.8.9      cachem_1.1.0       xfun_0.61         
+[26] fs_2.1.0           sass_0.4.10        fftw_1.0-9         otel_0.2.0         viridisLite_0.4.3 
+[31] cli_3.6.6          pkgdown_2.2.1      magrittr_2.0.5     digest_0.6.39      pbapply_1.7-5     
+[36] rstudioapi_0.19.0  lifecycle_1.0.5    vctrs_0.7.3        proxy_0.4-29       evaluate_1.0.5    
+[41] glue_1.8.1         farver_2.1.2       ragg_1.5.2         rmarkdown_2.32     httr_1.4.9        
+[46] tools_4.6.1        htmltools_0.5.9   </code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -1508,7 +1479,7 @@ loaded via a namespace (and not attached):
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

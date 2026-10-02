@@ -12,16 +12,17 @@
 Source:
 [`inst/CITATION`](https://github.com/maRce10/warbleR/blob/master/inst/CITATION)
 
-Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an r package to
-streamline analysis of animal acoustic signals. Methods Ecol Evol. 8,
-184-191. NOTE: please also cite the 'tuneR' and 'seewave' packages if
-you use any spectrogram-creating or acoustic-measuring function
+Araya-Salas, M. and Smith-Vidaurre, G. (2017), warbleR: an R package to
+streamline analysis of animal acoustic signals. Methods in Ecology and
+Evolution, 8(2), 184-191. https://doi.org/10.1111/2041-210X.12624
 
     @Article{,
-      entry = {MISC},
-      title = {warbleR: an r package to streamline analysis of animal acoustic signals},
-      author = {M. Araya-Salas and G. Smith-Vidaurre},
+      title = {warbleR: an R package to streamline analysis of animal acoustic signals},
+      author = {Marcelo Araya-Salas and Grace Smith-Vidaurre},
       year = {2017},
       journal = {Methods in Ecology and Evolution},
-      url = {https://dx.doi.org/10.1111/2041-210X.12624},
+      volume = {8},
+      number = {2},
+      pages = {184--191},
+      doi = {10.1111/2041-210X.12624},
     }

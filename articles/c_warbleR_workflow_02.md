@@ -93,6 +93,7 @@ documentation for the function in question
 ## **Prepare for analyses**
 
 ``` r
+
 library(warbleR)
 
 # set your working directory appropriately
@@ -111,6 +112,7 @@ functions, as existing functions are updated and new functions are
 added. To see all functions available in this package:
 
 ``` r
+
 # The package must be loaded in your working environment
 ls("package:warbleR")
 ```
@@ -141,22 +143,19 @@ structured. The functions for detecting frequency ranges, `freq_range`
 and `freq_range_detec` work best on tonal signals, so for this example
 we will use Great Tinamou ( *Tinamus major*) songs.
 
-Download a tinamou recording from *xeno-canto*, make selections and
-visualize/detect frequency ranges.
+Download a tinamou recording from *xeno-canto* (for instance [recording
+154191](https://xeno-canto.org/154191), which can be downloaded manually
+or with the package [suwo](https://docs.ropensci.org/suwo/)), convert it
+to *wav* format, make selections and visualize/detect frequency ranges.
 
 ``` r
-tin <- query_xc(qword = "Tinamus", download = FALSE)
 
-# select a single recording
-tin <- tin[tin$Recordist == "Marcelo Araya-Salas", ]
-
-# download this recording
-query_xc(X = tin, download = TRUE)
-
+# convert the downloaded mp3 file to wav format
 mp32wav()
 ```
 
 ``` r
+
 # here we will use a data set with sound files that have been already annotated
 # read the selections back into the global environment
 Tin.sels <- read.csv("manualoc_output.csv")
@@ -169,11 +168,13 @@ writeWave(seewave::cutw(read_sound_file("Tinamus-major-154191.wav"), from = Tin.
 ```
 
 ``` r
+
 # note that changing the threshold argument in combination with the bandpass argument can improve the detection
 freq_range_detec(read_sound_file("Tinamus-major-154191-1.wav"), flim = c(0, 2.5), bp = c(0, 3), threshold = 15, plot = TRUE)
 ```
 
 ``` r
+
 # here, giving a strict bandpass with very low threshold improves freq_range detection
 # since the curving end of the tinamou signal is lower amplitude than the rest of the signal
 c(read_sound_file("Tinamus-major-154191-1.wav"), flim = c(0, 2.5), bp = c(0, 3), threshold = 1, plot = TRUE)
@@ -187,6 +188,7 @@ returns the original selection table, as a data frame with the newly
 calculated low and high frequency measurements.
 
 ``` r
+
 # use arguments from freq_range_detec above
 fr <- freq_range(Tin.sels, threshold = 1, res = 100, flim = c(0, 2.5), bp = c(0.5, 2.5))
 str(fr)
@@ -201,6 +203,7 @@ available as a sole measurement across a selection, as measured by
 directory.
 
 ``` r
+
 Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
 str(Phae.hisnrt)
 
@@ -228,6 +231,7 @@ acceptable with the bandpass setting used in `track_freq_contour`, use
 that same bandpass while running `spectro_analysis`.
 
 ``` r
+
 # Note that the dominant frequency measurements are almost always more accurate
 track_freq_contour(Phae.hisnrt, wl = 300, flim = c(2, 10), bp = c(1, 12), it = "jpeg")
 
@@ -255,6 +259,7 @@ tends to perform best with more tonal signals. The frequency contours
 are those that can be visualized using `track_freq_contour`.
 
 ``` r
+
 # Fundamental frequency contour
 ff_df <- freq_ts(Phae.hisnrt, wl = 300, length.out = 20, threshold = 15, img = TRUE, img.suffix = "ff", type = "p", ovlp = 70, clip.edges = FALSE, leglab = "freq_ts", ff.method = "tuneR")
 
@@ -262,6 +267,7 @@ str(ff_df)
 ```
 
 ``` r
+
 # Dominant frequency contour
 
 # Uses seewave function dfreq by default
@@ -301,6 +307,7 @@ you can use `track_freq_contour` to make spectrograms with your new
 frequency contours plotted as custom contours.
 
 ``` r
+
 # Use the original data frame of songs for the main tailor_sels dataset
 # the data frame with the fundamental frequency contours is provided for manual tracing
 tailor_sels(Phae.hisnrt,
@@ -323,6 +330,7 @@ calculates a modulation index for signals, but as a single value across
 the length of the signal.
 
 ``` r
+
 df_inf <- inflections(X = df_df, pb = TRUE)
 str(df_inf)
 ```
@@ -359,6 +367,7 @@ of *Phaethornis longirostris* songs that were originally downloaded from
 *xeno-canto*, using the data frame `Phae.hisnrt`.
 
 ``` r
+
 Phae.hisnrt <- read.csv("Phae_hisnrt.csv", header = TRUE)
 
 compare_methods(
@@ -419,6 +428,7 @@ changing the amplitude threshold will change the amplitude at which
 noises (including non-target signals) are detected for measurements.
 
 ``` r
+
 params <- spectro_analysis(Phae.hisnrt, bp = c(2, 10), threshold = 15)
 write.csv(params, "acoustic_parameters.csv", row.names = FALSE)
 ```
@@ -427,6 +437,7 @@ Remove parameters derived from fundamental frequency (based on
 `track_freq_contour` results).
 
 ``` r
+
 params <- params[, grep("fun|peakf", colnames(params), invert = TRUE)]
 ```
 
@@ -438,6 +449,7 @@ parameters by song type (average, minimum and maximum values per song
 type group).
 
 ``` r
+
 data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 writeWave(Phae.long1, "Phae.long1.wav")
 writeWave(Phae.long2, "Phae.long2.wav")
@@ -479,6 +491,7 @@ dynamic time warping functions tend to work best on more tonal signals.
 Check out the resulting image files in your working directory.
 
 ``` r
+
 # Harmonic Phaethornis signals
 dm <- freq_DTW(Phae.hisnrt, length.out = 30, flim = c(2, 10), bp = c(2, 9), wl = 300, img = TRUE)
 
@@ -486,6 +499,7 @@ str(dm)
 ```
 
 ``` r
+
 # Tonal Tinamou signals
 Tin.sels <- read.csv("Tinamus-major-154191_sels.csv", header = TRUE)
 
@@ -520,6 +534,7 @@ Here our output is a matrix of peak correlation per pairwise comparison,
 with the recording-selection names as the matrix dimension names.
 
 ``` r
+
 xc <- cross_correlation(Phae.hisnrt, wl = 300, na.rm = FALSE)
 str(xc)
 ```
@@ -532,6 +547,7 @@ Principal Component Analysis on scaled (z-transformed) meters and look
 at the grouping of songs (data points) in the scatter plot.
 
 ``` r
+
 # Run the PCA with only numeric variables of params
 pca <- prcomp(x = params[, sapply(params, is.numeric)], scale. = TRUE)
 
@@ -545,11 +561,12 @@ summary(pca)
     Proportion of Variance 0.481 0.2335 0.1042 0.03409 0.02925 0.02606 0.0238 0.01758 0.01326 0.00904 0.00666 0.00643 0.00586 0.0042 0.00191 0.00119
     Cumulative Proportion  0.481 0.7145 0.8187 0.85280 0.88205 0.90811 0.9319 0.94948 0.96274 0.97178 0.97844 0.98487 0.99073 0.9949 0.99685 0.99804
                               PC17    PC18    PC19    PC20    PC21    PC22      PC23
-    Standard deviation     0.15921 0.15130 0.07228 0.05806 0.03699 0.02449 2.204e-15
+    Standard deviation     0.15921 0.15130 0.07228 0.05806 0.03699 0.02449 2.227e-15
     Proportion of Variance 0.00084 0.00076 0.00017 0.00011 0.00005 0.00002 0.000e+00
     Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00
 
 ``` r
+
 # Extract PCA scores
 pcascor <- as.data.frame(pca[[5]])
 
@@ -587,6 +604,7 @@ structure, so each one represents a different song type. We can add this
 information to the plot by using symbols to represent song types.
 
 ``` r
+
 # Create a song type variable
 
 # First, extract recording ID
@@ -641,6 +659,7 @@ events, if all are contained in a single data frame (see
 `test_coordination` documentation for more information).
 
 ``` r
+
 data(sim_coor_sing)
 str(sim_coor_sing)
 ```
@@ -648,6 +667,7 @@ str(sim_coor_sing)
 The `sim_coor_sing` dataset contains three types of singing bouts:
 
 ``` r
+
 # save plots in a list
 g <- plot_coordination(sim_coor_sing, it = "jpeg", img = FALSE, res = 300)
 
@@ -661,6 +681,7 @@ for alternating coordinated singing, since `less.than.chance` is set to
 `TRUE`.
 
 ``` r
+
 cs <- test_coordination(sim_coor_sing, iterations = 1000, less.than.chance = TRUE, cutoff = 10)
 str(cs)
 ```
@@ -674,6 +695,7 @@ amplitude fading of subunits, among other options. Songs are simulated
 under Brownian motion frequency drift.
 
 ``` r
+
 # simulate a song with 3 tonal elements
 ss <- simulate_songs(n = 3, harms = 1)
 

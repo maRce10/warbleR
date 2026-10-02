@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Acoustic (dis)similarity, coordinated singing and simulating songs • warbleR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Acoustic (dis)similarity, coordinated singing and simulating songs">
@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">warbleR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.37</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.38</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,10 +64,10 @@
       <h1>Acoustic (dis)similarity, coordinated singing and simulating songs</h1>
                         <h4 data-toc-skip class="author"><a href="https://marce10.github.io" class="external-link">Marcelo
 Araya-Salas, PhD</a></h4>
-                        <h4 data-toc-skip class="author"><a href="https://smith-vidaurre.com/" class="external-link">Grace
+                        <h4 data-toc-skip class="author"><a href="https://smith-vidaurrelab.github.io/" class="external-link">Grace
 Smith-Vidaurre</a></h4>
             
-            <h4 data-toc-skip class="date">2026-04-24</h4>
+            <h4 data-toc-skip class="date">2026-10-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/maRce10/warbleR/blob/master/vignettes/c_warbleR_workflow_02.Rmd" class="external-link"><code>vignettes/c_warbleR_workflow_02.Rmd</code></a></small>
       <div class="d-none name"><code>c_warbleR_workflow_02.Rmd</code></div>
@@ -77,7 +77,7 @@ Smith-Vidaurre</a></h4>
     
 <!-- <center> <h1><b>Acoustic (dis)similarity and coordinated singing</h1></b> </center> -->
 <!-- <center> <i><font size="4">Marcelo Araya-Salas and Grace Smith Vidaurre</font></i> </center> -->
-<!-- <center> 2026-04-24 </center> -->
+<!-- <center> 2026-10-02 </center> -->
 <style type="text/css">
 div#header h1.title, div#header h3.subtitle, div#header h4.author, div#header h4.date {
   text-align: center
@@ -230,17 +230,13 @@ are harmonically structured. The functions for detecting frequency
 ranges, <code>freq_range</code> and <code>freq_range_detec</code> work
 best on tonal signals, so for this example we will use Great Tinamou (
 <em>Tinamus major</em>) songs.</p>
-<p>Download a tinamou recording from <em>xeno-canto</em>, make
-selections and visualize/detect frequency ranges.</p>
+<p>Download a tinamou recording from <em>xeno-canto</em> (for instance
+<a href="https://xeno-canto.org/154191" class="external-link">recording 154191</a>, which can
+be downloaded manually or with the package <a href="https://docs.ropensci.org/suwo/" class="external-link">suwo</a>), convert it to
+<em>wav</em> format, make selections and visualize/detect frequency
+ranges.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tin</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/query_xc.html">query_xc</a></span><span class="op">(</span>qword <span class="op">=</span> <span class="st">"Tinamus"</span>, download <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># select a single recording</span></span>
-<span><span class="va">tin</span> <span class="op">&lt;-</span> <span class="va">tin</span><span class="op">[</span><span class="va">tin</span><span class="op">$</span><span class="va">Recordist</span> <span class="op">==</span> <span class="st">"Marcelo Araya-Salas"</span>, <span class="op">]</span></span>
-<span></span>
-<span><span class="co"># download this recording</span></span>
-<span><span class="fu"><a href="../reference/query_xc.html">query_xc</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">tin</span>, download <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="co"># convert the downloaded mp3 file to wav format</span></span>
 <span><span class="fu"><a href="../reference/mp32wav.html">mp32wav</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># here we will use a data set with sound files that have been already annotated</span></span>
@@ -608,7 +604,7 @@ Standard deviation     3.799 2.6465 1.7684 1.01130 0.93681 0.88418 0.8449 0.7261
 Proportion of Variance 0.481 0.2335 0.1042 0.03409 0.02925 0.02606 0.0238 0.01758 0.01326 0.00904 0.00666 0.00643 0.00586 0.0042 0.00191 0.00119
 Cumulative Proportion  0.481 0.7145 0.8187 0.85280 0.88205 0.90811 0.9319 0.94948 0.96274 0.97178 0.97844 0.98487 0.99073 0.9949 0.99685 0.99804
                           PC17    PC18    PC19    PC20    PC21    PC22      PC23
-Standard deviation     0.15921 0.15130 0.07228 0.05806 0.03699 0.02449 2.204e-15
+Standard deviation     0.15921 0.15130 0.07228 0.05806 0.03699 0.02449 2.227e-15
 Proportion of Variance 0.00084 0.00076 0.00017 0.00011 0.00005 0.00002 0.000e+00
 Cumulative Proportion  0.99888 0.99965 0.99982 0.99993 0.99998 1.00000 1.000e+00</code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
@@ -763,7 +759,7 @@ to streamline analysis of animal acoustic signals. Methods Ecol Evol. 8,
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

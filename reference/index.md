@@ -46,7 +46,7 @@
 - [`duration_sound_files()`](https://marce10.github.io/warbleR/reference/duration_sound_files.md)
   : Measure the duration of sound files
 
-- [`envelope`](https://marce10.github.io/warbleR/reference/envelope.md)
+- [`envelope()`](https://marce10.github.io/warbleR/reference/envelope.md)
   : Calculates the absolute amplitude envelope
 
 - [`filter_sels()`](https://marce10.github.io/warbleR/reference/filter_sels.md)
@@ -106,9 +106,6 @@
 - [`lbh_selec_table`](https://marce10.github.io/warbleR/reference/lbh_selec_table.md)
   : Example data frame of selections (i.e. selection table).
 
-- [`map_xc()`](https://marce10.github.io/warbleR/reference/map_xc.md) :
-  Maps of 'Xeno-Canto' recordings by species
-
 - [`mfcc_stats()`](https://marce10.github.io/warbleR/reference/mfcc_stats.md)
   : Calculate descriptive statistics on Mel-frequency cepstral
   coefficients
@@ -136,9 +133,6 @@
 
 - [`plot_coordination()`](https://marce10.github.io/warbleR/reference/plot_coordination.md)
   : Coordinated singing graphs
-
-- [`query_xc()`](https://marce10.github.io/warbleR/reference/query_xc.md)
-  : Access 'Xeno-Canto' recordings and metadata
 
 - [`read_sound_file()`](https://marce10.github.io/warbleR/reference/read_sound_file.md)
   : An extended version of read_wave that reads several sound file

@@ -1,6 +1,12 @@
 # Calculates the absolute amplitude envelope
 
-Calculates the absolute amplitude envelope
+Calculates the absolute amplitude envelope of an amplitude vector.
+
+## Usage
+
+``` r
+envelope(x, ssmooth = 0L)
+```
 
 ## Arguments
 
@@ -39,9 +45,7 @@ Marcelo Araya-Salas (<marcelo.araya@ucr.ac.cr>) & Paula Monge
 ## Examples
 
 ``` r
-{
 data(tico)
 
 amp_env <- envelope(tico@left, ssmooth = 100)
-}
 ```

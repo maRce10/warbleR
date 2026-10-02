@@ -1,5 +1,26 @@
 # Changelog
 
+## *warbleR 1.1.38*
+
+### Changes and additions:
+
+- Searching, downloading and mapping recordings from ‘Xeno-Canto’ (and
+  other online repositories) is now done with the package
+  [suwo](https://docs.ropensci.org/suwo/) (`query_xenocanto()`,
+  `download_media()` and `map_locations()`). The deprecated
+  [`query_xc()`](https://marce10.github.io/warbleR/reference/query_xc.md)
+  and
+  [`map_xc()`](https://marce10.github.io/warbleR/reference/map_xc.md)
+  now take `...`, return `NULL` invisibly with a deprecation warning,
+  and are no longer listed in the function index
+- ‘maps’ and ‘leaflet’ removed from Suggests
+- Vignettes and examples no longer use
+  [`query_xc()`](https://marce10.github.io/warbleR/reference/query_xc.md)
+- Updated README, CITATION and package description
+- Added missing usage section to
+  [`envelope()`](https://marce10.github.io/warbleR/reference/envelope.md)
+  documentation
+
 ## *warbleR 1.1.37*
 
 CRAN release: 2025-10-22
@@ -7,7 +28,9 @@ CRAN release: 2025-10-22
 ### Changes and additions:
 
 - [`query_xc()`](https://marce10.github.io/warbleR/reference/query_xc.md)
-  and `xc_maps()` have been deprecated
+  and
+  [`map_xc()`](https://marce10.github.io/warbleR/reference/map_xc.md)
+  have been deprecated
 
 ## *warbleR 1.1.36*
 

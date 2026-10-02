@@ -20,8 +20,6 @@ The main features of the package are:
 
 The package offers functions to:
 
-- Explore and download Xeno Canto recordings
-
 - Explore, organize and manipulate multiple sound files
 
 - Detect signals automatically (in frequency and time)
@@ -165,10 +163,6 @@ Track harmonic frequency contour
 
 ## Graphical outputs
 
-[`map_xc`](https://marce10.github.io/warbleR/reference/map_xc.md):
-Create maps to visualize the geographic spread of 'Xeno-Canto'
-recordings
-
 [`catalog`](https://marce10.github.io/warbleR/reference/catalog.md):
 Produce a vocalization catalog with spectrograms in and array with
 several rows and columns
@@ -209,6 +203,8 @@ improving) spectrograms
 Useful links:
 
 - <https://marce10.github.io/warbleR/>
+
+- <https://github.com/maRce10/warbleR>
 
 - Report bugs at <https://github.com/maRce10/warbleR/issues/>
 
