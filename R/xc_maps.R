@@ -1,42 +1,26 @@
-#' Maps of 'Xeno-Canto' recordings by species
+#' Maps of 'Xeno-Canto' recordings by species (deprecated)
 #'
-#' \code{map_xc} creates maps to visualize the geographic spread of 'Xeno-Canto'
-#'   recordings. DEPRECATED.
-#' @param X Data frame output from \code{\link{query_xc}}.
-#' @param img A logical argument specifying whether an image file of each species
-#'   map should be returned, default is \code{TRUE}.
-#' @param it A character vector of length 1 giving the image type to be used. Currently only
-#' "tiff" and "jpeg" are admitted. Default is "jpeg".
-#' @param res Numeric argument of length 1. Controls image resolution.
-#'   Default is 100 (faster) although 300 - 400 is recommended for publication/
-#'   presentation quality.
-#' @param labels A logical argument defining whether dots depicting recording locations are labeled.
-#' If \code{TRUE} then the Recording_ID is used as label.
-#' @param path Character string with the directory path where the image files will be saved.
-#' If \code{NULL} (default) then the current working directory is used.
-#' Ignored if \code{img = FALSE}.
-#' @param leaflet.map Logical to control whether the package 'leaflet' is used for displaying the maps. 'leaflet' maps are interactive and display information about recordings and links to the Xeno-Canto website. If \code{TRUE} a single map is displayed regardless of the number of species and all other image related arguments are ignored. Default is \code{FALSE}. The hovering label shows the species scientific name (or the subspecies if only 1 species is present in 'X'). Note that colors will be recycled if more after 18 species (or subspecies).
-#' @param leaflet.cluster Logical to control if icons are clustered by locality (as in Xeno-Canto maps). Default is \code{FALSE}.
-#' @return A map of 'Xeno-Canto' recordings per species (image file), or a faceted
-#'   plot of species map(s) in the active graphic device.
+#' \code{map_xc} has been deprecated. Use \code{suwo::map_locations()} from the package
+#' \href{https://docs.ropensci.org/suwo/}{suwo} instead, which maps media records from
+#' 'Xeno-Canto' and other online repositories.
+#' @param ... Ignored. Kept so that existing code calling \code{map_xc()} gets an informative warning instead of an error.
+#' @return \code{NULL} (invisibly).
 #' @export
 #' @name map_xc
-#' @details DEPRECATED. This function creates maps for visualizing the geographic spread of recordings from the open-access
-#' online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}. The function takes the output of
-#' \code{\link{query_xc}} as input. Maps can be displayed in the graphic device (or Viewer if 'leaflet.map = TRUE') or saved as images in the
-#' working directory. Note that only recordings with geographic coordinates are displayed.
-#'
-#' @references 
+#' @keywords internal
+#' @details This function has been deprecated as access to online nature media repositories (including 'Xeno-Canto') is now provided by the package \href{https://docs.ropensci.org/suwo/}{suwo}. Metadata obtained with \code{suwo::query_xenocanto()} (or any other suwo query function) can be mapped with \code{suwo::map_locations()}.
+#' @seealso \code{\link{query_xc}}
+#' @references
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' 
+#'
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace Smith Vidaurre
 
-map_xc <- function(X, img = TRUE, it = "jpeg", res = 100, labels = FALSE,
-                   path = NULL, leaflet.map = FALSE,
-                   leaflet.cluster = FALSE) {
-  
-  .Deprecated(msg = "This function has been deprecated. Use the function `map_locations()` from the package suwo instead (https://github.com/maRce10/suwo)")
-  
-  return(NULL)
-  
+map_xc <- function(...) {
+  .Deprecated(
+    new = "suwo::map_locations",
+    package = "warbleR",
+    msg = "map_xc() has been deprecated. Use `map_locations()` from the package suwo instead (https://docs.ropensci.org/suwo/)"
+  )
+
+  return(invisible(NULL))
 }

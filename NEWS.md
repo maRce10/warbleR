@@ -1,8 +1,18 @@
+# *warbleR 1.1.38*
+
+## Changes and additions:
+
+- Searching, downloading and mapping recordings from 'Xeno-Canto' (and other online repositories) is now done with the package [suwo](https://docs.ropensci.org/suwo/) (`query_xenocanto()`, `download_media()` and `map_locations()`). The deprecated `query_xc()` and `map_xc()` now take `...`, return `NULL` invisibly with a deprecation warning, and are no longer listed in the function index
+- 'maps' and 'leaflet' removed from Suggests
+- Vignettes and examples no longer use `query_xc()`
+- Updated README, CITATION and package description
+- Added missing usage section to `envelope()` documentation
+
 # *warbleR 1.1.37*
 
 ## Changes and additions:
 
-- `query_xc()` and `xc_maps()` have been deprecated
+- `query_xc()` and `map_xc()` have been deprecated
 
 # *warbleR 1.1.36*
 

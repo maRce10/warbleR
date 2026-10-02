@@ -3,7 +3,7 @@ title: Acoustic (dis)similarity, coordinated singing and simulating songs
 pagetitle: Acoustic (dis)similarity, coordinated singing and simulating songs
 author: 
 - <a href="https://marce10.github.io">Marcelo Araya-Salas, PhD</a> 
-- <a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> 
+- <a href="https://smith-vidaurrelab.github.io/">Grace Smith-Vidaurre</a> 
 date:  "`r Sys.Date()`"
 output:
   rmarkdown::html_document:
@@ -156,18 +156,11 @@ _Raven_ selection tables can return low and high frequencies in your selections 
 
 Finally, although we have been using _Phaethornis longirostris_ vocalizations throughout this vignette, these signals are harmonically structured. The functions for detecting frequency ranges, `freq_range` and `freq_range_detec` work best on tonal signals, so for this example we will use Great Tinamou ( _Tinamus major_) songs. 
 
-Download a tinamou recording from _xeno-canto_, make selections and visualize/detect frequency ranges.
+Download a tinamou recording from _xeno-canto_ (for instance [recording 154191](https://xeno-canto.org/154191), which can be downloaded manually or with the package [suwo](https://docs.ropensci.org/suwo/)), convert it to _wav_ format, make selections and visualize/detect frequency ranges.
 
 ```{r, eval=FALSE, echo=TRUE}
 
-tin <- query_xc(qword = "Tinamus", download = FALSE)
-
-# select a single recording
-tin <- tin[tin$Recordist == "Marcelo Araya-Salas", ]
-
-# download this recording
-query_xc(X = tin, download = TRUE)
-
+# convert the downloaded mp3 file to wav format
 mp32wav()
 ```
 

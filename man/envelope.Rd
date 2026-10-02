@@ -3,6 +3,9 @@
 \name{envelope}
 \alias{envelope}
 \title{Calculates the absolute amplitude envelope}
+\usage{
+envelope(x, ssmooth = 0L)
+}
 \arguments{
 \item{x}{Numeric vector with amplitude values. Required.}
 
@@ -12,17 +15,16 @@
 An amplitude envelope.
 }
 \description{
-Calculates the absolute amplitude envelope
+Calculates the absolute amplitude envelope of an amplitude vector.
 }
 \details{
 The function calculates the absolute amplitude envelope of an amplitude vector using compiled C code which is usually several times faster.
 }
 \examples{
-{
 data(tico)
 
 amp_env <- envelope(tico@left, ssmooth = 100)
-}
+
 }
 \references{
 Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.

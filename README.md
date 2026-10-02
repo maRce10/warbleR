@@ -1,156 +1,154 @@
 warbleR: Streamline Bioacoustic Analysis
 ================
 
-🌐 **Languages:**  
-[English](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=en) |
-[Español](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=es) |
-[Français](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=fr) |
-[Deutsch](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=de) |
-[Português](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=pt) |
-[Italiano](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=it) |
-[Русский](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=ru) |
-[中文 (简体)](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=zh-CN) |
-[中文 (繁體)](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=zh-TW) |
-[日本語](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=ja) |
-[한국어](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=ko) |
-[हिन्दी](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=hi) |
-[ไทย](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=th) |
-[Nederlands](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=nl) |
-[Polski](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=pl) |
-[العربية](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=ar) |
-[فارسی](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=fa) |
-[Türkçe](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=tr) |
-[Tiếng Việt](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=vi) |
-[Bahasa Indonesia](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=id) |
-[অসমীয়া](https://openaitx.github.io/view.html?user=maRce10&project=warbleR&lang=as)
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![status](https://tinyverse.netlify.app/badge/warbleR)](https://CRAN.R-project.org/package=warbleR)
-[![Project Status: Active The project has reached a stable, usable state
-and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![License: GPL
-v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/warbleR)](https://cran.r-project.org/package=warbleR)
 [![Total
-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)](https://cranlogs.r-pkg.org/badges/grand-total/warbleR)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Codecov test
 coverage](https://codecov.io/gh/maRce10/warbleR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/maRce10/warbleR?branch=master)
+[![Dependencies](https://tinyverse.netlify.app/badge/warbleR)](https://CRAN.R-project.org/package=warbleR)
+[![License: GPL
+v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Paper
+DOI](https://img.shields.io/badge/DOI-10.1111%2F2041--210X.12624-1f6feb.svg)](https://doi.org/10.1111/2041-210X.12624)
 <!-- badges: end -->
 
-<img src="man/figures/warbleR_sticker.png" alt="warbleR logo" align="right" width = "25%" height="25%"/>
+<img src="man/figures/warbleR_sticker.png" alt="warbleR logo" align="right" width="25%"/>
 
-[warbleR](https://cran.r-project.org/package=warbleR) is intended to
-facilitate the analysis of the structure of animal acoustic signals in
-R. Users can collect open-access avian recordings or enter their own
-data into a workflow that facilitates spectrographic visualization and
-measurement of acoustic parameters.
-[warbleR](https://cran.r-project.org/package=warbleR) makes use of the
-fundamental sound analysis tools of the seewave package, and offers new
-tools for acoustic structure analysis. These tools are available for
-batch analysis of acoustic signals.
+**warbleR** is an R package for analyzing the structure of animal
+acoustic signals at scale. Bring your own recordings (or open-access
+ones from repositories like [Xeno-canto](https://xeno-canto.org/),
+easily obtained with [suwo](https://docs.ropensci.org/suwo/)), annotate
+them in a *selection table*, and run the whole pipeline — from file
+wrangling and spectrograms to acoustic measurements and similarity
+analyses — in batch, on as many signals as you have.
 
-The main features of the package are:
+Built on top of [seewave](https://cran.r-project.org/package=seewave)
+and [tuneR](https://cran.r-project.org/package=tuneR), warbleR adds the
+workflow layer those packages leave to the user:
 
-- Diverse tools for measuring acoustic structure
-- The use of loops to apply tasks through acoustic signals referenced in
-  a selection table
-- The production of images in the working directory with spectrograms to
-  allow users organize data and verify acoustic analyses
+- 🗂️ **Selection-table-driven workflows** — every function loops over
+  the signals listed in an annotation table, so one call handles one
+  sound or ten thousand
+- 📦 **Extended selection tables** — a single R object that bundles
+  annotations *and* the audio clips, making analyses portable and easy
+  to share
+- ⚡ **Parallel processing** — most functions take a `parallel` argument
+  to spread the work across cores
+- 🔍 **Built-in quality checks** — spectrogram images and diagnostic
+  tools let you verify each step before moving on
 
-The package offers functions to:
+## What can you do with it?
 
-- Explore and download [Xeno‐Canto](https://xeno-canto.org/) recordings
-- Explore, organize and manipulate multiple sound files
-- Detect signals automatically (in frequency and time) (but check the R
-  package [ohun](https://docs.ropensci.org/ohun/) for a more thorough
-  and friendly implementation)
-- Create spectrograms of complete recordings or individual signals
-- Run different measures of acoustic signal structure
-- Evaluate the performance of measurement methods
-- Catalog signals
-- Characterize different structural levels in acoustic signals
-- Statistical analysis of duet coordination
-- Consolidate databases and annotation tables
+| Task | Key functions |
+|:---|:---|
+| Inspect, convert and fix sound files | `info_sound_files()`, `check_sound_files()`, `fix_wavs()`, `mp32wav()`, `wav_2_flac()`, `split_sound_files()`, `remove_channels()` |
+| Build and validate annotation tables | `selection_table()`, `check_sels()`, `tailor_sels()`, `cut_sels()`, `overlapping_sels()`, `consolidate()` |
+| Create spectrograms | `spectrograms()`, `full_spectrograms()`, `color_spectro()`, `snr_spectrograms()`, `catalog()`, `phylo_spectro()` |
+| Measure acoustic structure | `spectro_analysis()`, `mfcc_stats()`, `song_analysis()`, `freq_range()`, `sig2noise()`, `sound_pressure_level()`, `gaps()`, `wpd_features()` |
+| Track frequency contours | `freq_ts()`, `track_freq_contour()`, `track_harmonic()`, `inflections()` |
+| Compare signals | `cross_correlation()`, `freq_DTW()`, `multi_DTW()`, `waveform_similarity()`, `compare_methods()` |
+| Analyze duet / chorus coordination | `test_coordination()`, `plot_coordination()` |
+| Simulate signals | `simulate_songs()` |
 
-Most of the functions allow the parallelization of tasks, which
-distributes the tasks among several processors to improve computational
-efficiency. Tools to evaluate the performance of the analysis at each
-step are also available.
+See the [function
+reference](https://marce10.github.io/warbleR/reference/) for the full
+list.
 
-## Installing
+## Installation
 
-Install/load the package from CRAN as follows:
+From CRAN:
 
 ``` r
 install.packages("warbleR")
-
-# load package
-library(warbleR)
 ```
 
-To install the latest developmental version from
-[github](https://github.com/) you will need the R package
-[remotes](https://cran.r-project.org/package=remotes):
+Development version from GitHub (requires
+[remotes](https://cran.r-project.org/package=remotes)):
 
 ``` r
 remotes::install_github("maRce10/warbleR")
-
-# load package
-library(warbleR)
 ```
 
-## Usage
+## Quick example
 
-The package includes several vignettes explaining its main features. The
-[Intro to
-warbleR](https://marce10.github.io/warbleR/articles/warbleR.html)
-provides an overview of the package functionalities. The vignette
-[Annotation data
-format](https://marce10.github.io/warbleR/articles/annotation_data_format.html)
-gives a detailed description of the required format for input
-annotations. There are also three additional [package
-vignettes](https://marce10.github.io/warbleR/articles/) with examples on
-how to organize functions in an acoustic analysis workflow.
+The example recordings and annotations come from the
+[NatureSounds](https://cran.r-project.org/package=NatureSounds) package
+(installed with warbleR):
 
-A full description of the package (although a bit outdated) can be found
-in this [journal
-article](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.12624).
+``` r
+library(warbleR)
 
-## Other packages
+# load example long-billed hermit songs and their annotations
+data(list = c("Phae.long1", "Phae.long2", "Phae.long3", "Phae.long4", "lbh_selec_table"))
 
-The packages [seewave](https://cran.r-project.org/package=seewave) and
-[tuneR](https://cran.r-project.org/package=seewave) provide a huge
-variety of functions for acoustic analysis and manipulation. They moslty
-works on wave objects already imported into the R environment. The
-package [baRulho](https://cran.r-project.org/package=baRulho) focuses on
-quantifying habitat-induced degradation of acoustic signals with data
-inputs and ouputs similar to those of
-[warbleR](https://cran.r-project.org/package=warbleR). The package
-[Rraven](https://cran.r-project.org/package=Rraven) facilitates the
-exchange of data between R and [Raven sound analysis
-software](https://www.ravensoundsoftware.com/) ([Cornell Lab of
-Ornithology](https://www.birds.cornell.edu/home)) and can be very
-helpful for incorporating Raven as the annotating tool into acoustic
-analysis workflow in R. The package
-[ohun](https://docs.ropensci.org/ohun/) works on automated detection of
-sound events, providing functions to diagnose and optimize detection
-routines. [dynaSpec](https://cran.r-project.org/package=seewave) is
-allows to create dynamic spectrograms (i.e. spectrogram videos).
+# save the sound files to a temporary folder
+for (i in paste0("Phae.long", 1:4)) {
+  tuneR::writeWave(get(i), file.path(tempdir(), paste0(i, ".wav")))
+}
+
+# check that annotations and sound files match
+check_sels(lbh_selec_table, path = tempdir())
+
+# measure spectral and temporal parameters for every annotated signal
+params <- spectro_analysis(lbh_selec_table, path = tempdir())
+
+# pairwise acoustic similarity via spectrographic cross-correlation
+xc <- cross_correlation(lbh_selec_table, path = tempdir())
+```
+
+## Learn more
+
+- 📘 [Intro to
+  warbleR](https://marce10.github.io/warbleR/articles/a_warbleR.html) —
+  an overview of the package
+- 📝 [Annotation data
+  format](https://marce10.github.io/warbleR/articles/b_annotation_data_format.html)
+  — how input annotations (selection tables) should look
+- 🔁 [All vignettes](https://marce10.github.io/warbleR/articles/) —
+  worked examples of complete analysis workflows
+- 📄 [Original paper](https://doi.org/10.1111/2041-210X.12624) in
+  *Methods in Ecology and Evolution* (the package has grown a lot since,
+  so check the vignettes for current usage)
+
+## Related packages
+
+| Package | What it does |
+|:---|:---|
+| [seewave](https://cran.r-project.org/package=seewave) & [tuneR](https://cran.r-project.org/package=tuneR) | Core sound analysis and manipulation of wave objects in R |
+| [ohun](https://docs.ropensci.org/ohun/) | Automated detection of sound events, with tools to diagnose and optimize detection routines |
+| [suwo](https://docs.ropensci.org/suwo/) | Search, download and map nature media (Xeno-canto, Macaulay Library, iNaturalist, GBIF, WikiAves) — replaces warbleR’s `query_xc()` and `map_xc()` |
+| [baRulho](https://docs.ropensci.org/baRulho/) | Quantifying habitat-induced degradation of acoustic signals, with inputs/outputs compatible with warbleR |
+| [Rraven](https://cran.r-project.org/package=Rraven) | Data exchange between R and [Raven](https://www.ravensoundsoftware.com/) (Cornell Lab of Ornithology), handy for using Raven as the annotation tool |
+| [dynaSpec](https://cran.r-project.org/package=dynaSpec) | Dynamic spectrograms (spectrogram videos) |
+| [NatureSounds](https://cran.r-project.org/package=NatureSounds) | Example recordings and annotations of animal sounds |
+
+## Getting help & contributing
+
+Found a bug or have a feature request? Please open an
+[issue](https://github.com/maRce10/warbleR/issues). Contributions are
+welcome — see the [contributing
+guidelines](https://github.com/maRce10/warbleR/blob/master/CONTRIBUTING.md).
 
 ## Citation
 
-Please cite [warbleR](https://cran.r-project.org/package=warbleR) as
-follows:
+If you use warbleR, please cite:
 
-Araya-Salas, M. and Smith-Vidaurre, G. (2017), *warbleR: an r package to
-streamline analysis of animal acoustic signals*. Methods Ecol Evol. 8,
-184-191.
+> Araya-Salas, M. & Smith-Vidaurre, G. (2017). warbleR: an R package to
+> streamline analysis of animal acoustic signals. *Methods in Ecology
+> and Evolution*, 8, 184–191. <https://doi.org/10.1111/2041-210X.12624>
 
-NOTE: please also cite the
-[tuneR](https://cran.r-project.org/package=tuneR) and
-[seewave](https://cran.r-project.org/package=seewave) packages if you
-use any spectrogram-creating or acoustic-measuring functions
+Please also cite [tuneR](https://cran.r-project.org/package=tuneR) and
+[seewave](https://cran.r-project.org/package=seewave) if you use any
+function that creates spectrograms or measures acoustic parameters. You
+can get all citations from R with `citation("warbleR")`.

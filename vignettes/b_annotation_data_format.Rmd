@@ -538,11 +538,12 @@ An example sound file with this species' song can be downloaded as follows (the 
 # load data
 data("sth_annotations")
 
-# download sound file from Xeno-Canto using catalog id
-out <-
-  query_xc(qword = "nr:15607",
-           download = TRUE,
-           path = tempdir())
+# download sound file from Xeno-Canto using its catalog id
+download.file(
+  url = "https://xeno-canto.org/15607/download",
+  destfile = file.path(tempdir(), "Phaethornis-eurynome-15607.mp3"),
+  mode = "wb"
+)
 
 # check file is found in temporary directory
 list.files(path = tempdir(), "mp3")
@@ -682,7 +683,7 @@ The function runs much faster in the extended selection tables. Performance gain
 
 ### Sharing acoustic data
 
-This new object class allows to share complete data sets, including acoustic data. To do this we can make use of the RDS file format to save extended selection tables. These files can be easily shared with others, allowing to share a entire acoustic data set in a single file, something that can be tricky when dealing with acoustic data. For example, the following code downloads an extended selection table of inquiry calls from Spix's disc-winged bats used in [Araya-Salas *et al* (2020)](https://marce10.github.io/publication/araya-salas-2020/) (it can take a few minutes! Can also be manually downloaded from [here](https://figshare.com/ndownloader/files/21167052)):
+This new object class allows to share complete data sets, including acoustic data. To do this we can make use of the RDS file format to save extended selection tables. These files can be easily shared with others, allowing to share a entire acoustic data set in a single file, something that can be tricky when dealing with acoustic data. For example, the following code downloads an extended selection table of inquiry calls from Spix's disc-winged bats used in [Araya-Salas *et al* (2020)](https://marce10.github.io/publication/araya-salas-2020/) (it can take a few minutes! Can also be manually downloaded from `https://figshare.com/ndownloader/files/21167052`):
 
 ```{r downloading rds, eval = FALSE}
 

@@ -1,8 +1,8 @@
 Package: warbleR
 Type: Package
 Title: Streamline Bioacoustic Analysis
-Version: 1.1.37
-Description: Functions aiming to facilitate the analysis of the structure of animal acoustic signals in 'R'. 'warbleR' makes use of the basic sound analysis tools from the packages 'tuneR' and 'seewave', and offers new tools for exploring and quantifying acoustic signal structure. The package allows to organize and manipulate multiple sound files, create spectrograms of complete recordings or individual signals in different formats, run several measures of acoustic structure, and characterize different structural levels in acoustic signals (Araya-Salas et al 2016 <doi:10.1111/2041-210X.12624>).
+Version: 1.1.38
+Description: Functions aiming to facilitate the analysis of the structure of animal acoustic signals in 'R'. 'warbleR' makes use of the basic sound analysis tools from the packages 'tuneR' and 'seewave', and offers new tools for exploring and quantifying acoustic signal structure. The package allows users to organize and manipulate multiple sound files, create spectrograms of complete recordings or individual signals in different formats, run several measures of acoustic structure, and characterize different structural levels in acoustic signals (Araya-Salas and Smith-Vidaurre 2017 <doi:10.1111/2041-210X.12624>).
 License: GPL (>= 2)
 Imports: 
     dtw,
@@ -19,17 +19,16 @@ Imports:
     knitr,
     bioacoustics,
     cli,
-    testthat (>= 3.0.0),
     httr,
     curl
 LinkingTo: Rcpp
 Depends: R (>= 3.5.0), tuneR, seewave (>= 2.0.1), NatureSounds
-SystemRequirements: fftw3, GNU make, sox, Ghostscript, libsndfile, GDAL
+SystemRequirements: fftw3, GNU make, sox, Ghostscript, libsndfile, FLAC (optional)
 LazyData: TRUE
-URL: https://marce10.github.io/warbleR/
+URL: https://marce10.github.io/warbleR/, https://github.com/maRce10/warbleR
 BugReports: https://github.com/maRce10/warbleR/issues/
-NeedsCompilation: no
 Suggests: 
+    testthat (>= 3.0.0),
     ggplot2,
     rmarkdown,
     jpeg,
@@ -39,18 +38,13 @@ Suggests:
     png,
     pracma,
     Sim.DiffProc,
-    maps,
-    leaflet,
     kableExtra,
     covr,
     V8,
     viridis
 VignetteBuilder: knitr, rmarkdown
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Encoding: UTF-8
-Packaged: 2016-04-18 23:45:31 UTC; m
-Repository: CRAN
 Language: en-US
 Authors@R: c(person("Marcelo", "Araya-Salas", role = c("aut", "cre"), email = "marcelo.araya@ucr.ac.cr", comment = c(ORCID = "0000-0003-3594-619X")), person("Grace", "Smith-Vidaurre", role = c("aut"), email = "gsmithvi@gmail.com"))
-Date/Publication: 2016-04-19 08:12:11
 Config/testthat/edition: 3

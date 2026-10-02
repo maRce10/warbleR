@@ -158,13 +158,6 @@ mp3_2_wav <-
   }
 
 
-querxc <-
-  function(...) {
-    
-    warning2(x = "querxc() function name has been deprecated. Use `query_xc()` instead.") 
-    
-  }
-
 rename_waves_est <-
   function(...) {
     
@@ -245,7 +238,7 @@ wavdur <- wav_dur <- function(...) {
 
 xcmaps <- function(...) {
   
-  warning2(x = "xcmaps() function name has been deprecated. Use `map_xc()` instead.") 
+  warning2(x = "xcmaps() function has been deprecated. Use `map_locations()` from the package suwo instead (https://docs.ropensci.org/suwo/)") 
   
 }
 

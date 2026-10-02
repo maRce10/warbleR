@@ -2,25 +2,22 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @title Calculates the absolute amplitude envelope
+#' @description Calculates the absolute amplitude envelope of an amplitude vector.
 #' @param x Numeric vector with amplitude values. Required.
 #' @param ssmooth Numeric vector of length 1 indicating the size of the sliding window use to smooth envelopes. Default is 0 (no smoothing).
 #' @return An amplitude envelope.
 #' @export
-#' @name envelope
 #' @details The function calculates the absolute amplitude envelope of an amplitude vector using compiled C code which is usually several times faster.
 #' @seealso \code{\link[seewave]{env}}.
-#' @rawNamespace useDynLib(warbleR)  
-#' @examples{
+#' @examples
 #' data(tico)
-#' 
+#'
 #' amp_env <- envelope(tico@left, ssmooth = 100)
-#' }
-#' @references 
+#'
+#' @references
 #' Araya-Salas, M., & Smith-Vidaurre, G. (2017). warbleR: An R package to streamline analysis of animal acoustic signals. Methods in Ecology and Evolution, 8(2), 184-191.
-#' 
+#'
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) & Paula Monge
-NULL
-
 envelope <- function(x, ssmooth = 0L) {
     .Call('_warbleR_envelope', PACKAGE = 'warbleR', x, ssmooth)
 }

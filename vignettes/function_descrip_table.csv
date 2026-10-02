@@ -3,7 +3,6 @@ check_sound_files,x,,,,,,,,verify if sound files can be read,multiple wave files
 consolidate,x,,,,,,,,consolidate sound files in a single folder,multiple wave files,data frame and wave files
 fix_wavs,x,,,,,,,,fix waves that cannot be read in R,multiple wave files,wave files
 mp32wav,x,,,,,,,,convert multiple mp3 files to wav format,multiple mp3 files,wave files
-query_xc,x,,,,,,,,Search and download mp3 files from Xeno-Canto,Scientific names/data frame,mp3 files
 resample_est,x,,,,,,,,resample wave objects in ext. selection tables,extended selection tables,extended selection tables
 remove_channels,x,,,,,,,,remove channels in multiple wave files,multiple wave files,wave files
 remove_silence,x,,,,,,,,remove silences in multiple wave files,multiple wave files,wave files
@@ -36,7 +35,6 @@ move_imgs,,,,,,,,x,moves images among folders,images,images
 snr_spectrograms,,,,,,x,,,plots spectrograms highlighting areas where signal-to-noise ratio is measured,"selection tables, ext. selection tables",images
 spectrograms,,,,,x,x,,,create spectrogram images,"selection tables, ext. selection tables",images
 track_freq_contour,,,,,,x,,,create spectrogram images including frequency contours,"selection tables, ext. selection tables",images
-map_xc,,,,,,,,x,created maps from Xeno-Canto recordings,data frame,images
 plot_coordination,,,,,,x,,,create schematic plots of coordinated signals,data frame,images
 test_coordination,,,,,,,x,,test statistical significance of vocal coordination,data frame,data frame
 full_spectrograms,,,,,x,x,,,create spectrograms of whole sound files,"multiple wave files, selection tables, ext. selection tables",images

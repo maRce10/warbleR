@@ -4,20 +4,12 @@
 \alias{querxc}
 \title{alternative name for \code{\link{query_xc}}}
 \usage{
-querxc(
-  qword,
-  download = FALSE,
-  X = NULL,
-  file.name = c("Genus", "Specific_epithet"),
-  parallel = 1,
-  path = NULL,
-  pb = TRUE
-)
+querxc(...)
 }
 \description{
 alternative name for \code{\link{query_xc}}
 }
 \details{
-see \code{\link{query_xc}} for documentation. \code{\link{querxc}} will be deprecated in future versions.
+Deprecated. See \code{\link{query_xc}}.
 }
 \keyword{internal}

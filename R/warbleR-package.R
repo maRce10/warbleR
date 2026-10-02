@@ -10,7 +10,6 @@
 #'
 #' The package offers functions to:
 #'   \itemize{
-#'   \item Explore and download Xeno Canto recordings
 #'   \item Explore, organize and manipulate multiple sound files
 #'   \item Detect signals automatically (in frequency and time)
 #'   \item Create spectrograms of complete recordings or individual signals
@@ -110,8 +109,6 @@
 #'
 #' @section Graphical outputs:
 #'
-#'   \code{\link{map_xc}}: Create maps to visualize the geographic spread of 'Xeno-Canto' recordings
-#'
 #'   \code{\link{catalog}}: Produce a vocalization catalog with spectrograms in and array with
 #'   several rows and columns
 #'
@@ -147,7 +144,7 @@
 #' @importFrom curl has_internet
 #' @importFrom httr http_error
 #' @importFrom cli style_bold style_italic make_ansi_style num_ansi_colors
-#' @importFrom testthat capture_output_lines
+#' @useDynLib warbleR
 #' @importFrom knitr kable
 #' @importFrom methods formalArgs new is slotNames slot
 #' @importFrom dtw dtwDist

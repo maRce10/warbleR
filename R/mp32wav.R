@@ -19,8 +19,13 @@
 #' @name mp32wav
 #' @examples
 #' \dontrun{
-#' # download mp3 files from xeno-canto
-#' query_xc(qword = "Phaethornis aethopygus", download = TRUE, path = tempdir())
+#' # download an mp3 file from xeno-canto
+#' # (use the package suwo to search and download recordings from online repositories)
+#' download.file(
+#'   url = "https://xeno-canto.org/15607/download",
+#'   destfile = file.path(tempdir(), "Phaethornis-eurynome-15607.mp3"),
+#'   mode = "wb"
+#' )
 #'
 #' # Convert all files to .wav format
 #' mp32wav(path = tempdir(), dest.path = tempdir())

@@ -2,7 +2,7 @@
 title: Package overview
 pagetitle: Package overview
 author: 
-- <a href="https://marce10.github.io">Marcelo Araya-Salas, PhD</a> & <a href="https://smith-vidaurre.com/">Grace Smith-Vidaurre</a> 
+- <a href="https://marce10.github.io">Marcelo Araya-Salas, PhD</a> & <a href="https://smith-vidaurrelab.github.io/">Grace Smith-Vidaurre</a> 
 date:  "`r Sys.Date()`"
 output:
   rmarkdown::html_document:
@@ -60,7 +60,6 @@ The [warbleR](https://cran.r-project.org/package=warbleR) package is intended to
 
 The package offers functions for:
 
-- Browse and download recordings of [Xeno-Canto](https://www.xeno-canto.org/)
 - Explore, organize and manipulate multiple sound files
 - Create spectrograms of complete recordings or individual signals
 - Run different measures of acoustic signal structure
@@ -195,7 +194,7 @@ We can group **warbleR** functions according to the bioacoustic analysis stages.
 
 ### Get and prepare recordings
 
-The `query_xc()` function allows you to search and download sounds from the free access database [Xeno-Canto](https://www.xeno-canto.org/). You can also convert .mp3 files to .wav, change the sampling rate of the files and correct corrupt files, among other functions.
+To search and download recordings from online repositories such as [Xeno-Canto](https://xeno-canto.org/) use the package [suwo](https://docs.ropensci.org/suwo/). **warbleR** can convert .mp3 files to .wav, change the sampling rate of the files and correct corrupt files, among other functions.
 
 ```{r, echo = FALSE, eval = TRUE}
 

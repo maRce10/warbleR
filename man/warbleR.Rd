@@ -17,7 +17,6 @@ The main features of the package are:
 
 The package offers functions to:
   \itemize{
-  \item Explore and download Xeno Canto recordings
   \item Explore, organize and manipulate multiple sound files
   \item Detect signals automatically (in frequency and time)
   \item Create spectrograms of complete recordings or individual signals
@@ -125,8 +124,6 @@ License: GPL (>= 2)
 \section{Graphical outputs}{
 
 
-  \code{\link{map_xc}}: Create maps to visualize the geographic spread of 'Xeno-Canto' recordings
-
   \code{\link{catalog}}: Produce a vocalization catalog with spectrograms in and array with
   several rows and columns
 
@@ -155,6 +152,7 @@ License: GPL (>= 2)
 Useful links:
 \itemize{
   \item \url{https://marce10.github.io/warbleR/}
+  \item \url{https://github.com/maRce10/warbleR}
   \item Report bugs at \url{https://github.com/maRce10/warbleR/issues/}
 }
 

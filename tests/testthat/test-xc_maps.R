@@ -1,10 +1,9 @@
-test_that("basic", {
+test_that("query_xc() is deprecated", {
+  expect_warning(out <- query_xc("Phaethornis anthophilus", download = FALSE), "suwo")
+  expect_null(out)
+})
 
-  X <- query_xc("Phaethornis anthophilus", download = FALSE)
-
-  # create image in R graphic device
-  mp <- map_xc(X, img = FALSE)
-
-  expect_null(mp)
-  
+test_that("map_xc() is deprecated", {
+  expect_warning(out <- map_xc(data.frame(), img = FALSE), "suwo")
+  expect_null(out)
 })
